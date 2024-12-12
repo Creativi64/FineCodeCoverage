@@ -405,6 +405,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\JsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyConfigSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\WritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReflectionMEFToolWindowContextProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReportColumnManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReportToolWindowControl.xaml.cs">
       <DependentUpon>ReportToolWindowControl.xaml</DependentUpon>

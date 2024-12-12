@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Output
 
 		public OutputToolWindow()
         {
-			Initialize(ToolWindowContextProvider.GetToolWindowContext<OutputToolWindow,OutputToolWindowContext>());
+			Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<OutputToolWindow,OutputToolWindowContext>());
 		}
 
 		private void Initialize(OutputToolWindowContext context)

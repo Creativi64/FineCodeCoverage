@@ -5,6 +5,7 @@ using EnvDTE80;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.ReportGeneration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using SharedProject.Core.CoverageToolOutput;
@@ -30,6 +31,8 @@ namespace FineCodeCoverage.Output
         private readonly DTE2 dte;
         private readonly MenuCommand command;
         private IReportResult reportResult;
+        private string hotspotsPath;
+        private IHotspotsService hotspotsService;
 
         public static OpenHotspotsCommand Instance
         {
@@ -38,7 +41,7 @@ namespace FineCodeCoverage.Output
         }
 
 
-        public static async Task InitializeAsync(AsyncPackage package, IEventAggregator eventAggregator)
+        public static async Task InitializeAsync(AsyncPackage package, IEventAggregator eventAggregator, IHotspotsService hotspotsService)
         {
             // Switch to the main thread - the call to AddCommand in OutputToolWindowCommand's constructor requires
             // the UI thread.
@@ -47,7 +50,7 @@ namespace FineCodeCoverage.Output
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
             var dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
             //var dte = package.GetServiceAsync(typeof(SDTE)) as DTE2;
-            Instance = new OpenHotspotsCommand(commandService, eventAggregator, dte);
+            Instance = new OpenHotspotsCommand(commandService, eventAggregator, hotspotsService, dte);
         }
 
         /// <summary>
@@ -56,10 +59,10 @@ namespace FineCodeCoverage.Output
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private OpenHotspotsCommand(OleMenuCommandService commandService, IEventAggregator eventAggregator, DTE2 dte)
+        private OpenHotspotsCommand(OleMenuCommandService commandService, IEventAggregator eventAggregator,IHotspotsService hotspotService, DTE2 dte)
         {
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
-
+            this.hotspotsService = hotspotService;
             var menuCommandID = new CommandID(CommandSet, CommandId);
             this.command = new MenuCommand(this.Execute, menuCommandID);
             command.Enabled = false;
@@ -71,6 +74,7 @@ namespace FineCodeCoverage.Output
         public void Handle(ReportFilesMessage message)
         {
             reportResult = message.ReportResult;
+            hotspotsPath = Path.Combine(Path.GetDirectoryName(message.CoberturaFile),"hotspots.xml");
             command.Enabled = true;
         }
 
@@ -88,9 +92,10 @@ namespace FineCodeCoverage.Output
             ThreadHelper.ThrowIfNotOnUIThread();
             if(reportResult != null)
             {
-                // need the IHotspotService 
 
-                //dte.ItemOperations.OpenFile(hotspotsFilePath, EnvDTE.Constants.vsViewKindCode);
+                // need the IHotspotService 
+                hotspotsService.WriteHotspotsToXml(reportResult.Assemblies, hotspotsPath);
+                dte.ItemOperations.OpenFile(hotspotsPath, EnvDTE.Constants.vsViewKindCode);
             }
         }
 

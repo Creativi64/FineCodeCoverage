@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
+using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Options;
 using Palmmedia.ReportGenerator.Core.CodeAnalysis;
 
@@ -21,7 +22,7 @@ namespace FineCodeCoverage.ReportGeneration
 
         public RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds() => this.GetRiskHotspotsAnalysisThresholds(this.appOptionsProvider.Get());
 
-        public void WriteHotspotsToXml(IReadOnlyCollection<RiskHotspot> hotspots, string path)
+        private void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
             var rootElement = new XElement("Hotspots", hotspots.Select(hotspot =>
             {
@@ -43,6 +44,25 @@ namespace FineCodeCoverage.ReportGeneration
             }));
 
             rootElement.Save(path);
+        }
+
+        public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
+        {
+            var riskHotspotsAnalysisThresholds = GetRiskHotspotsAnalysisThresholds();
+            var riskHotspots = GetRiskhotspots(reportAssemblies, riskHotspotsAnalysisThresholds);
+            WriteHotspotsToXml(riskHotspots, hotspotsPath);
+        }
+
+        private IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, RiskHotspotsAnalysisThresholds riskHotspotsAnalysisThresholds)
+        {
+            return Enumerable.Empty<RiskHotspot>();
+            //return reportAssemblies.SelectMany(assembly =>
+            //{
+            //    return assembly.Classes.Select(clss =>
+            //    {
+            //        return null;
+            //    });
+            //}).Where(hs => hs != null);
         }
 
         private RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds(IAppOptions appOptions) => new RiskHotspotsAnalysisThresholds

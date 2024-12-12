@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using FineCodeCoverage.Engine.ReportGenerator;
 using Palmmedia.ReportGenerator.Core.CodeAnalysis;
 
 namespace FineCodeCoverage.ReportGeneration
 {
     internal interface IHotspotsService
     {
-        RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds();
-        void WriteHotspotsToXml(IReadOnlyCollection<RiskHotspot> hotspots, string path);
+        void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath);
     }
 }

@@ -12,37 +12,11 @@ using FineCodeCoverage.Engine;
 using EnvDTE80;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Initialization;
-using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.ComponentModelHost;
+using FineCodeCoverage.ReportGeneration;
 
 namespace FineCodeCoverage.Output
 {
-	internal static class ToolWindowContextProvider
-	{
-		private static  MethodInfo GetServiceMethod;
-        static ToolWindowContextProvider()
-		{
-			GetServiceMethod =  typeof(IComponentModel).GetMethod("GetService");
-        }
-        public static IComponentModel ComponentModel { get; set; }
-        public static TContext GetToolWindowContext<TToolWindowType, TContext>() => (TContext)GetToolWindowContext(typeof(TToolWindowType));
-        public static object GetToolWindowContext(Type toolWindowType)
-        {
-            ConstructorInfo contextConstructor = toolWindowType.GetConstructors().Where(c => c.GetParameters().Length == 1).First();
-            Type contextType = contextConstructor.GetParameters().First().ParameterType;
-            object context = Activator.CreateInstance(contextType);
-            foreach (PropertyInfo contextProperty in contextType.GetProperties())
-            {
-                Type propertyType = contextProperty.PropertyType;
-                MethodInfo getService = GetServiceMethod.MakeGenericMethod(propertyType);
-                contextProperty.SetValue(context, getService.Invoke(ComponentModel, new object[] { }));
-            }
-
-            return context;
-        }
-
-    }
+	
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -71,8 +45,6 @@ namespace FineCodeCoverage.Output
 	[ProvideToolWindow(typeof(OutputToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
     public sealed class OutputToolWindowPackage : AsyncPackage
 	{
-        private IFCCEngine fccEngine;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OutputToolWindowPackage"/> class.
 		/// </summary>
@@ -107,26 +79,32 @@ namespace FineCodeCoverage.Output
 			var sp = new ServiceProvider(_dte2 as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
 			// you cannot MEF import in the constructor of the package
 			var componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
-            ToolWindowContextProvider.ComponentModel = componentModel;
+            ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
 
-            Assumes.Present(componentModel);
-			fccEngine = componentModel.GetService<IFCCEngine>();
-			var eventAggregator = componentModel.GetService<IEventAggregator>();
-			await OpenCoberturaCommand.InitializeAsync(this, eventAggregator);
-			await OpenHotspotsCommand.InitializeAsync(this, eventAggregator);
-			await ClearUICommand.InitializeAsync(this, fccEngine);
-			await ToggleCoverageIndicatorsCommand.InitializeAsync(this, eventAggregator);
-			await OutputToolWindowCommand.InitializeAsync(
-				this,
-				componentModel.GetService<ILogger>(),
-				componentModel.GetService<IShownToolWindowHistory>()
-			);
+			await InitializeCommandsAsync(componentModel);
+			
 			await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
+        }
+
+		private async Task InitializeCommandsAsync (Microsoft.VisualStudio.ComponentModelHost.IComponentModel componentModel)
+		{
+            var fccEngine = componentModel.GetService<IFCCEngine>();
+            var eventAggregator = componentModel.GetService<IEventAggregator>();
+			var hotspotService = componentModel.GetService<IHotspotsService>();
+            await OpenCoberturaCommand.InitializeAsync(this, eventAggregator);
+            await OpenHotspotsCommand.InitializeAsync(this, eventAggregator, hotspotService);
+            await ClearUICommand.InitializeAsync(this, fccEngine);
+            await ToggleCoverageIndicatorsCommand.InitializeAsync(this, eventAggregator);
+            await OutputToolWindowCommand.InitializeAsync(
+                this,
+                componentModel.GetService<ILogger>(),
+                componentModel.GetService<IShownToolWindowHistory>()
+            );
         }
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)
         {
-			return Task.FromResult(ToolWindowContextProvider.GetToolWindowContext(toolWindowType));
+			return Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
 		}
         public override IVsAsyncToolWindowFactory GetAsyncToolWindowFactory(Guid toolWindowType)
 		{

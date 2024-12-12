@@ -54,6 +54,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             Name = assemblyReport.Name;
             ShortName = assemblyReport.ShortName;
+            Classes = assemblyReport.Classes.Select(c => new PalmediaClass(c)).ToList<IClass>();
         }
 
         public string Name { get; }
@@ -209,7 +210,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 reportDirectory,
                 empty,
                 null,
-                new ReadOnlyCollection<string>(new string[] { "HtmlSummary"}),
+                new ReadOnlyCollection<string>(new string[] { "Cobertura", "HtmlSummary"}),
                 empty,
                 empty,
                 empty,
