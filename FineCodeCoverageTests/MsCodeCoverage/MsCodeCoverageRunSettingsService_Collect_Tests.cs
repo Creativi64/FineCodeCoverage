@@ -127,9 +127,10 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         {
             await RunAndProcessReportAsync(null, Array.Empty<string>());
             autoMocker.Verify<ILogger>(logger => logger.Log("No cobertura files for ms code coverage."));
-            autoMocker.Verify<IReportGeneratorUtil>(
-                reportGenerator => reportGenerator.LogCoverageProcess("No cobertura files for ms code coverage.")
-            );
+            throw new NotImplementedException();
+            //autoMocker.Verify<IReportGeneratorUtil>(
+            //    reportGenerator => reportGenerator.LogCoverageProcess("No cobertura files for ms code coverage.")
+            //);
         }
 
         [Test]
@@ -177,11 +178,12 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             await msCodeCoverageRunSettingsService.IsCollectingAsync(mockTestOperation.Object);
 
             await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);
-            
-            mockFccEngine.Verify(engine => engine.RunAndProcessReport(
-                    It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()), It.IsAny<Action>()
-                )
-            );
+
+            throw new NotImplementedException();
+            //mockFccEngine.Verify(engine => engine.RunAndProcessReport(
+            //        It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()), It.IsAny<Action>()
+            //    )
+            //);
         }
 
         private ICoverageProject CreateCoverageProject(string runSettingsFile)

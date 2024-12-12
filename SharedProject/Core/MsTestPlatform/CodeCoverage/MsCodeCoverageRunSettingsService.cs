@@ -124,7 +124,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             if( runMsCodeCoverage == RunMsCodeCoverage.No)
             {
                 logger.Log($"See option {nameof(IAppOptions.RunMsCodeCoverage)} for a better ( Beta ) experience.  {FCCGithub.Readme}");
-                reportGeneratorUtil.LogCoverageProcess($"See option {nameof(IAppOptions.RunMsCodeCoverage)} for a better ( Beta ) experience. View readme.");
             }
             else
             {
@@ -169,7 +168,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             if (collectionStatus == MsCodeCoverageCollectionStatus.Error)
             {
-                reportGeneratorUtil.EndOfCoverageRun();
+               
             }
         }
 
@@ -271,7 +270,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 var leadingMessage = generationResult.CustomTemplatePaths.Any() ? $"{msCodeCoverageMessage} - custom template paths" : msCodeCoverageMessage;
                 var loggerMessages = new List<string> { leadingMessage }.Concat(generationResult.CustomTemplatePaths.Distinct());
                 logger.Log(loggerMessages);
-                reportGeneratorUtil.LogCoverageProcess(msCodeCoverageMessage);
             });
             collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
         }
@@ -348,7 +346,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 await CombinedLogAsync("No cobertura files for ms code coverage.");
             }
 
-            fccEngine.RunAndProcessReport(coberturaFiles);
+            fccEngine.RunAndProcessReport(coberturaFiles, coverageProjectsByType.All);
         }
 
         private string[] GetCoberturaFiles(IOperation operation)
@@ -373,7 +371,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             await CombinedLogAsync(() =>
             {
                 logger.Log(message);
-                reportGeneratorUtil.LogCoverageProcess(message);
             });
         }
 
@@ -388,7 +385,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return CombinedLogAsync(() =>
             {
                 logger.Log(reason, ex.ToString());
-                reportGeneratorUtil.LogCoverageProcess(reason);
             });
         }
 

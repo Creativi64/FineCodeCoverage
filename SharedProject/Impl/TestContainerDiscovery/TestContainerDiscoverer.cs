@@ -14,6 +14,7 @@ using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.Threading;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine.Messages;
 
 namespace FineCodeCoverage.Impl
 {
@@ -104,8 +105,8 @@ namespace FineCodeCoverage.Impl
             var settings = appOptionsProvider.Get();
             if (CoverageDisabled(settings))
             {
-                CombinedLog("Coverage not collected as FCC disabled.");
-                reportGeneratorUtil.EndOfCoverageRun();
+                logger.Log("Coverage not collected as FCC disabled.");
+                RaiseCoverageEnded();
                 return;
             }
 
@@ -114,6 +115,7 @@ namespace FineCodeCoverage.Impl
             {
                 if (settings.RunInParallel)
                 {
+                    RaiseCoverageStarted(true);
                     runningInParallel = true;
                     fccEngine.ReloadCoverage(() =>
                     {
@@ -123,17 +125,17 @@ namespace FineCodeCoverage.Impl
                 }
                 else
                 {
-                    CombinedLog("Coverage collected when tests finish. RunInParallel option true for immediate");
+                    RaiseCoverageStarted(false);
+                    logger.Log("Coverage collected when tests finish. RunInParallel option true for immediate");
                 }
+            }
+
+            if (msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
+            {
+                RaiseCoverageStarted();
             }
         }
         
-        private void CombinedLog(string message)
-        {
-            reportGeneratorUtil.LogCoverageProcess(message);
-            logger.Log(message);
-        }
-
         private async Task TestExecutionFinishedAsync(IOperation operation)
         {
             var (should, testOperation) = ShouldConditionallyCollectWhenTestExecutionFinished(operation);
@@ -186,8 +188,8 @@ namespace FineCodeCoverage.Impl
         {
             if (!settings.RunWhenTestsFail && testOperation.FailedTests > 0)
             {
-                CombinedLog($"Skipping coverage due to failed tests.  Option {nameof(AppOptions.RunWhenTestsFail)} is false");
-                reportGeneratorUtil.EndOfCoverageRun();
+                logger.Log($"Skipping coverage due to failed tests.  Option {nameof(AppOptions.RunWhenTestsFail)} is false");
+                RaiseCoverageEnded();
                 return false;
             }
 
@@ -197,8 +199,8 @@ namespace FineCodeCoverage.Impl
             {
                 if (totalTests <= runWhenTestsExceed)
                 {
-                    CombinedLog($"Skipping coverage as total tests ({totalTests}) <= {nameof(AppOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
-                    reportGeneratorUtil.EndOfCoverageRun();
+                    logger.Log($"Skipping coverage as total tests ({totalTests}) <= {nameof(AppOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
+                    RaiseCoverageEnded();
                     return false;
                 }
             }
@@ -220,8 +222,8 @@ namespace FineCodeCoverage.Impl
 
         private Task CoverageCancelledAsync(string logMessage, IOperation operation)
         {
-            CombinedLog(logMessage);
-            reportGeneratorUtil.EndOfCoverageRun(); // not necessarily true but get desired result
+            logger.Log(logMessage);
+            RaiseCoverageEnded();
             fccEngine.StopCoverage();
             return NotifyMsCodeCoverageTestExecutionNotFinishedIfCollectingAsync(operation);
         }
@@ -279,5 +281,17 @@ namespace FineCodeCoverage.Impl
                 logger.Log("Error processing unit test events", exception);
             }
         }
+
+        private void RaiseCoverageStarted(bool pending = false)
+        {
+            eventAggregator.SendMessage(new CoverageStartingMessage(pending));
+        }
+
+        private void RaiseCoverageEnded()
+        {
+            eventAggregator.SendMessage(new CoverageEndedMessage(null));
+        }
+
+
     }
 }

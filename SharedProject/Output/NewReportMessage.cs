@@ -1,8 +1,9 @@
-﻿namespace FineCodeCoverage.Output
+﻿using FineCodeCoverage.Engine.ReportGenerator;
+namespace FineCodeCoverage.Output
 {
     internal class NewReportMessage
     {
-        public string Report { get; set; }
+        public IReportResult Report { get; set; }
     }
 
 }

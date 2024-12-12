@@ -1,0 +1,116 @@
+﻿<UserControl
+	Name="FCCOutputToolWindow"
+	x:Class="FineCodeCoverage.Output.ReportToolWindowControl"
+    x:ClassModifier="internal"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:tg="clr-namespace:TreeGrid;assembly=TreeGrid"
+    xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+	mc:Ignorable="d"
+	d:DesignWidth="500"
+	d:DesignHeight="300"
+	>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Hidden"/>
+        </Grid.Resources>
+        <ProgressBar Grid.Row="0" Height="2" Foreground="{DynamicResource ResourceKey=VsBrush.Highlight}" Visibility="{Binding CoverageRunning, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" IsIndeterminate="true">
+            <ProgressBar.Style>
+                <Style TargetType="{x:Type ProgressBar}">
+                    <Setter Property="FrameworkElement.MinWidth" Value="2"/>
+                    <Setter Property="FrameworkElement.MinHeight" Value="2"/>
+                    <Setter Property="FrameworkElement.UseLayoutRounding" Value="True"/>
+                    <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                <Grid x:Name="TemplateRoot" SnapsToDevicePixels="True">
+                                    <Border  BorderThickness="0"/>
+                                    <Rectangle x:Name="PART_Track" />
+                                    <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                        <Grid ClipToBounds="True">
+                                            <Rectangle x:Name="Animation" Fill="{TemplateBinding Control.Foreground}"
+                           RenderTransformOrigin="0.5,0.5">
+                                                <UIElement.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </UIElement.RenderTransform>
+                                            </Rectangle>
+                                        </Grid>
+                                    </Decorator>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Indeterminate">
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation"
+                                                   Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation"
+                                                  Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                                        <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                                        <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                                        <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                                    </PointAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ProgressBar.Style>
+        </ProgressBar>
+        <tg:TreeGridControl Grid.Row="1"
+        TreeGridControlBackground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
+        TreeViewBackground="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundBrushKey}}"
+        HeaderGridLines="{DynamicResource {x:Static vsShell:EnvironmentColors.FileTabInactiveBorderBrushKey}}"
+        HeaderBackground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
+        HeaderForeground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowTextBrushKey}}"
+        ViewModel="{Binding}"
+        vsShell:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundColorKey}}"
+    >
+        <tg:TreeGridControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel>
+                    <TextBlock Tag="Name"  Text="{Binding Name}"/>
+                    <TextBlock Tag="CoverableLines" Text="{Binding CoverableLines}"/>
+                </StackPanel>
+            </DataTemplate>
+        </tg:TreeGridControl.ItemTemplate>
+        <tg:TreeGridControl.HierarchicalDataTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                <DockPanel>
+                    <imaging:CrispImage DockPanel.Dock="Left" FrameworkElement.Margin="5 2 5 2" FrameworkElement.Height="16"
+                                RenderOptions.BitmapScalingMode="HighQuality" Moniker="{Binding ImageMoniker}"/>
+                    <Border Padding="0 2 0 2" Background="{Binding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding AdjustedWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <tg:TreeItemContentControl Content="{Binding}" 
+                                ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type tg:TreeGridControl},AncestorLevel=1},Path=ItemTemplate}" />
+                        </Grid>
+                    </Border>
+                </DockPanel>
+            </HierarchicalDataTemplate>
+        </tg:TreeGridControl.HierarchicalDataTemplate>
+        
+    </tg:TreeGridControl>
+    </Grid>
+</UserControl>

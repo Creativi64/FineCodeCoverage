@@ -74,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IInitializedFromTestContainerDiscoverer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ISourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MessageBoxWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Messages\CoverageStartingMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectFileSynchronizationDetails.cs" />
@@ -129,15 +130,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Base64ReportImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ColourUtilities\LighnessApplier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ColourUtilities\LuminanceContrastColourExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\FCCReportConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HotspotReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HotspotsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HtmlFilesToFolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IHotspotsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IHtmlFilesToFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IReportColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IReportColoursProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IReportConfigurationFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IReportGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IReportGeneratorUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IThemeResourceKeyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\JsThemeStyling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportColoursExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportColoursProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportGeneratorUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportGeneratorUtilOld.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ThemeResourceKeyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\SourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\AssemblyUtil.cs" />
@@ -395,6 +405,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\JsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyConfigSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\WritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportToolWindowControl.xaml.cs">
+      <DependentUpon>ReportToolWindowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\AssemblyTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\ClassTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\CodeElementTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\NamespaceTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\ReportTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\VisualStudioTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ThemedTreeGridColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ToggleCoverageIndicatorsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\OpenHotspotsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\OpenCoberturaCommand.cs" />
@@ -422,6 +444,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Output\ReportToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

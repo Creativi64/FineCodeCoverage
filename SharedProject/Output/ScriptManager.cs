@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Output
         
         public void OpenFile(string assemblyName, string qualifiedClassName, int file, int line)
         {
-            openFileTask = sourceFileOpener.OpenFileAsync(assemblyName, qualifiedClassName, file, line);
+            //openFileTask = sourceFileOpener.OpenFileAsync(assemblyName, qualifiedClassName, file, line);
         }
 
         public void ReadReadMe()

@@ -52,13 +52,16 @@ namespace Test
         }
 
         [Test]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task Should_Call_SourceFileOpender_When_OpenFile_Async()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            scriptManager.OpenFile("aname", "q.cname", 2, 3);
-#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
-            await scriptManager.openFileTask;
-#pragma warning restore VSTHRD003 // Avoid awaiting foreign Tasks
-            sourceFileOpener.Verify(engine => engine.OpenFileAsync("aname", "q.cname", 2, 3));
+            throw new System.Exception();
+//            scriptManager.OpenFile("aname", "q.cname", 2, 3);
+//#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
+//            await scriptManager.openFileTask;
+//#pragma warning restore VSTHRD003 // Avoid awaiting foreign Tasks
+//            sourceFileOpener.Verify(engine => engine.OpenFileAsync("aname", "q.cname", 2, 3));
         }
     }
 }

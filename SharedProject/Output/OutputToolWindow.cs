@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Output
     /// </para>
     /// </remarks>
     [Guid("320fd13f-632f-4b16-9527-a1adfe555f6c")]
-	internal class OutputToolWindow : ToolWindowPane, IListener<ReportFocusedMessage>
+	internal class OutputToolWindow : ToolWindowPane
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OutputToolWindow"/> class.
@@ -35,18 +35,18 @@ namespace FineCodeCoverage.Output
 
 		public OutputToolWindow()
         {
-			Initialize(OutputToolWindowPackage.GetOutputToolWindowContext());
+			Initialize(ToolWindowContextProvider.GetToolWindowContext<OutputToolWindow,OutputToolWindowContext>());
 		}
 
 		private void Initialize(OutputToolWindowContext context)
         {
-			if (context.ShowToolbar)
+			if (context.ShowToolWindowToolbar())
 			{
 				this.ToolBar = new CommandID(PackageGuids.guidOutputToolWindowPackageCmdSet, PackageIds.ToolWindowToolbar);
 			}
             //to see if OutputToolWindow can be internal ( and thus IScriptManager )
             Caption = Vsix.Name;
-			context.EventAggregator.AddListener(this);
+			
 
 			// This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
 			// we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
@@ -55,8 +55,8 @@ namespace FineCodeCoverage.Output
 			try
 			{
 				AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-				Content = new OutputToolWindowControl(context.EventAggregator);
-			}
+                this.Content = new ReportToolWindowControl(context.ReportViewModel);
+            }
 			finally
 			{
 				AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
@@ -110,13 +110,6 @@ namespace FineCodeCoverage.Output
 			return null;
 		}
 
-        public void Handle(ReportFocusedMessage message)
-        {
-			ThreadHelper.JoinableTaskFactory.Run(async () =>
-			{
-				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-				(this.Frame as IVsWindowFrame).Show();
-			});
-		}
+
     }
 }

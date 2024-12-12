@@ -69,12 +69,12 @@ namespace FineCodeCoverage.Output
 
         public void Handle(NewReportMessage message)
         {
-			ThreadHelper.JoinableTaskFactory.Run(async () =>
-			{
-				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+			//ThreadHelper.JoinableTaskFactory.Run(async () =>
+			//{
+			//	await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				FCCOutputBrowser.NavigateToString(message.Report);
-			});
+			//	FCCOutputBrowser.NavigateToString(message.Report);
+			//});
 		}
 
         public void Handle(InvokeScriptMessage message)

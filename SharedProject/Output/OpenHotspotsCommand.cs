@@ -4,6 +4,7 @@ using System.IO;
 using EnvDTE80;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
+using FineCodeCoverage.Engine.ReportGenerator;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using SharedProject.Core.CoverageToolOutput;
@@ -28,7 +29,7 @@ namespace FineCodeCoverage.Output
 
         private readonly DTE2 dte;
         private readonly MenuCommand command;
-        private string hotspotsFile;
+        private IReportResult reportResult;
 
         public static OpenHotspotsCommand Instance
         {
@@ -69,7 +70,7 @@ namespace FineCodeCoverage.Output
 
         public void Handle(ReportFilesMessage message)
         {
-            hotspotsFile = message.HotspotsFile;
+            reportResult = message.ReportResult;
             command.Enabled = true;
         }
 
@@ -85,9 +86,11 @@ namespace FineCodeCoverage.Output
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            if(File.Exists(hotspotsFile))
+            if(reportResult != null)
             {
-                dte.ItemOperations.OpenFile(hotspotsFile, EnvDTE.Constants.vsViewKindCode);
+                // need the IHotspotService 
+
+                //dte.ItemOperations.OpenFile(hotspotsFilePath, EnvDTE.Constants.vsViewKindCode);
             }
         }
 

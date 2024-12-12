@@ -41,7 +41,8 @@ namespace Test
             mockAppDataFolder.Setup(appDataFolder => appDataFolder.Initialize(disposalToken)).Callback(() => callOrder.Add(1));
             mockAppDataFolder.Setup(appDataFolder => appDataFolder.DirectoryPath).Returns(appDataFolderPath);
 
-            var reportGeneratorMock = mocker.GetMock<IReportGeneratorUtil>().Setup(reportGenerator => reportGenerator.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(2));
+            throw new NotImplementedException();
+            //var reportGeneratorMock = mocker.GetMock<IReportGeneratorUtil>().Setup(reportGenerator => reportGenerator.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(2));
 
             var msTestPlatformMock = mocker.GetMock<IMsTestPlatformUtil>().Setup(msTestPlatform => msTestPlatform.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(3));
 
@@ -74,12 +75,13 @@ namespace Test
         [Test]
         public void Should_Clear_UI_When_Solution_Closes()
         {
-            var mockSolutionEvents = mocker.GetMock<ISolutionEvents>();
-            mocker.Setup<IReportGeneratorUtil,string>(reportGeneratorUtil => reportGeneratorUtil.BlankReport(false)).Returns("reportHtml");
-            mockSolutionEvents.Raise(s => s.AfterClosing += null, EventArgs.Empty);
+            throw new NotImplementedException();
+            //var mockSolutionEvents = mocker.GetMock<ISolutionEvents>();
+            //mocker.Setup<IReportGeneratorUtil,string>(reportGeneratorUtil => reportGeneratorUtil.BlankReport(false)).Returns("reportHtml");
+            //mockSolutionEvents.Raise(s => s.AfterClosing += null, EventArgs.Empty);
 
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == null), null));
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewReportMessage>(msg => msg.Report == "reportHtml"), null));
+            //mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == null), null));
+            //mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewReportMessage>(msg => msg.Report == "reportHtml"), null));
           
         }
     }
@@ -209,12 +211,12 @@ namespace Test
             passedProject.Setup(p => p.CoverageOutputFile).Returns(passedProjectCoverageOutputFile);
             
             mocker.GetMock<IReportGeneratorUtil>().Setup(rg => 
-                rg.GenerateAsync(
+                rg.Generate(
                     It.Is<string[]>(
                         coverOutputFiles => coverOutputFiles.Count() == 1 && coverOutputFiles.First() == passedProjectCoverageOutputFile),
                     It.IsAny<string>(),
                     It.IsAny<CancellationToken>()
-                    ).Result).Returns(new ReportGeneratorResult { });
+                    )).Returns(new ReportGeneratorResult { });
 
             await ReloadInitializedCoverage_Async(failedProject.Object, passedProject.Object);
 
@@ -226,54 +228,58 @@ namespace Test
         public async Task Should_Not_Run_ReportGenerator_If_No_Successful_Projects_Async()
         {
             await ReloadInitializedCoverage_Async();
-            mocker.Verify<IReportGeneratorUtil>(rg => rg.GenerateAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
+            throw new NotImplementedException();
+            //mocker.Verify<IReportGeneratorUtil>(rg => rg.GenerateAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task Should_Process_ReportGenerator_Output_If_Success_Raising_Events_Async()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            var passedProject = CreateSuitableProject();
-            var reportGeneratorResult = new ReportGeneratorResult
-            {
-                UnifiedXmlFile = "Unified xml file",
-                UnifiedHtml = "Unified html",
-                HotspotsFile = "Hotspots file path",
+            throw new NotImplementedException();
+            //var passedProject = CreateSuitableProject();
+            //var reportGeneratorResult = new ReportGeneratorResult
+            //{
+            //    UnifiedXmlFile = "Unified xml file",
+            //    UnifiedHtml = "Unified html",
+            //    HotspotsFile = "Hotspots file path",
 
-            };
-            var mockReportGenerator = mocker.GetMock<IReportGeneratorUtil>();
-            mockReportGenerator.Setup(rg =>
-                rg.GenerateAsync(
-                    It.IsAny<IEnumerable<string>>(),
-                    It.IsAny<string>(),
-                    It.IsAny<CancellationToken>()
-                    ).Result)
-                .Returns(reportGeneratorResult);
+            //};
+            //var mockReportGenerator = mocker.GetMock<IReportGeneratorUtil>();
+            //mockReportGenerator.Setup(rg =>
+            //    rg.GenerateAsync(
+            //        It.IsAny<IEnumerable<string>>(),
+            //        It.IsAny<string>(),
+            //        It.IsAny<CancellationToken>()
+            //        ).Result)
+            //    .Returns(reportGeneratorResult);
 
-            mockReportGenerator.Setup(rg => rg.ProcessUnifiedHtml("Unified html", It.IsAny<string>())).Returns("processed");
+            //mockReportGenerator.Setup(rg => rg.ProcessUnifiedHtml("Unified html", It.IsAny<string>())).Returns("processed");
 
-            var mockCoberturaUtil = mocker.GetMock<ICoberturaUtil>();
-            var fileLineCoverage = new FileLineCoverage();
-            mockCoberturaUtil.Setup(coberturaUtil => coberturaUtil.ProcessCoberturaXml("Unified xml file")).Returns(fileLineCoverage);
+            //var mockCoberturaUtil = mocker.GetMock<ICoberturaUtil>();
+            //var fileLineCoverage = new FileLineCoverage();
+            //mockCoberturaUtil.Setup(coberturaUtil => coberturaUtil.ProcessCoberturaXml("Unified xml file")).Returns(fileLineCoverage);
 
-            await ReloadInitializedCoverage_Async(passedProject.Object);
+            //await ReloadInitializedCoverage_Async(passedProject.Object);
             
-            mockReportGenerator.VerifyAll();
-            mockReportGenerator.Verify(reportGenerator => reportGenerator.EndOfCoverageRun());
+            //mockReportGenerator.VerifyAll();
+            //mockReportGenerator.Verify(reportGenerator => reportGenerator.EndOfCoverageRun());
 
-            mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
-                It.Is<NewCoverageLinesMessage>(message => message.CoverageLines == fileLineCoverage),
-                null
-                ));
+            //mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
+            //    It.Is<NewCoverageLinesMessage>(message => message.CoverageLines == fileLineCoverage),
+            //    null
+            //    ));
 
-            mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
-                It.Is<NewReportMessage>(message => message.Report == "processed"),
-                null
-                ));
+            //mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
+            //    It.Is<NewReportMessage>(message => message.Report == "processed"),
+            //    null
+            //    ));
 
-            mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
-                It.Is<ReportFilesMessage>(message =>  message.CoberturaFile == reportGeneratorResult.UnifiedXmlFile &&  message.HotspotsFile == reportGeneratorResult.HotspotsFile),
-                null
-                ));
+            //mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
+            //    It.Is<ReportFilesMessage>(message =>  message.CoberturaFile == reportGeneratorResult.UnifiedXmlFile &&  message.HotspotsFile == reportGeneratorResult.HotspotsFile),
+            //    null
+            //    ));
 
         }
 
@@ -340,12 +346,12 @@ namespace Test
         private void SetUpSuccessfulRunReportGenerator()
         {
             mocker.GetMock<IReportGeneratorUtil>()
-                .Setup(rg => rg.GenerateAsync(
+                .Setup(rg => rg.Generate(
                     It.IsAny<IEnumerable<string>>(),
                     It.IsAny<string>(),
                     It.IsAny<CancellationToken>()
                     ))
-                .ReturnsAsync(new ReportGeneratorResult {  });
+                .Returns(new ReportGeneratorResult {  });
         }
 
         private async Task ReloadInitializedCoverage_Async(params ICoverageProject[] coverageProjects)

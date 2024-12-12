@@ -171,11 +171,14 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         }
 
         [Test]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task Should_Report_End_Of_CoverageRun_If_Error_Async()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            var exception = new Exception("Msg");
-            await Throw_Exception_From_UserRunSettingsService_Analyse_Async(exception);
-            autoMocker.Verify<IReportGeneratorUtil>(reportGeneratorUtil => reportGeneratorUtil.EndOfCoverageRun());
+            throw new NotImplementedException();
+            //var exception = new Exception("Msg");
+            //await Throw_Exception_From_UserRunSettingsService_Analyse_Async(exception);
+            //autoMocker.Verify<IReportGeneratorUtil>(reportGeneratorUtil => reportGeneratorUtil.EndOfCoverageRun());
         }
 
         private Task<MsCodeCoverageCollectionStatus> Throw_Exception_From_UserRunSettingsService_Analyse_Async(Exception exception)
@@ -355,7 +358,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
            
             autoMocker.Verify<ILogger>(logger => logger.Log(expectedLoggerMessages));
-            autoMocker.Verify<IReportGeneratorUtil>(reportGeneratorUtil => reportGeneratorUtil.LogCoverageProcess("Ms code coverage"));
         }
 
         [Test]
@@ -498,13 +500,11 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         private void VerifyLogException(string reason, Exception exception)
         {
             autoMocker.Verify<ILogger>(l => l.Log(reason, exception.ToString()));
-            autoMocker.Verify<IReportGeneratorUtil>(reportGenerator => reportGenerator.LogCoverageProcess(reason));
         }
 
         private void VerifyCombinedLogMessage(string message)
         {
             autoMocker.Verify<ILogger>(l => l.Log(message));
-            autoMocker.Verify<IReportGeneratorUtil>(reportGenerator => reportGenerator.LogCoverageProcess(message));
         }
 
         private string InitializeFCCMsTestAdapterPath()

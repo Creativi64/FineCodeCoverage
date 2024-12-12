@@ -4,7 +4,7 @@ namespace FineCodeCoverage.Engine
 {
     internal interface ISourceFileOpener
     {
-        Task OpenFileAsync(string assemblyName, string qualifiedClassName, int file, int line);
+        Task OpenAsync(string filePath, int fileLine);
     }
 
 }

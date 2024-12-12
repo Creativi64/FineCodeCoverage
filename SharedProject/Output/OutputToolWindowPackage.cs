@@ -12,9 +12,37 @@ using FineCodeCoverage.Engine;
 using EnvDTE80;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Initialization;
+using System.Linq;
+using System.Reflection;
+using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace FineCodeCoverage.Output
 {
+	internal static class ToolWindowContextProvider
+	{
+		private static  MethodInfo GetServiceMethod;
+        static ToolWindowContextProvider()
+		{
+			GetServiceMethod =  typeof(IComponentModel).GetMethod("GetService");
+        }
+        public static IComponentModel ComponentModel { get; set; }
+        public static TContext GetToolWindowContext<TToolWindowType, TContext>() => (TContext)GetToolWindowContext(typeof(TToolWindowType));
+        public static object GetToolWindowContext(Type toolWindowType)
+        {
+            ConstructorInfo contextConstructor = toolWindowType.GetConstructors().Where(c => c.GetParameters().Length == 1).First();
+            Type contextType = contextConstructor.GetParameters().First().ParameterType;
+            object context = Activator.CreateInstance(contextType);
+            foreach (PropertyInfo contextProperty in contextType.GetProperties())
+            {
+                Type propertyType = contextProperty.PropertyType;
+                MethodInfo getService = GetServiceMethod.MakeGenericMethod(propertyType);
+                contextProperty.SetValue(context, getService.Invoke(ComponentModel, new object[] { }));
+            }
+
+            return context;
+        }
+
+    }
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -43,7 +71,6 @@ namespace FineCodeCoverage.Output
 	[ProvideToolWindow(typeof(OutputToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
     public sealed class OutputToolWindowPackage : AsyncPackage
 	{
-		private static Microsoft.VisualStudio.ComponentModelHost.IComponentModel componentModel;
         private IFCCEngine fccEngine;
 
 		/// <summary>
@@ -61,23 +88,16 @@ namespace FineCodeCoverage.Output
 			Hack necessary for debugging in 2022 !
 			https://developercommunity.visualstudio.com/t/vsix-tool-window-vs2022-different-instantiation-wh/1663280
 		*/
-		internal static OutputToolWindowContext GetOutputToolWindowContext()
-        {
-			return new OutputToolWindowContext
-			{
-				EventAggregator = componentModel.GetService<IEventAggregator>(),
-				ShowToolbar = componentModel.GetService<IAppOptionsProvider>().Get().ShowToolWindowToolbar
-			};
-		}
+        
 
-		/// <summary>
-		/// Initialization of the package; this method is called right after the package is sited, so this is the place
-		/// where you can put all the initialization code that rely on services provided by VisualStudio.
-		/// </summary>
-		/// <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
-		/// <param name="progress">A provider for progress updates.</param>
-		/// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
-		protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        /// <summary>
+        /// Initialization of the package; this method is called right after the package is sited, so this is the place
+        /// where you can put all the initialization code that rely on services provided by VisualStudio.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
+        /// <param name="progress">A provider for progress updates.</param>
+        /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
+        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
 		{
 			// When initialized asynchronously, the current thread may be a background thread at this point.
 			// Do any initialization that requires the UI thread after switching to the UI thread.
@@ -86,8 +106,10 @@ namespace FineCodeCoverage.Output
 			var _dte2 = (DTE2)GetGlobalService(typeof(SDTE));
 			var sp = new ServiceProvider(_dte2 as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
 			// you cannot MEF import in the constructor of the package
-			componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
-			Assumes.Present(componentModel);
+			var componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
+            ToolWindowContextProvider.ComponentModel = componentModel;
+
+            Assumes.Present(componentModel);
 			fccEngine = componentModel.GetService<IFCCEngine>();
 			var eventAggregator = componentModel.GetService<IEventAggregator>();
 			await OpenCoberturaCommand.InitializeAsync(this, eventAggregator);
@@ -104,7 +126,7 @@ namespace FineCodeCoverage.Output
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)
         {
-			return Task.FromResult<object>(GetOutputToolWindowContext());
+			return Task.FromResult(ToolWindowContextProvider.GetToolWindowContext(toolWindowType));
 		}
         public override IVsAsyncToolWindowFactory GetAsyncToolWindowFactory(Guid toolWindowType)
 		{
