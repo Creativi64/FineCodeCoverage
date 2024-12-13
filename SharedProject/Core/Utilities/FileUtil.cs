@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
@@ -93,6 +94,25 @@ namespace FineCodeCoverage.Core.Utilities
         public void DeleteFile(string filePath)
         {
             File.Delete(filePath);
+        }
+
+        public static string GetRelativePath(string basePath, string fullPath)
+        {
+            var baseUri = new Uri(AppendDirectorySeparator(basePath));
+            var fullUri = new Uri(fullPath);
+            return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fullUri).ToString())
+                .Replace('/', Path.DirectorySeparatorChar);
+        }
+
+        private static string AppendDirectorySeparator(string path)
+        {
+            // Ensure the path starts with a drive letter and a backslash
+            if (path.Length > 1 && path[1] == ':' && path[2] != '\\')
+            {
+                path = path.Insert(2, "\\");
+            }
+            // Ensure the directory path ends with a separator
+            return path.EndsWith(Path.DirectorySeparatorChar.ToString()) ? path : path + Path.DirectorySeparatorChar;
         }
     }
 }

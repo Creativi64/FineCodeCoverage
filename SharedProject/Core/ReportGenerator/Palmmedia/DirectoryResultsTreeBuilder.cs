@@ -2,30 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
     public static class DirectoryResultsTreeBuilder
     {
-        public static string GetRelativePath(string basePath, string fullPath)
-        {
-            var baseUri = new Uri(AppendDirectorySeparator(basePath));
-            var fullUri = new Uri(fullPath);
-            return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fullUri).ToString())
-                .Replace('/', Path.DirectorySeparatorChar);
-        }
-
-        private static string AppendDirectorySeparator(string path)
-        {
-            // Ensure the path starts with a drive letter and a backslash
-            if (path.Length > 1 && path[1] == ':' && path[2] != '\\')
-            {
-                path = path.Insert(2, "\\");
-            }
-            // Ensure the directory path ends with a separator
-            return path.EndsWith(Path.DirectorySeparatorChar.ToString()) ? path : path + Path.DirectorySeparatorChar;
-        }
         public static DirectoryNode BuildDirectoryTree(List<ISourceFile> codeFiles)
         {
             if (codeFiles == null || codeFiles.Count == 0)
@@ -38,7 +20,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             // Add files to the tree
             foreach (var file in codeFiles)
             {
-                var relativePath = GetRelativePath(rootPath, file.Path);
+                var relativePath = FileUtil.GetRelativePath(rootPath, file.Path);
                 AddFileToTree(root, relativePath, file);
             }
 
