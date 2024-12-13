@@ -207,7 +207,7 @@ namespace TreeGrid
 
         private IEnumerable<string> GetColumnPropertyNames()
             => ViewModel.ColumnManager.GetType().GetProperties(
-                BindingFlags.Public | BindingFlags.Instance).Where(p => p.PropertyType == typeof(ColumnData))
+                BindingFlags.Public | BindingFlags.Instance).Where(p => (typeof(ColumnData).IsAssignableFrom(p.PropertyType)))
                 .Select(p => p.Name);
 
         private void GenerateGridHeaderColumns()

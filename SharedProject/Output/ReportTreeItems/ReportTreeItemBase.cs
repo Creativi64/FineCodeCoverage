@@ -25,6 +25,39 @@ namespace FineCodeCoverage.Output
             set => this.Set<double>(ref this._coverableLines, value, nameof(this.CoverableLines));
         }
 
+        private int cyclomaticComplexity;
+        public int CyclomaticComplexity
+        {
+            get => this.cyclomaticComplexity;
+            set => this.Set<int>(ref this.cyclomaticComplexity, value, nameof(this.CyclomaticComplexity));
+        }
+
+
+        private int npathComplexity;
+        public int NPathComplexity
+        {
+            get => this.npathComplexity;
+            set => this.Set<int>(ref this.npathComplexity, value, nameof(this.NPathComplexity));
+        }
+        private decimal crapScore;
+        public decimal CrapScore
+        {
+            get => this.crapScore;
+            set => this.Set<decimal>(ref this.crapScore, value, nameof(this.CrapScore));
+        }
+        private int blocksCovered;
+        public int BlocksCovered
+        {
+            get => this.blocksCovered;
+            set => this.Set<int>(ref this.blocksCovered, value, nameof(this.BlocksCovered));
+        }
+        private int blocksNotCovered;
+        public int BlocksNotCovered
+        {
+            get => this.blocksNotCovered;
+            set => this.Set<int>(ref this.blocksNotCovered, value, nameof(this.BlocksNotCovered));
+        }
+
         public override bool IsExpanded
         {
             get => this._isExpanded;

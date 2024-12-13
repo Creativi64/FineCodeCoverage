@@ -17,6 +17,11 @@ namespace FineCodeCoverage.Output
             this.ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ? KnownMonikers.Method : KnownMonikers.Property;
             var lineVisitStatuses = codeElement.LineVisitStatuses;
             this.CoverableLines = lineVisitStatuses.Count(lineVisitStatus => lineVisitStatus != LineVisitStatus.NotCoverable);
+            this.NPathComplexity = codeElement.NPathComplexity;
+            this.CrapScore = codeElement.CrapScore;
+            this.CyclomaticComplexity = codeElement.CyclomaticComplexity;
+            this.BlocksCovered = codeElement.BlocksCovered;
+            this.BlocksNotCovered = codeElement.BlocksNotCovered;
         }
 
         public override ImageMoniker ImageMoniker { get; }

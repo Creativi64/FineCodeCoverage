@@ -23,6 +23,11 @@ namespace FineCodeCoverage.Output
             {
                 this.observableChildren.Add(codeElement);
                 this.CoverableLines += codeElement.CoverableLines;
+                this.NPathComplexity += codeElement.NPathComplexity;
+                this.CyclomaticComplexity += codeElement.CyclomaticComplexity;
+                this.CrapScore += codeElement.CrapScore;
+                this.BlocksCovered += codeElement.BlocksCovered;
+                this.BlocksNotCovered += codeElement.BlocksNotCovered;
             }
         }
 

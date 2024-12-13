@@ -29,6 +29,14 @@ namespace FineCodeCoverage.Output
             {
                 this.observableChildren.Add(namespaceTreeItem);
                 this.CoverableLines += namespaceTreeItem.CoverableLines;
+
+                this.NPathComplexity += namespaceTreeItem.NPathComplexity;
+                this.CrapScore += namespaceTreeItem.CrapScore;
+                this.CyclomaticComplexity += namespaceTreeItem.CyclomaticComplexity;
+
+                this.BlocksCovered += namespaceTreeItem.BlocksCovered;
+                this.BlocksNotCovered += namespaceTreeItem.BlocksNotCovered;
+                
             }
         }
 

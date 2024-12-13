@@ -90,7 +90,12 @@
                 <StackPanel>
                     <TextBlock Tag="Name"  Text="{Binding Name}"/>
                     <TextBlock Tag="CoverableLines" Text="{Binding CoverableLines}"/>
-                </StackPanel>
+                    <TextBlock Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
+                    <TextBlock Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
+                    <TextBlock Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
+                    <TextBlock Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
+                    <TextBlock Tag="CrapScore" Text="{Binding CrapScore}"/>
+                    </StackPanel>
             </DataTemplate>
         </tg:TreeGridControl.ItemTemplate>
         <tg:TreeGridControl.HierarchicalDataTemplate>

@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Output
             this.SetItems(this._items);
             this.sourceFileOpener = sourceFileOpener;
         }
-        private readonly ObservableCollection<AssemblyTreeItem> _items = new ObservableCollection<AssemblyTreeItem>();
+        private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
 
         protected override ReportColumnManager ColumnManagerImpl { get; set; } = new ReportColumnManager();
@@ -48,28 +48,38 @@ namespace FineCodeCoverage.Output
         {
             if(message.Report != null)
             {
-                //this.ColumnManagerImpl.ShowRelevantHotspotColumns(message.SummaryResult.UsedParser);
+                this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
                 IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
-
+                var rootDirectory = message.Report.Directory;
                 _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     this._items.Clear();
-                    foreach (IAssembly assembly in assemblies)
-                    {
-                        bool isTestAssembly = false;
-                        if(this.testAssemblyNames != null && this.testAssemblyNames.Contains(assembly.Name))
-                        {
-                            isTestAssembly = true;
-                        }
 
-                        var assemblyTreeItem = new AssemblyTreeItem(assembly, isTestAssembly);
-                        assemblyTreeItem.AdjustWidth(firstColumnWidth);
-                        this._items.Add(assemblyTreeItem);
+                    var assembliesView = false;
+                    if (assembliesView)
+                    {
+                        foreach (IAssembly assembly in assemblies)
+                        {
+                            bool isTestAssembly = false;
+                            if (this.testAssemblyNames != null && this.testAssemblyNames.Contains(assembly.Name))
+                            {
+                                isTestAssembly = true;
+                            }
+
+                            var assemblyTreeItem = new AssemblyTreeItem(assembly, isTestAssembly);
+                            assemblyTreeItem.AdjustWidth(firstColumnWidth);
+                            this._items.Add(assemblyTreeItem);
+                        }
+                    }
+                    else
+                    {
+                        var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
+                        directoryTreeItem.AdjustWidth(firstColumnWidth);
+                        this._items.Add(directoryTreeItem);
                     }
                 });
-                
             }
             else
             {
