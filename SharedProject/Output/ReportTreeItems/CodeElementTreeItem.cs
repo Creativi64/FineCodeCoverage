@@ -8,12 +8,11 @@ namespace FineCodeCoverage.Output
     public class CodeElementTreeItem : ReportTreeItemBase
     {
         public CodeElementTreeItem(
-            ICodeElement codeElement, 
-            string filePath
+            ICodeElement codeElement
         )
         {
             this.Name = codeElement.Name;
-            this.FilePath = filePath;
+            this.FilePath = codeElement.Path;
             this.FileLine = codeElement.StartLine;
             this.ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ? KnownMonikers.Method : KnownMonikers.Property;
             var lineVisitStatuses = codeElement.LineVisitStatuses;

@@ -25,8 +25,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     public interface IClass
     {
         string DisplayName { get; }
-        IReadOnlyCollection<ICodeFile> Files { get; }
-        
+        //IReadOnlyCollection<ICodeFile> Files { get; }
+        IReadOnlyCollection<ICodeElement> CodeElements { get; }
     }
 
     public interface ICodeFile
@@ -40,6 +40,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         CodeElementType CodeElementType { get; }
         string Name { get; }
         int StartLine { get; }
+        string Path { get; }
         IReadOnlyCollection<LineVisitStatus> LineVisitStatuses { get; }
     }
 
@@ -68,10 +69,12 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             DisplayName = classReport.DisplayName;
             Files = classReport.Files.Select(f => new PalmediaFile(f)).ToList<ICodeFile>();
+            CodeElements = Files.SelectMany(f => f.CodeElements).ToList();
         }
 
         public string DisplayName { get; }
         public IReadOnlyCollection<ICodeFile> Files { get; }
+        public IReadOnlyCollection<ICodeElement> CodeElements { get; }
     }
 
     public class PalmediaFile : ICodeFile
@@ -96,6 +99,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
             LineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
             .Take(codeElement.LastLine - codeElement.FirstLine + 1).Select(ConvertLineVisitStatus).ToList();
+            Path = codeFile.Path;
 
         }
 
@@ -133,6 +137,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public string Name { get; }
         public int StartLine { get; }
         public IReadOnlyCollection<LineVisitStatus> LineVisitStatuses { get; }
+        public string Path { get; }
     }
 
     public enum LineVisitStatus
