@@ -10,17 +10,13 @@ namespace Test
     public class ScriptManager_When_Called_Back_Window_External
     {
         private ScriptManager scriptManager;
-        private Mock<ISourceFileOpener> sourceFileOpener;
         private Mock<IProcess> mockProcess;
-        private Mock<IEventAggregator> mockEventAggregator;
 
         [SetUp]
         public void SetUp()
         {
-            sourceFileOpener = new Mock<ISourceFileOpener>();
             mockProcess = new Mock<IProcess>();
-            mockEventAggregator = new Mock<IEventAggregator>();
-            scriptManager = new ScriptManager(sourceFileOpener.Object, mockProcess.Object, mockEventAggregator.Object);
+            scriptManager = new ScriptManager(mockProcess.Object);
         }
 
         [Test]
@@ -42,26 +38,6 @@ namespace Test
         {
             scriptManager.RateAndReview();
             mockProcess.Verify(p => p.Start(ScriptManager.marketPlaceRateAndReview));
-        }
-
-        [Test]
-        public void DocumentFocused_Should_Send_Message()
-        {
-            scriptManager.DocumentFocused();
-            mockEventAggregator.Verify(e => e.SendMessage(It.IsAny<ReportFocusedMessage>(), null));
-        }
-
-        [Test]
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task Should_Call_SourceFileOpender_When_OpenFile_Async()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-        {
-            throw new System.Exception();
-//            scriptManager.OpenFile("aname", "q.cname", 2, 3);
-//#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
-//            await scriptManager.openFileTask;
-//#pragma warning restore VSTHRD003 // Avoid awaiting foreign Tasks
-//            sourceFileOpener.Verify(engine => engine.OpenFileAsync("aname", "q.cname", 2, 3));
         }
     }
 }
