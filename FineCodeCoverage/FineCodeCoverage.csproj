@@ -79,14 +79,6 @@
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\Shared Files\Resources\dummyReportToProcess.html">
-      <Link>Resources\dummyReportToProcess.html</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\Resources\reportparts.xml">
-      <Link>Resources\reportparts.xml</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <VSCTCompile Include="..\Shared Files\OutputToolWindowPackage.vsct">
       <Link>OutputToolWindowPackage.vsct</Link>
       <ResourceName>Menus.ctmenu</ResourceName>
@@ -179,7 +171,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.12.2069">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.11.35">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -229,10 +221,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReportGeneratorPlugins\ReportGeneratorPlugins.csproj">
-      <Project>{14fb668b-4b70-41e4-964b-405e5c9a6a58}</Project>
-      <Name>ReportGeneratorPlugins</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
       <Name>TreeGrid</Name>

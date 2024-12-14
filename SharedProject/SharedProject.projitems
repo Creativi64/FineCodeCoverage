@@ -394,52 +394,42 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\JsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyConfigSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\WritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ITreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReflectionMEFToolWindowContextProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportColumnManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportToolWindowControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml.cs">
       <DependentUpon>ReportToolWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\AssemblyTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\ClassTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\CodeElementTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\DirectoryTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\NamespaceTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\ReportTreeItemBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\SourceFileTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportTreeItems\VisualStudioTreeItemBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ReportViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ThemedTreeGridColours.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ToggleCoverageIndicatorsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OpenHotspotsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OpenCoberturaCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ClearUICommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\DpiChangedMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\EnvironmentFont.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\EnvironmentFontDetailsChangedMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\InvokeScriptMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\AssemblyTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\ClassTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\CodeElementTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\DirectoryTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\NamespaceTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\ReportTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\SourceFileTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\VisualStudioTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\ThemedTreeGridColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ToggleCoverageIndicatorsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenHotspotsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenCoberturaCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ClearUICommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\IProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\NewReportMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ObjectForScriptingMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowControl.xaml.cs">
-      <DependentUpon>OutputToolWindowControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\OutputToolWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OutputToolWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\OutputToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ProcessWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReadyForReportMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ScriptManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IShownToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ShownToolWindowHistory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ToggleCoverageIndicatorsMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ToggleCoverageIndicatorsMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\TreeExpander.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Output\ReportToolWindowControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -463,5 +453,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Store\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Output\Commands\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Output\Report Window\" />
   </ItemGroup>
 </Project>

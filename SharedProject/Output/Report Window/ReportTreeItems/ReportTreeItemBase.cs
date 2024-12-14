@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Output
     public abstract class ReportTreeItemBase : VisualStudioTreeItemBase
     {
         private bool _isExpanded;
-        protected readonly ObservableCollection<ReportTreeItemBase> observableChildren = new ObservableCollection<ReportTreeItemBase>();
+        internal readonly ObservableCollection<ReportTreeItemBase> observableChildren = new ObservableCollection<ReportTreeItemBase>();
 
         public ReportTreeItemBase() => this.Children = this.observableChildren;
 

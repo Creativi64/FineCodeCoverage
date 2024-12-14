@@ -24,16 +24,19 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public ReportViewModel(
             IEventAggregator eventAggregator,
-            ISourceFileOpener sourceFileOpener
+            ISourceFileOpener sourceFileOpener,
+            ITreeExpander treeExpander
         )
         {
             this.TreeViewAutomationName = "Coverage Report Tree";
             _ = eventAggregator.AddListener(this);
             this.SetItems(this._items);
             this.sourceFileOpener = sourceFileOpener;
+            this.treeExpander = treeExpander;
         }
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
+        private readonly ITreeExpander treeExpander;
 
         protected override ReportColumnManager ColumnManagerImpl { get; set; } = new ReportColumnManager();
         
@@ -48,6 +51,12 @@ namespace FineCodeCoverage.Output
         {
             if(message.Report != null)
             {
+                var hasReport = this._items.Count > 0;
+                if (hasReport)
+                {
+                    this.treeExpander.SaveExpansionState(this._items);
+                }
+
                 this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
                 IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
                 var rootDirectory = message.Report.Directory;
@@ -57,6 +66,7 @@ namespace FineCodeCoverage.Output
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     this._items.Clear();
 
+                    List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
                     var assembliesView = false;
                     if (assembliesView)
                     {
@@ -69,16 +79,26 @@ namespace FineCodeCoverage.Output
                             }
 
                             var assemblyTreeItem = new AssemblyTreeItem(assembly, isTestAssembly);
-                            assemblyTreeItem.AdjustWidth(firstColumnWidth);
-                            this._items.Add(assemblyTreeItem);
+                            newItems.Add(assemblyTreeItem);
                         }
                     }
                     else
                     {
                         var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
-                        directoryTreeItem.AdjustWidth(firstColumnWidth);
-                        this._items.Add(directoryTreeItem);
+                        newItems.Add(directoryTreeItem);
                     }
+
+                    if (hasReport)
+                    {
+                        this.treeExpander.RestoreExpansionState(newItems);
+                    }
+
+                    foreach(var newItem in newItems)
+                    {
+                        newItem.AdjustWidth(firstColumnWidth);
+                        this._items.Add(newItem);
+                    }
+                    
                 });
             }
             else
