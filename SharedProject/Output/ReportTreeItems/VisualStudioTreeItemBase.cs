@@ -6,7 +6,6 @@ namespace FineCodeCoverage.Output
 {
     public abstract class VisualStudioTreeItemBase : TreeItemBase
     {
-        public override abstract bool IsExpanded { get; set; }
         protected override Brush SelectedActiveBackgroundBrush => ThemedTreeGridColours.Instance.SelectedItemActiveBackColor;
         protected override Brush SelectedInactiveBackgroundBrush => ThemedTreeGridColours.Instance.SelectedItemInactiveBackColor;
         protected override Brush SelectedActiveForegroundBrush => ThemedTreeGridColours.Instance.SelectedItemActiveForeColor;

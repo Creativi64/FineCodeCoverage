@@ -29,12 +29,12 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             string reportOutputFolder, 
             CancellationToken cancellationToken)
         {
-            var summaryResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
+            var reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
 
 
             return new ReportGeneratorResult
             {
-                ReportResult = summaryResult,
+                ReportResult = reportResult,
                 UnifiedXmlFile = Path.Combine(reportOutputFolder, "Cobertura.xml"),
             };
         }

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Documents;
 using FineCodeCoverage.Engine.ReportGenerator;
 using TreeGrid;
 
@@ -18,13 +16,13 @@ namespace FineCodeCoverage.Output
     internal class ReportColumnManager : ColumnManagerBase
     {
         public ColumnData Name { get; } = new ColumnData("Name", 0, true, 450);
-        public ColumnData CoverableLines { get; } = new ColumnData("Coverable Lines", 1, true, 120.0, 20);
-        public MetricColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath,"NPath Complexity", 4, true, 120.0, 20);
-        public MetricColumnData CyclomaticComplexity { get; } = new MetricColumnData(MetricType.CyclomaticComplexity,"Cyclomatic Complexity", 5, true, 120.0, 20);
-        public MetricColumnData CrapScore { get; } = new MetricColumnData(MetricType.Crap,"Crap Score", 6, true, 120.0, 20);
-        public MetricColumnData BlocksCovered { get; } = new MetricColumnData(MetricType.BlocksCovered,"Blocks Covered", 2, true, 120.0, 20);
-        public MetricColumnData BlocksNotCovered { get; } = new MetricColumnData(MetricType.BlocksNotCovered,"Blocks Not Covered", 3, true, 120.0, 20);
-      
+        public ColumnData CoverableLines { get; } = new ColumnData("Coverable Lines", 1, true, 100.0, 20);
+        public MetricColumnData BlocksCovered { get; } = new MetricColumnData(MetricType.BlocksCovered, "Blocks Covered", 2, true, 100.0, 20);
+        public MetricColumnData BlocksNotCovered { get; } = new MetricColumnData(MetricType.BlocksNotCovered, "Blocks Not Covered", 3, true, 120.0, 20);
+        public MetricColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath,"NPath Complexity", 4, true, 110.0, 20);
+        public MetricColumnData CyclomaticComplexity { get; } = new MetricColumnData(MetricType.CyclomaticComplexity,"Cyclomatic Complexity", 5, true, 130.0, 20);
+        public MetricColumnData CrapScore { get; } = new MetricColumnData(MetricType.Crap,"Crap Score", 6, true, 70.0, 20);
+
         public ReportColumnManager()
         {
             this.Columns =  new ColumnData[] {

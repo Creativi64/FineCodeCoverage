@@ -89,7 +89,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         NPath,
         CyclomaticComplexity,
         BlocksCovered,
-        BlocksNotCovered
+        BlocksNotCovered,
+        Branches
     }
     interface IReportResult
     {

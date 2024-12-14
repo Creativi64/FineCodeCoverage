@@ -250,6 +250,10 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public PalmmediaReportResult(ParserResult parserResult)
         {
             staticMetricTypes.Clear();
+            if (parserResult.SupportsBranchCoverage)
+            {
+                staticMetricTypes.Add(MetricType.Branches);
+            }
             palmmediaAssemblies = parserResult.Assemblies.Select(a => new PalmmediaAssembly(a)).ToList();
         }
         public List<MetricType> MetricTypes => staticMetricTypes.ToList();
@@ -325,7 +329,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 reportDirectory,
                 empty,
                 null,
-                new ReadOnlyCollection<string>(new string[] { "Cobertura", "HtmlSummary" }),
+                new ReadOnlyCollection<string>(reportTypes.ToList()),
                 empty,
                 empty,
                 empty,
