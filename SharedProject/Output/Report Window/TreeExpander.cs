@@ -87,6 +87,20 @@ namespace FineCodeCoverage.Output
             }
         }
 
+        private void SaveExpansionState(IList<ReportTreeItemBase> roots)
+        {
+            wrapper = new TreeExpansionStateWrapper();
+
+            foreach (var root in roots)
+            {
+                var state = SaveExpansionStateForNode(root);
+                if (state != null)
+                {
+                    wrapper.Roots.Add(state);
+                }
+            }
+        }
+
         private TreeExpansionState SaveExpansionStateForNode(ReportTreeItemBase item)
         {
             if (item == null || !item.IsExpanded)
@@ -106,25 +120,13 @@ namespace FineCodeCoverage.Output
             return state;
         }
 
-        public void RestoreExpansionState(IList<ReportTreeItemBase> items)
+        public void RestoreExpansionState(IList<ReportTreeItemBase> oldItems, IList<ReportTreeItemBase> newItems)
         {
-            RestoreExpansionState(items, wrapper);
+            SaveExpansionState(oldItems);
+            RestoreExpansionState(newItems, wrapper);
+            this.wrapper = null;
         }
         
-        public void SaveExpansionState(IList<ReportTreeItemBase> roots)
-        {
-            wrapper = new TreeExpansionStateWrapper();
-
-            foreach (var root in roots)
-            {
-                var state = SaveExpansionStateForNode(root);
-                if (state != null)
-                {
-                    wrapper.Roots.Add(state);
-                }
-            }
-        }
-  
     }
 
 }

@@ -4,7 +4,6 @@ namespace FineCodeCoverage.Output
 {
     public interface ITreeExpander
     {
-        void SaveExpansionState(IList<ReportTreeItemBase> treeItem);
-        void RestoreExpansionState(IList<ReportTreeItemBase> treeItem);
+        void RestoreExpansionState(IList<ReportTreeItemBase> oldItems,IList<ReportTreeItemBase> newItems);
     }
 }

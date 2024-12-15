@@ -51,12 +51,6 @@ namespace FineCodeCoverage.Output
         {
             if(message.Report != null)
             {
-                var hasReport = this._items.Count > 0;
-                if (hasReport)
-                {
-                    this.treeExpander.SaveExpansionState(this._items);
-                }
-
                 this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
                 IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
                 var rootDirectory = message.Report.Directory;
@@ -64,7 +58,7 @@ namespace FineCodeCoverage.Output
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                    this._items.Clear();
+                    
 
                     List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
                     var assembliesView = false;
@@ -88,12 +82,13 @@ namespace FineCodeCoverage.Output
                         newItems.Add(directoryTreeItem);
                     }
 
-                    if (hasReport)
+                    if (this._items.Count > 0)
                     {
-                        this.treeExpander.RestoreExpansionState(newItems);
+                        this.treeExpander.RestoreExpansionState(this._items,newItems);
                     }
 
-                    foreach(var newItem in newItems)
+                    this._items.Clear();
+                    foreach (var newItem in newItems)
                     {
                         newItem.AdjustWidth(firstColumnWidth);
                         this._items.Add(newItem);
