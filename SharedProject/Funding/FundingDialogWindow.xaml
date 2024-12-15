@@ -1,0 +1,47 @@
+﻿<platform:DialogWindow  x:Class="FineCodeCoverage.Funding.FundingDialogWindow"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:platform="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                        xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+                        xmlns:fccwpf="clr-namespace:FineCodeCoverage.Wpf"
+                        xmlns:local="clr-namespace:FineCodeCoverage.Funding"
+                        xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                        xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                        mc:Ignorable="d"
+                        Width="450"
+                        Height="110"
+                        d:DesignHeight="600"
+                        d:DesignWidth="400"
+                        fccwpf:Themes.UseVsTheme="True"
+                        Title="Funding"
+						>
+    <StackPanel Orientation="Horizontal" vsShell:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vsShell:EnvironmentColors.DialogColorKey}}">
+        <Button ToolTip="ko-fi" Command="{Binding KofiClickedCommand}" CommandParameter="https://ko-fi.com/FortuneN">
+            <imaging:CrispImage HorizontalAlignment="Center" Width="64" Height="64" Moniker="{x:Static local:FundingMonikers.Kofi}" />
+        </Button>
+        <Button ToolTip="buymeacoffee" Command="{Binding BuyMeACoffeeClickedCommand}" CommandParameter="https://www.buymeacoffee.com/fortunen">
+            <imaging:CrispImage HorizontalAlignment="Center" Width="64" Height="64" Moniker="{x:Static local:FundingMonikers.BuyMeACoffee}" />
+        </Button>
+        <Button ToolTip="liberapay" Command="{Binding LiberapayClickedCommand}" CommandParameter="https://liberapay.com/FortuneN">
+            <imaging:CrispImage HorizontalAlignment="Center" Width="64" Height="64" Moniker="{x:Static local:FundingMonikers.Liberapay}" />
+        </Button>
+        <Button ToolTip="paypal" Command="{Binding PayPalClickedCommand}" CommandParameter="https://www.paypal.com/paypalme/FortuneNgwenya">
+            <imaging:CrispImage HorizontalAlignment="Center" Width="64" Height="64" Moniker="{x:Static local:FundingMonikers.Paypal}" />
+        </Button>
+        <Button ToolTip="github" Command="{Binding GithubClickedCommand}" CommandParameter="https://github.com/sponsors/FortuneN">
+            <Button.Resources>
+                <Geometry x:Key="githubsponsorGeometry">F1 M16,16z M0,0z M8,14.25L8.345,14.916A0.75,0.75,0,0,1,7.655,14.916L7.647,14.912 7.629,14.902A7.152,7.152,0,0,1,7.319,14.732A22.055,22.055,0,0,1,3.885,12.318C2.045,10.731 0,8.35 0,5.5 0,2.836 2.086,1 4.25,1 5.797,1 7.153,1.802 8,3.02 8.847,1.802 10.203,1 11.75,1 13.914,1 16,2.836 16,5.5 16,8.35 13.955,10.731 12.115,12.318A22.066,22.066,0,0,1,8.371,14.902L8.353,14.912 8.347,14.915 8.345,14.915z M4.25,2.5C2.914,2.5 1.5,3.664 1.5,5.5 1.5,7.65 3.08,9.644 4.865,11.182A20.58,20.58,0,0,0,8,13.393A20.58,20.58,0,0,0,11.135,11.182C12.92,9.644 14.5,7.65 14.5,5.5 14.5,3.664 13.086,2.5 11.75,2.5 10.377,2.5 9.141,3.486 8.721,4.956A0.749,0.749,0,0,1,7.279,4.956C6.859,3.486,5.623,2.5,4.25,2.5z</Geometry>
+                <DrawingGroup x:Key="githubsponsorDrawingGroup" ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                    <GeometryDrawing Brush="#FFBF3989" Geometry="{StaticResource githubsponsorGeometry}" />
+                </DrawingGroup>
+            </Button.Resources>
+            <Image>
+                <Image.Source>
+                    <DrawingImage Drawing="{StaticResource githubsponsorDrawingGroup}" PresentationOptions:Freeze="True" />
+                </Image.Source>
+                </Image>
+        </Button>
+    </StackPanel>
+</platform:DialogWindow>

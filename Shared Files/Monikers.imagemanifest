@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImageManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/VisualStudio/ImageManifestSchema/2014">
+  <Symbols>
+	<ID Name="ReportWindowId" Value="1"/>
+	<ID Name="BuyMeACoffeeId" Value="2"/>
+	<ID Name="KofiId" Value="3"/>
+	<ID Name="LiberapayId" Value="4"/>
+	<ID Name="PaypalId" Value="5"/>
+    <Guid Name="MonikersGuid" Value="{c07b27ae-9756-4632-a6e6-1578f6dfbedf}" />
+  </Symbols>
+	<Images>
+		<Image Guid="$(MonikersGuid)" ID="$(ReportWindowId)">
+			<Source Uri="/FineCodeCoverage;Component/Resources/ReportWindow.png">
+				<Size Value="16" />
+			</Source>
+		</Image>
+		<Image Guid="$(MonikersGuid)" ID="$(BuyMeACoffeeId)">
+			<Source Uri="/FineCodeCoverage;Component/Resources/buymeacoffee.png">
+				<Size Value="64" />
+			</Source>
+		</Image>
+		<Image Guid="$(MonikersGuid)" ID="$(KofiId)">
+			<Source Uri="/FineCodeCoverage;Component/Resources/kofi.png">
+				<Size Value="64" />
+			</Source>
+		</Image>
+		<Image Guid="$(MonikersGuid)" ID="$(LiberapayId)">
+			<Source Uri="/FineCodeCoverage;Component/Resources/liberapay.png">
+				<Size Value="64" />
+			</Source>
+		</Image>
+		<Image Guid="$(MonikersGuid)" ID="$(PaypalId)">
+			<Source Uri="/FineCodeCoverage;Component/Resources/paypal.png">
+				<Size Value="64" />
+			</Source>
+		</Image>
+	</Images>
+  <ImageLists />
+</ImageManifest>

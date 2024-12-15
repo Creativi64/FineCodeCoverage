@@ -358,6 +358,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\TextFormattingRunPropertiesFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoverageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Funding\FundingDialogWindow.xaml.cs">
+      <DependentUpon>FundingDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Funding\FundingMonikers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Funding\FundingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Funding\IFundingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Funding\IFundingViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Funding\ProcessStartCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\RunSettingsRetriever.cs" />
@@ -427,8 +435,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ShownToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ToggleCoverageIndicatorsMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\TreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\Themes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Funding\FundingDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
