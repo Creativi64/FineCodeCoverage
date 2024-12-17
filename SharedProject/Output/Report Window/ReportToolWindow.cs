@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell.Interop;
 using FineCodeCoverage.Core.Utilities;
 using System.ComponentModel.Design;
+using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
 {
@@ -23,36 +24,36 @@ namespace FineCodeCoverage.Output
     /// </para>
     /// </remarks>
     [Guid("320fd13f-632f-4b16-9527-a1adfe555f6c")]
-	internal class OutputToolWindow : ToolWindowPane
+	internal class ReportToolWindow : ToolWindowPane
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OutputToolWindow"/> class.
+		/// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
 		/// </summary>
-		public OutputToolWindow(OutputToolWindowContext context) : base(null)
+		public ReportToolWindow(ReportToolWindowContext context) : base(null)
 		{
             Initialize(context);
         }
 
-		public OutputToolWindow()
+		public ReportToolWindow()
         {
-			Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<OutputToolWindow,OutputToolWindowContext>());
+			Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow,ReportToolWindowContext>());
 		}
 
-		private void Initialize(OutputToolWindowContext context)
+		private void Initialize(ReportToolWindowContext context)
         {
 			if (context.ShowToolWindowToolbar())
 			{
-				this.ToolBar = new CommandID(PackageGuids.guidOutputToolWindowPackageCmdSet, PackageIds.ToolWindowToolbar);
+				this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
 			}
-            //to see if OutputToolWindow can be internal ( and thus IScriptManager )
+            
             Caption = Vsix.Name;
-			
+            this.BitmapImageMoniker = new ImageMoniker { Guid = new Guid("c07b27ae-9756-4632-a6e6-1578f6dfbedf"), Id = 1 };
 
-			// This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
-			// we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
-			// the object returned by the Content property.
+            // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
+            // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
+            // the object returned by the Content property.
 
-			try
+            try
 			{
 				AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
                 this.Content = new ReportToolWindowControl(context.ReportViewModel);

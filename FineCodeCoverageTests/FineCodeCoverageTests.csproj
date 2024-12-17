@@ -183,7 +183,6 @@
     <Compile Include="CoverletConsole_Tests.cs" />
     <Compile Include="RunSettingsCoverletConfigurationFactory_Tests.cs" />
     <Compile Include="RunSettingsCoverletConfiguration_Tests.cs" />
-    <Compile Include="ScriptManager_Tests.cs" />
     <Compile Include="ReferencedProject_Tests.cs" />
     <Compile Include="TestContainerDiscovery_Tests.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Output;
+﻿using FineCodeCoverage.Core.Utilities;
 using System;
 using System.Windows.Input;
 

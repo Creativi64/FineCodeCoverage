@@ -1,24 +1,11 @@
-﻿using System;
+﻿using FineCodeCoverage.Output.Pane;
+using System;
 using System.IO;
 
 namespace FineCodeCoverage.Core.Utilities
 {
 	internal static class FileSystemInfoDeleteExtensions
 	{
-		private static void LogDeletionError(FileSystemInfo fileSystemInfo, Exception exc, string header)
-		{
-			Logger.Log($"{header} Error deleting {fileSystemInfo.FullName} : " + exc.Message);
-
-		}
-		public static void TryDeleteWithLogging(this FileInfo fileInfo, string header = "")
-		{
-			fileInfo.TryDelete(exc => LogDeletionError(fileInfo, exc, header));
-		}
-
-		public static void TryDeleteWithLogging(this DirectoryInfo directoryInfo, string header = "", bool recursive = true)
-		{
-			directoryInfo.TryDelete(recursive, exc => LogDeletionError(directoryInfo, exc, header));
-		}
 		public static void TryDelete(string path)
         {
             if (File.Exists(path))

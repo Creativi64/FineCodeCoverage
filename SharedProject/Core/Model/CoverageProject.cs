@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.CodeAnalysis.MSBuild;
 using EnvDTE80;
 using System.Threading;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.Model
 {

@@ -10,27 +10,27 @@
   </Symbols>
 	<Images>
 		<Image Guid="$(MonikersGuid)" ID="$(ReportWindowId)">
-			<Source Uri="/FineCodeCoverage;Component/Resources/ReportWindow.png">
+			<Source Uri="/FineCodeCoverage2022;component/Resources/ReportWindow.png">
 				<Size Value="16" />
 			</Source>
 		</Image>
 		<Image Guid="$(MonikersGuid)" ID="$(BuyMeACoffeeId)">
-			<Source Uri="/FineCodeCoverage;Component/Resources/buymeacoffee.png">
+			<Source Uri="/FineCodeCoverage2022;component/Resources/buymeacoffee.png">
 				<Size Value="64" />
 			</Source>
 		</Image>
 		<Image Guid="$(MonikersGuid)" ID="$(KofiId)">
-			<Source Uri="/FineCodeCoverage;Component/Resources/kofi.png">
+			<Source Uri="/FineCodeCoverage2022;component/Resources/kofi.png">
 				<Size Value="64" />
 			</Source>
 		</Image>
 		<Image Guid="$(MonikersGuid)" ID="$(LiberapayId)">
-			<Source Uri="/FineCodeCoverage;Component/Resources/liberapay.png">
+			<Source Uri="/FineCodeCoverage2022;component/Resources/liberapay.png">
 				<Size Value="64" />
 			</Source>
 		</Image>
 		<Image Guid="$(MonikersGuid)" ID="$(PaypalId)">
-			<Source Uri="/FineCodeCoverage;Component/Resources/paypal.png">
+			<Source Uri="/FineCodeCoverage2022;component/Resources/paypal.png">
 				<Size Value="64" />
 			</Source>
 		</Image>

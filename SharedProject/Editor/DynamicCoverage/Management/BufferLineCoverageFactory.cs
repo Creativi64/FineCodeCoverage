@@ -3,9 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
-using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Impl;
 using FineCodeCoverage.Options;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

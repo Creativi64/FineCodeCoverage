@@ -5,6 +5,7 @@ using EnvDTE;
 using EnvDTE80;
 using FineCodeCoverage.Engine.FileSynchronization;
 using FineCodeCoverage.Options;
+using FineCodeCoverage.Output;
 using Microsoft.Build.Locator;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;

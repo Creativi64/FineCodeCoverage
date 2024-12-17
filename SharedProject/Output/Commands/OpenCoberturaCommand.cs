@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Output
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = PackageGuids.guidOutputToolWindowPackageCmdSet;
+        public static readonly Guid CommandSet = PackageGuids.guidFCCPackageCmdSet;
 
         private readonly DTE2 dte;
         private readonly MenuCommand command;

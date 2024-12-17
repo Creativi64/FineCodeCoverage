@@ -11,10 +11,9 @@ using Task = System.Threading.Tasks.Task;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System.Xml.XPath;
 using FineCodeCoverage.Options;
-using FineCodeCoverage.Engine.ReportGenerator;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities.VsThreading;
-using FineCodeCoverage.Output;
+using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
@@ -62,7 +61,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly ICoverageToolOutputManager coverageOutputManager;
         private readonly IShimCopier shimCopier;
         private readonly ILogger logger;
-        private readonly IReportGeneratorUtil reportGeneratorUtil;
         private IFCCEngine fccEngine;
 
         private const string zipPrefix = "microsoft.codecoverage";
@@ -94,8 +92,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IUserRunSettingsService userRunSettingsService,
             ITemplatedRunSettingsService templatedRunSettingsService,
             IShimCopier shimCopier,
-            ILogger logger,
-            IReportGeneratorUtil reportGeneratorUtil
+            ILogger logger
             )
         {
             this.toolUnzipper = toolUnzipper;
@@ -103,7 +100,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             this.coverageOutputManager = coverageOutputManager;
             this.shimCopier = shimCopier;
             this.logger = logger;
-            this.reportGeneratorUtil = reportGeneratorUtil;
             this.userRunSettingsService = userRunSettingsService;
             this.templatedRunSettingsService = templatedRunSettingsService;
         }

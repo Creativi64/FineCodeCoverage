@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Output
+﻿namespace FineCodeCoverage.Core.Utilities
 {
     internal interface IProcess
     {

@@ -45,11 +45,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Shared Files\OutputToolWindowPackage.cs">
-      <Link>OutputToolWindowPackage.cs</Link>
+    <Compile Include="..\Shared Files\FCCPackage.cs">
+      <Link>FCCPackage.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OutputToolWindowPackage.vsct</DependentUpon>
+      <DependentUpon>FCCPackage.vsct</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source.extension.cs">
@@ -63,16 +63,31 @@
       <Link>Resources\logo.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <VSCTCompile Include="..\Shared Files\OutputToolWindowPackage.vsct">
-      <Link>OutputToolWindowPackage.vsct</Link>
-      <ResourceName>Menus.ctmenu</ResourceName>
-      <Generator>VsctGenerator</Generator>
-      <LastGenOutput>OutputToolWindowPackage.cs</LastGenOutput>
-    </VSCTCompile>
     <Content Include="..\Art\preview-coverage.png">
       <Link>Resources\preview-coverage.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Resource Include="..\Shared Files\Resources\ReportWindow.png">
+      <Link>Resources\ReportWindow.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\buymeacoffee.png">
+      <Link>Resources\buymeacoffee.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\kofi.png">
+      <Link>Resources\kofi.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\liberapay.png">
+      <Link>Resources\liberapay.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\paypal.png">
+      <Link>Resources\paypal.png</Link>
+    </Resource>
+    <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
+      <Link>FCCPackage.vsct</Link>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>FCCPackage.cs</LastGenOutput>
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
     <Content Include="..\Shared Files\ZippedTools\microsoft.testplatform.16.9.1.zip">
       <Link>ZippedTools\microsoft.testplatform.16.9.1.zip</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -99,6 +114,10 @@
     </Content>
     <Content Include="..\Shared Files\ZippedTools\microsoft.codecoverage.17.9.0.zip">
       <Link>ZippedTools\microsoft.codecoverage.17.9.0.zip</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\Shared Files\Monikers.imagemanifest">
+      <Link>Monikers.imagemanifest</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="source.extension.vsixmanifest">
@@ -137,6 +156,12 @@
     </PackageReference>
     <PackageReference Include="ExCSS">
       <Version>4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Markdig">
+      <Version>0.38.0</Version>
+    </PackageReference>
+    <PackageReference Include="Markdig.Wpf">
+      <Version>0.5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Build.Locator">
       <Version>1.4.1</Version>

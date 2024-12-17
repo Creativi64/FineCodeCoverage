@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 using Moq;
 using NUnit.Framework;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace Test
 {

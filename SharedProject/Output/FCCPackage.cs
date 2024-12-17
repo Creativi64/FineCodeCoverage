@@ -3,16 +3,19 @@ using System.Threading;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Shell;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft;
 using FineCodeCoverage.Engine;
 using EnvDTE80;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.ReportGeneration;
+using FineCodeCoverage.Funding;
+using FineCodeCoverage.Github;
+using FineCodeCoverage.Readme;
+using FineCodeCoverage.Output.Pane;
+using System.Linq;
 
 namespace FineCodeCoverage.Output
 {
@@ -35,20 +38,21 @@ namespace FineCodeCoverage.Output
     /// </para>
     /// </remarks>
     [ProvideBindingPath]
-	[Guid(PackageGuids.guidOutputToolWindowPackageString)]
+    [TraceImageLibraryRegistration()]
+	[Guid(PackageGuids.guidFCCPackageString)]
 	[ProvideMenuResource("Menus.ctmenu", 1)]
-	[Export(typeof(OutputToolWindowPackage))]
 	[InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]
 	[ProvideOptionPage(typeof(AppOptionsPage), Vsix.Name, "General", 0, 0, true)]
     [ProvideProfile(typeof(AppOptionsPage), Vsix.Name, Vsix.Name, 101, 102, true)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-	[ProvideToolWindow(typeof(OutputToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
-    public sealed class OutputToolWindowPackage : AsyncPackage
+	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
+    [ProvideToolWindow(typeof(ReadmeToolWindow), Orientation = ToolWindowOrientation.Right, Style = VsDockStyle.Tabbed, Width = 600, Height = 700)]
+    public sealed class FCCPackage : AsyncPackage
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OutputToolWindowPackage"/> class.
+		/// Initializes a new instance of the <see cref="FCCPackage"/> class.
 		/// </summary>
-		public OutputToolWindowPackage()
+		public FCCPackage()
 		{
 			// Inside this method you can place any initialization code that does not require
 			// any Visual Studio service because at this point the package object is created but
@@ -81,13 +85,16 @@ namespace FineCodeCoverage.Output
 			var componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
 
-			await InitializeCommandsAsync(componentModel);
-			
-			await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
+            await InitializeCommandsAsync(componentModel);
+            await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken); 
         }
 
 		private async Task InitializeCommandsAsync (Microsoft.VisualStudio.ComponentModelHost.IComponentModel componentModel)
 		{
+            // note that exporting the package does not work
+            componentModel.GetService<IToolWindowServiceInit>().Package = this;
+
+
             var fccEngine = componentModel.GetService<IFCCEngine>();
             var eventAggregator = componentModel.GetService<IEventAggregator>();
 			var hotspotService = componentModel.GetService<IHotspotsService>();
@@ -95,11 +102,18 @@ namespace FineCodeCoverage.Output
             await OpenHotspotsCommand.InitializeAsync(this, eventAggregator, hotspotService);
             await ClearUICommand.InitializeAsync(this, fccEngine);
             await ToggleCoverageIndicatorsCommand.InitializeAsync(this, eventAggregator);
-            await OutputToolWindowCommand.InitializeAsync(
+            await OpenReportWindowCommand.InitializeAsync(
                 this,
                 componentModel.GetService<ILogger>(),
                 componentModel.GetService<IShownToolWindowHistory>()
             );
+            await OpenFCCOutputPaneCommand.InitializeAsync(this, componentModel.GetService<IShowFCCOutputPane>());
+            await OpenSettingsCommand.InitializeAsync(this);
+            await OpenMarketplaceRateAndReviewCommand.InitializeAsync(this, componentModel.GetService<IOpenFCCVsMarketplace>());
+            await OpenFCCGithubCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
+            await NewIssueCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
+            await OpenReadMeCommand.InitializeAsync(this, componentModel.GetService<IReadMeService>());
+            await OpenFundingCommand.InitializeAsync(this, componentModel.GetService<IFundingService>());
         }
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)
@@ -108,12 +122,13 @@ namespace FineCodeCoverage.Output
 		}
         public override IVsAsyncToolWindowFactory GetAsyncToolWindowFactory(Guid toolWindowType)
 		{
-			return (toolWindowType == typeof(OutputToolWindow).GUID) ? this : null;
+            var isToolWindowWithContext = ReflectionMEFToolWindowContextProvider.IsToolWindowWithContext(this.GetType(), toolWindowType);
+            return isToolWindowWithContext ? this : null;
 		}
 
 		protected override string GetToolWindowTitle(Type toolWindowType, int id)
 		{
-			if (toolWindowType == typeof(OutputToolWindow))
+			if (toolWindowType == typeof(ReportToolWindow))
 			{
 				return $"{Vsix.Name} loading";
 			}

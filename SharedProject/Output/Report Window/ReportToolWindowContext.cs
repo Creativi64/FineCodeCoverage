@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output
 {
-    internal class OutputToolWindowContext
+    internal class ReportToolWindowContext
     {
         public ReportViewModel ReportViewModel { get; set; }
         public IAppOptionsProvider AppOptionsProvider { get; set; }

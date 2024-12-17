@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Core.Coverlet;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 

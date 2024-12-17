@@ -10,33 +10,33 @@ namespace FineCodeCoverage.Output
 	/// <summary>
 	/// Command handler
 	/// </summary>
-	internal sealed class OutputToolWindowCommand
+	internal sealed class OpenReportWindowCommand
 	{
 		/// <summary>
 		/// Command ID.
 		/// </summary>
-		public const int CommandId = PackageIds.cmdidOutputToolWindowCommand;
+		public const int CommandId = PackageIds.cmdidOpenReportWindowCommand;
 
 		/// <summary>
 		/// Command menu group (command set GUID).
 		/// </summary>
-		public static readonly Guid CommandSet = PackageGuids.guidOutputToolWindowPackageCmdSet;
+		public static readonly Guid CommandSet = PackageGuids.guidFCCPackageCmdSet;
 
 		/// <summary>
 		/// VS Package that provides this command, not null.
 		/// </summary>
 		private readonly AsyncPackage package;
 
-		private readonly ILogger logger;
+        private readonly ILogger logger;
         private readonly IShownToolWindowHistory shownToolWindowHistory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OutputToolWindowCommand"/> class.
+        /// Initializes a new instance of the <see cref="OpenReportWindowCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private OutputToolWindowCommand(AsyncPackage package, OleMenuCommandService commandService, ILogger logger, IShownToolWindowHistory shownToolWindowHistory)
+        private OpenReportWindowCommand(AsyncPackage package, OleMenuCommandService commandService, ILogger logger, IShownToolWindowHistory shownToolWindowHistory)
 		{
 			this.logger = logger;
             this.shownToolWindowHistory = shownToolWindowHistory;
@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Output
 		/// <summary>
 		/// Gets the instance of the command.
 		/// </summary>
-		public static OutputToolWindowCommand Instance
+		public static OpenReportWindowCommand Instance
 		{
 			get;
 			private set;
@@ -79,7 +79,7 @@ namespace FineCodeCoverage.Output
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
 			OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
-			Instance = new OutputToolWindowCommand(package, commandService, logger, shownToolWindowHistory);
+			Instance = new OpenReportWindowCommand(package, commandService, logger, shownToolWindowHistory);
 		}
 
 		/// <summary>
@@ -106,14 +106,14 @@ namespace FineCodeCoverage.Output
 		public async Task<ToolWindowPane> ShowToolWindowAsync()
 		{
 			shownToolWindowHistory.ShowedToolWindow();
-            ToolWindowPane window = await package.ShowToolWindowAsync(typeof(OutputToolWindow), 0, true, package.DisposalToken);
+            ToolWindowPane window = await package.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, package.DisposalToken);
 
 			return ReturnOrThrowIfCannotCreateToolWindow(window);
 		}
 
 		public async Task<ToolWindowPane> FindToolWindowAsync()
 		{
-            ToolWindowPane window = await package.FindToolWindowAsync(typeof(OutputToolWindow), 0, true, package.DisposalToken);
+            ToolWindowPane window = await package.FindToolWindowAsync(typeof(ReportToolWindow), 0, true, package.DisposalToken);
 
             return ReturnOrThrowIfCannotCreateToolWindow(window);
 		}

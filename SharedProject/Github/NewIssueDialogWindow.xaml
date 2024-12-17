@@ -1,0 +1,60 @@
+﻿<platform:DialogWindow  x:Class="FineCodeCoverage.Github.NewIssueDialogWindow"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:platform="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                        xmlns:fccwpf="clr-namespace:FineCodeCoverage.Wpf"
+                        mc:Ignorable="d"
+                        Width="600"
+                        Height="700"
+                        d:DesignHeight="600"
+                        d:DesignWidth="400"
+						fccwpf:Themes.UseVsTheme="True"
+                        Title="New Issue"
+						>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label>Visual Studio Version - </Label>
+            <TextBlock VerticalAlignment="Center" Text="{Binding VsVersionString}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label>FCC Version - </Label>
+            <TextBlock VerticalAlignment="Center" Text="{Binding FccVersionString}" />
+        </StackPanel>
+        <Separator Margin="5,10,5,0"/>
+
+        <Label>Issue Title</Label>
+        <TextBox Margin="5,0,5,0" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+        <Separator Margin="5,10,5,0"/>
+        <TextBlock Margin="5,0,5,0">FCC Logs - <Hyperlink Command="{Binding RefreshFCCOutputCommand}">refresh</Hyperlink></TextBlock>
+        <Label>If empty please run coverage again.</Label>
+        <Label>Will be copied to clipboard on submit.  Please paste into the issue in the browser.</Label>
+        <TextBlock Margin="5,0,0,0">Or can be <Hyperlink Command="{Binding MailToCommand}">mailed privately</Hyperlink> after creating an issue.  Please add the issue number in the title</TextBlock>
+        <TextBox
+            Margin="5,10,0,0"
+            Height="340"
+  Name="tbMultiLine"
+  TextWrapping="Wrap"
+  AcceptsReturn="True"
+  VerticalScrollBarVisibility="Visible"
+  Text="{Binding FccOutput,UpdateSourceTrigger=PropertyChanged}"
+>
+            
+        </TextBox>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="5,10,0,0" IsChecked="{Binding HaveCheckedFCCIssues}">
+                <TextBlock Text="Have checked existing issues" />
+            </CheckBox>
+            <TextBlock VerticalAlignment="Bottom" Margin="5,0,0,0"><Hyperlink Command="{Binding SearchIssuesCommand}">search issues</Hyperlink></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="5,10,0,0" IsChecked="{Binding HaveReadReadme}">
+                <TextBlock Text="Have read readme" />
+            </CheckBox>
+            <TextBlock VerticalAlignment="Bottom" Margin="5,0,0,0"><Hyperlink Command="{Binding OpenReadMeCommand}">open readme</Hyperlink></TextBlock>
+        </StackPanel>
+
+        <Button Margin="5,10,0,0" HorizontalAlignment="Left" Width="100" Command="{Binding SubmitCommand}">Submit issue</Button>
+    </StackPanel>
+</platform:DialogWindow>

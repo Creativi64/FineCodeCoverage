@@ -9,7 +9,13 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public async Task OpenToolWindowAsync()
         {
-            await OutputToolWindowCommand.Instance.ShowToolWindowAsync();
+            try
+            {
+                await OpenReportWindowCommand.Instance.ShowToolWindowAsync();
+            }catch(System.Exception exc)
+            {
+
+            }
         }
     }
 }

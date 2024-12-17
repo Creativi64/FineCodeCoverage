@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--  This is the file that defines the actual layout and type of the commands.
+        It is divided in different sections (e.g. command definition, command
+        placement, ...), with each defining a specific set of properties.
+        See the comment before each section for more details about how to
+        use it. -->
+
+  <!--  The VSCT compiler (the tool that translates this file into the binary
+        format that VisualStudio will consume) has the ability to run a preprocessor
+        on the vsct file; this preprocessor is (usually) the C++ preprocessor, so
+        it is possible to define includes and macros with the same syntax used
+        in C++ files. Using this ability of the compiler here, we include some files
+        defining some of the constants that we will use inside the file. -->
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h" />
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h" />
+
+  <Include href="KnownImageIds.vsct" />
+
+  <!--The Commands section is where commands, menus, and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidFCCPackage">
+    <!-- Inside this section we have different sub-sections: one for the menus, another
+    for the menu groups, one for the buttons (the actual commands), one for the combos
+    and the last one for the bitmaps used. Each element is identified by a command id that
+    is a unique pair of guid and numeric identifier; the guid part of the identifier is usually
+    called "command set" and is used to group different command inside a logically related
+    group; your package should define its own command set in order to avoid collisions
+    with command ids defined by other packages. -->
+
+    <!--Buttons section. -->
+    <!--This section defines the elements the user can interact with, like a menu command or a button
+        or combo box in a toolbar. -->
+    <Buttons>
+      <!--To define a menu group you have to specify its ID, the parent menu and its display priority.
+          The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
+          the CommandFlag node.
+          You can add more than one CommandFlag node e.g.:
+              <CommandFlag>DefaultInvisible</CommandFlag>
+              <CommandFlag>DynamicVisibility</CommandFlag>
+          If you do not want an image next to your command, remove the Icon node /> -->
+	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenReportWindowCommand" priority="0x0100" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
+        <Icon guid="guidOpenReportWindowCommandImage" id="openReportWindowCommandImageIndex" />
+        <Strings>
+          <ButtonText>Fine Code Coverage</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidFCCPackageCmdSet" id="cmdidClearUICommand" priority="0x0100" type="Button">
+        <Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidClearUICommandImage" id="clearUICommandImageIndex" />
+        <Strings>
+          <ButtonText>FCC Clear UI</ButtonText>
+          <CanonicalName>FCC.ClearUI</CanonicalName>
+          <LocCanonicalName>FCC.ClearUI</LocCanonicalName>
+        </Strings>
+      </Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidToggleCoverageIndicatorsCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
+			<Strings>
+				<ButtonText>FCC Toggle Indicators</ButtonText>
+				<CommandName>FCC Toggle Indicators</CommandName>
+				<CanonicalName>FCC.ToggleIndicators</CanonicalName>
+				<LocCanonicalName>FCC.ToggleIndicators</LocCanonicalName>
+			</Strings>
+		</Button>
+		
+      <Button guid="guidFCCPackageCmdSet" id="cmdidOpenCoberturaCommand" priority="0x0100" type="Button">
+        <Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+        <Icon guid="ImageCatalogGuid" id="CodeCoverage" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Open Cobertura</ButtonText>
+          <CommandName>FCC Open Cobertura</CommandName>
+          <CanonicalName>FCC.OpenCobertura</CanonicalName>
+          <LocCanonicalName>FCC.OpenCobertura</LocCanonicalName>
+        </Strings>
+      </Button>
+      <Button guid="guidFCCPackageCmdSet" id="cmdidOpenHotspotsCommand" priority="0x0100" type="Button">
+        <Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+        <Icon guid="ImageCatalogGuid" id="HotSpot" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Open Hotspots</ButtonText>
+          <CommandName>FCC Open Hotspots</CommandName>
+          <CanonicalName>FCC.OpenHotspots</CanonicalName>
+          <LocCanonicalName>FCC.OpenHotspots</LocCanonicalName>
+        </Strings>
+      </Button>
+	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCOutputPaneCommand" priority="0x0100" type="Button">
+		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		<Icon guid="ImageCatalogGuid" id="Output" />
+		<CommandFlag>IconIsMoniker</CommandFlag>
+		<Strings>
+		  <ButtonText>Open Log</ButtonText>
+		  <CommandName>FCC Open Log</CommandName>
+	      <CanonicalName>FCC.OpenLog</CanonicalName>
+		  <LocCanonicalName>FCC.OpenLog</LocCanonicalName>
+		</Strings>
+	  </Button>
+	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenSettingsCommand" priority="0x0100" type="Button">
+		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		<Icon guid="ImageCatalogGuid" id="Settings" />
+		<CommandFlag>IconIsMoniker</CommandFlag>
+		<Strings>
+		  <ButtonText>Open Settings</ButtonText>
+		  <CommandName>FCC Open Settings</CommandName>
+		  <CanonicalName>FCC.OpenSettings</CanonicalName>
+		  <LocCanonicalName>FCC.OpenSettings</LocCanonicalName>
+		</Strings>
+	  </Button>
+	  <Button guid="guidFCCPackageCmdSet" id="cmdidMarketplaceRateAndReviewCommand" priority="0x0100" type="Button">
+		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		<Icon guid="ImageCatalogGuid" id="VisualStudioFeedback" />
+		<CommandFlag>IconIsMoniker</CommandFlag>
+		<Strings>
+		  <ButtonText>Rate and Review</ButtonText>
+		  <CommandName>FCC Rate and Review</CommandName>
+		  <CanonicalName>FCC.RateAndReview</CanonicalName>
+		  <LocCanonicalName>FCC.RateAndReview</LocCanonicalName>
+		</Strings>
+	  </Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCGithubCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Icon guid="ImageCatalogGuid" id="3809" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open FCC Github</ButtonText>
+				<CommandName>FCC Open Github</CommandName>
+				<CanonicalName>FCC.OpenGithub</CanonicalName>
+				<LocCanonicalName>FCC.OpenGithub</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidNewIssueCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+				<Icon guid="ImageCatalogGuid" id="NewBug" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>New Issue</ButtonText>
+				<CommandName>FCC New Issue</CommandName>
+				<CanonicalName>FCC.NewIssue</CanonicalName>
+				<LocCanonicalName>FCC.NewIssue</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenReadMeCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Icon guid="ImageCatalogGuid" id="WelcomeUserGuide" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open Readme</ButtonText>
+				<CommandName>FCC Readme</CommandName>
+				<CanonicalName>FCC.Readme</CanonicalName>
+				<LocCanonicalName>FCC.Readme</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFundingCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Icon guid="ImageCatalogGuid" id="3994" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open Funding</ButtonText>
+				<CommandName>FCC Funding</CommandName>
+				<CanonicalName>FCC.Funding</CanonicalName>
+				<LocCanonicalName>FCC.Funding</LocCanonicalName>
+			</Strings>
+		</Button>
+    </Buttons>
+    
+    <Menus>
+      <Menu guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" type="ToolWindowToolbar">
+        <Strings>
+          <ButtonText>Open FCC Files</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
+
+    <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
+    <Bitmaps>
+      <!--  The bitmap id is defined in a way that is a little bit different from the others:
+            the declaration starts with a guid for the bitmap strip, then there is the resource id of the
+            bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
+            inside a button definition. An important aspect of this declaration is that the element id
+            must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
+      <Bitmap guid="guidOpenReportWindowCommandImage" href="Resources\OutputToolWindowCommand.png" usedList="openReportWindowCommandImageIndex" />
+      <Bitmap guid="guidClearUICommandImage" href="Resources\ClearUICommand.png" usedList="clearUICommandImageIndex" />
+    </Bitmaps>
+    <Groups>
+      <Group guid="guidFCCPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+      <Group guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" priority="0x0000">
+        <Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
+      </Group>
+    </Groups>
+  </Commands>
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidFCCPackage" value="{4e91ba47-cd42-42bc-b92e-3c4355d2eb5f}" />
+
+    <GuidSymbol value="{d58a999f-4a1b-42df-839a-cb31a0a4fed7}" name="guidFCCPackageCmdSet">
+      <IDSymbol value="4128" name="MyMenuGroup" />
+      <IDSymbol value="4129" name="ReportToolWindowToolbar" />
+      <IDSymbol value="4130" name="ReportToolWindowToolbarGroup" />
+      <IDSymbol value="255" name="cmdidOpenReportWindowCommand" />
+      <IDSymbol value="256" name="cmdidClearUICommand" />
+      <IDSymbol value="257" name="cmdidOpenCoberturaCommand" />
+      <IDSymbol value="258" name="cmdidOpenHotspotsCommand" />
+	  <IDSymbol value="259" name="cmdidOpenFCCOutputPaneCommand" />
+	  <IDSymbol value="260" name="cmdidOpenSettingsCommand" />
+	  <IDSymbol value="261" name="cmdidMarketplaceRateAndReviewCommand" />
+	  <IDSymbol value="262" name="cmdidOpenFCCGithubCommand" />
+	  <IDSymbol value="263" name="cmdidNewIssueCommand" />
+	  <IDSymbol value="264" name="cmdidOpenReadMeCommand" />
+	  <IDSymbol value="265" name="cmdidOpenFundingCommand" />
+	  <IDSymbol value="266" name="cmdidToggleCoverageIndicatorsCommand" />
+    </GuidSymbol>
+
+    <!-- images -->
+    <GuidSymbol name="guidOpenReportWindowCommandImage" value="{297e101c-4afa-47b1-b382-087cfb4618b0}">
+      <IDSymbol name="openReportWindowCommandImageIndex" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="guidClearUICommandImage" value="{8252a6d7-bcf3-4518-ae22-ad20ef8d4b63}">
+      <IDSymbol name="clearUICommandImageIndex" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

@@ -15,6 +15,8 @@ using FineCodeCoverageTests.TestHelpers;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
+using ILogger = FineCodeCoverage.Output.ILogger;
+
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

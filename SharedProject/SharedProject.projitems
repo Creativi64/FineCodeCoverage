@@ -149,6 +149,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\IDotNetToolListExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\IDotNetToolListParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\EventAggregator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FCCGithub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FCCVersioning\FCCVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FCCVersioning\IFCCVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRenameListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileSystemInfoDeleteExtensions.cs" />
@@ -156,17 +159,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IAssemblyUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileRenameListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IOpenFCCVsMarketplace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IProcessResponseProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IProcessUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ISolutionEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IToolWindowOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IUrlEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IZipFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LinqExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\MEF.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\OpenFCCVsMarketplace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ProcessResponseProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ProcessUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ProcessWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ReflectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ServiceProviderExtensions.cs" />
@@ -182,7 +190,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\ToolZipProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LinqToXmlUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Tryer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\UrlEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsThreading\IThreadHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\IVsAppId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\IVsVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\SVsAppId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\VsVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\XmlFileEscaper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ZipFileWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicCoverageTypeConverter.cs" />
@@ -366,8 +379,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Funding\IFundingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Funding\IFundingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Funding\ProcessStartCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\ILogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Github\FCCGithubService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Github\IFCCGithubService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Github\INewIssueViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Github\NewIssueDialogWindow.xaml.cs">
+      <DependentUpon>NewIssueDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\RunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ContainerData.cs" />
@@ -402,6 +420,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\JsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyConfigSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\WritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\NewIssueCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenFCCGithubCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenFCCOutputPaneCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenFundingCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenMarketplaceRateAndReviewCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenReadMeCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenSettingsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\IToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\IToolWindowServiceInit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\FCCOutputWindowPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\FCCOutputWindowPaneCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IFCCOutputWindowPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IFCCOutputWindowPaneCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IShowFCCOutputPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ITreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReflectionMEFToolWindowContextProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportColumnManager.cs" />
@@ -422,19 +455,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenHotspotsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenCoberturaCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ClearUICommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\IProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\NewReportMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\OutputToolWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OutputToolWindowCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\OutputToolWindowContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowPackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ProcessWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenReportWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\FCCPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReadyForReportMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ScriptManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IShownToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ShownToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ToggleCoverageIndicatorsMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\TreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\TraceImageLibraryRegistrationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMeMarkdownViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
+      <DependentUpon>ReadmeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\Themes.cs" />
   </ItemGroup>
@@ -443,7 +483,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Github\NewIssueDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -467,7 +515,16 @@
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Store\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Output\Commands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Output\Report Window\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\README.md">
+      <Link>ReadMeAndAssets\README.md</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\Art\*.png">
+      <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
 </Project>

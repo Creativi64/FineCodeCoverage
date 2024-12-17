@@ -8,6 +8,7 @@ using AutoMoq;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Output;
 using NUnit.Framework;
 
 namespace Test

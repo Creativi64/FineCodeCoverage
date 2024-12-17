@@ -15,6 +15,7 @@ using System.Threading;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Messages;
+using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace FineCodeCoverage.Impl
 {
