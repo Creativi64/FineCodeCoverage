@@ -231,14 +231,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Shared Files\Resources\ClearUICommand.png">
+    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
       <Link>Resources\ClearUICommand.png</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\Resources\OutputToolWindowCommand.png">
-      <Link>Resources\OutputToolWindowCommand.png</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
+    </Resource>
   </ItemGroup>
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

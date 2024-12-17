@@ -47,7 +47,7 @@ namespace FineCodeCoverage.Output
 			}
             
             Caption = Vsix.Name;
-            this.BitmapImageMoniker = new ImageMoniker { Guid = new Guid("c07b27ae-9756-4632-a6e6-1578f6dfbedf"), Id = 1 };
+            this.BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };
 
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on

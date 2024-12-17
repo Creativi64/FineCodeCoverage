@@ -6,11 +6,17 @@
 	<ID Name="KofiId" Value="3"/>
 	<ID Name="LiberapayId" Value="4"/>
 	<ID Name="PaypalId" Value="5"/>
+	<ID Name="ClearUIId" Value="6"/>
     <Guid Name="MonikersGuid" Value="{c07b27ae-9756-4632-a6e6-1578f6dfbedf}" />
   </Symbols>
 	<Images>
 		<Image Guid="$(MonikersGuid)" ID="$(ReportWindowId)">
 			<Source Uri="/FineCodeCoverage2022;component/Resources/ReportWindow.png">
+				<Size Value="16" />
+			</Source>
+		</Image>
+		<Image Guid="$(MonikersGuid)" ID="$(ClearUIId)">
+			<Source Uri="/FineCodeCoverage2022;component/Resources/ClearUICommand.png">
 				<Size Value="16" />
 			</Source>
 		</Image>

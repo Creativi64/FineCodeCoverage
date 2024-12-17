@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
 
         public static async Task InitializeAsync(AsyncPackage package, IEventAggregator eventAggregator, IHotspotsService hotspotsService)
         {
-            // Switch to the main thread - the call to AddCommand in OutputToolWindowCommand's constructor requires
+            // Switch to the main thread - the call to AddCommand in the constructor requires
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 

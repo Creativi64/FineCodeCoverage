@@ -18,11 +18,8 @@ namespace FineCodeCoverage
         public const string guidFCCPackageCmdSetString = "d58a999f-4a1b-42df-839a-cb31a0a4fed7";
         public static Guid guidFCCPackageCmdSet = new Guid(guidFCCPackageCmdSetString);
 
-        public const string guidOpenReportWindowCommandImageString = "297e101c-4afa-47b1-b382-087cfb4618b0";
-        public static Guid guidOpenReportWindowCommandImage = new Guid(guidOpenReportWindowCommandImageString);
-
-        public const string guidClearUICommandImageString = "8252a6d7-bcf3-4518-ae22-ad20ef8d4b63";
-        public static Guid guidClearUICommandImage = new Guid(guidClearUICommandImageString);
+        public const string guidMonikersString = "c07b27ae-9756-4632-a6e6-1578f6dfbedf";
+        public static Guid guidMonikers = new Guid(guidMonikersString);
     }
     /// <summary>
     /// Helper class that encapsulates all CommandIDs uses across VS Package.
@@ -45,6 +42,6 @@ namespace FineCodeCoverage
         public const int cmdidOpenFundingCommand = 0x0109;
         public const int cmdidToggleCoverageIndicatorsCommand = 0x010A;
         public const int openReportWindowCommandImageIndex = 0x0001;
-        public const int clearUICommandImageIndex = 0x0001;
+        public const int clearUICommandImageIndex = 0x0006;
     }
 }

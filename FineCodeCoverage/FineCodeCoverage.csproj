@@ -88,20 +88,15 @@
     <Resource Include="..\Shared Files\Resources\buymeacoffee.png">
       <Link>Resources\buymeacoffee.png</Link>
     </Resource>
-    <Content Include="..\Shared Files\Resources\ClearUICommand.png">
-      <Link>Resources\ClearUICommand.png</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Resource Include="..\Shared Files\Resources\kofi.png">
       <Link>Resources\kofi.png</Link>
     </Resource>
     <Resource Include="..\Shared Files\Resources\liberapay.png">
       <Link>Resources\liberapay.png</Link>
     </Resource>
-    <Content Include="..\Shared Files\Resources\OutputToolWindowCommand.png">
-      <Link>Resources\OutputToolWindowCommand.png</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
+    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
+      <Link>Resources\ClearUICommand.png</Link>
+    </Resource>
     <Resource Include="..\Shared Files\Resources\ReportWindow.png">
       <Link>Resources\ReportWindow.png</Link>
     </Resource>
