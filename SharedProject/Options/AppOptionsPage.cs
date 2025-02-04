@@ -4,6 +4,7 @@ using Microsoft;
 using System;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE80;
+using System.Runtime.InteropServices;
 
 namespace FineCodeCoverage.Options
 {

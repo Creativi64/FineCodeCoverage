@@ -7,17 +7,15 @@ namespace TreeGrid
 {
     public class ColumnData : ObservableBase
     {
-        private static GridLength EmpthGridLength = new GridLength(0.0);
-        private static DataGridLength EmpthDataGridLength = new DataGridLength(0.0);
-        private readonly int _initialDisplayIndex;
-        private readonly bool _initialIsVisible;
-        private readonly double _initialWidth;
+        private static GridLength EmptyGridLength = new GridLength(0.0);
+        private static DataGridLength EmptyDataGridLength = new DataGridLength(0.0);
         private int _displayIndex;
         private bool _isVisible;
-        private bool _isInvalid;
         internal DataGridLength _actualWidth;
         private GridLength _gridWidth;
         private ListSortDirection? _sortDirection;
+        private string _name;
+        private bool _isInvalid;
 
         public ColumnData(
           string name,
@@ -27,14 +25,13 @@ namespace TreeGrid
           double minWidth = 100)
         {
             this.Name = name;
-            this._initialDisplayIndex = this.DisplayIndex = displayIndex;
-            this._initialIsVisible = this.IsVisible = isVisible;
+            this.DisplayIndex = displayIndex;
+            this.IsVisible = isVisible;
             this.Width = new DataGridLength(width);
             this.MinWidth = minWidth;
-            this._initialWidth = width;
         }
 
-        public string Name { get; set; }
+        public string Name { get => _name; set =>this.Set<string>(ref this._name, value, nameof(Name)); }
 
         public double MinWidth { get; set; }
 
@@ -55,10 +52,10 @@ namespace TreeGrid
                 this.OnPropertyChanged("GridWidth");
             }
         }
-
+        public bool UserIsVisible { get => this._isVisible; }
         public bool IsVisible
         {
-            get => !this.IsInvalid && this._isVisible;
+            get => !this._isInvalid && this._isVisible;
             set
             {
                 this.Set<bool>(ref this._isVisible, value, nameof(IsVisible));
@@ -69,7 +66,7 @@ namespace TreeGrid
 
         public DataGridLength Width
         {
-            get => !this.IsVisible ? ColumnData.EmpthDataGridLength : this._actualWidth;
+            get => !this.IsVisible ? ColumnData.EmptyDataGridLength : this._actualWidth;
             set
             {
                 this.Set<DataGridLength>(ref this._actualWidth, value, nameof(Width));
@@ -79,7 +76,7 @@ namespace TreeGrid
 
         public GridLength GridWidth
         {
-            get => !this.IsVisible ? ColumnData.EmpthGridLength : this._gridWidth;
+            get => !this.IsVisible ? ColumnData.EmptyGridLength : this._gridWidth;
             set => this.Set<GridLength>(ref this._gridWidth, value, nameof(GridWidth));
         }
 
@@ -91,13 +88,6 @@ namespace TreeGrid
                 this.Set<ListSortDirection?>(ref this._sortDirection, value, nameof(SortDirection));
                 this.OnPropertyChanged("Visibility");
             }
-        }
-
-        public void Reset()
-        {
-            this.DisplayIndex = this._initialDisplayIndex;
-            this.IsVisible = this._initialIsVisible;
-            this.Width = new DataGridLength(this._initialWidth);
         }
     }
 }

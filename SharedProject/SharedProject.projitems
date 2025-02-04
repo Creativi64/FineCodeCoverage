@@ -69,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\IEnvironmentVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\IFCCEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\IMessageBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\ClearSettingsOnShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\FirstTimeToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IFirstTimeToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IInitializedFromTestContainerDiscoverer.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ISolutionEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IUrlEncoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IVsShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IZipFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LinqExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ListExtensions.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LinqToXmlUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Tryer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\UrlEncoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsThreading\IThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\IVsAppId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\IVsVersion.cs" />
@@ -385,6 +388,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Github\NewIssueDialogWindow.xaml.cs">
       <DependentUpon>NewIssueDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\EditColumnsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\RunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Container.cs" />
@@ -435,9 +439,33 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IFCCOutputWindowPaneCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IShowFCCOutputPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementWindow2.xaml.cs">
+      <DependentUpon>ColumnsManagementWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\EditableColumn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml.cs">
+      <DependentUpon>BaseDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridSelectionChangedInvokeVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnStatesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\IColumnStatesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\IReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\IReportColumnsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ITreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReflectionMEFToolWindowContextProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\MetricColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportColumnData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportColumnState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml.cs">
       <DependentUpon>ReportToolWindowControl.xaml</DependentUpon>
     </Compile>
@@ -487,11 +515,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplatedResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -515,7 +555,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Store\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Output\Report Window\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
@@ -526,5 +565,8 @@
       <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementDataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

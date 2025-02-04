@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using FineCodeCoverage.Core.Utilities;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Imaging.Interop;
+using Microsoft.Internal.VisualStudio.Shell.TableControl;
 
 namespace FineCodeCoverage.Output
 {
@@ -36,7 +37,7 @@ namespace FineCodeCoverage.Output
 
 		public ReportToolWindow()
         {
-			Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow,ReportToolWindowContext>());
+            Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow,ReportToolWindowContext>());
 		}
 
 		private void Initialize(ReportToolWindowContext context)

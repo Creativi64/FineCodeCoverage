@@ -13,19 +13,19 @@ using TreeGrid;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(ReportViewModel))]
-    internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, ReportColumnManager>, 
+    internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>, 
         IListener<NewReportMessage>,
         IListener<CoverageStartingMessage>,
         IListener<CoverageEndedMessage>
     {
         private List<string> testAssemblyNames;
-        //ReportColumnManager to be injected by interface
         // Factory for the specific tree items
         [ImportingConstructor]
         public ReportViewModel(
             IEventAggregator eventAggregator,
             ISourceFileOpener sourceFileOpener,
-            ITreeExpander treeExpander
+            ITreeExpander treeExpander,
+            IReportColumnManager reportColumnManager
         )
         {
             this.TreeViewAutomationName = "Coverage Report Tree";
@@ -33,12 +33,13 @@ namespace FineCodeCoverage.Output
             this.SetItems(this._items);
             this.sourceFileOpener = sourceFileOpener;
             this.treeExpander = treeExpander;
+            ColumnManagerImpl = reportColumnManager;
         }
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
         private readonly ITreeExpander treeExpander;
 
-        protected override ReportColumnManager ColumnManagerImpl { get; set; } = new ReportColumnManager();
+        protected override IReportColumnManager ColumnManagerImpl { get; set; }
         
         private bool coverageRunning;
         public bool CoverageRunning

@@ -1,0 +1,13 @@
+﻿using FineCodeCoverage.Engine.ReportGenerator;
+using System.Collections.Generic;
+using TreeGrid;
+
+namespace FineCodeCoverage.Output
+{
+    internal interface IReportColumnManager : IColumnManager
+    {
+        void ShowRelevantColumns(List<MetricType> metricTypes);
+        void SortColumns(int displayIndex);
+        IEnumerable<IReportColumnData> GetColumns();
+    }
+}

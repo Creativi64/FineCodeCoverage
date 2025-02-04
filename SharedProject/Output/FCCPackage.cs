@@ -16,6 +16,8 @@ using FineCodeCoverage.Github;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Output.Pane;
 using System.Linq;
+using Microsoft.VisualStudio.ComponentModelHost;
+using System.Diagnostics;
 
 namespace FineCodeCoverage.Output
 {
@@ -47,6 +49,7 @@ namespace FineCodeCoverage.Output
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
     [ProvideToolWindow(typeof(ReadmeToolWindow), Orientation = ToolWindowOrientation.Right, Style = VsDockStyle.Tabbed, Width = 600, Height = 700)]
+    [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption,  typeof(FCCPackage), Arguments = "0")]
     public sealed class FCCPackage : AsyncPackage
 	{
 		/// <summary>
@@ -54,17 +57,17 @@ namespace FineCodeCoverage.Output
 		/// </summary>
 		public FCCPackage()
 		{
-			// Inside this method you can place any initialization code that does not require
-			// any Visual Studio service because at this point the package object is created but
-			// not sited yet inside Visual Studio environment. The place to do all the other
-			// initialization is the Initialize method.
-		}
+            // Inside this method you can place any initialization code that does not require
+            // any Visual Studio service because at this point the package object is created but
+            // not sited yet inside Visual Studio environment. The place to do all the other
+            // initialization is the Initialize method.
+        }
 
-		/*
+        /*
 			Hack necessary for debugging in 2022 !
 			https://developercommunity.visualstudio.com/t/vsix-tool-window-vs2022-different-instantiation-wh/1663280
 		*/
-        
+
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -74,27 +77,29 @@ namespace FineCodeCoverage.Output
         /// <param name="progress">A provider for progress updates.</param>
         /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
-		{
-			// When initialized asynchronously, the current thread may be a background thread at this point.
-			// Do any initialization that requires the UI thread after switching to the UI thread.
-			await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+        {
+            // When initialized asynchronously, the current thread may be a background thread at this point.
+            // Do any initialization that requires the UI thread after switching to the UI thread.
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-			var _dte2 = (DTE2)GetGlobalService(typeof(SDTE));
-			var sp = new ServiceProvider(_dte2 as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
-			// you cannot MEF import in the constructor of the package
-			var componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
+            
+            var componentModel = GetComponentModel();
+            componentModel.GetService<ClearSettingsOnShutdown>();
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
 
             await InitializeCommandsAsync(componentModel);
-            await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken); 
-        }
-
-		private async Task InitializeCommandsAsync (Microsoft.VisualStudio.ComponentModelHost.IComponentModel componentModel)
-		{
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
+            await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
+        }
 
+        private IComponentModel GetComponentModel()
+        {
+            return (IComponentModel)GetGlobalService(typeof(SComponentModel));
+        }
 
+        private async Task InitializeCommandsAsync (IComponentModel componentModel)
+		{
             var fccEngine = componentModel.GetService<IFCCEngine>();
             var eventAggregator = componentModel.GetService<IEventAggregator>();
 			var hotspotService = componentModel.GetService<IHotspotsService>();
@@ -114,6 +119,7 @@ namespace FineCodeCoverage.Output
             await NewIssueCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
             await OpenReadMeCommand.InitializeAsync(this, componentModel.GetService<IReadMeService>());
             await OpenFundingCommand.InitializeAsync(this, componentModel.GetService<IFundingService>());
+            await EditColumnsCommand.InitializeAsync(this, componentModel.GetService<IReportColumnsService>());
         }
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)

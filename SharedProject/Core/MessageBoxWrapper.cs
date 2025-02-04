@@ -12,6 +12,11 @@ namespace FineCodeCoverage.Engine
         {
             MessageBox.Show(message);
         }
+
+        public void ShowError(string error, string caption)
+        {
+            MessageBox.Show(error, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
 }

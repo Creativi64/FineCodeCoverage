@@ -171,6 +171,17 @@
 				<LocCanonicalName>FCC.Funding</LocCanonicalName>
 			</Strings>
 		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidEditColumnsCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Icon guid="ImageCatalogGuid" id="EditColumn" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Edit Columns</ButtonText>
+				<CommandName>Edit Columns</CommandName>
+				<CanonicalName>FCC.EditColumns</CanonicalName>
+				<LocCanonicalName>FCC.EditColumns</LocCanonicalName>
+			</Strings>
+		</Button>
     </Buttons>
     
     <Menus>
@@ -211,6 +222,7 @@
 	  <IDSymbol value="264" name="cmdidOpenReadMeCommand" />
 	  <IDSymbol value="265" name="cmdidOpenFundingCommand" />
 	  <IDSymbol value="266" name="cmdidToggleCoverageIndicatorsCommand" />
+	  <IDSymbol value="267" name="cmdidEditColumnsCommand" />
     </GuidSymbol>
 
     <!-- from Monikers.imagemanifest -->

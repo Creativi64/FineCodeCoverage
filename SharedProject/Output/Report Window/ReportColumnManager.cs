@@ -1,48 +1,121 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.ReportGenerator;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output
 {
-    class MetricColumnData : ColumnData
+    [Export(typeof(IReportColumnManager))]
+    internal class ReportColumnManager : ColumnManagerBase, IReportColumnManager
     {
-        public MetricColumnData(MetricType metricType, string name, int displayIndex, bool isVisible, double width, double minWidth = 100) : base(name, displayIndex, isVisible, width, minWidth)
+        private readonly IColumnStatesStore columnStateStore;
+        private readonly IJsonConvertService jsonConvertService;
+
+        [ImportingConstructor]
+        public ReportColumnManager(
+            IVsShutdown vsShutdown,
+            IColumnStatesStore columnStateStore,
+            IJsonConvertService jsonConvertService
+        )
         {
-            this.MetricType = metricType;
+            this.columnStateStore = columnStateStore;
+            this.jsonConvertService = jsonConvertService;
+            SetInitialColumns(GetColumnStates());
+            
+            vsShutdown.Shutdown += VsShutdown_Shutdown;
         }
 
-        public MetricType MetricType { get; }
-    }
-    internal class ReportColumnManager : ColumnManagerBase
-    {
-        public ColumnData Name { get; } = new ColumnData("Name", 0, true, 450);
-        public ColumnData CoverableLines { get; } = new ColumnData("Coverable Lines", 1, true, 100.0, 20);
-        public MetricColumnData BlocksCovered { get; } = new MetricColumnData(MetricType.BlocksCovered, "Blocks Covered", 2, true, 100.0, 20);
-        public MetricColumnData BlocksNotCovered { get; } = new MetricColumnData(MetricType.BlocksNotCovered, "Blocks Not Covered", 3, true, 125.0, 20);
-        public MetricColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath,"NPath Complexity", 4, true, 115.0, 20);
-        public MetricColumnData CyclomaticComplexity { get; } = new MetricColumnData(MetricType.CyclomaticComplexity,"Cyclomatic Complexity", 5, true, 140.0, 20);
-        public MetricColumnData CrapScore { get; } = new MetricColumnData(MetricType.Crap,"Crap Score", 6, true, 75.0, 20);
-
-        public ReportColumnManager()
+        private List<ReportColumnState> GetColumnStates()
         {
-            this.Columns =  new ColumnData[] {
-                this.Name, 
-                this.CoverableLines,
-                this.BlocksCovered, 
-                this.BlocksNotCovered, 
-                this.NPathComplexity, 
-                this.CyclomaticComplexity, 
-                this.CrapScore };
+            var jsonColumnStates = this.columnStateStore.GetColumnStates();
+            List<ReportColumnState> columnStates;
+            if (jsonColumnStates != null)
+            {
+                columnStates = jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates);
+            }
+            else
+            {
+                columnStates = new List<ReportColumnState>();
+            }
+            return columnStates;
         }
-        internal void ShowRelevantColumns(List<MetricType> metricTypes)
+
+        #region Columns
+        // note that the control uses reflection to create bindings - these properties are required
+        public ReportColumnData Name { get; private set; } = new ReportColumnData(ReportColumnData.NameColumnType, "Name", 0, true, 450, 100);
+
+        public ReportColumnData CoverableLines { get; private set; } = new ReportColumnData(ReportColumnData.CoverableLinesColumnType, "Coverable Lines", 1, true, 100, 20);
+        public ReportColumnData BlocksCovered { get; private set; } = new MetricColumnData(MetricType.BlocksCovered,ReportColumnData.BlocksCoveredColumnType, "Blocks Covered", 2, true, 100, 20);
+        public ReportColumnData BlocksNotCovered { get; private set; } = new MetricColumnData(MetricType.BlocksNotCovered, ReportColumnData.BlocksNotCoveredColumnType, "Blocks Not Covered", 3, true, 125, 20);
+        public ReportColumnData NPathComplexity { get; private set; } = new MetricColumnData(MetricType.NPath, ReportColumnData.NPathComplexityColumnType, "NPath Complexity", 4, true, 115, 20);
+        public ReportColumnData CyclomaticComplexity { get; private set; } = new MetricColumnData(MetricType.CyclomaticComplexity, ReportColumnData.CyclomaticComplexityColumnType, "Cyclomatic Complexity", 5, true, 140, 20);
+        public ReportColumnData CrapScore { get; private set; } = new MetricColumnData(MetricType.Crap, ReportColumnData.CrapScoreColumnType, "Crap Score", 6, true, 75, 20);
+        #endregion
+
+        private void VsShutdown_Shutdown(object sender, System.EventArgs e)
+        {
+            SaveColumnStates();
+        }
+        
+        private void SaveColumnStates()
+        {
+            var reportColumnStates = Columns.Select(c =>
+            {
+                var reportColumnData = c as ReportColumnData;
+                return new ReportColumnState
+                {
+                    ColumnType = reportColumnData.ReportColumnType,
+                    IsVisible = reportColumnData.UserIsVisible,
+                    DisplayIndex = c.DisplayIndex,
+                    Width = c.Width.Value,
+                };
+            }).ToList();
+            var jsonColumnStates = jsonConvertService.SerializeObject(reportColumnStates);
+            columnStateStore.SaveColumnStates(jsonColumnStates);
+        }
+
+        private void SetInitialColumns(List<ReportColumnState> reportColumnStates)
+        {
+            // could reflect 
+            var reportColumns = new ReportColumnData[]{
+                Name,// must be first
+                CoverableLines,
+                BlocksCovered,
+                BlocksNotCovered,
+                NPathComplexity,
+                CyclomaticComplexity,
+                CrapScore
+            };
+            this.Columns = reportColumns;
+            var columnsLookup = reportColumns.ToDictionary(c => c.ReportColumnType);
+
+            reportColumnStates.ForEach(columnState =>
+            {
+                if(columnsLookup.TryGetValue(columnState.ColumnType, out var column))
+                {
+                    column.IsVisible = columnState.IsVisible;
+                    column.DisplayIndex = columnState.DisplayIndex;
+                    column.Width = columnState.Width;
+                }
+            });
+        }
+
+        public void ShowRelevantColumns(List<MetricType> metricTypes)
         {
             foreach(var column in this.Columns)
             {
                 if (column is MetricColumnData metricColumnData)
                 {
-                    metricColumnData.IsVisible = metricTypes.Contains(metricColumnData.MetricType);
+                    metricColumnData.IsInvalid = !metricTypes.Contains(metricColumnData.MetricType);
                 }
             }
+        }
+
+        public IEnumerable<IReportColumnData> GetColumns()
+        {
+            return this.Columns.OfType<IReportColumnData>();
         }
     }
 }

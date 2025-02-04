@@ -41,6 +41,7 @@ namespace FineCodeCoverage
         public const int cmdidOpenReadMeCommand = 0x0108;
         public const int cmdidOpenFundingCommand = 0x0109;
         public const int cmdidToggleCoverageIndicatorsCommand = 0x010A;
+        public const int cmdidEditColumnsCommand = 0x010B;
         public const int openReportWindowCommandImageIndex = 0x0001;
         public const int clearUICommandImageIndex = 0x0006;
     }

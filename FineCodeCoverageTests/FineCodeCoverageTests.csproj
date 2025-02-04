@@ -157,6 +157,8 @@
     <Compile Include="OpenCoverExeArgumentsProvider_Tests.cs" />
     <Compile Include="OpenCoverUtil_Tests.cs" />
     <Compile Include="PackageLoader_Tests.cs" />
+    <Compile Include="ReportColumnManager_Tests.cs" />
+    <Compile Include="ReportColumnsManagmentViewModel_Tests.cs" />
     <Compile Include="ShownToolWindowHistory_Tests.cs" />
     <Compile Include="TestHelpers\ExportsInitializable.cs" />
     <Compile Include="TestHelpers\MefOrderAssertions.cs" />
@@ -193,6 +195,10 @@
     <ProjectReference Include="..\FineCodeCoverage2022\FineCodeCoverage2022.csproj">
       <Project>{59a22196-a750-4ba4-b30e-be1422e68b8e}</Project>
       <Name>FineCodeCoverage2022</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
+      <Project>{B1F5830C-2ACB-4ECC-AD8C-8EAADCA586DA}</Project>
+      <Name>TreeGrid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
