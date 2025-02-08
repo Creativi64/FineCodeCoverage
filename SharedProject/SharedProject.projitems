@@ -458,14 +458,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseViewModelDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridSelectionChangedInvokeVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DemoCustomMarkupExt.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DemoCustomMarkupExt.xaml.cs">
       <DependentUpon>DemoCustomMarkupExt.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DesignTimeVsColorsResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DesignTimeVsColorsResourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\FileLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\IThemeChangeListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\LogicalTreeHelperExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\ThemeNameHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\ThemeNameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\ThemeResourceKeyTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\ThemeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsColorsDynamicResourceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\VsColorsDynamicResourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnStatesStore.cs" />
@@ -558,7 +567,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\DemoCustomMarkupExt.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DemoCustomMarkupExt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

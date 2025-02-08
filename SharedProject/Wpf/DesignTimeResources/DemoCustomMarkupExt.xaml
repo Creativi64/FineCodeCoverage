@@ -7,9 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    fccWpf:ThemeManager.ThemeName="Solarized Light"
+    fccWpf:ThemeNameManager.ThemeName="Red"
     >
 
-    <TextBlock x:Name="TB" Foreground="{fccWpf:VsColorsDynamicResource2 {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
-Background="{fccWpf:VsColorsDynamicResource2 {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}">Hello</TextBlock>
+    <TextBlock x:Name="TB" Foreground="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+Background="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}">Hello</TextBlock>
 </UserControl>

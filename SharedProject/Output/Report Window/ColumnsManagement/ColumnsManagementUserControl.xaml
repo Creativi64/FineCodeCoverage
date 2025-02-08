@@ -14,7 +14,7 @@
     mc:Ignorable="d"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Name="CMUC"
-    fccWpf:ThemeManager.ThemeName="Light"
+    fccWpf:ThemeNameManager.ThemeName="Dark"
     >
 
     <DockPanel >
@@ -34,8 +34,8 @@
 				  VerticalGridLinesBrush= "{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}"
 				  GridLinesVisibility="None"
                      
-				  Foreground="{fccWpf:VsColorsDynamicResource2 {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
-				  Background="{fccWpf:VsColorsDynamicResource2 {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
+				  Foreground="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+				  Background="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
 				  RowBackground="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
 				  HeadersVisibility="Column"
 				  HorizontalScrollBarVisibility="Auto"
