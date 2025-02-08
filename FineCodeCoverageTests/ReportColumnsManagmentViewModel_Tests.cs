@@ -4,7 +4,6 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 
 namespace FineCodeCoverageTests
 {
@@ -59,7 +58,7 @@ namespace FineCodeCoverageTests
                 new TestReportColumnData{ ReportColumnType = "First", DisplayIndex = 0, IsVisible = true, Name = "FirstName"},
                 new TestReportColumnData{ ReportColumnType = "Second", DisplayIndex = 1, IsVisible = false, Name = "SecondName"},
             });
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object,null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object,null);
 
             Assert.That(reportColumnsManagementViewModel.Columns.Count, Is.EqualTo(2));
             Assert.That(reportColumnsManagementViewModel.Columns[0].Name, Is.EqualTo("FirstName"));
@@ -81,7 +80,7 @@ namespace FineCodeCoverageTests
                 new TestReportColumnData{ ReportColumnType = "First", DisplayIndex = 0, IsVisible = true, Name = "FirstName"},
                 new TestReportColumnData{ ReportColumnType = "Second", DisplayIndex = 1, IsVisible = false, Name = "SecondName"},
             });
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
 
             Assert.That(reportColumnsManagementViewModel.Columns[0].CanEditVisible, Is.False);
 
@@ -92,7 +91,7 @@ namespace FineCodeCoverageTests
         public void Should_Not_Be_Able_To_MoveUp_Or_MoveDown_Initially()
         {
             var mockReportColumnsManager = new Mock<IReportColumnManager>();
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
 
             Assert.That(reportColumnsManagementViewModel.DownCommand.CanExecute(null), Is.False);
             Assert.That(reportColumnsManagementViewModel.UpCommand.CanExecute(null), Is.False);
@@ -108,7 +107,7 @@ namespace FineCodeCoverageTests
 
         private SelectionChangedResult SelectionChangedTest(IEnumerable<int> selectedColumnIndices)
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             var upCanExecuteChanged = false;
             reportColumnsManagementViewModel.UpCommand.CanExecuteChanged += (sender, args) =>
             {
@@ -190,7 +189,7 @@ namespace FineCodeCoverageTests
         public void Should_Show_An_Error_If_A_Column_Has_No_Name_And_Not_Commit_When_Commit_Executed()
         {
             var mockMessageBox = new Mock<IMessageBox>();
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, mockMessageBox.Object);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, mockMessageBox.Object);
             var originalName = reportColumnsManagementViewModel.Columns[0].ReportColumnData.Name;
             reportColumnsManagementViewModel.Columns[0].Name = "";
             reportColumnsManagementViewModel.OkCommand.Execute(null);
@@ -203,7 +202,7 @@ namespace FineCodeCoverageTests
         public void Should_Show_An_Error_If_Multiple_Columns_Has_No_Name_And_Not_Commit_When_Commit_Executed()
         {
             var mockMessageBox = new Mock<IMessageBox>();
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, mockMessageBox.Object);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, mockMessageBox.Object);
             var originalName = reportColumnsManagementViewModel.Columns[0].ReportColumnData.Name;
             reportColumnsManagementViewModel.Columns[0].Name = "";
             reportColumnsManagementViewModel.Columns[1].Name = " ";
@@ -218,7 +217,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Set_Edited_Properties_On_ReportColumnData_When_Commit_Executed_And_No_Error()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             
             reportColumnsManagementViewModel.Columns[1].IsVisible = true;
             reportColumnsManagementViewModel.Columns[1].Name = " NewName ";
@@ -233,7 +232,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Raise_Done_Event__When_Commit_Executed_And_No_Error()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             var doneRaised = false;
             reportColumnsManagementViewModel.Done += (sender, args) => doneRaised = true;
             reportColumnsManagementViewModel.OkCommand.Execute(null);
@@ -278,7 +277,7 @@ namespace FineCodeCoverageTests
         [TestCaseSource(nameof(MovingTestCases))]
         public void Moving_Test(MovingTestCase movingTestCase)
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             reportColumnsManagementViewModel.SelectionIndicesChanged(movingTestCase.SelectedColumnIndices);
 
             var command = movingTestCase.MoveUp ? reportColumnsManagementViewModel.UpCommand : reportColumnsManagementViewModel.DownCommand;
@@ -305,7 +304,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Move_Down_Twice()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             reportColumnsManagementViewModel.SelectionIndicesChanged(new List<int> { 1 });
 
             reportColumnsManagementViewModel.DownCommand.Execute(null);
@@ -319,7 +318,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Move_Up_Twice()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             reportColumnsManagementViewModel.SelectionIndicesChanged(new List<int> { 4 });
 
             reportColumnsManagementViewModel.UpCommand.Execute(null);
@@ -333,7 +332,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Recalculate_Can_Move_When_Move()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             reportColumnsManagementViewModel.SelectionIndicesChanged(new List<int> { 2 });
             var upCanExecuteChanged = false;
             reportColumnsManagementViewModel.UpCommand.CanExecuteChanged += (sender, args) =>
@@ -360,7 +359,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Not_Change_Display_Indices_If_Do_Not_Move()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             reportColumnsManagementViewModel.Columns[0].Name = "new";
 
             reportColumnsManagementViewModel.OkCommand.Execute(null);
@@ -376,7 +375,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Raise_The_Done_Event_And_Not_Change_ReportColumnData_When_Cancel_Command_Is_Executed()
         {
-            var reportColumnsManagementViewModel = new ReportColumnsManagmentViewModel(mockReportColumnsManager.Object, null);
+            var reportColumnsManagementViewModel = new ReportColumnsManagementViewModel(mockReportColumnsManager.Object, null);
             var doneRaised = false;
             reportColumnsManagementViewModel.Done += (sender, args) => doneRaised = true;
 

@@ -42,7 +42,10 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
     <Style TargetType="{x:Type fccWpf:BaseDialogWindowTemplated}">
 		<Style.Setters>
             <Setter Property="vs:ThemedDialogStyleLoader.UseDefaultThemedDialogStyles" Value="True"/>
-            
+
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowBorderBrushKey}}"/>
@@ -79,19 +82,11 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
 			  BorderThickness="{TemplateBinding BorderThickness}">
 							<Grid>
 								<AdornerDecorator>
-									<DockPanel Margin="24,0,20,20">
-                                        <TextBlock DockPanel.Dock="Top" Text="{TemplateBinding Title}" Margin="0,8,0,24"
-				Style="{StaticResource {x:Static vsx:VsResourceKeys.TextBlockEnvironment200PercentFontSizeStyleKey}}"
-		Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.HeaderTextBrushKey}}"/>
-
-										<StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
-											<Button Margin="6,0" Command="{Binding OkCommand}">Ok</Button>
-											<Button IsDefault="True" Command="{Binding CancelCommand}">Cancel</Button>
-										</StackPanel>
-
-                                        <ContentPresenter/>
-                                    </DockPanel>
-
+                                    <fccWpf:BaseDialogControl Title="{TemplateBinding Property=Title}">
+                                        <fccWpf:BaseDialogControl.CustomContent>
+                                            <ContentPresenter/>
+                                        </fccWpf:BaseDialogControl.CustomContent>
+                                    </fccWpf:BaseDialogControl>
 								</AdornerDecorator>
 								<ResizeGrip Style="{StaticResource vsResizeGripStyle}" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom"
 					  Visibility="Collapsed" IsTabStop="false"/>

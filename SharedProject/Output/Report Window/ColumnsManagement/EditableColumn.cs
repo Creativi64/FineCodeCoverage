@@ -5,6 +5,10 @@ namespace FineCodeCoverage.Output
 {
     internal class EditableColumn : ObservableBase, IDataErrorInfo
     {
+        public EditableColumn()
+        {
+            // throw if not design time
+        }
         public EditableColumn(IReportColumnData reportColumnData)
         {
             Column = reportColumnData.ReportColumnType;
@@ -26,7 +30,7 @@ namespace FineCodeCoverage.Output
 
         public bool CanEditVisible { get; }
 
-        public string Column { get; }
+        public string Column { get; set; }
         private string _name;
         public IReportColumnData ReportColumnData { get; }
 

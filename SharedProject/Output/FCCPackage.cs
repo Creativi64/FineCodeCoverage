@@ -15,9 +15,7 @@ using FineCodeCoverage.Funding;
 using FineCodeCoverage.Github;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Output.Pane;
-using System.Linq;
 using Microsoft.VisualStudio.ComponentModelHost;
-using System.Diagnostics;
 
 namespace FineCodeCoverage.Output
 {

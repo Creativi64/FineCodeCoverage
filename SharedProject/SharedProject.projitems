@@ -439,6 +439,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IFCCOutputWindowPaneCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IShowFCCOutputPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementUserControl.xaml.cs">
+      <DependentUpon>ColumnsManagementUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementWindow2.xaml.cs">
       <DependentUpon>ColumnsManagementWindow2.xaml</DependentUpon>
@@ -446,14 +449,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
+      <DependentUpon>BaseDialogControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml.cs">
       <DependentUpon>BaseDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseViewModelDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridSelectionChangedInvokeVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DemoCustomMarkupExt.xaml.cs">
+      <DependentUpon>DemoCustomMarkupExt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsColorsDynamicResourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnStatesStore.cs" />
@@ -505,6 +517,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\Themes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
+      <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Funding\FundingDialogWindow.xaml">
@@ -512,6 +527,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Github\NewIssueDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -527,11 +546,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplatedResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\DemoCustomMarkupExt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -547,6 +578,7 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Editor\.editorconfig" />
     <None Include="$(MSBuildThisFileDirectory)Output\Directory.Build.props" />
+    <None Include="$(MSBuildThisFileDirectory)Wpf\Directory.Build.props" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\" />
