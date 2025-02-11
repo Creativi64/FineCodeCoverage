@@ -4,12 +4,15 @@
 	x:Class="FineCodeCoverage.Wpf.DemoCustomMarkupExt"
     xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:vsx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"   
+    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    fccWpf:ThemeNameManager.ThemeName="Red"
+    fccWpf:VsDesignTimeColors.ThemeName="Dark"
     >
-
-    <TextBlock x:Name="TB" Foreground="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
-Background="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}">Hello</TextBlock>
+    <StackPanel>
+    <TextBlock x:Name="TB" Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}">Hello</TextBlock>
+        <fccWpf:Crispy Moniker="{x:Static catalog:KnownMonikers.MoveUp}"/>
+    </StackPanel>
 </UserControl>

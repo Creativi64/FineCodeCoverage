@@ -33,6 +33,5 @@ DependencyProperty.Register(
             get => (ImageMoniker)GetValue(ImageMonikerProperty);
             set => SetValue(ImageMonikerProperty, value);
         }
-
     }
 }

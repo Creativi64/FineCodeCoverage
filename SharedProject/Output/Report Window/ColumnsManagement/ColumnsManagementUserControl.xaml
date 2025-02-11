@@ -13,30 +13,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    x:Name="CMUC"
-    fccWpf:ThemeNameManager.ThemeName="Dark"
+    fccWpf:VsDesignTimeColors.ThemeName="Tomorrow Night Blue"
+    Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}" 
+	Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+    vs:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelColorKey}}"
     >
-
-    <DockPanel >
-        
-        <!-- -->
-        <DockPanel.Resources>
-            <sys:String x:Key="themeName">Dark</sys:String>
-        </DockPanel.Resources>
+    <DockPanel>
         <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Margin="12,0,0,0">
-			<fccWpf:VsCrispImageButton2 ImageMoniker="{x:Static catalog:KnownMonikers.MoveUp}" Margin="0,0,0,6" Command="{Binding UpCommand}">
-			</fccWpf:VsCrispImageButton2>
-			<fccWpf:VsCrispImageButton2 ImageMoniker="{x:Static catalog:KnownMonikers.MoveDown}" Command="{Binding DownCommand}">
-			</fccWpf:VsCrispImageButton2>
+            <fccWpf:VsCrispImageButton2 ImageMoniker="{x:Static catalog:KnownMonikers.MoveUp}" Margin="0,0,0,6" Command="{Binding UpCommand}">
+            </fccWpf:VsCrispImageButton2>
+            <fccWpf:VsCrispImageButton2 ImageMoniker="{x:Static catalog:KnownMonikers.MoveDown}" Command="{Binding DownCommand}">
+            </fccWpf:VsCrispImageButton2>
         </StackPanel>
-        <DataGrid fccWpf:DataGridSelectionHelper.HandleSelection="true"  DockPanel.Dock="left" fccWpf:DataGridPreventSelectAllBehaviour.Value="True"
-				  HorizontalGridLinesBrush="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}"
-				  VerticalGridLinesBrush= "{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}"
+        <DataGrid fccWpf:DataGridSelectionHelper.HandleSelection="true"  
+                  fccWpf:DataGridPreventSelectAllBehaviour.Value="True"
+                  DockPanel.Dock="left" 
+				  HorizontalGridLinesBrush="{DynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}"
+				  VerticalGridLinesBrush= "{DynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}"
 				  GridLinesVisibility="None"
                      
-				  Foreground="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
-				  Background="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
-				  RowBackground="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
+				  Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+				  Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
+				  RowBackground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
 				  HeadersVisibility="Column"
 				  HorizontalScrollBarVisibility="Auto"
 				  AutoGenerateColumns="False"
@@ -52,264 +50,263 @@
             </d:DataGrid.ItemsSource>
             <DataGrid.Resources>
                 <ControlTemplate x:Key="ErrorTemplate">
-					<DockPanel x:Uid="DockPanel_1" LastChildFill="True">
-						<AdornedElementPlaceholder Name="ControlWithError" x:Uid="ControlWithError">
-							<Border x:Uid="Border_5" BorderBrush="Red" BorderThickness="1"/>
-						</AdornedElementPlaceholder>
-						<imaging:CrispImage DockPanel.Dock="Right" VerticalAlignment="Center"
+                    <DockPanel x:Uid="DockPanel_1" LastChildFill="True">
+                        <AdornedElementPlaceholder Name="ControlWithError" x:Uid="ControlWithError">
+                            <Border x:Uid="Border_5" BorderBrush="Red" BorderThickness="1"/>
+                        </AdornedElementPlaceholder>
+                        <imaging:CrispImage DockPanel.Dock="Right" VerticalAlignment="Center"
 									  Moniker="{x:Static catalog:KnownMonikers.StatusInvalid}" Height="16" Width="16" Margin="5,0,0,0">
-							<FrameworkElement.ToolTip>
-								<Binding ElementName="ControlWithError" Path="AdornedElement.(Validation.Errors)[0].ErrorContent"/>
-							</FrameworkElement.ToolTip>
-						</imaging:CrispImage>
-					</DockPanel>
-				</ControlTemplate>
-				<Style x:Key="FocusVisualStyleKey" >
-					<Setter  Property="Control.Template">
-						<Setter.Value>
-							<ControlTemplate>
-								<Rectangle SnapsToDevicePixels="true" Margin="0"
-		 Stroke="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.FocusVisualTextBrushKey}}"
+                            <FrameworkElement.ToolTip>
+                                <Binding ElementName="ControlWithError" Path="AdornedElement.(Validation.Errors)[0].ErrorContent"/>
+                            </FrameworkElement.ToolTip>
+                        </imaging:CrispImage>
+                    </DockPanel>
+                </ControlTemplate>
+                <Style x:Key="FocusVisualStyleKey" >
+                    <Setter  Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle SnapsToDevicePixels="true" Margin="0"
+		 Stroke="{DynamicResource {x:Static vs:CommonControlsColors.FocusVisualTextBrushKey}}"
 		 StrokeDashArray="1 2" StrokeThickness="1"/>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-				<Style x:Key="cbstyle"
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style x:Key="cbstyle"
 				 TargetType="{x:Type CheckBox}">
-                    <Setter Property="Control.Foreground" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextColorKey}}"/>
-					<Setter Property="Control.Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="{x:Type CheckBox}">
-								<Grid x:Name="TemplateRoot">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto"/>
-										<ColumnDefinition Width="*"/>
-									</Grid.ColumnDefinitions>
-									<Grid SnapsToDevicePixels="true" Width="16" Height="16" HorizontalAlignment="Left"
+                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextColorKey}}"/>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type CheckBox}">
+                                <Grid x:Name="TemplateRoot">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid SnapsToDevicePixels="true" Width="16" Height="16" HorizontalAlignment="Left"
 						  VerticalAlignment="Center">
-										<Border x:Name="CheckMarkBorder"
-							  Background="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundBrushKey}}"
-							  BorderBrush="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderBrushKey}}"
+                                        <Border x:Name="CheckMarkBorder"
+							  Background="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundBrushKey}}"
+							  BorderBrush="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderBrushKey}}"
 							  BorderThickness="1"/>
-										<Grid x:Name="MarkGrid">
-											<Path x:Name="CheckMark"
+                                        <Grid x:Name="MarkGrid">
+                                            <Path x:Name="CheckMark"
 							  Data="M 6.22,11.02 C 6.22,11.02 2.5,7.24 2.5,7.24 2.5,7.24 4.05,5.71 4.05,5.71 4.05,5.71 5.97,7.65 5.97,7.65 5.97,7.65 10.52,1.38 10.52,1.38 10.52,1.38 13.19,1.38 13.19,1.38 13.19,1.38 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 Z"
 							  Stretch="Uniform" Margin="3,1,2,2" Visibility="Collapsed" Width="9" Height="8"
-							  Fill="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphBrushKey}}"/>
-											<Rectangle x:Name="IndeterminateMark"
-								   Fill="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphBrushKey}}" Margin="3"
+							  Fill="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphBrushKey}}"/>
+                                            <Rectangle x:Name="IndeterminateMark"
+								   Fill="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphBrushKey}}" Margin="3"
 								   Visibility="Hidden"/>
-										</Grid>
-									</Grid>
-									<ContentPresenter x:Name="CheckBoxContent" Grid.Column="1" Focusable="False"
+                                        </Grid>
+                                    </Grid>
+                                    <ContentPresenter x:Name="CheckBoxContent" Grid.Column="1" Focusable="False"
 									  Margin="{TemplateBinding Control.Padding}"
 									  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
 									  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
 									  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" RecognizesAccessKey="True"/>
-								</Grid>
-								<ControlTemplate.Triggers>
-									<Trigger Property="ContentControl.HasContent" Value="true">
-										<Setter Property="Control.Padding" Value="6,1,0,0"/>
-									</Trigger>
-									<Trigger Property="ToggleButton.IsChecked" Value="true">
-										<Setter TargetName="CheckMark" Property="UIElement.Visibility" Value="Visible"/>
-									</Trigger>
-									<Trigger Property="ToggleButton.IsChecked">
-										<Trigger.Value>
-											<x:NullExtension/>
-										</Trigger.Value>
-										<Setter TargetName="IndeterminateMark" Property="UIElement.Visibility" Value="Visible"/>
-									</Trigger>
-									<Trigger Property="UIElement.IsEnabled" Value="false">
-										<Setter TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundDisabledBrushKey}}"
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="ContentControl.HasContent" Value="true">
+                                        <Setter Property="Control.Padding" Value="6,1,0,0"/>
+                                    </Trigger>
+                                    <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                        <Setter TargetName="CheckMark" Property="UIElement.Visibility" Value="Visible"/>
+                                    </Trigger>
+                                    <Trigger Property="ToggleButton.IsChecked">
+                                        <Trigger.Value>
+                                            <x:NullExtension/>
+                                        </Trigger.Value>
+                                        <Setter TargetName="IndeterminateMark" Property="UIElement.Visibility" Value="Visible"/>
+                                    </Trigger>
+                                    <Trigger Property="UIElement.IsEnabled" Value="false">
+                                        <Setter TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundDisabledBrushKey}}"
 							  Property="Border.Background"/>
-										<Setter TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderDisabledBrushKey}}"
+                                        <Setter TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderDisabledBrushKey}}"
 							  Property="Border.BorderBrush"/>
-										<Setter TargetName="CheckMark"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphDisabledBrushKey}}"
+                                        <Setter TargetName="CheckMark"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphDisabledBrushKey}}"
 							  Property="Shape.Fill"/>
-										<Setter
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextDisabledBrushKey}}"
+                                        <Setter
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextDisabledBrushKey}}"
 							  Property="Control.Foreground"/>
-									</Trigger>
-									<Trigger Property="UIElement.IsFocused" Value="true">
-										<Setter TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundFocusedBrushKey}}"
+                                    </Trigger>
+                                    <Trigger Property="UIElement.IsFocused" Value="true">
+                                        <Setter TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundFocusedBrushKey}}"
 							  Property="Border.Background"/>
-										<Setter TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderFocusedBrushKey}}"
+                                        <Setter TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderFocusedBrushKey}}"
 							  Property="Border.BorderBrush"/>
-										<Setter TargetName="CheckMark"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphFocusedBrushKey}}"
+                                        <Setter TargetName="CheckMark"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphFocusedBrushKey}}"
 							  Property="Shape.Fill"/>
-										<Setter
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextFocusedBrushKey}}"
+                                        <Setter
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextFocusedBrushKey}}"
 							  Property="Control.Foreground"/>
-									</Trigger>
-									<Trigger  Property="UIElement.IsMouseOver" Value="true">
-										<Setter  TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundHoverBrushKey}}"
+                                    </Trigger>
+                                    <Trigger  Property="UIElement.IsMouseOver" Value="true">
+                                        <Setter  TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundHoverBrushKey}}"
 							  Property="Border.Background"/>
-										<Setter  TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderHoverBrushKey}}"
+                                        <Setter  TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderHoverBrushKey}}"
 							  Property="Border.BorderBrush"/>
-										<Setter TargetName="CheckMark"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphHoverBrushKey}}"
+                                        <Setter TargetName="CheckMark"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphHoverBrushKey}}"
 							  Property="Shape.Fill"/>
-										<Setter
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextHoverBrushKey}}"
+                                        <Setter
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextHoverBrushKey}}"
 							  Property="Control.Foreground"/>
-									</Trigger>
-									<Trigger  Property="ButtonBase.IsPressed" Value="true">
-										<Setter TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundPressedBrushKey}}"
+                                    </Trigger>
+                                    <Trigger  Property="ButtonBase.IsPressed" Value="true">
+                                        <Setter TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBackgroundPressedBrushKey}}"
 							  Property="Border.Background"/>
-										<Setter TargetName="CheckMarkBorder"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderPressedBrushKey}}"
+                                        <Setter TargetName="CheckMarkBorder"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxBorderPressedBrushKey}}"
 							  Property="Border.BorderBrush"/>
-										<Setter TargetName="CheckMark"
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphPressedBrushKey}}"
+                                        <Setter TargetName="CheckMark"
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxGlyphPressedBrushKey}}"
 							  Property="Shape.Fill"/>
-										<Setter
-							  Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextPressedBrushKey}}"
+                                        <Setter
+							  Value="{DynamicResource {x:Static vs:CommonControlsColors.CheckBoxTextPressedBrushKey}}"
 							  Property="Control.Foreground"/>
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-					<Setter Property="FrameworkElement.FocusVisualStyle"
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="FrameworkElement.FocusVisualStyle"
 					Value="{StaticResource FocusVisualStyleKey}"/>
 
-					<Setter Property="HorizontalAlignment" Value="Center"/>
-					<Setter Property="VerticalAlignment" Value="Top"/>
-					<Setter Property="IsEnabled" Value="{Binding CanEditVisible}" />
-				</Style>
-			</DataGrid.Resources>
-			<DataGrid.Columns>
-				<DataGridTextColumn Binding="{Binding Column, Mode=OneWay}"  Header="Column"/>
-				<DataGridTextColumn Binding="{Binding Name, ValidatesOnDataErrors=True}" Header="Display Name">
-					<DataGridTextColumn.EditingElementStyle>
-						<!-- from VsResourceKeys.TextBoxStyleKey ( apart from 2 setters of DataGridTextColumn )-->
-						<!-- does not find the SelectionTextBrush ! -->
-						<Style
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="IsEnabled" Value="{Binding CanEditVisible}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Column" Binding="{Binding Column, Mode=OneWay}"  />
+                <DataGridTextColumn  Header="Display Name" Binding="{Binding Name, ValidatesOnDataErrors=True}">
+                    <DataGridTextColumn.EditingElementStyle>
+                         <!--from VsResourceKeys.TextBoxStyleKey ( apart from 2 setters of DataGridTextColumn )
+                         does not find the SelectionTextBrush !--> 
+                        <Style
 				 TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
-							<Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}"/>
-							<!-- next two taken from static DataGridTextColumn.DefaultEditingElementStyle-->
-							<Setter Property="BorderThickness" Value="0"/>
-							<Setter Property="Padding" Value="0"/>
+                            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}"/>
+                             <!--next two taken from static DataGridTextColumn.DefaultEditingElementStyle-->
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="0"/>
 
-							<Setter Property="TextBoxBase.SelectionBrush" Value="Pink"/>
+                            <Setter Property="TextBoxBase.SelectionBrush" Value="Pink"/>
 
 
-							<Setter  Property="Control.Background"
-					Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxBackgroundBrushKey}}"/>
-							<Setter Property="Control.Foreground"
-					Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxTextBrushKey}}"/>
-							<Setter Property="Control.BorderBrush"
-					Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxBorderBrushKey}}"/>
-							<Setter Property="Control.Template">
-								<Setter.Value>
-									<ControlTemplate TargetType="{x:Type TextBoxBase}">
-										<Border x:Name="border" BorderBrush="{TemplateBinding Control.BorderBrush}"
+                            <Setter  Property="Control.Background"
+					Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxBackgroundBrushKey}}"/>
+                            <Setter Property="Control.Foreground"
+					Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxTextBrushKey}}"/>
+                            <Setter Property="Control.BorderBrush"
+					Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxBorderBrushKey}}"/>
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                                        <Border x:Name="border" BorderBrush="{TemplateBinding Control.BorderBrush}"
 						  BorderThickness="{TemplateBinding Control.BorderThickness}"
 						  Background="{TemplateBinding Control.Background}" SnapsToDevicePixels="True">
-											<ScrollViewer x:Name="PART_ContentHost" Focusable="False"
+                                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False"
 								  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-										</Border>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-							<Style.Triggers>
-								<Trigger Property="UIElement.IsKeyboardFocused" Value="True">
-									<Setter Property="Control.Background"
-						Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxBackgroundFocusedBrushKey}}"/>
-									<Setter Property="Control.Foreground"
-						Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxTextFocusedBrushKey}}"/>
-									<Setter Property="Control.BorderBrush"
-						Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxBorderFocusedBrushKey}}"/>
-								</Trigger>
-								<Trigger Property="UIElement.IsEnabled" Value="False">
-									<Setter Property="Control.Background"
-						Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxBackgroundDisabledBrushKey}}"/>
-									<Setter Property="Control.Foreground"
-						Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxTextDisabledBrushKey}}"/>
-									<Setter Property="Control.BorderBrush"
-						Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.TextBoxBorderDisabledBrushKey}}"/>
-								</Trigger>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="UIElement.IsKeyboardFocused" Value="True">
+                                    <Setter Property="Control.Background"
+						Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxBackgroundFocusedBrushKey}}"/>
+                                    <Setter Property="Control.Foreground"
+						Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxTextFocusedBrushKey}}"/>
+                                    <Setter Property="Control.BorderBrush"
+						Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxBorderFocusedBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="UIElement.IsEnabled" Value="False">
+                                    <Setter Property="Control.Background"
+						Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxBackgroundDisabledBrushKey}}"/>
+                                    <Setter Property="Control.Foreground"
+						Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxTextDisabledBrushKey}}"/>
+                                    <Setter Property="Control.BorderBrush"
+						Value="{DynamicResource {x:Static vs:CommonControlsColors.TextBoxBorderDisabledBrushKey}}"/>
+                                </Trigger>
 
-								<Trigger Property="Validation.HasError" Value="True">
-									<Setter Property="FrameworkElement.ToolTip">
-										<Setter.Value>
-											<Binding RelativeSource="{x:Static RelativeSource.Self}" Path="(Validation.Errors)[0].ErrorContent"/>
-										</Setter.Value>
-									</Setter>
-								</Trigger>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="FrameworkElement.ToolTip">
+                                        <Setter.Value>
+                                            <Binding RelativeSource="{x:Static RelativeSource.Self}" Path="(Validation.Errors)[0].ErrorContent"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
 
-							</Style.Triggers>
-						</Style>
+                            </Style.Triggers>
+                        </Style>
 
-					</DataGridTextColumn.EditingElementStyle>
-				</DataGridTextColumn>
-				<DataGridCheckBoxColumn EditingElementStyle="{StaticResource cbstyle}"  Binding="{Binding IsVisible}" Header="Visibility">
-					<DataGridCheckBoxColumn.ElementStyle>
-						<Style BasedOn="{StaticResource cbstyle}" TargetType="CheckBox">
-							<Setter Property="IsHitTestVisible" Value="False" />
-							<Setter Property="Focusable" Value="False"/>
-						</Style>
-					</DataGridCheckBoxColumn.ElementStyle>
-
-				</DataGridCheckBoxColumn>
-			</DataGrid.Columns>
-			<DataGrid.ColumnHeaderStyle>
-				<Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.GridHeadingBackgroundBrushKey}}" />
-                    <Setter Property="BorderBrush" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}" />
-					<Setter Property="BorderThickness" Value="1"/>
-					<Setter Property="Padding" Value="2"/>
-                    <Setter Property="Foreground" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.GridHeadingTextBrushKey}}"/>
-					<!-- as not sorting no IsMouseHover trigger -->
-				</Style>
-			</DataGrid.ColumnHeaderStyle>
-			<DataGrid.CellStyle>
-				<Style TargetType="{x:Type DataGridCell}">
-					<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualStyleKey}"/>
-					<Style.Triggers>
-						<Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
-                            <Setter Property="Foreground" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.SelectedItemActiveTextBrushKey}}" />
-						</Trigger>
-						<Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="BorderBrush" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:CommonControlsColors.FocusVisualTextBrushKey}}" />
-						</Trigger>
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="IsSelected" Value="true"/>
-								<Condition Property="Selector.IsSelectionActive" Value="false"/>
-							</MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.SelectedItemInactiveBrushKey}}"/>
-                            <Setter Property="Foreground" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.SelectedItemInactiveTextBrushKey}}"/>
-                            <Setter Property="BorderBrush" Value="{fccWpf:VsColorsDynamicResource {x:Static vs:ThemedDialogColors.SelectedItemInactiveBrushKey}}"/>
-						</MultiTrigger>
-
-					</Style.Triggers>
-				</Style>
-			</DataGrid.CellStyle>
-			<!-- Do not want SelectAll button behaviour which is easily removed by-->
-			<!--<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid}, ResourceId=DataGridSelectAllButtonStyle}" TargetType="Button">
-                     <Setter Property="Template">
-                         <Setter.Value>
-                             <ControlTemplate TargetType="{x:Type Button}">
-                             </ControlTemplate>
-                         </Setter.Value>
-                     </Setter>
-                 </Style>-->
-			<!-- Simpler to just remove row headers with HeadersVisibility=Column rather than having to apply RowHeaderStyle and the ValidationErrorTemplate  -->
-		</DataGrid>
-	</DockPanel>
-
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Visibility" Binding="{Binding IsVisible}"
+                    EditingElementStyle="{StaticResource cbstyle}">
+                    <DataGridCheckBoxColumn.ElementStyle>
+                        <Style BasedOn="{StaticResource cbstyle}" TargetType="CheckBox">
+                            <Setter Property="IsHitTestVisible" Value="False" />
+                            <Setter Property="Focusable" Value="False"/>
+                        </Style>
+                    </DataGridCheckBoxColumn.ElementStyle>
+                </DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vs:ThemedDialogColors.GridHeadingBackgroundBrushKey}}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}" />
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vs:ThemedDialogColors.GridHeadingTextBrushKey}}"/>
+                     <!--as not sorting no IsMouseHover trigger--> 
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualStyleKey}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static vs:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs:ThemedDialogColors.SelectedItemActiveTextBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs:CommonControlsColors.FocusVisualTextBrushKey}}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static vs:ThemedDialogColors.SelectedItemInactiveBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs:ThemedDialogColors.SelectedItemInactiveTextBrushKey}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs:ThemedDialogColors.SelectedItemInactiveBrushKey}}"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+             <!--Do not want SelectAll button behaviour which is easily removed by-->
+            <!--<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid}, ResourceId=DataGridSelectAllButtonStyle}" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>-->
+             <!--Simpler to just remove row headers with HeadersVisibility=Column rather than having to apply RowHeaderStyle and the ValidationErrorTemplate-->  
+        </DataGrid>
+    
+    </DockPanel>
 </UserControl>

@@ -24,7 +24,6 @@ namespace FineCodeCoverage.Output
             set
             {
                 this.Set<bool>(ref this._isVisible, value, nameof(IsVisible));
-
             }
         }
 

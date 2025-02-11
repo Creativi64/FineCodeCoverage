@@ -40,20 +40,9 @@ namespace FineCodeCoverage.Wpf
             return _themeColors.ContainsKey(themeName);
         }
 
-        public static object GetResource(string themeName, ThemeResourceKey themeResourceKey)
+        public static Dictionary<ThemeResourceKey, Color> GetResources(string themeName)
         {
-            var color = _themeColors[themeName][themeResourceKey];
-            return GetResource(color, themeResourceKey.KeyType);
-        }
-
-        private static object GetResource(Color color, ThemeResourceKeyType themeResourceKeyType)
-        {
-            if (themeResourceKeyType.IsBrushType())
-            {
-                return new SolidColorBrush(color);
-            }
-            return color;
+            return _themeColors[themeName];
         }
     }
-
 }
