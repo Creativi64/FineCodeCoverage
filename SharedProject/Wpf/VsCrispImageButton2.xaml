@@ -8,11 +8,9 @@
     mc:Ignorable="d"
     xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     >
-    <Grid>
-        <Button fccWpf:DesignTimeImageThemingUtilities.ImageBackgroundColor="White" d:Background="White" x:Name="btn" Command="{Binding Command, RelativeSource={RelativeSource AncestorType=UserControl}}">
-            <Button.Content>
-                <fccWpf:Crispy d:Moniker="{x:Static catalog:KnownMonikers.MoveDown}" Moniker="{Binding ImageMoniker, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            </Button.Content>
-        </Button>
-    </Grid>
+    <Button Padding="0" MinWidth="26" Width="26" Height="23" fccWpf:DesignTimeImageThemingUtilities.ImageBackgroundColor="White" d:Background="White" x:Name="btn" Command="{Binding Command, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <Button.Content>
+            <fccWpf:Crispy d:Moniker="{x:Static catalog:KnownMonikers.MoveDown}" Moniker="{Binding ImageMoniker, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </Button.Content>
+    </Button>
 </UserControl>

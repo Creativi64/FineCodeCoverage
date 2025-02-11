@@ -19,6 +19,6 @@ Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.HeaderTextBrushKey}
 			<Button IsDefault="True" Command="{Binding CancelCommand}">Cancel</Button>
 		</StackPanel>
 
-		<ContentPresenter Content="{Binding CustomContent, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <ContentPresenter Content="{Binding CustomContent, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 	</DockPanel>
 </UserControl>

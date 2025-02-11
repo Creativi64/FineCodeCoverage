@@ -24,6 +24,27 @@
             </fccWpf:VsCrispImageButton2>
             <fccWpf:VsCrispImageButton2 ImageMoniker="{x:Static catalog:KnownMonikers.MoveDown}" Command="{Binding DownCommand}">
             </fccWpf:VsCrispImageButton2>
+            <!--<Button Margin="0,0,0,6" Padding="0" MinWidth="26" Width="26" Height="23"  Command="{Binding UpCommand}">
+                <Button.Resources>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                    </Style>
+                </Button.Resources>
+                    <Canvas Background="Transparent" Width="16" Height="16">
+                        <Path Data="F1 M 12.854,6.146 L 12.146,6.854 8,2.707 8,14 7,14 7,2.707 2.854,6.854 2.146,6.146 7.146,1.146 7.854,1.146 12.854,6.146 Z"/>
+                    </Canvas>
+            </Button>
+            <Button Padding="0" MinWidth="26" Width="26" Height="23" Command="{Binding UpCommand}">
+                <Button.Resources>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                    </Style>
+                </Button.Resources>
+                    <Canvas Background="Transparent" Width="16" Height="16">
+                        <Path Data="F1 M 12.854,8.854 L 7.854,13.854 7.146,13.854 2.146,8.854 2.854,8.146 7,12.293 7,1 8,1 8,12.293 12.146,8.146 12.854,8.854 Z"/>
+                    </Canvas>
+            </Button>-->
+
         </StackPanel>
         <DataGrid fccWpf:DataGridSelectionHelper.HandleSelection="true"  
                   fccWpf:DataGridPreventSelectAllBehaviour.Value="True"
@@ -46,6 +67,9 @@
                 <x:Array Type="{x:Type output:EditableColumn}">
                     <output:EditableColumn Column="Column" Name="Name" IsVisible="True"/>
                     <output:EditableColumn Column="Column2" Name="Name2" IsVisible="False"/>
+                    <output:EditableColumn Column="Column3" Name="Name3" IsVisible="False"/>
+                    <output:EditableColumn Column="Column4" Name="Name4" IsVisible="False"/>
+                    <output:EditableColumn Column="Column5" Name="Name5" IsVisible="False"/>
                 </x:Array>
             </d:DataGrid.ItemsSource>
             <DataGrid.Resources>
