@@ -59,6 +59,7 @@ namespace FineCodeCoverage.Engine.Model
             }
         }
         private readonly string coverageToolOutputFolderName = "coverage-tool-output";
+        private bool? isDotNetSdkStyle;
 
         public CoverageProject(
             IAppOptionsProvider appOptionsProvider, 
@@ -80,7 +81,12 @@ namespace FineCodeCoverage.Engine.Model
 
         public bool IsDotNetSdkStyle()
         {
-            return ProjectFileXElement
+            if(isDotNetSdkStyle.HasValue)
+            {
+                return isDotNetSdkStyle.Value;
+            }
+
+            isDotNetSdkStyle = ProjectFileXElement
             .DescendantsAndSelf()
             .Where(x =>
             {
@@ -90,6 +96,8 @@ namespace FineCodeCoverage.Engine.Model
                     IsRootImportElementWithSdkAttribute(x);
             })
             .Any();
+
+            return isDotNetSdkStyle.Value;
 
             bool HasSdkAttribute(XElement x)
             {
