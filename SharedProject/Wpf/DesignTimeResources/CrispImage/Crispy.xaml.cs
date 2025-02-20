@@ -10,7 +10,6 @@ using System.Windows.Media;
 using Image = System.Windows.Controls.Image;
 using Color = System.Windows.Media.Color;
 using System.Windows.Data;
-using System.ComponentModel;
 
 namespace FineCodeCoverage.Wpf
 {

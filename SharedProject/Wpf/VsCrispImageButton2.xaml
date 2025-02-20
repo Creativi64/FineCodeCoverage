@@ -7,10 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+            
     >
-    <Button Padding="0" MinWidth="26" Width="26" Height="23" fccWpf:DesignTimeImageThemingUtilities.ImageBackgroundColor="White" d:Background="White" x:Name="btn" Command="{Binding Command, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <UserControl.Resources>
+        <vs:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    </UserControl.Resources>
+	<Button Padding="0" MinWidth="26" Width="26" Height="23" 
+            d:Background="{DynamicResource {x:Static vs:CommonControlsColors.ButtonBrushKey} }" 
+            fccWpf:DesignTimeImageThemingUtilities.ImageBackgroundColor="{Binding Background.Color,RelativeSource={RelativeSource Self}}" 
+            Command="{Binding Command, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <Button.Content>
-            <fccWpf:Crispy d:Moniker="{x:Static catalog:KnownMonikers.MoveDown}" Moniker="{Binding ImageMoniker, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <fccWpf:Crispy Moniker="{Binding ImageMoniker, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Button.Content>
     </Button>
 </UserControl>

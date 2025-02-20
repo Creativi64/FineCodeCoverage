@@ -100,11 +100,11 @@ namespace FineCodeCoverage.Engine.Model
                 )
                 {
                     var sdkAttr = x?.Attributes()?.FirstOrDefault(attr => attr?.Name?.LocalName?.Equals("Sdk", StringComparison.OrdinalIgnoreCase) == true);
-
-                    if (sdkAttr?.Value?.Trim()?.StartsWith("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        return true;
-                    }
+                    return sdkAttr != null;
+                    //if (sdkAttr?.Value?.Trim()?.StartsWith("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase) == true)
+                    //{
+                    //    return true;
+                    //}
                 }
 
                 /*
@@ -120,12 +120,13 @@ namespace FineCodeCoverage.Engine.Model
                     x?.Parent?.Parent == null
                 )
                 {
-                    var nameAttr = x?.Attributes()?.FirstOrDefault(attr => attr?.Name?.LocalName?.Equals("Name", StringComparison.OrdinalIgnoreCase) == true);
+                    return true;
+                    //var nameAttr = x?.Attributes()?.FirstOrDefault(attr => attr?.Name?.LocalName?.Equals("Name", StringComparison.OrdinalIgnoreCase) == true);
 
-                    if (nameAttr?.Value?.Trim()?.StartsWith("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        return true;
-                    }
+                    //if (nameAttr?.Value?.Trim()?.StartsWith("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase) == true)
+                    //{
+                    //    return true;
+                    //}
                 }
 
                 /*
@@ -146,11 +147,11 @@ namespace FineCodeCoverage.Engine.Model
                 )
                 {
                     var sdkAttr = x?.Attributes()?.FirstOrDefault(attr => attr?.Name?.LocalName?.Equals("Sdk", StringComparison.OrdinalIgnoreCase) == true);
-
-                    if (sdkAttr?.Value?.Trim()?.StartsWith("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        return true;
-                    }
+                    return sdkAttr != null;
+                    //if (sdkAttr?.Value?.Trim()?.StartsWith("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase) == true)
+                    //{
+                    //    return true;
+                    //}
                 }
 
                 return false;
@@ -328,7 +329,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return null;
             }
-
+            
             return project.Object as VSLangProj.VSProject;
         }
 
@@ -359,7 +360,7 @@ namespace FineCodeCoverage.Engine.Model
         private async Task<List<ReferencedProject>> GetReferencedProjectsFromDteAsync()
         {
             var vsproject = await GetProjectAsync();
-
+            
             if (vsproject == null)
             {
                 return null;

@@ -477,7 +477,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnStatesStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\IColumnStatesStore.cs" />
@@ -531,6 +530,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButtonX.xaml.cs">
+      <DependentUpon>VsCrispImageButtonX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsImageButton.xaml.cs">
+      <DependentUpon>VsImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsPathButton.xaml.cs">
+      <DependentUpon>VsPathButton.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Funding\FundingDialogWindow.xaml">
@@ -578,6 +586,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButtonX.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsImageButtonResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsPathButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
