@@ -74,6 +74,7 @@
     <Compile Include="CoverageToolOutput_Tests\SolutionFolderProvider_Tests.cs" />
     <Compile Include="AppOptionsProvider_Tests.cs" />
     <Compile Include="CoverageUtilManager_Tests.cs" />
+    <Compile Include="CoverageProject_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\BlazorCoverageContentType_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\BlazorFileCodeSpanRangeService_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\BlazorGeneratedFilePathMatcher_Tests.cs" />
