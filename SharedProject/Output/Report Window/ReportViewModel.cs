@@ -99,7 +99,13 @@ namespace FineCodeCoverage.Output
             }
             else
             {
-                this._items.Clear();
+                _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                {
+                    double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+                    this._items.Clear();
+                });
             }
         }
 

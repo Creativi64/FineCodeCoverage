@@ -58,7 +58,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
                     if (ok)
                     {
-                        this.projectSaver.SaveProject(vsHierarchy);
+                        await this.projectSaver.SaveProjectAsync(vsHierarchy);
                     }
                 }
             }

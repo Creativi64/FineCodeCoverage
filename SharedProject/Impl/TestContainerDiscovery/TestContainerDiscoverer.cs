@@ -85,6 +85,7 @@ namespace FineCodeCoverage.Impl
             _ = packageLoader.LoadPackageAsync(CancellationToken.None);
             operationState.StateChanged += OperationState_StateChanged;
         }
+        
 
         internal Action<Func<System.Threading.Tasks.Task>> RunAsync = (taskProvider) =>
         {
@@ -292,7 +293,5 @@ namespace FineCodeCoverage.Impl
         {
             eventAggregator.SendMessage(new CoverageEndedMessage(null));
         }
-
-
     }
 }
