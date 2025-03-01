@@ -9,6 +9,7 @@ using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
+using Moq;
 using NUnit.Framework;
 
 namespace Test
@@ -51,9 +52,9 @@ namespace Test
 		private async Task InitializeWithExceptionAsync(Action<Exception> callback = null)
 		{
 			var initializeException = new Exception("initialize exception");
-			mocker.Setup<ICoverageProjectFactory>(a => a.Initialize()).Throws(initializeException);
-			
-			await initializer.InitializeAsync(CancellationToken.None);
+			mocker.Setup<IFCCEngine>(fccEngine => fccEngine.Initialize(It.IsAny<CancellationToken>())).Throws(initializeException);
+
+            await initializer.InitializeAsync(CancellationToken.None);
 			callback?.Invoke(initializeException);
 
 		}
@@ -98,22 +99,18 @@ namespace Test
         {
 			var disposalToken = CancellationToken.None;
 			List<int> callOrder = new List<int>();
-			mocker.GetMock<ICoverageProjectFactory>().Setup(cp => cp.Initialize()).Callback(() =>
-			{
-				callOrder.Add(1);
-			});
 			mocker.GetMock<IFCCEngine>().Setup(engine => engine.Initialize(disposalToken)).Callback(() =>
 			{
-				callOrder.Add(2);
+				callOrder.Add(1);
 			});
 
 			mocker.GetMock<IFirstTimeToolWindowOpener>().Setup(firstTimeToolWindowOpener => firstTimeToolWindowOpener.OpenIfFirstTimeAsync(disposalToken)).Callback(() =>
 			{
-				callOrder.Add(3);
+				callOrder.Add(2);
 			});
 
 			await initializer.InitializeAsync(disposalToken);
-			Assert.AreEqual(new List<int> { 1, 2, 3 }, callOrder);
+			Assert.AreEqual(new List<int> { 1, 2}, callOrder);
 		}
 	}
 }

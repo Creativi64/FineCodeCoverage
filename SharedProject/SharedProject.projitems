@@ -92,7 +92,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\IFileLineCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsMerger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IVsBuildFCCSettingsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\CPPReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\DotNetReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\ICPPReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\IDotNetReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\IExcludableReferencedProject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\IProjectFileReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\IReferencedProject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\IReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\IVsApiReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\ProjectFileReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\ReferencedProject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\ReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\VsApiReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\SettingsMerger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\VsBuildFCCSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\ITemplatedRunSettingsService.cs" />
@@ -623,7 +635,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Editor\.editorconfig" />
-    <None Include="$(MSBuildThisFileDirectory)Output\Directory.Build.props" />
     <None Include="$(MSBuildThisFileDirectory)Wpf\Directory.Build.props" />
   </ItemGroup>
   <ItemGroup>

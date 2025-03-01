@@ -54,7 +54,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
                     {
                         // todo - ICoverageProjectSettingsManager.GetSettingsAsync parameter 
                         // to change to what it actually needs
-                        coverageProject = new CoverageProject(appOptionsProvider, null, null, null, coverageProjectSettingsManager, false)
+                        coverageProject = new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
                         {
                             Id = projectGuid,
                             ProjectFile = unconfiguredProject.FullPath
