@@ -16,6 +16,7 @@ using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Messages;
 using ILogger = FineCodeCoverage.Output.ILogger;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Impl
 {
@@ -41,7 +42,8 @@ namespace FineCodeCoverage.Impl
         private MsCodeCoverageCollectionStatus msCodeCoverageCollectionStatus;
         private bool runningInParallel;
         private IAppOptions settings;
-        
+        private int coverageRunNumber = 1;
+
         internal Task initializeTask;
 
         [ExcludeFromCodeCoverage]
@@ -97,6 +99,11 @@ namespace FineCodeCoverage.Impl
             return !settings.Enabled  && settings.DisabledNoCoverage;
         }
 
+        private void LogCoverageStarting()
+        {
+            logger.Log(StatusMarkerProvider.Get($"Coverage Starting - {coverageRunNumber++}"));
+        }
+
         private async Task TestExecutionStartingAsync(IOperation operation)
         {
             this.eventAggregator.SendMessage(new TestExecutionStartingMessage());
@@ -111,7 +118,7 @@ namespace FineCodeCoverage.Impl
                 RaiseCoverageEnded();
                 return;
             }
-
+            LogCoverageStarting();
             msCodeCoverageCollectionStatus = await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperationFactory.Create(operation));
             if (msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.NotCollecting)
             {

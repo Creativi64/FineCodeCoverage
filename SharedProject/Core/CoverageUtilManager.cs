@@ -23,11 +23,6 @@ namespace FineCodeCoverage.Engine
             this.coverletUtil = coverletUtil;
         }
 
-        public string CoverageToolName(ICoverageProject project)
-        {
-            return project.IsDotNetSdkStyle() ? "Coverlet" : "OpenCover";
-        }
-
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
             openCoverUtil.Initialize(appDataFolder, cancellationToken);

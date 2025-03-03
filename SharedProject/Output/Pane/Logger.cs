@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.Shell;
 using System.ComponentModel.Composition;
 using Task = System.Threading.Tasks.Task;
+using System.Globalization;
+using System.Text;
 
 namespace FineCodeCoverage.Output.Pane
 {
@@ -20,11 +22,23 @@ namespace FineCodeCoverage.Output.Pane
             IFCCOutputWindowPaneCreator fccOutputWindowCreator
         ) => this.fccOutputWindowCreator = fccOutputWindowCreator;
 
+
+        public static string GetFormattedNow()
+        {
+            var stringBuilder = new StringBuilder();
+            DateTime now = DateTime.Now;
+            stringBuilder.Append('[');
+            stringBuilder.Append(now.ToString("d", CultureInfo.CurrentCulture));
+            stringBuilder.Append(' ');
+            stringBuilder.Append(now.ToString("h:mm:ss.fff tt", CultureInfo.CurrentCulture));
+            stringBuilder.Append(']');
+            stringBuilder.Append(' ');
+            return stringBuilder.ToString();
+        }
         private void LogImpl(object[] message, bool withTitle)
         {
             try
             {
-                DateTime logTime = DateTime.Now;
                 var messageList = new List<string>(message?.Select(x => x?.ToString()?.Trim(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x)));
 
                 if (!messageList.Any())
@@ -48,7 +62,7 @@ namespace FineCodeCoverage.Output.Pane
 
                     if (withTitle)
                     {
-                        await this._pane.OutputStringThreadSafeAsync($"{Vsix.Name} {logTime}: {logs}{Environment.NewLine}");
+                        await this._pane.OutputStringThreadSafeAsync($"{GetFormattedNow()}: {logs}{Environment.NewLine}");
                     }
                     else
                     {

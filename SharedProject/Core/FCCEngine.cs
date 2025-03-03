@@ -15,8 +15,6 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine
 {
-    internal enum ReloadCoverageStatus { Start, Done, Cancelled, Error, Initializing };
-
     internal sealed class NewCoverageLinesMessage
     {
         public IFileLineCoverage CoverageLines { get; set; }
@@ -106,13 +104,9 @@ namespace FineCodeCoverage.Engine
             this.msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
         }
 
-        internal string GetLogReloadCoverageStatusMessage(ReloadCoverageStatus reloadCoverageStatus)
+        private void LogCoverageStatus(string reloadCoverageStatus)
         {
-            return $"================================== {reloadCoverageStatus.ToString().ToUpper()} ==================================";
-        }
-        private void LogReloadCoverageStatus(ReloadCoverageStatus reloadCoverageStatus)
-        {
-            logger.Log(GetLogReloadCoverageStatusMessage(reloadCoverageStatus));
+            logger.Log(StatusMarkerProvider.Get(reloadCoverageStatus));
         }
 
         public void Initialize(CancellationToken cancellationToken)
@@ -168,9 +162,6 @@ namespace FineCodeCoverage.Engine
                 {
                     var start = DateTime.Now;
                     
-                    var coverageTool = coverageUtilManager.CoverageToolName(project);
-                    var runCoverToolMessage = $"Run {coverageTool} ({project.ProjectName})";
-                    logger.Log(runCoverToolMessage);
                     await coverageUtilManager.RunCoverageAsync(project, vsShutdownLinkedCancellationToken);
                     
                     var duration = DateTime.Now - start;
@@ -253,6 +244,7 @@ namespace FineCodeCoverage.Engine
                 var logs = fileSynchronizationDetails.Logs;
                 if (logs.Any())
                 {
+                    logs.Insert(0, "File synchronization :");
                     logs.Add($"File synchronization duration : {fileSynchronizationDetails.Duration}");
                     logger.Log(logs);
                 }
@@ -267,19 +259,19 @@ namespace FineCodeCoverage.Engine
                 switch (t.Status)
                 {
                     case System.Threading.Tasks.TaskStatus.Canceled:
-                        LogReloadCoverageStatus(ReloadCoverageStatus.Cancelled);
+                        LogCoverageStatus("Cancelled");
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(null));
                         break;
                     case System.Threading.Tasks.TaskStatus.Faulted:
                         var innerException = t.Exception.InnerExceptions[0];
                         logger.Log(
-                            GetLogReloadCoverageStatusMessage(ReloadCoverageStatus.Error),
+                            StatusMarkerProvider.Get("Error"),
                             innerException
                         );
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(null));
                         break;
                     case System.Threading.Tasks.TaskStatus.RanToCompletion:
-                        LogReloadCoverageStatus(ReloadCoverageStatus.Done);
+                        LogCoverageStatus("Done");
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(t.Result.CoverageProjects));
@@ -341,8 +333,6 @@ namespace FineCodeCoverage.Engine
             RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
             {
                 ReportResult reportResult = new ReportResult();
-
-                LogReloadCoverageStatus(ReloadCoverageStatus.Start);
 
                 var coverageProjects = await coverageRequestCallback();
                 vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();

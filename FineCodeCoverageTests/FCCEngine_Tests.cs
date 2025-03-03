@@ -108,13 +108,6 @@ namespace Test
         }
 
         [Test]
-        public async Task Should_Log_Starting_When_Initialized_Async()
-        {
-            await ReloadInitializedCoverage_Async();
-            VerifyLogsReloadCoverageStatus(ReloadCoverageStatus.Start);
-        }
-
-        [Test]
         public async Task Should_Prepare_For_Coverage_Suitable_CoverageProjects_Async()
         {
             var mockSuitableCoverageProject = await ReloadSuitableCoverageProject_Async();
@@ -287,7 +280,7 @@ namespace Test
         public async Task Should_Cancel_Running_Coverage_Logging_Cancelled_When_StopCoverage_Async()
         {
             await StopCoverage_Async();
-            VerifyLogsReloadCoverageStatus(ReloadCoverageStatus.Cancelled);
+            VerifyLogsCoverageStatus("Cancelled");
         }
 
         [Test]
@@ -318,14 +311,14 @@ namespace Test
             }).Returns(Task.FromResult(new CoverageProjectFileSynchronizationDetails()));
 
             await ReloadInitializedCoverage_Async(mockSuitableCoverageProject.Object);
-            VerifyLogsReloadCoverageStatus(ReloadCoverageStatus.Cancelled);
+            VerifyLogsCoverageStatus("Cancelled");
 
 
         }
 
-        private void VerifyLogsReloadCoverageStatus(ReloadCoverageStatus reloadCoverageStatus)
+        private void VerifyLogsCoverageStatus(string coverageStatus)
         {
-            mocker.Verify<ILogger>(l => l.Log(fccEngine.GetLogReloadCoverageStatusMessage(reloadCoverageStatus)));
+            mocker.Verify<ILogger>(l => l.Log(StatusMarkerProvider.Get(coverageStatus)));
         }
 
         private async Task StopCoverage_Async()

@@ -8,6 +8,5 @@ namespace FineCodeCoverage.Engine
     {
         void Initialize(string appDataFolder, CancellationToken cancellationToken);
         Task RunCoverageAsync(ICoverageProject project, CancellationToken cancellationToken);
-        string CoverageToolName(ICoverageProject project);
     }
 }
