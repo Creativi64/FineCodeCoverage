@@ -9,8 +9,7 @@ namespace FineCodeCoverage.Funding
         private readonly IProcess process;
 
         public ProcessStartCommand(IProcess process) => this.process = process;
-        public event EventHandler CanExecuteChanged;
-
+        public event EventHandler CanExecuteChanged { add { } remove { } }
         public bool CanExecute(object parameter) => true;
         public void Execute(object parameter) => this.process.Start(parameter.ToString());
     }

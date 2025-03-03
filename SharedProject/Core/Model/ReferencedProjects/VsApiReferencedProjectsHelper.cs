@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Engine.Model
     {
         private readonly ICPPReferencedProjectsHelper cppReferencedProjectsHelper;
         private readonly IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper;
-        private AsyncLazy<DTE2> lazyDTE2;
+        private readonly AsyncLazy<DTE2> lazyDTE2;
 
         [ImportingConstructor]
         public VsApiReferencedProjectsHelper(
@@ -46,14 +46,12 @@ namespace FineCodeCoverage.Engine.Model
                 return null;
             }
 
-            var cppProject = project.Object as VCProject;
-            if (cppProject != null)
+            if (project.Object is VCProject cppProject)
             {
                 return await cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject);
             }
 
-            var vsProject = project.Object as VSProject;
-            if (vsProject != null)
+            if (project.Object is VSProject vsProject)
             {
                 return await dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject);
             }

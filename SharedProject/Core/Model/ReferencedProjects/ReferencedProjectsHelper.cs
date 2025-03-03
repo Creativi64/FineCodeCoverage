@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Engine.Model
     {
         private readonly IVsApiReferencedProjectsHelper vsApiReferencedProjectsHelper;
         private readonly IProjectFileReferencedProjectsHelper projectFileReferencedProjectsHelper;
-        private string projectFile { get; set; }
+        private string projectFile;
         private Func<XElement> projectFileXElementProvider;
 
         [ImportingConstructor]

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
 using System;
 using System.ComponentModel.Composition;
+using Microsoft;
 
 namespace FineCodeCoverage.Core.Utilities
 {
@@ -18,12 +19,15 @@ namespace FineCodeCoverage.Core.Utilities
 
         )
         {
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+#pragma warning disable VSTHRD104 // Offer async methods
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 IVsShell vsShell = (IVsShell)serviceProvider.GetService(typeof(SVsShell));
+                Assumes.Present(vsShell);
                 vsShell.AdviseShellPropertyChanges(this, out var cookie);
-            });
+            }).Join();
+#pragma warning restore VSTHRD104 // Offer async methods
 
         }
 

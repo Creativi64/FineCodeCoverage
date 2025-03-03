@@ -19,8 +19,7 @@ namespace TreeGrid
 
         public IEnumerable GetErrors(string propertyName)
         {
-            IEnumerable<string> errors;
-            this._errors.TryGetValue(propertyName, out errors);
+            this._errors.TryGetValue(propertyName, out IEnumerable<string> errors);
             return (IEnumerable)errors;
         }
 
@@ -28,9 +27,7 @@ namespace TreeGrid
         {
             this._errors.TryRemove(propertyName, out IEnumerable<string> _);
             this._errors.TryAdd(propertyName, errors);
-            EventHandler<DataErrorsChangedEventArgs> errorsChanged = this.ErrorsChanged;
-            if (errorsChanged != null)
-                errorsChanged((object)this, new DataErrorsChangedEventArgs(propertyName));
+            this.ErrorsChanged?.Invoke((object)this, new DataErrorsChangedEventArgs(propertyName));
             this.OnPropertyChanged("HasErrors");
         }
 

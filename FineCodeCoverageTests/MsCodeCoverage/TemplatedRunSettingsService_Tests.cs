@@ -178,9 +178,11 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         {
             var coverageProjects = new List<ICoverageProject> { new Mock<ICoverageProject>().Object};
             await templatedRunSettingsService.CleanUpAsync(coverageProjects);
+#pragma warning disable VSTHRD110 // Observe result of async calls
             autoMocker.Verify<IProjectRunSettingsGenerator>(
                 projectRunSettingsGenerator => projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects)
             );
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private Moq.Language.Flow.ISetup<ICustomRunSettingsTemplateProvider, CustomRunSettingsTemplateDetails> SetupICustomRunSettingsTemplateProviderAllIsAny()

@@ -80,7 +80,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
     public static class MetricSetter
     {
-        private static Dictionary<string, Func<PalmmediaCodeElement, decimal?,MetricType>> metricSetters = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
+        private static readonly Dictionary<string, Func<PalmmediaCodeElement, decimal?,MetricType>> metricSetters = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
         {
             { MetricNames.BlocksCovered, (pce,value) => {
                     pce.BlocksCovered = (int)value;
@@ -257,13 +257,13 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             palmmediaAssemblies = parserResult.Assemblies.Select(a => new PalmmediaAssembly(a)).ToList();
         }
         public List<MetricType> MetricTypes => staticMetricTypes.ToList();
-        private static HashSet<MetricType> staticMetricTypes = new HashSet<MetricType>();
+        private static readonly HashSet<MetricType> staticMetricTypes = new HashSet<MetricType>();
         public static void AddMetricTypes(List<MetricType> metricTypes)
         {
             metricTypes.ForEach(metricType => staticMetricTypes.Add(metricType));
         }
 
-        private IReadOnlyCollection<PalmmediaAssembly> palmmediaAssemblies;
+        private readonly IReadOnlyCollection<PalmmediaAssembly> palmmediaAssemblies;
         public IReadOnlyCollection<IAssembly> Assemblies => palmmediaAssemblies;
         public IDirectory Directory
         {

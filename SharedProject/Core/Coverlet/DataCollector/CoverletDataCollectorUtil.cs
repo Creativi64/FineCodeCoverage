@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Core.Coverlet;
 using FineCodeCoverage.Core.Utilities;
@@ -36,8 +37,6 @@ namespace FineCodeCoverage.Engine.Coverlet
         internal string TestAdapterPathArg { get; set; }
         private const string zipPrefix = "coverlet.collector";
         private const string zipDirectoryName = "coverletCollector";
-
-        internal IThreadHelper ThreadHelper = new VsThreadHelper();
 
         [ImportingConstructor]
         public CoverletDataCollectorUtil(
@@ -91,27 +90,24 @@ namespace FineCodeCoverage.Engine.Coverlet
             return null;
         }
 
-        private bool? GetUseDataCollectorElement()
+        private async Task<bool?> GetUseDataCollectorElementAsync()
         {
             var useDataCollector = GetUseDataCollectorFromProjectFile();
             if (!useDataCollector.HasValue)
             {
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
+                var importedSettings = await vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
+                if (importedSettings != null)
                 {
-                    var importedSettings = await vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
-                    if (importedSettings != null)
-                    {
-                        useDataCollector = UseDataCollector(importedSettings);
-                    }
-                });
+                    useDataCollector = UseDataCollector(importedSettings);
+                }
             }
 
             return useDataCollector;
         }
 
-        private bool OverriddenFromProjectFile()
+        private async Task<bool> OverriddenFromProjectFileAsync()
         {
-            var useDataCollectorFromProjectFile = GetUseDataCollectorElement();
+            var useDataCollectorFromProjectFile = await GetUseDataCollectorElementAsync();
             if (useDataCollectorFromProjectFile.HasValue)
             {
                 return !useDataCollectorFromProjectFile.Value;
@@ -122,13 +118,13 @@ namespace FineCodeCoverage.Engine.Coverlet
             }
         }
 
-        private bool HasSetUseDataCollectorInProjectFile()
+        private async Task<bool> HasSetUseDataCollectorInProjectFileAsync()
         {
-            var useDataCollector = GetUseDataCollectorElement();
+            var useDataCollector = await GetUseDataCollectorElementAsync();
             return useDataCollector.HasValue && useDataCollector.Value;
         }
 
-        public bool CanUseDataCollector(ICoverageProject coverageProject)
+        public async Task<bool> CanUseDataCollectorAsync(ICoverageProject coverageProject)
         {
             runSettingsCoverletConfiguration = runSettingsCoverletConfigurationFactory.Create();
             this.coverageProject = coverageProject;
@@ -143,12 +139,12 @@ namespace FineCodeCoverage.Engine.Coverlet
                     case CoverletDataCollectorState.Disabled:
                         return false;
                     case CoverletDataCollectorState.Enabled:
-                        return !OverriddenFromProjectFile();
+                        return !await OverriddenFromProjectFileAsync();
                 }
 
             }
 
-            return HasSetUseDataCollectorInProjectFile();
+            return await HasSetUseDataCollectorInProjectFileAsync();
             
         }
 

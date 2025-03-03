@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 {
 	internal interface ICoverletDataCollectorUtil
 	{
-		bool CanUseDataCollector(ICoverageProject coverageProject);
+		Task<bool> CanUseDataCollectorAsync(ICoverageProject coverageProject);
 		Task RunAsync(CancellationToken cancellationToken);
 
 		void Initialize(string appDataFolder, CancellationToken cancellationToken);

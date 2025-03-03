@@ -32,7 +32,7 @@ namespace TreeGrid
                 return this.IsSelectionActive ? SelectedActiveBackgroundBrush : SelectedInactiveBackgroundBrush;
             }
         }
-        private static Brush transparentBrush = new SolidColorBrush(Colors.Transparent);
+        private static readonly Brush transparentBrush = new SolidColorBrush(Colors.Transparent);
         protected virtual Brush NotSelectedBackgroundBrush { get => transparentBrush; }
         protected virtual Brush SelectedInactiveBackgroundBrush { get; } = SystemColors.InactiveSelectionHighlightBrush;
         protected virtual Brush SelectedActiveBackgroundBrush { get; } = SystemColors.HighlightBrush;

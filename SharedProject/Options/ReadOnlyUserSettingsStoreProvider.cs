@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Options
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-                return settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
+                settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
             }
             return settingsStore;
         }

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.Shell;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using FineCodeCoverage.Core.Utilities;
+using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Output
 {
@@ -76,7 +77,7 @@ namespace FineCodeCoverage.Output
 		{
 			// Switch to the main thread - the call to AddCommand in the constructor requires
 			// the UI thread.
-			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+			await package.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
 			OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
 			Instance = new OpenReportWindowCommand(package, commandService, logger, shownToolWindowHistory);
@@ -89,7 +90,7 @@ namespace FineCodeCoverage.Output
 		/// <param name="e">The event args.</param>
 		public void Execute(object sender, EventArgs e)
 		{
-            _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+			package.JoinableTaskFactory.RunAsync(async () =>
 			{
                 try
                 {
@@ -99,7 +100,7 @@ namespace FineCodeCoverage.Output
                 {
                     logger.Log(exception);
                 }
-            });
+            }).Task.Forget();
 
         }
 

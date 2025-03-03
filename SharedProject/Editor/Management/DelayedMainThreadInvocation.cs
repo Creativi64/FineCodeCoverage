@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Editor.Management
     {
         public void DelayedInvoke(Action action)
             => _ = System.Threading.Tasks.Task.Delay(0).ContinueWith(_ =>
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                ThreadHelper.JoinableTaskFactory.Run(async () =>
                 {
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     action();

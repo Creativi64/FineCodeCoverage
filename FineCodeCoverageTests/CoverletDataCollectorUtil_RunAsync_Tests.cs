@@ -238,7 +238,9 @@ namespace Test
             coverletDataCollectorUtil.TestAdapterPathArg = "testadapterpath";
             var ct = CancellationToken.None;
             await coverletDataCollectorUtil.RunAsync(ct);
+#pragma warning disable VSTHRD110 // Observe result of async calls
             mocker.Verify<IProcessUtil>(p => p.ExecuteAsync(It.Is<ExecuteRequest>(er => er.Arguments == @"test --collect:""XPlat Code Coverage"" settings --test-adapter-path testadapterpath" && er.FilePath == "dotnet" && er.WorkingDirectory == "projectOutputFolder"),ct));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private async Task<CancellationToken> Use_Custom_TestAdapterPath_Async()
@@ -258,7 +260,9 @@ namespace Test
         public async Task Should_Use_Custom_TestAdapterPath_Quoted_If_Specified_In_Settings_And_Exists_Async()
         {
             var ct = await Use_Custom_TestAdapterPath_Async();
+#pragma warning disable VSTHRD110 // Observe result of async calls
             mocker.Verify<IProcessUtil>(p => p.ExecuteAsync(It.Is<ExecuteRequest>(er => er.Arguments == $@"test --collect:""XPlat Code Coverage"" settings --test-adapter-path ""{tempDirectory}""" && er.FilePath == "dotnet" && er.WorkingDirectory == "projectOutputFolder"),ct));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]

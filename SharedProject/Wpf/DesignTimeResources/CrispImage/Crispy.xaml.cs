@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Wpf
         }
         
         public static event EventHandler<ImageThemingColorChangedArgs> ImageThemingColorChanged;
-        private static bool isInDesignMode;
+        private static readonly bool isInDesignMode;
         static Crispy()
         {
             isInDesignMode = DesignModeHelper.IsInDesignMode;

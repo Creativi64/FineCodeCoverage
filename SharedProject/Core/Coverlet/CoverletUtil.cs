@@ -25,13 +25,13 @@ namespace FineCodeCoverage.Engine.Coverlet
 		}
 
 		
-		public Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
+		public async Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
 		{
-            if (coverletDataCollectorUtil.CanUseDataCollector(project))
+            if (await coverletDataCollectorUtil.CanUseDataCollectorAsync(project))
             {
-				return coverletDataCollectorUtil.RunAsync(cancellationToken);
+				await coverletDataCollectorUtil.RunAsync(cancellationToken);
             }
-			return coverletGlobalUtil.RunAsync(project, cancellationToken);
+			await coverletGlobalUtil.RunAsync(project, cancellationToken);
 		}
 	}
 }

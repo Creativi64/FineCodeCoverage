@@ -49,8 +49,7 @@ namespace FineCodeCoverage.Wpf
 
         private static void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var dataGrid = sender as DataGrid;
-            if(dataGrid == null) return;
+            if (!(sender is DataGrid dataGrid)) return;
 
             var dataContext = dataGrid.DataContext;
             if (dataContext == null) return;

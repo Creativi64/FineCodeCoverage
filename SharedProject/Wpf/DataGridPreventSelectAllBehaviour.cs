@@ -20,8 +20,7 @@ namespace FineCodeCoverage.Wpf
             DependencyProperty.RegisterAttached("Value", typeof(bool), typeof(DataGridPreventSelectAllBehaviour), new PropertyMetadata(false,
                 (o, e) =>
                 {
-                    var dg = o as DataGrid;
-                    if(dg != null)
+                    if (o is DataGrid dg)
                     {
                         var commandBinding = new CommandBinding(
                             ApplicationCommands.SelectAll,
@@ -35,11 +34,6 @@ namespace FineCodeCoverage.Wpf
                         // Register the command binding for this specific DataGrid instance
                         dg.CommandBindings.Add(commandBinding);
                     }
-                    
-
                 }));
-
-       
-            
     }
 }

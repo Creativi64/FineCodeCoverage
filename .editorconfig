@@ -8,3 +8,7 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = false:suggestion
 
 # IDE0028: Simplify collection initialization
 dotnet_style_collection_initializer = false:suggestion
+
+# https://github.com/dotnet/roslyn/issues?q=is%3Aissue%20state%3Aopen%20IDE0079%20
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none

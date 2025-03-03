@@ -45,14 +45,18 @@ namespace FineCodeCoverageTests
             var ct = CancellationToken.None;
             await coverageUtilManager.RunCoverageAsync(mockedProject, ct);
 
+#pragma warning disable VSTHRD110 // Observe result of async calls
             if (isDotNetSdkStyle)
             {
+
                 mocker.Verify<ICoverletUtil>(coverletUtil => coverletUtil.RunCoverletAsync(mockedProject, ct));
+
             }
             else
             {
                 mocker.Verify<IOpenCoverUtil>(openCoverUtil => openCoverUtil.RunOpenCoverAsync(mockedProject, ct));
             }
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
     }
 }

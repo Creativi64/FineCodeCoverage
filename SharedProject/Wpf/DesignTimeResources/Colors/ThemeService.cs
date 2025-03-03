@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Wpf
 {
     public static class ThemeService
     {
-        private static Dictionary<string, Dictionary<ThemeResourceKey, Color>> _themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
+        private static readonly Dictionary<string, Dictionary<ThemeResourceKey, Color>> _themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
         
         static ThemeService()
         {

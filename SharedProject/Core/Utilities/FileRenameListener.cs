@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio;
+﻿using Microsoft;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
@@ -11,37 +12,26 @@ namespace FineCodeCoverage.Core.Utilities
     internal class FileRenameListener : IFileRenameListener, IVsTrackProjectDocumentsEvents2
     {
         private readonly List<Action<string, string>> callbacks = new List<Action<string, string>>();
-        private readonly System.IServiceProvider serviceProvider;
-        private bool listening;
 
         [ImportingConstructor]
         public FileRenameListener(
-            [Import(typeof(SVsServiceProvider))] System.IServiceProvider serviceProvider
+            [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
         )
         {
-            this.serviceProvider = serviceProvider;
-        }
-
-        private void EnsureListening()
-        {
-            if (!listening)
-            {
+            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
-                {
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                    var trackProjectDocuments = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
-                    trackProjectDocuments.AdviseTrackProjectDocumentsEvents(this, out var cookie);
-                });
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var trackProjectDocuments = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
+                Assumes.Present(trackProjectDocuments);
+                trackProjectDocuments.AdviseTrackProjectDocumentsEvents(this, out var cookie);
+            }).Join();
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-                listening = true;
-            }
         }
 
         public void ListenForFileRename(Action<string, string> callback)
         {
             callbacks.Add(callback);
-            EnsureListening();
         }
 
         public int OnQueryAddFiles(IVsProject pProject, int cFiles, string[] rgpszMkDocuments, VSQUERYADDFILEFLAGS[] rgFlags, VSQUERYADDFILERESULTS[] pSummaryResult, VSQUERYADDFILERESULTS[] rgResults)

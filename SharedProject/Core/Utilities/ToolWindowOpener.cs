@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Core.Utilities
             try
             {
                 await OpenReportWindowCommand.Instance.ShowToolWindowAsync();
-            }catch(System.Exception exc)
+            }catch
             {
 
             }

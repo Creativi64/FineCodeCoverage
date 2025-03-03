@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Cobertura;
 using FineCodeCoverage.Engine.Messages;
@@ -272,13 +273,11 @@ namespace FineCodeCoverage.Engine
                         break;
                     case System.Threading.Tasks.TaskStatus.RanToCompletion:
                         LogCoverageStatus("Done");
-#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(t.Result.CoverageProjects));
                         UpdateUI(t.Result.FileLineCoverage, t.Result.Report);
                         RaiseReportFiles(t.Result);
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
-#pragma warning restore IDE0079 // Remove unnecessary suppression
                         break;
                 }
 
@@ -297,7 +296,7 @@ namespace FineCodeCoverage.Engine
         
         public void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null)
         {
-            RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
+            RunCancellableCoverageTask((vsShutdownLinkedCancellationToken) =>
             {
                 ReportResult reportResult = new ReportResult();
 
@@ -306,7 +305,7 @@ namespace FineCodeCoverage.Engine
                     reportResult = RunAndProcessReport(coberturaFiles, vsShutdownLinkedCancellationToken);
                 }
                 reportResult.CoverageProjects = coverageProjects;
-                return reportResult;
+                return Task.FromResult(reportResult);
             }, cleanUp);
         }
 

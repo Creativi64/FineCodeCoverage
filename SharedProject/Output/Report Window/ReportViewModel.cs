@@ -8,6 +8,7 @@ using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.ReportGenerator;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Threading;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output
@@ -55,7 +56,7 @@ namespace FineCodeCoverage.Output
                 this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
                 IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
                 var rootDirectory = message.Report.Directory;
-                _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -95,17 +96,17 @@ namespace FineCodeCoverage.Output
                         this._items.Add(newItem);
                     }
                     
-                });
+                }).Join();
             }
             else
             {
-                _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
                     this._items.Clear();
-                });
+                }).Join();
             }
         }
 

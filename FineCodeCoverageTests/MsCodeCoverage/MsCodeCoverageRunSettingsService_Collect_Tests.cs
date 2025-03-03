@@ -69,9 +69,11 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
             await msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(mockTestOperation.Object);
 
+#pragma warning disable VSTHRD110 // Observe result of async calls
             autoMocker.Verify<ITemplatedRunSettingsService>(
                 templatedRunSettingsService => templatedRunSettingsService.CleanUpAsync(new List<ICoverageProject> { runSettingsCoverageProject })
             );
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private ICoverageProject CreateCoverageProject(string runSettingsFile)
@@ -139,9 +141,11 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public async Task Should_Clean_Up_RunSettings_Coverage_Projects_From_IsCollecting_Async()
         {
             await RunAndProcessReportAsync(null, Array.Empty<string>());
+#pragma warning disable VSTHRD110 // Observe result of async calls
             autoMocker.Verify<ITemplatedRunSettingsService>(
                 templatedRunSettingsService => templatedRunSettingsService.CleanUpAsync(new List<ICoverageProject> { runSettingsCoverageProject })
             );
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private async Task RunAndProcessReportAsync(IEnumerable<Uri> resultsUris,string[] expectedCoberturaFiles)
@@ -157,7 +161,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             
             msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
             msCodeCoverageRunSettingsService.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
-            msCodeCoverageRunSettingsService.threadHelper = new TestThreadHelper();
 
             var mockFccEngine = new Mock<IFCCEngine>();
             msCodeCoverageRunSettingsService.Initialize("", mockFccEngine.Object, CancellationToken.None);

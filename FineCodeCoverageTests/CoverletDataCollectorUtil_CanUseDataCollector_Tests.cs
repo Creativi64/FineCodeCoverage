@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMoq;
 using FineCodeCoverage.Core.Coverlet;
@@ -23,7 +25,6 @@ namespace Test
         {
             mocker = new AutoMoqer();
             coverletDataCollectorUtil = mocker.Create<CoverletDataCollectorUtil>();
-            coverletDataCollectorUtil.ThreadHelper = new TestThreadHelper();
         }
 
         private void SetUpRunSettings(Mock<ICoverageProject> mockCoverageProject, Action<Mock<IRunSettingsCoverletConfiguration>> setup)
@@ -65,7 +66,7 @@ namespace Test
         
 
         [Test]
-        public void Should_Factory_Create_Configuration_And_Read_CoverageProject_RunSettings()
+        public async Task Should_Factory_Create_Configuration_And_Read_CoverageProject_RunSettings_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(UseDataCollectorElement.True));
@@ -79,7 +80,7 @@ namespace Test
             var mockRunSettingsCoverletConfiguration = new Mock<IRunSettingsCoverletConfiguration>();
             var mockRunSettingsCoverletConfigurationFactory = mocker.GetMock<IRunSettingsCoverletConfigurationFactory>();
             mockRunSettingsCoverletConfigurationFactory.Setup(rscf => rscf.Create()).Returns(mockRunSettingsCoverletConfiguration.Object);
-            coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object);
+            await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object);
 
             mockRunSettingsCoverletConfigurationFactory.VerifyAll();
             mockRunSettingsCoverletConfiguration.Verify(rsc => rsc.Read(settingsXml));
@@ -88,43 +89,43 @@ namespace Test
 
         [TestCase(UseDataCollectorElement.None)]
         [TestCase(UseDataCollectorElement.True)]
-        public void Should_Use_Data_Collector_If_RunSettings_Has_The_Data_Collector_Enabled_And_Not_Overridden_By_Project_File(UseDataCollectorElement useDataCollector)
+        public async Task Should_Use_Data_Collector_If_RunSettings_Has_The_Data_Collector_Enabled_And_Not_Overridden_By_Project_File_Async(UseDataCollectorElement useDataCollector)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(useDataCollector));
             SetupDataCollectorState(mockCoverageProject, CoverletDataCollectorState.Enabled);
             
-            Assert.True(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.True(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
         [Test]
-        public void Should_Not_Use_Data_Collector_If_RunSettings_Has_The_Data_Collector_Enabled_And_Overridden_By_Project_File()
+        public async Task Should_Not_Use_Data_Collector_If_RunSettings_Has_The_Data_Collector_Enabled_And_Overridden_By_Project_File_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(UseDataCollectorElement.False));
 
             SetupDataCollectorState(mockCoverageProject, CoverletDataCollectorState.Enabled);
 
-            Assert.False(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.False(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
         [TestCase(UseDataCollectorElement.True)]
         [TestCase(UseDataCollectorElement.Empty)]
-        public void Should_Use_Data_Collector_If_Not_Specified_In_RunSettings_And_Specified_In_ProjectFile(UseDataCollectorElement useDataCollectorElement)
+        public async Task Should_Use_Data_Collector_If_Not_Specified_In_RunSettings_And_Specified_In_ProjectFile_Async(UseDataCollectorElement useDataCollectorElement)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(useDataCollectorElement));
 
             SetupDataCollectorState(mockCoverageProject, CoverletDataCollectorState.NotPresent);
 
-            Assert.True(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.True(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
         [TestCase(UseDataCollectorElement.True, true)]
         [TestCase(UseDataCollectorElement.Empty, true)]
         [TestCase(UseDataCollectorElement.False, false)]
         [TestCase(UseDataCollectorElement.None, false)]
-        public void Should_Use_Data_Collector_If_Not_Specified_In_RunSettings_And_Specified_In_ProjectFile_VSBuild(UseDataCollectorElement useDataCollector, bool expected)
+        public async Task Should_Use_Data_Collector_If_Not_Specified_In_RunSettings_And_Specified_In_ProjectFile_VSBuild_Async(UseDataCollectorElement useDataCollector, bool expected)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             var guid = Guid.NewGuid();
@@ -156,53 +157,53 @@ namespace Test
 
 
 
-            Assert.AreEqual(expected,coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.AreEqual(expected,await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
         [Test]
-        public void Should_Use_Data_Collector_If_No_RunSettings_And_Specified_In_ProjectFile()
+        public async Task Should_Use_Data_Collector_If_No_RunSettings_And_Specified_In_ProjectFile_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.RunSettingsFile).Returns((string)null);
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(UseDataCollectorElement.True));
 
-            Assert.True(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.True(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
 
         [TestCase(UseDataCollectorElement.False)]
         [TestCase(UseDataCollectorElement.None)]
-        public void Should_Not_Use_Data_Collector_If_Not_Specified_In_RunSettings_And_Not_Specified_In_ProjectFile(UseDataCollectorElement useDataCollector)
+        public async Task Should_Not_Use_Data_Collector_If_Not_Specified_In_RunSettings_And_Not_Specified_In_ProjectFile_Async(UseDataCollectorElement useDataCollector)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(useDataCollector));
             SetupDataCollectorState(mockCoverageProject, CoverletDataCollectorState.NotPresent);
             
-            Assert.False(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.False(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
         [TestCase(UseDataCollectorElement.False)]
         [TestCase(UseDataCollectorElement.None)]
-        public void Should_Not_Use_Data_Collector_If_No_RunSettings_And_Not_Specified_In_ProjectFile(UseDataCollectorElement useDataCollector)
+        public async Task Should_Not_Use_Data_Collector_If_No_RunSettings_And_Not_Specified_In_ProjectFile_Async(UseDataCollectorElement useDataCollector)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.RunSettingsFile).Returns((string)null);
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(useDataCollector));
 
-            Assert.False(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.False(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
         [TestCase(UseDataCollectorElement.True)]
         [TestCase(UseDataCollectorElement.False)]
         [TestCase(UseDataCollectorElement.None)]
         [TestCase(UseDataCollectorElement.Empty)]
-        public void Should_Not_Use_Data_Collector_If_Disabled_In_RunSettings(UseDataCollectorElement useDataCollector)
+        public async Task Should_Not_Use_Data_Collector_If_Disabled_In_RunSettings_Async(UseDataCollectorElement useDataCollector)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.ProjectFileXElement).Returns(GetProjectElementWithDataCollector(useDataCollector));
             SetupDataCollectorState(mockCoverageProject, CoverletDataCollectorState.Disabled);
 
-            Assert.False(coverletDataCollectorUtil.CanUseDataCollector(mockCoverageProject.Object));
+            Assert.False(await coverletDataCollectorUtil.CanUseDataCollectorAsync(mockCoverageProject.Object));
         }
 
     }

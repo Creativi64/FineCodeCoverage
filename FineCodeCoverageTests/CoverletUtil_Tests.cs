@@ -35,7 +35,7 @@ namespace Test
             var project = new Mock<ICoverageProject>().Object;
 
             var mockDataCollectorUtil = mocker.GetMock<ICoverletDataCollectorUtil>();
-            mockDataCollectorUtil.Setup(dc => dc.CanUseDataCollector(project)).Returns(true);
+            mockDataCollectorUtil.Setup(dc => dc.CanUseDataCollectorAsync(project)).ReturnsAsync(true);
             mockDataCollectorUtil.Setup(dc => dc.RunAsync(ct));
 
             await coverletUtil.RunCoverletAsync(project,ct);
@@ -50,7 +50,7 @@ namespace Test
             var project = new Mock<ICoverageProject>().Object;
 
             var mockDataCollectorUtil = mocker.GetMock<ICoverletDataCollectorUtil>();
-            mockDataCollectorUtil.Setup(dc => dc.CanUseDataCollector(project)).Returns(false);
+            mockDataCollectorUtil.Setup(dc => dc.CanUseDataCollectorAsync(project)).ReturnsAsync(false);
 
             var mockGlobalUtil = mocker.GetMock<ICoverletConsoleUtil>();
             mockGlobalUtil.Setup(g => g.RunAsync(project, ct));

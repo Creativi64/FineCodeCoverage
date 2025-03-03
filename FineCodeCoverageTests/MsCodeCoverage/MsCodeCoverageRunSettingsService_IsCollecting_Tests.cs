@@ -83,7 +83,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         {
             autoMocker = new AutoMoqer();
             msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
-            msCodeCoverageRunSettingsService.threadHelper = new TestThreadHelper();
             SetupAppOptionsProvider(RunMsCodeCoverage.Yes);
         }
 

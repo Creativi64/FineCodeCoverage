@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
     [Export(typeof(IProjectSaver))]
     internal class ProjectSaver : IProjectSaver
     {
-        private IServiceProvider serviceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         [ImportingConstructor]
         public ProjectSaver(

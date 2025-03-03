@@ -136,7 +136,9 @@ namespace Test
         [Test]
         public void It_Should_Load_The_Package()
         {
+#pragma warning disable VSTHRD110 // Observe result of async calls
             mocker.Verify<IPackageLoader>(packageLoader => packageLoader.LoadPackageAsync(It.IsAny<CancellationToken>()));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]

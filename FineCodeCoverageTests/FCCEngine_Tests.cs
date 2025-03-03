@@ -44,14 +44,14 @@ namespace Test
             throw new NotImplementedException();
             //var reportGeneratorMock = mocker.GetMock<IReportGeneratorUtil>().Setup(reportGenerator => reportGenerator.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(2));
 
-            var msTestPlatformMock = mocker.GetMock<IMsTestPlatformUtil>().Setup(msTestPlatform => msTestPlatform.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(3));
+            //var msTestPlatformMock = mocker.GetMock<IMsTestPlatformUtil>().Setup(msTestPlatform => msTestPlatform.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(3));
 
-            var openCoverMock = mocker.GetMock<ICoverageUtilManager>().Setup(openCover => openCover.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(4));
+            //var openCoverMock = mocker.GetMock<ICoverageUtilManager>().Setup(openCover => openCover.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(4));
 
-            fccEngine.Initialize(disposalToken);
+            //fccEngine.Initialize(disposalToken);
 
-            Assert.AreEqual(4, callOrder.Count);
-            Assert.AreEqual(1, callOrder[0]);
+            //Assert.AreEqual(4, callOrder.Count);
+            //Assert.AreEqual(1, callOrder[0]);
         }
 
         
@@ -158,7 +158,9 @@ namespace Test
                 });
             });
 
+#pragma warning disable VSTHRD110 // Observe result of async calls
             mocker.Verify<ICoverageUtilManager>(coverageUtilManager => coverageUtilManager.RunCoverageAsync(coverageProject, It.IsAny<CancellationToken>()));
+#pragma warning restore VSTHRD110 // Observe result of async calls
 
         }
 

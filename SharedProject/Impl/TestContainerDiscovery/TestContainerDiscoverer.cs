@@ -34,7 +34,6 @@ namespace FineCodeCoverage.Impl
         private readonly ITestOperationFactory testOperationFactory;
         private readonly ILogger logger;
         private readonly IAppOptionsProvider appOptionsProvider;
-        private readonly IReportGeneratorUtil reportGeneratorUtil;
         private readonly IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService;
         private readonly IEventAggregator eventAggregator;
         internal Dictionary<TestOperationStates, Func<IOperation, Task>> testOperationStateChangeHandlers;
@@ -64,13 +63,11 @@ namespace FineCodeCoverage.Impl
             ITestOperationFactory testOperationFactory,
             ILogger logger,
             IAppOptionsProvider appOptionsProvider,
-            IReportGeneratorUtil reportGeneratorUtil,
             IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
             IEventAggregator eventAggregator
         )
         {
             this.appOptionsProvider = appOptionsProvider;
-            this.reportGeneratorUtil = reportGeneratorUtil;
             this.msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
             this.eventAggregator = eventAggregator;
             this.fccEngine = fccEngine;

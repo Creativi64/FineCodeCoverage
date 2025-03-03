@@ -140,11 +140,7 @@ namespace TreeGrid
 
         private void SetHierarchicalDataTemplate()
         {
-            var hdt = HierarchicalDataTemplate;
-            if (hdt == null)
-            {
-                hdt = FindResource("DefaultHierarchicalDataTemplate") as HierarchicalDataTemplate;
-            }
+            var hdt = HierarchicalDataTemplate ?? FindResource("DefaultHierarchicalDataTemplate") as HierarchicalDataTemplate;
             TreeView.ItemTemplate = hdt;
         }
 

@@ -42,8 +42,7 @@ namespace FineCodeCoverage.Wpf
         {
             var resources = fe.Resources;
             var mergedDictionaries = resources.MergedDictionaries;
-            var themeResourceDictionary = mergedDictionaries.FirstOrDefault(rd => rd is ThemesResourceDictionary) as ThemesResourceDictionary;
-            if (themeResourceDictionary == null)
+            if (!(mergedDictionaries.FirstOrDefault(rd => rd is ThemesResourceDictionary) is ThemesResourceDictionary themeResourceDictionary))
             {
                 themeResourceDictionary = new ThemesResourceDictionary();
                 resources.MergedDictionaries.Add(themeResourceDictionary);

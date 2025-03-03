@@ -40,7 +40,9 @@ namespace FineCodeCoverageTests
         {
             await packageLoader.LoadPackageAsync(CancellationToken.None);
 
+#pragma warning disable VSTHRD110 // Observe result of async calls
             mocker.Verify<IShellPackageLoader>(x => x.LoadPackageAsync());
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
     }
 }

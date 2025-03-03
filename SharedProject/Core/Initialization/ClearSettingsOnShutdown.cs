@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using Microsoft;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Composition;
@@ -23,16 +24,22 @@ namespace FineCodeCoverage.Core.Initialization
         {
             if (Debugger.IsAttached)
             {
-                IVsAppCommandLine cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
-                cmdLine.GetOption(ClearSettingsOnShutdownOption, out var isPresent, out var _);
-                if(isPresent != 0)
+                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
                 {
-                    foreach (var clearSettingsOnShutdown in clearSettingsOnShutdowns)
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    IVsAppCommandLine cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
+                    Assumes.Present(cmdLine);
+                    cmdLine.GetOption(ClearSettingsOnShutdownOption, out var isPresent, out var _);
+                    if (isPresent != 0)
                     {
-                        clearSettingsOnShutdown.ClearSettingsOnShutdown = true;
+                        foreach (var clearSettingsOnShutdown in clearSettingsOnShutdowns)
+                        {
+                            clearSettingsOnShutdown.ClearSettingsOnShutdown = true;
+                        }
                     }
-                }
-                
+                }).Join();
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             }
             
         }
