@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Output;
+using FineCodeCoverage.Output.Pane;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -11,6 +12,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     internal partial class ReportGeneratorUtil : IReportGeneratorUtil
     {
         private readonly IFCCReportGenerator reportGenerator;
+        private readonly ILogger logger;
 
         [ImportingConstructor]
         public ReportGeneratorUtil(
@@ -19,6 +21,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         )
         {
             this.reportGenerator = reportGenerator;
+            this.logger = logger;
             this.reportGenerator.SetLogger(VerbosityLevel.Info, (level, message) =>
             {
                 logger.Log(message);
@@ -30,9 +33,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             string reportOutputFolder, 
             CancellationToken cancellationToken)
         {
+            logger.Log("Report Generator - Output");
             var reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
-
-
             return new ReportGeneratorResult
             {
                 ReportResult = reportResult,

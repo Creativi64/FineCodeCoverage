@@ -349,6 +349,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         private VerbosityLevel verbosityLevel;
         public void SetLogger(VerbosityLevel verbosityLevel, Action<VerbosityLevel, string> logger)
         {
+            this.verbosityLevel = verbosityLevel;
             LoggerFactory.Configure((palmmediaVerbosityLevel, message) =>
             {
                 var shouldLog = true;
@@ -363,6 +364,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                     logger((VerbosityLevel)palmmediaVerbosityLevel, message);
                 }
             });
+            LoggerFactory.VerbosityLevel = (PalmmediaVerbosityLevel)verbosityLevel;
         }
     }
 
