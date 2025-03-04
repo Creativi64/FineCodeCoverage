@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.Initialization
         {
             if (Debugger.IsAttached)
             {
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
                 {
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Core.Initialization
                             clearSettingsOnShutdown.ClearSettingsOnShutdown = true;
                         }
                     }
-                }).Join();
+                });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             }
             

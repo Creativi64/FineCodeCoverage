@@ -20,14 +20,14 @@ namespace FineCodeCoverage.Core.Utilities
             IServiceProvider serviceProvider
             )
         {
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD104 // Offer async methods
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
                 Assumes.Present(vsSolution);
                 vsSolution.AdviseSolutionEvents(this, out uint _);
-            }).Join();
+            });
 #pragma warning restore VSTHRD104 // Offer async methods
         }
 

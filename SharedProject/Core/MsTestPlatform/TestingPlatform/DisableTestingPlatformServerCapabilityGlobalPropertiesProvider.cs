@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         )
           : base((IProjectCommonServices)projectService.Services)
         {
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var hostObject = unconfiguredProject.Services.HostObject;
@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
                         };
                     }
                 }
-            }).Join();
+            });
 
             this.useTestingPlatformProtocolFeatureService = useTestingPlatformProtocolFeatureService;
             this.appOptionsProvider = appOptionsProvider;

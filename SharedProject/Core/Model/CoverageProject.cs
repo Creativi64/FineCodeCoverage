@@ -129,11 +129,11 @@ namespace FineCodeCoverage.Engine.Model
             {
                 if (settings == null)
                 {
-                    ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                    ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
                     {
                         settings = await settingsManager.GetSettingsAsync(this);
-                    }).Join();
+                    });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
                 }
                 return settings;

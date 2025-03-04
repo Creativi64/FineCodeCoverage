@@ -18,14 +18,14 @@ namespace FineCodeCoverage.Core.Utilities
             [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
         )
         {
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var trackProjectDocuments = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
                 Assumes.Present(trackProjectDocuments);
                 trackProjectDocuments.AdviseTrackProjectDocumentsEvents(this, out var cookie);
-            }).Join();
+            });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 

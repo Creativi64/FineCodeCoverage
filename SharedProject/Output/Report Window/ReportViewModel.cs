@@ -56,7 +56,7 @@ namespace FineCodeCoverage.Output
                 this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
                 IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
                 var rootDirectory = message.Report.Directory;
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                ThreadHelper.JoinableTaskFactory.Run(async () =>
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -96,17 +96,17 @@ namespace FineCodeCoverage.Output
                         this._items.Add(newItem);
                     }
                     
-                }).Join();
+                });
             }
             else
             {
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                ThreadHelper.JoinableTaskFactory.Run(async () =>
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
                     this._items.Clear();
-                }).Join();
+                });
             }
         }
 

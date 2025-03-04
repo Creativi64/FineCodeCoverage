@@ -19,14 +19,14 @@ namespace FineCodeCoverage.Core.Utilities
 
         )
         {
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD104 // Offer async methods
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 IVsShell vsShell = (IVsShell)serviceProvider.GetService(typeof(SVsShell));
                 Assumes.Present(vsShell);
                 vsShell.AdviseShellPropertyChanges(this, out var cookie);
-            }).Join();
+            });
 #pragma warning restore VSTHRD104 // Offer async methods
 
         }

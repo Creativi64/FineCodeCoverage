@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Options
         private static IAppOptionsStorageProvider GetAppOptionsStorageProvider()
         {
             IAppOptionsStorageProvider appOptionsStorageProvider = null;
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -58,7 +58,7 @@ namespace FineCodeCoverage.Options
                 var componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
                 Assumes.Present(componentModel);
                 appOptionsStorageProvider = componentModel.GetService<IAppOptionsStorageProvider>();
-            }).Join();
+            });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             return appOptionsStorageProvider;
         }
