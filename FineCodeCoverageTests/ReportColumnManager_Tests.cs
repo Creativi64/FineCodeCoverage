@@ -2,8 +2,10 @@
 using System.Linq;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
+using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
 using TreeGrid;
@@ -12,6 +14,13 @@ namespace FineCodeCoverageTests
 {
     internal class ReportColumnManager_Tests
     {
+        private ReportColumnManager CreateReportColumnManager()
+        {
+            var autoMoqer = new AutoMoqer();
+            autoMoqer.SetInstance<IThreadHelper>(new TestThreadHelper());
+            return autoMoqer.Create<ReportColumnManager>();
+        }
+
         [Test]
         public void Should_Have_Column_Properties_With_Distinct_DisplayIndex()
         {
@@ -21,8 +30,7 @@ namespace FineCodeCoverageTests
 
         private (List<ColumnData> columns, ReportColumnManager reportColumnManager) GetColumnProperties()
         {
-            var autoMoqer = new AutoMoqer();
-            var reportColumnManager = autoMoqer.Create<ReportColumnManager>();
+            var reportColumnManager = CreateReportColumnManager();
             var columnsFromProperties = typeof(ReportColumnManager).GetProperties().Where(p => typeof(ColumnData).IsAssignableFrom(p.PropertyType)).Select(p => p.GetValue(reportColumnManager)).OfType<ColumnData>().ToList();
             return (columnsFromProperties, reportColumnManager);
         }
@@ -30,8 +38,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Have_First_Column_The_Name_Column()
         {
-            var autoMoqer = new AutoMoqer();
-            var reportColumnManager = autoMoqer.Create<ReportColumnManager>();
+            var reportColumnManager = CreateReportColumnManager();
             var firstColumn = reportColumnManager.Columns[0];
             Assert.That(firstColumn.Name, Is.EqualTo("Name"));
             Assert.That(firstColumn.DisplayIndex, Is.EqualTo(0));
@@ -47,8 +54,9 @@ namespace FineCodeCoverageTests
         private ReportColumnManager Setup(List<ReportColumnState> reportColumnStates)
         {
             var autoMoqer = new AutoMoqer();
+            autoMoqer.SetInstance<IThreadHelper>(new TestThreadHelper());
             var mockColumnStatesStore = new Mock<IColumnStatesStore>();
-            mockColumnStatesStore.Setup(columnStatesStore => columnStatesStore.GetColumnStates()).Returns("SerializedColumnStates");
+            mockColumnStatesStore.Setup(columnStatesStore => columnStatesStore.GetColumnStatesAsync()).ReturnsAsync("SerializedColumnStates");
             var mockJsonConvertService = new Mock<IJsonConvertService>();
 
             mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.DeserializeObject<List<ReportColumnState>>("SerializedColumnStates"))
@@ -144,9 +152,10 @@ namespace FineCodeCoverageTests
         public void Should_Save_State_On_VsShutdown_From_Column_Properties_And_UserVisible()
         {
             var autoMoqer = new AutoMoqer();
+            autoMoqer.SetInstance<IThreadHelper>(new TestThreadHelper());
             var mockColumnStatesStore = new Mock<IColumnStatesStore>();
             
-            mockColumnStatesStore.Setup(columnStatesStore => columnStatesStore.GetColumnStates()).Returns("SerializedColumnStates");
+            mockColumnStatesStore.Setup(columnStatesStore => columnStatesStore.GetColumnStatesAsync()).ReturnsAsync("SerializedColumnStates");
             var mockJsonConvertService = new Mock<IJsonConvertService>();
             mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.SerializeObject(It.IsAny<List<ReportColumnState>>())).Returns("SerializedOnSaved");
             var mockVsShutdown = new Mock<IVsShutdown>();
@@ -174,7 +183,7 @@ namespace FineCodeCoverageTests
 
             mockVsShutdown.Raise(vsShutdown => vsShutdown.Shutdown += null, new object[] { null, null });
 
-            mockColumnStatesStore.Verify(columnStatesStore => columnStatesStore.SaveColumnStates("SerializedOnSaved"), Times.Once);
+            mockColumnStatesStore.Verify(columnStatesStore => columnStatesStore.SaveColumnStatesAsync("SerializedOnSaved"), Times.Once);
 
             var serializeObjectInvocation = mockJsonConvertService.Invocations.Where(invocation => invocation.Method.Name == nameof(JsonConvertService.SerializeObject)).Single();
             var reportColumnStates = (List<ReportColumnState>)serializeObjectInvocation.Arguments[0];

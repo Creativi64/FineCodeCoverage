@@ -101,7 +101,6 @@
     <Compile Include="Editor\Management\CoverageClassificationTypeService_Tests.cs" />
     <Compile Include="Editor\Management\CoverageFontAndColorsCategoryItemNames_Tests.cs" />
     <Compile Include="Editor\Management\FontsAndColorsHelper_Tests.cs" />
-    <Compile Include="Editor\Management\VsHasCoverageMarkersLogic_Tests.cs" />
     <Compile Include="Editor\Roslyn\ContainingCodeVisitor_Tests_Base.cs" />
     <Compile Include="Editor\Roslyn\CSharpContainingCodeVisitor_Tests.cs" />
     <Compile Include="Editor\Roslyn\LanguageContainingCodeVisitorFactory_Tests.cs" />

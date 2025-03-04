@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Options
 {
     internal interface IReadOnlyConfigSettingsStoreProvider
     {
-        SettingsStore Provide();
+        AsyncLazy<SettingsStore> LazySettingsStore { get; }
     }
 }

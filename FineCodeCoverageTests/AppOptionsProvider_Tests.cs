@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Threading;
 using Moq;
 using NUnit.Framework;
 
@@ -23,10 +25,11 @@ namespace FineCodeCoverageTests
             autoMocker = new AutoMoqer();
             appOptionsProvider = autoMocker.Create<AppOptionsProvider>();
             mockWritableSettingsStore = new Mock<WritableSettingsStore>();
+            var lazyMockWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object),null);
             var mockWritableUserSettingsStoreProvider = autoMocker.GetMock<IWritableUserSettingsStoreProvider>();
             mockWritableUserSettingsStoreProvider.Setup(
-                writableSettingsStoreProvider => writableSettingsStoreProvider.Provide()
-            ).Returns(mockWritableSettingsStore.Object);
+                writableSettingsStoreProvider => writableSettingsStoreProvider.LazySettingsStore
+            ).Returns(lazyMockWritableSettingsStore);
         }
 
 

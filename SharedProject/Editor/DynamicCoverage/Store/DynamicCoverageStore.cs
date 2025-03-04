@@ -4,29 +4,31 @@ using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(IDynamicCoverageStore))]
     internal class DynamicCoverageStore : IDynamicCoverageStore, IListener<NewCoverageLinesMessage>
     {
-        private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
         private readonly IJsonConvertService jsonConvertService;
         private readonly IDateTimeService dateTimeService;
         private const string dynamicCoverageStoreCollectionName = "FCC.DynamicCoverageStore";
+        private readonly AsyncLazy<WritableSettingsStore> lazySettingsStore;
         private WritableSettingsStore writableUserSettingsStore;
         private WritableSettingsStore WritableUserSettingsStore
         {
             get
             {
-                if (this.writableUserSettingsStore == null)
+                if(this.writableUserSettingsStore == null)
                 {
-                    this.writableUserSettingsStore = this.writableUserSettingsStoreProvider.Provide();
+                    this.writableUserSettingsStore = this.lazySettingsStore.GetValue();
                 }
 
                 return this.writableUserSettingsStore;
             }
         }
+
 
         // when visual studio is closed SolutionEvents AfterClosing event is fired, the FCCEngine
         // will NewCoverageLinesMessage and the store will be removed
@@ -39,8 +41,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             IDateTimeService dateTimeService
         )
         {
+            this.lazySettingsStore = writableUserSettingsStoreProvider.LazySettingsStore;
             _ = eventAggregator.AddListener(this);
-            this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
             this.jsonConvertService = jsonConvertService;
             this.dateTimeService = dateTimeService;
             fileRenameListener.ListenForFileRename((oldFileName, newFileName) =>

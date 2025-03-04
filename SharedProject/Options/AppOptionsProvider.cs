@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Options
 
         private WritableSettingsStore EnsureStore()
         {
-            var settingsStore = writableUserSettingsStoreProvider.Provide();
+            var settingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
             if (!settingsStore.CollectionExists(Vsix.Code))
             {
                 settingsStore.CreateCollection(Vsix.Code);

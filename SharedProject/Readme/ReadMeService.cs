@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Readme
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider
         )
         {
-            this.writableUserSettingsStore = writableUserSettingsStoreProvider.Provide();
+            this.writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
             this.HasShownReadMe = this.writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
             this.process = process;
             this.toolWindowService = toolWindowService;

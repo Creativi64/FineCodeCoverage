@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Engine.ReportGenerator;
 using TreeGrid;
 
@@ -17,19 +18,21 @@ namespace FineCodeCoverage.Output
         public ReportColumnManager(
             IVsShutdown vsShutdown,
             IColumnStatesStore columnStateStore,
-            IJsonConvertService jsonConvertService
+            IJsonConvertService jsonConvertService,
+            IThreadHelper threadHelper
         )
         {
             this.columnStateStore = columnStateStore;
             this.jsonConvertService = jsonConvertService;
-            SetInitialColumns(GetColumnStates());
+
+            var columnStates = threadHelper.JoinableTaskFactory.Run(() => this.columnStateStore.GetColumnStatesAsync());
+            SetInitialColumns(GetColumnStates(columnStates));
             
             vsShutdown.Shutdown += VsShutdown_Shutdown;
         }
 
-        private List<ReportColumnState> GetColumnStates()
+        private List<ReportColumnState> GetColumnStates(string jsonColumnStates)
         {
-            var jsonColumnStates = this.columnStateStore.GetColumnStates();
             List<ReportColumnState> columnStates;
             if (jsonColumnStates != null)
             {
@@ -73,7 +76,7 @@ namespace FineCodeCoverage.Output
                 };
             }).ToList();
             var jsonColumnStates = jsonConvertService.SerializeObject(reportColumnStates);
-            columnStateStore.SaveColumnStates(jsonColumnStates);
+            columnStateStore.SaveColumnStatesAsync(jsonColumnStates);
         }
 
         private void SetInitialColumns(List<ReportColumnState> reportColumnStates)

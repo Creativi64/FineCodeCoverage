@@ -5,9 +5,11 @@ using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Threading;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage
 {
@@ -29,8 +31,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var autoMoqer = new AutoMoqer();
             var mockWritableSettingsStore = new Mock<WritableSettingsStore>();
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.CollectionExists("FCC.DynamicCoverageStore")).Returns(collectionExists);
-            autoMoqer.Setup<IWritableUserSettingsStoreProvider, WritableSettingsStore>(
-                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.Provide()).Returns(mockWritableSettingsStore.Object);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
             
             var dynamicCoverageStore = autoMoqer.Create<DynamicCoverageStore>();
 
@@ -52,8 +55,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 new SerializedCoverageWhen { Serialized = "serialized coverage", When = now })).Returns("serialized");
             var mockWritableSettingsStore = new Mock<WritableSettingsStore>();
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.CollectionExists("FCC.DynamicCoverageStore")).Returns(collectionExists);
-            autoMoqer.Setup<IWritableUserSettingsStoreProvider, WritableSettingsStore>(
-                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.Provide()).Returns(mockWritableSettingsStore.Object);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
 
             var dynamicCoverageStore = autoMoqer.Create<DynamicCoverageStore>();
 
@@ -67,9 +71,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Return_Null_For_GetSerializedCoverage_When_Collection_Does_Not_Exist()
         {
             var autoMoqer = new AutoMoqer();
-            
-            autoMoqer.Setup<IWritableUserSettingsStoreProvider, WritableSettingsStore>(
-                               writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.Provide()).Returns(new Mock<WritableSettingsStore>().Object);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(new Mock<WritableSettingsStore>().Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                               writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
 
             var dynamicCoverageStore = autoMoqer.Create<DynamicCoverageStore>();
 
@@ -88,8 +92,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.CollectionExists("FCC.DynamicCoverageStore")).Returns(true);
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.PropertyExists("FCC.DynamicCoverageStore", "filePath")).Returns(propertyExists);
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.GetString("FCC.DynamicCoverageStore", "filePath")).Returns("serialized");
-            autoMoqer.Setup<IWritableUserSettingsStoreProvider, WritableSettingsStore>(
-                               writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.Provide()).Returns(mockWritableSettingsStore.Object);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                               writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
 
             var deserializedCoverageWhen = new SerializedCoverageWhen { When = DateTime.Now, Serialized = "serializedCoverage coverage" };
             var mockJsonConvertService = autoMoqer.GetMock<IJsonConvertService>();
@@ -119,8 +124,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var autoMoqer = new AutoMoqer();
             var mockWritableSettingsStore = new Mock<WritableSettingsStore>();
             setupWritableSettingsStore?.Invoke(mockWritableSettingsStore);
-            autoMoqer.Setup<IWritableUserSettingsStoreProvider, WritableSettingsStore>(
-                              writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.Provide()).Returns(mockWritableSettingsStore.Object);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                              writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
             var mockFileRenameListener = autoMoqer.GetMock<IFileRenameListener>();
             mockFileRenameListener.Setup(fileRenameListener => fileRenameListener.ListenForFileRename(It.IsAny<Action<string, string>>()))
                 .Callback<Action<string, string>>(action => action("oldFileName", "newFileName"));
@@ -169,8 +175,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         {
             var autoMoqer = new AutoMoqer();
             var mockWritableSettingsStore = new Mock<WritableSettingsStore>();
-            autoMoqer.Setup<IWritableUserSettingsStoreProvider, WritableSettingsStore>(
-                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.Provide()).Returns(mockWritableSettingsStore.Object);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
 
             var dynamicCoverageStore = autoMoqer.Create<DynamicCoverageStore>();
 

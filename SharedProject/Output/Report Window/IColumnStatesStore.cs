@@ -1,8 +1,10 @@
-﻿namespace FineCodeCoverage.Output
+﻿using System.Threading.Tasks;
+
+namespace FineCodeCoverage.Output
 {
     interface IColumnStatesStore
     {
-        void SaveColumnStates(string columnStates);
-        string GetColumnStates();
+        Task SaveColumnStatesAsync(string columnStates);
+        Task<string> GetColumnStatesAsync();
     }
 }
