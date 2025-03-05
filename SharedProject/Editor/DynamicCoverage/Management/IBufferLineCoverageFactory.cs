@@ -1,5 +1,4 @@
 ﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

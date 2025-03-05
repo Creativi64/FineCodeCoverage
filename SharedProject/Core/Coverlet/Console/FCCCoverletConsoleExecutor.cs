@@ -10,7 +10,6 @@ namespace FineCodeCoverage.Engine.Coverlet
     public interface ICoverletConsoleExeFinder
     {
         string FindInFolder(string folder, SearchOption searchOption);
-
     }
     public class CoverletConsoleExeFinder
     {
@@ -43,7 +42,6 @@ namespace FineCodeCoverage.Engine.Coverlet
 				Arguments = coverletSettings,
 				WorkingDirectory = coverageProject.ProjectOutputFolder
 			};
-
 		}
 
 		public void Initialize(string appDataFolder, CancellationToken cancellationToken)

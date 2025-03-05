@@ -91,7 +91,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     trackedNewCodeLine, currentSnapshot, potentialNewLines, removals);
                 updatedLineNumbers.AddRange(lineNumberUpdates);
                 potentialNewLines = reducedPotentialNewLines;
-            };
+            }
+
             removals.ForEach(removal => this.trackedNewCodeLines.Remove(removal));
             return (updatedLineNumbers.Distinct().ToList(), potentialNewLines);
         }

@@ -237,7 +237,7 @@ namespace FineCodeCoverage.Engine
 
                 if (!project.Settings.Enabled)
                 {
-                    project.FailureDescription = $"Disabled";
+                    project.FailureDescription = "Disabled";
                     continue;
                 }
 

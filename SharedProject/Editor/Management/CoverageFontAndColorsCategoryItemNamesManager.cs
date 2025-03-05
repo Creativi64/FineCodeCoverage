@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Editor.Management
             this.Set(() => appOptions.UseEnterpriseFontsAndColors);
             if (this.usingEnterprise != preUsingEnterprise)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
         }
 

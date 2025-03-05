@@ -165,7 +165,7 @@ namespace FineCodeCoverage.Impl
             }
             
             var testOperation = testOperationFactory.Create(operation);
-            
+
             var shouldCollect = CoverageConditionsMet(testOperation);
             return (shouldCollect, testOperation);
         }

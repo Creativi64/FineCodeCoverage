@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Engine
 
         [ImportingConstructor]
         public CoverageToolOutputManager(
-            IFileUtil fileUtil, 
+            IFileUtil fileUtil,
             ILogger logger,[ImportMany] IEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders,
             IEventAggregator eventAggregator
             )
@@ -54,8 +54,6 @@ namespace FineCodeCoverage.Engine
                 }
             }
         }
-
-        
 
         private void DetermineOutputFolderForAllProjects()
         {

@@ -26,8 +26,7 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
         [ImportingConstructor]
         public CoverageLineOverviewMarkTaggerProvider(
             ICoverageTaggerProviderFactory coverageTaggerProviderFactory,
-            ICoverageColoursEditorFormatMapNames coverageColoursEditorFormatMapNames,
-            ILineSpanLogic lineSpanLogic
+            ICoverageColoursEditorFormatMapNames coverageColoursEditorFormatMapNames
         )
         {
             this.coverageTaggerProvider = coverageTaggerProviderFactory.Create<OverviewMarkTag, CoverageOverviewMarginFilter>(this);

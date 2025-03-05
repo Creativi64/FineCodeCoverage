@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ITextBuffer2 textBuffer;
         private bool? editorCoverageModeOff;
         private IFileLineCoverage fileLineCoverage;
-        private Nullable<DateTime> lastChanged;
+        private DateTime? lastChanged;
         private DateTime lastTestExecutionStarting;
         private bool applicableContentType = true;
 

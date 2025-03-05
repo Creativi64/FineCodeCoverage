@@ -58,7 +58,6 @@ namespace FineCodeCoverage.Engine.Cobertura
             this.fileLineCoverageFactory = fileLineCoverageFactory;
         }
 
-
 		public IFileLineCoverage ProcessCoberturaXml(string xmlFile)
 		{
 			fileLineCoverage = fileLineCoverageFactory.Create();

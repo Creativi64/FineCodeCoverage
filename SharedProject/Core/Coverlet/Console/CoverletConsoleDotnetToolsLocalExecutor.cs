@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                         };
                     }
                 }
-                
+
                 this.logger.Log("Unable to use Coverlet console local tool");
 
                 return null;

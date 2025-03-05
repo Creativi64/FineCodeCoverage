@@ -33,7 +33,6 @@ namespace FineCodeCoverage.Engine
                 }
                 return providedDirectory;
             }));
-            
         }
     }
 }

@@ -108,7 +108,7 @@ namespace FineCodeCoverage.Core.Utilities
             add
             {
                 themeChanged = value;
-                Microsoft.VisualStudio.PlatformUI.VSColorTheme.ThemeChanged += (e) =>
+                Microsoft.VisualStudio.PlatformUI.VSColorTheme.ThemeChanged += (_) =>
                 {
                     SetCurrentTheme();
                     themeChanged?.Invoke(this, EventArgs.Empty);

@@ -25,10 +25,11 @@ namespace FineCodeCoverage.Engine.Coverlet
 
 		private CoverletToolDetails ExecuteAndParse(Func<IDotNetToolListExecutor,DotNetToolListExecutionResult> execution )
         {
-			var result = execution(executor);
+            const string title = "Dotnet tool list Coverlet";
+            var result = execution(executor);
 			if(result.ExitCode != 0)
             {
-				var title = $"Dotnet tool list Coverlet";
+				
 				logger.Log($"{title} Error", result.Output);
 				return null;
 			}
@@ -39,11 +40,10 @@ namespace FineCodeCoverage.Engine.Coverlet
 			}
 			catch (Exception)
             {
-				var title = $"Dotnet tool list Coverlet";
 				logger.Log($"{title} Error parsing", result.Output);
 				return null;
 			}
-			
+
 			var coverletConsoleTool = tools.FirstOrDefault(tool => tool.PackageId == CoverletPackageId);
 			if(coverletConsoleTool == null)
             {
@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
 			return ExecuteAndParse(executor => executor.Global());
 		}
-		
+
 		public CoverletToolDetails Local(string directory)
         {
 			return ExecuteAndParse(executor => executor.Local(directory));
@@ -71,6 +71,5 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
 			return ExecuteAndParse(executor => executor.GlobalToolsPath(directory));
 		}
-
 	}
 }

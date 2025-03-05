@@ -25,5 +25,4 @@ namespace FineCodeCoverage.Engine.Cobertura
         public string ConditionCoverage { get; set; }
 
         }
-    
 }

@@ -16,18 +16,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private const string dynamicCoverageStoreCollectionName = "FCC.DynamicCoverageStore";
         private readonly AsyncLazy<WritableSettingsStore> lazySettingsStore;
         private WritableSettingsStore writableUserSettingsStore;
-        private WritableSettingsStore WritableUserSettingsStore
-        {
-            get
-            {
-                if(this.writableUserSettingsStore == null)
-                {
-                    this.writableUserSettingsStore = this.lazySettingsStore.GetValue();
-                }
-
-                return this.writableUserSettingsStore;
-            }
-        }
+        private WritableSettingsStore WritableUserSettingsStore 
+            => this.writableUserSettingsStore ?? (this.writableUserSettingsStore = this.lazySettingsStore.GetValue());
 
         // when visual studio is closed SolutionEvents AfterClosing event is fired, the FCCEngine
         // will NewCoverageLinesMessage and the store will be removed

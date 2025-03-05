@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Wpf
             {
                 return;
             }
-            ImageThemingUtilities.ImageBackgroundColorProperty.OverrideMetadata(typeof(Crispy), new FrameworkPropertyMetadata((d, args) =>
+            ImageThemingUtilities.ImageBackgroundColorProperty.OverrideMetadata(typeof(Crispy), new FrameworkPropertyMetadata((_, args) =>
             {
                 ImageThemingColorChanged?.Invoke(null, new ImageThemingColorChangedArgs((Color)args.NewValue));
             }));
@@ -119,7 +119,7 @@ namespace FineCodeCoverage.Wpf
 
         private void SetImage()
         {
-            image = new Image { };
+            image = new Image();
 
             BindingOperations.SetBinding(image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
             {

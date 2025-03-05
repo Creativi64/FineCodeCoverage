@@ -34,28 +34,21 @@ namespace FineCodeCoverage.Output
 
         private List<ReportColumnState> GetColumnStates(string jsonColumnStates)
         {
-            List<ReportColumnState> columnStates;
-            if (jsonColumnStates != null)
-            {
-                columnStates = jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates);
-            }
-            else
-            {
-                columnStates = new List<ReportColumnState>();
-            }
-            return columnStates;
+            return jsonColumnStates != null
+                ? jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates)
+                : new List<ReportColumnState>();
         }
 
         #region Columns
         // note that the control uses reflection to create bindings - these properties are required
-        public ReportColumnData Name { get; private set; } = new ReportColumnData(ReportColumnData.NameColumnType, "Name", 0, true, 450, 100);
+        public ReportColumnData Name { get; } = new ReportColumnData(ReportColumnData.NameColumnType, "Name", 0, true, 450, 100);
 
-        public ReportColumnData CoverableLines { get; private set; } = new ReportColumnData(ReportColumnData.CoverableLinesColumnType, "Coverable Lines", 1, true, 100, 20);
-        public ReportColumnData BlocksCovered { get; private set; } = new MetricColumnData(MetricType.BlocksCovered,ReportColumnData.BlocksCoveredColumnType, "Blocks Covered", 2, true, 100, 20);
-        public ReportColumnData BlocksNotCovered { get; private set; } = new MetricColumnData(MetricType.BlocksNotCovered, ReportColumnData.BlocksNotCoveredColumnType, "Blocks Not Covered", 3, true, 125, 20);
-        public ReportColumnData NPathComplexity { get; private set; } = new MetricColumnData(MetricType.NPath, ReportColumnData.NPathComplexityColumnType, "NPath Complexity", 4, true, 115, 20);
-        public ReportColumnData CyclomaticComplexity { get; private set; } = new MetricColumnData(MetricType.CyclomaticComplexity, ReportColumnData.CyclomaticComplexityColumnType, "Cyclomatic Complexity", 5, true, 140, 20);
-        public ReportColumnData CrapScore { get; private set; } = new MetricColumnData(MetricType.Crap, ReportColumnData.CrapScoreColumnType, "Crap Score", 6, true, 75, 20);
+        public ReportColumnData CoverableLines { get; } = new ReportColumnData(ReportColumnData.CoverableLinesColumnType, "Coverable Lines", 1, true, 100, 20);
+        public ReportColumnData BlocksCovered { get; } = new MetricColumnData(MetricType.BlocksCovered,ReportColumnData.BlocksCoveredColumnType, "Blocks Covered", 2, true, 100, 20);
+        public ReportColumnData BlocksNotCovered { get; } = new MetricColumnData(MetricType.BlocksNotCovered, ReportColumnData.BlocksNotCoveredColumnType, "Blocks Not Covered", 3, true, 125, 20);
+        public ReportColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath, ReportColumnData.NPathComplexityColumnType, "NPath Complexity", 4, true, 115, 20);
+        public ReportColumnData CyclomaticComplexity { get; } = new MetricColumnData(MetricType.CyclomaticComplexity, ReportColumnData.CyclomaticComplexityColumnType, "Cyclomatic Complexity", 5, true, 140, 20);
+        public ReportColumnData CrapScore { get; } = new MetricColumnData(MetricType.Crap, ReportColumnData.CrapScoreColumnType, "Crap Score", 6, true, 75, 20);
         #endregion
 
         private void VsShutdown_Shutdown(object sender, System.EventArgs e)

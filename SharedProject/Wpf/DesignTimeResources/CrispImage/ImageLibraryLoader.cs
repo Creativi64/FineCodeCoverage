@@ -16,14 +16,10 @@ namespace FineCodeCoverage.Wpf
         {
             get
             {
-                if (defaultImageLibrary == null)
-                {
-                    defaultImageLibrary = GetImageLibrary("");
-                }
-                return defaultImageLibrary;
+                return defaultImageLibrary ?? (defaultImageLibrary = GetImageLibrary(""));
             }
         }
-        
+
         private static List<string> DefaultDirectories
         {
             get
@@ -84,7 +80,7 @@ namespace FineCodeCoverage.Wpf
                 {
 
                 }
-            };
+            }
             return imageManifests;
         }
     }

@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
-using FineCodeCoverage.Editor.Tagging.Base;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;

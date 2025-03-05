@@ -72,7 +72,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         private async System.Threading.Tasks.Task<bool> UsingTestingPlatformProtocolAsync()
         {
             var useTestingPlatformProtocolFeature = await useTestingPlatformProtocolFeatureService.GetAsync();
-            return useTestingPlatformProtocolFeature.HasValue && useTestingPlatformProtocolFeature.Value;
+            return useTestingPlatformProtocolFeature == true;
         }
 
         private bool AllProjectsDisabled()

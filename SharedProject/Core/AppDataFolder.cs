@@ -8,7 +8,6 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine
 {
-
     [Export(typeof(IAppDataFolder))]
     internal class AppDataFolder : IAppDataFolder
     {
@@ -33,7 +32,6 @@ namespace FineCodeCoverage.Engine
 
             camcellationToken.ThrowIfCancellationRequested();
             CleanupLegacyFolders();
-
         }
 
         private void CreateAppDataFolder()
@@ -102,7 +100,5 @@ namespace FineCodeCoverage.Engine
                 }
             });
         }
-
     }
-
 }

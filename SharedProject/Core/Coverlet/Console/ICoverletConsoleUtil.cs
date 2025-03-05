@@ -8,6 +8,5 @@ namespace FineCodeCoverage.Engine.Coverlet
     {
 		void Initialize(string appDataFolder, CancellationToken cancellationToken);
 		Task RunAsync(ICoverageProject project, CancellationToken cancellationToken);
-
 	}
 }

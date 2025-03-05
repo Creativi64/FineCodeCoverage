@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Wpf
         
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.RegisterAttached("Value", typeof(bool), typeof(DataGridPreventSelectAllBehaviour), new PropertyMetadata(false,
-                (o, e) =>
+                (o, _) =>
                 {
                     if (o is DataGrid dg)
                     {

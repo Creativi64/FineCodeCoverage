@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Core.Utilities
 
 		public static string ToXmlString(this XDocument xdoc)
 		{
-			return xdoc.Declaration == null ? xdoc.ToString() : xdoc.Declaration + Environment.NewLine + xdoc.ToString();
+			return xdoc.Declaration == null ? xdoc.ToString() : xdoc.Declaration + Environment.NewLine + xdoc;
 		}
 
 		public static string FormatXml(this XDocument xDocument,bool utf8 = true)

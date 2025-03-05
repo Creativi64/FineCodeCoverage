@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return await vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(projectFile);
             }
-            catch (Exception) { }
+            catch{ }
             return null;
         }
     }

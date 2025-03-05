@@ -52,7 +52,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                 
                 foreach (var value in sanitizedExcludesOrIncludes)
                 {
-                    excludeOrIncludeFilters.Add($@"{prefix}{value}");
+                    excludeOrIncludeFilters.Add($"{prefix}{value}");
                 }
 
                 foreach (var moduleExcludeOrInclude in moduleExcludesOrIncludes)
@@ -144,7 +144,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         private string GetTargetArgs(ICoverageProject project)
         {
-            var runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $@" /Settings:{CommandLineArguments.AddEscapeQuotes(project.RunSettingsFile)}" : default;
+            var runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $" /Settings:{CommandLineArguments.AddEscapeQuotes(project.RunSettingsFile)}" : default;
             var openCoverTargetArgs = project.Settings.OpenCoverTargetArgs;
             var additionalTargetArgs = !string.IsNullOrWhiteSpace(openCoverTargetArgs) ? $" {openCoverTargetArgs}" : default;
             return $@"""-targetargs:{CommandLineArguments.AddEscapeQuotes(project.TestDllFile)}{runSettings}{additionalTargetArgs}""";

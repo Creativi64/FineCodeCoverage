@@ -59,7 +59,6 @@ namespace FineCodeCoverage.Editor.Management
 
         [ImportingConstructor]
         public CoverageColoursManager(
-            IVsHasCoverageMarkersLogic vsHasCoverageMarkersLogic,
             ICoverageClassificationColourService coverageClassificationColourService,
             IFontAndColorsInfosProvider fontAndColorsInfosProvider,
             IEditorFormatMapTextSpecificListener editorFormatMapTextSpecificListener,

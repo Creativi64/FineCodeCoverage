@@ -84,7 +84,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             if (useDataCollectorElement != null)
             {
                 var useDataCollectorValue = useDataCollectorElement.Value.ToLower().Trim();
-                return useDataCollectorValue == "true" || useDataCollectorValue == "";
+                return useDataCollectorValue == "true" || useDataCollectorValue.Length == 0;
             }
             return null;
         }
@@ -120,7 +120,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         private async Task<bool> HasSetUseDataCollectorInProjectFileAsync()
         {
             var useDataCollector = await GetUseDataCollectorElementAsync();
-            return useDataCollector.HasValue && useDataCollector.Value;
+            return useDataCollector == true;
         }
 
         public async Task<bool> CanUseDataCollectorAsync(ICoverageProject coverageProject)

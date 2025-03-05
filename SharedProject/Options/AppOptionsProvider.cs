@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Options
 
         [ImportingConstructor]
         public AppOptionsProvider(
-            ILogger logger, 
+            ILogger logger,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
             IJsonConvertService jsonConvertService
             )

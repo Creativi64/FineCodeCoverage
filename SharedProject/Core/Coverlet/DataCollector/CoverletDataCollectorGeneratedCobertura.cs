@@ -24,9 +24,8 @@ namespace FineCodeCoverage.Engine.Coverlet
             var coberturaFile = GetCoberturaFile(coverageOutputFolder) ?? throw new Exception($"Data collector did not generate {collectorGeneratedCobertura}");
             var guidDirectoryToDelete = coberturaFile.Directory;
             coberturaFile.MoveTo(coverageOutputFile);
-            
+
             guidDirectoryToDelete.TryDelete();
-            
         }
     }
 }

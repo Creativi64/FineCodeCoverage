@@ -76,14 +76,13 @@ namespace FineCodeCoverage.Engine.Model
 
             isDotNetSdkStyle = ProjectFileXElement
             .DescendantsAndSelf()
-            .Where(x =>
+            .Any(x =>
             {
                 //https://docs.microsoft.com/en-us/visualstudio/msbuild/how-to-use-project-sdk?view=vs-2019
                 return IsRootProjectElementWithSdkAttribute(x) || 
                     IsRootProjectElementSdkElementChild(x) || 
                     IsRootImportElementWithSdkAttribute(x);
-            })
-            .Any();
+            });
 
             return isDotNetSdkStyle.Value;
 
@@ -316,7 +315,7 @@ namespace FineCodeCoverage.Engine.Model
                                (fileOrDirectory as DirectoryInfo).Delete(true);
                            }
                        }
-                       catch (Exception) { }
+                       catch { }
                    }
                });
 

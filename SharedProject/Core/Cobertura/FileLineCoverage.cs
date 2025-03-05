@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace FineCodeCoverage.Engine.Model
 {
-
     internal class UniqueCoverageLines : HashSet<ILine>
     {
         public UniqueCoverageLines() : base(new LineComparer())
@@ -68,7 +67,6 @@ namespace FineCodeCoverage.Engine.Model
                 return Enumerable.Empty<ILine>().ToList();
             }
             return lines.SortedLines;
-                
         }
 
         public void UpdateRenamed(string oldFilePath, string newFilePath)

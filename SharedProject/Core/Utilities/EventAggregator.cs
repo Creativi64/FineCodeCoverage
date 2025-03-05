@@ -1,4 +1,5 @@
-﻿// ReSharper disable InconsistentNaming
+﻿#pragma warning disable
+// ReSharper disable InconsistentNaming
 namespace FineCodeCoverage.Core.Utilities
 {
     using System;
@@ -179,7 +180,7 @@ public class EventAggregator : IEventAggregator
 
     public IEventSubscriptionManager AddListener(object listener, bool? holdStrongReference)
     {
-        if (listener == null) throw new ArgumentNullException("listener");
+        if (listener == null) throw new ArgumentNullException(nameof(listener));
 
         bool holdRef = _config.HoldReferences;
         if (holdStrongReference.HasValue)

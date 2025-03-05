@@ -7,7 +7,6 @@ namespace FineCodeCoverage.Engine.Coverlet
 {
     internal interface ICoverletConsoleDotnetToolsGlobalExecutor : ICoverletConsoleExecutor
     {
-
     }
 
     [Export(typeof(ICoverletConsoleDotnetToolsGlobalExecutor))]
@@ -40,7 +39,6 @@ namespace FineCodeCoverage.Engine.Coverlet
 				};
 			}
 			return null;
-			
         }
     }
 }

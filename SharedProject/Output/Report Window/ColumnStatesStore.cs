@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Output
 
         private async Task EnsureCollectionAsync()
         {
-            if (await CollectionExistsAsync() is false)
+            if (!await CollectionExistsAsync())
             {
                 var store = await lazyUserSettingsStore.GetValueAsync();
                 store.CreateCollection(ColumnStatesCollectionName);

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Editor.Management

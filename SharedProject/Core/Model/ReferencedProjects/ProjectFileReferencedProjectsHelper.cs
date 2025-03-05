@@ -32,8 +32,7 @@ namespace FineCodeCoverage.Engine.Model
 			</ItemGroup>
 			 */
 
-            var xprojectReferences = projectFileXElement.XPathSelectElements($"/ItemGroup/ProjectReference[@Include]");
-            var requiresDesignTimeBuild = false;
+            var xprojectReferences = projectFileXElement.XPathSelectElements("/ItemGroup/ProjectReference[@Include]");
             List<string> referencedProjectFiles = new List<string>();
             foreach (var xprojectReference in xprojectReferences)
             {
@@ -50,12 +49,6 @@ namespace FineCodeCoverage.Engine.Model
                     }
                     referencedProjectFiles.Add(referencedProjectProjectFile);
                 }
-
-            }
-
-            if (requiresDesignTimeBuild)
-            {
-                return new List<IExcludableReferencedProject>();
 
             }
 

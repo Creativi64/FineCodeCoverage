@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             coverletSettings.Add($@"""{project.TestDllFile}""");
 
-            coverletSettings.Add($@"--format ""cobertura""");
+            coverletSettings.Add(@"--format ""cobertura""");
 
             foreach (var value in (project.Settings.Exclude ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x)))
             {
@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             foreach (var value in SanitizeExcludesOrIncludes(project.Settings.ExcludeByAttribute).Select(EnsureAttributeTypeUnqualified))
             {
                 var withoutAttributeBrackets = value.Trim('[', ']');
-                coverletSettings.Add($@"--exclude-by-attribute {value}");
+                coverletSettings.Add($"--exclude-by-attribute {value}");
             }
 
             if (project.Settings.IncludeTestAssembly)
@@ -69,13 +69,13 @@ namespace FineCodeCoverage.Engine.Coverlet
                 coverletSettings.Add("--include-test-assembly");
             }
 
-            coverletSettings.Add($@"--target ""dotnet""");
+            coverletSettings.Add(@"--target ""dotnet""");
 
-            coverletSettings.Add($@"--threshold-type line");
+            coverletSettings.Add("--threshold-type line");
 
-            coverletSettings.Add($@"--threshold-stat total");
+            coverletSettings.Add("--threshold-stat total");
 
-            coverletSettings.Add($@"--threshold 0");
+            coverletSettings.Add("--threshold 0");
 
             coverletSettings.Add($@"--output ""{project.CoverageOutputFile}""");
 
@@ -86,7 +86,6 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
 
         private string EnsureAttributeTypeUnqualified(string attributeType) => attributeType.Split('.').Last();
-
     }
 
     internal interface ICoverletConsoleExecuteRequestProvider
@@ -144,7 +143,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
 		[ImportingConstructor]
 		public CoverletConsoleUtil(
-			IProcessUtil processUtil, 
+			IProcessUtil processUtil,
 			ILogger logger,
             ICoverletConsoleExecuteRequestProvider coverletConsoleExecuteRequestProvider,
             IFCCCoverletConsoleExecutor fccExecutor,

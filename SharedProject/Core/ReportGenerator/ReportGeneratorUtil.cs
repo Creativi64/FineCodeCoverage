@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             this.reportGenerator = reportGenerator;
             this.logger = logger;
-            this.reportGenerator.SetLogger(VerbosityLevel.Info, (level, message) =>
+            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) =>
             {
                 logger.Log(message);
             });

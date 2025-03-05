@@ -90,7 +90,7 @@
         Off
     }
 
-    interface IEditorCoverageColouringOptions : IOverviewMarginOptions, IGlyphMarginOptions,IEditorLineHighlightingCoverageOptions { 
+    interface IEditorCoverageColouringOptions : IOverviewMarginOptions, IGlyphMarginOptions,IEditorLineHighlightingCoverageOptions {
         bool ShowEditorCoverage { get; set; }
         bool UseEnterpriseFontsAndColors { get; set; }
         EditorCoverageColouringMode EditorCoverageColouringMode { get; set; }
@@ -107,7 +107,7 @@
         string CoverletConsoleCustomPath { get; set; }
         bool CoverletConsoleLocal { get; set; }
         string CoverletCollectorDirectoryPath { get; set; }
-        
+
         string FCCSolutionOutputDirectoryName { get; set; }
         int ThresholdForCyclomaticComplexity { get; set; }
         int ThresholdForNPathComplexity { get; set; }
@@ -118,7 +118,7 @@
         bool Hide0Coverable { get; set; }
         bool Hide0Coverage { get; set; }
         bool AdjacentBuildOutput { get; set; }
-        RunMsCodeCoverage RunMsCodeCoverage { get; set; } 
+        RunMsCodeCoverage RunMsCodeCoverage { get; set; }
         bool ShowToolWindowToolbar { get; set; }
 
         NamespaceQualification NamespaceQualification { get; set; }

@@ -5,7 +5,6 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-
     [Export(typeof(ICoverletUtil))]
     internal class CoverletUtil:ICoverletUtil
 	{
