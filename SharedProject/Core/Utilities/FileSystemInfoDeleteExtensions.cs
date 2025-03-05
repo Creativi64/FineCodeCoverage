@@ -5,7 +5,9 @@ namespace FineCodeCoverage.Core.Utilities
 {
 	internal static class FileSystemInfoDeleteExtensions
 	{
-		public static void TryDelete(string path)
+#pragma warning disable RCS1224 // Make method an extension method
+        public static void TryDelete(string path)
+#pragma warning restore RCS1224 // Make method an extension method
         {
             if (File.Exists(path))
             {

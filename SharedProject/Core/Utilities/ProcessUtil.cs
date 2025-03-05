@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Core.Utilities
 				Output = output
 			};
 		}
-		
+
 	}
 
 	internal static class ProcessExtensions

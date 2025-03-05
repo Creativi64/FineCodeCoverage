@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Editor.IndicatorVisibility
         public event EventHandler VisibilityChanged;
 
         [ImportingConstructor]
-        public FileIndicatorVisibility(IEventAggregator eventAggregator) 
+        public FileIndicatorVisibility(IEventAggregator eventAggregator)
             => _ = eventAggregator.AddListener(this);
 
         public bool IsVisible(string filePath) => this.showIndicators;

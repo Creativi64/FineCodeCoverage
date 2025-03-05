@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Core.Utilities
 #pragma warning restore IDE1006 // Naming Styles
     {
     }
-    
+
     public interface IVsColorTheme
     {
         event EventHandler ThemeChanged;
@@ -75,7 +75,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         [ImportingConstructor]
         public VsColorTheme(
-        [Import(typeof(SVsServiceProvider))] System.IServiceProvider serviceProvider
+        [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
         )
         {
             colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
@@ -92,11 +92,9 @@ namespace FineCodeCoverage.Core.Utilities
                 return currentTheme;
             }
         }
-
         public string CurrentThemeName
         {
-            get => (CurrentTheme as dynamic).Name;
-
+            get => ((dynamic)CurrentTheme).Name;
         }
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -123,8 +121,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         private void SetCurrentTheme()
         {
-            var currentTheme = (colorThemeService as dynamic).CurrentTheme;
-            this.currentTheme = currentTheme;
+            this.currentTheme = ((dynamic)colorThemeService).CurrentTheme;
         }
 
         public VsColorEntry GetColorEntry(ColorName colorName)
@@ -136,8 +133,8 @@ namespace FineCodeCoverage.Core.Utilities
             }
 
             var vsColorName = Activator.CreateInstance(colorNameType, true);
-            (vsColorName as dynamic).Category = colorName.Category;
-            (vsColorName as dynamic).Name = colorName.Name;
+            ((dynamic)vsColorName).Category = colorName.Category;
+            ((dynamic)vsColorName).Name = colorName.Name;
 
             var colorEntry = indexer.GetValue(CurrentTheme, new object[] { vsColorName });
             if (colorEntry == null) return null;

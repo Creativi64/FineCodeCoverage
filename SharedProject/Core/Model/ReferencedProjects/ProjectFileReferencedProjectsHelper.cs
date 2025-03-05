@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -52,7 +51,7 @@ namespace FineCodeCoverage.Engine.Model
 
             }
 
-            return referencedProjectFiles.Select(referencedProjectProjectFile => (IExcludableReferencedProject)new ReferencedProject(referencedProjectProjectFile)).ToList();
+            return referencedProjectFiles.ConvertAll(referencedProjectProjectFile => (IExcludableReferencedProject)new ReferencedProject(referencedProjectProjectFile));
         }
     }
 }

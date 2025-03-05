@@ -79,7 +79,7 @@ namespace FineCodeCoverage.Output
 			// the UI thread.
 			await package.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-			OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
+			OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
 			Instance = new OpenReportWindowCommand(package, commandService, logger, shownToolWindowHistory);
 		}
 
@@ -121,7 +121,7 @@ namespace FineCodeCoverage.Output
 
 		private ToolWindowPane ReturnOrThrowIfCannotCreateToolWindow(ToolWindowPane window)
         {
-			if ((null == window) || (null == window.Frame))
+			if ((window == null) || (window.Frame == null))
 			{
 				throw new NotSupportedException($"Cannot create '{Vsix.Name}' output window");
 			}

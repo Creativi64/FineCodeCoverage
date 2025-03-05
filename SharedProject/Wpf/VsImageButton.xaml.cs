@@ -47,7 +47,6 @@ typeof(VsCrispImageButton));
             set => SetValue(MonikerProperty, value);
         }
 
-        
 
         public VsCrispImageButton()
         {

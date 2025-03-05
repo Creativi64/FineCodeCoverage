@@ -7,7 +7,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    
+
     internal interface IDisposeAwareTaskRunner
     {
         void RunAsyncFunc(Func<Task> taskProvider);
@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Core.Utilities
                 catch (AggregateException ex)
                 {
                     // ignore AggregateException containing only OperationCanceledException
-                    ex.Handle(inner => (inner is OperationCanceledException));
+                    ex.Handle(inner => inner is OperationCanceledException);
                 }
                 finally
                 {

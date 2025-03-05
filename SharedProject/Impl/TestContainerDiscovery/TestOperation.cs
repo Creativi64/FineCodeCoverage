@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Impl
                 coverageProjects.Add(project);
                 project.ProjectName = container.ProjectName;
                 project.TestDllFile = container.Source;
-                project.Is64Bit = container.TargetPlatform.ToString().ToLower().Equals("x64");
+                project.Is64Bit = container.TargetPlatform.ToString().Equals("x64", System.StringComparison.OrdinalIgnoreCase);
                 project.TargetFramework = container.TargetFramework.ToString();
                 var containerData = container.ProjectData;
                 project.ProjectFile = container.ProjectData.ProjectFilePath;

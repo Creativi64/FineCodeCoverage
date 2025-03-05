@@ -29,8 +29,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         [ImportingConstructor]
         public UserRunSettingsService(
-            IFileUtil fileUtil, 
-            IRunSettingsTemplate runSettingsTemplate, 
+            IFileUtil fileUtil,
+            IRunSettingsTemplate runSettingsTemplate,
             IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory
         )
         {
@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             foreach (var coverageProject in coverageProjectsWithRunSettings)
             {
                 var (suitable, projectSpecifiedMsCodeCoverage) = ValidateUserRunSettings(coverageProject.RunSettingsFile, useMsCodeCoverage);
-                
+
                 if (!suitable)
                 {
                     return new UserRunSettingsAnalysisResult();
@@ -132,7 +132,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         #endregion
 
         #region AddFCCRunSettings
-        
+
         public IXPathNavigable AddFCCRunSettings(IXPathNavigable inputRunSettingDocument, IRunSettingsConfigurationInfo configurationInfo, Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup, string fccMsTestAdapterPath)
         {
             if (!runSettingsTemplate.FCCGenerated(inputRunSettingDocument))
@@ -148,11 +148,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             navigator.MoveToChild("RunSettings","");
             var clonedNavigator = navigator.Clone();
             var replacements = runSettingsTemplateReplacementsFactory.Create(
-                configurationInfo.TestContainers, 
-                userRunSettingsProjectDetailsLookup, 
+                configurationInfo.TestContainers,
+                userRunSettingsProjectDetailsLookup,
                 fccMsTestAdapterPath
             );
-            
+
             EnsureTestAdaptersPathsAndReplace(navigator, replacements);
             EnsureCorrectMsDataCollectorAndReplace(clonedNavigator, replacements);
             return navigator;
@@ -221,7 +221,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 var dataCollectorsNavigator = xpathNavigator.SelectSingleNode("/RunSettings/DataCollectionRunSettings/DataCollectors");
                 var msDataCollectorNavigator = MoveToMsDataCollectorFromDataCollectors(dataCollectorsNavigator);
 
-                if (disableMsDataCollector) 
+                if (disableMsDataCollector)
                 {
                     DisableMsDataCollector(msDataCollectorNavigator);
                 }
@@ -278,7 +278,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 msDataCollectorNavigator.AppendChild("<Configuration><Format>Cobertura</Format></Configuration>");
             }
         }
-        
+
         #endregion
     }
 

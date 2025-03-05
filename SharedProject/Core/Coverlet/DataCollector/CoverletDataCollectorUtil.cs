@@ -40,8 +40,8 @@ namespace FineCodeCoverage.Engine.Coverlet
         [ImportingConstructor]
         public CoverletDataCollectorUtil(
             IFileUtil fileUtil,
-            IRunSettingsCoverletConfigurationFactory runSettingsCoverletConfigurationFactory, 
-            ILogger logger, 
+            IRunSettingsCoverletConfigurationFactory runSettingsCoverletConfigurationFactory,
+            ILogger logger,
             IProcessUtil processUtil,
             IDataCollectorSettingsBuilderFactory dataCollectorSettingsBuilderFactory,
             ICoverletDataCollectorGeneratedCobertura coverletDataCollectorGeneratedCobertura,
@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             this.toolUnzipper = toolUnzipper;
             this.vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
         }
-        
+
         private bool? GetUseDataCollectorFromProjectFile()
         {
             bool? useDataCollector = null;
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 {
                     break;
                 }
-                
+
             }
             return useDataCollector;
         }
@@ -127,11 +127,11 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             runSettingsCoverletConfiguration = runSettingsCoverletConfigurationFactory.Create();
             this.coverageProject = coverageProject;
-            
+
             if(coverageProject.RunSettingsFile != null)
             {
                 var runSettingsXml = fileUtil.ReadAllText(coverageProject.RunSettingsFile);
-                    
+
                 runSettingsCoverletConfiguration.Read(runSettingsXml);
                 switch (runSettingsCoverletConfiguration.CoverletDataCollectorState)
                 {
@@ -144,7 +144,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             }
 
             return await HasSetUseDataCollectorInProjectFileAsync();
-            
+
         }
 
         private string GetSettings()
@@ -152,7 +152,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             var dataCollectorSettingsBuilder = dataCollectorSettingsBuilderFactory.Create();
             dataCollectorSettingsBuilder
                 .Initialize(coverageProject.Settings.RunSettingsOnly, coverageProject.RunSettingsFile, Path.Combine(coverageProject.CoverageOutputFolder,"FCC.runsettings"));
-            
+
             // command arguments
             dataCollectorSettingsBuilder
                 .WithProjectDll(coverageProject.TestDllFile);
@@ -162,7 +162,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 .WithNoLogo();
             dataCollectorSettingsBuilder
                 .WithDiagnostics($"{coverageProject.CoverageOutputFolder}/diagnostics.log");
-            
+
             dataCollectorSettingsBuilder
                 .WithResultsDirectory(coverageProject.CoverageOutputFolder);
 
@@ -177,11 +177,11 @@ namespace FineCodeCoverage.Engine.Coverlet
                 .WithExclude(projectExcludes, runSettingsCoverletConfiguration.Exclude);
             dataCollectorSettingsBuilder
                 .WithExcludeByFile(
-                    SanitizeExcludesOrIncludes(coverageProject.Settings.ExcludeByFile), 
+                    SanitizeExcludesOrIncludes(coverageProject.Settings.ExcludeByFile),
                     runSettingsCoverletConfiguration.ExcludeByFile);
             dataCollectorSettingsBuilder
                 .WithExcludeByAttribute(
-                    SanitizeExcludesOrIncludes(coverageProject.Settings.ExcludeByAttribute), 
+                    SanitizeExcludesOrIncludes(coverageProject.Settings.ExcludeByAttribute),
                     runSettingsCoverletConfiguration.ExcludeByAttribute);
 
             string[] projectIncludes = coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*").ToArray();
@@ -189,7 +189,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             {
                 projectIncludes = projectIncludes.Concat(SanitizeExcludesOrIncludes(coverageProject.Settings.Include)).ToArray();
             }
-            
+
             dataCollectorSettingsBuilder
                 .WithInclude(projectIncludes, runSettingsCoverletConfiguration.Include);
             dataCollectorSettingsBuilder
@@ -203,7 +203,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 .WithUseSourceLink(runSettingsCoverletConfiguration.UseSourceLink);
             dataCollectorSettingsBuilder
                 .WithSkipAutoProps(runSettingsCoverletConfiguration.SkipAutoProps);
-            
+
             return dataCollectorSettingsBuilder
                 .Build();
 
@@ -232,9 +232,9 @@ namespace FineCodeCoverage.Engine.Coverlet
         public async Task RunAsync(CancellationToken cancellationToken)
         {
             var settings = GetSettings();
-            
+
             LogRun(settings);
-            
+
             var result = await processUtil
             .ExecuteAsync(new ExecuteRequest
             {
@@ -251,12 +251,15 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             // dotnet
             // https://github.com/dotnet/sdk/blob/936935f18c3540ed77c97e392780a9dd82aca441/src/Cli/dotnet/commands/dotnet-test/Program.cs#L86
-            
+
             // test failure has exit code 1 
-            processResponseProcessor.Process(result, code => code == 0 || code == 1, true, $"{GetLogTitle()} - Output", () =>
-             {
-                 coverletDataCollectorGeneratedCobertura.CorrectPath(coverageProject.CoverageOutputFolder, coverageProject.CoverageOutputFile);
-             });
+            processResponseProcessor.Process(
+                result,
+                code => code == 0 || code == 1,
+                true,
+                $"{GetLogTitle()} - Output",
+                () => coverletDataCollectorGeneratedCobertura.CorrectPath(
+                    coverageProject.CoverageOutputFolder, coverageProject.CoverageOutputFile));
 
         }
         private string GetLogTitle()

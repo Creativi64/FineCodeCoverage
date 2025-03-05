@@ -6,34 +6,28 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public static DynamicCoverageType Convert(CoverageType coverageType)
         {
-            DynamicCoverageType dynamicCoverageType = DynamicCoverageType.Covered;
             switch (coverageType)
             {
                 case CoverageType.NotCovered:
-                    dynamicCoverageType = DynamicCoverageType.NotCovered;
-                    break;
+                    return DynamicCoverageType.NotCovered;
                 case CoverageType.Partial:
-                    dynamicCoverageType = DynamicCoverageType.Partial;
-                    break;
+                    return DynamicCoverageType.Partial;
             }
 
-            return dynamicCoverageType;
+            return DynamicCoverageType.Covered;
         }
 
         public static CoverageType Convert(DynamicCoverageType coverageType)
         {
-            CoverageType converted = CoverageType.Covered;
             switch (coverageType)
             {
                 case DynamicCoverageType.NotCovered:
-                    converted = CoverageType.NotCovered;
-                    break;
+                    return CoverageType.NotCovered;
                 case DynamicCoverageType.Partial:
-                    converted = CoverageType.Partial;
-                    break;
+                    return CoverageType.Partial;
             }
 
-            return converted;
+            return CoverageType.Covered;
         }
     }
 }

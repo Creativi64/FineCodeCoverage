@@ -11,9 +11,9 @@ namespace FineCodeCoverage.Output
         protected override Brush SelectedActiveForegroundBrush => ThemedTreeGridColours.Instance.SelectedItemActiveForeColor;
         protected override Brush SelectedInactiveForegroundBrush => ThemedTreeGridColours.Instance.SelectedItemInactiveForeColor;
         protected override Brush NotSelectedForegroundBrush => ThemedTreeGridColours.Instance.ForegroundColor;
-        public VisualStudioTreeItemBase() => this.SetupThemeChange();
+        protected VisualStudioTreeItemBase() => this.SetupThemeChange();
 
-        private void SetupThemeChange() 
+        private void SetupThemeChange()
             => VSColorTheme.ThemeChanged += (ThemeChangedEventHandler)(e =>
             {
                 ThemedTreeGridColours.Instance.VSColorTheme_ThemeChanged(e);

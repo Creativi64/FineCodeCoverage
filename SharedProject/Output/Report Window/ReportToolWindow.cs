@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
 			{
 				this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
 			}
-            
+
             Caption = Vsix.Name;
             this.BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };
 

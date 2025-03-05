@@ -93,12 +93,11 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         BlocksNotCovered,
         Branches
     }
+
     interface IReportResult
     {
         IReadOnlyCollection<IAssembly> Assemblies { get; }
         IDirectory Directory { get; }
         List<MetricType> MetricTypes { get; }
-        
     }
-
 }

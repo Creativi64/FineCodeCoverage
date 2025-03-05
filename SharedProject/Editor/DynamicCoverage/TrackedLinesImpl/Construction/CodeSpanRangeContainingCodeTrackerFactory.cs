@@ -66,9 +66,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private ITrackedCoverageLines CreateTrackedCoverageLines(ITextSnapshot textSnapshot, List<ILine> lines, SpanTrackingMode spanTrackingMode)
         {
-            var coverageLines = lines.Select(line => this.coverageLineFactory.Create(
+            List<ICoverageLine> coverageLines = lines.ConvertAll(line => this.coverageLineFactory.Create(
                 this.trackingLineFactory.CreateTrackingSpan(textSnapshot, line.Number - 1, spanTrackingMode), line)
-            ).ToList();
+            );
             return this.trackedCoverageLinesFactory.Create(coverageLines.ToList());
         }
 

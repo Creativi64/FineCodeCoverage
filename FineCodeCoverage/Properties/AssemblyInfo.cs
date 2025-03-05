@@ -1,5 +1,4 @@
 ﻿using FineCodeCoverage;
-using Microsoft.VisualStudio.Shell;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -36,6 +35,3 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("FineCodeCoverageTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-
-[ProvideBindingPath]
-public class X { }

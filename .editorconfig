@@ -18,11 +18,13 @@ dotnet_diagnostic.IDE0079.severity = none
 # Report unused using directives as a warning
 dotnet_diagnostic.IDE0005.severity = warning
 
-# Report unused parameters as a warning
-dotnet_diagnostic.IDE0060.severity= warning
+# Do not report unused parameters as handled by Rolynator as it includes ctor parameters
+dotnet_diagnostic.IDE0060.severity = none
+dotnet_diagnostic.IDE0001.severity = warning
 
 # Roslynator
-dotnet_diagnostic.RCS1036.severity= none
+dotnet_diagnostic.RCS1163.severity = warning
+dotnet_diagnostic.RCS1036.severity = none
 
 [*.{cs,vb}]
 #### Naming styles ####

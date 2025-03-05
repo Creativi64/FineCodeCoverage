@@ -13,6 +13,18 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             this.replacedRunSettingsTemplate = replacedRunSettingsTemplate;
         }
 
+        public MsTemplateReplacementException() : base()
+        {
+        }
+
+        public MsTemplateReplacementException(string message) : base(message)
+        {
+        }
+
+        public MsTemplateReplacementException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
         public override string ToString()
         {
             return $@"${innerException} 

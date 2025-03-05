@@ -30,14 +30,14 @@ namespace TreeGrid
             this.MinWidth = minWidth;
         }
 
-        public string Name { get => _name; set =>this.Set<string>(ref this._name, value, nameof(Name)); }
+        public string Name { get => _name; set =>this.Set(ref this._name, value, nameof(Name)); }
 
         public double MinWidth { get; set; }
 
         public int DisplayIndex
         {
             get => this._displayIndex;
-            set => this.Set<int>(ref this._displayIndex, value, nameof(DisplayIndex));
+            set => this.Set(ref this._displayIndex, value, nameof(DisplayIndex));
         }
 
         public bool IsInvalid
@@ -57,7 +57,7 @@ namespace TreeGrid
             get => !this._isInvalid && this._isVisible;
             set
             {
-                this.Set<bool>(ref this._isVisible, value, nameof(IsVisible));
+                this.Set(ref this._isVisible, value, nameof(IsVisible));
                 this.OnPropertyChanged("Width");
                 this.OnPropertyChanged("GridWidth");
             }
@@ -68,7 +68,7 @@ namespace TreeGrid
             get => !this.IsVisible ? ColumnData.EmptyDataGridLength : this._actualWidth;
             set
             {
-                this.Set<DataGridLength>(ref this._actualWidth, value, nameof(Width));
+                this.Set(ref this._actualWidth, value, nameof(Width));
                 this.GridWidth = new GridLength(this._actualWidth.Value);
             }
         }
@@ -76,7 +76,7 @@ namespace TreeGrid
         public GridLength GridWidth
         {
             get => !this.IsVisible ? ColumnData.EmptyGridLength : this._gridWidth;
-            set => this.Set<GridLength>(ref this._gridWidth, value, nameof(GridWidth));
+            set => this.Set(ref this._gridWidth, value, nameof(GridWidth));
         }
 
         public ListSortDirection? SortDirection
@@ -84,7 +84,7 @@ namespace TreeGrid
             get => this._sortDirection;
             set
             {
-                this.Set<ListSortDirection?>(ref this._sortDirection, value, nameof(SortDirection));
+                this.Set(ref this._sortDirection, value, nameof(SortDirection));
                 this.OnPropertyChanged("Visibility");
             }
         }

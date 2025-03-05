@@ -13,7 +13,7 @@ using TreeGrid;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(ReportViewModel))]
-    internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>, 
+    internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
         IListener<NewReportMessage>,
         IListener<CoverageStartingMessage>,
         IListener<CoverageEndedMessage>
@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Output
         private readonly ITreeExpander treeExpander;
 
         protected override IReportColumnManager ColumnManagerImpl { get; set; }
-        
+
         private bool coverageRunning;
         public bool CoverageRunning
         {
@@ -59,16 +59,18 @@ namespace FineCodeCoverage.Output
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                    
+
 
                     List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
+#pragma warning disable RCS1118 // Mark local variable as const //todo this will come from UI
                     var assembliesView = false;
+#pragma warning restore RCS1118 // Mark local variable as const
                     if (assembliesView)
                     {
                         foreach (IAssembly assembly in assemblies)
                         {
                             bool isTestAssembly = false;
-                            if (this.testAssemblyNames != null && this.testAssemblyNames.Contains(assembly.Name))
+                            if (this.testAssemblyNames?.Contains(assembly.Name) == true)
                             {
                                 isTestAssembly = true;
                             }
@@ -94,7 +96,6 @@ namespace FineCodeCoverage.Output
                         newItem.AdjustWidth(firstColumnWidth);
                         this._items.Add(newItem);
                     }
-                    
                 });
             }
             else

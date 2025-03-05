@@ -56,9 +56,8 @@ namespace FineCodeCoverage.Wpf
 #pragma warning disable VSSDK005 // Avoid instantiating JoinableTaskContext
             var fakeJoinableTaskFactory = new JoinableTaskContext().Factory;
 #pragma warning restore VSSDK005 // Avoid instantiating JoinableTaskContext
-            
+
             return ImageLibrary.Load(fakeJoinableTaskFactory, imageManifests, false, null);
-            
         }
 
         private static List<string> AddImageManifests(List<string> directories, List<string> imageManifests)
@@ -70,10 +69,7 @@ namespace FineCodeCoverage.Wpf
                     var directoryInfo = new DirectoryInfo(directory);
                     if (directoryInfo.Exists)
                     {
-                        foreach (string imageManifestPath in Directory.EnumerateFiles(directoryInfo.FullName, "*.imagemanifest", SearchOption.AllDirectories))
-                        {
-                            imageManifests.Add(imageManifestPath);
-                        }
+                        imageManifests.AddRange(GetImageManifests(directoryInfo.FullName));
                     }
                 }
                 catch
@@ -82,6 +78,11 @@ namespace FineCodeCoverage.Wpf
                 }
             }
             return imageManifests;
+        }
+
+        private static IEnumerable<string> GetImageManifests(string path)
+        {
+            return Directory.EnumerateFiles(path, "*.imagemanifest", SearchOption.AllDirectories);
         }
     }
 

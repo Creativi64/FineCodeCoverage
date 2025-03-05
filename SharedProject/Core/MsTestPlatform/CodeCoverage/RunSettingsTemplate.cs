@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private const string fccMarkerElementName = "FCCGenerated";
         private readonly string msDataCollectorConfigurationElement;
         private readonly string msDataCollectorCodeCoverageElement;
-        
+
         private readonly List<(string elementName, string value)> recommendedYouDoNotChangeElementsNetCore = new List<(string elementName, string value)>
         {
             ("UseVerifiableInstrumentation", "True"),
@@ -170,8 +170,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         public ITemplateReplacementResult ReplaceTemplate(
-            string runSettingsTemplate, 
-            IRunSettingsTemplateReplacements replacements, 
+            string runSettingsTemplate,
+            IRunSettingsTemplateReplacements replacements,
             bool isNetFramework
         )
         {
@@ -367,7 +367,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             var navigator = inputRunSettingDocument.CreateNavigator();
             return navigator.SelectSingleNode($"//{fccMarkerElementName}") != null;
-            
+
         }
 
         public bool HasReplaceableTestAdapter(string replaceable)

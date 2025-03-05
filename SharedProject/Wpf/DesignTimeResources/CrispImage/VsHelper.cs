@@ -14,11 +14,7 @@ namespace FineCodeCoverage.Wpf
                 return null;
             }
             string vs2022Path = GetInstallPath(vswherePath, "17");
-            if (vs2022Path != null)
-            {
-                return vs2022Path;
-            }
-            return GetInstallPath(vswherePath, "16");
+            return vs2022Path ?? GetInstallPath(vswherePath, "16");
         }
 
         private static string GetVsWherePath()

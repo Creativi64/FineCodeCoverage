@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-            OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
+            OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             var dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
             Instance = new OpenCoberturaCommand(commandService, eventAggregator, dte);
         }

@@ -12,9 +12,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         private readonly ICoverageContentType[] coverageContentTypes;
 
-        public CoverageContentTypes(ICoverageContentType[] coverageContentTypes) 
+        public CoverageContentTypes(ICoverageContentType[] coverageContentTypes)
             => this.coverageContentTypes = coverageContentTypes;
-        public bool IsApplicable(string contentTypeName) 
+        public bool IsApplicable(string contentTypeName)
             => this.coverageContentTypes.Any(contentType => contentType.ContentTypeName == contentTypeName);
     }
 

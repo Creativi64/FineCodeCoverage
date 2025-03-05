@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Engine.Model
             appOptions.ModulePathsExclude = newMsExclude;
             appOptions.ModulePathsInclude = newMsInclude;
         }
-        
+
         private (string[] newOldStyle,string[] newMs) AddCommon(string[] oldStyle,string[] ms, string[] common )
         {
             if(common == null)
@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Engine.Model
                 var old = $"[{assemblyFileName}]*";
                 newOldStyle.Add(old);
             }
-            
+
             return (newOldStyle.ToArray(), newMs.ToArray());
         }
 

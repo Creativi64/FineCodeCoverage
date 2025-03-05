@@ -18,10 +18,10 @@ namespace FineCodeCoverage.Impl
 		public async Task<string> GetRunSettingsFileAsync(object userSettings, ContainerData projectData)
 		{
 			this.userSettings = userSettings;
-			
+
 			var runSettingsFile = GetDefaultRunSettingsFilePath();
 			var projectRunSettingsFile = await projectData.GetBuildPropertyAsync("RunSettingsFilePath", (string)null);
-			
+
 			if (!string.IsNullOrEmpty(projectRunSettingsFile))
 			{
 				return projectRunSettingsFile;
@@ -29,17 +29,17 @@ namespace FineCodeCoverage.Impl
 
 			return runSettingsFile;
 		}
-			
+
 		private string GetAndUpdateSolutionRunSettingsFilePath()
 		{
 			return userSettings.GetType().GetMethod("GetAndUpdateSolutionRunSettingsFilePath", BindingFlags.Public | BindingFlags.Instance).Invoke(userSettings, new object[] { }) as string;
 		}
-		
+
 		private string LastRunSettingsFilePath()
 		{
 			return userSettings.GetType().GetProperty("LastRunSettingsFilePath", BindingFlags.Public | BindingFlags.Instance).GetValue(userSettings) as string;
 		}
-		
+
 		private bool AutomaticallyDetectRunSettings()
 		{
 			return (bool)userSettings.GetType().GetProperty("AutomaticallyDetectRunSettings", BindingFlags.Public | BindingFlags.Instance).GetValue(userSettings);
@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Impl
 		{
 			string settingsFilePath = GetAndUpdateSolutionRunSettingsFilePath();
 			var lastRunSettingsFilePath = LastRunSettingsFilePath();
-			
+
 			if (!string.IsNullOrEmpty(lastRunSettingsFilePath))
 			{
 				return lastRunSettingsFilePath;

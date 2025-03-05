@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
     internal class CSharpCoverageContentType : ICoverageContentType
     {
         [ImportingConstructor]
-        public CSharpCoverageContentType(IRoslynFileCodeSpanRangeService roslynFileCodeSpanRangeService) 
+        public CSharpCoverageContentType(IRoslynFileCodeSpanRangeService roslynFileCodeSpanRangeService)
             => this.roslynFileCodeSpanRangeService = roslynFileCodeSpanRangeService;
 
         public const string ContentType = "CSharp";
@@ -15,10 +15,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 
         public string ContentTypeName => ContentType;
 
-        public IFileCodeSpanRangeService FileCodeSpanRangeService 
+        public IFileCodeSpanRangeService FileCodeSpanRangeService
             => this.roslynFileCodeSpanRangeService.FileCodeSpanRangeService;
 
-        public bool UseFileCodeSpanRangeServiceForChanges 
+        public bool UseFileCodeSpanRangeServiceForChanges
             => this.roslynFileCodeSpanRangeService.UseFileCodeSpanRangeServiceForChanges;
 
         public bool CoverageOnlyFromFileCodeSpanRangeService => false;

@@ -78,13 +78,13 @@ namespace FineCodeCoverage.Options
             appOptions.ShowCoveredInGlyphMargin = true;
             appOptions.ShowPartiallyCoveredInGlyphMargin = true;
             appOptions.ShowUncoveredInGlyphMargin = true;
-            
+
             appOptions.ShowLineCoveredHighlighting = true;
             appOptions.ShowLinePartiallyCoveredHighlighting = true;
             appOptions.ShowLineUncoveredHighlighting = true;
 
             appOptions.UseEnterpriseFontsAndColors = true;
-            
+
             appOptions.Hide0Coverable = true;
         }
 
@@ -111,7 +111,7 @@ namespace FineCodeCoverage.Options
                     }
 
                     var objValue = jsonConvertService.DeserializeObject(strValue, property.PropertyType);
-                    
+
                     property.SetValue(instance, objValue);
                 }
                 catch (Exception exception)
@@ -184,11 +184,11 @@ namespace FineCodeCoverage.Options
         public bool CoverageColoursFromFontsAndColours { get; set; }
 
         public bool ShowCoverageInOverviewMargin { get; set; }
-        
+
         public bool ShowCoveredInOverviewMargin { get; set; }
-        
+
         public bool ShowUncoveredInOverviewMargin { get; set; }
-        
+
         public bool ShowPartiallyCoveredInOverviewMargin { get; set; }
         public bool ShowDirtyInOverviewMargin { get; set; }
         public bool ShowNewInOverviewMargin { get; set; }

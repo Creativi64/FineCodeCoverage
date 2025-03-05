@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
                     {
                         string docFilePath = document.FilePath;
                         if (blazorGeneratedFilePathMatcher.IsBlazorGeneratedFilePath(filePath,docFilePath))
-                        {   
+                        {
                             return await document.GetSyntaxRootAsync();
                         }
                     }

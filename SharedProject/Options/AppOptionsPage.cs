@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Options
         private const string overviewMarginCategory = "Editor Colouring Overview Margin";
         private const string glyphMarginCategory = "Editor Colouring Glyph Margin";
         private const string lineHighlightingCategory = "Editor Colouring Line Highlighting";
-        
+
         private static readonly Lazy<IAppOptionsStorageProvider> lazyAppOptionsStorageProvider = new Lazy<IAppOptionsStorageProvider>(GetAppOptionsStorageProvider);
 
         private static IAppOptionsStorageProvider GetAppOptionsStorageProvider()
@@ -288,7 +288,7 @@ namespace FineCodeCoverage.Options
         [Description("Set to false to disable all editor coverage indicators")]
         //[DisplayName("Show Editor Coverage")]
         public bool ShowEditorCoverage { get; set; }
-        
+
         [Category(editorColouringControlCategory)]
         [Description("Set to false to use FCC Fonts And Colors items")]
         public bool UseEnterpriseFontsAndColors { get; set; }
@@ -297,7 +297,7 @@ namespace FineCodeCoverage.Options
         [Description("Set to Off, or Set to DoNotUseRoslynWhenTextChanges if there is a performance issue")]
         public EditorCoverageColouringMode EditorCoverageColouringMode { get; set; }
         #endregion
-        
+
         #region overview margin
         [Category(overviewMarginCategory)]
         [Description("Set to false to prevent coverage marks in the overview margin")]
@@ -322,7 +322,7 @@ namespace FineCodeCoverage.Options
         [Category(overviewMarginCategory)]
         [Description("Set to true to show dirty marks in the overview margin")]
         public bool ShowDirtyInOverviewMargin { get; set; }
-        
+
         [Category(overviewMarginCategory)]
         [Description("Set to true to show new line marks in the overview margin")]
         public bool ShowNewInOverviewMargin { get; set; }
@@ -403,7 +403,7 @@ namespace FineCodeCoverage.Options
         [Description("Set to false to hide the toolbar on the report tool window")]
         //[DisplayName("Show Tool Window Toolbar")]
         public bool ShowToolWindowToolbar { get; set; }
-        
+
 
         #region common report category
         [Category(commonReportCategory)]
@@ -496,7 +496,7 @@ namespace FineCodeCoverage.Options
         [Description("If supplying your own target you can also supply additional arguments.  FCC supplies the test dll path.")]
         //[DisplayName("OpenCover Target Args")]
         public string OpenCoverTargetArgs { get; set; }
-        
+
 
         #endregion
 

@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 }
 
                 var elements = excludeIncludes.Select(excludeInclude => $"<{elementName}>{excludeInclude}</{elementName}>").Distinct();
-                return string.Join("", elements);
+                return string.Concat(elements);
             }
         }
 
@@ -184,13 +184,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 projectSettings.IncludeTestAssembly,
                 false);
 
-            
             var additionalModulePathsInclude = GetAdditionalModulePaths(
                 coverageProject.IncludedReferencedProjects,
                 coverageProject.TestDllFile,
                 projectSettings.IncludeTestAssembly,
                 true);
-            
+
             var settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
             return new RunSettingsTemplateReplacements(settings, coverageProject.CoverageOutputFolder, projectSettings.Enabled.ToString(), testAdapter);
         }

@@ -79,7 +79,7 @@ namespace FineCodeCoverage.Readme
             }
             this.HasShownReadMe = true;
             ReadMeShown?.Invoke(this, EventArgs.Empty);
-            
+
             _ = this.toolWindowService.ShowToolWindowAsync(typeof(ReadmeToolWindow), 0, true);
         }
 

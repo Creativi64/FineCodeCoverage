@@ -16,7 +16,6 @@ namespace FineCodeCoverage.Wpf
             set { SetValue(PathProperty, value); }
         }
 
-        
         public static readonly DependencyProperty PathProperty =
             DependencyProperty.Register(nameof(Path), typeof(object), typeof(VsPathButton), new PropertyMetadata(null));
 

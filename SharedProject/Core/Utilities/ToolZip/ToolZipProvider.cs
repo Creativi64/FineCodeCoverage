@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace FineCodeCoverage.Core.Utilities
@@ -19,7 +18,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             var zipFolder = Path.Combine(ExtensionDirectory, ZippedToolsDirectoryName);
             var matchingZipFiles = Directory.GetFiles(zipFolder, $"{zipPrefix}.*.zip");
-            var zipPath = matchingZipFiles.First();
+            var zipPath = matchingZipFiles[0];
 
             var zipFileName = Path.GetFileName(zipPath);
             var version = zipFileName.Replace($"{zipPrefix}.", "").Replace(".zip", "");

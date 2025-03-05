@@ -172,7 +172,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             logger.Log(executingLogLines);
 
 			var result = await processUtil.ExecuteAsync(
-                coverletConsoleExecuteRequestProvider.GetExecuteRequest(project, string.Join(" ", coverletSettings)), 
+                coverletConsoleExecuteRequestProvider.GetExecuteRequest(project, string.Join(" ", coverletSettings)),
                 cancellationToken
             );
 
@@ -186,7 +186,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 			{
                 var errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
 				logger.Log($"{title} {errorExitCodeMessage}", result.Output);
-					
+
 				throw new Exception(errorExitCodeMessage);
 			}
 

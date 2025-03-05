@@ -23,7 +23,6 @@ namespace FineCodeCoverage.Engine.Coverlet
 			coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
 		}
 
-		
 		public async Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
 		{
             if (await coverletDataCollectorUtil.CanUseDataCollectorAsync(project))

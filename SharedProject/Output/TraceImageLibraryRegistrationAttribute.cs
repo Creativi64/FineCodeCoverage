@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Output
 
         public override void Unregister(RegistrationContext context)
         {
-            
+
         }
     }
 }

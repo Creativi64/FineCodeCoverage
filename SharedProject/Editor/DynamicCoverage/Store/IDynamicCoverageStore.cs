@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public string Serialized { get; set; }
         public DateTime When { get; set; }
 
-        public override bool Equals(object obj) 
+        public override bool Equals(object obj)
             => obj is SerializedCoverageWhen when &&
                    this.Serialized == when.Serialized &&
                    this.When == when.When;

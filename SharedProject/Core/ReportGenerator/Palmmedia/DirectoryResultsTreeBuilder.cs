@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 throw new ArgumentException("No files provided.");
 
             // Determine the common root directory
-            var rootPath = FindCommonRootPath(codeFiles.Select(cf => cf.Path).ToList());
+            var rootPath = FindCommonRootPath(codeFiles.ConvertAll(cf => cf.Path));
             var root = new DirectoryNode(rootPath);
 
             // Add files to the tree
@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         private static string FindCommonRootPath(List<string> paths)
         {
-            var splitPaths = paths.Select(p => p.Split(Path.DirectorySeparatorChar)).ToList();
+            var splitPaths = paths.ConvertAll(p => p.Split(Path.DirectorySeparatorChar));
             var commonParts = splitPaths
                 .Aggregate((current, next) => current.Zip(next, (c, n) => c == n ? c : null).TakeWhile(p => p != null).ToArray());
             return Path.Combine(commonParts);

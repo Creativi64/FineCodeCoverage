@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Output
                 string classNamespace = string.Join(".", classNameParts, 0, classNameParts.Length - 1);
                 return classNamespace;
             }).Select(namespaceGroup => new NamespaceTreeItem(
-                namespaceGroup.Key, 
+                namespaceGroup.Key,
                 namespaceGroup.Select(clss => new ClassTreeItem(clss))
                 )
                 {
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Output
 
                 this.BlocksCovered += namespaceTreeItem.BlocksCovered;
                 this.BlocksNotCovered += namespaceTreeItem.BlocksNotCovered;
-                
+
             }
         }
 

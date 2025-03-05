@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Editor.Roslyn;
 using FineCodeCoverage.Options;
@@ -18,7 +17,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 
         [ImportingConstructor]
         public RoslynFileCodeSpanRangeService(
-            IRoslynService roslynService, 
+            IRoslynService roslynService,
             IAppOptionsProvider appOptionsProvider,
             IThreadHelper threadHelper
             )
@@ -42,7 +41,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
                 () => this.roslynService.GetContainingCodeSpansAsync(snapshot)
             );
 
-            return textSpans.Select(textSpan => this.GetCodeSpanRange(textSpan, snapshot)).ToList();
+            return textSpans.ConvertAll(textSpan => this.GetCodeSpanRange(textSpan, snapshot));
         }
 
         public IFileCodeSpanRangeService FileCodeSpanRangeService => this;

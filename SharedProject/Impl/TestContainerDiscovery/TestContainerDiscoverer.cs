@@ -83,12 +83,9 @@ namespace FineCodeCoverage.Impl
             _ = packageLoader.LoadPackageAsync(CancellationToken.None);
             operationState.StateChanged += OperationState_StateChanged;
         }
-        
 
-        internal Action<Func<System.Threading.Tasks.Task>> RunAsync = (taskProvider) =>
-        {
-            ThreadHelper.JoinableTaskFactory.Run(taskProvider);
-        };
+
+        internal Action<Func<Task>> RunAsync = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
 
         private bool CoverageDisabled(IAppOptions settings)
         {
@@ -122,11 +119,7 @@ namespace FineCodeCoverage.Impl
                 {
                     RaiseCoverageStarted(true);
                     runningInParallel = true;
-                    fccEngine.ReloadCoverage(() =>
-                    {
-                        return testOperationFactory.Create(operation).GetCoverageProjectsAsync();
-
-                    });
+                    fccEngine.ReloadCoverage(() => testOperationFactory.Create(operation).GetCoverageProjectsAsync());
                 }
                 else
                 {
@@ -140,7 +133,7 @@ namespace FineCodeCoverage.Impl
                 RaiseCoverageStarted();
             }
         }
-        
+
         private async Task TestExecutionFinishedAsync(IOperation operation)
         {
             var (should, testOperation) = ShouldConditionallyCollectWhenTestExecutionFinished(operation);
@@ -163,7 +156,7 @@ namespace FineCodeCoverage.Impl
             {
                 return (false, null);
             }
-            
+
             var testOperation = testOperationFactory.Create(operation);
 
             var shouldCollect = CoverageConditionsMet(testOperation);
@@ -174,7 +167,7 @@ namespace FineCodeCoverage.Impl
         {
             settings = appOptionsProvider.Get();
             return CoverageDisabled(settings) || runningInParallel || MsCodeCoverageErrored;
-            
+
         }
 
         private async Task TestExecutionFinishedCollectionAsync(IOperation operation, ITestOperation testOperation)
@@ -211,7 +204,7 @@ namespace FineCodeCoverage.Impl
             }
             return true;
         }
-        
+
         private void StopCoverage()
         {
             switch (msCodeCoverageCollectionStatus)
@@ -244,10 +237,7 @@ namespace FineCodeCoverage.Impl
 
         private void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
         {
-            RunAsync(async () =>
-            {
-                await TryAndLogExceptionAsync(() => OperationState_StateChangedAsync(e));
-            });
+            RunAsync(async () => await TryAndLogExceptionAsync(() => OperationState_StateChangedAsync(e)));
         }
 
         private async Task TestExecutionCancellingAsync(IOperation operation)
@@ -279,7 +269,7 @@ namespace FineCodeCoverage.Impl
             try
             {
                 await action();
-                    
+
             }
             catch (Exception exception)
             {

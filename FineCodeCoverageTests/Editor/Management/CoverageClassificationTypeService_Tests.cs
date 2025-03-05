@@ -20,22 +20,22 @@ namespace FineCodeCoverageTests.Editor.Management
         public Dictionary<string, IClassificationType> ClassificationTypes { get; set; } = new Dictionary<string, IClassificationType>();
         public IClassificationType CreateClassificationType(string type, IEnumerable<IClassificationType> baseTypes)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ILayeredClassificationType CreateClassificationType(ClassificationLayer layer, string type, IEnumerable<IClassificationType> baseTypes)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IClassificationType CreateTransientClassificationType(IEnumerable<IClassificationType> baseTypes)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IClassificationType CreateTransientClassificationType(params IClassificationType[] baseTypes)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IClassificationType GetClassificationType(string type)
@@ -47,7 +47,7 @@ namespace FineCodeCoverageTests.Editor.Management
 
         public ILayeredClassificationType GetClassificationType(ClassificationLayer layer, string type)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
     internal class CoverageClassificationTypeService_Tests

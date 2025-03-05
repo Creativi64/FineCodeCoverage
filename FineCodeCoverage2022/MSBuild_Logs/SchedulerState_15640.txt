@@ -1,0 +1,254 @@
+Scheduler state at timestamp 638767959745542137:
+------------------------------------------------
+Unscheduled requests:
+  0: [-1] Unscheduled (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+Scheduler state at timestamp 638767959745744513:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 1 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959775883980:
+------------------------------------------------
+Node 1 Active (1 executing) (2 assigned requests, 2 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !1: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (GetTargetFrameworks)
+
+  1: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (GetTargetFrameworks)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959776193310:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 2 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959777140748:
+------------------------------------------------
+Node 1 Active (2 executing) (2 assigned requests, 2 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !2: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (Clean)
+
+  2: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (Clean)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959777369333:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 2 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959777542151:
+------------------------------------------------
+Node 1 Active (3 executing) (2 assigned requests, 2 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !3: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+
+  3: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959782157396:
+------------------------------------------------
+Node 1 Active (4 executing) (3 assigned requests, 3 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !3: [1] RUNNING Blocked (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+
+  3: [1] RUNNING Blocked (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+    !4: [1] RUNNING Executing (4)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid_jbrw12o4_wpftmp.csproj (_CompileTemporaryAssembly)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+  4: [1] RUNNING Executing (4)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid_jbrw12o4_wpftmp.csproj (_CompileTemporaryAssembly)
+    >3: [1] RUNNING Blocked (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959790767889:
+------------------------------------------------
+Node 1 Active (3 executing) (2 assigned requests, 3 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !3: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+
+  3: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959796618977:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 3 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959796669977:
+------------------------------------------------
+Node 1 Active (5 executing) (2 assigned requests, 3 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !5: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (GetNativeManifest)
+
+  5: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (GetNativeManifest)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959796711307:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 3 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959823964024:
+------------------------------------------------
+Node 1 Active (6 executing) (2 assigned requests, 4 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !6: [1] RUNNING Executing (5)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022_xyyebqiu_wpftmp.csproj (_CompileTemporaryAssembly)
+
+  6: [1] RUNNING Executing (5)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022_xyyebqiu_wpftmp.csproj (_CompileTemporaryAssembly)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959834195292:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 4 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959971091988:
+------------------------------------------------
+Node 1 Active (7 executing) (2 assigned requests, 4 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !7: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (PkgdefProjectOutputGroup)
+
+  7: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (PkgdefProjectOutputGroup)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959971136363:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 4 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959971166426:
+------------------------------------------------
+Node 1 Active (8 executing) (2 assigned requests, 4 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !8: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (BuiltProjectOutputGroup, BuiltProjectOutputGroupDependencies, GetCopyToOutputDirectoryItems, SatelliteDllsProjectOutputGroup)
+
+  8: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (BuiltProjectOutputGroup, BuiltProjectOutputGroupDependencies, GetCopyToOutputDirectoryItems, SatelliteDllsProjectOutputGroup)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959971415785:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 4 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959973120668:
+------------------------------------------------
+Node 1 Active (9 executing) (2 assigned requests, 4 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !9: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (BuiltProjectOutputGroupDependencies)
+
+  9: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (BuiltProjectOutputGroupDependencies)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959973180241:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 4 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959973244960:
+------------------------------------------------
+Node 1 Active (10 executing) (2 assigned requests, 4 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !10: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (BuiltProjectOutputGroup, GetCopyToOutputDirectoryItems, SatelliteDllsProjectOutputGroup)
+
+  10: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (BuiltProjectOutputGroup, GetCopyToOutputDirectoryItems, SatelliteDllsProjectOutputGroup)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959973289929:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 4 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959973381632:
+------------------------------------------------
+Node 1 Active (11 executing) (2 assigned requests, 4 configurations)
+  0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+    !11: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (DebugSymbolsProjectOutputGroup)
+
+  11: [1] RUNNING Executing (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (DebugSymbolsProjectOutputGroup)
+    >0: [1] RUNNING Blocked (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Scheduler state at timestamp 638767959973426849:
+------------------------------------------------
+Node 1 Active (0 executing) (1 assigned requests, 4 configurations)
+  0: [1] RUNNING Executing (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+
+No unscheduled requests.
+
+Configurations used during this build
+-------------------------------------
+Config 2 Node 1 TV: Current File C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj
+
+Config 3 Node 1 TV: Current File C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj
+
+Config 4 Node 1 TV: Current File C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid_jbrw12o4_wpftmp.csproj
+_TargetAssemblyProjectName = "TreeGrid"
+IntermediateOutputPath = "obj\Debug\"
+AssemblyName = "TreeGrid"
+
+Config 5 Node 1 TV: Current File C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022_xyyebqiu_wpftmp.csproj
+_TargetAssemblyProjectName = "FineCodeCoverage2022"
+IntermediateOutputPath = "obj\Debug\"
+AssemblyName = "FineCodeCoverage2022"
+
+Requests used during the build:
+-------------------------------
+Format: GlobalRequestId: [NodeId] FinalState (ConfigId) Path (Targets)
+0: [1] Completed (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (Rebuild)
+  1: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (GetTargetFrameworks)
+  2: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (Clean)
+  3: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj ()
+    4: [1] Completed (4)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid_jbrw12o4_wpftmp.csproj (_CompileTemporaryAssembly)
+  5: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (GetNativeManifest)
+  6: [1] Completed (5)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022_xyyebqiu_wpftmp.csproj (_CompileTemporaryAssembly)
+  7: [1] Completed (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (PkgdefProjectOutputGroup)
+  8: [1] Completed (2)C:\Users\tonyh\source\repos\FineCodeCoverage\FineCodeCoverage2022\FineCodeCoverage2022.csproj (BuiltProjectOutputGroup, BuiltProjectOutputGroupDependencies, GetCopyToOutputDirectoryItems, SatelliteDllsProjectOutputGroup)
+  9: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (BuiltProjectOutputGroupDependencies)
+  10: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (BuiltProjectOutputGroup, GetCopyToOutputDirectoryItems, SatelliteDllsProjectOutputGroup)
+  11: [1] Completed (3)C:\Users\tonyh\source\repos\FineCodeCoverage\TreeGrid\TreeGrid.csproj (DebugSymbolsProjectOutputGroup)
+Configurations used during this build
+-------------------------------------
+Requests used during the build:
+-------------------------------
+Format: GlobalRequestId: [NodeId] FinalState (ConfigId) Path (Targets)

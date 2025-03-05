@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
         [ImportingConstructor]
 		public CoverageProjectFactory(
 			IAppOptionsProvider appOptionsProvider,
-			IFileSynchronizationUtil fileSynchronizationUtil, 
+			IFileSynchronizationUtil fileSynchronizationUtil,
             ICoverageProjectSettingsManager coverageProjectSettingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             return new CoverageProject(
                 appOptionsProvider,
-                fileSynchronizationUtil, 
+                fileSynchronizationUtil,
                 coverageProjectSettingsManager,
                 referencedProjectsHelper);
         }

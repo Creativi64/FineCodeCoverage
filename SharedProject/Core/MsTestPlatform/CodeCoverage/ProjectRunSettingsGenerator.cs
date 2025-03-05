@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                     return WriteProjectRunSettingsAsync(coverageProject.Id, projectRunSettingsFilePath, coverageProjectRunSettings.RunSettings);
                 })
             );
-            
+
         }
 
         internal static string GeneratedProjectRunSettingsFilePath(ICoverageProject coverageProject)

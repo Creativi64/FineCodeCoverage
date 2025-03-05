@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.Utilities
             var toolFolderPath = Path.Combine(appDataFolder, toolFolderName);
             var toolDirectory = Directory.CreateDirectory(toolFolderPath);
             var zipDestination = Path.Combine(toolFolderPath, version);
-            
+
             cancellationToken.ThrowIfCancellationRequested();
             var unzippedDirectories = toolDirectory.GetDirectories();
             var requiresUnzip = !unzippedDirectories.Any(d => d.Name == version);

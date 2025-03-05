@@ -58,7 +58,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         {
             this.ThrowIfIncorrectCoverageTypeFilter(other);
 
-            return this.CompareLookups((other as CoverageTypeFilterBase).showLookup);
+            return this.CompareLookups(((CoverageTypeFilterBase)other).showLookup);
         }
 
         private bool CompareLookups(Dictionary<DynamicCoverageType, bool> otherShowLookup)

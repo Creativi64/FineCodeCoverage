@@ -27,8 +27,8 @@ namespace FineCodeCoverage.Engine.OpenCover
 		[ImportingConstructor]
 		public OpenCoverUtil(
 			IMsTestPlatformUtil msTestPlatformUtil,
-			IProcessUtil processUtil, 
-			ILogger logger, 
+			IProcessUtil processUtil,
+			ILogger logger,
 			IToolUnzipper toolUnzipper,
 			IFileUtil fileUtil,
             IOpenCoverExeArgumentsProvider openCoverExeArgumentsProvider
@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 			var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix,cancellationToken);
 			openCoverExePath = fileUtil.GetFiles(zipDestination, "OpenCover.Console.exe", SearchOption.AllDirectories).First();
 		}
-		
+
 		private string GetOpenCoverExePath(string customExePath)
         {
 			if(!String.IsNullOrWhiteSpace(customExePath))
@@ -91,7 +91,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 				Arguments = string.Join(" ", openCoverSettings),
 				WorkingDirectory = project.ProjectOutputFolder
 			},cancellationToken);
-			
+
 			if (result.ExitCode != 0)
 			{
 				throw new Exception(result.Output);

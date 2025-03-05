@@ -75,7 +75,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private CoverageProjectsByType coverageProjectsByType;
         private bool useMsCodeCoverage;
-        
+
         internal MsCodeCoverageCollectionStatus collectionStatus; // for tests
         private RunMsCodeCoverage runMsCodeCoverage;
 
@@ -83,7 +83,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         [ImportingConstructor]
         public MsCodeCoverageRunSettingsService(
-            IToolUnzipper toolUnzipper, 
+            IToolUnzipper toolUnzipper,
             IAppOptionsProvider appOptionsProvider,
             ICoverageToolOutputManager coverageOutputManager,
             IUserRunSettingsService userRunSettingsService,
@@ -108,9 +108,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             fccMsTestAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             shimPath = Path.Combine(zipDestination, "build", "netstandard2.0", "CodeCoverage", "coreclr", "Microsoft.VisualStudio.CodeCoverage.Shim.dll");
         }
-        
+
         #region set up for collection
-       
+
         public async Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(ITestOperation testOperation)
         {
             await InitializeIsCollectingAsync(testOperation);
@@ -118,7 +118,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 await TrySetUpForCollectionAsync(testOperation.SolutionDirectory);
             }
-            
+
             ReportEndOfCoverageRunIfError();
             return collectionStatus;
         }
@@ -137,14 +137,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private async Task SetUpForCollectionAsync(
-            List<ICoverageProject> coverageProjectsForShim, 
+            List<ICoverageProject> coverageProjectsForShim,
             bool specifiedMsCodeCoverageInRunSettings,
             string solutionDirectory
         )
         {
             await PrepareCoverageProjectsAsync();
             SetUserRunSettingsProjectDetails();
-            
+
             await GenerateTemplatedRunSettingsIfRequiredAsync(
                 specifiedMsCodeCoverageInRunSettings,
                 coverageProjectsForShim,
@@ -157,7 +157,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             if (collectionStatus == MsCodeCoverageCollectionStatus.Error)
             {
-               
+
             }
         }
 
@@ -207,8 +207,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private async Task GenerateTemplatedRunSettingsIfRequiredAsync(
-            bool runSettingsSpecifiedMsCodeCoverage, 
-            List<ICoverageProject> coverageProjectsForShim, 
+            bool runSettingsSpecifiedMsCodeCoverage,
+            List<ICoverageProject> coverageProjectsForShim,
             string solutionDirectory
         )
         {
@@ -302,7 +302,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
             }
         }
-        
+
         #endregion
 
         #region IRunSettingsService
@@ -317,7 +317,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private bool ShouldAddFCCRunSettings()
         {
-            return IsCollecting && userRunSettingsProjectDetailsLookup != null && userRunSettingsProjectDetailsLookup.Count > 0;
+            return IsCollecting && userRunSettingsProjectDetailsLookup?.Count > 0;
         }
 
         #endregion
@@ -366,7 +366,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
     }
 
-    public static class IRunSettingsConfigurationInfoExtensions { 
+    public static class IRunSettingsConfigurationInfoExtensions {
         public static bool IsTestExecution(this IRunSettingsConfigurationInfo configurationInfo)
         {
             return configurationInfo.RequestState == RunSettingConfigurationInfoState.Execution;

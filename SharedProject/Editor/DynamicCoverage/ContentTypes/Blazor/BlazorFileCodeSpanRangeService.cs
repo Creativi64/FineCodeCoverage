@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
             );
             if (generatedDocumentSyntaxRoot != null)
             {
-               
+
                 List<SyntaxNode> nodes = this.cSharpCodeCoverageNodeVisitor.GetNodes(generatedDocumentSyntaxRoot);
                 if(nodes.Count == 0)
                 {

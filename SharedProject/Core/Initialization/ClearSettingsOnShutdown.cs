@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Core.Initialization
                 });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             }
-            
+
         }
         public const string ClearSettingsOnShutdownOption = "FCCClearSettingsOnShutdown";
     }

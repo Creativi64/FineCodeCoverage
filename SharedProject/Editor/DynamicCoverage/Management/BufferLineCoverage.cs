@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         bool IsApplicable(string contentTypeName);
     }
 
-    internal class BufferLineCoverage : 
+    internal class BufferLineCoverage :
         IBufferLineCoverage, IListener<NewCoverageLinesMessage>, IListener<TestExecutionStartingMessage>
     {
         private readonly ITextInfo textInfo;
@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 this.fileLineCoverage = lastCoverage.FileLineCoverage;
                 this.lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
             }
-            
+
             this.textBuffer = textInfo.TextBuffer;
             this.textBuffer.ContentTypeChanged += this.ContentTypeChanged;
             this.textInfo = textInfo;
@@ -88,7 +88,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.textBuffer.ChangedOnBackground += this.TextBuffer_ChangedOnBackground;
             void textViewClosedHandler(object s, EventArgs e)
             {
-                this.UpdateDynamicCoverageStore((s as ITextView).TextSnapshot);
+                if (s is ITextView textView)
+                {
+                    this.UpdateDynamicCoverageStore(((ITextView)s).TextSnapshot);
+                }
+
                 this.textBuffer.Changed -= this.TextBuffer_ChangedOnBackground;
                 this.textBuffer.ContentTypeChanged -= this.ContentTypeChanged;
                 textInfo.TextView.Closed -= textViewClosedHandler;
@@ -146,7 +150,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         //todo - behaviour if exception reading text
         private bool FileSystemReflectsTrackedLines(string snapshotText)
             => this.textInfo.GetFileText() == snapshotText;
-        
+
         private void CreateTrackedLinesIfRequired(bool fromStore)
         {
             if (this.EditorCoverageColouringModeOff())
@@ -195,7 +199,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             DateTime lastWriteTime = this.textInfo.GetLastWriteTime();
 
-            
             if (serializedCoverageWhen == null)
             {
                 SerializedCoverageState state = lastWriteTime > this.lastTestExecutionStarting ?

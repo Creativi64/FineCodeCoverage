@@ -121,8 +121,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private List<TemplatedCoverageProjectRunSettingsResult> CreateProjectsRunSettings(
-            IEnumerable<ICoverageProject> coverageProjects, 
-            string solutionDirectory, 
+            IEnumerable<ICoverageProject> coverageProjects,
+            string solutionDirectory,
             string fccMsTestAdapterPath
         )
         {

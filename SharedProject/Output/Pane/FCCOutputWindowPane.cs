@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Output.Pane
         private readonly TextDocument fccPaneTextDocument;
 
         public FCCOutputWindowPane(
-            IVsOutputWindowPane outputWindowPane, 
-            Window outputWindowWindow, 
+            IVsOutputWindowPane outputWindowPane,
+            Window outputWindowWindow,
             TextDocument fccPaneTextDocument
         )
         {

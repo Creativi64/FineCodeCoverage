@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Output
 	/// <summary>
 	/// Interaction logic for OutputToolWindowControl.
 	/// </summary>
-	internal partial class ReportToolWindowControl : 
+	internal partial class ReportToolWindowControl :
 		UserControl
 	{
         /// <summary>

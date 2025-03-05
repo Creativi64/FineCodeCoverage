@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly IBufferLineCoverageFactory bufferLineCoverageFactory;
         private readonly IDateTimeService dateTimeService;
         private LastCoverage lastCoverage;
-        private DateTime lastTestExecutionStartingDate; 
+        private DateTime lastTestExecutionStartingDate;
 
         [ImportingConstructor]
         public DynamicCoverageManager(
@@ -33,9 +33,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.trackedLinesFactory = trackedLinesFactory;
         }
         public void Handle(NewCoverageLinesMessage message) => this.lastCoverage = new LastCoverage(message.CoverageLines, this.lastTestExecutionStartingDate);
-        
+
         public void Handle(TestExecutionStartingMessage message) => this.lastTestExecutionStartingDate = this.dateTimeService.Now;
-        
+
         public IBufferLineCoverage Manage(ITextInfo textInfo)
             => textInfo.TextBuffer.Properties.GetOrCreateSingletonProperty(
                 () => this.bufferLineCoverageFactory.Create(this.lastCoverage, textInfo, this.eventAggregator, this.trackedLinesFactory)

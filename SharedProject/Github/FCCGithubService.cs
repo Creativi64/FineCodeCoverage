@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Github
         }
 
         private bool haveCheckedFCCIssues;
-        
+
 
         public bool HaveCheckedFCCIssues
         {

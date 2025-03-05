@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Wpf
     public static class ThemeService
     {
         private static readonly Dictionary<string, Dictionary<ThemeResourceKey, Color>> _themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
-        
+
         static ThemeService()
         {
             LoadThemes(@"C:\Users\tonyh\Downloads\themes.xml");

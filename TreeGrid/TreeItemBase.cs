@@ -16,7 +16,7 @@ namespace TreeGrid
             get => this._isSelected;
             set
             {
-                this.Set<bool>(ref this._isSelected, value, nameof(IsSelected));
+                this.Set(ref this._isSelected, value, nameof(IsSelected));
                 this._isSelectionActive = true;
                 this.OnPropertyChanged("Background");
                 this.OnPropertyChanged("Foreground");
@@ -73,7 +73,7 @@ namespace TreeGrid
             get => this._adjustedWidth;
             set
             {
-                this.Set<GridLength>(ref this._adjustedWidth, value, nameof(AdjustedWidth));
+                this.Set(ref this._adjustedWidth, value, nameof(AdjustedWidth));
             }
         }
     

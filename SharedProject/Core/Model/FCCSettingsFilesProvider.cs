@@ -72,7 +72,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             var topLevel = false;
             var topLevelAttribute = root.Attribute(topLevelAttributeName);
-            if (topLevelAttribute != null && topLevelAttribute.Value.ToLower() == "true")
+            if (topLevelAttribute?.Value.ToLower() == "true")
             {
                 topLevel = true;
             }

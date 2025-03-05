@@ -9,6 +9,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Editor.Management
 {
@@ -16,12 +17,12 @@ namespace FineCodeCoverage.Editor.Management
     internal class FontsAndColorsHelper : IFontsAndColorsHelper
     {
         private readonly uint storeFlags = (uint)(__FCSTORAGEFLAGS.FCSF_READONLY | __FCSTORAGEFLAGS.FCSF_LOADDEFAULTS | __FCSTORAGEFLAGS.FCSF_NOAUTOCOLORS | __FCSTORAGEFLAGS.FCSF_PROPAGATECHANGES);
-        private readonly System.IServiceProvider serviceProvider;
+        private readonly IServiceProvider serviceProvider;
         private readonly IThreadHelper threadHelper;
 
         [ImportingConstructor]
         public FontsAndColorsHelper(
-            [Import(typeof(SVsServiceProvider))] System.IServiceProvider serviceProvider,
+            [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider,
             IThreadHelper threadHelper
         )
         {
@@ -64,7 +65,7 @@ namespace FineCodeCoverage.Editor.Management
             return null;
         }
 
-        public async System.Threading.Tasks.Task<List<IFontAndColorsInfo>> GetInfosAsync(Guid category, IEnumerable<string> names)
+        public async Task<List<IFontAndColorsInfo>> GetInfosAsync(Guid category, IEnumerable<string> names)
         {
             var infos = new List<IFontAndColorsInfo>();
             await this.OpenCloseCategoryAsync(
@@ -74,7 +75,7 @@ namespace FineCodeCoverage.Editor.Management
             return infos;
         }
 
-        private async System.Threading.Tasks.Task OpenCloseCategoryAsync(Guid category, Action<IVsFontAndColorStorage> action)
+        private async Task OpenCloseCategoryAsync(Guid category, Action<IVsFontAndColorStorage> action)
         {
             IVsFontAndColorStorage fontAndColorStorage = await this.GetVsFontAndColorStorageAsync();
             await this.threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

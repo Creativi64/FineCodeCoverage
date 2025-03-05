@@ -47,15 +47,15 @@ namespace FineCodeCoverage.Engine.Model
                     }
                 }
                 return buildOutputPath;
-                
+
             }
         }
         private readonly string coverageToolOutputFolderName = "coverage-tool-output";
         private bool? isDotNetSdkStyle;
 
         public CoverageProject(
-            IAppOptionsProvider appOptionsProvider, 
-            IFileSynchronizationUtil fileSynchronizationUtil, 
+            IAppOptionsProvider appOptionsProvider,
+            IFileSynchronizationUtil fileSynchronizationUtil,
             ICoverageProjectSettingsManager settingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
@@ -79,8 +79,8 @@ namespace FineCodeCoverage.Engine.Model
             .Any(x =>
             {
                 //https://docs.microsoft.com/en-us/visualstudio/msbuild/how-to-use-project-sdk?view=vs-2019
-                return IsRootProjectElementWithSdkAttribute(x) || 
-                    IsRootProjectElementSdkElementChild(x) || 
+                return IsRootProjectElementWithSdkAttribute(x) ||
+                    IsRootProjectElementSdkElementChild(x) ||
                     IsRootImportElementWithSdkAttribute(x);
             });
 
@@ -129,10 +129,7 @@ namespace FineCodeCoverage.Engine.Model
                 if (settings == null)
                 {
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-                    ThreadHelper.JoinableTaskFactory.Run(async () =>
-                    {
-                        settings = await settingsManager.GetSettingsAsync(this);
-                    });
+                    ThreadHelper.JoinableTaskFactory.Run(async () => settings = await settingsManager.GetSettingsAsync(this));
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
                 }
                 return settings;
@@ -145,11 +142,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             get
             {
-                if (projectFileXElement == null)
-                {
-                    projectFileXElement = LinqToXmlUtil.Load(ProjectFile, true);
-                }
-                return projectFileXElement;
+                return projectFileXElement ?? (projectFileXElement = LinqToXmlUtil.Load(ProjectFile, true));
 
             }
         }
@@ -235,7 +228,7 @@ namespace FineCodeCoverage.Engine.Model
                 IncludedReferencedProjects = new List<IReferencedProject>(referencedProjects);
             }
         }
-        
+
         private void SetExcludedReferencedProjects(List<IExcludableReferencedProject> referencedProjects)
         {
             foreach (var referencedProject in referencedProjects)
@@ -253,7 +246,7 @@ namespace FineCodeCoverage.Engine.Model
             EnsureBuildOutputDirectory();
             EnsureEmptyOutputFolder();
         }
-        
+
         private void EnsureFccDirectory()
         {
             CreateIfDoesNotExist(FCCOutputFolder);
@@ -263,7 +256,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             CreateIfDoesNotExist(BuildOutputPath);
         }
-        
+
         private void CreateIfDoesNotExist(string path)
         {
             if (!Directory.Exists(path))
@@ -271,7 +264,7 @@ namespace FineCodeCoverage.Engine.Model
                 Directory.CreateDirectory(path);
             }
         }
-        
+
         /// <summary>
         /// Delete all files and sub-directories from the output folder if it exists, or creates the directory if it does not exist.
         /// </summary>
@@ -294,7 +287,6 @@ namespace FineCodeCoverage.Engine.Model
                 Directory.CreateDirectory(CoverageOutputFolder);
             }
         }
-        
         private void CleanFCCDirectory()
         {
             var exclusions = new List<string> { buildOutputFolderName, coverageToolOutputFolderName };
@@ -312,7 +304,7 @@ namespace FineCodeCoverage.Engine.Model
                            }
                            else
                            {
-                               (fileOrDirectory as DirectoryInfo).Delete(true);
+                               (fileOrDirectory as DirectoryInfo)?.Delete(true);
                            }
                        }
                        catch { }
@@ -320,7 +312,7 @@ namespace FineCodeCoverage.Engine.Model
                });
 
         }
-        
+
         private CoverageProjectFileSynchronizationDetails SynchronizeBuildOutput()
         {
             var start = DateTime.Now;

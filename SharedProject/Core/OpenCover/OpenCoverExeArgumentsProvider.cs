@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Engine.OpenCover
         {
             return $@"""{value}""";
         }
-        
+
         public static string AddEscapeQuotes(string arg)
         {
             return $@"\""{arg}\""";
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Engine.OpenCover
         private enum Delimiter { Semicolon, Space}
         private void AddFilter(ICoverageProject project, List<string> opencoverSettings)
         {
-            var includedModules = project.IncludedReferencedProjects.Select(rp => rp.AssemblyName).ToList();
+            var includedModules = project.IncludedReferencedProjects.ConvertAll(rp => rp.AssemblyName);
             if (project.Settings.IncludeTestAssembly)
             {
                 includedModules.Add(project.ProjectName);
@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             AddIncludeAllIfExcludingWithoutIncludes();
             var filters = includeFilters.Concat(excludeFilters).ToList();
             SafeAddToSettingsDelimitedIfAny(opencoverSettings, "filter", filters, Delimiter.Space);
-            
+
             void AddIncludeAllIfExcludingWithoutIncludes()
             {
                 if (excludeFilters.Any() && !includeFilters.Any())
@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                 var excludeOrIncludeFilters = new List<string>();
                 var prefix = IncludeSymbol(isInclude);
                 var sanitizedExcludesOrIncludes = SanitizeExcludesOrIncludes(excludesOrIncludes);
-                
+
                 foreach (var value in sanitizedExcludesOrIncludes)
                 {
                     excludeOrIncludeFilters.Add($"{prefix}{value}");
@@ -68,7 +68,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                 return $"{filter}[{moduleFilter}]{classFilter}";
             }
 
-            string IncludeSymbol(bool include) => include ? "+" : "-"; 
+            string IncludeSymbol(bool include) => include ? "+" : "-";
         }
 
         private IEnumerable<string> SanitizeExcludesOrIncludes(IEnumerable<string> excludesOrIncludes)
@@ -113,10 +113,9 @@ namespace FineCodeCoverage.Engine.OpenCover
                 .SelectMany(exclude => new[] { exclude, GetAlternateName(exclude) })
                 .OrderBy(exclude => exclude)
                 .Select(WildCardIfShortName);
-                
-            
+
             SafeAddToSettingsDelimitedIfAny(opencoverSettings, "excludebyattribute", excludes);
-            
+
             string WildCardIfShortName(string exclude)
             {
                 if(exclude.IndexOf(".") == -1)
@@ -177,7 +176,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             AddTargetAndTargetArgs(project, opencoverSettings, msTestPlatformExePath);
 
             opencoverSettings.Add(CommandLineArguments.AddQuotes($"-output:{project.CoverageOutputFile}"));
-            
+
             AddFilter(project, opencoverSettings);
             AddExcludeByFile(project, opencoverSettings);
             AddExcludeByAttribute(project, opencoverSettings);
@@ -186,7 +185,6 @@ namespace FineCodeCoverage.Engine.OpenCover
             opencoverSettings.Add("-hideskipped:all");
 
             return opencoverSettings;
-            
         }
     }
 }

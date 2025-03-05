@@ -88,7 +88,7 @@ namespace FineCodeCoverage.Editor.Management
 
         public ICoverageColours GetCoverageColours() => this.GetCoverageColoursIfRequired();
 
-        private CoverageColours GetCoverageColoursIfRequired() 
+        private CoverageColours GetCoverageColoursIfRequired()
             => this.lastCoverageColours ?? (this.lastCoverageColours = this.GetCoverageColoursFromFontsAndColors());
 
         private CoverageColours GetCoverageColoursFromFontsAndColors()

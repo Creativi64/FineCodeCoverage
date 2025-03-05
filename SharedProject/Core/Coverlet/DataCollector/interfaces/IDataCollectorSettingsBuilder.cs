@@ -11,7 +11,7 @@
 
         void WithExcludeByFile(string[] projectExcludeByFile, string runSettingsExcludeByFile);
         void WithIncludeTestAssembly(bool projectIncludeTestAssembly, string runSettingsIncludeTestAssembly);
-        
+
         void WithNoLogo();
         void WithBlame();
 

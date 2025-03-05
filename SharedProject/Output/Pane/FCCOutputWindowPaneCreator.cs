@@ -14,7 +14,6 @@ namespace FineCodeCoverage.Output.Pane
     internal class FCCOutputWindowPaneCreator : IFCCOutputWindowPaneCreator
     {
         private const string fccPaneGuidString = "{3B3C775A-0050-445D-9022-0230957805B2}";
-        
         private readonly IServiceProvider _serviceProvider;
         private IFCCOutputWindowPane fccOutputWindowPane;
 
@@ -64,16 +63,15 @@ namespace FineCodeCoverage.Output.Pane
         private async System.Threading.Tasks.Task<Window> GetOutputWindowWindowAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var dte = (DTE2)this._serviceProvider.GetService(typeof(EnvDTE.DTE));
+            var dte = (DTE2)this._serviceProvider.GetService(typeof(DTE));
             Assumes.Present(dte);
             return dte.Windows.Item(EnvDTE.Constants.vsWindowKindOutput);
-
         }
 
         private async System.Threading.Tasks.Task<TextDocument> GetPaneTextDocumentAsync(Window outputWindowWindow)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            return (outputWindowWindow.Object as OutputWindow).OutputWindowPanes.Cast<OutputWindowPane>()
+            return ((OutputWindow)outputWindowWindow.Object).OutputWindowPanes.Cast<OutputWindowPane>()
                 .First(this.IsFCCPane).TextDocument;
         }
 

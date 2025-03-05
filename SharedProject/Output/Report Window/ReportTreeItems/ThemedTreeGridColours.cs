@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {
-    internal class ThemedTreeGridColours
+    internal sealed class ThemedTreeGridColours
     {
         private ThemedTreeGridColours()
         {

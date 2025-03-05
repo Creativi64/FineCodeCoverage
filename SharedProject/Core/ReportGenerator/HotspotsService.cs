@@ -13,6 +13,73 @@ namespace FineCodeCoverage.ReportGeneration
     [ExcludeFromCodeCoverage]
     internal class HotspotsService : IHotspotsService
     {
+        internal interface IMethodMetric
+        {
+            string FullName { get; }
+            int Line { get; }
+            IEnumerable<IMetric> Metrics { get; }
+        }
+
+        internal class RiskHotspot
+        {
+            public RiskHotspot(string assembly, string @class, IMethodMetric methodMetric)
+            {
+                Assembly = assembly;
+                Class = @class;
+                MethodMetric = methodMetric;
+            }
+            public string Assembly { get; }
+            public string Class { get; }
+            public IMethodMetric MethodMetric { get; }
+        }
+
+        internal class MethodMetric : IMethodMetric
+        {
+            class Metric : IMetric
+            {
+                public Metric(string name, decimal value)
+                {
+                    Name = name;
+                    Value = value;
+                }
+                public string Name { get; }
+                public decimal Value { get; }
+            }
+
+            public MethodMetric(ICodeElement codeElement, RiskHotspotsAnalysisThresholds riskHotspotsAnalysisThresholds)
+            {
+                FullName = codeElement.Name;
+                Line = codeElement.StartLine;
+                List<Metric> metrics = new List<Metric>();
+                if(codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.MetricThresholdForCyclomaticComplexity)
+                {
+                    metrics.Add(new Metric("CyclomaticComplexity", codeElement.CyclomaticComplexity));
+                }
+                if (codeElement.CrapScore > riskHotspotsAnalysisThresholds.MetricThresholdForCrapScore)
+                {
+                    metrics.Add(new Metric("CrapScore", codeElement.CrapScore));
+                }
+                if (codeElement.NPathComplexity > riskHotspotsAnalysisThresholds.MetricThresholdForNPathComplexity)
+                {
+                    metrics.Add(new Metric("NPathComplexity", codeElement.NPathComplexity));
+                }
+                IsHotspot = metrics.Any();
+                Metrics = metrics;
+
+            }
+            public bool IsHotspot { get; }
+            public string FullName { get; }
+            public int Line { get; }
+            public IEnumerable<IMetric> Metrics { get; }
+        }
+
+
+        internal interface IMetric
+        {
+            string Name { get; }
+            decimal Value { get; }
+        }
+
         private readonly IAppOptionsProvider appOptionsProvider;
 
         [ImportingConstructor]
@@ -32,11 +99,11 @@ namespace FineCodeCoverage.ReportGeneration
                     new XElement("Method", hotspot.MethodMetric.FullName),
                     new XElement("Line", hotspot.MethodMetric.Line),
                     new XElement("Metrics",
-                        hotspot.StatusMetrics.Where(statusMetric => statusMetric.Exceeded).Select(statusMetric =>
+                        hotspot.MethodMetric.Metrics.Select(metric =>
                         {
                             return new XElement("Metric",
-                                new XElement("Name", statusMetric.Metric.Name),
-                                new XElement("Value", statusMetric.Metric.Value)
+                                new XElement("Name", metric.Name),
+                                new XElement("Value", metric.Value)
                             );
                         })
                     )
@@ -54,16 +121,12 @@ namespace FineCodeCoverage.ReportGeneration
         }
 
         private IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, RiskHotspotsAnalysisThresholds riskHotspotsAnalysisThresholds)
-        {
-            return Enumerable.Empty<RiskHotspot>();
-            //return reportAssemblies.SelectMany(assembly =>
-            //{
-            //    return assembly.Classes.Select(clss =>
-            //    {
-            //        return null;
-            //    });
-            //}).Where(hs => hs != null);
-        }
+            => reportAssemblies.SelectMany(assembly =>
+                assembly.Classes.SelectMany(cls =>
+                    cls.CodeElements.Select(ce => new MethodMetric(ce, riskHotspotsAnalysisThresholds))
+                        .Where(mm => mm.IsHotspot)
+                        .Select(mm => new RiskHotspot(assembly.ShortName, cls.DisplayName, mm)
+                    )));
 
         private RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds(IAppOptions appOptions) => new RiskHotspotsAnalysisThresholds
         {

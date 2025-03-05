@@ -12,10 +12,7 @@ namespace FineCodeCoverage.Output
         {
             this.Name = Path.GetFileName(sourceFile.Path);
             this.ImageMoniker = KnownMonikers.TextFile;
-            sourceFile.Classes.ToList().ForEach(clss =>
-            {
-                this.observableChildren.Add(new ClassTreeItem(clss) { Parent = this });
-            });
+            sourceFile.Classes.ToList().ForEach(clss => this.observableChildren.Add(new ClassTreeItem(clss) { Parent = this }));
 
             this.CoverableLines = this.observableChildren.Sum(c => c.CoverableLines);
             this.NPathComplexity = this.observableChildren.Sum(c => c.NPathComplexity);

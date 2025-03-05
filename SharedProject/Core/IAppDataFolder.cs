@@ -4,7 +4,7 @@
     {
         string DirectoryPath { get; }
         void Initialize(System.Threading.CancellationToken cancellationToken);
-        
+
     }
 
 }

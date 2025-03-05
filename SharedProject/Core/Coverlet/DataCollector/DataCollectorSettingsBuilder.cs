@@ -71,7 +71,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             return new XDocument(new XElement("RunSettings",
                 DataCollectionRunSettings()));
-            
+
         }
         private XElement DataCollectionRunSettings()
         {
@@ -106,7 +106,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                         var friendlyNameAttribute = e.Attribute("friendlyName");
                         if (friendlyNameAttribute != null)
                         {
-                            return friendlyNameAttribute.Value.ToLower() == "xplat code coverage";
+                            return string.Equals(friendlyNameAttribute.Value, "xplat code coverage", System.StringComparison.OrdinalIgnoreCase);
                         }
                         return false;
                     });
@@ -150,7 +150,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         }
         #endregion
-        
+
         internal string Quote(string settings)
         {
             return $@"""{settings}""";
@@ -207,7 +207,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             {
                 return DelimitProject();
             }
-            
+
             if (runSettings != null)
             {
                 return runSettings;
@@ -224,7 +224,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             Exclude = RunSettingsOrProject(projectExclude, runSettingsExclude);
         }
-        
+
         public void WithExcludeByAttribute(string[] projectExcludeByAttribute, string runSettingsExcludeByAttribute)
         {
             if(runSettingsExcludeByAttribute != null)
@@ -232,7 +232,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 runSettingsExcludeByAttribute = string.Join(",", runSettingsExcludeByAttribute.Split(',').Select(Unqualify));
             }
             ExcludeByAttribute = RunSettingsOrProject(
-                projectExcludeByAttribute?.Select(Unqualify).ToArray(), 
+                projectExcludeByAttribute?.Select(Unqualify).ToArray(),
                 runSettingsExcludeByAttribute);
 
             string Unqualify(string excludeByAttribute)
@@ -277,8 +277,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     }
                 }
             }
-            
-            
+
             IncludeTestAssembly = includeTestAssembly;
         }
         #endregion

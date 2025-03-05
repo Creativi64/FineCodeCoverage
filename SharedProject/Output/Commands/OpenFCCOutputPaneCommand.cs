@@ -56,7 +56,7 @@ namespace FineCodeCoverage.Output
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void Execute(object sender, EventArgs e) 
+        private void Execute(object sender, EventArgs e)
             => _ = this.showFCCOutputPane.ShowAsync();
     }
 }

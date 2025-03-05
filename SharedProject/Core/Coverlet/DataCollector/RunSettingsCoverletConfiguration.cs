@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.Coverlet
                 }
                 else
                 {
-                    CoverletDataCollectorState = enabledAttribute.Value.ToLower() == "true" ? CoverletDataCollectorState.Enabled : CoverletDataCollectorState.Disabled;
+                    CoverletDataCollectorState = string.Equals(enabledAttribute.Value, "true", System.StringComparison.OrdinalIgnoreCase) ? CoverletDataCollectorState.Enabled : CoverletDataCollectorState.Disabled;
                 }
             }
             else
@@ -59,6 +59,7 @@ namespace FineCodeCoverage.Core.Coverlet
 
         public CoverletDataCollectorState CoverletDataCollectorState { get; private set; }
 
+#pragma warning disable RCS1170 // Use read-only auto-implemented property
         public string Format { get; private set; }
         public string Exclude { get; private set; }
         public string Include { get; private set; }
@@ -69,5 +70,6 @@ namespace FineCodeCoverage.Core.Coverlet
         public string UseSourceLink { get; private set; }
         public string IncludeTestAssembly { get; private set; }
         public string SkipAutoProps { get; private set; }
+#pragma warning restore RCS1170 // Use read-only auto-implemented property
     }
 }

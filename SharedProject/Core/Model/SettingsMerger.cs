@@ -80,7 +80,7 @@ namespace FineCodeCoverage.Engine.Model
         }
 
         private readonly PropertyInfo[] settingsPropertyInfos;
-        
+
 
         [ImportingConstructor]
         public SettingsMerger(
@@ -89,28 +89,28 @@ namespace FineCodeCoverage.Engine.Model
         {
             settingsPropertyInfos = typeof(IAppOptions).GetPublicProperties();
             this.logger = logger;
-            
+
         }
 
         public IAppOptions Merge(
-            IAppOptions globalOptions, 
-            List<XElement> settingsFileElements, 
+            IAppOptions globalOptions,
+            List<XElement> settingsFileElements,
             XElement projectSettingsElement)
         {
             var settingsElementsWithDefaultMergeStrategy =
-                settingsFileElements.Select(e => new SettingsElementDefaultMerge { 
-                    SettingsElement = e, 
+                settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge {
+                    SettingsElement = e,
                     DefaultMerge = settingsFileDefaultMerge,
-                    FromProjectSettings = false 
-                }).ToList();
+                    FromProjectSettings = false
+                });
 
             if (projectSettingsElement != null)
             {
                 settingsElementsWithDefaultMergeStrategy.Add(
-                    new SettingsElementDefaultMerge { 
-                        SettingsElement = projectSettingsElement, 
+                    new SettingsElementDefaultMerge {
+                        SettingsElement = projectSettingsElement,
                         DefaultMerge = projectSettingsDefaultMerge,
-                        FromProjectSettings = true 
+                        FromProjectSettings = true
                     }
                 );
             }
@@ -124,8 +124,8 @@ namespace FineCodeCoverage.Engine.Model
         }
 
         private void Merge(
-            IAppOptions globalOptions, 
-            PropertyInfo settingPropertyInfo, 
+            IAppOptions globalOptions,
+            PropertyInfo settingPropertyInfo,
             List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
         )
         {
@@ -186,7 +186,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return defaultMerge;
             }
-            return mergeAttribute.Value.ToLower() == "true";
+            return string.Equals(mergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
         }
 
         private bool GetDefaultMerge(bool defaultDefaultMerge, XElement root)
@@ -196,7 +196,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return defaultDefaultMerge;
             }
-            return defaultMergeAttribute.Value.ToLower() == "true";
+            return string.Equals(defaultMergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
         }
 
         private void Overwrite(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, IEnumerable<SettingsElementDefaultMerge> settingsElementsDefaultMerge)
@@ -388,7 +388,7 @@ namespace FineCodeCoverage.Engine.Model
             else if (property.PropertyType.IsEnum)
             {
                 return Enum.Parse(property.PropertyType, strValueArr.FirstOrDefault(), true);
-                
+
             }
 
             else

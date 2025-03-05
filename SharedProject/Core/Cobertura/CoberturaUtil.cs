@@ -50,10 +50,7 @@ namespace FineCodeCoverage.Engine.Cobertura
 			IFileLineCoverageFactory fileLineCoverageFactory
         )
 		{
-            fileRenameListener.ListenForFileRename((oldFile, newFile) =>
-            {
-                fileLineCoverage?.UpdateRenamed(oldFile, newFile);
-            });
+            fileRenameListener.ListenForFileRename((oldFile, newFile) => fileLineCoverage?.UpdateRenamed(oldFile, newFile));
             this.coberturaDeserializer = coberturaDeserializer;
             this.fileLineCoverageFactory = fileLineCoverageFactory;
         }

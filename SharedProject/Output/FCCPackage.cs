@@ -18,7 +18,7 @@ using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace FineCodeCoverage.Output
 {
-	
+
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -79,7 +79,6 @@ namespace FineCodeCoverage.Output
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            
             var componentModel = GetComponentModel();
             componentModel.GetService<ClearSettingsOnShutdown>();
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;

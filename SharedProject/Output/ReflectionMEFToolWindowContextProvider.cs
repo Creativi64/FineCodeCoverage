@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Output
         public static TContext GetToolWindowContext<TToolWindowType, TContext>() => (TContext)GetToolWindowContext(typeof(TToolWindowType));
         public static object GetToolWindowContext(Type toolWindowType)
         {
-            ConstructorInfo contextConstructor = toolWindowType.GetConstructors().Where(c => c.GetParameters().Length == 1).First();
+            ConstructorInfo contextConstructor = toolWindowType.GetConstructors().First(c => c.GetParameters().Length == 1);
             Type contextType = contextConstructor.GetParameters().First().ParameterType;
             object context = Activator.CreateInstance(contextType);
             foreach (PropertyInfo contextProperty in contextType.GetProperties())
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Output
                 toolWindowsWithContext.Add(toolWindowType.GUID, toolWindowType.GetConstructors().Any(c => c.GetParameters().Length == 1));
             }
         }
-        
+
         public static bool IsToolWindowWithContext(Type packageType, Guid toolWindowType)
         {
             if(toolWindowsWithContext == null)

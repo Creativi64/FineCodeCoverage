@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Wpf
 
             public Color Color { get; }
         }
-        
+
         public static event EventHandler<ImageThemingColorChangedArgs> ImageThemingColorChanged;
         private static readonly bool isInDesignMode;
         static Crispy()
@@ -34,12 +34,13 @@ namespace FineCodeCoverage.Wpf
             {
                 return;
             }
-            ImageThemingUtilities.ImageBackgroundColorProperty.OverrideMetadata(typeof(Crispy), new FrameworkPropertyMetadata((_, args) =>
-            {
-                ImageThemingColorChanged?.Invoke(null, new ImageThemingColorChangedArgs((Color)args.NewValue));
-            }));
+            ImageThemingUtilities.ImageBackgroundColorProperty.OverrideMetadata(
+                typeof(Crispy),
+                new FrameworkPropertyMetadata((_, args) => ImageThemingColorChanged?.Invoke(
+                    null,
+                    new ImageThemingColorChangedArgs((Color)args.NewValue))));
         }
-        
+
         private Image image;
 
 
@@ -64,7 +65,6 @@ namespace FineCodeCoverage.Wpf
             set => this.SetValue(Crispy.MonikerProperty, (object)value);
         }
 
-        
 
         public Crispy()
         {
@@ -131,7 +131,6 @@ namespace FineCodeCoverage.Wpf
             });
         }
 
-        
         private Color GetColor()
         {
             return (Color)GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
@@ -153,28 +152,32 @@ namespace FineCodeCoverage.Wpf
             return (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
         }
 
+        private static int GetDpi()
+        {
+            double dpi = 0;
+            try
+            {
+                dpi = DpiAwareness.SystemDpiX;
+            }
+            catch
+            {
+                dpi = 96.0;
+            }
+            return (int)dpi;
+        }
+
         private ImageAttributes GetImageAttributes()
         {
             var imageAttributes = new ImageAttributes();
             //imageAttributes.HighContrast = 1;
             imageAttributes.Format = (uint)_UIDataFormat.DF_WPF;
             imageAttributes.ImageType = (uint)_UIImageType.IT_Bitmap;
-            _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background;// others
-            imageAttributes.Flags = (uint)flags;
+            const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background;// others
+            imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
             imageAttributes.StructSize = (int)Marshal.SizeOf<ImageAttributes>();
-            
             imageAttributes.Background = ConvertColor(GetColor());
-            double defaultDpi = 0;
-            try
-            {
-                defaultDpi = DpiAwareness.SystemDpiX;
-            }
-            catch
-            {
-                defaultDpi = 96.0;
-            }
-            imageAttributes.Dpi = (int)defaultDpi;
-            
+            imageAttributes.Dpi = GetDpi();
+
             //var scaleFactor = 1;  
 
             imageAttributes.LogicalHeight = (int)Width;

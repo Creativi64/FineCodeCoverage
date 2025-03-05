@@ -5,11 +5,7 @@
         public BaseViewModelDialogWindow(IDialogViewModel dialogViewModel)
         {
             this.DataContext = dialogViewModel;
-            dialogViewModel.Done += (_, __) =>
-            {
-                this.Close();
-            };
-
+            dialogViewModel.Done += (_, __) => this.Close();
         }
     }
 }

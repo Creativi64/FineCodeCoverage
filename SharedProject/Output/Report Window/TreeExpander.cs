@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Output
@@ -40,7 +39,7 @@ namespace FineCodeCoverage.Output
                     newIndex++;
                     savedIndex++;
                 }
-                else if (string.Compare(newRoot.Name, savedRoot.Id, StringComparison.Ordinal) < 0)
+                else if (string.CompareOrdinal(newRoot.Name, savedRoot.Id) < 0)
                 {
                     // New tree has additional roots; skip them
                     newIndex++;
@@ -75,7 +74,7 @@ namespace FineCodeCoverage.Output
                         newIndex++;
                         savedIndex++;
                     }
-                    else if (string.Compare(newChild.Name, savedChild.Id, StringComparison.Ordinal) < 0)
+                    else if (string.CompareOrdinal(newChild.Name, savedChild.Id) < 0)
                     {
                         newIndex++;
                     }
@@ -103,7 +102,7 @@ namespace FineCodeCoverage.Output
 
         private TreeExpansionState SaveExpansionStateForNode(ReportTreeItemBase item)
         {
-            if (item == null || !item.IsExpanded)
+            if (item?.IsExpanded != true)
                 return null;
 
             var state = new TreeExpansionState { Id = item.Name };
@@ -126,7 +125,6 @@ namespace FineCodeCoverage.Output
             RestoreExpansionState(newItems, wrapper);
             this.wrapper = null;
         }
-        
     }
 
 }

@@ -12,8 +12,8 @@ namespace FineCodeCoverage.Editor.Roslyn
     internal class CSharpContainingCodeVisitor : CSharpSyntaxVisitor, ILanguageContainingCodeVisitor, ICSharpCodeCoverageNodeVisitor
     {
         private readonly List<SyntaxNode> nodes = new List<SyntaxNode>();
-        public List<TextSpan> GetSpans(SyntaxNode rootNode) 
-            => this.GetNodes(rootNode).Select(node => node.Span).ToList();
+        public List<TextSpan> GetSpans(SyntaxNode rootNode)
+            => this.GetNodes(rootNode).ConvertAll(node => node.Span);
 
         public List<SyntaxNode> GetNodes(SyntaxNode rootNode)
         {

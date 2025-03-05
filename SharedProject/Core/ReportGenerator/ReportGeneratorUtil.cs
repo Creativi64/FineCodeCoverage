@@ -21,15 +21,12 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             this.reportGenerator = reportGenerator;
             this.logger = logger;
-            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) =>
-            {
-                logger.Log(message);
-            });
+            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => logger.Log(message));
         }
 
         public ReportGeneratorResult Generate(
-            IEnumerable<string> coverOutputFiles, 
-            string reportOutputFolder, 
+            IEnumerable<string> coverOutputFiles,
+            string reportOutputFolder,
             CancellationToken cancellationToken)
         {
             logger.Log("Report Generator - Output");

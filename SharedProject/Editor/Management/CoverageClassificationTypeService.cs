@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Editor.Management
         )
         {
             this.classificationFormatMap = classificationFormatMapService.GetClassificationFormatMap("text");
-            this.highestPriorityClassificationType = this.classificationFormatMap.CurrentPriorityOrder.Where(ct => ct != null).Last();
+            this.highestPriorityClassificationType = this.classificationFormatMap.CurrentPriorityOrder.Last(ct => ct != null);
 
             IClassificationType notCoveredClassificationType = classificationTypeRegistryService.GetClassificationType(FCCNotCoveredClassificationTypeName);
             IClassificationType coveredClassificationType = classificationTypeRegistryService.GetClassificationType(FCCCoveredClassificationTypeName);

@@ -11,14 +11,8 @@ namespace FineCodeCoverage.Output
         {
             this.Name = directory.Name;
             ImageMoniker = KnownMonikers.FolderClosed;
-            directory.Children.ForEach(subDirectory =>
-            {
-                this.observableChildren.Add(new DirectoryTreeItem(subDirectory) { Parent = this});
-            });
-            directory.SourceFiles.ForEach(sourceFile =>
-            {
-                this.observableChildren.Add(new SourceFileTreeItem(sourceFile) { Parent = this});
-            });
+            directory.Children.ForEach(subDirectory => this.observableChildren.Add(new DirectoryTreeItem(subDirectory) { Parent = this }));
+            directory.SourceFiles.ForEach(sourceFile => this.observableChildren.Add(new SourceFileTreeItem(sourceFile) { Parent = this }));
 
             this.CoverableLines = this.observableChildren.Sum(c => c.CoverableLines);
             this.NPathComplexity = this.observableChildren.Sum(c => c.NPathComplexity);

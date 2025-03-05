@@ -29,7 +29,6 @@ namespace FineCodeCoverage.Engine.Coverlet
             var result = execution(executor);
 			if(result.ExitCode != 0)
             {
-				
 				logger.Log($"{title} Error", result.Output);
 				return null;
 			}

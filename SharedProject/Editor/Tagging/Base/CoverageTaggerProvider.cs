@@ -10,7 +10,8 @@ using Microsoft.VisualStudio.Text.Tagging;
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
     internal class CoverageTaggerProvider<TCoverageTypeFilter, TTag> : ICoverageTaggerProvider<TTag>
-         where TTag : ITag where TCoverageTypeFilter : ICoverageTypeFilter, new()
+        where TCoverageTypeFilter : ICoverageTypeFilter, new()
+        where TTag : ITag
     {
         protected readonly IEventAggregator eventAggregator;
         private readonly ILineSpanLogic lineSpanLogic;
@@ -64,7 +65,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private bool ExcludeContentTypeFile(string contentType,string filePath)
         {
             IFileExcluder contentTypeExcluder = this.fileExcluders.FirstOrDefault(fileExcluder => fileExcluder.ContentTypeName == contentType);
-            return contentTypeExcluder != null && contentTypeExcluder.Exclude(filePath);
+            return contentTypeExcluder?.Exclude(filePath) == true;
         }
 
         public ICoverageTagger<TTag> CreateTagger(ITextView textView, ITextBuffer textBuffer)

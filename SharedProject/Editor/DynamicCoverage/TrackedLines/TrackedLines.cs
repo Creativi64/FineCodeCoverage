@@ -27,12 +27,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private List<SpanAndLineRange> GetSpanAndLineRanges(ITextSnapshot currentSnapshot, List<Span> newSpanChanges)
-            => newSpanChanges.Select(
+            => newSpanChanges.ConvertAll(
                  newSpanChange => new SpanAndLineRange(
                      newSpanChange,
                      currentSnapshot.GetLineNumberFromPosition(newSpanChange.Start),
                      currentSnapshot.GetLineNumberFromPosition(newSpanChange.End)
-                 )).ToList();
+                 ));
 
         private (IEnumerable<int>, List<SpanAndLineRange>) ProcessContainingCodeTrackers(
             ITextSnapshot currentSnapshot,
@@ -96,7 +96,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => this.GetNewCodeCodeRanges(currentSnapshot, this.GetContainingCodeTrackersCodeSpanRanges()).ToList();
 
         private List<CodeSpanRange> GetContainingCodeTrackersCodeSpanRanges()
-            => this.containingCodeTrackers.Select(ct => ct.GetState().CodeSpanRange).ToList();
+            => this.containingCodeTrackers.ConvertAll(ct => ct.GetState().CodeSpanRange);
 
         private List<CodeSpanRange> GetNewCodeCodeRanges(
             ITextSnapshot currentSnapshot,

@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Output
             get => this._isVisible;
             set
             {
-                this.Set<bool>(ref this._isVisible, value, nameof(IsVisible));
+                this.Set(ref this._isVisible, value, nameof(IsVisible));
             }
         }
 
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Output
             get => this._name;
             set
             {
-                this.Set<string>(ref this._name, value, nameof(Name));
+                this.Set(ref this._name, value, nameof(Name));
 
             }
         }

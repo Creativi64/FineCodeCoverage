@@ -676,7 +676,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
         public bool AdjacentBuildOutput { get; set; }
 
-        public FineCodeCoverage.Options.RunMsCodeCoverage RunMsCodeCoverage { get; set; }
+        public RunMsCodeCoverage RunMsCodeCoverage { get; set; }
         public string[] ModulePathsExclude { get; set; }
         public string[] ModulePathsInclude { get; set; }
         public string[] CompanyNamesExclude { get; set; }

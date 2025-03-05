@@ -269,28 +269,19 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             get
             {
-                if (directory == null)
-                {
-                    directory = CreateDirectory();
-                }
-                return directory;
+                return directory ?? (directory = CreateDirectory());
             }
         }
 
-        
 
         private IEnumerable<PalmmediaSourceFile> GetSourceFiles()
         {
             return this.palmmediaAssemblies.SelectMany(a =>
             {
-                return a.PalmmediaClasses.SelectMany(pc =>
-                {
-                    return pc.CodeFiles.Select(cf => new PalmmediaCodeFileClass(cf, new PalmmediaClass(pc.DisplayName, cf)));
-                });
-            }).GroupBy(pcfc => pcfc.CodeFile.Path).Select((g =>
-            {
-                return new PalmmediaSourceFile(g.Key, g.Select(pcfc => pcfc.PalmmediaClass));
-            }));
+                return a.PalmmediaClasses.SelectMany(pc => pc
+                    .CodeFiles
+                    .Select(cf => new PalmmediaCodeFileClass(cf, new PalmmediaClass(pc.DisplayName, cf))));
+            }).GroupBy(pcfc => pcfc.CodeFile.Path).Select(g => new PalmmediaSourceFile(g.Key, g.Select(pcfc => pcfc.PalmmediaClass)));
         }
         private IDirectory CreateDirectory()
         {

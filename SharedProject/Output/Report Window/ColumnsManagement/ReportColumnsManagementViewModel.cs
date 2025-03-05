@@ -38,10 +38,7 @@ namespace FineCodeCoverage.Output
                 }
 
             }, () => true);
-            CancelCommand = new RelayCommand(() =>
-            {
-                Done?.Invoke(this, EventArgs.Empty);
-            }, () => true);
+            CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
 
 
             /*

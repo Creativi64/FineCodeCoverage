@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return trimmedLineText.Length == 0 || this.StartsWithExclusion(trimmedLineText);
         }
 
-        private bool StartsWithExclusion(string text) 
+        private bool StartsWithExclusion(string text)
             => this.startsWithExclusions.Any(languageExclusion => text.StartsWith(languageExclusion));
     }
 }

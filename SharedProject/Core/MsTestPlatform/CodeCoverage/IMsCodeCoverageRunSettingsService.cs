@@ -12,5 +12,5 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         Task CollectAsync(IOperation operation, ITestOperation testOperation);
         void StopCoverage();
         Task TestExecutionNotFinishedAsync(ITestOperation testOperation);
-    }    
+    }
 }

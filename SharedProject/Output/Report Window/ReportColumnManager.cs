@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Output
             this.threadHelper = threadHelper;
             var columnStates = threadHelper.JoinableTaskFactory.Run(() => this.columnStateStore.GetColumnStatesAsync());
             SetInitialColumns(GetColumnStates(columnStates));
-            
+
             vsShutdown.Shutdown += VsShutdown_Shutdown;
         }
 
@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Output
         {
             SaveColumnStates();
         }
-        
+
         private void SaveColumnStates()
         {
             var reportColumnStates = Columns.Select(c =>

@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Engine.Model
     {
 		internal const string excludeFromCodeCoveragePropertyName = "FCCExcludeFromCodeCoverage";
         private readonly string projectPath;
-		
+
 
         public ReferencedProject(string projectPath,string assemblyName,bool isDll)
         {

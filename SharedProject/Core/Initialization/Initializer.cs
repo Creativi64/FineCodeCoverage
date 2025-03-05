@@ -22,11 +22,13 @@ namespace FineCodeCoverage.Core.Initialization
 
         [ImportingConstructor]
         public Initializer(
-            IFCCEngine fccEngine, 
-            ILogger logger, 
+            IFCCEngine fccEngine,
+            ILogger logger,
             IFirstTimeToolWindowOpener firstTimeToolWindowOpener,
+#pragma warning disable RCS1163 // Unused parameter
             [ImportMany]
             IInitializable[] initializables
+#pragma warning restore RCS1163 // Unused parameter
         )
         {
             this.fccEngine = fccEngine;
@@ -47,7 +49,6 @@ namespace FineCodeCoverage.Core.Initialization
                 cancellationToken.ThrowIfCancellationRequested();
                 logger.Log("Initialized");
 
-                
                 await firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
             }
             catch (Exception exception)
@@ -65,7 +66,6 @@ namespace FineCodeCoverage.Core.Initialization
                 InitializeStatus = InitializeStatus.Initialized;
             }
         }
-        
     }
 
 }
