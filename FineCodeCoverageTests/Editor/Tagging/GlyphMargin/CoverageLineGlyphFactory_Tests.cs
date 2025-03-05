@@ -1,10 +1,8 @@
 ﻿using FineCodeCoverage.Editor.Tagging.GlyphMargin;
-using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Threading;
 using System.Windows.Media;
 using System.Windows.Shapes;

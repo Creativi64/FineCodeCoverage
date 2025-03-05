@@ -3,7 +3,6 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Management;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

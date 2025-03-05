@@ -3,7 +3,6 @@ using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Editor.Tagging.GlyphMargin;
-using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Moq;

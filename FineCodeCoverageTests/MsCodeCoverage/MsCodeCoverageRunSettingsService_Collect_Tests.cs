@@ -3,7 +3,6 @@ using NUnit.Framework;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AutoMoq;
 using System.Threading;
 using FineCodeCoverage.Core.Utilities;
@@ -11,8 +10,6 @@ using FineCodeCoverage.Impl;
 using FineCodeCoverage.Engine;
 using System.Threading.Tasks;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
-using FineCodeCoverageTests.TestHelpers;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using ILogger = FineCodeCoverage.Output.ILogger;
@@ -148,7 +145,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 #pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         private async Task RunAndProcessReportAsync(IEnumerable<Uri> resultsUris,string[] expectedCoberturaFiles)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             autoMocker = new AutoMoqer();
             var mockToolUnzipper = autoMocker.GetMock<IToolUnzipper>();

@@ -19,8 +19,8 @@ namespace FineCodeCoverage.Core.Utilities
 
         )
         {
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD104 // Offer async methods
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 IVsShell vsShell = (IVsShell)serviceProvider.GetService(typeof(SVsShell));

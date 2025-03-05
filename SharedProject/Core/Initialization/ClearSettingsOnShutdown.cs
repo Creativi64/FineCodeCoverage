@@ -24,8 +24,8 @@ namespace FineCodeCoverage.Core.Initialization
         {
             if (Debugger.IsAttached)
             {
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+                ThreadHelper.JoinableTaskFactory.Run(async () =>
                 {
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     IVsAppCommandLine cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));

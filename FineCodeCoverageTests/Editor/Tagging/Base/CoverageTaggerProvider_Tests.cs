@@ -6,10 +6,8 @@ using FineCodeCoverage.Options;
 using FineCodeCoverageTests.Editor.Tagging.Base.Types;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Utilities;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace FineCodeCoverageTests.Editor.Tagging.Base

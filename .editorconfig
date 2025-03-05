@@ -12,3 +12,10 @@ dotnet_style_collection_initializer = false:suggestion
 # https://github.com/dotnet/roslyn/issues?q=is%3Aissue%20state%3Aopen%20IDE0079%20
 # IDE0079: Remove unnecessary suppression
 dotnet_diagnostic.IDE0079.severity = none
+
+# Report unused using directives as a warning
+dotnet_diagnostic.IDE0005.severity = warning
+
+# Report unused parameters as a warning
+dotnet_diagnostic.IDE0060.severity= warning
+

@@ -3,13 +3,7 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using Moq;
 using NUnit.Framework;
-using StructureMap.AutoMocking;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FineCodeCoverageTests
 {

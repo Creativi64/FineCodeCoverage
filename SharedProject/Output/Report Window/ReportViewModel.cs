@@ -8,7 +8,6 @@ using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.ReportGenerator;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output

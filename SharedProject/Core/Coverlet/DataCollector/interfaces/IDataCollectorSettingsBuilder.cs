@@ -1,6 +1,4 @@
-﻿using FineCodeCoverage.Options;
-
-namespace FineCodeCoverage.Engine.Coverlet
+﻿namespace FineCodeCoverage.Engine.Coverlet
 {
     internal interface IDataCollectorSettingsBuilder
     {

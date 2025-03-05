@@ -37,10 +37,10 @@ namespace FineCodeCoverage.Output
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new OpenReadMeCommand(commandService, readMeService,package);
+            Instance = new OpenReadMeCommand(commandService, readMeService);
         }
 
-        private OpenReadMeCommand(OleMenuCommandService commandService, IReadMeService readMeService, AsyncPackage package)
+        private OpenReadMeCommand(OleMenuCommandService commandService, IReadMeService readMeService)
         {
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 

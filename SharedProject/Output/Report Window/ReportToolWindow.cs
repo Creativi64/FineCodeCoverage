@@ -5,11 +5,8 @@ using System.Reflection;
 using FineCodeCoverage.Engine;
 using Microsoft.VisualStudio.Shell;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.Shell.Interop;
-using FineCodeCoverage.Core.Utilities;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Imaging.Interop;
-using Microsoft.Internal.VisualStudio.Shell.TableControl;
 
 namespace FineCodeCoverage.Output
 {

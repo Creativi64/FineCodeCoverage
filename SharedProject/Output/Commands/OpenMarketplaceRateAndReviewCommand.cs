@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 

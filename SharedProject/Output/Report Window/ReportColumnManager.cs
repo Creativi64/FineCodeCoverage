@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Output
     {
         private readonly IColumnStatesStore columnStateStore;
         private readonly IJsonConvertService jsonConvertService;
+        private readonly IThreadHelper threadHelper;
 
         [ImportingConstructor]
         public ReportColumnManager(
@@ -24,7 +25,7 @@ namespace FineCodeCoverage.Output
         {
             this.columnStateStore = columnStateStore;
             this.jsonConvertService = jsonConvertService;
-
+            this.threadHelper = threadHelper;
             var columnStates = threadHelper.JoinableTaskFactory.Run(() => this.columnStateStore.GetColumnStatesAsync());
             SetInitialColumns(GetColumnStates(columnStates));
             
@@ -76,7 +77,7 @@ namespace FineCodeCoverage.Output
                 };
             }).ToList();
             var jsonColumnStates = jsonConvertService.SerializeObject(reportColumnStates);
-            columnStateStore.SaveColumnStatesAsync(jsonColumnStates);
+            threadHelper.JoinableTaskFactory.Run(() => columnStateStore.SaveColumnStatesAsync(jsonColumnStates));
         }
 
         private void SetInitialColumns(List<ReportColumnState> reportColumnStates)

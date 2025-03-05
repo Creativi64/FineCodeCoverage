@@ -29,7 +29,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
         }
 
-
         // when visual studio is closed SolutionEvents AfterClosing event is fired, the FCCEngine
         // will NewCoverageLinesMessage and the store will be removed
         [ImportingConstructor]

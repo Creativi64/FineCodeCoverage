@@ -3,7 +3,6 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Editor.Tagging.Base;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverageTests.Editor.Tagging.Base.Types;
 using FineCodeCoverageTests.Editor.Tagging.Types;
 using Microsoft.VisualStudio.Text;

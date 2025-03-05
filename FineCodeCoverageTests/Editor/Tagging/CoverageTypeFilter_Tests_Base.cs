@@ -1,6 +1,5 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using Moq;
 using NUnit.Framework;

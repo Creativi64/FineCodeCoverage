@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.VisualStudio.Shell.Interop;
 using FineCodeCoverage.Engine;
-using EnvDTE80;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.ReportGeneration;

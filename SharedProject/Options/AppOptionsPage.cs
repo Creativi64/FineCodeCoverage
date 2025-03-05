@@ -4,7 +4,6 @@ using Microsoft;
 using System;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE80;
-using System.Runtime.InteropServices;
 
 namespace FineCodeCoverage.Options
 {
@@ -49,8 +48,8 @@ namespace FineCodeCoverage.Options
         private static IAppOptionsStorageProvider GetAppOptionsStorageProvider()
         {
             IAppOptionsStorageProvider appOptionsStorageProvider = null;
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(SDTE));

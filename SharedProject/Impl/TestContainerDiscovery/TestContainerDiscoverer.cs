@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TestWindow.Extensibility;

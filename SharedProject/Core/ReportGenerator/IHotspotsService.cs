@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Engine.ReportGenerator;
-using Palmmedia.ReportGenerator.Core.CodeAnalysis;
 
 namespace FineCodeCoverage.ReportGeneration
 {

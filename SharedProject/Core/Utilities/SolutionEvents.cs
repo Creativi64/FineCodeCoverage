@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Composition;
-using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Utilities
 {
@@ -20,8 +19,8 @@ namespace FineCodeCoverage.Core.Utilities
             IServiceProvider serviceProvider
             )
         {
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
 #pragma warning disable VSTHRD104 // Offer async methods
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));

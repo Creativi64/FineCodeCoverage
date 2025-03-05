@@ -6,7 +6,6 @@ using FineCodeCoverage.Output;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
-using StructureMap.AutoMocking;
 using System;
 using System.Collections.Generic;
 using System.IO;

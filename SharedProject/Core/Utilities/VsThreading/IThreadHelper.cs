@@ -15,6 +15,7 @@ namespace FineCodeCoverage.Core.Utilities.VsThreading
     internal interface IJoinableTaskFactory
     {
         T Run<T>(Func<Task<T>> asyncMethod);
+        void Run(Func<Task> asyncMethod);
         Task SwitchToMainThreadAsync(CancellationToken cancellationToken = default);
     }
 
@@ -24,6 +25,13 @@ namespace FineCodeCoverage.Core.Utilities.VsThreading
         {
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             return ThreadHelper.JoinableTaskFactory.Run(asyncMethod);
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
+        }
+
+        public void Run(Func<Task> asyncMethod)
+        {
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(asyncMethod);
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 

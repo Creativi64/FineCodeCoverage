@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
 using Moq;
 using NUnit.Framework;

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using EnvDTE;
 using EnvDTE80;
-using FineCodeCoverage.Engine.Cobertura;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMoq;
+﻿using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Output;

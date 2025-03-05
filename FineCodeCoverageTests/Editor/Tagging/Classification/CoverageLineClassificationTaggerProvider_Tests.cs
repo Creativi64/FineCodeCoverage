@@ -3,7 +3,6 @@ using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Editor.Tagging.Classification;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverageTests.Editor.Tagging.Types;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -11,7 +10,6 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Moq;
 using NUnit.Framework;
-using System;
 using LineSpan = FineCodeCoverageTests.Editor.Tagging.Types.LineSpan;
 
 namespace FineCodeCoverageTests.Editor.Tagging.Classification

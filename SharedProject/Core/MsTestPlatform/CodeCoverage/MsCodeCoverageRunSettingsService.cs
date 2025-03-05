@@ -12,7 +12,6 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System.Xml.XPath;
 using FineCodeCoverage.Options;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities.VsThreading;
 using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 using FineCodeCoverage.Readme;
 using Microsoft.VisualStudio.Shell;

@@ -8,7 +8,6 @@ using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Coverlet;
 using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Engine.OpenCover;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
 using Moq;

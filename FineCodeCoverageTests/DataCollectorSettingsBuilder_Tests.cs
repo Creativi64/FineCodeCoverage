@@ -4,8 +4,6 @@ using System.IO;
 using System.Xml.Linq;
 using AutoMoq;
 using FineCodeCoverage.Engine.Coverlet;
-using FineCodeCoverage.Options;
-using Moq;
 using NUnit.Framework;
 using Org.XmlUnit.Builder;
 

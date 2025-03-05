@@ -1,5 +1,4 @@
 ﻿using FineCodeCoverage.Output;
-using FineCodeCoverage.Output.Pane;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
