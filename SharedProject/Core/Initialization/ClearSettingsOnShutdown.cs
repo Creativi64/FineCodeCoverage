@@ -15,7 +15,8 @@ namespace FineCodeCoverage.Core.Initialization
     [Export(typeof(IClearSettingsOnShutdown))]
     internal class ClearSettingsOnShutdown : IClearSettingsOnShutdown
     {
-        public AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
+        public const string ClearSettingsOnShutdownOption = "FCCClearSettingsOnShutdown";
+
 
         [ImportingConstructor]
         public ClearSettingsOnShutdown(
@@ -37,8 +38,7 @@ namespace FineCodeCoverage.Core.Initialization
             }, ThreadHelper.JoinableTaskFactory);
         }
 
+        public AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
 
-        public const string ClearSettingsOnShutdownOption = "FCCClearSettingsOnShutdown";
-        
     }
 }
