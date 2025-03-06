@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using Microsoft.VisualStudio.Shell;
 using Microsoft;
-using System;
-using Microsoft.VisualStudio.Shell.Interop;
-using EnvDTE80;
+using Microsoft.VisualStudio.Threading;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace FineCodeCoverage.Options
 {
@@ -43,23 +43,14 @@ namespace FineCodeCoverage.Options
         private const string glyphMarginCategory = "Editor Colouring Glyph Margin";
         private const string lineHighlightingCategory = "Editor Colouring Line Highlighting";
 
-        private static readonly Lazy<IAppOptionsStorageProvider> lazyAppOptionsStorageProvider = new Lazy<IAppOptionsStorageProvider>(GetAppOptionsStorageProvider);
+        private static readonly AsyncLazy<IAppOptionsStorageProvider> lazyAppOptionsStorageProvider = new AsyncLazy<IAppOptionsStorageProvider>(GetAppOptionsStorageProviderAsync, ThreadHelper.JoinableTaskFactory);
 
-        private static IAppOptionsStorageProvider GetAppOptionsStorageProvider()
+        private async static Task<IAppOptionsStorageProvider> GetAppOptionsStorageProviderAsync()
         {
-            IAppOptionsStorageProvider appOptionsStorageProvider = null;
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                var dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(SDTE));
-                var sp = new ServiceProvider(dte as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
-                var componentModel = sp.GetService(typeof(Microsoft.VisualStudio.ComponentModelHost.SComponentModel)) as Microsoft.VisualStudio.ComponentModelHost.IComponentModel;
-                Assumes.Present(componentModel);
-                appOptionsStorageProvider = componentModel.GetService<IAppOptionsStorageProvider>();
-            });
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-            return appOptionsStorageProvider;
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var componentModel = ServiceProvider.GlobalProvider.GetService(typeof(SComponentModel)) as IComponentModel;
+            Assumes.Present(componentModel);
+            return componentModel.GetService<IAppOptionsStorageProvider>();
         }
 
         #region run
@@ -502,12 +493,12 @@ namespace FineCodeCoverage.Options
 
         public override void SaveSettingsToStorage()
         {
-            lazyAppOptionsStorageProvider.Value.SaveSettingsToStorage(this);
+            lazyAppOptionsStorageProvider.GetValue().SaveSettingsToStorage(this);
         }
 
         public override void LoadSettingsFromStorage()
         {
-            lazyAppOptionsStorageProvider.Value.LoadSettingsFromStorage(this);
+            lazyAppOptionsStorageProvider.GetValue().LoadSettingsFromStorage(this);
         }
 
     }
