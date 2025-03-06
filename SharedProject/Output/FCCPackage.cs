@@ -80,7 +80,6 @@ namespace FineCodeCoverage.Output
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             var componentModel = GetComponentModel();
-            componentModel.GetService<ClearSettingsOnShutdown>();
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
 
             await InitializeCommandsAsync(componentModel);
