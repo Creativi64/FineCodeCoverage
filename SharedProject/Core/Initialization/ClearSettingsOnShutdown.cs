@@ -1,7 +1,7 @@
 ﻿using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System;
+using Microsoft.VisualStudio.Threading;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 
@@ -9,40 +9,36 @@ namespace FineCodeCoverage.Core.Initialization
 {
     interface IClearSettingsOnShutdown
     {
-        bool ClearSettingsOnShutdown { get; set; }
+        AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
     }
 
-    [Export(typeof(ClearSettingsOnShutdown))]
-    internal class ClearSettingsOnShutdown
+    [Export(typeof(IClearSettingsOnShutdown))]
+    internal class ClearSettingsOnShutdown : IClearSettingsOnShutdown
     {
+        public AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
+
         [ImportingConstructor]
         public ClearSettingsOnShutdown(
-            [ImportMany] IClearSettingsOnShutdown[] clearSettingsOnShutdowns,
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
+            System.IServiceProvider serviceProvider
             )
         {
-            if (Debugger.IsAttached)
+            LazyShouldClearSettingsOnShutdown = new AsyncLazy<bool>(async () =>
             {
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
+                if (Debugger.IsAttached)
                 {
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     IVsAppCommandLine cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
                     Assumes.Present(cmdLine);
                     cmdLine.GetOption(ClearSettingsOnShutdownOption, out var isPresent, out var _);
-                    if (isPresent != 0)
-                    {
-                        foreach (var clearSettingsOnShutdown in clearSettingsOnShutdowns)
-                        {
-                            clearSettingsOnShutdown.ClearSettingsOnShutdown = true;
-                        }
-                    }
-                });
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-            }
 
+                }
+                return false;
+            }, ThreadHelper.JoinableTaskFactory);
         }
+
+
         public const string ClearSettingsOnShutdownOption = "FCCClearSettingsOnShutdown";
+        
     }
 }

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IColumnStatesStore))]
-    [Export(typeof(IClearSettingsOnShutdown))]
-    internal class ColumnStatesStore : IColumnStatesStore, IClearSettingsOnShutdown
+    internal class ColumnStatesStore : IColumnStatesStore
     {
         private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
+        private readonly IClearSettingsOnShutdown clearSettingsOnShutdown;
         private readonly AsyncLazy<WritableSettingsStore> lazyUserSettingsStore;
         private const string ColumnStatesCollectionName = "FCCColumnStates";
         private const string ColumnStatesPropertyName = "FCCColumnStates";
@@ -19,9 +19,13 @@ namespace FineCodeCoverage.Output
         public bool ClearSettingsOnShutdown { get; set; }
 
         [ImportingConstructor]
-        public ColumnStatesStore(IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider)
+        public ColumnStatesStore(
+            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
+            IClearSettingsOnShutdown clearSettingsOnShutdown
+            )
         {
             this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
+            this.clearSettingsOnShutdown = clearSettingsOnShutdown;
             this.lazyUserSettingsStore = this.writableUserSettingsStoreProvider.LazySettingsStore;
         }
 
@@ -32,7 +36,7 @@ namespace FineCodeCoverage.Output
         }
         public async Task SaveColumnStatesAsync(string columnStates)
         {
-            if (ClearSettingsOnShutdown)
+            if (await clearSettingsOnShutdown.LazyShouldClearSettingsOnShutdown.GetValueAsync())
             {
                 await DeleteCollectionAsync();
                 return;
