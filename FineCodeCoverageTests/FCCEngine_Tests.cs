@@ -76,7 +76,7 @@ namespace Test
             mockSolutionEvents.Raise(s => s.AfterClosing += null, EventArgs.Empty);
 
             mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == null), null));
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewReportMessage>(msg => msg.Report == null), null));
+            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewReportMessage>(msg => msg.Report == null && msg.CoverageProjects == null), null));
         }
     }
 
@@ -292,7 +292,7 @@ namespace Test
             var successState = await Run_Success_Async();
 
             var coverageProject = successState.CoverageProject;
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<CoverageEndedMessage>(msg => msg.CoverageProjects.Count == 1 && msg.CoverageProjects[0] == coverageProject), null));
+            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.IsAny<CoverageEndedMessage>(), null));
         }
 
         [Test]
@@ -310,7 +310,12 @@ namespace Test
             var successState = await Run_Success_Async();
 
             var reportResult = successState.ReportResult;
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewReportMessage>(msg => msg.Report == reportResult), null));
+            var coverageProject = successState.CoverageProject;
+            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(
+                It.Is<NewReportMessage>(
+                    msg => msg.Report == reportResult && 
+                        msg.CoverageProjects.Count == 1 && 
+                        msg.CoverageProjects[0] == coverageProject), null));
         }
 
         [Test]
@@ -352,8 +357,7 @@ namespace Test
         public async Task Should_Raise_Coverage_Ended_Message_When_Exception_Async()
         {
             await ThrowErrorAsync();
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<CoverageEndedMessage>(msg => msg.CoverageProjects == null), null));
-
+            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.IsAny<CoverageEndedMessage>(), null));
         }
 
         #endregion

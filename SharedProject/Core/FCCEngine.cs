@@ -123,10 +123,11 @@ namespace FineCodeCoverage.Engine
         public void ClearUI()
         {
             ClearCoverageLines();
-            this.RaiseNewReport(null);
+            this.RaiseNewReport(null, null);
         }
 
-        private void RaiseNewReport(IReportResult reportResult) => this.eventAggregator.SendMessage(new NewReportMessage { Report = reportResult});
+        private void RaiseNewReport(IReportResult reportResult, List<ICoverageProject>coverageProjects)
+            => this.eventAggregator.SendMessage(new NewReportMessage(reportResult, coverageProjects));
 
         public void StopCoverage()
         {
@@ -199,10 +200,10 @@ namespace FineCodeCoverage.Engine
             eventAggregator.SendMessage(new NewCoverageLinesMessage { CoverageLines = coverageLines});
         }
 
-        private void UpdateUI(IFileLineCoverage coverageLines, IReportResult reportResult)
+        private void UpdateUI(IFileLineCoverage coverageLines, IReportResult reportResult, List<ICoverageProject> coverageProjects)
         {
             RaiseCoverageLines(coverageLines);
-            RaiseNewReport(reportResult);
+            RaiseNewReport(reportResult, coverageProjects);
         }
 
         private async Task<ReportResult> RunAndProcessReportAsync(
@@ -287,8 +288,8 @@ namespace FineCodeCoverage.Engine
             {
                 var result = await reportResultProvider(vsShutdownLinkedCancellationToken);
                 await LogCoverageStatusAsync("Done");
-                this.eventAggregator.SendMessage(new CoverageEndedMessage(result.CoverageProjects));
-                UpdateUI(result.FileLineCoverage, result.Report);
+                this.eventAggregator.SendMessage(new CoverageEndedMessage());
+                UpdateUI(result.FileLineCoverage, result.Report, result.CoverageProjects);
                 RaiseReportFiles(result);
 
             }
@@ -297,7 +298,7 @@ namespace FineCodeCoverage.Engine
                 if (!IsVsShutdown)
                 {
                     await LogCoverageStatusAsync("Cancelled");
-                    this.eventAggregator.SendMessage(new CoverageEndedMessage(null));
+                    this.eventAggregator.SendMessage(new CoverageEndedMessage());
                 }
             }
             catch (Exception ex)
@@ -306,7 +307,7 @@ namespace FineCodeCoverage.Engine
                     StatusMarkerProvider.Get("Error"),
                     ex.ToString()
                 );
-                this.eventAggregator.SendMessage(new CoverageEndedMessage(null));
+                this.eventAggregator.SendMessage(new CoverageEndedMessage());
             }
         }
 

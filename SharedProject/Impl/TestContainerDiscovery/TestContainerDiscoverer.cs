@@ -291,7 +291,7 @@ namespace FineCodeCoverage.Impl
 
         private void RaiseCoverageEnded()
         {
-            eventAggregator.SendMessage(new CoverageEndedMessage(null));
+            eventAggregator.SendMessage(new CoverageEndedMessage());
         }
     }
 }

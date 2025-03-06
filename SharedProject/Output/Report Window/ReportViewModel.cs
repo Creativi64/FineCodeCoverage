@@ -18,8 +18,6 @@ namespace FineCodeCoverage.Output
         IListener<CoverageStartingMessage>,
         IListener<CoverageEndedMessage>
     {
-        private List<string> testAssemblyNames;
-        // Factory for the specific tree items
         [ImportingConstructor]
         public ReportViewModel(
             IEventAggregator eventAggregator,
@@ -52,6 +50,7 @@ namespace FineCodeCoverage.Output
         {
             if(message.Report != null)
             {
+                var testAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
                 this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
                 IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
                 var rootDirectory = message.Report.Directory;
@@ -70,7 +69,7 @@ namespace FineCodeCoverage.Output
                         foreach (IAssembly assembly in assemblies)
                         {
                             bool isTestAssembly = false;
-                            if (this.testAssemblyNames?.Contains(assembly.Name) == true)
+                            if (testAssemblyNames?.Contains(assembly.Name) == true)
                             {
                                 isTestAssembly = true;
                             }
@@ -124,7 +123,6 @@ namespace FineCodeCoverage.Output
         public void Handle(CoverageStartingMessage message) => this.CoverageRunning = true;
         public void Handle(CoverageEndedMessage message)
         {
-            this.testAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
             this.CoverageRunning = false;
         }
     }
