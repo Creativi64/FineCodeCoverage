@@ -9,6 +9,7 @@ using System.Threading;
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 {
@@ -27,9 +28,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
     internal class DisableTestingPlatformServerCapabilityGlobalPropertiesProvider : StaticGlobalPropertiesProviderBase
     {
         private readonly IUseTestingPlatformProtocolFeatureService useTestingPlatformProtocolFeatureService;
+        private readonly UnconfiguredProject unconfiguredProject;
         private readonly IAppOptionsProvider appOptionsProvider;
         private readonly ICoverageProjectSettingsManager coverageProjectSettingsManager;
-        private CoverageProject coverageProject;
+
         [ImportingConstructor]
         public DisableTestingPlatformServerCapabilityGlobalPropertiesProvider(
             IUseTestingPlatformProtocolFeatureService useTestingPlatformProtocolFeatureService,
@@ -40,36 +42,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         )
           : base((IProjectCommonServices)projectService.Services)
         {
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                var hostObject = unconfiguredProject.Services.HostObject;
-
-                var vsHierarchy = (IVsHierarchy)hostObject;
-                if (vsHierarchy != null)
-                {
-                    var success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
-
-                    if (success)
-                    {
-                        // todo - ICoverageProjectSettingsManager.GetSettingsAsync parameter 
-                        // to change to what it actually needs
-                        coverageProject = new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
-                        {
-                            Id = projectGuid,
-                            ProjectFile = unconfiguredProject.FullPath
-                        };
-                    }
-                }
-            });
-
             this.useTestingPlatformProtocolFeatureService = useTestingPlatformProtocolFeatureService;
+            this.unconfiguredProject = unconfiguredProject;
             this.appOptionsProvider = appOptionsProvider;
             this.coverageProjectSettingsManager = coverageProjectSettingsManager;
         }
 
         // visual studio options states that a restart is required.  If this is true then could cache this value
-        private async System.Threading.Tasks.Task<bool> UsingTestingPlatformProtocolAsync()
+        private async Task<bool> UsingTestingPlatformProtocolAsync()
         {
             var useTestingPlatformProtocolFeature = await useTestingPlatformProtocolFeatureService.GetAsync();
             return useTestingPlatformProtocolFeature == true;
@@ -81,8 +61,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
-        private async System.Threading.Tasks.Task<bool> ProjectEnabledAsync()
+        private async Task<bool> ProjectEnabledAsync()
         {
+            var coverageProject = await GetCoverageProjectAsync();
             if (coverageProject != null)
             {
                 var projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
@@ -91,7 +72,39 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             return true;
         }
 
-        public override async System.Threading.Tasks.Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)
+        private async Task<Guid?> GetProjectGuidAsync()
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var hostObject = unconfiguredProject.Services.HostObject;
+
+            var vsHierarchy = (IVsHierarchy)hostObject;
+            if (vsHierarchy != null)
+            {
+                var success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
+
+                if (success)
+                {
+                    return projectGuid;
+                }
+            }
+            return null;
+        }
+
+        private async Task<CoverageProject> GetCoverageProjectAsync()
+        {
+            var projectGuid = await GetProjectGuidAsync();
+            if (projectGuid.HasValue)
+            {
+                return new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
+                {
+                    Id = projectGuid.Value,
+                    ProjectFile = unconfiguredProject.FullPath
+                };
+            }
+            return null;
+        }
+
+        public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)
         {
             /*
                 Note that it only matters for ms code coverage but not going to test for that
@@ -105,7 +118,5 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             }
             return Empty.PropertiesMap;
         }
-
     }
-
 }
