@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
@@ -33,11 +34,11 @@ namespace FineCodeCoverage.Engine
             this.outputFolderProviders = outputFolderProviders.OrderBy(p => p.Metadata.Order);
         }
 
-        public void SetProjectCoverageOutputFolder(List<ICoverageProject> coverageProjects)
+        public async Task SetProjectCoverageOutputFolderAsync(List<ICoverageProject> coverageProjects)
         {
             eventAggregator.SendMessage(new OutdatedOutputMessage());
             this.coverageProjects = coverageProjects;
-            DetermineOutputFolderForAllProjects();
+            await DetermineOutputFolderForAllProjectsAsync();
             if (outputFolderForAllProjects == null)
             {
                 foreach(var coverageProject in coverageProjects)
@@ -55,12 +56,12 @@ namespace FineCodeCoverage.Engine
             }
         }
 
-        private void DetermineOutputFolderForAllProjects()
+        private async Task DetermineOutputFolderForAllProjectsAsync()
         {
             outputFolderForAllProjects = outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(coverageProjects));
             if(outputFolderForAllProjects != null)
             {
-                logger.Log($"FCC output in {outputFolderForAllProjects}");
+                await logger.LogAsync($"FCC output in {outputFolderForAllProjects}");
             }
         }
 

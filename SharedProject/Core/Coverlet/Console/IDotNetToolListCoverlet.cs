@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Engine.Coverlet
+﻿using System.Threading.Tasks;
+
+namespace FineCodeCoverage.Engine.Coverlet
 {
     internal class CoverletToolDetails
     {
@@ -8,8 +10,8 @@
 
     internal interface IDotNetToolListCoverlet
     {
-		CoverletToolDetails Local(string directory);
-		CoverletToolDetails Global();
-		CoverletToolDetails GlobalToolsPath(string directory);
+		Task<CoverletToolDetails> LocalAsync(string directory);
+		Task<CoverletToolDetails> GlobalAsync();
+		Task<CoverletToolDetails> GlobalToolsPathAsync(string directory);
     }
 }

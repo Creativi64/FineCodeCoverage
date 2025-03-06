@@ -203,7 +203,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
             await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
 
-            autoMocker.Verify<ICoverageToolOutputManager>(coverageToolOutputManager => coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ICoverageToolOutputManager>(coverageToolOutputManager => coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects));
+#pragma warning restore VSTHRD110 // Observe result of async calls
             foreach (var mockCoverageProject in mockCoverageProjects)
             {
                 mockCoverageProject.Verify(coverageProject => coverageProject.PrepareForCoverageAsync(CancellationToken.None, false));
@@ -257,7 +259,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public async Task Should_Combined_Log_Collecting_With_RunSettings_When_Only_Suitable_RunSettings_Async()
         {
             await IsCollecting_With_Suitable_RunSettings_Only_Async();
-            VerifyCombinedLogMessage("Ms code coverage with user runsettings");
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(l => l.LogAsync("Ms code coverage with user runsettings"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private Task<MsCodeCoverageCollectionStatus> IsCollecting_With_Suitable_RunSettings_Only_Async()
@@ -354,8 +358,10 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
 
             await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
-           
-            autoMocker.Verify<ILogger>(logger => logger.Log(expectedLoggerMessages));
+
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(logger => logger.LogAsync(expectedLoggerMessages));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
@@ -497,12 +503,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
         private void VerifyLogException(string reason, Exception exception)
         {
-            autoMocker.Verify<ILogger>(l => l.Log(reason, exception.ToString()));
-        }
-
-        private void VerifyCombinedLogMessage(string message)
-        {
-            autoMocker.Verify<ILogger>(l => l.Log(message));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(l => l.LogAsync(reason, exception.ToString()));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private string InitializeFCCMsTestAdapterPath()

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Model;
 
@@ -34,14 +35,16 @@ namespace FineCodeCoverage.Engine.Coverlet
 		private const string zipDirectoryName = "coverlet";//backwards compatibility
         private readonly IToolUnzipper toolUnzipper;
 
-        public ExecuteRequest GetRequest(ICoverageProject coverageProject, string coverletSettings)
+        public Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
-			return new ExecuteRequest
-			{
-				FilePath = coverletExePath,
-				Arguments = coverletSettings,
-				WorkingDirectory = coverageProject.ProjectOutputFolder
-			};
+			return Task.FromResult(
+                new ExecuteRequest
+			    {
+				    FilePath = coverletExePath,
+				    Arguments = coverletSettings,
+				    WorkingDirectory = coverageProject.ProjectOutputFolder
+			    }
+            );
 		}
 
 		public void Initialize(string appDataFolder, CancellationToken cancellationToken)

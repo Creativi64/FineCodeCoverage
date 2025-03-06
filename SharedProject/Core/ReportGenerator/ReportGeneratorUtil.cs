@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 
 namespace FineCodeCoverage.Engine.ReportGenerator
@@ -12,6 +13,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     {
         private readonly IFCCReportGenerator reportGenerator;
         private readonly ILogger logger;
+        private List<string> logs;
 
         [ImportingConstructor]
         public ReportGeneratorUtil(
@@ -21,16 +23,18 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             this.reportGenerator = reportGenerator;
             this.logger = logger;
-            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => logger.Log(message));
+            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => logs.Add(message));
         }
 
-        public ReportGeneratorResult Generate(
+        public async Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
             CancellationToken cancellationToken)
         {
-            logger.Log("Report Generator - Output");
+            logs = new List<string>();
+            logs.Add("Report Generator - Output");
             var reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
+            await logger.LogAsync(logs);
             return new ReportGeneratorResult
             {
                 ReportResult = reportResult,

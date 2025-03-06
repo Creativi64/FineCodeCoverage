@@ -1,10 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestWindow.Extensibility;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Impl
 {
     internal interface ITestOperationFactory
     {
-        ITestOperation Create(IOperation operation);
+        Task<ITestOperation> CreateAsync(IOperation operation);
     }
 }
 

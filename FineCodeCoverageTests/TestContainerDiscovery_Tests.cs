@@ -31,35 +31,37 @@ namespace Test
         }
 
         [Test]
-        public void Should_Return_True_When_Initialized_And_TestExecutionStarting()
+        public async Task Should_Return_True_When_Initialized_And_TestExecutionStarting_Async()
         {
             mocker.GetMock<IInitializeStatusProvider>().Setup(initializeStatusProvider => initializeStatusProvider.InitializeStatus).Returns(InitializeStatus.Initialized);
-            Assert.That(testOperationStateInvocationManager.CanInvoke(TestOperationStates.TestExecutionStarting), Is.True);
+            Assert.That(await testOperationStateInvocationManager.CanInvokeAsync(TestOperationStates.TestExecutionStarting), Is.True);
         }
 
         [Test]
-        public void Should_Return_False_When_Not_Initialized_And_TestExecutionStarting()
+        public async Task Should_Return_False_When_Not_Initialized_And_TestExecutionStarting_Async()
         {
             mocker.GetMock<IInitializeStatusProvider>().Setup(initializeStatusProvider => initializeStatusProvider.InitializeStatus).Returns(InitializeStatus.Initializing);
-            Assert.That(testOperationStateInvocationManager.CanInvoke(TestOperationStates.TestExecutionStarting), Is.False);
+            Assert.That(await testOperationStateInvocationManager.CanInvokeAsync(TestOperationStates.TestExecutionStarting), Is.False);
         }
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Should_Return_True_For_All_Other_States_If_Was_Initialized_When_TestExecutionStarting(bool initializedWhenStarting)
+        public async Task Should_Return_True_For_All_Other_States_If_Was_Initialized_When_TestExecutionStarting_Async(bool initializedWhenStarting)
         {
             var startingInitializeStatus = initializedWhenStarting ? InitializeStatus.Initialized : InitializeStatus.Initializing;
             mocker.GetMock<IInitializeStatusProvider>().Setup(initializeStatusProvider => initializeStatusProvider.InitializeStatus).Returns(startingInitializeStatus);
-            testOperationStateInvocationManager.CanInvoke(TestOperationStates.TestExecutionStarting);
-            Assert.That(testOperationStateInvocationManager.CanInvoke(TestOperationStates.TestExecutionCancelAndFinished), Is.EqualTo(initializedWhenStarting));
+            await testOperationStateInvocationManager.CanInvokeAsync(TestOperationStates.TestExecutionStarting);
+            Assert.That(await testOperationStateInvocationManager.CanInvokeAsync(TestOperationStates.TestExecutionCancelAndFinished), Is.EqualTo(initializedWhenStarting));
         }
 
         [TestCase(TestOperationStates.TestExecutionStarting)]
         [TestCase(TestOperationStates.TestExecutionFinished)]
-        public void Should_Log_When_Cannot_Invoke(TestOperationStates testOperationState)
+        public async Task Should_Log_When_Cannot_Invoke_Async(TestOperationStates testOperationState)
         {
-            testOperationStateInvocationManager.CanInvoke(testOperationState);
-            mocker.Verify<ILogger>(logger => logger.Log($"Skipping {testOperationState} as FCC not initialized"));
+            await testOperationStateInvocationManager.CanInvokeAsync(testOperationState);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(logger => logger.LogAsync($"Skipping {testOperationState} as FCC not initialized"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
        
     }
@@ -113,7 +115,7 @@ namespace Test
             var mockTestOperation = new Mock<ITestOperation>();
             var coverageProjects = new List<ICoverageProject>();
             mockTestOperation.Setup(t => t.GetCoverageProjectsAsync()).Returns(Task.FromResult(coverageProjects));
-            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(mockTestOperation.Object);
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.CreateAsync(operation)).ReturnsAsync(mockTestOperation.Object);
             return (operation, coverageProjects, mockTestOperation);
 
         }
@@ -130,7 +132,7 @@ namespace Test
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
             };
             var mockTestOperationStateInvocationManager = mocker.GetMock<ITestOperationStateInvocationManager>();
-            mockTestOperationStateInvocationManager.Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvoke(It.IsAny<TestOperationStates>())).Returns(true);
+            mockTestOperationStateInvocationManager.Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvokeAsync(It.IsAny<TestOperationStates>())).ReturnsAsync(true);
         }
 
         [Test]
@@ -185,7 +187,7 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             var mockTestOperationFactory = mocker.GetMock<ITestOperationFactory>();
             var testOperation = new Mock<ITestOperation>().Object;
-            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.Create(operation)).Returns(testOperation);
+            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.CreateAsync(operation)).ReturnsAsync(testOperation);
 
             RaiseOperationStateChanged(
                 cancelling ? TestOperationStates.TestExecutionCanceling : TestOperationStates.TestExecutionCancelAndFinished, 
@@ -260,7 +262,7 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             var testOperation = new Mock<ITestOperation>().Object;
             var mockTestOperationFactory = mocker.GetMock<ITestOperationFactory>();
-            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.Create(operation)).Returns(testOperation);
+            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.CreateAsync(operation)).ReturnsAsync(testOperation);
 
             RaiseTestExecutionFinished(operation);
 #pragma warning disable VSTHRD110 // Observe result of async calls
@@ -359,7 +361,7 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             var mockTestOperation = new Mock<ITestOperation>();
             mockTestOperation.Setup(t => t.TotalTests).Returns(1);
-            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(mockTestOperation.Object);
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.CreateAsync(operation)).ReturnsAsync(mockTestOperation.Object);
 
             SetUpOptions(mockAppOptions =>
             {
@@ -377,10 +379,12 @@ namespace Test
         [Test]
         public void Should_Handle_Any_Exception_In_OperationState_Changed_Handler_Logging_The_Exception()
         {
-            var exception = new Exception();
+            var exception = new Exception("msg");
             mocker.GetMock<IFCCEngine>().Setup(engine => engine.StopCoverage()).Throws(exception);
             RaiseTestExecutionCancelling();
-            mocker.Verify<ILogger>(logger => logger.Log("Error processing unit test events", exception));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(logger => logger.LogAsync("Error processing unit test events", exception.ToString()));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [TestCase(true)]
@@ -393,7 +397,7 @@ namespace Test
                 {TestOperationStates.TestExecutionCanceling, (_) => {invoked = true; return Task.CompletedTask; } }
             };
             var mockTestOperationStateInvocationManager = mocker.GetMock<ITestOperationStateInvocationManager>();
-            mockTestOperationStateInvocationManager.Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvoke(It.IsAny<TestOperationStates>())).Returns(canInvoke);
+            mockTestOperationStateInvocationManager.Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvokeAsync(It.IsAny<TestOperationStates>())).ReturnsAsync(canInvoke);
            
             RaiseTestExecutionCancelling();
             Assert.That(invoked, Is.EqualTo(canInvoke));
@@ -423,7 +427,7 @@ namespace Test
             });
             var mockTestOperation = new Mock<ITestOperation>();
                 mockTestOperation.SetupGet(testOperation => testOperation.FailedTests).Returns(1);
-            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(It.IsAny<IOperation>())).Returns(mockTestOperation.Object);
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.CreateAsync(It.IsAny<IOperation>())).ReturnsAsync(mockTestOperation.Object);
             RaiseTestExecutionStarting();
             RaiseTestExecutionFinished();
 
@@ -442,13 +446,18 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             RaiseTestExecutionStarting(operation);
 
-            mocker.Verify<ILogger>(
-                logger => logger.Log("================================== COVERAGE STARTING - 1 =================================="));
+            VerifyAsyncLog("================================== COVERAGE STARTING - 1 ==================================");
 
             RaiseTestExecutionStarting(operation);
 
-            mocker.Verify<ILogger>(
-                logger => logger.Log("================================== COVERAGE STARTING - 2 =================================="));
+            VerifyAsyncLog("================================== COVERAGE STARTING - 2 ==================================");
+        }
+
+        private void VerifyAsyncLog(string message)
+        {
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(logger => logger.LogAsync(message));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]

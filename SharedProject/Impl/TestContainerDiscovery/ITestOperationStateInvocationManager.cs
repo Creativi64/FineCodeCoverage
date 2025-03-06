@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestWindow.Extensibility;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Impl
 {
     internal interface ITestOperationStateInvocationManager
     {
-        bool CanInvoke(TestOperationStates testOperationState);
+        Task<bool> CanInvokeAsync(TestOperationStates testOperationState);
     }
 }

@@ -1,9 +1,11 @@
-﻿namespace FineCodeCoverage.Engine
+﻿using System.Threading.Tasks;
+
+namespace FineCodeCoverage.Engine
 {
     internal interface IAppDataFolder
     {
         string DirectoryPath { get; }
-        void Initialize(System.Threading.CancellationToken cancellationToken);
+        Task InitializeAsync(System.Threading.CancellationToken cancellationToken);
 
     }
 

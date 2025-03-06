@@ -5,6 +5,4 @@
         void SaveSettingsToStorage(IAppOptions appOptions);
         void LoadSettingsFromStorage(IAppOptions instance);
     }
-
-
 }

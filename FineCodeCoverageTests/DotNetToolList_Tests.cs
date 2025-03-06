@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Coverlet;
@@ -62,56 +63,60 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Execute_And_Parse_Global_Installed()
+        public async Task Should_Execute_And_Parse_Global_Installed_Async()
         {
             var mockExecutor = mocker.GetMock<IDotNetToolListExecutor>();
             var globalOutput = "global";
             mockExecutor.Setup(executor => executor.Global()).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = globalOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
             mockParser.Setup(parser => parser.Parse(globalOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
-            var coverletToolDetails = dotNetToolListCoverlet.Global();
+            var coverletToolDetails = await dotNetToolListCoverlet.GlobalAsync();
             Assert.AreEqual("theCommand", coverletToolDetails.Command);
             Assert.AreEqual("theVersion", coverletToolDetails.Version);
         }
 
         [Test]
-        public void Should_Execute_And_Parse_Global_Not_Installed()
+        public async Task Should_Execute_And_Parse_Global_Not_Installed_Async()
         {
             var mockExecutor = mocker.GetMock<IDotNetToolListExecutor>();
             var globalOutput = "global";
             mockExecutor.Setup(executor => executor.Global()).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = globalOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
             mockParser.Setup(parser => parser.Parse(globalOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "not.coverlet.console", Commands = "theCommand", Version = "theVersion" } });
-            var coverletToolDetails = dotNetToolListCoverlet.Global();
+            var coverletToolDetails = await dotNetToolListCoverlet.GlobalAsync();
             Assert.IsNull(coverletToolDetails);
         }
 
         [Test]
-        public void Should_Log_Output_And_Return_Null_When_Parsing_Error()
+        public async Task Should_Log_Output_And_Return_Null_When_Parsing_Error_Async()
         {
             var parsing = "this will be parsed";
             var mockExecutor = mocker.GetMock<IDotNetToolListExecutor>();
             mockExecutor.Setup(executor => executor.Global()).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = parsing });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
             mockParser.Setup(parser => parser.Parse(parsing)).Throws(new System.Exception());
-            var coverletToolDetails = dotNetToolListCoverlet.Global();
+            var coverletToolDetails = await dotNetToolListCoverlet.GlobalAsync();
             Assert.IsNull(coverletToolDetails);
-            mocker.Verify<ILogger>(l => l.Log("Dotnet tool list Coverlet Error parsing", parsing));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Dotnet tool list Coverlet Error parsing", parsing));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
-        public void Should_Log_Output_When_Executor_Error()
+        public async Task Should_Log_Output_When_Executor_Error_Async()
         {
             var mockExecutor = mocker.GetMock<IDotNetToolListExecutor>();
             var globalErrorOutput = "this is an error";
             mockExecutor.Setup(executor => executor.Global()).Returns(new DotNetToolListExecutionResult { ExitCode = 1, Output = globalErrorOutput });
-            var coverletToolDetails = dotNetToolListCoverlet.Global();
+            var coverletToolDetails = await dotNetToolListCoverlet.GlobalAsync();
             Assert.IsNull(coverletToolDetails);
-            mocker.Verify<ILogger>(l => l.Log("Dotnet tool list Coverlet Error", globalErrorOutput));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Dotnet tool list Coverlet Error", globalErrorOutput));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
-        public void Should_Execute_And_Parse_Local_Installed()
+        public async Task Should_Execute_And_Parse_Local_Installed_Async()
         {
             var localDirectory = "localDir";
             var mockExecutor = mocker.GetMock<IDotNetToolListExecutor>();
@@ -119,13 +124,13 @@ namespace FineCodeCoverageTests
             mockExecutor.Setup(executor => executor.Local(localDirectory)).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = localOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
             mockParser.Setup(parser => parser.Parse(localOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
-            var coverletToolDetails = dotNetToolListCoverlet.Local(localDirectory);
+            var coverletToolDetails = await dotNetToolListCoverlet.LocalAsync(localDirectory);
             Assert.AreEqual("theCommand", coverletToolDetails.Command);
             Assert.AreEqual("theVersion", coverletToolDetails.Version);
         }
 
         [Test]
-        public void Should_Execute_And_Parse_Global_Tools_Path_Installed()
+        public async Task Should_Execute_And_Parse_Global_Tools_Path_Installed_Async()
         {
             var globalToolsDirectory = "globalToolsDir";
             var mockExecutor = mocker.GetMock<IDotNetToolListExecutor>();
@@ -133,7 +138,7 @@ namespace FineCodeCoverageTests
             mockExecutor.Setup(executor => executor.GlobalToolsPath(globalToolsDirectory)).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = globalToolsOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
             mockParser.Setup(parser => parser.Parse(globalToolsOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
-            var coverletToolDetails = dotNetToolListCoverlet.GlobalToolsPath(globalToolsDirectory);
+            var coverletToolDetails = await dotNetToolListCoverlet.GlobalToolsPathAsync(globalToolsDirectory);
             Assert.AreEqual("theCommand", coverletToolDetails.Command);
             Assert.AreEqual("theVersion", coverletToolDetails.Version);
         }

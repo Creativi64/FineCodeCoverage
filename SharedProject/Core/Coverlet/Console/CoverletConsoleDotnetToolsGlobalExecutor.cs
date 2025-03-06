@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
@@ -21,14 +22,14 @@ namespace FineCodeCoverage.Engine.Coverlet
             this.dotNetToolListCoverlet = dotNetToolListCoverlet;
             this.logger = logger;
         }
-		public ExecuteRequest GetRequest(ICoverageProject coverageProject, string coverletSettings)
+		public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
             if (coverageProject.Settings.CoverletConsoleGlobal)
             {
-				var details = dotNetToolListCoverlet.Global();
+				var details = await dotNetToolListCoverlet.GlobalAsync();
 				if(details == null)
                 {
-                    logger.Log("Unable to use Coverlet console global tool");
+                    await logger.LogAsync("Unable to use Coverlet console global tool");
 					return null;
                 }
 				return new ExecuteRequest

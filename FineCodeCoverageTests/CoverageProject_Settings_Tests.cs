@@ -153,32 +153,32 @@ namespace FineCodeCoverageTests
             settingsMerger = mocker.Create<SettingsMerger>();
         }
         [Test]
-        public void Should_Use_Global_Settings_If_No_Project_Level_Or_FCC_Settings_Files()
+        public async Task Should_Use_Global_Settings_If_No_Project_Level_Or_FCC_Settings_Files_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>(MockBehavior.Strict);
             var appOptions = mockAppOptions.Object;
 
-            var mergedSettings = settingsMerger.Merge(appOptions, new List<XElement>(), null);
+            var mergedSettings = await settingsMerger.MergeAsync(appOptions, new List<XElement>(), null);
             
             Assert.AreSame(appOptions, mergedSettings);
         }
 
         [Test]
-        public void Should_Overwrite_GlobalOptions_Bool_Properties_From_Settings_File()
+        public async Task Should_Overwrite_GlobalOptions_Bool_Properties_From_Settings_File_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>(MockBehavior.Strict);
             mockAppOptions.SetupSet(o => o.IncludeReferencedProjects = true);
             var appOptions = mockAppOptions.Object;
 
             var settingsFileElement = CreateIncludeReferencedProjectsElement(true);
-            var mergedSettings = settingsMerger.Merge(appOptions, new List<XElement> { settingsFileElement}, null);
+            var mergedSettings = await settingsMerger.MergeAsync(appOptions, new List<XElement> { settingsFileElement}, null);
 
             Assert.AreSame(appOptions, mergedSettings);
         }
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Should_Overwrite_GlobalOptions_Bool_Properties_From_Settings_File_In_Order(bool last)
+        public async Task Should_Overwrite_GlobalOptions_Bool_Properties_From_Settings_File_In_Order_Async(bool last)
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -186,7 +186,7 @@ namespace FineCodeCoverageTests
 
             var settingsFileElementTop = CreateIncludeReferencedProjectsElement(!last);
             var settingsFileElementLast = CreateIncludeReferencedProjectsElement(last);
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions, 
                 new List<XElement> { settingsFileElementTop, settingsFileElementLast}, 
                 null);
@@ -197,7 +197,7 @@ namespace FineCodeCoverageTests
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Should_Overwrite_GlobalOptions_Bool_Properties_From_Project(bool last)
+        public async Task Should_Overwrite_GlobalOptions_Bool_Properties_From_Project_Async(bool last)
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -205,7 +205,7 @@ namespace FineCodeCoverageTests
 
             var settingsFileElement = CreateIncludeReferencedProjectsElement(!last);
             var projectElement = CreateIncludeReferencedProjectsElement(last);
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { settingsFileElement },
                 projectElement);
@@ -215,7 +215,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_Int_Properties()
+        public async Task Should_Overwrite_Int_Properties_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -227,7 +227,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> {},
                 intElement);
@@ -237,7 +237,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_Enum_Properties()
+        public async Task Should_Overwrite_Enum_Properties_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -249,7 +249,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 enumElement);
@@ -259,7 +259,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_String_Properties()
+        public async Task Should_Overwrite_String_Properties_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -271,7 +271,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringElement);
@@ -281,7 +281,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_String_Array_By_Default()
+        public async Task Should_Overwrite_String_Array_By_Default_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -296,7 +296,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -306,7 +306,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_String_Array_DefaultMerge_False()
+        public async Task Should_Overwrite_String_Array_DefaultMerge_False_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -321,7 +321,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -331,7 +331,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_String_Array_DefaultMerge_True_Property_Merge_false()
+        public async Task Should_Overwrite_String_Array_DefaultMerge_True_Property_Merge_False_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -346,7 +346,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -356,7 +356,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Overwrite_String_Array_DefaultMerge_Not_Bool()
+        public async Task Should_Overwrite_String_Array_DefaultMerge_Not_Bool_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -371,7 +371,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -381,7 +381,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Merge_String_Array_If_DefaultMerge()
+        public async Task Should_Merge_String_Array_If_DefaultMerge_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -396,7 +396,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -406,7 +406,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Merge_If_Property_Element_Merge()
+        public async Task Should_Merge_If_Property_Element_Merge_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -421,7 +421,7 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -431,7 +431,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Log_Failed_To_Get_Setting_From_Project_Settings_Exception_And_Not_Throw()
+        public async Task Should_Log_Failed_To_Get_Setting_From_Project_Settings_Exception_And_Not_Throw_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -444,18 +444,18 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 element);
 
             var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.Log("Failed to get 'OpenCoverRegister' setting from project settings", It.IsAny<Exception>()));
+            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from project settings", It.IsAny<string>()));
             Assert.AreEqual(mergedSettings.OpenCoverRegister, OpenCoverRegister.Default);
         }
 
         [Test]
-        public void Should_Log_Failed_To_Get_Setting_From_Settings_File_Exception_And_Not_Throw()
+        public async Task Should_Log_Failed_To_Get_Setting_From_Settings_File_Exception_And_Not_Throw_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -468,18 +468,18 @@ namespace FineCodeCoverageTests
 </Root>
 ");
 
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { element},
                 null);
 
             var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.Log("Failed to get 'OpenCoverRegister' setting from settings file", It.IsAny<Exception>()));
+            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from settings file", It.IsAny<string>()));
             Assert.AreEqual(mergedSettings.OpenCoverRegister, OpenCoverRegister.Default);
         }
 
         [Test]
-        public void Should_Not_Throw_If_Merge_Current_Null_String_Array_Type()
+        public async Task Should_Not_Throw_If_Merge_Current_Null_String_Array_Type_Async()
         {
             var mockAppOptions = new Mock<IAppOptions>();
             mockAppOptions.SetupAllProperties();
@@ -495,7 +495,7 @@ namespace FineCodeCoverageTests
 ");
 
             var settingsMerger = new SettingsMerger(null);
-            var mergedSettings = settingsMerger.Merge(
+            var mergedSettings = await settingsMerger.MergeAsync(
                 appOptions,
                 new List<XElement> { },
                 stringArrayElement);
@@ -645,8 +645,8 @@ namespace FineCodeCoverageTests
             var mockSettingsMerger = new Mock<ISettingsMerger>();
             var mergedSettings = new Mock<IAppOptions>().Object;
             mockSettingsMerger.Setup(settingsMerger =>
-                settingsMerger.Merge(globalOptions, It.IsAny<List<XElement>>(), It.IsAny<XElement>())
-            ).Returns(mergedSettings);
+                settingsMerger.MergeAsync(globalOptions, It.IsAny<List<XElement>>(), It.IsAny<XElement>())
+            ).ReturnsAsync(mergedSettings);
 
             var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
                 mockAppOptionsProvider.Object,
@@ -676,8 +676,8 @@ namespace FineCodeCoverageTests
             var mockSettingsMerger = new Mock<ISettingsMerger>();
             var mergedSettings = new Mock<IAppOptions>().Object;
             mockSettingsMerger.Setup(settingsMerger =>
-                settingsMerger.Merge(It.IsAny<IAppOptions>(), settingsFileElements, It.IsAny<XElement>())
-            ).Returns(mergedSettings);
+                settingsMerger.MergeAsync(It.IsAny<IAppOptions>(), settingsFileElements, It.IsAny<XElement>())
+            ).ReturnsAsync(mergedSettings);
 
             var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
                 new Mock<IAppOptionsProvider>().Object,
@@ -706,8 +706,8 @@ namespace FineCodeCoverageTests
             var mockSettingsMerger = new Mock<ISettingsMerger>();
             var mergedSettings = new Mock<IAppOptions>().Object;
             mockSettingsMerger.Setup(settingsMerger =>
-                settingsMerger.Merge(It.IsAny<IAppOptions>(), It.IsAny<List<XElement>>(), coverageProjectSettingsElement)
-            ).Returns(mergedSettings);
+                settingsMerger.MergeAsync(It.IsAny<IAppOptions>(), It.IsAny<List<XElement>>(), coverageProjectSettingsElement)
+            ).ReturnsAsync(mergedSettings);
 
             var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
                 new Mock<IAppOptionsProvider>().Object,
@@ -737,11 +737,11 @@ namespace FineCodeCoverageTests
 
             var autoMoqer = new AutoMoqer();
             var coverageProjectSettingsManager = autoMoqer.Create<CoverageProjectSettingsManager>();
-            autoMoqer.GetMock<ISettingsMerger>().Setup(settingsMerger => settingsMerger.Merge(
+            autoMoqer.GetMock<ISettingsMerger>().Setup(settingsMerger => settingsMerger.MergeAsync(
                 It.IsAny<IAppOptions>(),
                 It.IsAny<List<XElement>>(),
                 It.IsAny<XElement>()
-                )).Returns(appOptions);
+                )).ReturnsAsync(appOptions);
 
             var settings = await coverageProjectSettingsManager.GetSettingsAsync(new Mock<ICoverageProject>().Object);
             

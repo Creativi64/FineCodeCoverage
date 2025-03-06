@@ -90,7 +90,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
     internal interface ICoverletConsoleExecuteRequestProvider
     {
-        ExecuteRequest GetExecuteRequest(ICoverageProject project, string coverletSettings);
+        Task<ExecuteRequest> GetExecuteRequestAsync(ICoverageProject project, string coverletSettings);
     }
 
     [Export(typeof(ICoverletConsoleExecuteRequestProvider))]
@@ -118,11 +118,11 @@ namespace FineCodeCoverage.Engine.Coverlet
             };
         }
         // for now FCCCoverletConsoleExeProvider can return null for exe path
-        public ExecuteRequest GetExecuteRequest(ICoverageProject project, string coverletSettings)
+        public async Task<ExecuteRequest> GetExecuteRequestAsync(ICoverageProject project, string coverletSettings)
         {
             foreach (var exeProvider in executors)
             {
-                var executeRequest = exeProvider.GetRequest(project, coverletSettings);
+                var executeRequest = await exeProvider.GetRequestAsync(project, coverletSettings);
                 if (executeRequest != null)
                 {
                     return executeRequest;
@@ -169,10 +169,10 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             var executingLogLines = new List<string> { $"{title} - Arguments" };
             executingLogLines.AddRange(coverletSettings);
-            logger.Log(executingLogLines);
+            await logger.LogAsync(executingLogLines);
 
 			var result = await processUtil.ExecuteAsync(
-                coverletConsoleExecuteRequestProvider.GetExecuteRequest(project, string.Join(" ", coverletSettings)),
+                await coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
                 cancellationToken
             );
 
@@ -185,12 +185,12 @@ namespace FineCodeCoverage.Engine.Coverlet
 			if (result.ExitCode > 3)
 			{
                 var errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
-				logger.Log($"{title} {errorExitCodeMessage}", result.Output);
+				await logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
 
 				throw new Exception(errorExitCodeMessage);
 			}
 
-			logger.Log($"{title} - Output", result.Output);
+			await logger.LogAsync($"{title} - Output", result.Output);
 		}
 	}
 }

@@ -82,7 +82,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
             var title = $"OpenCover Run ({project.ProjectName})";
 
-			logger.Log($"{title} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", openCoverSettings)}");
+			await logger.LogAsync($"{title} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", openCoverSettings)}");
 
 			var result = await processUtil
 			.ExecuteAsync(new ExecuteRequest
@@ -97,7 +97,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 				throw new Exception(result.Output);
 			}
 
-			logger.Log($"{title} - Output", result.Output);
+			await logger.LogAsync($"{title} - Output", result.Output);
 		}
 	}
 }

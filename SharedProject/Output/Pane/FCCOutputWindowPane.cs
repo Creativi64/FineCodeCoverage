@@ -22,12 +22,10 @@ namespace FineCodeCoverage.Output.Pane
         }
 
         public async System.Threading.Tasks.Task OutputStringThreadSafeAsync(string text)
-            => await ThreadHelper.JoinableTaskFactory.RunAsync(
-                async () =>
-                {
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                    _ = this.outputWindowPane.OutputStringThreadSafe(text);
-                });
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            _ = this.outputWindowPane.OutputStringThreadSafe(text);
+        }
 
         public async System.Threading.Tasks.Task ShowAsync()
         {

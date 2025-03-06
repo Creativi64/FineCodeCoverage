@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 
@@ -23,13 +24,13 @@ namespace FineCodeCoverage.Engine.Coverlet
             this.parser = parser;
         }
 
-		private CoverletToolDetails ExecuteAndParse(Func<IDotNetToolListExecutor,DotNetToolListExecutionResult> execution )
+		private async Task<CoverletToolDetails> ExecuteAndParseAsync(Func<IDotNetToolListExecutor,DotNetToolListExecutionResult> execution )
         {
             const string title = "Dotnet tool list Coverlet";
             var result = execution(executor);
 			if(result.ExitCode != 0)
             {
-				logger.Log($"{title} Error", result.Output);
+				await logger.LogAsync($"{title} Error", result.Output);
 				return null;
 			}
 			List<DotNetTool> tools = null;
@@ -39,7 +40,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 			}
 			catch (Exception)
             {
-				logger.Log($"{title} Error parsing", result.Output);
+				await logger.LogAsync($"{title} Error parsing", result.Output);
 				return null;
 			}
 
@@ -56,19 +57,19 @@ namespace FineCodeCoverage.Engine.Coverlet
 			};
 		}
 
-        public CoverletToolDetails Global()
+        public Task<CoverletToolDetails> GlobalAsync()
         {
-			return ExecuteAndParse(executor => executor.Global());
+			return ExecuteAndParseAsync(executor => executor.Global());
 		}
 
-		public CoverletToolDetails Local(string directory)
+		public Task<CoverletToolDetails> LocalAsync(string directory)
         {
-			return ExecuteAndParse(executor => executor.Local(directory));
+			return ExecuteAndParseAsync(executor => executor.Local(directory));
         }
 
-        public CoverletToolDetails GlobalToolsPath(string directory)
+        public Task<CoverletToolDetails> GlobalToolsPathAsync(string directory)
         {
-			return ExecuteAndParse(executor => executor.GlobalToolsPath(directory));
+			return ExecuteAndParseAsync(executor => executor.GlobalToolsPath(directory));
 		}
 	}
 }

@@ -1,10 +1,11 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Model;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
     internal interface ICoverletConsoleExecutor
     {
-		ExecuteRequest GetRequest(ICoverageProject coverageProject,string coverletSettings);
+		Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject,string coverletSettings);
     }
 }

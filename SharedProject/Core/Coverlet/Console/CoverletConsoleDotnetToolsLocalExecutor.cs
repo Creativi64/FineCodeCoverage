@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
@@ -21,13 +22,13 @@ namespace FineCodeCoverage.Engine.Coverlet
             this.dotNetConfigFinder = dotNetConfigFinder;
             this.logger = logger;
         }
-        public ExecuteRequest GetRequest(ICoverageProject coverageProject, string coverletSettings)
+        public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
             if (coverageProject.Settings.CoverletConsoleLocal)
             {
 				foreach(var configContainingDirectory in dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
                 {
-                    var coverletToolDetails = dotnetToolListCoverlet.Local(configContainingDirectory);
+                    var coverletToolDetails = await dotnetToolListCoverlet.LocalAsync(configContainingDirectory);
                     if(coverletToolDetails != null)
                     {
                         return new ExecuteRequest
@@ -39,9 +40,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     }
                 }
 
-                this.logger.Log("Unable to use Coverlet console local tool");
-
-                return null;
+                await this.logger.LogAsync("Unable to use Coverlet console local tool");
             }
 			return null;
         }

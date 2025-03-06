@@ -256,7 +256,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var bufferLineCoverage = autoMoqer.Create<BufferLineCoverage>();
 
-            autoMoqer.Verify<ILogger>(logger => logger.Log($"Error creating tracked lines for {filePath}", exception));
+            autoMoqer.Verify<ILogger>(logger => logger.Log($"Error creating tracked lines for {filePath}", exception.ToString()));
 
         }
 
@@ -491,7 +491,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             mockTextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, CreateTextContentChangedEventArgs(new Mock<ITextSnapshot>().Object, new Span(0,1)));
 
-            autoMoqer.Verify<ILogger>(logger => logger.Log($"Error updating tracked lines for {filePath}", exception));
+            autoMoqer.Verify<ILogger>(logger => logger.Log($"Error updating tracked lines for {filePath}", exception.ToString()));
         }
 
         [Test]

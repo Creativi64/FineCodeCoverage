@@ -40,14 +40,14 @@ namespace FineCodeCoverage.Core.Initialization
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                logger.Log("Initializing");
+                await logger.LogAsync("Initializing");
 
                 cancellationToken.ThrowIfCancellationRequested();
 
-                fccEngine.Initialize(cancellationToken);
+                await fccEngine.InitializeAsync(cancellationToken);
 
                 cancellationToken.ThrowIfCancellationRequested();
-                logger.Log("Initialized");
+                await logger.LogAsync("Initialized");
 
                 await firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
             }
@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Core.Initialization
                 InitializeExceptionMessage = exception.Message;
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    logger.Log("Failed Initialization", exception);
+                    await logger.LogAsync("Failed Initialization", exception.ToString());
                 }
             }
 

@@ -409,7 +409,7 @@ namespace FineCodeCoverageTests
 
             appOptionsProvider.LoadSettingsFromStorage(new Mock<IAppOptions>().Object);
 
-            autoMocker.Verify<ILogger>(logger => logger.Log($"Failed to load '{_propertyName}' setting", exception));
+            autoMocker.Verify<ILogger>(logger => logger.Log($"Failed to load '{_propertyName}' setting", exception.ToString()));
         }
 
         [Test]
@@ -469,7 +469,7 @@ namespace FineCodeCoverageTests
 
             appOptionsProvider.SaveSettingsToStorage(mockAppOptions.Object);
 
-            autoMocker.Verify<ILogger>(logger => logger.Log($"Failed to save '{nameof(IAppOptions.Enabled)}' setting", exception));
+            autoMocker.Verify<ILogger>(logger => logger.Log($"Failed to save '{nameof(IAppOptions.Enabled)}' setting", exception.ToString()));
         }
     }  
     

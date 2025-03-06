@@ -216,13 +216,13 @@ namespace FineCodeCoverage.Engine.Coverlet
                 .Select(x => x.Trim(' ', '\'', '\"'))
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
         }
-        private string GetTestAdapterPathArg()
+        private async Task<string> GetTestAdapterPathArgAsync()
         {
             if (!String.IsNullOrWhiteSpace(coverageProject.Settings.CoverletCollectorDirectoryPath)) {
                 var directoryPath = coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
                 if (Directory.Exists(directoryPath))
                 {
-                    logger.Log($"Using custom coverlet data collector : {directoryPath}");
+                    await logger.LogAsync($"Using custom coverlet data collector : {directoryPath}");
                     return $@"""{directoryPath}""";
                 }
             }
@@ -233,13 +233,13 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             var settings = GetSettings();
 
-            LogRun(settings);
+            await LogRunAsync(settings);
 
             var result = await processUtil
             .ExecuteAsync(new ExecuteRequest
             {
                 FilePath = "dotnet",
-                Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {GetTestAdapterPathArg()}",
+                Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {await GetTestAdapterPathArgAsync()}",
                 WorkingDirectory = coverageProject.ProjectOutputFolder
             }, cancellationToken);
             // this is how coverlet console determines exit code
@@ -253,7 +253,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             // https://github.com/dotnet/sdk/blob/936935f18c3540ed77c97e392780a9dd82aca441/src/Cli/dotnet/commands/dotnet-test/Program.cs#L86
 
             // test failure has exit code 1 
-            processResponseProcessor.Process(
+            await processResponseProcessor.ProcessAsync(
                 result,
                 code => code == 0 || code == 1,
                 true,
@@ -270,9 +270,9 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             return $"{GetLogTitle()} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", coverletSettings)}";
         }
-        private void LogRun(string coverletSettings)
+        private Task LogRunAsync(string coverletSettings)
         {
-            logger.Log(LogRunMessage(coverletSettings));
+            return logger.LogAsync(LogRunMessage(coverletSettings));
         }
 
         public void Initialize(string appDataFolder,CancellationToken cancellationToken)

@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
 
@@ -25,38 +26,43 @@ namespace FineCodeCoverage.Engine
         }
         public string DirectoryPath { get; private set; }
 
-        public void Initialize(CancellationToken camcellationToken)
+        public async Task InitializeAsync(CancellationToken camcellationToken)
         {
             camcellationToken.ThrowIfCancellationRequested();
-            CreateAppDataFolder();
+            await CreateAppDataFolderAsync();
 
             camcellationToken.ThrowIfCancellationRequested();
             CleanupLegacyFolders();
         }
 
-        private void CreateAppDataFolder()
+        private async Task CleanInstallDevAsync()
         {
-            DirectoryPath = Path.Combine(GetAppDataFolder(), Vsix.Code);
             if (environmentVariable.Get(fccDebugCleanInstallEnvironmentVariable) != null)
             {
-                logger.Log("FCCDebugCleanInstall");
+                await logger.LogAsync("FCCDebugCleanInstall");
                 if (Directory.Exists(DirectoryPath))
                 {
                     try
                     {
                         Directory.Delete(DirectoryPath, true);
-                        logger.Log("Deleted app data folder");
+                        await logger.LogAsync("Deleted app data folder");
                     }
                     catch (Exception exc)
                     {
-                        logger.Log("Error deleting app data folder", exc);
+                        await logger.LogAsync("Error deleting app data folder", exc.ToString());
                     }
                 }
                 else
                 {
-                    logger.Log("App data folder does not exist");
+                    await logger.LogAsync("App data folder does not exist");
                 }
             }
+        }
+
+        private async Task CreateAppDataFolderAsync()
+        {
+            DirectoryPath = Path.Combine(GetAppDataFolder(), Vsix.Code);
+            await CleanInstallDevAsync();
             Directory.CreateDirectory(DirectoryPath);
         }
 

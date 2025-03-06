@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
@@ -11,7 +12,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
     internal interface IReportGeneratorUtil
     {
-        ReportGeneratorResult Generate(
+        Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
             CancellationToken cancellationToken

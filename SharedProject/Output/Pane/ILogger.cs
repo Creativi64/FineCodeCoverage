@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Output
 {
-
     public interface ILogger
     {
-        void Log(IEnumerable<object> message);
-        void Log(IEnumerable<string> message);
-        void Log(params object[] message);
         void Log(params string[] message);
-        void LogWithoutTitle(IEnumerable<object> message);
-        void LogWithoutTitle(IEnumerable<string> message);
-        void LogWithoutTitle(params object[] message);
-        void LogWithoutTitle(params string[] message);
+        Task LogAsync(params string[] message);
+        Task LogAsync(IEnumerable<string> message);
     }
 }

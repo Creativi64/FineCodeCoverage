@@ -45,13 +45,18 @@ namespace Test
 		public async Task Should_Log_Initializing_When_Initialize_Async()
         {
 			await initializer.InitializeAsync(CancellationToken.None);
-			mocker.Verify<ILogger>(l => l.Log("Initializing"));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Initializing"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
 		private async Task InitializeWithExceptionAsync(Action<Exception> callback = null)
 		{
 			var initializeException = new Exception("initialize exception");
-			mocker.Setup<IFCCEngine>(fccEngine => fccEngine.Initialize(It.IsAny<CancellationToken>())).Throws(initializeException);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Setup<IFCCEngine>(fccEngine => fccEngine.InitializeAsync(It.IsAny<CancellationToken>()))
+				.Throws(initializeException);
+#pragma warning restore VSTHRD110 // Observe result of async calls
 
             await initializer.InitializeAsync(CancellationToken.None);
 			callback?.Invoke(initializeException);
@@ -76,8 +81,10 @@ namespace Test
         {
 			Exception initializeException = null;
 			await InitializeWithExceptionAsync(exc => initializeException = exc);
-			mocker.Verify<ILogger>(l => l.Log("Failed Initialization", initializeException));
-		}
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Failed Initialization", initializeException.ToString()));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
 
 		[Test]
 		public async Task Should_Set_InitializeStatus_To_Initialized_When_Successfully_Completed_Async()
@@ -90,15 +97,17 @@ namespace Test
 		public async Task Should_Log_Initialized_When_Successfully_Completed_Async()
 		{
 			await initializer.InitializeAsync(CancellationToken.None);
-			mocker.Verify<ILogger>(l => l.Log("Initialized"));
-		}
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Initialized"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
 
 		[Test]
 		public async Task Should_Initialize_Dependencies_In_Order_Async()
         {
 			var disposalToken = CancellationToken.None;
 			List<int> callOrder = new List<int>();
-			mocker.GetMock<IFCCEngine>().Setup(engine => engine.Initialize(disposalToken)).Callback(() =>
+			mocker.GetMock<IFCCEngine>().Setup(engine => engine.InitializeAsync(disposalToken)).Callback(() =>
 			{
 				callOrder.Add(1);
 			});

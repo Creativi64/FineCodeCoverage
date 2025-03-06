@@ -98,7 +98,7 @@ namespace FineCodeCoverage.Output
                 }
                 catch (Exception exception)
                 {
-                    logger.Log(exception);
+                    await logger.LogAsync(exception.ToString());
                 }
             }).Task.Forget();
 

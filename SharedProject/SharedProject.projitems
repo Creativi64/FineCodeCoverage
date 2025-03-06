@@ -458,6 +458,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IFCCOutputWindowPaneCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IShowFCCOutputPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\ShowFCCOutputPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\StatusMarkerProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ColumnsManagementUserControl.xaml.cs">
       <DependentUpon>ColumnsManagementUserControl.xaml</DependentUpon>

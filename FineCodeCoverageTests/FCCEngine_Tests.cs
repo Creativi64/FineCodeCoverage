@@ -35,7 +35,7 @@ namespace Test
 
             var appDataFolderPath = "some path";
             var mockAppDataFolder = mocker.GetMock<IAppDataFolder>();
-            mockAppDataFolder.Setup(appDataFolder => appDataFolder.Initialize(disposalToken)).Callback(() => callOrder.Add(1));
+            mockAppDataFolder.Setup(appDataFolder => appDataFolder.InitializeAsync(disposalToken)).Callback(() => callOrder.Add(1));
             mockAppDataFolder.Setup(appDataFolder => appDataFolder.DirectoryPath).Returns(appDataFolderPath);
 
             throw new NotImplementedException();
@@ -53,12 +53,12 @@ namespace Test
 
         
         [Test]
-        public void Should_Set_AppDataFolderPath_From_Initialized_AppDataFolder_DirectoryPath()
+        public async Task Should_Set_AppDataFolderPath_From_Initialized_AppDataFolder_DirectoryPath_Async()
         {
             var appDataFolderPath = "some path";
             var mockAppDataFolder = mocker.GetMock<IAppDataFolder>();
             mockAppDataFolder.Setup(appDataFolder => appDataFolder.DirectoryPath).Returns(appDataFolderPath);
-            fccEngine.Initialize(CancellationToken.None);
+            await fccEngine.InitializeAsync(CancellationToken.None);
             Assert.AreEqual("some path", fccEngine.AppDataFolderPath);
         }
 
@@ -165,7 +165,7 @@ namespace Test
         public async Task Should_Allow_The_CoverageOutputManager_To_SetProjectCoverageOutputFolder_Async()
         {
             var mockCoverageToolOutputManager = mocker.GetMock<ICoverageToolOutputManager>();
-            mockCoverageToolOutputManager.Setup(om => om.SetProjectCoverageOutputFolder(It.IsAny<List<ICoverageProject>>())).
+            mockCoverageToolOutputManager.Setup(om => om.SetProjectCoverageOutputFolderAsync(It.IsAny<List<ICoverageProject>>())).
                 Callback<List<ICoverageProject>>(coverageProjects =>
                 {
                     coverageProjects[0].CoverageOutputFolder = "Set by ICoverageToolOutputManager";
@@ -203,12 +203,12 @@ namespace Test
             passedProject.Setup(p => p.CoverageOutputFile).Returns(passedProjectCoverageOutputFile);
             
             mocker.GetMock<IReportGeneratorUtil>().Setup(rg => 
-                rg.Generate(
+                rg.GenerateAsync(
                     It.Is<string[]>(
                         coverOutputFiles => coverOutputFiles.Count() == 1 && coverOutputFiles.First() == passedProjectCoverageOutputFile),
                     It.IsAny<string>(),
                     It.IsAny<CancellationToken>()
-                    )).Returns(new ReportGeneratorResult { });
+                    )).ReturnsAsync(new ReportGeneratorResult { });
 
             await ReloadInitializedCoverage_Async(failedProject.Object, passedProject.Object);
 
@@ -338,18 +338,18 @@ namespace Test
         private void SetUpSuccessfulRunReportGenerator()
         {
             mocker.GetMock<IReportGeneratorUtil>()
-                .Setup(rg => rg.Generate(
+                .Setup(rg => rg.GenerateAsync(
                     It.IsAny<IEnumerable<string>>(),
                     It.IsAny<string>(),
                     It.IsAny<CancellationToken>()
                     ))
-                .Returns(new ReportGeneratorResult {  });
+                .ReturnsAsync(new ReportGeneratorResult {  });
         }
 
         private async Task ReloadInitializedCoverage_Async(params ICoverageProject[] coverageProjects)
         {
             var projectsFromTask = Task.FromResult(coverageProjects.ToList());
-            fccEngine.Initialize(CancellationToken.None);
+            await fccEngine.InitializeAsync(CancellationToken.None);
 #pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
             fccEngine.ReloadCoverage(() => projectsFromTask);
             await fccEngine.reloadCoverageTask;

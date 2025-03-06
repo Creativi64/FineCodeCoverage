@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -20,7 +21,7 @@ namespace FineCodeCoverage.Engine.Model
             this.logger = logger;
         }
 
-        public List<IExcludableReferencedProject> GetReferencedProjects(
+        public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
             string projectFile, XElement projectFileXElement
         )
         {
@@ -38,7 +39,7 @@ namespace FineCodeCoverage.Engine.Model
                 var referencedProjectProjectFile = xprojectReference.Attribute("Include").Value;
                 if (referencedProjectProjectFile.Contains("$("))
                 {
-                    logger.Log($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.excludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
+                    await logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.excludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
                 }
                 else
                 {

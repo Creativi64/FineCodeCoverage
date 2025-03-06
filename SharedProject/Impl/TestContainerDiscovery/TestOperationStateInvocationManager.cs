@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Initialization;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace FineCodeCoverage.Impl
@@ -21,7 +22,7 @@ namespace FineCodeCoverage.Impl
             this.initializeStatusProvider = initializeStatusProvider;
             this.logger = logger;
         }
-        public bool CanInvoke(TestOperationStates testOperationState)
+        public async Task<bool> CanInvokeAsync(TestOperationStates testOperationState)
         {
             if (testOperationState == TestOperationStates.TestExecutionStarting)
             {
@@ -29,7 +30,7 @@ namespace FineCodeCoverage.Impl
             }
             if (!initializedWhenTestExecutionStarting)
             {
-                logger.Log($"Skipping {testOperationState} as FCC not initialized");
+                await logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
             }
             return initializedWhenTestExecutionStarting;
         }

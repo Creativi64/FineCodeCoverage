@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ReflectObject;
@@ -25,7 +26,7 @@ namespace FineCodeCoverage.Impl
             this.runSettingsRetriever = runSettingsRetriever;
             this.logger = logger;
         }
-        public ITestOperation Create(IOperation operation)
+        public async Task<ITestOperation> CreateAsync(IOperation operation)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace FineCodeCoverage.Impl
             }
             catch (PropertyDoesNotExistException propertyDoesNotExistException)
             {
-                logger.Log("Error test container discoverer reflection");
+                await logger.LogAsync("Error test container discoverer reflection");
                 throw new Exception(propertyDoesNotExistException.Message);
             }
         }

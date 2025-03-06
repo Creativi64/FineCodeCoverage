@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
@@ -59,57 +60,59 @@ namespace FineCodeCoverageTests
 
         [TestCase(true,1, 2)]
         [TestCase(false, 2, 1)]
-        public void Should_Use_Providers_In_Order_When_Determining_CoverageProject_Output_Folder(bool provider1First, int expectedFirst, int expectedSecond)
+        public async Task Should_Use_Providers_In_Order_When_Determining_CoverageProject_Output_Folder_Async(bool provider1First, int expectedFirst, int expectedSecond)
         {
             SetUpProviders(provider1First, null, null);
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
             Assert.AreEqual(callOrder, new List<int> { expectedFirst, expectedSecond });
         }
 
         [Test]
-        public void Should_Stop_Asking_Providers_When_One_Provides_Value()
+        public async Task Should_Stop_Asking_Providers_When_One_Provides_Value_Async()
         {
             SetUpProviders(true, "_", "_");
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
             Assert.AreEqual(callOrder, new List<int> { 1 });
         }
 
         [Test]
-        public void Should_Try_Empty_Provided_Output_Folder()
+        public async Task Should_Try_Empty_Provided_Output_Folder_Async()
         {
             SetUpProviders(true, "Provided", "_");
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
             mocker.Verify<IFileUtil>(f => f.TryEmptyDirectory("Provided"));
         }
 
 
         [Test]
-        public void Should_Log_When_Provided()
+        public async Task Should_Log_When_Provided_Async()
         {
             SetUpProviders(true, "Provided", "_");
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
-            mocker.Verify<ILogger>(l => l.Log("FCC output in Provided"));
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("FCC output in Provided"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
-        public void Should_Raise_The_OutdatedOutputMessge()
+        public async Task Should_Raise_The_OutdatedOutputMessage_Async()
         {
             SetUpProviders(true, "Provided", "_");
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
             mocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(It.IsAny<OutdatedOutputMessage>(), null));
         }
 
         [Test]
-        public void Should_Set_CoverageOutputFolder_To_ProjectName_Sub_Folder_Of_Provided()
+        public async Task Should_Set_CoverageOutputFolder_To_ProjectName_Sub_Folder_Of_Provided_Async()
         {
             SetUpProviders(true, "Provided", "_");
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
             var expectedProject1OutputFolder = Path.Combine("Provided", mockProject1.Object.ProjectName);
             var expectedProject2OutputFolder = Path.Combine("Provided", mockProject2.Object.ProjectName);
@@ -119,11 +122,11 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Set_CoverageOutputFolder_To_Default_For_All_When_Not_Provided()
+        public async Task Should_Set_CoverageOutputFolder_To_Default_For_All_When_Not_Provided_Async()
         {
             SetUpProviders(true, null, null);
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
             
             mockProject1.VerifySet(p => p.CoverageOutputFolder = DefaultCoverageFolder);
@@ -131,11 +134,11 @@ namespace FineCodeCoverageTests
         }
     
         [Test]
-        public void Should_Output_Reports_To_First_Project_CoverageOutputFolder_When_Not_Provided()
+        public async Task Should_Output_Reports_To_First_Project_CoverageOutputFolder_When_Not_Provided_Async()
         {
             SetUpProviders(true, null, null);
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
             var firstProjectOutputFolder = mockProject1.Object.CoverageOutputFolder;
             
@@ -143,11 +146,11 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Output_Reports_To_Provided_When_Provided()
+        public async Task Should_Output_Reports_To_Provided_When_Provided_Async()
         {
             SetUpProviders(true, "Provided", null);
             var coverageToolOutputManager = mocker.Create<CoverageToolOutputManager>();
-            coverageToolOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
             var outputFolder = coverageToolOutputManager.GetReportOutputFolder();
 

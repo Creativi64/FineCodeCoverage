@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace FineCodeCoverage.Engine.Model
@@ -92,7 +93,7 @@ namespace FineCodeCoverage.Engine.Model
 
         }
 
-        public IAppOptions Merge(
+        public async Task<IAppOptions> MergeAsync(
             IAppOptions globalOptions,
             List<XElement> settingsFileElements,
             XElement projectSettingsElement)
@@ -117,13 +118,13 @@ namespace FineCodeCoverage.Engine.Model
 
             if (settingsElementsWithDefaultMergeStrategy.Count != 0)
             {
-                Merge(globalOptions, settingsElementsWithDefaultMergeStrategy);
+                await MergeAsync(globalOptions, settingsElementsWithDefaultMergeStrategy);
             }
 
             return globalOptions;
         }
 
-        private void Merge(
+        private async Task MergeAsync(
             IAppOptions globalOptions,
             PropertyInfo settingPropertyInfo,
             List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
@@ -143,11 +144,11 @@ namespace FineCodeCoverage.Engine.Model
                         var merge = GetMerge(defaultMerge, propertyElement);
                         if (merge)
                         {
-                            Merge(globalOptions, settingPropertyInfo, settingsElement,fromProjectSettings);
+                            await MergeAsync(globalOptions, settingPropertyInfo, settingsElement,fromProjectSettings);
                         }
                         else
                         {
-                            Overwrite(globalOptions, settingPropertyInfo, settingsElement,fromProjectSettings);
+                            await OverwriteAsync(globalOptions, settingPropertyInfo, settingsElement,fromProjectSettings);
                         }
                     }
 
@@ -155,13 +156,13 @@ namespace FineCodeCoverage.Engine.Model
             }
             else
             {
-                Overwrite(globalOptions, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
+                await OverwriteAsync(globalOptions, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
             }
         }
 
-        private void Merge(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, XElement settingsElement,bool fromProjectSettings)
+        private async Task MergeAsync(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, XElement settingsElement,bool fromProjectSettings)
         {
-            var value = TryGetValueFromXml(settingsElement, settingPropertyInfo,fromProjectSettings);
+            var value = await TryGetValueFromXmlAsync(settingsElement, settingPropertyInfo,fromProjectSettings);
             if (value != null)
             {
                 var currentValue = settingPropertyInfo.GetValue(globalOptions);
@@ -199,17 +200,17 @@ namespace FineCodeCoverage.Engine.Model
             return string.Equals(defaultMergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
         }
 
-        private void Overwrite(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, IEnumerable<SettingsElementDefaultMerge> settingsElementsDefaultMerge)
+        private async Task OverwriteAsync(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, IEnumerable<SettingsElementDefaultMerge> settingsElementsDefaultMerge)
         {
             foreach (var settingsElementDefaultMerge in settingsElementsDefaultMerge)
             {
-                Overwrite(globalOptions, settingPropertyInfo, settingsElementDefaultMerge.SettingsElement,settingsElementDefaultMerge.FromProjectSettings);
+                await OverwriteAsync(globalOptions, settingPropertyInfo, settingsElementDefaultMerge.SettingsElement,settingsElementDefaultMerge.FromProjectSettings);
             }
         }
 
-        private void Overwrite(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, XElement settingsElement,bool fromProjectSettings)
+        private async Task OverwriteAsync(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, XElement settingsElement,bool fromProjectSettings)
         {
-            var value = TryGetValueFromXml(settingsElement, settingPropertyInfo,fromProjectSettings);
+            var value = await TryGetValueFromXmlAsync(settingsElement, settingPropertyInfo,fromProjectSettings);
             if (value != null)
             {
                 settingPropertyInfo.SetValue(globalOptions, value);
@@ -221,7 +222,7 @@ namespace FineCodeCoverage.Engine.Model
             return settingsElement.Descendants().FirstOrDefault(x => x.Name.LocalName.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
         }
 
-        private object TryGetValueFromXml(XElement settingsElement, PropertyInfo property,bool fromProjectSettings)
+        private async Task<object> TryGetValueFromXmlAsync(XElement settingsElement, PropertyInfo property,bool fromProjectSettings)
         {
             try
             {
@@ -230,7 +231,7 @@ namespace FineCodeCoverage.Engine.Model
             catch (Exception exception)
             {
                 var from = fromProjectSettings ? "project settings" : "settings file";
-                logger.Log($"Failed to get '{property.Name}' setting from {from}", exception);
+                await logger.LogAsync($"Failed to get '{property.Name}' setting from {from}", exception.ToString());
             }
             return null;
         }
@@ -399,11 +400,11 @@ namespace FineCodeCoverage.Engine.Model
 
         }
 
-        private void Merge(IAppOptions globalOptions, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
+        private async Task MergeAsync(IAppOptions globalOptions, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
         {
             foreach (var settingsProperty in settingsPropertyInfos)
             {
-                Merge(globalOptions, settingsProperty, settingsElementsWithDefaultMergeStrategy);
+                await MergeAsync(globalOptions, settingsProperty, settingsElementsWithDefaultMergeStrategy);
             }
         }
 

@@ -171,7 +171,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             catch (Exception e)
             {
-                this.logger.Log($"Error creating tracked lines for {this.textInfo.FilePath}", e);
+                this.logger.Log($"Error creating tracked lines for {this.textInfo.FilePath}", e.ToString());
             }
         }
 
@@ -273,7 +273,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             catch (Exception e)
             {
-                this.logger.Log($"Error updating tracked lines for {this.textInfo.FilePath}", e);
+                this.logger.Log($"Error updating tracked lines for {this.textInfo.FilePath}", e.ToString());
             }
         }
 

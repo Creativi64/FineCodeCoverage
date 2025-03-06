@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine
 {
     internal interface ICoverageToolOutputManager
     {
-        void SetProjectCoverageOutputFolder(List<ICoverageProject> coverageProjects);
+        Task SetProjectCoverageOutputFolderAsync(List<ICoverageProject> coverageProjects);
         string GetReportOutputFolder();
     }
 }

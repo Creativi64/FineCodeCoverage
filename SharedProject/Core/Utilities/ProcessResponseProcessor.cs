@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Output;
 using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.Utilities
 {
@@ -14,7 +15,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             this.logger = logger;
         }
-        public bool Process(ExecuteResponse result, Func<int, bool> exitCodeSuccessPredicate, bool throwError, string title,Action successCallback = null)
+        public async Task<bool> ProcessAsync(ExecuteResponse result, Func<int, bool> exitCodeSuccessPredicate, bool throwError, string title,Action successCallback = null)
         {
             if (!exitCodeSuccessPredicate(result.ExitCode))
             {
@@ -23,11 +24,11 @@ namespace FineCodeCoverage.Core.Utilities
                     throw new Exception(result.Output);
                 }
 
-                logger.Log($"{title} Error", result.Output);
+                await logger.LogAsync($"{title} Error", result.Output);
                 return false;
             }
 
-            logger.Log(title, result.Output);
+            await logger.LogAsync(title, result.Output);
             successCallback?.Invoke();
             return true;
         }

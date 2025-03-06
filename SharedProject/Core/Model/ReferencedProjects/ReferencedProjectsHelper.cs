@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync()
         {
-            return await SafeGetReferencedProjectsFromVSApiAsync() ?? projectFileReferencedProjectsHelper.GetReferencedProjects(projectFile, projectFileXElementProvider());
+            return await SafeGetReferencedProjectsFromVSApiAsync() ?? await projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(projectFile, projectFileXElementProvider());
         }
 
         private async Task<List<IExcludableReferencedProject>> SafeGetReferencedProjectsFromVSApiAsync()

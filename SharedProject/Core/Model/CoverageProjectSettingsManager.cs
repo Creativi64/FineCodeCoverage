@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Engine.Model
             var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFile);
             var settingsFilesElements = fccSettingsFilesProvider.Provide(projectDirectory);
             var projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
-            var merged = settingsMerger.Merge(appOptionsProvider.Get(), settingsFilesElements, projectSettingsElement);
+            var merged = await settingsMerger.MergeAsync(appOptionsProvider.Get(), settingsFilesElements, projectSettingsElement);
             AddCommonAssemblyExcludesIncludes(merged);
             return merged;
         }

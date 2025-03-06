@@ -110,9 +110,9 @@ namespace FineCodeCoverage.Engine
             logger.Log(StatusMarkerProvider.Get(reloadCoverageStatus));
         }
 
-        public void Initialize(CancellationToken cancellationToken)
+        public async Task InitializeAsync(CancellationToken cancellationToken)
         {
-            appDataFolder.Initialize(cancellationToken);
+            await appDataFolder.InitializeAsync(cancellationToken);
             AppDataFolderPath = appDataFolder.DirectoryPath;
 
             msTestPlatformUtil.Initialize(AppDataFolderPath, cancellationToken);
@@ -167,7 +167,7 @@ namespace FineCodeCoverage.Engine
 
                     var duration = DateTime.Now - start;
                     var durationMessage = $"Completed coverage for ({coverageProject.ProjectName}) : {duration}";
-                    logger.Log(durationMessage);
+                    await logger.LogAsync(durationMessage);
 
                 });
 
@@ -175,7 +175,7 @@ namespace FineCodeCoverage.Engine
                 {
                     var coverageStagePrefix = String.IsNullOrEmpty(coverageProject.FailureStage) ? "" : $"{coverageProject.FailureStage} ";
                     var failureMessage = $"{coverageProject.FailureStage}({coverageProject.ProjectName}) Failed.";
-                    logger.Log(failureMessage, coverageProject.FailureDescription);
+                    await logger.LogAsync(failureMessage, coverageProject.FailureDescription);
                 }
 
             }
@@ -205,14 +205,14 @@ namespace FineCodeCoverage.Engine
             RaiseNewReport(reportResult);
         }
 
-        private ReportResult RunAndProcessReport(string[] coverOutputFiles, CancellationToken vsShutdownLinkedCancellationToken)
+        private async Task<ReportResult> RunAndProcessReportAsync(string[] coverOutputFiles, CancellationToken vsShutdownLinkedCancellationToken)
         {
             var reportOutputFolder = coverageOutputManager.GetReportOutputFolder();
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
-            var result =  reportGeneratorUtil.Generate(coverOutputFiles,reportOutputFolder,vsShutdownLinkedCancellationToken);
+            var result =  await reportGeneratorUtil.GenerateAsync(coverOutputFiles,reportOutputFolder,vsShutdownLinkedCancellationToken);
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
-            logger.Log("Processing cobertura");
+            await logger.LogAsync("Processing cobertura");
             var coverageLines = coberturaUtil.ProcessCoberturaXml(result.UnifiedXmlFile);
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
@@ -247,7 +247,7 @@ namespace FineCodeCoverage.Engine
                 {
                     logs.Insert(0, "File synchronization :");
                     logs.Add($"File synchronization duration : {fileSynchronizationDetails.Duration}");
-                    logger.Log(logs);
+                    await logger.LogAsync(logs);
                 }
             }
         }
@@ -259,19 +259,19 @@ namespace FineCodeCoverage.Engine
             {
                 switch (t.Status)
                 {
-                    case System.Threading.Tasks.TaskStatus.Canceled:
+                    case TaskStatus.Canceled:
                         LogCoverageStatus("Cancelled");
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(null));
                         break;
-                    case System.Threading.Tasks.TaskStatus.Faulted:
+                    case TaskStatus.Faulted:
                         var innerException = t.Exception.InnerExceptions[0];
                         logger.Log(
                             StatusMarkerProvider.Get("Error"),
-                            innerException
+                            innerException.ToString()
                         );
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(null));
                         break;
-                    case System.Threading.Tasks.TaskStatus.RanToCompletion:
+                    case TaskStatus.RanToCompletion:
                         LogCoverageStatus("Done");
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                         this.eventAggregator.SendMessage(new CoverageEndedMessage(t.Result.CoverageProjects));
@@ -296,16 +296,16 @@ namespace FineCodeCoverage.Engine
 
         public void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null)
         {
-            RunCancellableCoverageTask((vsShutdownLinkedCancellationToken) =>
+            RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
             {
                 ReportResult reportResult = new ReportResult();
 
                 if (coberturaFiles.Any())
                 {
-                    reportResult = RunAndProcessReport(coberturaFiles, vsShutdownLinkedCancellationToken);
+                    reportResult = await RunAndProcessReportAsync(coberturaFiles, vsShutdownLinkedCancellationToken);
                 }
                 reportResult.CoverageProjects = coverageProjects;
-                return Task.FromResult(reportResult);
+                return reportResult;
             }, cleanUp);
         }
 
@@ -316,7 +316,7 @@ namespace FineCodeCoverage.Engine
             var vsShutdownLinkedCancellationToken = vsLinkedCancellationTokenSource.Token;
             disposeAwareTaskRunner.RunAsyncFunc(() =>
             {
-                reloadCoverageTask = System.Threading.Tasks.Task.Run(async () =>
+                reloadCoverageTask = Task.Run(async () =>
                 {
                     var result = await taskCreator(vsShutdownLinkedCancellationToken);
                     return result;
@@ -336,12 +336,12 @@ namespace FineCodeCoverage.Engine
                 var coverageProjects = await coverageRequestCallback();
                 vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
 
-                coverageOutputManager.SetProjectCoverageOutputFolder(coverageProjects);
+                await coverageOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
                 var coverOutputFiles = await RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
                 if (coverOutputFiles.Any())
                 {
-                   reportResult = RunAndProcessReport(coverOutputFiles, vsShutdownLinkedCancellationToken);
+                   reportResult = await RunAndProcessReportAsync(coverOutputFiles, vsShutdownLinkedCancellationToken);
                 }
 
                 return reportResult;

@@ -15,7 +15,6 @@ using NUnit.Framework;
 
 namespace Test
 {
-
     public class CoverletExeArgumentsProvider_Tests
     {
         [Test]
@@ -65,7 +64,7 @@ namespace Test
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        public void Should_GetCoverletExePath_From_First_That_Returns_Non_Null(int providingExeProvider)
+        public async Task Should_GetCoverletExePath_From_First_That_Returns_Non_Null_Async(int providingExeProvider)
         {
             var coverageProject = new Mock<ICoverageProject>().Object;
             var coverletSettings = "coverlet settings";
@@ -104,7 +103,7 @@ namespace Test
             {
                 var order = i;
                 var mockExeProvider = mockExecutors[i];
-                mockExeProvider.Setup(p => p.GetRequest(coverageProject, coverletSettings)).Returns(GetExecuteRequest(i)).Callback<ICoverageProject, string>((_, __) =>
+                mockExeProvider.Setup(p => p.GetRequestAsync(coverageProject, coverletSettings)).ReturnsAsync(GetExecuteRequest(i)).Callback<ICoverageProject, string>((_, __) =>
                 {
                     callOrder.Add(order);
                 });
@@ -112,7 +111,7 @@ namespace Test
 
             var coverletConsoleUtil = new CoverletConsoleExecuteRequestProvider(mockGlobalExecutor.Object, mockCustomPathExecutor.Object, mockLocalExecutor.Object, mockFCCCoverletConsoleExecutor.Object);
 
-            var executeRequest = coverletConsoleUtil.GetExecuteRequest(coverageProject, coverletSettings);
+            var executeRequest = await coverletConsoleUtil.GetExecuteRequestAsync(coverageProject, coverletSettings);
 
             Assert.AreSame(GetExecuteRequest(providingExeProvider), executeRequest);
             Assert.AreEqual(providingExeProvider + 1, callOrder.Count);
@@ -161,20 +160,19 @@ namespace Test
         public async Task Should_Log_Settings_Before_Executing_Async()
         {
             var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Setup(logger => logger.Log(It.IsAny<IEnumerable<string>>())).Callback<IEnumerable<string>>(messages =>
+            mockLogger.Setup(logger => logger.LogAsync(It.IsAny<IEnumerable<string>>())).Callback<IEnumerable<string>>(messages =>
             {
-                var msgList = messages as List<string>;
                 Assert.Multiple(() =>
                 {
-                    Assert.That(msgList[0], Is.EqualTo("Coverlet Run (TheProjectName) - Arguments"));
-                    Assert.That(msgList.Skip(1), Is.EqualTo(coverletSettings));
+                    Assert.That(messages.First(), Is.EqualTo("Coverlet Run (TheProjectName) - Arguments"));
+                    Assert.That(messages.Skip(1), Is.EqualTo(coverletSettings));
                     Assert.That(executed, Is.False);
                 });
             });
 
             await RunSuccessfullyAsync();
 
-            mockLogger.Verify();
+            mockLogger.VerifyAll();
         }
 
         [Test]
@@ -194,7 +192,9 @@ namespace Test
             Assert.ThrowsAsync<Exception>(() => RunAsync(failureExecuteResponse));
 
             var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.Log("Coverlet Run (TheProjectName) Error. Exit code: 4", "failure message"));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mockLogger.Verify(logger => logger.LogAsync("Coverlet Run (TheProjectName) Error. Exit code: 4", "failure message"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
@@ -231,9 +231,9 @@ namespace Test
             var cancellationToken = CancellationToken.None;
 
             mocker.Setup<ICoverletExeArgumentsProvider, List<string>>(coverletExeArgumentsProvider => coverletExeArgumentsProvider.GetArguments(coverageProject)).Returns(coverletSettings);
-            mocker.Setup<ICoverletConsoleExecuteRequestProvider, ExecuteRequest>(
-                coverletConsoleExecuteRequestProvider => coverletConsoleExecuteRequestProvider.GetExecuteRequest(coverageProject, requestSettings)
-            ).Returns(executeRequest);
+            mocker.Setup<ICoverletConsoleExecuteRequestProvider, Task<ExecuteRequest>>(
+                coverletConsoleExecuteRequestProvider => coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(coverageProject, requestSettings)
+            ).ReturnsAsync(executeRequest);
             var mockProcessUtil = mocker.GetMock<IProcessUtil>();
             mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(executeRequest, cancellationToken))
                 .Callback(() => executed = true)
@@ -257,67 +257,69 @@ namespace Test
         }
 
         [Test]
-        public void Should_Return_Null_From_GetRequest_If_Not_Enabled_In_Options()
+        public async Task Should_Return_Null_From_GetRequest_If_Not_Enabled_In_Options_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(false);
-            Assert.IsNull(globalExeProvider.GetRequest(mockCoverageProject.Object, null));
+            Assert.IsNull(await globalExeProvider.GetRequestAsync(mockCoverageProject.Object, null));
         }
 
         [Test]
-        public void Should_Return_Null_If_Enabled_But_Not_Installed()
+        public async Task Should_Return_Null_If_Enabled_But_Not_Installed_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(true);
             var dotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            dotNetToolListCoverlet.Setup(dotnet => dotnet.Global()).Returns((CoverletToolDetails)null);
+            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync((CoverletToolDetails)null);
 
-            Assert.IsNull(globalExeProvider.GetRequest(mockCoverageProject.Object, null));
+            Assert.IsNull(await globalExeProvider.GetRequestAsync(mockCoverageProject.Object, null));
             dotNetToolListCoverlet.VerifyAll();
         }
 
         [Test]
-        public void Should_Log_When_Enabled_And_Unsuccessful()
+        public async Task Should_Log_When_Enabled_And_Unsuccessful_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(true);
             var dotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            dotNetToolListCoverlet.Setup(dotnet => dotnet.Global()).Returns((CoverletToolDetails)null);
+            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync((CoverletToolDetails)null);
 
-            globalExeProvider.GetRequest(mockCoverageProject.Object, null);
-            mocker.Verify<ILogger>(l => l.Log("Unable to use Coverlet console global tool"));
-            
+            await globalExeProvider.GetRequestAsync(mockCoverageProject.Object, null);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Unable to use Coverlet console global tool"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+
         }
 
-        private ExecuteRequest GetRequest_For_Globally_Installed_Coverlet_Console()
+        private Task<ExecuteRequest> GetRequest_For_Globally_Installed_Coverlet_Console_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(true);
             mockCoverageProject.Setup(cp => cp.ProjectOutputFolder).Returns("TheOutputFolder");
             var dotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            dotNetToolListCoverlet.Setup(dotnet => dotnet.Global()).Returns(new CoverletToolDetails { Command = "TheCommand" });
+            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync(new CoverletToolDetails { Command = "TheCommand" });
 
-            return globalExeProvider.GetRequest(mockCoverageProject.Object, "coverlet settings");
+            return globalExeProvider.GetRequestAsync(mockCoverageProject.Object, "coverlet settings");
         }
 
         [Test]
-        public void Should_Request_Execute_With_The_Coverlet_Console_Command()
+        public async Task Should_Request_Execute_With_The_Coverlet_Console_Command_Async()
         {
-            var request = GetRequest_For_Globally_Installed_Coverlet_Console();
+            var request = await GetRequest_For_Globally_Installed_Coverlet_Console_Async();
             Assert.AreEqual("TheCommand", request.FilePath);
         }
 
         [Test]
-        public void Should_Request_Arguments_The_Coverlet_Settings()
+        public async Task Should_Request_Arguments_The_Coverlet_Settings_Async()
         {
-            var request = GetRequest_For_Globally_Installed_Coverlet_Console();
+            var request = await GetRequest_For_Globally_Installed_Coverlet_Console_Async();
             Assert.AreEqual("coverlet settings", request.Arguments);
         }
 
         [Test]
-        public void Should_Request_WorkingDirectory_To_The_Project_Output_Folder()
+        public async Task Should_Request_WorkingDirectory_To_The_Project_Output_Folder_Async()
         {
-            var request = GetRequest_For_Globally_Installed_Coverlet_Console();
+            var request = await GetRequest_For_Globally_Installed_Coverlet_Console_Async();
             Assert.AreEqual("TheOutputFolder", request.WorkingDirectory);
         }
 
@@ -347,23 +349,23 @@ namespace Test
 
         [TestCase(null)]
         [TestCase("")]
-        public void Should_Return_Null_If_Not_Set_In_Options(string coverletConsoleCustomPath)
+        public async Task Should_Return_Null_If_Not_Set_In_Options_Async(string coverletConsoleCustomPath)
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleCustomPath).Returns(coverletConsoleCustomPath);
-            Assert.IsNull(customPathExecutor.GetRequest(mockCoverageProject.Object,null));
+            Assert.IsNull(await customPathExecutor.GetRequestAsync(mockCoverageProject.Object,null));
         }
 
         [Test]
-        public void Should_Return_Null_If_File_Does_Not_Exist()
+        public async Task Should_Return_Null_If_File_Does_Not_Exist_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleCustomPath).Returns("alnlkalk.exe");
-            Assert.IsNull(customPathExecutor.GetRequest(mockCoverageProject.Object, null));
+            Assert.IsNull(await customPathExecutor.GetRequestAsync(mockCoverageProject.Object, null));
         }
 
         [Test]
-        public void Should_Return_Null_If_Not_An_Exe()
+        public async Task Should_Return_Null_If_Not_An_Exe_Async()
         {
             tempCoverletExe = Path.Combine(Path.GetTempPath(), "thecoverletexecutable.notexe");
             File.WriteAllText(tempCoverletExe, "");
@@ -371,10 +373,10 @@ namespace Test
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleCustomPath).Returns(tempCoverletExe);
 
-            Assert.IsNull(customPathExecutor.GetRequest(mockCoverageProject.Object, null));
+            Assert.IsNull(await customPathExecutor.GetRequestAsync(mockCoverageProject.Object, null));
         }
 
-        private ExecuteRequest Get_Request_For_Custom_Path()
+        private Task<ExecuteRequest> Get_Request_For_Custom_Path_Async()
         {
             tempCoverletExe = Path.Combine(Path.GetTempPath(), "thecoverletexecutable.exe");
             File.WriteAllText(tempCoverletExe, "");
@@ -382,27 +384,27 @@ namespace Test
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleCustomPath).Returns(tempCoverletExe);
             mockCoverageProject.Setup(cp => cp.ProjectOutputFolder).Returns("TheOutputFolder");
-            return customPathExecutor.GetRequest(mockCoverageProject.Object, "coverlet settings");
+            return customPathExecutor.GetRequestAsync(mockCoverageProject.Object, "coverlet settings");
         }
 
         [Test]
-        public void Should_Set_FilePath_To_The_Exe()
+        public async Task Should_Set_FilePath_To_The_Exe_Async()
         {
-            var executeRequest = Get_Request_For_Custom_Path();
+            var executeRequest = await Get_Request_For_Custom_Path_Async();
             Assert.AreEqual(tempCoverletExe, executeRequest.FilePath);
         }
 
         [Test]
-        public void Should_Set_Arguments_To_Coverlet_Settings()
+        public async Task Should_Set_Arguments_To_Coverlet_Settings_Async()
         {
-            var executeRequest = Get_Request_For_Custom_Path();
+            var executeRequest = await Get_Request_For_Custom_Path_Async();
             Assert.AreEqual("coverlet settings", executeRequest.Arguments);
         }
 
         [Test]
-        public void Should_Request_WorkingDirectory_To_The_Project_Output_Folder()
+        public async Task Should_Request_WorkingDirectory_To_The_Project_Output_Folder_Async()
         {
-            var request = Get_Request_For_Custom_Path();
+            var request = await Get_Request_For_Custom_Path_Async();
             Assert.AreEqual("TheOutputFolder", request.WorkingDirectory);
         }
 
@@ -421,15 +423,15 @@ namespace Test
         }
 
         [Test]
-        public void Should_Return_Null_If_Not_Enabled_In_Options()
+        public async Task Should_Return_Null_If_Not_Enabled_In_Options_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleLocal).Returns(false);
-            Assert.IsNull(localExecutor.GetRequest(mockCoverageProject.Object,null));
+            Assert.IsNull(await localExecutor.GetRequestAsync(mockCoverageProject.Object,null));
         }
 
         [Test]
-        public void Should_Return_Null_If_No_DotNetConfig_Ascendant_Directory()
+        public async Task Should_Return_Null_If_No_DotNetConfig_Ascendant_Directory_Async()
         {
             var projectOutputFolder = "projectoutputfolder";
             var mockCoverageProject = new Mock<ICoverageProject>();
@@ -438,12 +440,12 @@ namespace Test
 
             var mockDotNetConfigFinder = mocker.GetMock<IDotNetConfigFinder>();
             mockDotNetConfigFinder.Setup(f => f.GetConfigDirectories(projectOutputFolder)).Returns(new List<string>());
-            Assert.IsNull(localExecutor.GetRequest(mockCoverageProject.Object, null));
+            Assert.IsNull(await localExecutor.GetRequestAsync(mockCoverageProject.Object, null));
             mockDotNetConfigFinder.VerifyAll();
         }
         
         [Test]
-        public void Should_Return_Null_If_None_Of_The_DotNetConfig_Containing_Directories_Are_Local_Tool()
+        public async Task Should_Return_Null_If_None_Of_The_DotNetConfig_Containing_Directories_Are_Local_Tool_Async()
         {
             var projectOutputFolder = "projectoutputfolder";
             var mockCoverageProject = new Mock<ICoverageProject>();
@@ -454,16 +456,16 @@ namespace Test
             mockDotNetConfigFinder.Setup(f => f.GetConfigDirectories(projectOutputFolder)).Returns(new List<string> { "ConfigDirectory1", "ConfigDirectory2" });
 
             var mockDotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.Local("ConfigDirectory1")).Returns((CoverletToolDetails)null);
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.Local("ConfigDirectory2")).Returns((CoverletToolDetails)null);
-            Assert.IsNull(localExecutor.GetRequest(mockCoverageProject.Object, null));
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync((CoverletToolDetails)null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync((CoverletToolDetails)null);
+            Assert.IsNull(await localExecutor.GetRequestAsync(mockCoverageProject.Object, null));
             mockDotNetToolListCoverlet.VerifyAll();
 
 
         }
 
         [Test]
-        public void Shoul_Log_If_None_Of_The_DotNetConfig_Containing_Directories_Are_Local_Tool()
+        public async Task Should_Log_If_None_Of_The_DotNetConfig_Containing_Directories_Are_Local_Tool_Async()
         {
             var projectOutputFolder = "projectoutputfolder";
             var mockCoverageProject = new Mock<ICoverageProject>();
@@ -474,13 +476,15 @@ namespace Test
             mockDotNetConfigFinder.Setup(f => f.GetConfigDirectories(projectOutputFolder)).Returns(new List<string> { "ConfigDirectory1", "ConfigDirectory2" });
 
             var mockDotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.Local("ConfigDirectory1")).Returns((CoverletToolDetails)null);
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.Local("ConfigDirectory2")).Returns((CoverletToolDetails)null);
-            localExecutor.GetRequest(mockCoverageProject.Object, null);
-            mocker.Verify<ILogger>(l => l.Log("Unable to use Coverlet console local tool"));
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync((CoverletToolDetails)null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync((CoverletToolDetails)null);
+            await localExecutor.GetRequestAsync(mockCoverageProject.Object, null);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync("Unable to use Coverlet console local tool"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
-        private ExecuteRequest Get_Request_For_Local_Install(bool firstConfigDirectoryLocalInstall, bool secondConfigDirectoryLocalInstall)
+        private Task<ExecuteRequest> Get_Request_For_Local_Install_Async(bool firstConfigDirectoryLocalInstall, bool secondConfigDirectoryLocalInstall)
         {
             var projectOutputFolder = "projectoutputfolder";
             var mockCoverageProject = new Mock<ICoverageProject>();
@@ -492,36 +496,36 @@ namespace Test
 
             var mockDotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
             var coverletToolDetails = new CoverletToolDetails { Command = "TheCommand" };
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.Local("ConfigDirectory1")).Returns(firstConfigDirectoryLocalInstall?coverletToolDetails:null);
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.Local("ConfigDirectory2")).Returns(secondConfigDirectoryLocalInstall ? coverletToolDetails : null);
-            return localExecutor.GetRequest(mockCoverageProject.Object, "coverlet settings");
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync(firstConfigDirectoryLocalInstall?coverletToolDetails:null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync(secondConfigDirectoryLocalInstall ? coverletToolDetails : null);
+            return localExecutor.GetRequestAsync(mockCoverageProject.Object, "coverlet settings");
         }
 
         [Test]
-        public void Should_Use_The_WorkingDirectory_Of_The_Nearest_Local_Tool_Install()
+        public async Task Should_Use_The_WorkingDirectory_Of_The_Nearest_Local_Tool_Install_Async()
         {
-            var executeRequest = Get_Request_For_Local_Install(true, true);
+            var executeRequest = await Get_Request_For_Local_Install_Async(true, true);
             Assert.AreEqual("ConfigDirectory1",executeRequest.WorkingDirectory);
         }
 
         [Test]
-        public void Should_Use_The_WorkingDirectory_Of_The_Nearest_Local_Tool_Install_Up()
+        public async Task Should_Use_The_WorkingDirectory_Of_The_Nearest_Local_Tool_Install_Up_Async()
         {
-            var executeRequest = Get_Request_For_Local_Install(false, true);
+            var executeRequest = await Get_Request_For_Local_Install_Async(false, true);
             Assert.AreEqual("ConfigDirectory2", executeRequest.WorkingDirectory);
         }
 
         [Test]
-        public void Should_Use_The_DotNet_Command()
+        public async Task Should_Use_The_DotNet_Command_Async()
         {
-            var executeRequest = Get_Request_For_Local_Install(true, true);
+            var executeRequest = await Get_Request_For_Local_Install_Async(true, true);
             Assert.AreEqual("dotnet", executeRequest.FilePath);
         }
 
         [Test]
-        public void Should_Use_The_Coverlet_Command()
+        public async Task Should_Use_The_Coverlet_Command_Async()
         {
-            var executeRequest = Get_Request_For_Local_Install(true, true);
+            var executeRequest = await Get_Request_For_Local_Install_Async(true, true);
             Assert.AreEqual("TheCommand coverlet settings", executeRequest.Arguments);
         }
     }

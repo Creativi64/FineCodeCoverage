@@ -226,7 +226,9 @@ namespace Test
             mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns("");
             mockDataCollectorSettingsBuilder.Setup(sb => sb.Build()).Returns("settings string");
             await coverletDataCollectorUtil.RunAsync(CancellationToken.None);
-            mocker.Verify<ILogger>(l => l.Log(coverletDataCollectorUtil.LogRunMessage("settings string")));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync(coverletDataCollectorUtil.LogRunMessage("settings string")));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
@@ -269,7 +271,9 @@ namespace Test
         public async Task Should_Log_When_Using_Custom_TestAdapterPath_Async()
         {
             await Use_Custom_TestAdapterPath_Async();
-            mocker.Verify<ILogger>(l => l.Log($"Using custom coverlet data collector : {tempDirectory}"));
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ILogger>(l => l.LogAsync($"Using custom coverlet data collector : {tempDirectory}"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
@@ -285,7 +289,7 @@ namespace Test
             var mockProcessResponseProcessor = mocker.GetMock<IProcessResponseProcessor>();
 
             var logTitle = "Coverlet Collector Run (TestProject) - Output";
-            mockProcessResponseProcessor.Setup(rp => rp.Process(executeResponse, It.IsAny<Func<int, bool>>(), true, logTitle, It.IsAny<Action>()));
+            mockProcessResponseProcessor.Setup(rp => rp.ProcessAsync(executeResponse, It.IsAny<Func<int, bool>>(), true, logTitle, It.IsAny<Action>()));
 
             await coverletDataCollectorUtil.RunAsync(ct);
             mockProcessResponseProcessor.VerifyAll();
@@ -298,7 +302,7 @@ namespace Test
         {
             var mockProcessResponseProcessor = mocker.GetMock<IProcessResponseProcessor>();
             Func<int, bool> _exitCodePredicate = null;
-            mockProcessResponseProcessor.Setup(rp => rp.Process(It.IsAny<ExecuteResponse>(), It.IsAny<Func<int, bool>>(), true, It.IsAny<string>(), It.IsAny<Action>())).Callback<ExecuteResponse, Func<int, bool>, bool, string, Action>((_, exitCodePredicate, __, ___, ____) =>
+            mockProcessResponseProcessor.Setup(rp => rp.ProcessAsync(It.IsAny<ExecuteResponse>(), It.IsAny<Func<int, bool>>(), true, It.IsAny<string>(), It.IsAny<Action>())).Callback<ExecuteResponse, Func<int, bool>, bool, string, Action>((_, exitCodePredicate, __, ___, ____) =>
                 {
                     _exitCodePredicate = exitCodePredicate;
                 });
@@ -314,7 +318,7 @@ namespace Test
             mockCoverageProject.Setup(cp => cp.CoverageOutputFile).Returns("outputFile");
             var mockProcessResponseProcessor = mocker.GetMock<IProcessResponseProcessor>();
             Action _successCallback = null;
-            mockProcessResponseProcessor.Setup(rp => rp.Process(It.IsAny<ExecuteResponse>(), It.IsAny<Func<int, bool>>(), true, It.IsAny<string>(), It.IsAny<Action>())).Callback<ExecuteResponse, Func<int, bool>, bool, string, Action>((_, __, ___, ____, successCallback) =>
+            mockProcessResponseProcessor.Setup(rp => rp.ProcessAsync(It.IsAny<ExecuteResponse>(), It.IsAny<Func<int, bool>>(), true, It.IsAny<string>(), It.IsAny<Action>())).Callback<ExecuteResponse, Func<int, bool>, bool, string, Action>((_, __, ___, ____, successCallback) =>
             {
                 _successCallback = successCallback;
             });
