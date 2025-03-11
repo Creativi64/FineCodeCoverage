@@ -17,6 +17,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             bool isNetFrameworkProject);
         string Replace(string templatedXml, IRunSettingsTemplateReplacements replacements);
 
+        // returns a string representation of the runsettings xml containing markers for string replacement
+        string Get();
+
+        // returns a string representation of the runsettings xml containing markers for string replacement
         string ConfigureCustom(string runSettingsTemplate);
 
         string DataCollectionRunSettingsElement { get; }

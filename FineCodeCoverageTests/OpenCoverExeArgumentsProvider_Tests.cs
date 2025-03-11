@@ -3,6 +3,7 @@ using FineCodeCoverage.Engine.OpenCover;
 using FineCodeCoverage.Options;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -95,7 +96,22 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Include_The_Test_Assembly_In_The_Filter_When_AppOptions_IncludeTestAssembly()
+        public void Should_Include_The_Test_Assembly_In_The_Filter_When_AppOptions_IncludeTestAssembly_And_Other_Includes()
+        {
+            var openCoverExeArgumentsProvider = new OpenCoverExeArgumentsProvider();
+            var mockCoverageProject = SafeMockCoverageProject();
+            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(true);
+            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.Include).Returns(new string[] { "[anassembly]*" });
+            mockCoverageProject.SetupGet(coverageProject => coverageProject.ProjectName).Returns("TheTestName");
+
+            var arguments = openCoverExeArgumentsProvider.Provide(mockCoverageProject.Object, "");
+
+            var filters = GetFilters(arguments);
+            Assert.That(filters, Is.EquivalentTo(new string[] { "+[TheTestName]*", "+[anassembly]*" }));
+        }
+
+        [Test]
+        public void Should_Not_Include_The_Test_Assembly_In_The_Filter_When_AppOptions_IncludeTestAssembly_And_No_Other_Includes()
         {
             var openCoverExeArgumentsProvider = new OpenCoverExeArgumentsProvider();
             var mockCoverageProject = SafeMockCoverageProject();
@@ -104,7 +120,23 @@ namespace FineCodeCoverageTests
 
             var arguments = openCoverExeArgumentsProvider.Provide(mockCoverageProject.Object, "");
 
-            AssertHasEscapedSetting(arguments, "-filter:+[TheTestName]*");
+            var filters = GetFilters(arguments);
+            Assert.IsEmpty(GetFilters(arguments));
+        }
+
+        private IEnumerable<string> GetFilters(IEnumerable<string> arguments)
+        {
+            var filterMatch = "-filter:";
+            var filter = arguments.FirstOrDefault(arg => arg.StartsWith($@"""{filterMatch}"));
+            if (filter == null)
+            {
+                return Enumerable.Empty<string>();
+            }
+            if (!filter.EndsWith("\""))
+            {
+                throw new Exception("filter should be escaped");
+            }
+            return filter.Replace("\"", "").Substring(filterMatch.Length).Split(' ');
         }
 
         [Test]
