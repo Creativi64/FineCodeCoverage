@@ -7,6 +7,7 @@ using FineCodeCoverage.Engine.Model;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using System.Xml.Linq;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
