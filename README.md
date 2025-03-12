@@ -38,7 +38,7 @@ For options that have a project scope, these settings form a hierarchy where low
 Regardless of the coverage tool employed the process begins with FCC reacting to the test explorer in visual studio. One of the 3 coverage tools provides the coverage results and the results can be opened from buttons on the Fine Code Coverage Tool Window.
 This coverage is not dynamic and represents the coverage obtained from the last time you executed tests. When the coverage becomes outdated, you can click the 'FCC Clear UI' button in Tools or run coverage again.
 
-Details of how FCC is progressing with code coverage can be found in the Coverage Log tab in the Fine Code Coverage Tool Window with more detailed logs in the FCC Output Window Pane. If you experience issues then providing the logs from the output window will help to understand the nature of the problem.
+Details of how FCC is progressing with code coverage can be found in the FCC Output Window Pane. If you experience issues then providing the logs from the output window will help to understand the nature of the problem.
 
 ### Coverage Result Presentation
 
