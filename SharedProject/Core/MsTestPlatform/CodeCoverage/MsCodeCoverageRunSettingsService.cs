@@ -119,7 +119,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 await TrySetUpForCollectionAsync(testOperation.SolutionDirectory);
             }
 
-            ReportEndOfCoverageRunIfError();
             return collectionStatus;
         }
 
@@ -151,14 +150,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 solutionDirectory
             );
             CopyShimWhenCollecting(coverageProjectsForShim);
-        }
-
-        private void ReportEndOfCoverageRunIfError()
-        {
-            if (collectionStatus == MsCodeCoverageCollectionStatus.Error)
-            {
-
-            }
         }
 
         private Task InitializeIsCollectingAsync(ITestOperation testOperation)

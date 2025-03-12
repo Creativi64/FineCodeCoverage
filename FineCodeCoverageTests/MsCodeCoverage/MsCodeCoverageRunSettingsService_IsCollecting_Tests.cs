@@ -168,17 +168,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             Assert.AreEqual(MsCodeCoverageCollectionStatus.Error, status);
         }
 
-        [Test]
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task Should_Report_End_Of_CoverageRun_If_Error_Async()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-        {
-            throw new NotImplementedException();
-            //var exception = new Exception("Msg");
-            //await Throw_Exception_From_UserRunSettingsService_Analyse_Async(exception);
-            //autoMocker.Verify<IReportGeneratorUtil>(reportGeneratorUtil => reportGeneratorUtil.EndOfCoverageRun());
-        }
-
         private Task<MsCodeCoverageCollectionStatus> Throw_Exception_From_UserRunSettingsService_Analyse_Async(Exception exception)
         {
             SetupIUserRunSettingsServiceAnalyseAny().Throws(exception);

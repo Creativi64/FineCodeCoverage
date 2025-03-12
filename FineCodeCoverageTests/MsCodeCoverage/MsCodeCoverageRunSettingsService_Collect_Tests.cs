@@ -13,6 +13,7 @@ using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using ILogger = FineCodeCoverage.Output.ILogger;
+using System.Linq;
 
 
 namespace FineCodeCoverageTests.MsCodeCoverage
@@ -124,14 +125,12 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         }
 
         [Test]
-        public async Task Should_Combined_Log_When_No_Cobertura_Files_Async()
+        public async Task Should_Log_When_No_Cobertura_Files_Async()
         {
             await RunAndProcessReportAsync(null, Array.Empty<string>());
-            autoMocker.Verify<ILogger>(logger => logger.Log("No cobertura files for ms code coverage."));
-            throw new NotImplementedException();
-            //autoMocker.Verify<IReportGeneratorUtil>(
-            //    reportGenerator => reportGenerator.LogCoverageProcess("No cobertura files for ms code coverage.")
-            //);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(logger => logger.LogAsync("No cobertura files for ms code coverage."));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
@@ -145,9 +144,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 #pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         private async Task RunAndProcessReportAsync(IEnumerable<Uri> resultsUris,string[] expectedCoberturaFiles)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             autoMocker = new AutoMoqer();
             var mockToolUnzipper = autoMocker.GetMock<IToolUnzipper>();
@@ -183,11 +180,12 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
             await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);
 
-            throw new NotImplementedException();
-            //mockFccEngine.Verify(engine => engine.RunAndProcessReport(
-            //        It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()), It.IsAny<Action>()
-            //    )
-            //);
+
+            mockFccEngine.Verify(engine => engine.RunAndProcessReport(
+                    It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()), 
+                    coverageProjects,null
+                )
+            );
         }
 
         private ICoverageProject CreateCoverageProject(string runSettingsFile)
