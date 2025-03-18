@@ -15,6 +15,7 @@ using FineCodeCoverage.Github;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Output.Pane;
 using Microsoft.VisualStudio.ComponentModelHost;
+using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 
 namespace FineCodeCoverage.Output
 {
@@ -78,13 +79,13 @@ namespace FineCodeCoverage.Output
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
             var componentModel = GetComponentModel();
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
 
             await InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
+            componentModel.GetService<AsyncServiceProviderProvider>().Provider = this;
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
         }
 
@@ -115,6 +116,7 @@ namespace FineCodeCoverage.Output
             await OpenReadMeCommand.InitializeAsync(this, componentModel.GetService<IReadMeService>());
             await OpenFundingCommand.InitializeAsync(this, componentModel.GetService<IFundingService>());
             await EditColumnsCommand.InitializeAsync(this, componentModel.GetService<IReportColumnsService>());
+            await CollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
         }
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)

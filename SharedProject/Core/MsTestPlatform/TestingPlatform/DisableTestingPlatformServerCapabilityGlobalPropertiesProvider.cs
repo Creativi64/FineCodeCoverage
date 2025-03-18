@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 {
@@ -24,7 +25,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             See https://learn.microsoft.com/en-gb/dotnet/api/microsoft.visualstudio.shell.interop.vsprojectcapabilityexpressionmatcher?view=visualstudiosdk-2022
             For expression syntax
     */
-    [AppliesTo("TestingPlatformServer.ExitOnProcessExitCapability | TestingPlatformServer.UseListTestsOptionForDiscoveryCapability")]
+    [AppliesTo("TestingPlatformServer.ExitOnProcessExitCapability | TestingPlatformServer.UseListTestsOptionForDiscoveryCapability | TestContainer")]
     internal class DisableTestingPlatformServerCapabilityGlobalPropertiesProvider : StaticGlobalPropertiesProviderBase
     {
         private readonly IUseTestingPlatformProtocolFeatureService useTestingPlatformProtocolFeatureService;
@@ -61,11 +62,28 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
+        private bool IsTUnit(CoverageProject coverageProject)
+        {
+            var projectElement = coverageProject.ProjectFileXElement;
+            var dns = projectElement.Name.Namespace;
+            var packageReferences = coverageProject.ProjectFileXElement.Descendants(dns + "PackageReference");
+            return packageReferences.Any(packageReference =>
+            {
+                var include = packageReference.Attribute("Include");
+                return include?.Value == "TUnit";
+            });
+        }
+
         private async Task<bool> ProjectEnabledAsync()
         {
             var coverageProject = await GetCoverageProjectAsync();
             if (coverageProject != null)
             {
+                var isTUnit = IsTUnit(coverageProject);
+                if (isTUnit)
+                {
+                    return false;
+                }
                 var projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
                 return projectSettings.Enabled;
             }
@@ -111,7 +129,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
                 Main thing is that FCC does not turn off if user has Enterprise which does support
                 the new feature and has turned off FCC.
             */
-            if (await UsingTestingPlatformProtocolAsync() && !AllProjectsDisabled() && await ProjectEnabledAsync())
+            if (/*await UsingTestingPlatformProtocolAsync() &&*/ !AllProjectsDisabled() && await ProjectEnabledAsync())
             {
                 // https://github.com/microsoft/testfx/blob/main/src/Platform/Microsoft.Testing.Platform.MSBuild/buildMultiTargeting/Microsoft.Testing.Platform.MSBuild.targets
                 return Empty.PropertiesMap.Add("DisableTestingPlatformServerCapability", "true");

@@ -182,6 +182,17 @@
 				<LocCanonicalName>FCC.EditColumns</LocCanonicalName>
 			</Strings>
 		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidCollectTUnitCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		     <Icon guid="ImageCatalogGuid" id="RunTest" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Collect TUnit</ButtonText>
+				<CommandName>Collect TUnit</CommandName>
+				<CanonicalName>FCC.CollectTUnit</CanonicalName>
+				<LocCanonicalName>FCC.CollectTUnit</LocCanonicalName>
+			</Strings>
+		</Button>
     </Buttons>
     
     <Menus>
@@ -223,6 +234,7 @@
 	  <IDSymbol value="265" name="cmdidOpenFundingCommand" />
 	  <IDSymbol value="266" name="cmdidToggleCoverageIndicatorsCommand" />
 	  <IDSymbol value="267" name="cmdidEditColumnsCommand" />
+	  <IDSymbol value="268" name="cmdidCollectTUnitCommand" />
     </GuidSymbol>
 
     <!-- from Monikers.imagemanifest -->
