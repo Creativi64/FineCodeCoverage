@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
