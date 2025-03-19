@@ -10,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Shell.ServiceBroker;
+using Microsoft.ServiceHub.Framework;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
