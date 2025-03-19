@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Output
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class CollectTUnitCommand
+    internal sealed class CancelCollectTUnitCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = PackageIds.cmdidCollectTUnitCommand;
+        public const int CommandId = PackageIds.cmdidCancelCollectTUnitCommand;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Output
         private readonly MenuCommand command;
         private readonly ITUnitCoverage tUnitCoverage;
 
-        public static CollectTUnitCommand Instance
+        public static CancelCollectTUnitCommand Instance
         {
             get;
             private set;
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Output
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             var dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
-            Instance = new CollectTUnitCommand(commandService, tUnitCoverage);
+            Instance = new CancelCollectTUnitCommand(commandService, tUnitCoverage);
         }
 
         /// <summary>
@@ -49,14 +49,15 @@ namespace FineCodeCoverage.Output
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private CollectTUnitCommand(OleMenuCommandService commandService, ITUnitCoverage tUnitCoverage)
+        private CancelCollectTUnitCommand(OleMenuCommandService commandService, ITUnitCoverage tUnitCoverage)
         {
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             this.command = new MenuCommand(this.Execute, menuCommandID);
+            this.command.Visible = false;
             tUnitCoverage.EnabledChanged += (_, enabled) => this.command.Enabled = enabled;
-            tUnitCoverage.CollectingChanged += (_, collecting) => this.command.Visible = !collecting;
+            tUnitCoverage.CollectingChanged += (_, collecting) => this.command.Visible = collecting;
             commandService.AddCommand(command);
             this.tUnitCoverage = tUnitCoverage;
         }
@@ -70,7 +71,7 @@ namespace FineCodeCoverage.Output
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
         {
-            tUnitCoverage.CollectCoverage();
+            tUnitCoverage.Cancel();
         }
     }
 }

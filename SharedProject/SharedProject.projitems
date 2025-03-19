@@ -420,6 +420,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\EditColumnsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\ILogger.cs" />

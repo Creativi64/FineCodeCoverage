@@ -117,6 +117,7 @@ namespace FineCodeCoverage.Output
             await OpenFundingCommand.InitializeAsync(this, componentModel.GetService<IFundingService>());
             await EditColumnsCommand.InitializeAsync(this, componentModel.GetService<IReportColumnsService>());
             await CollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
+            await CancelCollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
         }
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)

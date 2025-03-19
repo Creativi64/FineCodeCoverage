@@ -1,6 +1,9 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
+using FineCodeCoverage.Engine.Messages;
+using FineCodeCoverage.Output;
 using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -12,7 +15,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitCoverage))]
-    internal class TUnitCoverage : ITUnitCoverage
+    internal class TUnitCoverage : ITUnitCoverage, IListener<CoverageStartingMessage>, IListener<CoverageEndedMessage>
     {
         private readonly ITUnitProjectsProvider tUnitProjectsProvider;
         private readonly IBuildHelper buildHelper;
@@ -21,6 +24,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ICoverageToolOutputManager coverageToolOutputManager;
         private readonly IFCCEngine fccEngine;
         private readonly IFileUtil fileUtil;
+        private readonly IEventAggregator eventAggregator;
+        private readonly ILogger logger;
 
         [ImportingConstructor]
         public TUnitCoverage(
@@ -30,10 +35,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ITUnitRunner tUnitRunner,
             ICoverageToolOutputManager coverageToolOutputManager,
             IFCCEngine fccEngine,
-            IFileUtil fileUtil
+            IFileUtil fileUtil,
+            IEventAggregator eventAggregator,
+            ILogger logger
 
         )
         {
+            eventAggregator.AddListener(this);
             this.tUnitProjectsProvider = tUnitProjectsProvider;
             this.buildHelper = buildHelper;
             this.tUnitCoverageProjectFactory = tUnitCoverageProjectFactory;
@@ -41,59 +49,114 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.coverageToolOutputManager = coverageToolOutputManager;
             this.fccEngine = fccEngine;
             this.fileUtil = fileUtil;
+            this.eventAggregator = eventAggregator;
+            this.logger = logger;
         }
+
+        public event EventHandler<bool> EnabledChanged;
+        public event EventHandler<bool> CollectingChanged;
+
+        protected void OnEnabledChanged(bool enabled)
+        {
+            EnabledChanged?.Invoke(this, enabled);
+        }
+
+        protected void OnCollectingChanged(bool collecting)
+        {
+            isCollecting = collecting;
+            CollectingChanged?.Invoke(this, collecting);
+        }
+
+        public void Cancel()
+        {
+            // will store a cancellation token that pass to each method
+        }
+
+        private bool isCollecting;
         public void CollectCoverage()
         {
+            //eventAggregator.SendMessage(new CoverageStartingMessage());
             _ = Task.Run(async () => await CollectCoverageAsync());
         }
 
         private async Task CollectCoverageAsync()
         {
-            var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsWithCoverageExtensionAsync();
-            if (tUnitProjects.Any())
+            OnCollectingChanged(true);//order important
+            eventAggregator.SendMessage(new CoverageStartingMessage());
+            
+            var raiseCoverageEndedMessage = true;
+            try
             {
-                var buildSuccess = await buildHelper.BuildInDebugConfigAsync(tUnitProjects);
-                if (buildSuccess)
+                var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsWithCoverageExtensionAsync();
+                if (tUnitProjects.Any())
                 {
-                    var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject)));
-                    var coverageProjects = tUnitCoverageProjects.Select(tUnitCoverageProject => tUnitCoverageProject.CoverageProject).ToList();
-                    var runAllProjects = true;
-                    List<string> coberturaFiles = new List<string>();
-                    await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
-                    foreach (var tUnitCoverageProject in tUnitCoverageProjects)
+                    await logger.LogAsync("Starting build");
+                    var buildSuccess = await buildHelper.BuildInDebugConfigAsync(tUnitProjects);
+                    if (buildSuccess)
                     {
-                        var coverageProject = tUnitCoverageProject.CoverageProject;
-                        await coverageProject.PrepareForCoverageAsync(CancellationToken.None, false);
-                        var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
-                        //fileUtil.WriteAllText(configurationPath, tUnitCoverageProject.Configuration);                        
-                        var coberturaPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
-                        await Task.Yield();//todo was this how to get off ui thread ?
-                        var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath);
-                        if (success)
+                        var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject)));
+                        var coverageProjects = tUnitCoverageProjects.Select(tUnitCoverageProject => tUnitCoverageProject.CoverageProject).ToList();
+
+                        await logger.LogAsync($"Collecting coverage for {coverageProjects.Count} TUnit test projects with coverage extension");
+                        var runAllProjects = true;
+                        List<string> coberturaFiles = new List<string>();
+                        await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
+                        foreach (var tUnitCoverageProject in tUnitCoverageProjects)
                         {
-                            coberturaFiles.Add(coberturaPath);
+                            var coverageProject = tUnitCoverageProject.CoverageProject;
+                            await coverageProject.PrepareForCoverageAsync(CancellationToken.None, false);
+                            var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
+                            //fileUtil.WriteAllText(configurationPath, tUnitCoverageProject.Configuration);                        
+                            var coberturaPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
+                            await Task.Yield();//todo was this how to get off ui thread ?
+                            var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath);
+                            if (success)
+                            {
+                                coberturaFiles.Add(coberturaPath);
+                            }
+                            else
+                            {
+                                // show message box
+                                runAllProjects = false;
+                            }
                         }
-                        else
+                        if (runAllProjects)
                         {
-                            // show message box
-                            runAllProjects = false;
+                            raiseCoverageEndedMessage = false;
+                            fccEngine.RunAndProcessReport(coberturaFiles.ToArray(), coverageProjects);
                         }
                     }
-                    if (runAllProjects)
+                    else
                     {
-                        fccEngine.RunAndProcessReport(coberturaFiles.ToArray(), coverageProjects);
+                        await logger.LogAsync("Unsuccessful build.  Not collecting coverage");
                     }
                 }
                 else
                 {
-                    //todo - show a message box ?
+                    await logger.LogAsync("No Tunit test projects with Microsoft.Testing.Extensions.CodeCoverage");
                 }
-            }
-            else
+            }catch(Exception exc)
             {
-                // todo - show a message box ?
+                await logger.LogAsync(exc.ToString());
             }
+            if (raiseCoverageEndedMessage)
+            {
+                eventAggregator.SendMessage(new CoverageEndedMessage());
+            }
+            OnCollectingChanged(false);
+        }
 
+        public void Handle(CoverageStartingMessage message)
+        {
+            if (!isCollecting)
+            {
+                OnEnabledChanged(false);
+            }
+        }
+
+        public void Handle(CoverageEndedMessage message)
+        {
+            OnEnabledChanged(true);
         }
     }
 }

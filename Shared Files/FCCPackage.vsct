@@ -186,11 +186,24 @@
 			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
 		     <Icon guid="ImageCatalogGuid" id="RunTest" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
+			<CommandFlag>DynamicVisibility</CommandFlag>
 			<Strings>
 				<ButtonText>Collect TUnit</ButtonText>
 				<CommandName>Collect TUnit</CommandName>
 				<CanonicalName>FCC.CollectTUnit</CanonicalName>
 				<LocCanonicalName>FCC.CollectTUnit</LocCanonicalName>
+			</Strings>
+		</Button>
+			<Button guid="guidFCCPackageCmdSet" id="cmdidCancelCollectTUnitCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+	        <Icon guid="ImageCatalogGuid" id="CancelTest" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<CommandFlag>DynamicVisibility</CommandFlag>
+			<Strings>
+				<ButtonText>Cancel Collect TUnit</ButtonText>
+				<CommandName>Cancel Collect TUnit</CommandName>
+				<CanonicalName>FCC.CancelCollectTUnit</CanonicalName>
+				<LocCanonicalName>FCC.CancelCollectTUnit</LocCanonicalName>
 			</Strings>
 		</Button>
     </Buttons>
@@ -235,6 +248,7 @@
 	  <IDSymbol value="266" name="cmdidToggleCoverageIndicatorsCommand" />
 	  <IDSymbol value="267" name="cmdidEditColumnsCommand" />
 	  <IDSymbol value="268" name="cmdidCollectTUnitCommand" />
+	  <IDSymbol value="269" name="cmdidCancelCollectTUnitCommand" />
     </GuidSymbol>
 
     <!-- from Monikers.imagemanifest -->
