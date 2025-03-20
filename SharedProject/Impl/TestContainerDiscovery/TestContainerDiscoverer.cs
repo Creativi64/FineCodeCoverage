@@ -17,6 +17,7 @@ using FineCodeCoverage.Engine.Messages;
 using ILogger = FineCodeCoverage.Output.ILogger;
 using FineCodeCoverage.Output;
 using System.Threading.Tasks;
+using FineCodeCoverage.Impl.TestContainerDiscovery;
 
 namespace FineCodeCoverage.Impl
 {
@@ -36,6 +37,7 @@ namespace FineCodeCoverage.Impl
         private readonly IAppOptionsProvider appOptionsProvider;
         private readonly IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService;
         private readonly IEventAggregator eventAggregator;
+        private readonly ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer;
         internal Dictionary<TestOperationStates, Func<IOperation, Task>> testOperationStateChangeHandlers;
         private bool cancelling;
         private MsCodeCoverageCollectionStatus msCodeCoverageCollectionStatus;
@@ -64,12 +66,14 @@ namespace FineCodeCoverage.Impl
             ILogger logger,
             IAppOptionsProvider appOptionsProvider,
             IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
-            IEventAggregator eventAggregator
+            IEventAggregator eventAggregator,
+            ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer
         )
         {
             this.appOptionsProvider = appOptionsProvider;
             this.msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
             this.eventAggregator = eventAggregator;
+            this.coverageCollectableFromTestExplorer = coverageCollectableFromTestExplorer;
             this.fccEngine = fccEngine;
             this.testOperationStateInvocationManager = testOperationStateInvocationManager;
             this.testOperationFactory = testOperationFactory;
@@ -264,7 +268,7 @@ namespace FineCodeCoverage.Impl
         private async Task OperationState_StateChangedAsync(OperationStateChangedEventArgs e)
         {
             if (testOperationStateChangeHandlers.TryGetValue(e.State, out var handler)) {
-                if (await testOperationStateInvocationManager.CanInvokeAsync(e.State))
+                if (await coverageCollectableFromTestExplorer.IsCollectableAsync() && await testOperationStateInvocationManager.CanInvokeAsync(e.State))
                 {
                     await handler(e.Operation);
                 }

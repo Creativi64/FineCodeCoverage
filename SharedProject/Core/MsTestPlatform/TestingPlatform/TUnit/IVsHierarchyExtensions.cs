@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
 using System;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -33,6 +34,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 out Guid projectGuid);
 
             return projectGuid;
+        }
+
+        public async static Task<Guid> GetGuidAsync(this IVsHierarchy hierarchy)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            return GetGuid(hierarchy);
         }
     }
 }

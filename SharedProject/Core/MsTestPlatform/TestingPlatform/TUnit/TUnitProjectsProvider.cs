@@ -1,110 +1,95 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
-using Microsoft.VisualStudio;
 using NuGet.VisualStudio.Contracts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Shell.ServiceBroker;
-using Microsoft.ServiceHub.Framework;
+using FineCodeCoverage.Output;
+using System.Linq;
+using System;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitProjectsProvider))]
     internal class TUnitProjectsProvider : ITUnitProjectsProvider
     {
-        private readonly IServiceProvider serviceProvider;
-        private readonly AsyncLazy<INuGetProjectService> lazyNugetProjectService;
+        private readonly ITestProjectsProvider testProjectsProvider;
+        private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
+        private readonly ITUnitProjectFactory tUnitProjectFactory;
+        private readonly ILogger logger;
+        private readonly ITUnitProjectCache tUnitProjectCache;
+        private readonly Dictionary<InstalledPackageResultStatus, string> unsuccessfulNugetPackageResultLogs = new Dictionary<InstalledPackageResultStatus, string>
+        {
+            { InstalledPackageResultStatus.Unknown,"Nuget unknown status : Probably represents a bug in the method that created the result"},
+            { InstalledPackageResultStatus.ProjectInvalid,"Nuget package invalid status: Package information could not be retrieved because the project is in an invalid state" },
+            { InstalledPackageResultStatus.ProjectNotReady,"Nuget package project not ready: Please try again shortly" }
+        };
+        private bool initializedCache;
 
         [ImportingConstructor]
         public TUnitProjectsProvider(
-            [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider,
-            AsyncServiceProviderProvider asyncServiceProviderProvider
+            ITestProjectsProvider testProjectsProvider,
+            ITUnitInstalledPackagesService tUnitInstalledPackagesService,
+            ITUnitChangeNotifier tUnitChangeNotifier,
+            ITUnitProjectFactory tUnitprojectFactory,
+            ILogger logger,
+            ITUnitProjectCache tUnitProjectCache
         )
         {
-            this.serviceProvider = serviceProvider;
-            lazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
-            {
-                var brokeredServiceContainer = await asyncServiceProviderProvider.Provider.GetServiceAsync<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
-                IServiceBroker serviceBroker = brokeredServiceContainer.GetFullAccessServiceBroker();
-#pragma warning disable ISB001 // Dispose of proxies
-                INuGetProjectService nugetProjectService = await serviceBroker.GetProxyAsync<INuGetProjectService>(NuGetServices.NuGetProjectServiceV1);
-#pragma warning restore ISB001 // Dispose of proxies
-                return nugetProjectService;
-            }, ThreadHelper.JoinableTaskFactory);
+            tUnitChangeNotifier.ProjectAddedRemovedEvent += TUnitChangeNotifier_ProjectAddedRemovedEvent;
+            tUnitChangeNotifier.PackageChangeEvent += TUnitChangeNotifier_PackageChangeEvent;
+            tUnitChangeNotifier.SolutionClosedEvent += TUnitChangeNotifier_SolutionClosedEvent;
+            this.testProjectsProvider = testProjectsProvider;
+            this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+            this.tUnitProjectFactory = tUnitprojectFactory;
+            this.logger = logger;
+            this.tUnitProjectCache = tUnitProjectCache;
         }
+
+        private void TUnitChangeNotifier_SolutionClosedEvent(object sender, System.EventArgs e)
+        {
+            if (initializedCache)
+            {
+                tUnitProjectCache.Clear();
+                initializedCache = false;
+            }
+        }
+
+        private void TUnitChangeNotifier_PackageChangeEvent(object sender, EventArgs _)
+        {
+            if (initializedCache)
+            {
+                tUnitProjectCache.Invalidate();
+            }
+        }
+
+        private void TUnitChangeNotifier_ProjectAddedRemovedEvent(object sender, ProjectAddedRemoved e)
+        {
+            if (initializedCache && testProjectsProvider.IsTestProject(e.Project))
+            {
+                if (e.Added)
+                {
+                    tUnitProjectCache.Add(tUnitProjectFactory.Create(e.Project));
+                } else
+                {
+                    tUnitProjectCache.Remove(e.Project);
+                }
+            }
+        }
+
         public async Task<List<IVsHierarchy>> GetTUnitProjectsWithCoverageExtensionAsync()
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-            var result = vsSolution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, Guid.Empty, out var enumHierarchies);
-            if (result == VSConstants.S_OK)
+            if (!initializedCache)
             {
-                return await GetApplicableProjectsAsync(enumHierarchies);
-            }
-            return Enumerable.Empty<IVsHierarchy>().ToList();
-        }
-        private async Task<List<IVsHierarchy>> GetApplicableProjectsAsync(IEnumHierarchies vsEnumHierarchies)
-        {
-            List<IVsHierarchy> applicableProjects = new List<IVsHierarchy>();
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            IVsHierarchy[] rgelt = new IVsHierarchy[1];
-            uint fetched = 0;
-            while (vsEnumHierarchies.Next(1, rgelt, out fetched) == VSConstants.S_OK && fetched > 0)
-            {
-                IVsHierarchy projectHierarchy = rgelt[0];
-                if (await IsApplicableProjectAsync(projectHierarchy))
-                {
-                    applicableProjects.Add(projectHierarchy);
-                }
-            }
-            return applicableProjects;
-        }
+                var testProjects = await testProjectsProvider.ProvideAsync();
+                var potentialTUnitProjects = testProjects.Select(tp => tUnitProjectFactory.Create(tp)).ToList();
+                tUnitProjectCache.Initialize(potentialTUnitProjects);
+                initializedCache = true;
 
-        private async Task<bool> IsApplicableProjectAsync(IVsHierarchy project)
-        {
-            /*
-                could have used ?
-                from TUnit.Engine.props
-                <IsTestProject>true</IsTestProject>
-            */
-            return project.IsCapabilityMatch("TestContainer") && await IsTUnitWithCoverageExtensionAsync(project);
-        }
-
-        private async Task<bool> IsTUnitWithCoverageExtensionAsync(IVsHierarchy vsHierarchy)
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var isTUnitWithCoverageExtension = false;
-            var nugetProjectService = await lazyNugetProjectService.GetValueAsync();
-            // might throw ?
-            var installedPackagesResult = await nugetProjectService.GetInstalledPackagesAsync(vsHierarchy.GetGuid(), CancellationToken.None);
-            if (installedPackagesResult.Status == InstalledPackageResultStatus.Successful)
-            {
-                var hasTUnit = false;
-                var hasCoverageExtension = false;
-                foreach (var package in installedPackagesResult.Packages)
-                {
-                    var id = package.Id;
-                    if (id == "TUnit")
-                    {
-                        hasTUnit = true;
-                        continue;
-                    }
-                    if (id == "Microsoft.Testing.Extensions.CodeCoverage")
-                    {
-                        hasCoverageExtension = true;
-                    }
-                }
-                isTUnitWithCoverageExtension = hasTUnit && hasCoverageExtension;
             }
-            return isTUnitWithCoverageExtension;
+            var tUnitProjects = await tUnitProjectCache.GetTUnitProjectsAsync();
+            return tUnitProjects.ConvertAll(tUnitProject => tUnitProject.Hierarchy);
         }
     }
-
 }

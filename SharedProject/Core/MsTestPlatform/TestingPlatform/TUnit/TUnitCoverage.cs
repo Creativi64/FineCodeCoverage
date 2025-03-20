@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
+using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
 using Microsoft.CodeAnalysis;
 using System;
@@ -11,11 +12,12 @@ using System.Linq;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitCoverage))]
-    internal class TUnitCoverage : ITUnitCoverage, IListener<CoverageStartingMessage>, IListener<CoverageEndedMessage>
+    [Export(typeof(ICoverageCollectableFromTestExplorer))]
+
+    internal class TUnitCoverage : ITUnitCoverage, ICoverageCollectableFromTestExplorer, IListener<CoverageStartingMessage>, IListener<CoverageEndedMessage>
     {
         private readonly ITUnitProjectsProvider tUnitProjectsProvider;
         private readonly IBuildHelper buildHelper;
@@ -26,6 +28,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly IFileUtil fileUtil;
         private readonly IEventAggregator eventAggregator;
         private readonly ILogger logger;
+        private int coverageRunNumber = 1;
 
         [ImportingConstructor]
         public TUnitCoverage(
@@ -75,15 +78,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private bool isCollecting;
         public void CollectCoverage()
         {
-            //eventAggregator.SendMessage(new CoverageStartingMessage());
             _ = Task.Run(async () => await CollectCoverageAsync());
+        }
+
+        private Task LogCoverageStartingAsync()
+        {
+            return logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {coverageRunNumber++}"));
         }
 
         private async Task CollectCoverageAsync()
         {
+            await LogCoverageStartingAsync();
+            eventAggregator.SendMessage(new NewReportMessage(null, null)); // clear existing report
+
             OnCollectingChanged(true);//order important
             eventAggregator.SendMessage(new CoverageStartingMessage());
-            
+
             var raiseCoverageEndedMessage = true;
             try
             {
@@ -157,6 +167,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public void Handle(CoverageEndedMessage message)
         {
             OnEnabledChanged(true);
+        }
+
+        async System.Threading.Tasks.Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
+        {
+            var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsWithCoverageExtensionAsync();
+            return !tunitProjects.Any();
         }
     }
 }

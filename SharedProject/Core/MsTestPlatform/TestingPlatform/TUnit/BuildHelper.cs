@@ -58,8 +58,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
             var dependencies = ProjectDependencyHelper.GetTransitiveDependencies(solutionBuildManager2, projects);
             var projectsToBuild = projects.Concat(dependencies).ToArray();
-            //todo
-            IVsCfg[] configs = new IVsCfg[projectsToBuild.Length];
             var buildHandler = new BuildCompletionHandler();
             int hr = solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
             ErrorHandler.ThrowOnFailure(hr);

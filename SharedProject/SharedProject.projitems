@@ -140,15 +140,30 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\DisableTestingPlatformServerCapabilityGlobalPropertiesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\BuildHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\IBuildHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\INugetProjectServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ISolutionProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITestProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitChangeNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\IUseTestingPlatformProtocolFeatureService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitCoverageProjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitInstalledPackagesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitProjectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\IVsHierarchyExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\NugetProjectServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ProjectDependencyHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\SolutionProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TestProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitChangeNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitCoverageProjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitInstalledPackagesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitProjectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\UseTestingPlatformProtocolFeatureService.cs" />
@@ -418,6 +433,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Github\NewIssueDialogWindow.xaml.cs">
       <DependentUpon>NewIssueDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ICoverageCollectableFromTestExplorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CancelCollectTUnitCommand.cs" />

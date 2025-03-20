@@ -194,6 +194,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
+    <PackageReference Include="NuGet.VisualStudio">
+      <Version>5.11.6</Version>
+    </PackageReference>
     <PackageReference Include="NuGet.VisualStudio.Contracts">
       <Version>5.11.6</Version>
     </PackageReference>

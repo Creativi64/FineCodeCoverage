@@ -183,6 +183,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
+    <PackageReference Include="NuGet.VisualStudio">
+      <Version>17.13.2</Version>
+    </PackageReference>
     <PackageReference Include="NuGet.VisualStudio.Contracts">
       <Version>17.13.2</Version>
     </PackageReference>
