@@ -15,15 +15,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         class TUnitCoverageProject : ITUnitCoverageProject
         {
-            public TUnitCoverageProject(string exePath, string configuration, ICoverageProject coverageProject)
+            public TUnitCoverageProject(
+                string exePath,
+                string configuration,
+                ICoverageProject coverageProject,
+                IVsHierarchy vsHierarchy
+            )
             {
                 ExePath = exePath;
                 Configuration = configuration;
                 CoverageProject = coverageProject;
+                VsHierarchy = vsHierarchy;
             }
             public string ExePath { get; }
             public string Configuration { get; }
             public ICoverageProject CoverageProject { get; }
+            public IVsHierarchy VsHierarchy { get; }
         }
 
         [ImportingConstructor]
@@ -61,7 +68,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var exePath = Path.ChangeExtension(coverageProject.TestDllFile, ".exe");
 
             //todo configuration
-            return new TUnitCoverageProject(exePath, "", coverageProject);
+            return new TUnitCoverageProject(exePath, "", coverageProject, project);
         }
     }
 

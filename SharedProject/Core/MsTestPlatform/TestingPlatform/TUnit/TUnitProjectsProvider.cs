@@ -1,13 +1,9 @@
 ﻿using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
-using NuGet.VisualStudio.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Output;
 using System.Linq;
-using System;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -15,34 +11,27 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class TUnitProjectsProvider : ITUnitProjectsProvider
     {
         private readonly ITestProjectsProvider testProjectsProvider;
-        private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
         private readonly ITUnitProjectFactory tUnitProjectFactory;
+        private readonly ICPSProjectService cpsProjectService;
         private readonly ILogger logger;
         private readonly ITUnitProjectCache tUnitProjectCache;
-        private readonly Dictionary<InstalledPackageResultStatus, string> unsuccessfulNugetPackageResultLogs = new Dictionary<InstalledPackageResultStatus, string>
-        {
-            { InstalledPackageResultStatus.Unknown,"Nuget unknown status : Probably represents a bug in the method that created the result"},
-            { InstalledPackageResultStatus.ProjectInvalid,"Nuget package invalid status: Package information could not be retrieved because the project is in an invalid state" },
-            { InstalledPackageResultStatus.ProjectNotReady,"Nuget package project not ready: Please try again shortly" }
-        };
         private bool initializedCache;
 
         [ImportingConstructor]
         public TUnitProjectsProvider(
             ITestProjectsProvider testProjectsProvider,
-            ITUnitInstalledPackagesService tUnitInstalledPackagesService,
             ITUnitChangeNotifier tUnitChangeNotifier,
-            ITUnitProjectFactory tUnitprojectFactory,
+            ITUnitProjectFactory tUnitProjectFactory,
+            ICPSProjectService vsProjectService,
             ILogger logger,
             ITUnitProjectCache tUnitProjectCache
         )
         {
             tUnitChangeNotifier.ProjectAddedRemovedEvent += TUnitChangeNotifier_ProjectAddedRemovedEvent;
-            tUnitChangeNotifier.PackageChangeEvent += TUnitChangeNotifier_PackageChangeEvent;
             tUnitChangeNotifier.SolutionClosedEvent += TUnitChangeNotifier_SolutionClosedEvent;
             this.testProjectsProvider = testProjectsProvider;
-            this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
-            this.tUnitProjectFactory = tUnitprojectFactory;
+            this.tUnitProjectFactory = tUnitProjectFactory;
+            this.cpsProjectService = vsProjectService;
             this.logger = logger;
             this.tUnitProjectCache = tUnitProjectCache;
         }
@@ -56,21 +45,23 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
         }
 
-        private void TUnitChangeNotifier_PackageChangeEvent(object sender, EventArgs _)
-        {
-            if (initializedCache)
-            {
-                tUnitProjectCache.Invalidate();
-            }
-        }
-
         private void TUnitChangeNotifier_ProjectAddedRemovedEvent(object sender, ProjectAddedRemoved e)
         {
+            /*
+                implementation is using project capability
+                unlikely that the capability would change - could look at IProjectSnapshotWithCapabilitiesService / IProjectCapabilitiesScope ( ProjectServices.Capabilities )
+            */
             if (initializedCache && testProjectsProvider.IsTestProject(e.Project))
             {
                 if (e.Added)
                 {
-                    tUnitProjectCache.Add(tUnitProjectFactory.Create(e.Project));
+                    // should really align the configuration that build with the ConfiguredProject
+                    // unlikely with a TUnit project that package references will depend on configuration
+                    var cpsProject = cpsProjectService.GetProject(e.Project);
+                    if(cpsProject != null)
+                    {
+                        tUnitProjectCache.Add(tUnitProjectFactory.Create(e.Project,cpsProject));
+                    }
                 } else
                 {
                     tUnitProjectCache.Remove(e.Project);
@@ -78,18 +69,26 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
         }
 
-        public async Task<List<IVsHierarchy>> GetTUnitProjectsWithCoverageExtensionAsync()
+        public async Task<List<ITUnitProject>> GetTUnitProjectsAsync()
         {
             if (!initializedCache)
             {
+                var potentialTUnitProjects = new List<ITUnitProject>();
                 var testProjects = await testProjectsProvider.ProvideAsync();
-                var potentialTUnitProjects = testProjects.Select(tp => tUnitProjectFactory.Create(tp)).ToList();
+                foreach (var testProject in testProjects)
+                {
+                    var cpsProject = await cpsProjectService.GetProjectAsync(testProject);
+                    if (cpsProject != null)
+                    {
+                        var tUnitProject = tUnitProjectFactory.Create(testProject, cpsProject);
+                        potentialTUnitProjects.Add(tUnitProject);
+                    }
+                }
                 tUnitProjectCache.Initialize(potentialTUnitProjects);
                 initializedCache = true;
-
             }
-            var tUnitProjects = await tUnitProjectCache.GetTUnitProjectsAsync();
-            return tUnitProjects.ConvertAll(tUnitProject => tUnitProject.Hierarchy);
+
+            return await tUnitProjectCache.GetTUnitProjectsAsync();
         }
     }
 }

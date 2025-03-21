@@ -10,7 +10,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class TUnitProjectCache : ITUnitProjectCache
     {
         private Dictionary<IVsHierarchy, ITUnitProject> projectLookup;
-        private bool invalid;
         public void Add(ITUnitProject tUnitProject)
         {
             projectLookup.Add(tUnitProject.Hierarchy, tUnitProject);
@@ -18,8 +17,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public void Clear()
         {
+            foreach(var tUnitproject in projectLookup.Values)
+            {
+                tUnitproject.Dispose();
+            }
             projectLookup = null;
-            invalid = false;
         }
 
         public async Task<List<ITUnitProject>> GetTUnitProjectsAsync()
@@ -27,13 +29,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var tUnitProjects = new List<ITUnitProject>();
             foreach (var project in projectLookup.Values)
             {
-                await project.UpdateStateAsync(invalid);
+                await project.UpdateStateAsync();
                 if (project.IsTUnit)
                 {
                     tUnitProjects.Add(project);
                 }
             }
-            invalid = false;
             return tUnitProjects;
 
         }
@@ -43,13 +44,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             projectLookup = tUnitProjects.ToDictionary(p => p.Hierarchy);
         }
 
-        public void Invalidate()
-        {
-            invalid = true;
-        }
-
         public void Remove(IVsHierarchy project)
         {
+            projectLookup[project].Dispose();
             projectLookup.Remove(project);
         }
     }

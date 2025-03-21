@@ -6,8 +6,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     internal interface ITUnitProjectCache
     {
-        void Invalidate();
-
         void Initialize(List<ITUnitProject> tUnitProjects);
         Task<List<ITUnitProject>> GetTUnitProjectsAsync();
         void Remove(IVsHierarchy project);

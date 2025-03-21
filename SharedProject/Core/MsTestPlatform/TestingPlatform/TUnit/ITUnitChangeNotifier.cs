@@ -16,7 +16,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
     internal interface ITUnitChangeNotifier
     {
-        event EventHandler PackageChangeEvent;
         event EventHandler<ProjectAddedRemoved> ProjectAddedRemovedEvent;
         event EventHandler SolutionClosedEvent;
     }

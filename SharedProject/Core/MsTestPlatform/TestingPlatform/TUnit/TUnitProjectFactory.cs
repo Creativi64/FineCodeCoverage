@@ -1,8 +1,12 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio.Contracts;
+using System;
+using System.Collections.Immutable;
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -11,35 +15,103 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
 
-        class TUnitProject : ITUnitProject
+        class TUnitProject : ITUnitProject, IDisposable
         {
             private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
+            private IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems;
             private bool requiresUpdate = true;
-            public TUnitProject(ITUnitInstalledPackagesService tUnitInstalledPackagesService, IVsHierarchy hierarchy)
+            private bool disposedValue;
+            private readonly IDisposable packageChangeSubscription;
+
+            /*
+                in VS2022 there is also
+                https://learn.microsoft.com/en-us/visualstudio/extensibility/visualstudio.extensibility/project/project?view=vs-2022
+                https://learn.microsoft.com/en-us/visualstudio/extensibility/project-visual-studio-sdk?view=vs-2022  o
+            */
+
+            public TUnitProject(ITUnitInstalledPackagesService tUnitInstalledPackagesService, IVsHierarchy hierarchy, ConfiguredProject configuredProject)
             {
-                Hierarchy = hierarchy;
+                this.Hierarchy = hierarchy;
                 this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+                this.packageChangeSubscription = this.SubscribeToPackageReferenceChanges(configuredProject);
+            }
+
+            private IDisposable SubscribeToPackageReferenceChanges(ConfiguredProject configuredProject)
+            {
+                // there is ActiveConfiguredProjectSubscription but not available in 2019
+                var subscriptionService = configuredProject.Services.ProjectSubscription;
+                var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(ProjectUpdateAsync);
+                return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: new string[] { "PackageReference" });
+            }
+
+            /*
+                Idea was to use Nuget api, but
+                IVsPackageInstallerEvents
+                These events are only raised for packages.config projects. 
+                To get updates for both packages.config and PackageReference use IVsNuGetProjectUpdateEvents instead.
+
+                But IVsNuGetProjectUpdateEvents shipped in version 6.2 - Visual Studio 2022
+
+                --
+                Also note that IVSProject4 has PackageReferences but the project is IVSProject !
+                and cannot get change event from VSProjectEvents.ReferencesEvents
+            */
+
+            /*
+                if did not want real-time changes then could have used configuredProject.Services.PackageReferences
+                public interface IPackageReference : IReference
+                {
+                } 
+            */
+
+            private Task ProjectUpdateAsync(IProjectVersionedValue<IProjectSubscriptionUpdate> update)
+            {
+                // if need to switch to the main thread will need CPS IThreadHandling 
+                // This runs on a background thread. 
+                packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
+                requiresUpdate = true;
+                return Task.CompletedTask;
             }
             public bool IsTUnit { get; private set; }
             public bool HasCoverageExtension { get; private set; }
             public IVsHierarchy Hierarchy { get; }
 
-            public async Task UpdateStateAsync(bool force)
+            public async Task UpdateStateAsync()
             {
-                if (requiresUpdate || force)
+                if (requiresUpdate)
                 {
                     var installedPackagesResult = await tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), CancellationToken.None);
-                    if (installedPackagesResult.Status == InstalledPackageResultStatus.Successful)
+                    if (installedPackagesResult.Status != InstalledPackageResultStatus.Successful)
                     {
-                        IsTUnit = installedPackagesResult.HasTUnit;
-                        HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
+                        // fallback but not transitive
+                        // the data flow block should get data immediately
+                        installedPackagesResult = tUnitInstalledPackagesService.GetTUnitInstalledPackages(packageReferenceItems);
                     }
-                    else
-                    {
-                        //todo
-                    }
+
+                    IsTUnit = installedPackagesResult.HasTUnit;
+                    HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
+
                     requiresUpdate = false;
                 }
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        packageChangeSubscription.Dispose();
+                    }
+
+                    disposedValue = true;
+                }
+            }
+            public void Dispose()
+            {
+                // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+                Dispose(disposing: true);
+                GC.SuppressFinalize(this);
             }
         }
 
@@ -51,9 +123,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
         }
-        public ITUnitProject Create(IVsHierarchy project)
+        public ITUnitProject Create(IVsHierarchy hierarchy,ConfiguredProject configuredProject)
         {
-            return new TUnitProject(tUnitInstalledPackagesService, project);
+            return new TUnitProject(tUnitInstalledPackagesService, hierarchy, configuredProject);
         }
     }
 }

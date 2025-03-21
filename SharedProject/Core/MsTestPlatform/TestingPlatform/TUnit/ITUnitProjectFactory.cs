@@ -1,20 +1,21 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.Shell.Interop;
+using System;
 using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal interface ITUnitProject
+    internal interface ITUnitProject : IDisposable
     {
-        //IVsHierarchy VsHierarchy { get; } // just need the Guid
         bool IsTUnit { get;} // probably will not change
         bool HasCoverageExtension { get;} // could change
         IVsHierarchy Hierarchy { get; }
 
-        Task UpdateStateAsync(bool force);
+        Task UpdateStateAsync();
     }
 
     internal interface ITUnitProjectFactory
     {
-        ITUnitProject Create(IVsHierarchy project);
+        ITUnitProject Create(IVsHierarchy project, ConfiguredProject unconfiguredProject);
     }
 }

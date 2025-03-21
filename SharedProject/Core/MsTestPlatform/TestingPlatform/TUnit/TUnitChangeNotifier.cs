@@ -6,22 +6,9 @@ using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-
-    /*
-        Idea was to use Nuget api, but
-        IVsPackageInstallerEvents
-        These events are only raised for packages.config projects. 
-        To get updates for both packages.config and PackageReference use IVsNuGetProjectUpdateEvents instead.
-
-        But IVsNuGetProjectUpdateEvents shipped in version 6.2 - Visual Studio 2022
-
-        VSProject interfaces only alternative.
-    */
-
     [Export(typeof(ITUnitChangeNotifier))]
     internal class TUnitChangeNotifier : ITUnitChangeNotifier, IVsSolutionEvents
     {
-        public event EventHandler PackageChangeEvent;
         public event EventHandler<ProjectAddedRemoved> ProjectAddedRemovedEvent;
         public event EventHandler SolutionClosedEvent;
 

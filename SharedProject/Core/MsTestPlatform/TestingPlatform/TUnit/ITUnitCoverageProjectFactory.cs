@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         string ExePath { get; }
         string Configuration { get; }
         ICoverageProject CoverageProject { get; }
+        IVsHierarchy VsHierarchy { get; }
     }
     internal interface ITUnitCoverageProjectFactory
     {

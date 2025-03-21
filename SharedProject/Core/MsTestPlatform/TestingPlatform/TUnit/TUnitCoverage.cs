@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
@@ -17,7 +18,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(ITUnitCoverage))]
     [Export(typeof(ICoverageCollectableFromTestExplorer))]
 
-    internal class TUnitCoverage : ITUnitCoverage, ICoverageCollectableFromTestExplorer, IListener<CoverageStartingMessage>, IListener<CoverageEndedMessage>
+    internal class TUnitCoverage : ITUnitCoverage, ICoverageCollectableFromTestExplorer
     {
         private readonly ITUnitProjectsProvider tUnitProjectsProvider;
         private readonly IBuildHelper buildHelper;
@@ -44,7 +45,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         )
         {
-            eventAggregator.AddListener(this);
             this.tUnitProjectsProvider = tUnitProjectsProvider;
             this.buildHelper = buildHelper;
             this.tUnitCoverageProjectFactory = tUnitCoverageProjectFactory;
@@ -56,17 +56,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.logger = logger;
         }
 
-        public event EventHandler<bool> EnabledChanged;
         public event EventHandler<bool> CollectingChanged;
-
-        protected void OnEnabledChanged(bool enabled)
-        {
-            EnabledChanged?.Invoke(this, enabled);
-        }
 
         protected void OnCollectingChanged(bool collecting)
         {
-            isCollecting = collecting;
             CollectingChanged?.Invoke(this, collecting);
         }
 
@@ -75,7 +68,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             // will store a cancellation token that pass to each method
         }
 
-        private bool isCollecting;
         public void CollectCoverage()
         {
             _ = Task.Run(async () => await CollectCoverageAsync());
@@ -84,6 +76,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private Task LogCoverageStartingAsync()
         {
             return logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {coverageRunNumber++}"));
+        }
+
+        private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitCoverageProjectsAsync()
+        {
+            var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync();
+            var tUnitProjectHierarchies = tUnitProjects.Where(tp => tp.HasCoverageExtension).Select(tp => tp.Hierarchy).ToList();
+            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjectHierarchies.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject)));
+            return tUnitCoverageProjects.Where(tp => tp.CoverageProject.Settings.Enabled).ToList();
         }
 
         private async Task CollectCoverageAsync()
@@ -97,20 +97,20 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var raiseCoverageEndedMessage = true;
             try
             {
-                var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsWithCoverageExtensionAsync();
-                if (tUnitProjects.Any())
+                var tUnitCoverageProjects = await GetEnabledTUnitCoverageProjectsAsync();
+                if (tUnitCoverageProjects.Any())
                 {
                     await logger.LogAsync("Starting build");
-                    var buildSuccess = await buildHelper.BuildInDebugConfigAsync(tUnitProjects);
+                    var buildSuccess = await buildHelper.BuildInDebugConfigAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy));
                     if (buildSuccess)
                     {
-                        var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject)));
-                        var coverageProjects = tUnitCoverageProjects.Select(tUnitCoverageProject => tUnitCoverageProject.CoverageProject).ToList();
+                        await logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
 
-                        await logger.LogAsync($"Collecting coverage for {coverageProjects.Count} TUnit test projects with coverage extension");
+                        var coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
+                        await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
+
                         var runAllProjects = true;
                         List<string> coberturaFiles = new List<string>();
-                        await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
                         foreach (var tUnitCoverageProject in tUnitCoverageProjects)
                         {
                             var coverageProject = tUnitCoverageProject.CoverageProject;
@@ -130,6 +130,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                                 runAllProjects = false;
                             }
                         }
+
                         if (runAllProjects)
                         {
                             raiseCoverageEndedMessage = false;
@@ -143,7 +144,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 }
                 else
                 {
-                    await logger.LogAsync("No Tunit test projects with Microsoft.Testing.Extensions.CodeCoverage");
+                    await logger.LogAsync("No enabled Tunit test projects with Microsoft.Testing.Extensions.CodeCoverage");
                 }
             }catch(Exception exc)
             {
@@ -156,22 +157,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             OnCollectingChanged(false);
         }
 
-        public void Handle(CoverageStartingMessage message)
-        {
-            if (!isCollecting)
-            {
-                OnEnabledChanged(false);
-            }
-        }
 
-        public void Handle(CoverageEndedMessage message)
-        {
-            OnEnabledChanged(true);
-        }
 
         async System.Threading.Tasks.Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
-            var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsWithCoverageExtensionAsync();
+            var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsAsync();
             return !tunitProjects.Any();
         }
     }

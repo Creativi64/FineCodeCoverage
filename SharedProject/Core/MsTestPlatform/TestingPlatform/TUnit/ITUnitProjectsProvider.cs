@@ -6,6 +6,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     internal interface ITUnitProjectsProvider
     {
-        Task<List<IVsHierarchy>> GetTUnitProjectsWithCoverageExtensionAsync();
+        Task<List<ITUnitProject>> GetTUnitProjectsAsync();
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel.Composition;
+using System.Collections.Immutable;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -19,6 +20,35 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         )
         {
             this.lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
+        }
+
+        public TUnitInstalledPackageResult GetTUnitInstalledPackages(IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems)
+        {
+            if(packageReferenceItems == null)
+            {
+                return new TUnitInstalledPackageResult(InstalledPackageResultStatus.Unknown, false, false);
+            }
+
+            var hasTUnit = false;
+            var hasCoverageExtension = false;
+            foreach (var packageReference in packageReferenceItems)
+            {
+                var id = packageReference.Key;
+                if (id == TUnitConstants.TUnitPackageId)
+                {
+                    hasTUnit = true;
+                    continue;
+                }
+                if (id == TUnitConstants.CodeCoveragePackageId)
+                {
+                    hasCoverageExtension = true;
+                }
+                if (hasTUnit && hasCoverageExtension)
+                {
+                    break;
+                }
+            }
+            return new TUnitInstalledPackageResult(InstalledPackageResultStatus.Successful, hasCoverageExtension, hasTUnit);
         }
 
         public async Task<TUnitInstalledPackageResult> GetTUnitInstalledPackagesAsync(Guid projectGuid, CancellationToken cancellationToken)
