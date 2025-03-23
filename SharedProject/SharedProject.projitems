@@ -145,7 +145,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITestProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitChangeNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitCoverage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\IUseTestingPlatformProtocolFeatureService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitCoverageProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitInstalledPackagesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitProjectCache.cs" />
@@ -168,7 +167,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\CPSProjectService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\UseTestingPlatformProtocolFeatureService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExeArgumentsProvider.cs" />
