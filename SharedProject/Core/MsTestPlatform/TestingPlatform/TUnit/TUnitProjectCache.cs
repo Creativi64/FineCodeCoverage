@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
@@ -24,12 +25,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             projectLookup = null;
         }
 
-        public async Task<List<ITUnitProject>> GetTUnitProjectsAsync()
+        public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             var tUnitProjects = new List<ITUnitProject>();
             foreach (var project in projectLookup.Values)
             {
-                await project.UpdateStateAsync();
+                await project.UpdateStateAsync(cancellationToken);
                 if (project.IsTUnit)
                 {
                     tUnitProjects.Add(project);

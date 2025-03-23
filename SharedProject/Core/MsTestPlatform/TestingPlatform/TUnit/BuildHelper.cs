@@ -6,12 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
+using System.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    public class BuildCompletionHandler : IVsUpdateSolutionEvents
+    internal class BuildCompletionHandler : IVsUpdateSolutionEvents, IDisposable
     {
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
+        private readonly CancellationTokenRegistration registration;
+        public BuildCompletionHandler(CancellationToken cancellationToken)
+        {
+            registration = cancellationToken.Register(() => _tcs.TrySetCanceled());
+        }
 
         /// <summary>
         /// Task that completes when the build finishes.
@@ -37,6 +43,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy) => VSConstants.S_OK;
 
+        public void Dispose()
+        {
+            registration.Dispose();
+        }
     }
 
     [Export(typeof(IBuildHelper))]
@@ -52,13 +62,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             this.serviceProvider = serviceProvider;
         }
-        public async Task<bool> BuildInDebugConfigAsync(List<IVsHierarchy> projects)
+        public async Task<bool> BuildAsync(List<IVsHierarchy> projects,CancellationToken cancellationToken)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
-            var dependencies = ProjectDependencyHelper.GetTransitiveDependencies(solutionBuildManager2, projects);
+            var dependencies = await ProjectDependencyHelper.GetTransitiveDependenciesAsync(solutionBuildManager2, projects, cancellationToken);
             var projectsToBuild = projects.Concat(dependencies).ToArray();
-            var buildHandler = new BuildCompletionHandler();
+            cancellationToken.ThrowIfCancellationRequested();
+            var configs = projectsToBuild.Select(GetDebugConfig).ToArray();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var buildHandler = new BuildCompletionHandler(cancellationToken);
             int hr = solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
             ErrorHandler.ThrowOnFailure(hr);
             var succeeded = false;
@@ -67,7 +81,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 var result = solutionBuildManager2.StartUpdateSpecificProjectConfigurations(
                     (uint)projectsToBuild.Length,
                     projectsToBuild,
-                    projectsToBuild.Select(GetDebugConfig).ToArray(),
+                    configs,
                     null,
                     null,
                     null,
@@ -77,8 +91,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 ErrorHandler.ThrowOnFailure(result);
                 succeeded = await buildHandler.BuildCompleted;
             }
+            catch (OperationCanceledException)
+            {
+                solutionBuildManager2.CancelUpdateSolutionConfiguration();
+                throw;
+            }
             finally
             {
+                buildHandler.Dispose();
                 solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
             }
             return succeeded;

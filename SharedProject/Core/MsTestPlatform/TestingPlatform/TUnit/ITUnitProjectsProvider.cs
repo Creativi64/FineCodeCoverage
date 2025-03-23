@@ -1,11 +1,13 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     internal interface ITUnitProjectsProvider
     {
-        Task<List<ITUnitProject>> GetTUnitProjectsAsync();
+        event EventHandler ReadyEvent;
+        Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken);
     }
 }

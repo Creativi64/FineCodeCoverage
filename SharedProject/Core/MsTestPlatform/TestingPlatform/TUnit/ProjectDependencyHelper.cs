@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
+using System.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -14,9 +17,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         /// <param name="buildManager">The IVsSolutionBuildManager2 instance.</param>
         /// <param name="projects">The projects for which dependencies are required.</param>
         /// <returns>A list of IVsHierarchy instances representing all transitive dependencies.</returns>
-        public static List<IVsHierarchy> GetTransitiveDependencies(IVsSolutionBuildManager2 buildManager, IEnumerable<IVsHierarchy> projects)
+        public async static Task<List<IVsHierarchy>> GetTransitiveDependenciesAsync(IVsSolutionBuildManager2 buildManager, IEnumerable<IVsHierarchy> projects, System.Threading.CancellationToken cancellationToken)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             // Ensure the dependency information is calculated.
             int hr = buildManager.CalculateProjectDependencies();
@@ -25,7 +28,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var collected = new HashSet<IVsHierarchy>(new VsHierarchyComparer());
             foreach (var project in projects)
             {
-                AddDependencies(buildManager, project, collected);
+                await AddDependenciesAsync(buildManager, project, collected, cancellationToken);
             }
             return collected.ToList();
         }
@@ -33,9 +36,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         /// <summary>
         /// Recursively adds direct dependencies to the collected set.
         /// </summary>
-        private static void AddDependencies(IVsSolutionBuildManager2 buildManager, IVsHierarchy project, HashSet<IVsHierarchy> collected)
+        private async static Task AddDependenciesAsync(
+            IVsSolutionBuildManager2 buildManager,
+            IVsHierarchy project,
+            HashSet<IVsHierarchy> collected,
+            CancellationToken cancellationToken
+        )
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             // First call: Get the count of direct dependencies.
             uint[] actualCount = new uint[1];
             int hr = buildManager.GetProjectDependencies(project, 0, null, actualCount);
@@ -58,7 +66,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 if (dep != null && collected.Add(dep))
                 {
-                    AddDependencies(buildManager, dep, collected);
+                    await AddDependenciesAsync(buildManager, dep, collected, cancellationToken);
                 }
             }
         }

@@ -18,5 +18,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         event EventHandler<ProjectAddedRemoved> ProjectAddedRemovedEvent;
         event EventHandler SolutionClosedEvent;
+        event EventHandler SolutionOpenedEvent;
     }
 }

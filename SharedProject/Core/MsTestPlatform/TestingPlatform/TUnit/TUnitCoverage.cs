@@ -30,6 +30,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly IEventAggregator eventAggregator;
         private readonly ILogger logger;
         private int coverageRunNumber = 1;
+        private CancellationTokenSource cancellationTokenSource;
+
+        public event EventHandler ReadyEvent;
 
         [ImportingConstructor]
         public TUnitCoverage(
@@ -45,6 +48,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         )
         {
+            tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
             this.tUnitProjectsProvider = tUnitProjectsProvider;
             this.buildHelper = buildHelper;
             this.tUnitCoverageProjectFactory = tUnitCoverageProjectFactory;
@@ -56,16 +60,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.logger = logger;
         }
 
-        public event EventHandler<bool> CollectingChanged;
+        private void TUnitProjectsProvider_ReadyEvent(object sender, EventArgs e)
+        {
+            ReadyEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler<bool> CollectingChangedEvent;
 
         protected void OnCollectingChanged(bool collecting)
         {
-            CollectingChanged?.Invoke(this, collecting);
+            CollectingChangedEvent?.Invoke(this, collecting);
         }
 
         public void Cancel()
         {
-            // will store a cancellation token that pass to each method
+            if(cancellationTokenSource.IsCancellationRequested) return;
+            cancellationTokenSource.Cancel();
         }
 
         public void CollectCoverage()
@@ -78,16 +88,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {coverageRunNumber++}"));
         }
 
-        private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitCoverageProjectsAsync()
+        private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitCoverageProjectsAsync(CancellationToken cancellationToken)
         {
-            var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync();
+            var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(cancellationToken);
             var tUnitProjectHierarchies = tUnitProjects.Where(tp => tp.HasCoverageExtension).Select(tp => tp.Hierarchy).ToList();
-            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjectHierarchies.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject)));
+            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjectHierarchies.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject,cancellationToken)));
             return tUnitCoverageProjects.Where(tp => tp.CoverageProject.Settings.Enabled).ToList();
         }
 
         private async Task CollectCoverageAsync()
         {
+            if(cancellationTokenSource != null)
+            {
+                return;
+            }
+            cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancellationTokenSource.Token;
             await LogCoverageStartingAsync();
             eventAggregator.SendMessage(new NewReportMessage(null, null)); // clear existing report
 
@@ -97,16 +113,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var raiseCoverageEndedMessage = true;
             try
             {
-                var tUnitCoverageProjects = await GetEnabledTUnitCoverageProjectsAsync();
+                var tUnitCoverageProjects = await GetEnabledTUnitCoverageProjectsAsync(cancellationToken);
                 if (tUnitCoverageProjects.Any())
                 {
                     await logger.LogAsync("Starting build");
-                    var buildSuccess = await buildHelper.BuildInDebugConfigAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy));
+                    var buildSuccess = await buildHelper.BuildAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy),cancellationToken);
                     if (buildSuccess)
                     {
                         await logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
 
                         var coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
+                        cancellationToken.ThrowIfCancellationRequested();
                         await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
                         var runAllProjects = true;
@@ -114,12 +131,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         foreach (var tUnitCoverageProject in tUnitCoverageProjects)
                         {
                             var coverageProject = tUnitCoverageProject.CoverageProject;
-                            await coverageProject.PrepareForCoverageAsync(CancellationToken.None, false);
+                            await coverageProject.PrepareForCoverageAsync(cancellationToken, false);
                             var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
                             //fileUtil.WriteAllText(configurationPath, tUnitCoverageProject.Configuration);                        
                             var coberturaPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
                             await Task.Yield();//todo was this how to get off ui thread ?
-                            var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath);
+                            var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath,false, cancellationToken);
                             if (success)
                             {
                                 coberturaFiles.Add(coberturaPath);
@@ -146,7 +163,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 {
                     await logger.LogAsync("No enabled Tunit test projects with Microsoft.Testing.Extensions.CodeCoverage");
                 }
-            }catch(Exception exc)
+            }
+            catch(OperationCanceledException)
+            {
+                await logger.LogAsync("Coverage collection cancelled");
+            }
+            catch(Exception exc)
             {
                 await logger.LogAsync(exc.ToString());
             }
@@ -154,14 +176,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 eventAggregator.SendMessage(new CoverageEndedMessage());
             }
+            cancellationTokenSource.Dispose();
+            cancellationTokenSource = null;
             OnCollectingChanged(false);
         }
 
-
-
-        async System.Threading.Tasks.Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
+        async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
-            var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsAsync();
+            var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
             return !tunitProjects.Any();
         }
     }

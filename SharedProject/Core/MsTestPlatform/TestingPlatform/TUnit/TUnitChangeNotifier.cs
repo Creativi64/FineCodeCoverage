@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public event EventHandler<ProjectAddedRemoved> ProjectAddedRemovedEvent;
         public event EventHandler SolutionClosedEvent;
+        public event EventHandler SolutionOpenedEvent;
 
         [ImportingConstructor]
         public TUnitChangeNotifier(
@@ -18,12 +19,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IServiceProvider serviceProvider
         )
         {
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
                 vsSolution.AdviseSolutionEvents(this, out uint _);
             });
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 
 
@@ -68,6 +71,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public int OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
+            SolutionOpenedEvent?.Invoke(this, EventArgs.Empty);
             return VSConstants.S_OK;
         }
 

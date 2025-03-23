@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Threading;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
@@ -36,8 +37,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             this.logger = logger;
         }
-        public async Task<bool> RunAsync(string exePath, string settingsPath, string outputpath,bool showWindow = false)
+
+        private CancellationToken cancellationToken;
+        public async Task<bool> RunAsync(
+            string exePath,
+            string settingsPath,
+            string outputpath,
+            bool showWindow = false,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
+            this.cancellationToken = cancellationToken;
             // could have FCC option - hide-test-output or just allow them to supply their own
             var arguments = $"--disable-logo --coverage --coverage-output-format cobertura --coverage-output \"{outputpath}\"";
             await logger.LogAsync("Executing TUnit", exePath, "Arguments", arguments);
@@ -54,12 +63,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 };
                 process.OutputDataReceived += Process_OutputDataReceived;
                 process.ErrorDataReceived += Process_ErrorDataReceived;
+                cancellationToken.ThrowIfCancellationRequested();
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                //todo cancellation token
-                await process.WaitForExitAsync();
+                await process.WaitForExitAsync(cancellationToken);
+
                 process.WaitForExit(); // Ensures all output is handled
 
                 /*
@@ -98,7 +108,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            logger.Log(e.Data);
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                logger.Log(e.Data);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.VisualStudio;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -40,16 +41,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             this.coverageProjectFactory = coverageProjectFactory;
         }
-        public async Task<ITUnitCoverageProject> CreateCoverageProjectAsync(IVsHierarchy project)
+        public async Task<ITUnitCoverageProject> CreateCoverageProjectAsync(IVsHierarchy project, CancellationToken cancellationToken)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var coverageProject = coverageProjectFactory.Create();
             project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_Name, out var projectName);
             coverageProject.ProjectName = projectName.ToString();
             project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out var projectGuid);
             coverageProject.Id = projectGuid;
             project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID4.VSHPROPID_TargetFrameworkMoniker, out var targetFrameworkMoniker);
-
+            cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsBuildPropertyStorage buildPropertyStorage)
             {
                 //todo configuration parameter for Debug
@@ -57,7 +58,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.TestDllFile = outputFile;
             }//todo throw if not
-
+            cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsProject vsProject)
             {
                 int hr = vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out var projectFilePath);

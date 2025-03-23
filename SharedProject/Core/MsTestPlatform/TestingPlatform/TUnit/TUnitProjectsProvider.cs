@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Output;
-using System.Linq;
+using System;
+using System.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -11,11 +11,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class TUnitProjectsProvider : ITUnitProjectsProvider
     {
         private readonly ITestProjectsProvider testProjectsProvider;
+        private readonly ITUnitChangeNotifier tUnitChangeNotifier;
         private readonly ITUnitProjectFactory tUnitProjectFactory;
         private readonly ICPSProjectService cpsProjectService;
         private readonly ILogger logger;
         private readonly ITUnitProjectCache tUnitProjectCache;
         private bool initializedCache;
+
+        public event EventHandler ReadyEvent;
 
         [ImportingConstructor]
         public TUnitProjectsProvider(
@@ -29,14 +32,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             tUnitChangeNotifier.ProjectAddedRemovedEvent += TUnitChangeNotifier_ProjectAddedRemovedEvent;
             tUnitChangeNotifier.SolutionClosedEvent += TUnitChangeNotifier_SolutionClosedEvent;
+            tUnitChangeNotifier.SolutionOpenedEvent += TUnitChangeNotifier_SolutionOpenedEvent;
             this.testProjectsProvider = testProjectsProvider;
+            this.tUnitChangeNotifier = tUnitChangeNotifier;
             this.tUnitProjectFactory = tUnitProjectFactory;
             this.cpsProjectService = vsProjectService;
             this.logger = logger;
             this.tUnitProjectCache = tUnitProjectCache;
         }
 
-        private void TUnitChangeNotifier_SolutionClosedEvent(object sender, System.EventArgs e)
+        private void TUnitChangeNotifier_SolutionOpenedEvent(object sender, EventArgs e)
+        {
+            ReadyEvent?.Invoke(this, EventArgs.Empty);
+            tUnitChangeNotifier.SolutionOpenedEvent -= TUnitChangeNotifier_SolutionOpenedEvent;
+        }
+
+        private void TUnitChangeNotifier_SolutionClosedEvent(object sender, EventArgs e)
         {
             if (initializedCache)
             {
@@ -69,7 +80,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
         }
 
-        public async Task<List<ITUnitProject>> GetTUnitProjectsAsync()
+        public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             if (!initializedCache)
             {
@@ -88,7 +99,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 initializedCache = true;
             }
 
-            return await tUnitProjectCache.GetTUnitProjectsAsync();
+            return await tUnitProjectCache.GetTUnitProjectsAsync(cancellationToken);
         }
     }
 }

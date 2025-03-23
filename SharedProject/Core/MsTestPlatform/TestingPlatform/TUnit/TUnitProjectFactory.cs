@@ -76,11 +76,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             public bool HasCoverageExtension { get; private set; }
             public IVsHierarchy Hierarchy { get; }
 
-            public async Task UpdateStateAsync()
+            public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {
                 if (requiresUpdate)
                 {
-                    var installedPackagesResult = await tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), CancellationToken.None);
+                    var installedPackagesResult = await tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), cancellationToken);
                     if (installedPackagesResult.Status != InstalledPackageResultStatus.Successful)
                     {
                         // fallback but not transitive

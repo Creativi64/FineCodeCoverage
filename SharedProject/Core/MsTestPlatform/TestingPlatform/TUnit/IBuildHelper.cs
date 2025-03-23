@@ -6,6 +6,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     internal interface IBuildHelper
     {
-        Task<bool> BuildInDebugConfigAsync(List<IVsHierarchy> projects);
+        Task<bool> BuildAsync(List<IVsHierarchy> projects, System.Threading.CancellationToken cancellationToken);
     }
 }
