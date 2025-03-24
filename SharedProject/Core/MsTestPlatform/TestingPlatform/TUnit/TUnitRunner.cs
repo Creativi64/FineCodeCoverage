@@ -1,17 +1,25 @@
-﻿using FineCodeCoverage.Output;
+﻿using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Threading;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitRunner))]
-    internal class TUnitRunner : ITUnitRunner
+    [Export(typeof(IAppDataFolderPathDependent))]
+    internal class TUnitRunner : ITUnitRunner, IAppDataFolderPathDependent
     {
+        private const string zipDirectoryName = "dotnet-coverage";
+        private const string zipPrefix = "dotnet-coverage";
         private readonly ILogger logger;
+        private readonly IToolUnzipper toolUnzipper;
         private const int successExitCode = 0;
         private readonly Dictionary<int, string> nonSuccessExitCodeMessages = new Dictionary<int, string>
         {
@@ -32,25 +40,29 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         [ImportingConstructor]
         public TUnitRunner(
-            ILogger logger
+            ILogger logger,
+            IToolUnzipper toolUnzipper
         )
         {
             this.logger = logger;
+            this.toolUnzipper = toolUnzipper;
         }
 
         private (string,string) GetExeAndArgs(
-            bool hasCoverageExtension, 
+            bool hasCoverageExtension,
             string exePath,
             string settingsPath,
             string outputpath)
         {
-            var path = hasCoverageExtension ? exePath : "C:\\Users\\tonyh\\Downloads\\collect\\dotnet-coverage\\dotnet-coverage.exe";
+            var path = hasCoverageExtension ? exePath : dotnetCoverageExePath;
             var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-output \"{outputpath}\"" :
                     $"collect \"{exePath}\" --disable-logo -f cobertura -o \"{outputpath}\" --nologo";
             return (path, args);
         }
 
         private CancellationToken cancellationToken;
+        private string dotnetCoverageExePath;
+
         public async Task<bool> RunAsync(
             string exePath,
             string settingsPath,
@@ -125,6 +137,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 logger.Log(e.Data);
             }
+        }
+
+        public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
+        {
+            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            dotnetCoverageExePath = Directory.GetFiles(zipDestination, "dotnet-coverage.exe", SearchOption.AllDirectories).First();
+            return Task.CompletedTask;
         }
     }
 }

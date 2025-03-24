@@ -48,16 +48,12 @@ namespace FineCodeCoverage.Engine
         internal const string initializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
         private CancellationTokenSource cancellationTokenSource;
 
-        public string AppDataFolderPath { get; private set; }
         private bool IsVsShutdown => disposeAwareTaskRunner.DisposalToken.IsCancellationRequested;
 
         private readonly ICoverageUtilManager coverageUtilManager;
         private readonly ICoberturaUtil coberturaUtil;
-        private readonly IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService;
-        private readonly IMsTestPlatformUtil msTestPlatformUtil;
         private readonly IReportGeneratorUtil reportGeneratorUtil;
         private readonly ILogger logger;
-        private readonly IAppDataFolder appDataFolder;
 
         private readonly ICoverageToolOutputManager coverageOutputManager;
         internal Task reloadCoverageTask;
@@ -72,12 +68,10 @@ namespace FineCodeCoverage.Engine
         public FCCEngine(
             ICoverageUtilManager coverageUtilManager,
             ICoberturaUtil coberturaUtil,
-            IMsTestPlatformUtil msTestPlatformUtil,
             IReportGeneratorUtil reportGeneratorUtil,
             ILogger logger,
             IAppDataFolder appDataFolder,
             ICoverageToolOutputManager coverageOutputManager,
-            IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
             ISolutionEvents solutionEvents,
             IAppOptionsProvider appOptionsProvider,
             IEventAggregator eventAggregator,
@@ -98,26 +92,13 @@ namespace FineCodeCoverage.Engine
             this.coverageOutputManager = coverageOutputManager;
             this.coverageUtilManager = coverageUtilManager;
             this.coberturaUtil = coberturaUtil;
-            this.msTestPlatformUtil = msTestPlatformUtil;
             this.reportGeneratorUtil = reportGeneratorUtil;
             this.logger = logger;
-            this.appDataFolder = appDataFolder;
-            this.msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
         }
 
         private Task LogCoverageStatusAsync(string reloadCoverageStatus)
         {
             return logger.LogAsync(StatusMarkerProvider.Get(reloadCoverageStatus));
-        }
-
-        public async Task InitializeAsync(CancellationToken cancellationToken)
-        {
-            await appDataFolder.InitializeAsync(cancellationToken);
-            AppDataFolderPath = appDataFolder.DirectoryPath;
-
-            msTestPlatformUtil.Initialize(AppDataFolderPath, cancellationToken);
-            coverageUtilManager.Initialize(AppDataFolderPath, cancellationToken);
-            msCodeCoverageRunSettingsService.Initialize(AppDataFolderPath, this,cancellationToken);
         }
 
         public void ClearUI()

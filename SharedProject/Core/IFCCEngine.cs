@@ -7,8 +7,6 @@ namespace FineCodeCoverage.Engine
 {
     internal interface IFCCEngine
     {
-        string AppDataFolderPath { get; }
-        Task InitializeAsync(System.Threading.CancellationToken cancellationToken);
         void StopCoverage();
         void ReloadCoverage(Func<Task<List<ICoverageProject>>> coverageRequestCallback);
         void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null);

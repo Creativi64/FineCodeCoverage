@@ -7,13 +7,12 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Core.Initialization
 {
-    interface IInitializable { }
-
     [Export(typeof(IInitializer))]
     [Export(typeof(IInitializeStatusProvider))]
     internal class Initializer : IInitializer
     {
-        private readonly IFCCEngine fccEngine;
+        private readonly IAppDataFolder appDataFolder;
+        private readonly IAppDataFolderPathDependent[] appDataFolderPathDependents;
         private readonly ILogger logger;
         private readonly IFirstTimeToolWindowOpener firstTimeToolWindowOpener;
 
@@ -22,7 +21,9 @@ namespace FineCodeCoverage.Core.Initialization
 
         [ImportingConstructor]
         public Initializer(
-            IFCCEngine fccEngine,
+            IAppDataFolder appDataFolder,
+            [ImportMany]
+            IAppDataFolderPathDependent[] appDataFolderPathDependents,
             ILogger logger,
             IFirstTimeToolWindowOpener firstTimeToolWindowOpener,
 #pragma warning disable RCS1163 // Unused parameter
@@ -31,7 +32,8 @@ namespace FineCodeCoverage.Core.Initialization
 #pragma warning restore RCS1163 // Unused parameter
         )
         {
-            this.fccEngine = fccEngine;
+            this.appDataFolder = appDataFolder;
+            this.appDataFolderPathDependents = appDataFolderPathDependents;
             this.logger = logger;
             this.firstTimeToolWindowOpener = firstTimeToolWindowOpener;
         }
@@ -43,8 +45,11 @@ namespace FineCodeCoverage.Core.Initialization
                 await logger.LogAsync("Initializing");
 
                 cancellationToken.ThrowIfCancellationRequested();
-
-                await fccEngine.InitializeAsync(cancellationToken);
+                await appDataFolder.InitializeAsync(cancellationToken);
+                foreach(var appDataPathDependent in appDataFolderPathDependents)
+                {
+                    await appDataPathDependent.InitializeAsync(appDataFolder.DirectoryPath, cancellationToken);
+                }
 
                 cancellationToken.ThrowIfCancellationRequested();
                 await logger.LogAsync("Initialized");

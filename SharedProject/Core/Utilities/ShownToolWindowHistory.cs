@@ -1,24 +1,28 @@
-﻿using FineCodeCoverage.Engine;
+﻿using FineCodeCoverage.Core.Initialization;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IShownToolWindowHistory))]
-    internal class ShownToolWindowHistory : IShownToolWindowHistory
+    [Export(typeof(IAppDataFolderPathDependent))]
+    internal class ShownToolWindowHistory : IShownToolWindowHistory, IAppDataFolderPathDependent
     {
-        private readonly IFCCEngine fccEngine;
         private readonly IFileUtil fileUtil;
         private bool hasShownToolWindow;
         private bool checkedFileExists;
+        private string appDataFolderPath;
 
         [ImportingConstructor]
-        public ShownToolWindowHistory(IFCCEngine fccEngine, IFileUtil fileUtil)
+        public ShownToolWindowHistory(IFileUtil fileUtil)
         {
-            this.fccEngine = fccEngine;
             this.fileUtil = fileUtil;
         }
-        private string ShownToolWindowFilePath => Path.Combine(fccEngine.AppDataFolderPath, "outputWindowInitialized");
+
+        private string ShownToolWindowFilePath => Path.Combine(appDataFolderPath, "outputWindowInitialized");
+        
         public bool HasShownToolWindow
         {
             get
@@ -39,6 +43,12 @@ namespace FineCodeCoverage.Core.Utilities
                 hasShownToolWindow = true;
                 fileUtil.WriteAllText(ShownToolWindowFilePath, string.Empty);
             }
+        }
+
+        public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
+        {
+            this.appDataFolderPath = appDataFolderPath;
+            return Task.CompletedTask;
         }
     }
 }

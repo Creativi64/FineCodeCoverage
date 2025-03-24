@@ -13,12 +13,14 @@ using System.Xml.XPath;
 using FineCodeCoverage.Options;
 using System.Threading.Tasks;
 using ILogger = FineCodeCoverage.Output.ILogger;
+using FineCodeCoverage.Core.Initialization;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IMsCodeCoverageRunSettingsService))]
     [Export(typeof(IRunSettingsService))]
-    internal class MsCodeCoverageRunSettingsService : IMsCodeCoverageRunSettingsService, IRunSettingsService
+    [Export(typeof(IAppDataFolderPathDependent))]
+    internal class MsCodeCoverageRunSettingsService : IMsCodeCoverageRunSettingsService, IRunSettingsService, IAppDataFolderPathDependent
     {
         public string Name => "Fine Code Coverage MsCodeCoverageRunSettingsService";
 
@@ -60,7 +62,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly ICoverageToolOutputManager coverageOutputManager;
         private readonly IShimCopier shimCopier;
         private readonly ILogger logger;
-        private IFCCEngine fccEngine;
+        private readonly IFCCEngine fccEngine;
 
         private const string zipPrefix = "microsoft.codecoverage";
         private const string zipDirectoryName = "msCodeCoverage";
@@ -89,7 +91,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IUserRunSettingsService userRunSettingsService,
             ITemplatedRunSettingsService templatedRunSettingsService,
             IShimCopier shimCopier,
-            ILogger logger
+            ILogger logger,
+            IFCCEngine fccEngine
             )
         {
             this.toolUnzipper = toolUnzipper;
@@ -99,14 +102,15 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             this.logger = logger;
             this.userRunSettingsService = userRunSettingsService;
             this.templatedRunSettingsService = templatedRunSettingsService;
+            this.fccEngine = fccEngine;
         }
 
-        public void Initialize(string appDataFolder, IFCCEngine fccEngine, CancellationToken cancellationToken)
+        public Task InitializeAsync(string appDataFolderPath,CancellationToken cancellationToken)
         {
-            this.fccEngine = fccEngine;
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName,zipPrefix, cancellationToken);
+            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName,zipPrefix, cancellationToken);
             fccMsTestAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             shimPath = Path.Combine(zipDestination, "build", "netstandard2.0", "CodeCoverage", "coreclr", "Microsoft.VisualStudio.CodeCoverage.Shim.dll");
+            return Task.CompletedTask;
         }
 
         #region set up for collection

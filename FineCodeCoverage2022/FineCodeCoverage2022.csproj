@@ -116,6 +116,10 @@
       <Link>ZippedTools\microsoft.codecoverage.17.13.0.zip</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="..\Shared Files\ZippedTools\dotnet-coverage.17.14.2.zip">
+      <Link>ZippedTools\dotnet-coverage.17.14.2.zip</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
       <Generator>VsixManifestGenerator</Generator>

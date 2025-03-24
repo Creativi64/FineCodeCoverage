@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine.Coverlet;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.OpenCover;
@@ -8,7 +9,8 @@ using FineCodeCoverage.Engine.OpenCover;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(ICoverageUtilManager))]
-    internal class CoverageUtilManager : ICoverageUtilManager
+    [Export(typeof(IAppDataFolderPathDependent))]
+    internal class CoverageUtilManager : ICoverageUtilManager, IAppDataFolderPathDependent
     {
         private readonly IOpenCoverUtil openCoverUtil;
         private readonly ICoverletUtil coverletUtil;
@@ -20,11 +22,13 @@ namespace FineCodeCoverage.Engine
             this.coverletUtil = coverletUtil;
         }
 
-        public void Initialize(string appDataFolder, CancellationToken cancellationToken)
+        public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            openCoverUtil.Initialize(appDataFolder, cancellationToken);
-            coverletUtil.Initialize(appDataFolder, cancellationToken);
+            openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
+            coverletUtil.Initialize(appDataFolderPath, cancellationToken);
+            return Task.CompletedTask;
         }
+
 
         public async Task RunCoverageAsync(ICoverageProject project, CancellationToken cancellationToken)
         {

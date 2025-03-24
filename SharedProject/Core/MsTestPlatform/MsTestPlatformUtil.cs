@@ -3,11 +3,14 @@ using System.Linq;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
 using System.Threading;
+using FineCodeCoverage.Core.Initialization;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform
 {
     [Export(typeof(IMsTestPlatformUtil))]
-	internal class MsTestPlatformUtil:IMsTestPlatformUtil
+	[Export(typeof(IAppDataFolderPathDependent))]
+	internal class MsTestPlatformUtil:IMsTestPlatformUtil, IAppDataFolderPathDependent
 	{
 		public string MsTestPlatformExePath { get; private set; }
         private readonly IToolUnzipper toolUnzipper;
@@ -19,12 +22,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
         {
             this.toolUnzipper = toolUnzipper;
         }
-		public void Initialize(string appDataFolder, CancellationToken cancellationToken)
-		{
-			var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
-			MsTestPlatformExePath = Directory
-				.GetFiles(zipDestination, "vstest.console.exe", SearchOption.AllDirectories)
-				.FirstOrDefault();
-		}
-	}
+
+        public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
+        {
+            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            MsTestPlatformExePath = Directory
+                .GetFiles(zipDestination, "vstest.console.exe", SearchOption.AllDirectories)
+                .FirstOrDefault();
+            return Task.CompletedTask;
+        }
+    }
 }

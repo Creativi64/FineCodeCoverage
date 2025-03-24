@@ -71,7 +71,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\IMessageBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\ClearSettingsOnShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\FirstTimeToolWindowOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IAppDataFolderPathDependent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IFirstTimeToolWindowOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IInitializedFromTestContainerDiscoverer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ISourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MessageBoxWrapper.cs" />
