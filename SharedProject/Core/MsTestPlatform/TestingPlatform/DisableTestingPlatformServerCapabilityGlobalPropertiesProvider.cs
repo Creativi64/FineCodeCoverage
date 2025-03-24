@@ -65,11 +65,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             var coverageProject = await GetCoverageProjectAsync();
             if (coverageProject != null)
             {
-                var isTUnit = await IsTUnitAsync();
-                if (isTUnit)
-                {
-                    return false;
-                }
                 var projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
                 return projectSettings.Enabled;
             }
@@ -110,7 +105,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)
         {
-            if (!AllProjectsDisabled() && await ProjectEnabledAsync())
+            if (!await IsTUnitAsync() && !AllProjectsDisabled() && await ProjectEnabledAsync())
             {
                 return Empty.PropertiesMap.Add("DisableTestingPlatformServerCapability", "true");
             }
