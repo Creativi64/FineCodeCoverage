@@ -89,9 +89,30 @@ This will create or update installation in username/.dotnet/tools directory
 
 Copy the following from within username/.dotnet/tools
 coverlet.exe into coverlet.console.VERSION
-coverlet.console dirctory into .store.
+coverlet.console directory into .store.
 
 4. Add the zip to the solution - see instruction at the top of this page.
 5. Debug
 
 Debug an SDK style project with RunMsCodeCoverage No and with the test project **not** having an MSBuild property `<UseDataCollector/>`
+
+### dotent-coverage
+
+In a similar manner to coverlet.console
+
+1. dotnet tool install --global dotnet-coverage
+
+This will create or update installation in username/.dotnet/tools directory
+
+2. Create a directory - dotnet-coverage.VERSION
+3. Create a sub directory - .store
+
+Copy the following from within username/.dotnet/tools
+dotnet-coverage.exe into dotnet-coverage.VERSION
+dotnet-coverage directory into .store.
+
+4. Add the zip to the solution - see instruction at the top of this page.
+5. Debug
+
+Debug a TUnit project that does not have Microsoft.Testing.Extensions.CodeCoverage as a package reference.
+The TUnitRunner class will use dotnet-coverage when the button with id cmdidCollectTUnitCommand is pressed on the tool window.
