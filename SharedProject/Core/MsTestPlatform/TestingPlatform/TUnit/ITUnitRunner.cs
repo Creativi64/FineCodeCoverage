@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             string exePath,
             string settingsPath,
             string outputpath,
+            bool hasCoverageExtension,
             bool showWindow = false,
             CancellationToken cancellationToken = default(CancellationToken));
     }

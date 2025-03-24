@@ -38,24 +38,37 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.logger = logger;
         }
 
+        private (string,string) GetExeAndArgs(
+            bool hasCoverageExtension, 
+            string exePath,
+            string settingsPath,
+            string outputpath)
+        {
+            var path = hasCoverageExtension ? exePath : "C:\\Users\\tonyh\\Downloads\\collect\\dotnet-coverage\\dotnet-coverage.exe";
+            var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-output \"{outputpath}\"" :
+                    $"collect \"{exePath}\" -f cobertura -o \"{outputpath}\"";
+            return (path, args);
+        }
+
         private CancellationToken cancellationToken;
         public async Task<bool> RunAsync(
             string exePath,
             string settingsPath,
             string outputpath,
+            bool hasCoverageExtension,
             bool showWindow = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             this.cancellationToken = cancellationToken;
+            var (path,args) = GetExeAndArgs(hasCoverageExtension, exePath, settingsPath, outputpath);
             // could have FCC option - hide-test-output or just allow them to supply their own
-            var arguments = $"--disable-logo --coverage --coverage-output-format cobertura --coverage-output \"{outputpath}\"";
-            await logger.LogAsync("Executing TUnit", exePath, "Arguments", arguments);
+            await logger.LogAsync("Executing TUnit", path, "Arguments", args);
             using (var process = new Process())
             {
                 process.StartInfo = new ProcessStartInfo
                 {
-                    FileName = exePath,
-                    Arguments = arguments,
+                    FileName = path,
+                    Arguments = args,
                     UseShellExecute = false,
                     CreateNoWindow = !showWindow,
                     RedirectStandardOutput = true,

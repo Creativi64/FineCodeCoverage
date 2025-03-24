@@ -88,11 +88,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {coverageRunNumber++}"));
         }
 
-        private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitCoverageProjectsAsync(CancellationToken cancellationToken)
+        private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(cancellationToken);
-            var tUnitProjectHierarchies = tUnitProjects.Where(tp => tp.HasCoverageExtension).Select(tp => tp.Hierarchy).ToList();
-            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjectHierarchies.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject,cancellationToken)));
+            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject.Hierarchy,tUnitProject.HasCoverageExtension, cancellationToken)));
             return tUnitCoverageProjects.Where(tp => tp.CoverageProject.Settings.Enabled).ToList();
         }
 
@@ -113,7 +112,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var raiseCoverageEndedMessage = true;
             try
             {
-                var tUnitCoverageProjects = await GetEnabledTUnitCoverageProjectsAsync(cancellationToken);
+                var tUnitCoverageProjects = await GetEnabledTUnitProjectsAsync(cancellationToken);
                 if (tUnitCoverageProjects.Any())
                 {
                     await logger.LogAsync("Starting build");
@@ -136,7 +135,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                             //fileUtil.WriteAllText(configurationPath, tUnitCoverageProject.Configuration);                        
                             var coberturaPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
                             await Task.Yield();//todo was this how to get off ui thread ?
-                            var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath,false, cancellationToken);
+                            var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
                             if (success)
                             {
                                 coberturaFiles.Add(coberturaPath);

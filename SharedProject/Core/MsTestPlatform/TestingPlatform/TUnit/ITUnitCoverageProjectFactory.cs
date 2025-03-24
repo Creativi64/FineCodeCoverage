@@ -11,9 +11,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         string Configuration { get; }
         ICoverageProject CoverageProject { get; }
         IVsHierarchy VsHierarchy { get; }
+        bool HasCoverageExtension { get; }
     }
     internal interface ITUnitCoverageProjectFactory
     {
-        Task<ITUnitCoverageProject> CreateCoverageProjectAsync(IVsHierarchy project,CancellationToken cancellationToken);
+        Task<ITUnitCoverageProject> CreateCoverageProjectAsync(
+            IVsHierarchy project,bool hasCoverageExtension,CancellationToken cancellationToken);
     }
 }

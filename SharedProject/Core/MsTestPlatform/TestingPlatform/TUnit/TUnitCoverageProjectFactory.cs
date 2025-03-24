@@ -20,18 +20,21 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 string exePath,
                 string configuration,
                 ICoverageProject coverageProject,
-                IVsHierarchy vsHierarchy
+                IVsHierarchy vsHierarchy,
+                bool hasCoverageExtension
             )
             {
                 ExePath = exePath;
                 Configuration = configuration;
                 CoverageProject = coverageProject;
                 VsHierarchy = vsHierarchy;
+                HasCoverageExtension = hasCoverageExtension;
             }
             public string ExePath { get; }
             public string Configuration { get; }
             public ICoverageProject CoverageProject { get; }
             public IVsHierarchy VsHierarchy { get; }
+            public bool HasCoverageExtension { get; }
         }
 
         [ImportingConstructor]
@@ -41,7 +44,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             this.coverageProjectFactory = coverageProjectFactory;
         }
-        public async Task<ITUnitCoverageProject> CreateCoverageProjectAsync(IVsHierarchy project, CancellationToken cancellationToken)
+        public async Task<ITUnitCoverageProject> CreateCoverageProjectAsync(
+            IVsHierarchy project, 
+            bool hasCoverageExtension,
+            CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var coverageProject = coverageProjectFactory.Create();
@@ -69,7 +75,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var exePath = Path.ChangeExtension(coverageProject.TestDllFile, ".exe");
 
             //todo configuration
-            return new TUnitCoverageProject(exePath, "", coverageProject, project);
+            return new TUnitCoverageProject(exePath, "", coverageProject, project, hasCoverageExtension);
         }
     }
 
