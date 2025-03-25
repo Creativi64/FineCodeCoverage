@@ -1,9 +1,13 @@
 ﻿using AutoMoq;
+using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
+using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverageTests
 {
@@ -14,12 +18,18 @@ namespace FineCodeCoverageTests
         private string markerFilePath;
 
         [SetUp]
-        public void SetUp()
+        public async Task SetUpAsync()
         {
             mocker = new AutoMoqer();
             shownToolWindowHistory = mocker.Create<ShownToolWindowHistory>();
-            mocker.GetMock<IFCCEngine>().Setup(fccEngine => fccEngine.AppDataFolderPath).Returns("AppDataFolderPath");
+            await shownToolWindowHistory.InitializeAsync("AppDataFolderPath", CancellationToken.None);
             markerFilePath = Path.Combine("AppDataFolderPath", "outputWindowInitialized");
+        }
+
+        [Test]
+        public void Should_Be_IAppDataFolderPathDependent()
+        {
+            Assert.That(MEFExportHelper.IsAndExports<ShownToolWindowHistory, IAppDataFolderPathDependent>(), Is.True);
         }
 
         [Test]

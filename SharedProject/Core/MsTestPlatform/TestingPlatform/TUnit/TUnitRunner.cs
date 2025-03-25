@@ -2,6 +2,7 @@
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Threading;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -37,6 +38,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             { 12, "Test session was unable to run because the client does not support any of the supported protocol versions." },
             { 13, "Test session was stopped due to reaching the specified number of maximum failed tests using --maximum-failed-tests command-line option." }
         };
+
+        public event EventHandler ReadyEvent;
 
         [ImportingConstructor]
         public TUnitRunner(
@@ -143,6 +146,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
             dotnetCoverageExePath = Directory.GetFiles(zipDestination, "dotnet-coverage.exe", SearchOption.AllDirectories).First();
+            ReadyEvent?.Invoke(this, EventArgs.Empty);
             return Task.CompletedTask;
         }
     }

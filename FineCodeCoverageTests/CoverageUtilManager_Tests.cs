@@ -1,10 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
+using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Coverlet;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.OpenCover;
+using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
 
@@ -20,11 +22,17 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Initialize_Should_Initialize_The_Coverage_Utils()
+        public void Should_Be_IAppDataFolderPathDependent()
+        {
+            Assert.That(MEFExportHelper.IsAndExports<CoverageUtilManager, IAppDataFolderPathDependent>(), Is.True);
+        }
+
+        [Test]
+        public async Task Initialize_Should_Initialize_The_Coverage_Utils_Async()
         {
             var coverageUtilManager = mocker.Create<CoverageUtilManager>();
             var ct = CancellationToken.None;
-            coverageUtilManager.Initialize("AppDataFolder", ct);
+            await coverageUtilManager.InitializeAsync("AppDataFolder", ct);
             mocker.Verify<ICoverletUtil>(coverletUtil => coverletUtil.Initialize("AppDataFolder", ct));
             mocker.Verify<IOpenCoverUtil>(coverletUtil => coverletUtil.Initialize("AppDataFolder", ct));
         }

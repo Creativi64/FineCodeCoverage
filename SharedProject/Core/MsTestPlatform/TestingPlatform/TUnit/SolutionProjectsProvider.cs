@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
+using System.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -23,19 +24,34 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.serviceProvider = serviceProvider;
         }
 
-        public async Task<List<IVsHierarchy>> GetProjectsAsync()
+        public async Task<List<IVsHierarchy>> GetLoadedProjectsAsync(CancellationToken cancellationToken)
         {
-            var projects = new List<IVsHierarchy>();
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-            var result = vsSolution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, Guid.Empty, out var enumHierarchies);
+            return GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
+        }
+
+        private List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var projects = new List<IVsHierarchy>();
+            var result = vsSolution.GetProjectEnum((uint)flags, Guid.Empty, out var enumHierarchies);
             if (result == VSConstants.S_OK)
             {
                 IVsHierarchy[] rgelt = new IVsHierarchy[1];
                 uint fetched = 0;
                 while (enumHierarchies.Next(1, rgelt, out fetched) == VSConstants.S_OK && fetched > 0)
                 {
-                    projects.Add(rgelt[0]);
+                    int hr = rgelt[0].GetGuidProperty(
+                        VSConstants.VSITEMID_ROOT,
+                        (int)__VSHPROPID.VSHPROPID_TypeGuid,
+                        out var typeGuid
+                    );
+
+                    if (typeGuid != VSConstants.GUID_ItemType_VirtualFolder)
+                    {
+                        projects.Add(rgelt[0]);
+                    }
                 }
             }
             return projects;

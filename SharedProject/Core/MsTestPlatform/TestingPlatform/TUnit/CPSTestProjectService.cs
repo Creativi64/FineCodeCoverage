@@ -6,21 +6,18 @@ using Microsoft.VisualStudio.ProjectSystem;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    [Export(typeof(ICPSProjectService))]
-    internal class CPSProjectService : ICPSProjectService
+    [Export(typeof(ICPSTestProjectService))]
+    internal class CPSTestProjectService : ICPSTestProjectService
     {
         public async Task<ConfiguredProject> GetProjectAsync(IVsHierarchy hierarchy)
         {
+            if (!hierarchy.IsCapabilityMatch("TestContainer"))
+            {
+                return null;
+            }
             var unconfiguredProject = await hierarchy.AsUnconfiguredProjectAsync();
             if (unconfiguredProject == null) return null;
             return await unconfiguredProject.GetSuggestedConfiguredProjectAsync();
-        }
-
-        public ConfiguredProject GetProject(IVsHierarchy hierarchy)
-        {
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-            return ThreadHelper.JoinableTaskFactory.Run(() => GetProjectAsync(hierarchy));
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
     }
 }

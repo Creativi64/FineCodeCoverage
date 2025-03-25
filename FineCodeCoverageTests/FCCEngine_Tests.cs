@@ -31,38 +31,6 @@ namespace Test
         }
 
         [Test]
-        public async Task Should_Initialize_AppFolder_Then_Utils_Async()
-        {
-            var disposalToken = CancellationToken.None;
-            List<int> callOrder = new List<int>();
-
-            var appDataFolderPath = "some path";
-            var mockAppDataFolder = mocker.GetMock<IAppDataFolder>();
-            mockAppDataFolder.Setup(appDataFolder => appDataFolder.InitializeAsync(disposalToken)).Callback(() => callOrder.Add(1));
-            mockAppDataFolder.Setup(appDataFolder => appDataFolder.DirectoryPath).Returns(appDataFolderPath);
-
-            var msTestPlatformMock = mocker.GetMock<IMsTestPlatformUtil>().Setup(msTestPlatform => msTestPlatform.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(3));
-
-            var openCoverMock = mocker.GetMock<ICoverageUtilManager>().Setup(openCover => openCover.Initialize(appDataFolderPath, disposalToken)).Callback(() => callOrder.Add(4));
-
-            await fccEngine.InitializeAsync(disposalToken);
-
-            Assert.AreEqual(3, callOrder.Count);
-            Assert.AreEqual(1, callOrder[0]);
-        }
-
-        
-        [Test]
-        public async Task Should_Set_AppDataFolderPath_From_Initialized_AppDataFolder_DirectoryPath_Async()
-        {
-            var appDataFolderPath = "some path";
-            var mockAppDataFolder = mocker.GetMock<IAppDataFolder>();
-            mockAppDataFolder.Setup(appDataFolder => appDataFolder.DirectoryPath).Returns(appDataFolderPath);
-            await fccEngine.InitializeAsync(CancellationToken.None);
-            Assert.AreEqual("some path", fccEngine.AppDataFolderPath);
-        }
-
-        [Test]
         public void Should_Send_NewCoverageLinesMessage_With_Null_CoverageLines_When_ClearUI()
         {
             fccEngine.ClearUI();
@@ -429,7 +397,6 @@ namespace Test
         private async Task ReloadInitializedCoverage_Async(params ICoverageProject[] coverageProjects)
         {
             var projectsFromTask = Task.FromResult(coverageProjects.ToList());
-            await fccEngine.InitializeAsync(CancellationToken.None);
 #pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
             fccEngine.ReloadCoverage(() => projectsFromTask);
             await fccEngine.reloadCoverageTask;

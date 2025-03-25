@@ -29,7 +29,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 https://learn.microsoft.com/en-us/visualstudio/extensibility/project-visual-studio-sdk?view=vs-2022  o
             */
 
-            public TUnitProject(ITUnitInstalledPackagesService tUnitInstalledPackagesService, IVsHierarchy hierarchy, ConfiguredProject configuredProject)
+            public TUnitProject(
+                ITUnitInstalledPackagesService tUnitInstalledPackagesService,
+                ConfiguredProject configuredProject,
+                IVsHierarchy hierarchy
+            )
             {
                 this.Hierarchy = hierarchy;
                 this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
@@ -92,6 +96,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
 
                     requiresUpdate = false;
+
                 }
             }
 
@@ -107,6 +112,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     disposedValue = true;
                 }
             }
+
             public void Dispose()
             {
                 // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -125,7 +131,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         }
         public ITUnitProject Create(IVsHierarchy hierarchy,ConfiguredProject configuredProject)
         {
-            return new TUnitProject(tUnitInstalledPackagesService, hierarchy, configuredProject);
+            return new TUnitProject(tUnitInstalledPackagesService, configuredProject, hierarchy);
         }
     }
 }

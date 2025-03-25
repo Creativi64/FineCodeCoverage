@@ -40,14 +40,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return VSConstants.S_OK;
         }
 
-        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
-
         public int OnBeforeCloseProject(IVsHierarchy pHierarchy, int fRemoved)
         {
-            if(fRemoved == 1)
+            if (fRemoved == 1)
             {
                 ProjectAddedRemovedEvent?.Invoke(this, new ProjectAddedRemoved(false, pHierarchy));
             }
@@ -59,12 +54,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return VSConstants.S_OK;
         }
 
-        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel)
+        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
         {
             return VSConstants.S_OK;
         }
 
-        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
+        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel)
+        {
+            return VSConstants.S_OK;
+        }
+
+        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel)
         {
             return VSConstants.S_OK;
         }

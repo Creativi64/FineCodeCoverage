@@ -1,11 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     internal interface ITUnitRunner
     {
-        // todo change to return exit code too for logging
+        event EventHandler ReadyEvent;
         Task<bool> RunAsync(
             string exePath,
             string settingsPath,

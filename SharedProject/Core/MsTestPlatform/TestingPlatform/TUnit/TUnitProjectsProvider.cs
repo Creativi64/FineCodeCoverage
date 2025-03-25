@@ -1,43 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Output;
 using System;
 using System.Threading;
+using Microsoft.VisualStudio.Shell.Interop;
+using System.Linq;
+using Microsoft.VisualStudio.ProjectSystem;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitProjectsProvider))]
     internal class TUnitProjectsProvider : ITUnitProjectsProvider
     {
-        private readonly ITestProjectsProvider testProjectsProvider;
+        private readonly ISolutionProjectsProvider solutionProjectsProvider;
+        private readonly ICPSTestProjectService cpsTestProjectService;
         private readonly ITUnitChangeNotifier tUnitChangeNotifier;
         private readonly ITUnitProjectFactory tUnitProjectFactory;
-        private readonly ICPSProjectService cpsProjectService;
-        private readonly ILogger logger;
         private readonly ITUnitProjectCache tUnitProjectCache;
         private bool initializedCache;
+        private readonly List<IVsHierarchy> addedProjects = new List<IVsHierarchy>();
 
         public event EventHandler ReadyEvent;
 
         [ImportingConstructor]
         public TUnitProjectsProvider(
-            ITestProjectsProvider testProjectsProvider,
+            ISolutionProjectsProvider solutionProjectsProvider,
+            ICPSTestProjectService cpsTestProjectService,
             ITUnitChangeNotifier tUnitChangeNotifier,
             ITUnitProjectFactory tUnitProjectFactory,
-            ICPSProjectService vsProjectService,
-            ILogger logger,
             ITUnitProjectCache tUnitProjectCache
         )
         {
             tUnitChangeNotifier.ProjectAddedRemovedEvent += TUnitChangeNotifier_ProjectAddedRemovedEvent;
             tUnitChangeNotifier.SolutionClosedEvent += TUnitChangeNotifier_SolutionClosedEvent;
             tUnitChangeNotifier.SolutionOpenedEvent += TUnitChangeNotifier_SolutionOpenedEvent;
-            this.testProjectsProvider = testProjectsProvider;
+            this.solutionProjectsProvider = solutionProjectsProvider;
+            this.cpsTestProjectService = cpsTestProjectService;
             this.tUnitChangeNotifier = tUnitChangeNotifier;
             this.tUnitProjectFactory = tUnitProjectFactory;
-            this.cpsProjectService = vsProjectService;
-            this.logger = logger;
             this.tUnitProjectCache = tUnitProjectCache;
         }
 
@@ -49,6 +49,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void TUnitChangeNotifier_SolutionClosedEvent(object sender, EventArgs e)
         {
+            addedProjects.Clear();
             if (initializedCache)
             {
                 tUnitProjectCache.Clear();
@@ -58,45 +59,78 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void TUnitChangeNotifier_ProjectAddedRemovedEvent(object sender, ProjectAddedRemoved e)
         {
-            /*
-                implementation is using project capability
-                unlikely that the capability would change - could look at IProjectSnapshotWithCapabilitiesService / IProjectCapabilitiesScope ( ProjectServices.Capabilities )
-            */
-            if (initializedCache && testProjectsProvider.IsTestProject(e.Project))
+            if (initializedCache)
             {
+                var project = e.Project;
                 if (e.Added)
                 {
-                    // should really align the configuration that build with the ConfiguredProject
-                    // unlikely with a TUnit project that package references will depend on configuration
-                    var cpsProject = cpsProjectService.GetProject(e.Project);
-                    if(cpsProject != null)
-                    {
-                        tUnitProjectCache.Add(tUnitProjectFactory.Create(e.Project,cpsProject));
-                    }
-                } else
+                    addedProjects.Add(project);
+                }
+                else
                 {
-                    tUnitProjectCache.Remove(e.Project);
+                    var removed = addedProjects.Remove(project);
+                    if(!removed)
+                    {
+                        tUnitProjectCache.Remove(e.Project);
+                    }
                 }
             }
+        }
+
+        private class CpsProjectAndHierarchy {
+            public CpsProjectAndHierarchy(ConfiguredProject cpsProject, IVsHierarchy hierarchy)
+            {
+                CpsProject = cpsProject;
+                Hierarchy = hierarchy;
+            }
+
+            public ConfiguredProject CpsProject { get; }
+            public IVsHierarchy Hierarchy { get; }
+        }
+
+        private async Task<List<CpsProjectAndHierarchy>> GetCpsTestProjectsAndHierarchysAsync(IEnumerable<IVsHierarchy> projects)
+        {
+            List<CpsProjectAndHierarchy> cpsTestProjectsAndHierarchys = new List<CpsProjectAndHierarchy>();
+            foreach(var project in projects)
+            {
+                var cpsTestProject = await cpsTestProjectService.GetProjectAsync(project);
+                if (cpsTestProject != null)
+                {
+                    cpsTestProjectsAndHierarchys.Add(new CpsProjectAndHierarchy(cpsTestProject, project));
+                }
+            }
+            return cpsTestProjectsAndHierarchys;
+        }
+
+        private async Task<List<ITUnitProject>> GetTUnitProjectsAsync(IEnumerable<IVsHierarchy> projects)
+        {
+            var potentialTUnitProjects = new List<ITUnitProject>();
+            var cpsTestProjectAndHierarchys = await GetCpsTestProjectsAndHierarchysAsync(projects);
+            foreach (var cpsTestProjectAndHierarchy in cpsTestProjectAndHierarchys)
+            {
+                var tUnitProject = tUnitProjectFactory.Create(cpsTestProjectAndHierarchy.Hierarchy, cpsTestProjectAndHierarchy.CpsProject);
+                potentialTUnitProjects.Add(tUnitProject);
+            }
+            return potentialTUnitProjects;
         }
 
         public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             if (!initializedCache)
             {
-                var potentialTUnitProjects = new List<ITUnitProject>();
-                var testProjects = await testProjectsProvider.ProvideAsync();
-                foreach (var testProject in testProjects)
-                {
-                    var cpsProject = await cpsProjectService.GetProjectAsync(testProject);
-                    if (cpsProject != null)
-                    {
-                        var tUnitProject = tUnitProjectFactory.Create(testProject, cpsProject);
-                        potentialTUnitProjects.Add(tUnitProject);
-                    }
-                }
+                var solutionProjects = await solutionProjectsProvider.GetLoadedProjectsAsync(cancellationToken);
+                var potentialTUnitProjects = await GetTUnitProjectsAsync(solutionProjects);
                 tUnitProjectCache.Initialize(potentialTUnitProjects);
                 initializedCache = true;
+            }
+            else
+            {
+                var newTUnitProjects = await GetTUnitProjectsAsync(addedProjects);
+                foreach(var newTUnitProject in newTUnitProjects)
+                {
+                    tUnitProjectCache.Add(newTUnitProject);
+                }
+                addedProjects.Clear();
             }
 
             return await tUnitProjectCache.GetTUnitProjectsAsync(cancellationToken);

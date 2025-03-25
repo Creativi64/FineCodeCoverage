@@ -138,6 +138,8 @@
     <Compile Include="Editor\DynamicCoverage\TrackingSpanRange_Tests.cs" />
     <Compile Include="FileLineCoverage_Tests.cs" />
     <Compile Include="FirstTimeToolWindowOpener_Tests.cs" />
+    <Compile Include="TUnitRunner_Tests.cs" />
+    <Compile Include="MsTestPlatformUtils_Tests.cs" />
     <Compile Include="MsCodeCoverage\ShimCopier_Tests.cs" />
     <Compile Include="MsCodeCoverage\TemplatedRunSettingsService_Tests.cs" />
     <Compile Include="MsCodeCoverage\CustomRunSettingsTemplateProvider_Tests.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="ReportColumnsManagmentViewModel_Tests.cs" />
     <Compile Include="ShownToolWindowHistory_Tests.cs" />
     <Compile Include="TestHelpers\ExportsInitializable.cs" />
+    <Compile Include="TestHelpers\MEFExportsHelper.cs" />
     <Compile Include="TestHelpers\MefOrderAssertions.cs" />
     <Compile Include="TestHelpers\MoqAssertionsHelper.cs" />
     <Compile Include="TestHelpers\MoqExtensions.cs" />

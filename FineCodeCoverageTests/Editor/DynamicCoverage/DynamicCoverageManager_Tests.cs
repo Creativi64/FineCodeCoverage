@@ -6,7 +6,7 @@ using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Impl;
-using FineCodeCoverageTests.Test_helpers;
+using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
@@ -20,7 +20,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         [Test]
         public void Should_Export_IInitializable()
         {
-            ExportsInitializable.Should_Export_IInitializable(typeof(DynamicCoverageManager));
+            ExportsInitializable.Should_Export_IInitializable<DynamicCoverageManager>();
         }
 
         [Test]

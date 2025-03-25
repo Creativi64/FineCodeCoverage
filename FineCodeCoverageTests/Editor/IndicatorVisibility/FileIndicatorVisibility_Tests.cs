@@ -2,7 +2,7 @@
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Output;
-using FineCodeCoverageTests.Test_helpers;
+using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
 
@@ -13,7 +13,7 @@ namespace FineCodeCoverageTests.Editor.IndicatorVisibility
         [Test]
         public void SHould_Export_As_Initializable()
         {
-            ExportsInitializable.Should_Export_IInitializable(typeof(FileIndicatorVisibility));
+            ExportsInitializable.Should_Export_IInitializable<FileIndicatorVisibility>();
         }
 
         [Test]

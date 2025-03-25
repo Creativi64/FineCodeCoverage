@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
@@ -9,6 +10,7 @@ using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl;
+using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using Moq;
@@ -124,6 +126,8 @@ namespace Test
         public void SetUp()
         {
             mocker = new AutoMoqer();
+            var mockCoverageCollectableFromTestExplorer = mocker.GetMock<ICoverageCollectableFromTestExplorer>();
+            mockCoverageCollectableFromTestExplorer.Setup(coverageCollectableFromTestExplorer => coverageCollectableFromTestExplorer.IsCollectableAsync()).ReturnsAsync(true);
             testContainerDiscoverer = mocker.Create<TestContainerDiscoverer>();
             testContainerDiscoverer.RunAsync = (taskProvider) =>
             {
@@ -477,5 +481,32 @@ namespace Test
 
         }
 
+    }
+
+    internal class TestContainerDiscovery_Not_Collectable_Tests
+    {
+        [Test]
+        public void Should_Not_When_Not_Collectable()
+        {
+            var mocker = new AutoMoqer();
+            var mockOperationState = mocker.GetMock<IOperationState>();
+            var mockCoverageCollectableFromTestExplorer = mocker.GetMock<ICoverageCollectableFromTestExplorer>();
+            mockCoverageCollectableFromTestExplorer.Setup(coverageCollectableFromTestExplorer => coverageCollectableFromTestExplorer.IsCollectableAsync()).ReturnsAsync(false);
+
+            var testContainerDiscoverer = mocker.Create<TestContainerDiscoverer>();
+            testContainerDiscoverer.RunAsync = (taskProvider) =>
+            {
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+                taskProvider().Wait();
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+            };
+            var mockTestOperationStateInvocationManager = mocker.GetMock<ITestOperationStateInvocationManager>();
+            mockTestOperationStateInvocationManager.Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvokeAsync(It.IsAny<TestOperationStates>())).ReturnsAsync(true);
+
+            OperationStateChangedEventArgs args = new OperationStateChangedEventArgs(TestOperationStates.TestExecutionStarting);
+            mockOperationState.Raise(operationState => operationState.StateChanged += null, args);
+
+            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.IsAny<TestExecutionStartingMessage>(), null), Times.Never());
+        }
     }
 }

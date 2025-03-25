@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal interface ICPSProjectService
+    internal interface ICPSTestProjectService
     {
         Task<ConfiguredProject> GetProjectAsync(IVsHierarchy hierarchy);
-        ConfiguredProject GetProject(IVsHierarchy hierarchy);
     }
 }

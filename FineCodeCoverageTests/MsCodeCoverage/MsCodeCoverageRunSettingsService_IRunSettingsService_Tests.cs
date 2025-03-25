@@ -8,6 +8,7 @@ using AutoMoq;
 using System.Threading;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {
@@ -85,7 +86,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         }
 
         [Test]
-        public void Should_Delegate_To_UserRunSettingsService_With_UserRunSettingsProjectDetailsLookup_And_FCC_Ms_TestAdapter_Path_When_Applicable()
+        public async Task Should_Delegate_To_UserRunSettingsService_With_UserRunSettingsProjectDetailsLookup_And_FCC_Ms_TestAdapter_Path_When_Applicable_Async()
         {
             var inputRunSettingDocument = new Mock<IXPathNavigable>().Object;
 
@@ -93,7 +94,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             mockRunSettingsConfigurationInfo.Setup(ci => ci.RequestState).Returns(RunSettingConfigurationInfoState.Execution);
             var runSettingsConfigurationInfo = mockRunSettingsConfigurationInfo.Object;
 
-            var fccMsTestAdapter = GetFCCMsTestAdapterPath();
+            var fccMsTestAdapter = await GetFCCMsTestAdapterPathAsync();
 
             // IsCollecting would set this
             var userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>
@@ -119,7 +120,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             Assert.AreSame(userRunSettingsProjectDetailsLookup, addFCCRunSettingsInvocation.Arguments[2]);
         }
 
-        private string GetFCCMsTestAdapterPath()
+        private async Task<string> GetFCCMsTestAdapterPathAsync()
         {
             autoMocker.GetMock<IToolUnzipper>()
                 .Setup(
@@ -131,7 +132,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
                 )
                 .Returns("ZipDestination");
 
-            msCodeCoverageRunSettingsService.Initialize(null, null, CancellationToken.None);
+            await msCodeCoverageRunSettingsService.InitializeAsync(null, CancellationToken.None);
             return Path.Combine("ZipDestination", "build", "netstandard2.0");
         }
     

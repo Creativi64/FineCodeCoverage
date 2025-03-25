@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Core.Utilities
         }
 
         private string ShownToolWindowFilePath => Path.Combine(appDataFolderPath, "outputWindowInitialized");
-        
+
         public bool HasShownToolWindow
         {
             get

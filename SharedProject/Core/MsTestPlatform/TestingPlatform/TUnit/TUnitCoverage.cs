@@ -1,8 +1,6 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
-using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
 using Microsoft.CodeAnalysis;
@@ -19,7 +17,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitCoverage))]
     [Export(typeof(ICoverageCollectableFromTestExplorer))]
-
     internal class TUnitCoverage : ITUnitCoverage, ICoverageCollectableFromTestExplorer
     {
         private readonly ITUnitProjectsProvider tUnitProjectsProvider;
@@ -33,6 +30,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ILogger logger;
         private int coverageRunNumber = 1;
         private CancellationTokenSource cancellationTokenSource;
+        private bool runnerReady;
+        private bool projectsProviderReady;
 
         public event EventHandler ReadyEvent;
 
@@ -50,6 +49,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         )
         {
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
+            tUnitRunner.ReadyEvent += TUnitRunner_ReadyEvent;
             this.tUnitProjectsProvider = tUnitProjectsProvider;
             this.buildHelper = buildHelper;
             this.tUnitCoverageProjectFactory = tUnitCoverageProjectFactory;
@@ -61,9 +61,24 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.logger = logger;
         }
 
+        private void TUnitRunner_ReadyEvent(object sender, EventArgs e)
+        {
+            runnerReady = true;
+            RaiseIfReady();
+        }
+
         private void TUnitProjectsProvider_ReadyEvent(object sender, EventArgs e)
         {
-            ReadyEvent?.Invoke(this, EventArgs.Empty);
+            projectsProviderReady = true;
+            RaiseIfReady();
+        }
+
+        private void RaiseIfReady()
+        {
+            if(runnerReady && projectsProviderReady)
+            {
+                ReadyEvent?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public event EventHandler<bool> CollectingChangedEvent;
@@ -158,7 +173,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 }
                 else
                 {
-                    await logger.LogAsync("No enabled Tunit test projects with Microsoft.Testing.Extensions.CodeCoverage");
+                    await logger.LogAsync("No enabled Tunit test projects.");
                 }
             }
             catch(OperationCanceledException)

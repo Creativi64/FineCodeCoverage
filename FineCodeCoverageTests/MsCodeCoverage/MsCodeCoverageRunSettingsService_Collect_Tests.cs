@@ -158,8 +158,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
             msCodeCoverageRunSettingsService.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
 
-            var mockFccEngine = new Mock<IFCCEngine>();
-            msCodeCoverageRunSettingsService.Initialize("", mockFccEngine.Object, CancellationToken.None);
+            await msCodeCoverageRunSettingsService.InitializeAsync("",CancellationToken.None);
 
             var mockOperation = new Mock<IOperation>();
             mockOperation.Setup(operation => operation.GetRunSettingsDataCollectorResultUri(new Uri(RunSettingsHelper.MsDataCollectorUri))).Returns(resultsUris);
@@ -181,7 +180,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);
 
 
-            mockFccEngine.Verify(engine => engine.RunAndProcessReport(
+            autoMocker.Verify<IFCCEngine>(engine => engine.RunAndProcessReport(
                     It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()), 
                     coverageProjects,null
                 )

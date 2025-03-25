@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.Initialization
 {
-    interface IAppDataFolderPathDependent
+    internal interface IAppDataFolderPathDependent
     {
         Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken);
     }

@@ -2,7 +2,7 @@
 using Castle.Core.Internal;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Management;
-using FineCodeCoverageTests.Test_helpers;
+using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Formatting;
 using Microsoft.VisualStudio.Utilities;
@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-using FineCodeCoverageTests.TestHelpers;
 
 namespace FineCodeCoverageTests.Editor.Management
 {
@@ -32,7 +31,7 @@ namespace FineCodeCoverageTests.Editor.Management
         [Test]
         public void Should_Export_IInitializable()
         {
-            ExportsInitializable.Should_Export_IInitializable(typeof(CoverageColoursManager));
+            ExportsInitializable.Should_Export_IInitializable<CoverageColoursManager>();
         }
 
         [Test]
