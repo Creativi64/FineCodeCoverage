@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
+using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
@@ -129,11 +130,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         List<string> coberturaFiles = new List<string>();
                         foreach (var tUnitCoverageProject in tUnitCoverageProjects)
                         {
-                            var coverageProject = tUnitCoverageProject.CoverageProject;
-                            var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
-                            var configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
-                            fileUtil.WriteAllText(configurationPath, configuration);
-                            var coberturaPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
+                            var configurationPath = await WriteConfigurationAsync(tUnitCoverageProject, cancellationToken);
+                            var coberturaPath = GetCoberturaPath(tUnitCoverageProject);
                             await Task.Yield();//todo was this how to get off ui thread ?
                             var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
                             if (success)
@@ -180,6 +178,19 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             OnCollectingChanged(false);
         }
 
+        private static string GetCoberturaPath(ITUnitCoverageProject tUnitCoverageProject)
+        {
+            var coverageProject = tUnitCoverageProject.CoverageProject;
+            return Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
+        }
+        private async Task<string> WriteConfigurationAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
+        {
+            var coverageProject = tUnitCoverageProject.CoverageProject;
+            var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
+            var configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
+            fileUtil.WriteAllText(configurationPath, configuration);
+            return configurationPath;
+        }
         async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
             var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
