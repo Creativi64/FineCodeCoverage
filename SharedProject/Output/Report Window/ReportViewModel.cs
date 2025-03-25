@@ -80,8 +80,11 @@ namespace FineCodeCoverage.Output
                     }
                     else
                     {
-                        var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
-                        newItems.Add(directoryTreeItem);
+                        if (rootDirectory != null)
+                        {
+                            var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
+                            newItems.Add(directoryTreeItem);
+                        }
                     }
 
                     if (this._items.Count > 0)

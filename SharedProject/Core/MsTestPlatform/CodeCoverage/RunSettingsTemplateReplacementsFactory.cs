@@ -155,7 +155,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             var hasIncludes = allProjectDetails.Any(pd => HasIncludes(pd.Settings.ModulePathsInclude, pd.IncludedReferencedProjects));
             var additionalModulePathsInclude = allProjectDetails.SelectMany(pd =>
                 GetAdditionalModulePathsInclude(hasIncludes, pd.IncludedReferencedProjects, pd.TestDllFile, pd.Settings.IncludeTestAssembly));
-            
+
             var settings = new CombinedIncludesExcludesOptions(mergedSettings, additionalModulePathsInclude, additionalModulePathsExclude);
             return new RunSettingsTemplateReplacements(settings, resultsDirectory, (!allProjectsDisabled).ToString().ToLower(), testAdapter);
         }

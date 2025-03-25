@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
+using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
 using Microsoft.CodeAnalysis;
@@ -45,7 +46,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IFileUtil fileUtil,
             IEventAggregator eventAggregator,
             ILogger logger
-
         )
         {
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
@@ -130,9 +130,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         foreach (var tUnitCoverageProject in tUnitCoverageProjects)
                         {
                             var coverageProject = tUnitCoverageProject.CoverageProject;
-                            await coverageProject.PrepareForCoverageAsync(cancellationToken, false);
                             var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
-                            //fileUtil.WriteAllText(configurationPath, tUnitCoverageProject.Configuration);                        
+                            var configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
+                            fileUtil.WriteAllText(configurationPath, configuration);
                             var coberturaPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
                             await Task.Yield();//todo was this how to get off ui thread ?
                             var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);

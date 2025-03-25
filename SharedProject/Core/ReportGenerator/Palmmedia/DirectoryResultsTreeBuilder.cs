@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public static DirectoryNode BuildDirectoryTree(List<ISourceFile> codeFiles)
         {
             if (codeFiles == null || codeFiles.Count == 0)
-                throw new ArgumentException("No files provided.");
+                return null;
 
             // Determine the common root directory
             var rootPath = FindCommonRootPath(codeFiles.ConvertAll(cf => cf.Path));

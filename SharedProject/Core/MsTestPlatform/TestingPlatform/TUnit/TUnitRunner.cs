@@ -55,8 +55,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             string outputpath)
         {
             var path = hasCoverageExtension ? exePath : dotnetCoverageExePath;
-            var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-output \"{outputpath}\"" :
-                    $"collect \"{exePath}\" --disable-logo -f cobertura -o \"{outputpath}\" --nologo";
+            var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{settingsPath}\" --coverage-output  \"{outputpath}\"" :
+                    $"collect \"{exePath}\" --disable-logo -f cobertura -o \"{outputpath}\" -s \"{settingsPath}\" --nologo";
             return (path, args);
         }
 
