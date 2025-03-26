@@ -10,6 +10,38 @@ using System.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
+    internal class BuildStartEnd : IVsUpdateSolutionEvents {
+        public event EventHandler<BuildStartEndArgs> BuildEvent;
+
+        public int UpdateSolution_Begin(ref int pfCancelUpdate)
+        {
+            return VSConstants.S_OK;
+        }
+
+        public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
+        {
+            BuildEvent?.Invoke(this, new BuildStartEndArgs(false));
+            return VSConstants.S_OK;
+        }
+
+        public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
+        {
+            BuildEvent?.Invoke(this, new BuildStartEndArgs(true));
+            return VSConstants.S_OK;
+        }
+
+        public int UpdateSolution_Cancel()
+        {
+            return VSConstants.S_OK;
+        }
+
+        public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
+        {
+            return VSConstants.S_OK;
+        }
+    }
+
+
     internal class BuildCompletionHandler : IVsUpdateSolutionEvents, IDisposable
     {
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
@@ -52,7 +84,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(IBuildHelper))]
     internal class BuildHelper : IBuildHelper
     {
-        private readonly IServiceProvider serviceProvider;
+        private IVsSolutionBuildManager2 solutionBuildManager2;
+        private BuildStartEnd buildStartEnd;
+        private bool building;
+        public event EventHandler<BuildStartEndArgs> ExternalBuildEvent;
 
         [ImportingConstructor]
         public BuildHelper(
@@ -60,12 +95,29 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IServiceProvider serviceProvider
         )
         {
-            this.serviceProvider = serviceProvider;
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                this.solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
+                buildStartEnd = new BuildStartEnd();
+                this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildStartEnd, out var cookie);
+                buildStartEnd.BuildEvent += BuildStartEnd_BuildEvent;
+            });
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
+
+        private void BuildStartEnd_BuildEvent(object sender, BuildStartEndArgs e)
+        {
+            if (!building)
+            {
+                ExternalBuildEvent?.Invoke(this, e);
+            }
+        }
+
         public async Task<bool> BuildAsync(List<IVsHierarchy> projects,CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
             var dependencies = await ProjectDependencyHelper.GetTransitiveDependenciesAsync(solutionBuildManager2, projects, cancellationToken);
             var projectsToBuild = projects.Concat(dependencies).ToArray();
             cancellationToken.ThrowIfCancellationRequested();
@@ -78,6 +130,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             var succeeded = false;
             try
             {
+                building = true;
                 var result = solutionBuildManager2.StartUpdateSpecificProjectConfigurations(
                     (uint)projectsToBuild.Length,
                     projectsToBuild,
@@ -98,6 +151,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
             finally
             {
+                building = false;
                 buildHandler.Dispose();
                 solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
             }

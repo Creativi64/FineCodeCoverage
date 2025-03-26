@@ -32,8 +32,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private CancellationTokenSource cancellationTokenSource;
         private bool runnerReady;
         private bool projectsProviderReady;
+        private bool externalBuildInProgress;
 
-        public event EventHandler ReadyEvent;
+        public event EventHandler<bool> ReadyEvent;
+        public event EventHandler<bool> CollectingChangedEvent;
 
         [ImportingConstructor]
         public TUnitCoverage(
@@ -48,6 +50,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ILogger logger
         )
         {
+            buildHelper.ExternalBuildEvent += BuildHelper_ExternalBuildEvent;
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
             tUnitRunner.ReadyEvent += TUnitRunner_ReadyEvent;
             this.tUnitProjectsProvider = tUnitProjectsProvider;
@@ -61,27 +64,29 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.logger = logger;
         }
 
+        private void BuildHelper_ExternalBuildEvent(object sender, BuildStartEndArgs e)
+        {
+            externalBuildInProgress = e.IsStart;
+            OnReady();
+        }
+
         private void TUnitRunner_ReadyEvent(object sender, EventArgs e)
         {
             runnerReady = true;
-            RaiseIfReady();
+            OnReady();
         }
 
         private void TUnitProjectsProvider_ReadyEvent(object sender, EventArgs e)
         {
             projectsProviderReady = true;
-            RaiseIfReady();
+            OnReady();
         }
 
-        private void RaiseIfReady()
+        private void OnReady()
         {
-            if(runnerReady && projectsProviderReady)
-            {
-                ReadyEvent?.Invoke(this, EventArgs.Empty);
-            }
+            var ready = runnerReady && projectsProviderReady && !externalBuildInProgress;
+            ReadyEvent?.Invoke(this, ready);
         }
-
-        public event EventHandler<bool> CollectingChangedEvent;
 
         protected void OnCollectingChanged(bool collecting)
         {

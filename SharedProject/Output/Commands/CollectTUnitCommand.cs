@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Output
             this.command = new MenuCommand(this.Execute, menuCommandID);
             this.command.Enabled = false;
             tUnitCoverage.CollectingChangedEvent += (_, collecting) => this.command.Visible = !collecting;
-            tUnitCoverage.ReadyEvent += (_, __) => this.command.Enabled = true;
+            tUnitCoverage.ReadyEvent += (_, ready) => this.command.Enabled = ready;
             commandService.AddCommand(command);
             this.tUnitCoverage = tUnitCoverage;
         }
