@@ -12,6 +12,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         bool HasCoverageExtension { get;} // could change
         IVsHierarchy Hierarchy { get; }
         Task UpdateStateAsync(CancellationToken cancellationToken);
+        CommandLineParseResult CommandLineParseResult { get; }
     }
 
     internal interface ITUnitProjectFactory

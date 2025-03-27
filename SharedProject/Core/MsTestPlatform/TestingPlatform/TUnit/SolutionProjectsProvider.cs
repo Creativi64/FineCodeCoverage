@@ -31,6 +31,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
         }
 
+        public async Task<bool> IsSolutionOpenAsync()
+        {
+
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out var isSolutionOpen);
+            return (bool)isSolutionOpen;
+
+        }
+
         private List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)
         {
             ThreadHelper.ThrowIfNotOnUIThread();

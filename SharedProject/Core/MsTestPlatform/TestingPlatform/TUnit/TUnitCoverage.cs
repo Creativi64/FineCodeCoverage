@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ITUnitProjectsProvider tUnitProjectsProvider;
         private readonly IBuildHelper buildHelper;
         private readonly ITUnitCoverageProjectFactory tUnitCoverageProjectFactory;
-        private readonly ITUnitRunner tUnitRunner;
+        private readonly ITUnitCoverageRunner tUnitCoverageRunner;
         private readonly ICoverageToolOutputManager coverageToolOutputManager;
         private readonly IFCCEngine fccEngine;
         private readonly IFileUtil fileUtil;
@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private bool projectsProviderReady;
         private bool externalBuildInProgress;
 
-        public event EventHandler<bool> ReadyEvent;
+        public event EventHandler ReadyEvent;
         public event EventHandler<bool> CollectingChangedEvent;
 
         [ImportingConstructor]
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ITUnitProjectsProvider tUnitProjectsProvider,
             IBuildHelper buildHelper,
             ITUnitCoverageProjectFactory tUnitCoverageProjectFactory,
-            ITUnitRunner tUnitRunner,
+            ITUnitCoverageRunner tUnitCoverageRunner,
             ICoverageToolOutputManager coverageToolOutputManager,
             IFCCEngine fccEngine,
             IFileUtil fileUtil,
@@ -52,11 +52,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             buildHelper.ExternalBuildEvent += BuildHelper_ExternalBuildEvent;
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
-            tUnitRunner.ReadyEvent += TUnitRunner_ReadyEvent;
+            projectsProviderReady = tUnitProjectsProvider.Ready;
+            tUnitCoverageRunner.ReadyEvent += TUnitRunner_ReadyEvent;
             this.tUnitProjectsProvider = tUnitProjectsProvider;
             this.buildHelper = buildHelper;
             this.tUnitCoverageProjectFactory = tUnitCoverageProjectFactory;
-            this.tUnitRunner = tUnitRunner;
+            this.tUnitCoverageRunner = tUnitCoverageRunner;
             this.coverageToolOutputManager = coverageToolOutputManager;
             this.fccEngine = fccEngine;
             this.fileUtil = fileUtil;
@@ -78,14 +79,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void TUnitProjectsProvider_ReadyEvent(object sender, EventArgs e)
         {
-            projectsProviderReady = true;
+            projectsProviderReady = tUnitProjectsProvider.Ready;
             OnReady();
         }
 
+        public bool Ready => runnerReady && projectsProviderReady && !externalBuildInProgress;
         private void OnReady()
         {
-            var ready = runnerReady && projectsProviderReady && !externalBuildInProgress;
-            ReadyEvent?.Invoke(this, ready);
+            ReadyEvent?.Invoke(this, EventArgs.Empty);
         }
 
         protected void OnCollectingChanged(bool collecting)
@@ -112,7 +113,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(cancellationToken);
-            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateCoverageProjectAsync(tUnitProject.Hierarchy,tUnitProject.HasCoverageExtension, cancellationToken)));
+            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateTUnitCoverageProjectAsync(tUnitProject, cancellationToken)));
             return tUnitCoverageProjects.Where(tp => tp.CoverageProject.Settings.Enabled).ToList();
         }
 
@@ -136,45 +137,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 var tUnitCoverageProjects = await GetEnabledTUnitProjectsAsync(cancellationToken);
                 if (tUnitCoverageProjects.Any())
                 {
-                    await logger.LogAsync("Starting build");
-                    var buildSuccess = await buildHelper.BuildAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy),cancellationToken);
-                    if (buildSuccess)
-                    {
-                        await logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
-
-                        var coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
-                        cancellationToken.ThrowIfCancellationRequested();
-                        await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
-
-                        var runAllProjects = true;
-                        List<string> coberturaFiles = new List<string>();
-                        foreach (var tUnitCoverageProject in tUnitCoverageProjects)
-                        {
-                            var configurationPath = await WriteConfigurationAsync(tUnitCoverageProject, cancellationToken);
-                            var coberturaPath = GetCoberturaPath(tUnitCoverageProject);
-                            await Task.Yield();//todo was this how to get off ui thread ?
-                            var success = await tUnitRunner.RunAsync(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
-                            if (success)
-                            {
-                                coberturaFiles.Add(coberturaPath);
-                            }
-                            else
-                            {
-                                // show message box
-                                runAllProjects = false;
-                            }
-                        }
-
-                        if (runAllProjects)
-                        {
-                            raiseCoverageEndedMessage = false;
-                            fccEngine.RunAndProcessReport(coberturaFiles.ToArray(), coverageProjects);
-                        }
-                    }
-                    else
-                    {
-                        await logger.LogAsync("Unsuccessful build.  Not collecting coverage");
-                    }
+                    var success = await BuildAndCollectAsync(tUnitCoverageProjects, cancellationToken);
+                    raiseCoverageEndedMessage = !success;
                 }
                 else
                 {
@@ -198,11 +162,106 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             OnCollectingChanged(false);
         }
 
+        private async Task<bool> BuildAndCollectAsync(List<ITUnitCoverageProject> tUnitCoverageProjects, CancellationToken cancellationToken)
+        {
+            var success = false;
+            await logger.LogAsync("Starting build");
+            var buildSuccess = await buildHelper.BuildAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy), cancellationToken);
+            if (buildSuccess)
+            {
+                success = await CollectCoverageAsync(tUnitCoverageProjects, cancellationToken);
+            }
+            else
+            {
+                await logger.LogAsync("Unsuccessful build.  Not collecting coverage");
+            }
+            return success;
+        }
+
+        private async Task<TUnitSettings> GetTUnitSettingsAsync(ITUnitCoverageProject tUnitCoverageProject,CancellationToken cancellationToken)
+        {
+            await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken,false);
+            var coberturaPath = GetCoberturaPath(tUnitCoverageProject);
+            var commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
+            // todo commandLineParseResult.HasError
+            string configurationPath = null;
+            var additionalArgs = "";
+            foreach (var option in commandLineParseResult.Options)
+            {
+                switch (option.Name)
+                {
+                    case "coverage":
+                    case "coverage-output-format":
+                    case "coverage-output"://for now will use own
+                    break;
+                    case "coverage-settings":
+                    case "settings":
+                        var arg = option.Arguments.SingleOrDefault();
+                        if (arg != null)
+                        {
+                            arg = arg.Replace("\"", "").Replace("'","");
+                            if (File.Exists(arg))
+                            {
+                                configurationPath = arg;
+                            }
+                        }
+                        break;
+                    default:
+                        additionalArgs += $" {CommandLineParseResult.OptionPrefix}{option.Name} {string.Join(" ",option.Arguments)}";
+                        break;
+                }
+            }
+
+            if (configurationPath == null)
+            {
+                configurationPath = await WriteConfigurationAsync(tUnitCoverageProject, cancellationToken);
+            }
+
+            return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgs);
+        }
+
+        private async Task<bool> CollectCoverageAsync(List<ITUnitCoverageProject> tUnitCoverageProjects, CancellationToken cancellationToken)
+        {
+            await logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
+
+            var coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
+            cancellationToken.ThrowIfCancellationRequested();
+            await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
+
+            var runAllProjects = true;
+            List<string> coberturaFiles = new List<string>();
+            foreach (var tUnitCoverageProject in tUnitCoverageProjects)
+            {
+                var tUnitSettings = await GetTUnitSettingsAsync(tUnitCoverageProject, cancellationToken);
+                var success = await tUnitCoverageRunner.RunAsync(tUnitSettings, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
+                if (success)
+                {
+                    coberturaFiles.Add(tUnitSettings.OutputPath);
+                }
+                else
+                {
+                    runAllProjects = false;
+                    break;
+                }
+            }
+
+            if (runAllProjects)
+            {
+                fccEngine.RunAndProcessReport(coberturaFiles.ToArray(), coverageProjects);
+            }
+            else
+            {
+                await logger.LogAsync("Not collecting coverage due to unsuccessful test");
+            }
+            return runAllProjects;
+        }
+
         private static string GetCoberturaPath(ITUnitCoverageProject tUnitCoverageProject)
         {
             var coverageProject = tUnitCoverageProject.CoverageProject;
             return Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
         }
+
         private async Task<string> WriteConfigurationAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
         {
             var coverageProject = tUnitCoverageProject.CoverageProject;
@@ -211,6 +270,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             fileUtil.WriteAllText(configurationPath, configuration);
             return configurationPath;
         }
+
         async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
             var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);

@@ -10,7 +10,7 @@ namespace Test
         [Test]
         public void Should_Be_IAppDataFolderPathDependent()
         {
-            Assert.That(MEFExportHelper.IsAndExports<TUnitRunner, IAppDataFolderPathDependent>(), Is.True);
+            Assert.That(MEFExportHelper.IsAndExports<TUnitCoverageRunner, IAppDataFolderPathDependent>(), Is.True);
         }
 	}
 }

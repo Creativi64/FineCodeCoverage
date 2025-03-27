@@ -192,7 +192,7 @@ namespace FineCodeCoverage.Engine.Model
                 FailureDescription = exception.ToString();
             }
         }
-
+        private bool hasPrepared = false;
         public async Task<CoverageProjectFileSynchronizationDetails> PrepareForCoverageAsync(CancellationToken cancellationToken,bool synchronizeBuildOuput = true)
         {
             cancellationToken.ThrowIfCancellationRequested();

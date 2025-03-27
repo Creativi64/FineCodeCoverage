@@ -1,9 +1,12 @@
 ﻿using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.Properties;
 using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio.Contracts;
 using System;
 using System.Collections.Immutable;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
@@ -21,7 +24,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             private IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems;
             private bool requiresUpdate = true;
             private bool disposedValue;
+            private readonly IProjectProperties commonProperties;
             private readonly IDisposable packageChangeSubscription;
+            private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
+            private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
+
 
             /*
                 in VS2022 there is also
@@ -35,9 +42,35 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 IVsHierarchy hierarchy
             )
             {
+                commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
                 this.Hierarchy = hierarchy;
                 this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
                 this.packageChangeSubscription = this.SubscribeToPackageReferenceChanges(configuredProject);
+            }
+
+            private async Task ParseTestingPlatformCommandLineArgumentsAsync()
+            {
+                var fccTestingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(FCCTestingPlatformCommandLineArgumentsPropertyName);
+                if(fccTestingPlatformCommandLineArguments != null)
+                {
+                    ParseTestingPlatformCommandLineArguments(fccTestingPlatformCommandLineArguments);
+                    return;
+                }
+
+                var testingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(TestingPlatformCommandLineArgumentsPropertyName);
+                if (testingPlatformCommandLineArguments != null)
+                {
+                    ParseTestingPlatformCommandLineArguments(testingPlatformCommandLineArguments);
+                }
+                else
+                {
+                    CommandLineParseResult = CommandLineParseResult.Empty;
+                }
+            }
+
+            private void ParseTestingPlatformCommandLineArguments(string args)
+            {
+                CommandLineParseResult = CommandLineParser.Parse(args.Split(' '));
             }
 
             private IDisposable SubscribeToPackageReferenceChanges(ConfiguredProject configuredProject)
@@ -80,6 +113,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             public bool HasCoverageExtension { get; private set; }
             public IVsHierarchy Hierarchy { get; }
 
+            public CommandLineParseResult CommandLineParseResult { get; private set; } = CommandLineParseResult.Empty;
             public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {
                 if (requiresUpdate)
@@ -96,7 +130,31 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
 
                     requiresUpdate = false;
+                }
 
+                if (IsTUnit)
+                {
+                    /*
+                        alternative is 
+                        var projectSnapshotService = configuredProject.Services.ProjectSnapshotService;
+                        var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSnapshot>>((pvv) =>
+                        {
+                            var projectInstance = pvv.Value.ProjectInstance;
+                            var argsProperty = projectInstance.GetProperty(FCCTestingPlatformCommandLineArgumentsPropertyName);
+                            if (argsProperty == null)
+                            {
+                                argsProperty = projectInstance.GetProperty(TestingPlatformCommandLineArgumentsPropertyName);
+                            }
+                            if(argsProperty != null)
+                            {
+                                var value = argsProperty.EvaluatedValue;
+                            }
+
+                        });
+                        return projectSnapshotService.SourceBlock.LinkTo(receivingBlock);
+
+                    */
+                    await ParseTestingPlatformCommandLineArgumentsAsync();
                 }
             }
 

@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 using System;
 using System.Threading;
 using Microsoft.VisualStudio.Shell.Interop;
-using System.Linq;
 using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -39,12 +39,27 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.tUnitChangeNotifier = tUnitChangeNotifier;
             this.tUnitProjectFactory = tUnitProjectFactory;
             this.tUnitProjectCache = tUnitProjectCache;
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            {
+                var solutionOpen = await solutionProjectsProvider.IsSolutionOpenAsync();
+                if (solutionOpen)
+                {
+                    OnReady(true);
+                }
+            });
+        }
+
+        public bool Ready { get; private set; }
+
+        private void OnReady(bool ready)
+        {
+            Ready = ready;
+            ReadyEvent?.Invoke(this, EventArgs.Empty);
         }
 
         private void TUnitChangeNotifier_SolutionOpenedEvent(object sender, EventArgs e)
         {
-            ReadyEvent?.Invoke(this, EventArgs.Empty);
-            tUnitChangeNotifier.SolutionOpenedEvent -= TUnitChangeNotifier_SolutionOpenedEvent;
+            OnReady(true);
         }
 
         private void TUnitChangeNotifier_SolutionClosedEvent(object sender, EventArgs e)
@@ -55,6 +70,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 tUnitProjectCache.Clear();
                 initializedCache = false;
             }
+            OnReady(false);
         }
 
         private void TUnitChangeNotifier_ProjectAddedRemovedEvent(object sender, ProjectAddedRemoved e)

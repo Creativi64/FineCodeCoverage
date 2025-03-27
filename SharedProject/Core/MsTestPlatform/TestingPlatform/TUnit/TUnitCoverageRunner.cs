@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    [Export(typeof(ITUnitRunner))]
+    [Export(typeof(ITUnitCoverageRunner))]
     [Export(typeof(IAppDataFolderPathDependent))]
-    internal class TUnitRunner : ITUnitRunner, IAppDataFolderPathDependent
+    internal class TUnitCoverageRunner : ITUnitCoverageRunner, IAppDataFolderPathDependent
     {
         private const string zipDirectoryName = "dotnet-coverage";
         private const string zipPrefix = "dotnet-coverage";
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public event EventHandler ReadyEvent;
 
         [ImportingConstructor]
-        public TUnitRunner(
+        public TUnitCoverageRunner(
             ILogger logger,
             IToolUnzipper toolUnzipper
         )
@@ -52,14 +52,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         }
 
         private (string,string) GetExeAndArgs(
-            bool hasCoverageExtension,
-            string exePath,
-            string settingsPath,
-            string outputpath)
+            TUnitSettings tUnitSettings,
+            bool hasCoverageExtension
+        )
         {
-            var path = hasCoverageExtension ? exePath : dotnetCoverageExePath;
-            var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{settingsPath}\" --coverage-output  \"{outputpath}\"" :
-                    $"collect \"{exePath}\" --disable-logo -f cobertura -o \"{outputpath}\" -s \"{settingsPath}\" --nologo";
+            var path = hasCoverageExtension ? tUnitSettings.ExePath : dotnetCoverageExePath;
+            var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
+                    $"collect \"{tUnitSettings.ExePath}\" --disable-logo -f cobertura -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
+            args = $"{args} {tUnitSettings.AdditionalArgs}";
             return (path, args);
         }
 
@@ -67,15 +67,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private string dotnetCoverageExePath;
 
         public async Task<bool> RunAsync(
-            string exePath,
-            string settingsPath,
-            string outputpath,
+            TUnitSettings tUnitSettings,
             bool hasCoverageExtension,
             bool showWindow = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             this.cancellationToken = cancellationToken;
-            var (path,args) = GetExeAndArgs(hasCoverageExtension, exePath, settingsPath, outputpath);
+            var (path,args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
             // could have FCC option - hide-test-output or just allow them to supply their own
             await logger.LogAsync("Executing TUnit", path, "Arguments", args);
             using (var process = new Process())

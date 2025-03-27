@@ -7,6 +7,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     internal interface ITUnitProjectsProvider
     {
+        bool Ready { get; }
+
         event EventHandler ReadyEvent;
         Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken);
     }
