@@ -6,9 +6,25 @@ using System.ComponentModel.Composition;
 using System.IO;
 using FineCodeCoverage.Options;
 using System.Collections.Generic;
+using System;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
 {
+    interface IEnvironment
+    {
+        string GetEnvironmentVariable(string variable);
+    }
+
+    [Export(typeof(IEnvironment))]
+    public class EnvironmentX : IEnvironment
+    {
+        public string GetEnvironmentVariable(string variable)
+        {
+            return Environment.GetEnvironmentVariable(variable);
+        }
+    }
+
+
     [Export(typeof(ITUnitSettingsProvider))]
     internal class TUnitSettingsProvider : ITUnitSettingsProvider
     {
@@ -16,6 +32,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
         private readonly IXmlUtils xmlUtils;
         private readonly IRunSettingsToConfiguration runSettingsToConfiguration;
         private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IEnvironment environment;
         private int fccRunWhenTestsExceed;
         private bool fccRunWhenTestsFail;
 
@@ -24,13 +41,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
             IFileUtil fileUtil,
             IXmlUtils xmlUtils,
             IRunSettingsToConfiguration runSettingsToConfiguration,
-            IAppOptionsProvider appOptionsProvider
+            IAppOptionsProvider appOptionsProvider,
+            IEnvironment environment
         )
         {
             this.fileUtil = fileUtil;
             this.xmlUtils = xmlUtils;
             this.runSettingsToConfiguration = runSettingsToConfiguration;
             this.appOptionsProvider = appOptionsProvider;
+            this.environment = environment;
             TakeFCCOptions(appOptionsProvider.Get());
             this.appOptionsProvider.OptionsChanged += TakeFCCOptions;
         }
@@ -74,7 +93,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
                     case "ignore-exit-code":
                         ignoreExitCodeArg = option.Arguments.FirstOrDefault();
                         break;
-                    case "minimum-expected-tests"
+                    case "minimum-expected-tests":
                         var minExpectedTestsArg = option.Arguments.FirstOrDefault();
                         if (minExpectedTestsArg != null)
                         {
@@ -121,8 +140,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
 
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)
         {
-            // todo environment variables TESTINGPLATFORM_EXITCODE_IGNORE - what takes precedence
-            return ignoreExitCodesArg ?? "";
+            var environmentVariableValue = environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
+            return environmentVariableValue ?? ignoreExitCodesArg ?? "";
         }
 
         private List<int> GetIgnoredExitCodes(string exitCodes)
