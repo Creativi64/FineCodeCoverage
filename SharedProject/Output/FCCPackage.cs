@@ -85,7 +85,6 @@ namespace FineCodeCoverage.Output
             await InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
-            componentModel.GetService<AsyncServiceProviderProvider>().Provider = this;
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
         }
 

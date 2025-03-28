@@ -1,5 +1,9 @@
 ﻿namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
+    /*
+        adjusted from
+        https://github.com/microsoft/testfx/blob/main/src/Platform/Microsoft.Testing.Platform/CommandLine/OptionRecord.cs
+    */
     internal sealed class CommandLineParseOption
     {
         public CommandLineParseOption(string name, string[] arguments)

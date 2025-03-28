@@ -8,8 +8,8 @@ using System.IO;
 using System.Threading;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.Xml.Linq;
-using System.Linq;
 using System;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -19,6 +19,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ICoverageProjectFactory coverageProjectFactory;
         private readonly ITemplatedRunSettingsService templatedRunSettingsService;
         private readonly IServiceProvider serviceProvider;
+        private readonly IXmlUtils xmlUtils;
+        private readonly IRunSettingsToConfiguration runSettingsToConfiguration;
 
         class TUnitCoverageProject : ITUnitCoverageProject
         {
@@ -56,12 +58,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ICoverageProjectFactory coverageProjectFactory,
             ITemplatedRunSettingsService templatedRunSettingsService,
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
+            IServiceProvider serviceProvider,
+            IXmlUtils xmlUtils,
+            IRunSettingsToConfiguration runSettingsToConfiguration
         )
         {
             this.coverageProjectFactory = coverageProjectFactory;
             this.templatedRunSettingsService = templatedRunSettingsService;
             this.serviceProvider = serviceProvider;
+            this.xmlUtils = xmlUtils;
+            this.runSettingsToConfiguration = runSettingsToConfiguration;
         }
 
         private async Task<ICoverageProject> CreateCoverageProjectAsync(
@@ -106,7 +112,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             var solutionDirectory = await GetSolutionDirectoryAsync(ct);
             var runSettings = templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
-            return XElement.Parse(runSettings).Descendants("Configuration").First();
+            return runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
         }
 
         public async Task<ITUnitCoverageProject> CreateTUnitCoverageProjectAsync(
@@ -123,7 +129,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 {
                     configurationElement.Add(new XElement("IncludeTestAssembly", true));
                 }
-                return configurationElement.ToString();
+                return xmlUtils.Serialize(configurationElement);
             };
 
             return new TUnitCoverageProject(

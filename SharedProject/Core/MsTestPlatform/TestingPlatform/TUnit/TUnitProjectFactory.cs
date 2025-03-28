@@ -17,10 +17,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class TUnitProjectFactory : ITUnitProjectFactory
     {
         private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
+        private readonly ICommandLineParser commandLineParser;
 
         class TUnitProject : ITUnitProject, IDisposable
         {
             private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
+            private readonly ICommandLineParser commandLineParser;
             private IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems;
             private bool requiresUpdate = true;
             private bool disposedValue;
@@ -38,6 +40,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             public TUnitProject(
                 ITUnitInstalledPackagesService tUnitInstalledPackagesService,
+                ICommandLineParser commandLineParser,
                 ConfiguredProject configuredProject,
                 IVsHierarchy hierarchy
             )
@@ -45,32 +48,49 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
                 this.Hierarchy = hierarchy;
                 this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+                this.commandLineParser = commandLineParser;
                 this.packageChangeSubscription = this.SubscribeToPackageReferenceChanges(configuredProject);
+            }
+
+            /*
+                cannot use GetEvaluatedPropertyValueAsync as absence returns empty string
+            */
+            private async Task<bool?> UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync()
+            {
+                var propertyNames = await commonProperties.GetPropertyNamesAsync();
+                var hasTestingPlatformCommandLineArgumentsPropertyName = false;
+                foreach (var propertyName in propertyNames)
+                {
+                    if(propertyName == FCCTestingPlatformCommandLineArgumentsPropertyName)
+                    {
+                        return true;
+                    }
+                    if(propertyName == TestingPlatformCommandLineArgumentsPropertyName)
+                    {
+                        hasTestingPlatformCommandLineArgumentsPropertyName = true;
+                    }
+                }
+                if (hasTestingPlatformCommandLineArgumentsPropertyName)
+                {
+                    return false;
+                }
+                return null;
             }
 
             private async Task ParseTestingPlatformCommandLineArgumentsAsync()
             {
-                var fccTestingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(FCCTestingPlatformCommandLineArgumentsPropertyName);
-                if(fccTestingPlatformCommandLineArguments != null)
-                {
-                    ParseTestingPlatformCommandLineArguments(fccTestingPlatformCommandLineArguments);
-                    return;
-                }
-
-                var testingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(TestingPlatformCommandLineArgumentsPropertyName);
-                if (testingPlatformCommandLineArguments != null)
-                {
-                    ParseTestingPlatformCommandLineArguments(testingPlatformCommandLineArguments);
-                }
-                else
+                var useFCCTestingPlatformCommandLineArgumentsPropertyName = await UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
+                if (!useFCCTestingPlatformCommandLineArgumentsPropertyName.HasValue)
                 {
                     CommandLineParseResult = CommandLineParseResult.Empty;
                 }
-            }
+                else
+                {
+                    var propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
+                    var testingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
 
-            private void ParseTestingPlatformCommandLineArguments(string args)
-            {
-                CommandLineParseResult = CommandLineParser.Parse(args.Split(' '));
+                    CommandLineParseResult = commandLineParser.Parse(testingPlatformCommandLineArguments);
+                }
             }
 
             private IDisposable SubscribeToPackageReferenceChanges(ConfiguredProject configuredProject)
@@ -182,14 +202,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         [ImportingConstructor]
         public TUnitProjectFactory(
-            ITUnitInstalledPackagesService tUnitInstalledPackagesService
+            ITUnitInstalledPackagesService tUnitInstalledPackagesService,
+            ICommandLineParser commandLineParser
         )
         {
             this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+            this.commandLineParser = commandLineParser;
         }
         public ITUnitProject Create(IVsHierarchy hierarchy,ConfiguredProject configuredProject)
         {
-            return new TUnitProject(tUnitInstalledPackagesService, configuredProject, hierarchy);
+            return new TUnitProject(tUnitInstalledPackagesService, commandLineParser, configuredProject, hierarchy);
         }
     }
 }

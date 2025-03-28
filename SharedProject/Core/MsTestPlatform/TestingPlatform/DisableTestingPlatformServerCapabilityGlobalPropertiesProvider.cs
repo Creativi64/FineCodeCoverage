@@ -56,19 +56,19 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         private async Task<bool> IsTUnitAsync()
         {
             var configuredProject = await unconfiguredProject.GetSuggestedConfiguredProjectAsync();
+            // although have ITUnitInstalledPackagesService it is not ready the first time this is called.
             var references = await configuredProject.Services.PackageReferences.GetUnresolvedReferencesAsync();
             return references.Any(r => r.UnevaluatedInclude == TUnitConstants.TUnitPackageId);
         }
 
         private async Task<bool> ProjectEnabledAsync()
         {
-            var coverageProject = await GetCoverageProjectAsync();
-            if (coverageProject != null)
-            {
-                var projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
-                return projectSettings.Enabled;
-            }
-            return true;
+            var projectGuid = await GetProjectGuidAsync();
+            if (!projectGuid.HasValue) return false;
+
+            var coverageProject = GetCoverageProject(projectGuid.Value);
+            var projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
+            return projectSettings.Enabled;
         }
 
         private async Task<Guid?> GetProjectGuidAsync()
@@ -89,18 +89,13 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             return null;
         }
 
-        private async Task<CoverageProject> GetCoverageProjectAsync()
+        private CoverageProject GetCoverageProject(Guid projectGuid)
         {
-            var projectGuid = await GetProjectGuidAsync();
-            if (projectGuid.HasValue)
+            return new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
             {
-                return new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
-                {
-                    Id = projectGuid.Value,
-                    ProjectFile = unconfiguredProject.FullPath
-                };
-            }
-            return null;
+                Id = projectGuid,
+                ProjectFile = unconfiguredProject.FullPath
+            };
         }
 
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)

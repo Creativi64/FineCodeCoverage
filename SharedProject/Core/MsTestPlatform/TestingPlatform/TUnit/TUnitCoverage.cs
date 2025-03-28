@@ -7,7 +7,6 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ITUnitCoverageRunner tUnitCoverageRunner;
         private readonly ICoverageToolOutputManager coverageToolOutputManager;
         private readonly IFCCEngine fccEngine;
-        private readonly IFileUtil fileUtil;
+        private readonly ITUnitSettingsProvider tUnitSettingsProvider;
         private readonly IEventAggregator eventAggregator;
         private readonly ILogger logger;
         private int coverageRunNumber = 1;
@@ -45,22 +44,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ITUnitCoverageRunner tUnitCoverageRunner,
             ICoverageToolOutputManager coverageToolOutputManager,
             IFCCEngine fccEngine,
-            IFileUtil fileUtil,
+            ITUnitSettingsProvider tUnitSettingsProvider,
             IEventAggregator eventAggregator,
             ILogger logger
         )
         {
             buildHelper.ExternalBuildEvent += BuildHelper_ExternalBuildEvent;
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
-            projectsProviderReady = tUnitProjectsProvider.Ready;
             tUnitCoverageRunner.ReadyEvent += TUnitRunner_ReadyEvent;
+            projectsProviderReady = tUnitProjectsProvider.Ready;
             this.tUnitProjectsProvider = tUnitProjectsProvider;
             this.buildHelper = buildHelper;
             this.tUnitCoverageProjectFactory = tUnitCoverageProjectFactory;
             this.tUnitCoverageRunner = tUnitCoverageRunner;
             this.coverageToolOutputManager = coverageToolOutputManager;
             this.fccEngine = fccEngine;
-            this.fileUtil = fileUtil;
+            this.tUnitSettingsProvider = tUnitSettingsProvider;
             this.eventAggregator = eventAggregator;
             this.logger = logger;
         }
@@ -178,48 +177,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return success;
         }
 
-        private async Task<TUnitSettings> GetTUnitSettingsAsync(ITUnitCoverageProject tUnitCoverageProject,CancellationToken cancellationToken)
-        {
-            await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken,false);
-            var coberturaPath = GetCoberturaPath(tUnitCoverageProject);
-            var commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
-            // todo commandLineParseResult.HasError
-            string configurationPath = null;
-            var additionalArgs = "";
-            foreach (var option in commandLineParseResult.Options)
-            {
-                switch (option.Name)
-                {
-                    case "coverage":
-                    case "coverage-output-format":
-                    case "coverage-output"://for now will use own
-                    break;
-                    case "coverage-settings":
-                    case "settings":
-                        var arg = option.Arguments.SingleOrDefault();
-                        if (arg != null)
-                        {
-                            arg = arg.Replace("\"", "").Replace("'","");
-                            if (File.Exists(arg))
-                            {
-                                configurationPath = arg;
-                            }
-                        }
-                        break;
-                    default:
-                        additionalArgs += $" {CommandLineParseResult.OptionPrefix}{option.Name} {string.Join(" ",option.Arguments)}";
-                        break;
-                }
-            }
-
-            if (configurationPath == null)
-            {
-                configurationPath = await WriteConfigurationAsync(tUnitCoverageProject, cancellationToken);
-            }
-
-            return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgs);
-        }
-
         private async Task<bool> CollectCoverageAsync(List<ITUnitCoverageProject> tUnitCoverageProjects, CancellationToken cancellationToken)
         {
             await logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
@@ -232,7 +189,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             List<string> coberturaFiles = new List<string>();
             foreach (var tUnitCoverageProject in tUnitCoverageProjects)
             {
-                var tUnitSettings = await GetTUnitSettingsAsync(tUnitCoverageProject, cancellationToken);
+                var tUnitSettings = await tUnitSettingsProvider.ProvideAsync(tUnitCoverageProject, cancellationToken);
                 var success = await tUnitCoverageRunner.RunAsync(tUnitSettings, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
                 if (success)
                 {
@@ -254,21 +211,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 await logger.LogAsync("Not collecting coverage due to unsuccessful test");
             }
             return runAllProjects;
-        }
-
-        private static string GetCoberturaPath(ITUnitCoverageProject tUnitCoverageProject)
-        {
-            var coverageProject = tUnitCoverageProject.CoverageProject;
-            return Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
-        }
-
-        private async Task<string> WriteConfigurationAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
-        {
-            var coverageProject = tUnitCoverageProject.CoverageProject;
-            var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
-            var configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
-            fileUtil.WriteAllText(configurationPath, configuration);
-            return configurationPath;
         }
 
         async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()

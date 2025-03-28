@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.ServiceBroker;
 using Microsoft.VisualStudio.Threading;
 using NuGet.VisualStudio.Contracts;
+using System;
 using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
@@ -15,12 +16,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         [ImportingConstructor]
         public NugetProjectServiceProvider(
-            AsyncServiceProviderProvider asyncServiceProviderProvider
+            [Import(typeof(SVsServiceProvider))]
+            IServiceProvider serviceProvider
         )
         {
             LazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
             {
-                var brokeredServiceContainer = await asyncServiceProviderProvider.Provider.GetServiceAsync<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
+                var brokeredServiceContainer = serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
                 IServiceBroker serviceBroker = brokeredServiceContainer.GetFullAccessServiceBroker();
 #pragma warning disable ISB001 // Dispose of proxies
                 INuGetProjectService nugetProjectService = await serviceBroker.GetProxyAsync<INuGetProjectService>(NuGetServices.NuGetProjectServiceV1);

@@ -146,6 +146,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\CommandLineParseResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\IBuildHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\INugetProjectServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\IRunSettingsToConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ISolutionProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitChangeNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitCoverage.cs" />
@@ -155,11 +156,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitCoverageRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ITUnitSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\IVsHierarchyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ICPSTestProjectService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\NugetProjectServiceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ProjectDependencyHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\ResponseFileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\RunSettingsToConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\SolutionProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitChangeNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitConstants.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitProjectsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitCoverageRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\CPSTestProjectService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExeArgumentsProvider.cs" />
@@ -204,7 +207,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileSystemInfoDeleteExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IAssemblyUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IAsyncServiceProviderProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileRenameListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IOpenFCCVsMarketplace.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IUrlEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IVsShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IXmlUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IZipFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LinqExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ListExtensions.cs" />
@@ -249,6 +252,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\SVsAppId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsVersioning\VsVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\XmlFileEscaper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\XmlUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ZipFileWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicCoverageTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorCoverageContentType.cs" />

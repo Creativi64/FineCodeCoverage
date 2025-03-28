@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
+    /*
+        adjusted from
+        https://github.com/microsoft/testfx/blob/main/src/Platform/Microsoft.Testing.Platform/CommandLine/ParseResult.cs
+    */
     internal class CommandLineParseResult
     {
         public CommandLineParseResult(
