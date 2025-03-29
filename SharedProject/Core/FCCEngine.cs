@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine
     }
 
     [Export(typeof(IFCCEngine))]
-    internal class FCCEngine : IFCCEngine,IDisposable
+    internal class FCCEngine : IFCCEngine
     {
         internal int InitializeWait { get; set; } = 5000;
         internal const string initializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
@@ -318,25 +318,6 @@ namespace FineCodeCoverage.Engine
 
                 return reportResult;
             },null);
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing && cancellationTokenSource != null)
-                {
-                    cancellationTokenSource.Dispose();
-                }
-
-                disposed = true;
-            }
         }
     }
 

@@ -95,8 +95,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 process.BeginErrorReadLine();
 
                 await process.WaitForExitAsync(cancellationToken);
-
-                process.WaitForExit(); // Ensures all output is handled
+                cancellationToken.ThrowIfCancellationRequested();
+                process.WaitForExit(1000); // Ensures all output is handled
 
                 /*
                     from https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-intro?tabs=dotnetcli#run-and-debug-tests

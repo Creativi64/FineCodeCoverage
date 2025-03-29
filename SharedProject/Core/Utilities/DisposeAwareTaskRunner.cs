@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Core.Utilities
     internal interface ICancellationTokenSource : IDisposable
     {
         CancellationToken Token { get; }
+        bool IsCancellationRequested { get; }
 
         void Cancel();
     }
@@ -24,6 +25,8 @@ namespace FineCodeCoverage.Core.Utilities
         }
 
         public CancellationToken Token  => cancellationTokenSource.Token;
+
+        public bool IsCancellationRequested => cancellationTokenSource.IsCancellationRequested;
 
         public void Cancel()
         {

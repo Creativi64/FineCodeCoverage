@@ -25,10 +25,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ICoverageToolOutputManager coverageToolOutputManager;
         private readonly IFCCEngine fccEngine;
         private readonly ITUnitSettingsProvider tUnitSettingsProvider;
+        private readonly IDisposeAwareTaskRunner disposeAwareTaskRunner;
         private readonly IEventAggregator eventAggregator;
         private readonly ILogger logger;
         private int coverageRunNumber = 1;
-        private CancellationTokenSource cancellationTokenSource;
+        private ICancellationTokenSource cancellationTokenSource;
         private bool runnerReady;
         private bool projectsProviderReady;
         private bool externalBuildInProgress;
@@ -45,6 +46,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ICoverageToolOutputManager coverageToolOutputManager,
             IFCCEngine fccEngine,
             ITUnitSettingsProvider tUnitSettingsProvider,
+            IDisposeAwareTaskRunner disposeAwareTaskRunner,
             IEventAggregator eventAggregator,
             ILogger logger
         )
@@ -60,6 +62,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.coverageToolOutputManager = coverageToolOutputManager;
             this.fccEngine = fccEngine;
             this.tUnitSettingsProvider = tUnitSettingsProvider;
+            this.disposeAwareTaskRunner = disposeAwareTaskRunner;
             this.eventAggregator = eventAggregator;
             this.logger = logger;
         }
@@ -95,13 +98,21 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public void Cancel()
         {
-            if(cancellationTokenSource.IsCancellationRequested) return;
-            cancellationTokenSource.Cancel();
+            try
+            {
+                if(cancellationTokenSource?.IsCancellationRequested == false)
+                {
+                    cancellationTokenSource.Cancel();
+                }
+            }
+            catch (ObjectDisposedException) { }
         }
 
         public void CollectCoverage()
         {
-            _ = Task.Run(async () => await CollectCoverageAsync());
+            Cancel();
+            cancellationTokenSource = disposeAwareTaskRunner.CreateLinkedTokenSource();
+            disposeAwareTaskRunner.RunAsyncFunc(CollectCoverageAsync);
         }
 
         private Task LogCoverageStartingAsync()
@@ -118,11 +129,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task CollectCoverageAsync()
         {
-            if(cancellationTokenSource != null)
-            {
-                return;
-            }
-            cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
             await LogCoverageStartingAsync();
             eventAggregator.SendMessage(new NewReportMessage(null, null)); // clear existing report
@@ -144,7 +150,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     await logger.LogAsync("No enabled Tunit test projects.");
                 }
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 await logger.LogAsync("Coverage collection cancelled");
             }
