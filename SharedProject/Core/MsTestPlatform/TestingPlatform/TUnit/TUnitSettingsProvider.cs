@@ -69,7 +69,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
             string configurationPathArgument = null;
             var additionalArgs = "";
             string ignoreExitCodeArg = null;
-            var minimumExpectedTests = fccRunWhenTestsExceed - 1;
+            int? minimumExpectedTests = null;
             foreach (var option in commandLineParseResult.Options)
             {
                 switch (option.Name)
@@ -83,8 +83,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
                         var arg = option.Arguments.FirstOrDefault();
                         if (arg != null)
                         {
-                            arg = arg.Replace("\"", "").Replace("'", "");
-                            if (fileUtil.Exists(arg))
+                            if (ConfigurationPathArgExists(arg))
                             {
                                 configurationPathArgument = arg;
                             }
@@ -104,21 +103,39 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
                         }
                         break;
                     default:
-                        additionalArgs += $" --{option.Name} {string.Join(" ", option.Arguments)}";
+                        AddToAdditionalArgs($"--{option.Name} {string.Join(" ", option.Arguments)}");
                         break;
                 }
             }
 
-            additionalArgs += $" --minimum-expected-tests {minimumExpectedTests}";
-
-            var ignoreExitCodePart = GetIgnoreExitCodePart(ignoreExitCodeArg);
-            if(ignoreExitCodePart != null)
-            {
-                additionalArgs += $" {ignoreExitCodePart}";
-            }
+            AddToAdditionalArgs(GetMinimumExpectedTestsPart(minimumExpectedTests));
+            AddToAdditionalArgs(GetIgnoreExitCodePart(ignoreExitCodeArg));
 
             var configurationPath = await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
             return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgs);
+
+            bool ConfigurationPathArgExists(string pathArg)
+            {
+                pathArg = pathArg.Replace("\"", "").Replace("'", "");
+                return fileUtil.Exists(pathArg);
+            }
+            void AddToAdditionalArgs(string part)
+            {
+                if (!string.IsNullOrEmpty(part))
+                {
+                    additionalArgs += $" {part}";
+                }
+            }
+        }
+
+        private string GetMinimumExpectedTestsPart(int? minimumExpectedTestsArg)
+        {
+            // non zero positive integer
+            if (!minimumExpectedTestsArg.HasValue && fccRunWhenTestsExceed > 1)
+            {
+                minimumExpectedTestsArg = fccRunWhenTestsExceed - 1;
+            }
+            return minimumExpectedTestsArg.HasValue ? $"--minimum-expected-tests {minimumExpectedTestsArg}" : null;
         }
 
         private string GetIgnoreExitCodePart(string ignoreExitCodeArg)
@@ -129,13 +146,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
             {
                 ignoredExitCodes.Add(2);
             }
-
-            if (ignoredExitCodes.Any())
-            {
-                return $"--ignore-exit-code {string.Join(";", ignoredExitCodes)}";
-            }
-
-            return null;
+            return ignoredExitCodes.Any() ? $"--ignore-exit-code {string.Join(";", ignoredExitCodes)}" : null;
         }
 
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)
@@ -155,7 +166,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
             {
                 return Enumerable.Empty<int>().ToList();
             }
-            
         }
 
         private async Task<string> GetConfigurationPathAsync(
