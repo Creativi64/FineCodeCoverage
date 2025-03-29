@@ -95,7 +95,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 process.BeginErrorReadLine();
 
                 await process.WaitForExitAsync(cancellationToken);
-                cancellationToken.ThrowIfCancellationRequested();
                 process.WaitForExit(1000); // Ensures all output is handled
 
                 /*
