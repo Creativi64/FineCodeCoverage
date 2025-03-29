@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using System.Threading;
+using Microsoft;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -98,6 +99,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 this.solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
+                Assumes.Present(this.solutionBuildManager2);
                 buildStartEnd = new BuildStartEnd();
                 this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildStartEnd, out var cookie);
                 buildStartEnd.BuildEvent += BuildStartEnd_BuildEvent;

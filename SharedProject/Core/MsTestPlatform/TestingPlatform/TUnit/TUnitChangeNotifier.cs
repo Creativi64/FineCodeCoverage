@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
 using System;
 using System.ComponentModel.Composition;
+using Microsoft;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -24,6 +25,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+                Assumes.Present(vsSolution);
                 vsSolution.AdviseSolutionEvents(this, out uint _);
             });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously

@@ -11,6 +11,7 @@ using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
+using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Engine
 {
@@ -44,9 +45,7 @@ namespace FineCodeCoverage.Engine
     {
         internal int InitializeWait { get; set; } = 5000;
         internal const string initializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
-        private CancellationTokenSource cancellationTokenSource;
-
-        private bool IsVsShutdown => disposeAwareTaskRunner.DisposalToken.IsCancellationRequested;
+        private ICancellationTokenSource cancellationTokenSource;
 
         private readonly ICoverageUtilManager coverageUtilManager;
         private readonly ICoberturaUtil coberturaUtil;
@@ -54,7 +53,6 @@ namespace FineCodeCoverage.Engine
         private readonly ILogger logger;
 
         private readonly ICoverageToolOutputManager coverageOutputManager;
-        internal Task reloadCoverageTask;
 #pragma warning disable IDE0052 // Remove unread private members
         private readonly ISolutionEvents solutionEvents; // keep alive
 #pragma warning restore IDE0052 // Remove unread private members
@@ -119,15 +117,13 @@ namespace FineCodeCoverage.Engine
             }
         }
 
-        private CancellationTokenSource Reset()
+        private void Reset()
         {
             ClearCoverageLines();
 
             StopCoverage();
 
-            cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(disposeAwareTaskRunner.DisposalToken);
-
-            return cancellationTokenSource;
+            cancellationTokenSource = disposeAwareTaskRunner.CreateLinkedTokenSource();
         }
 
         private async Task<string[]> RunCoverageAsync(List<ICoverageProject> coverageProjects,CancellationToken vsShutdownLinkedCancellationToken)
@@ -273,7 +269,7 @@ namespace FineCodeCoverage.Engine
             }
             catch (OperationCanceledException)
             {
-                if (!IsVsShutdown)
+                if (!disposeAwareTaskRunner.IsVsShutdown)
                 {
                     await LogCoverageStatusAsync("Cancelled");
                     this.eventAggregator.SendMessage(new CoverageEndedMessage());
@@ -292,17 +288,14 @@ namespace FineCodeCoverage.Engine
         private void RunCancellableCoverageTask(
             Func<CancellationToken, Task<ReportResult>> reportResultProvider, Action cleanUp)
         {
-            var vsLinkedCancellationTokenSource = Reset();
-            var vsShutdownLinkedCancellationToken = vsLinkedCancellationTokenSource.Token;
-            disposeAwareTaskRunner.RunAsyncFunc(() =>
+            Reset();
+            var vsShutdownLinkedCancellationToken = cancellationTokenSource.Token;
+            disposeAwareTaskRunner.RunAsyncFunc(async () =>
             {
-                reloadCoverageTask = Task.Run(async () =>
-                {
-                    await DoWorkAsync(reportResultProvider, vsShutdownLinkedCancellationToken);
-                    cleanUp?.Invoke();
-                    vsLinkedCancellationTokenSource.Dispose();
-                }, vsShutdownLinkedCancellationToken);
-                return reloadCoverageTask;
+                await TaskScheduler.Default;
+                await DoWorkAsync(reportResultProvider, vsShutdownLinkedCancellationToken);
+                cleanUp?.Invoke();
+                cancellationTokenSource.Dispose();
             });
         }
 
