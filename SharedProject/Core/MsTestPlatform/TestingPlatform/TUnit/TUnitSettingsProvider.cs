@@ -6,25 +6,10 @@ using System.ComponentModel.Composition;
 using System.IO;
 using FineCodeCoverage.Options;
 using System.Collections.Generic;
-using System;
+using System.Text;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
+namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    interface IEnvironment
-    {
-        string GetEnvironmentVariable(string variable);
-    }
-
-    [Export(typeof(IEnvironment))]
-    public class EnvironmentX : IEnvironment
-    {
-        public string GetEnvironmentVariable(string variable)
-        {
-            return Environment.GetEnvironmentVariable(variable);
-        }
-    }
-
-
     [Export(typeof(ITUnitSettingsProvider))]
     internal class TUnitSettingsProvider : ITUnitSettingsProvider
     {
@@ -67,7 +52,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
             var commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
             // todo commandLineParseResult.HasError
             string configurationPathArgument = null;
-            var additionalArgs = "";
+            var additionalArgsStringBuilder = new StringBuilder();
             string ignoreExitCodeArg = null;
             int? minimumExpectedTests = null;
             foreach (var option in commandLineParseResult.Options)
@@ -112,18 +97,19 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform.TUnit
             AddToAdditionalArgs(GetIgnoreExitCodePart(ignoreExitCodeArg));
 
             var configurationPath = await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
-            return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgs);
+            return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgsStringBuilder.ToString());
 
             bool ConfigurationPathArgExists(string pathArg)
             {
                 pathArg = pathArg.Replace("\"", "").Replace("'", "");
                 return fileUtil.Exists(pathArg);
             }
+
             void AddToAdditionalArgs(string part)
             {
                 if (!string.IsNullOrEmpty(part))
                 {
-                    additionalArgs += $" {part}";
+                    additionalArgsStringBuilder.Append($" {part}");
                 }
             }
         }

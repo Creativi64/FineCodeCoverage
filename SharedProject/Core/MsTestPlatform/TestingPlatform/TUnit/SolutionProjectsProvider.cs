@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using System.Threading;
+using Microsoft;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -33,12 +34,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public async Task<bool> IsSolutionOpenAsync()
         {
-
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            Assumes.Present(vsSolution);
             vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out var isSolutionOpen);
             return (bool)isSolutionOpen;
-
         }
 
         private List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)

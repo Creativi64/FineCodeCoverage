@@ -207,6 +207,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileSystemInfoDeleteExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IAssemblyUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileRenameListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IOpenFCCVsMarketplace.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ServiceProviderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SolutionEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SVsColorThemeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SystemEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ThrowIf.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\IToolFolder.cs" />

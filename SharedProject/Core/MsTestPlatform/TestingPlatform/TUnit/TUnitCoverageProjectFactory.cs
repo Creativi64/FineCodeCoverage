@@ -10,6 +10,7 @@ using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.Xml.Linq;
 using System;
 using FineCodeCoverage.Core.Utilities;
+using Microsoft;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -104,6 +105,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            Assumes.Present(vsSolution);
             vsSolution.GetSolutionInfo(out string solutionDirectory, out var _, out var __);
             return solutionDirectory;
         }

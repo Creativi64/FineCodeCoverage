@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using System.Threading;
@@ -40,7 +39,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return VSConstants.S_OK;
         }
     }
-
 
     internal class BuildCompletionHandler : IVsUpdateSolutionEvents, IDisposable
     {
