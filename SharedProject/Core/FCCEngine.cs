@@ -58,7 +58,6 @@ namespace FineCodeCoverage.Engine
 #pragma warning restore IDE0052 // Remove unread private members
         private readonly IEventAggregator eventAggregator;
         private readonly IDisposeAwareTaskRunner disposeAwareTaskRunner;
-        private bool disposed = false;
 
         [ImportingConstructor]
         public FCCEngine(
