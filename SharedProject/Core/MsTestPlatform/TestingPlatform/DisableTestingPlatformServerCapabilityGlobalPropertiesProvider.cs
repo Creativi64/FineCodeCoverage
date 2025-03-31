@@ -53,14 +53,31 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
+        private async Task<bool> IsTestProjectAsync(ConfiguredProject configuredProject)
+        {
+            var commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
+            var isTestProjectPropertValue = await commonProperties.GetEvaluatedPropertyValueAsync("IsTestProject");
+            if (String.IsNullOrEmpty(isTestProjectPropertValue)) { return false; }
+            if (bool.TryParse(isTestProjectPropertValue, out var isTestProject))
+            {
+                return isTestProject;
+            }
+            return false;
+        }
+
+        private async Task<bool> NoTUnitPackageReferenceAsync(ConfiguredProject configuredProject)
+        {
+            // although have ITUnitInstalledPackagesService it is not ready the first time this is called.
+            var references = await configuredProject.Services.PackageReferences.GetUnresolvedReferencesAsync();
+            return !references.Any(r => r.UnevaluatedInclude == TUnitConstants.TUnitPackageId);
+        }
+
         private async Task<bool> IsApplicableAsync()
         {
             try
             {
                 var configuredProject = await unconfiguredProject.GetSuggestedConfiguredProjectAsync();
-                // although have ITUnitInstalledPackagesService it is not ready the first time this is called.
-                var references = await configuredProject.Services.PackageReferences.GetUnresolvedReferencesAsync();
-                return !references.Any(r => r.UnevaluatedInclude == TUnitConstants.TUnitPackageId);
+                return await IsTestProjectAsync(configuredProject) && await NoTUnitPackageReferenceAsync(configuredProject);
             }
             catch { }
             return false;
