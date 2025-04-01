@@ -46,6 +46,7 @@ namespace FineCodeCoverage
         public const int cmdidEditColumnsCommand = 0x010B;
         public const int cmdidCollectTUnitCommand = 0x010C;
         public const int cmdidCancelCollectTUnitCommand = 0x010D;
+        public const int cmdidShowReportViewCommand = 0x010E;
         public const int openReportWindowCommandImageIndex = 0x0001;
         public const int clearUICommandImageIndex = 0x0006;
     }

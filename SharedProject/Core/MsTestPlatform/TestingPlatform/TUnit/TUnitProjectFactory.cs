@@ -5,8 +5,6 @@ using NuGet.VisualStudio.Contracts;
 using System;
 using System.Collections.Immutable;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;

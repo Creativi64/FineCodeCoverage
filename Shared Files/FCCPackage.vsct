@@ -206,6 +206,17 @@
 				<LocCanonicalName>FCC.CancelCollectTUnit</LocCanonicalName>
 			</Strings>
 		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidShowReportViewCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Icon guid="ImageCatalogGuid" id="Choose" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Show Report View Chooser</ButtonText>
+				<CommandName>Show Report View Chooser</CommandName>
+				<CanonicalName>FCC.ShowReportViewChooser</CanonicalName>
+				<LocCanonicalName>FCC.ShowReportViewChooser</LocCanonicalName>
+			</Strings>
+		</Button>
     </Buttons>
     
     <Menus>
@@ -249,6 +260,7 @@
 	  <IDSymbol value="267" name="cmdidEditColumnsCommand" />
 	  <IDSymbol value="268" name="cmdidCollectTUnitCommand" />
 	  <IDSymbol value="269" name="cmdidCancelCollectTUnitCommand" />
+	  <IDSymbol value="270" name="cmdidShowReportViewCommand" />
     </GuidSymbol>
 
     <!-- from Monikers.imagemanifest -->

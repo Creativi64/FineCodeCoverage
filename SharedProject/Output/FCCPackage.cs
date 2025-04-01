@@ -16,10 +16,11 @@ using FineCodeCoverage.Readme;
 using FineCodeCoverage.Output.Pane;
 using Microsoft.VisualStudio.ComponentModelHost;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
+using System.IO;
+using FineCodeCoverage.Core.Utilities.Solution;
 
 namespace FineCodeCoverage.Output
 {
-
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -50,10 +51,12 @@ namespace FineCodeCoverage.Output
     [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption,  typeof(FCCPackage), Arguments = "0")]
     public sealed class FCCPackage : AsyncPackage
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FCCPackage"/> class.
-		/// </summary>
-		public FCCPackage()
+        private ISolutionOptions solutionOptions;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FCCPackage"/> class.
+        /// </summary>
+        public FCCPackage()
 		{
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
@@ -80,8 +83,9 @@ namespace FineCodeCoverage.Output
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var componentModel = GetComponentModel();
+            await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
-
+            
             await InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
@@ -92,6 +96,33 @@ namespace FineCodeCoverage.Output
         {
             return (IComponentModel)GetGlobalService(typeof(SComponentModel));
         }
+
+        private async Task InitializeSolutionOptionsAsync(IComponentModel componentModel)
+        {
+            await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
+            this.solutionOptions = componentModel.GetService<ISolutionOptions>();
+            var keys = await solutionOptions.GetKeysAsync();
+            foreach(var key in keys)
+            {
+                AddOptionKey(key);
+            }
+            var solutionPersistence = await this.GetServiceAsync(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
+            foreach(var key in keys)
+            {
+                solutionPersistence.LoadPackageUserOpts(this, key);
+            }
+        }
+
+        protected override void OnLoadOptions(string key, Stream stream)
+        {
+            solutionOptions.LoadOptions(key, stream);
+        }
+
+        protected override void OnSaveOptions(string key, Stream stream)
+        {
+            solutionOptions.SaveOptions(key, stream);
+        }
+
 
         private async Task InitializeCommandsAsync (IComponentModel componentModel)
 		{
@@ -117,6 +148,7 @@ namespace FineCodeCoverage.Output
             await EditColumnsCommand.InitializeAsync(this, componentModel.GetService<IReportColumnsService>());
             await CollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
             await CancelCollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
+            await ShowReportViewCommand.InitializeAsync(this, componentModel.GetService<IReportViewService>());
         }
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)

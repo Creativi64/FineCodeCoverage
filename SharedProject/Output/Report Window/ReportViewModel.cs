@@ -23,7 +23,8 @@ namespace FineCodeCoverage.Output
             IEventAggregator eventAggregator,
             ISourceFileOpener sourceFileOpener,
             ITreeExpander treeExpander,
-            IReportColumnManager reportColumnManager
+            IReportColumnManager reportColumnManager,
+            IReportViews reportViews
         )
         {
             this.TreeViewAutomationName = "Coverage Report Tree";
@@ -32,10 +33,44 @@ namespace FineCodeCoverage.Output
             this.sourceFileOpener = sourceFileOpener;
             this.treeExpander = treeExpander;
             ColumnManagerImpl = reportColumnManager;
+            this.reportViews = reportViews;
+            // might want a single change event as also need to set ini
+            reportViews.Changed += ReportViews_Changed;
         }
+
+        private void ReportViews_Changed(object sender, EventArgs e)
+        {
+            TakeViews();
+            if(lastReport != null)
+            {
+                GenerateReport();
+            }
+        }
+
+        private class Report
+        {
+            public Report(NewReportMessage message)
+            {
+                TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
+                Assemblies = message.Report.Assemblies;
+                MetricTypes = message.Report.MetricTypes;
+                Directory = message.Report.Directory; // lazy ?
+            }
+
+            public List<string> TestAssemblyNames { get; }
+            public IReadOnlyCollection<IAssembly> Assemblies { get; }
+            public List<MetricType> MetricTypes { get; internal set; }
+            public IDirectory Directory { get; internal set; }
+        }
+
+        private bool initializedView;
+        private ReportStyle reportStyle;
+        private ReportContent reportContent;
+        private Report lastReport;
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
         private readonly ITreeExpander treeExpander;
+        private readonly IReportViews reportViews;
 
         protected override IReportColumnManager ColumnManagerImpl { get; set; }
 
@@ -46,62 +81,79 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this.coverageRunning, value, nameof(this.CoverageRunning));
         }
 
+        private void TakeViews()
+        {
+            reportStyle = reportViews.ReportStyle;
+            reportContent = reportViews.ReportContent;
+        }
+
+        private void EnsureInitializedView()
+        {
+            if (!initializedView)
+            {
+                TakeViews();
+                initializedView = true;
+            }
+        }
+
+        private void GenerateReport()
+        {
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            {
+                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
+                if (reportStyle == ReportStyle.Assembly)
+                {
+                    IReadOnlyCollection<IAssembly> assemblies = lastReport.Assemblies;
+                    foreach (IAssembly assembly in assemblies)
+                    {
+                        bool isTestAssembly = false;
+                        if (lastReport.TestAssemblyNames.Contains(assembly.Name) == true)
+                        {
+                            isTestAssembly = true;
+                        }
+
+                        var assemblyTreeItem = new AssemblyTreeItem(assembly, isTestAssembly);
+                        newItems.Add(assemblyTreeItem);
+                    }
+                }
+                else
+                {
+                    var rootDirectory = lastReport.Directory;
+                    if (rootDirectory != null)
+                    {
+                        var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
+                        newItems.Add(directoryTreeItem);
+                    }
+                }
+
+                if (this._items.Count > 0)
+                {
+                    this.treeExpander.RestoreExpansionState(this._items, newItems);
+                }
+
+                this._items.Clear();
+                foreach (var newItem in newItems)
+                {
+                    newItem.AdjustWidth(firstColumnWidth);
+                    this._items.Add(newItem);
+                }
+            });
+        }
+
         public void Handle(NewReportMessage message)
         {
             if(message.Report != null)
             {
-                var testAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
-                this.ColumnManagerImpl.ShowRelevantColumns(message.Report.MetricTypes);
-                IReadOnlyCollection<IAssembly> assemblies = message.Report.Assemblies;
-                var rootDirectory = message.Report.Directory;
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
-                {
-                    double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-
-                    List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
-#pragma warning disable RCS1118 // Mark local variable as const //todo this will come from UI
-                    var assembliesView = false;
-#pragma warning restore RCS1118 // Mark local variable as const
-                    if (assembliesView)
-                    {
-                        foreach (IAssembly assembly in assemblies)
-                        {
-                            bool isTestAssembly = false;
-                            if (testAssemblyNames?.Contains(assembly.Name) == true)
-                            {
-                                isTestAssembly = true;
-                            }
-
-                            var assemblyTreeItem = new AssemblyTreeItem(assembly, isTestAssembly);
-                            newItems.Add(assemblyTreeItem);
-                        }
-                    }
-                    else
-                    {
-                        if (rootDirectory != null)
-                        {
-                            var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
-                            newItems.Add(directoryTreeItem);
-                        }
-                    }
-
-                    if (this._items.Count > 0)
-                    {
-                        this.treeExpander.RestoreExpansionState(this._items,newItems);
-                    }
-
-                    this._items.Clear();
-                    foreach (var newItem in newItems)
-                    {
-                        newItem.AdjustWidth(firstColumnWidth);
-                        this._items.Add(newItem);
-                    }
-                });
+                EnsureInitializedView();
+                lastReport = new Report(message);
+                this.ColumnManagerImpl.ShowRelevantColumns(lastReport.MetricTypes);
+                GenerateReport();
             }
             else
             {
+                lastReport = null;
                 ThreadHelper.JoinableTaskFactory.Run(async () =>
                 {
                     double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;

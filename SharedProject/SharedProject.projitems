@@ -234,6 +234,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ServiceProviderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SolutionEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Solution\ISolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Solution\ISolutionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Solution\SolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Solution\SolutionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SVsColorThemeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SystemEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ThrowIf.cs" />
@@ -446,6 +450,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ICoverageCollectableFromTestExplorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ShowReportViewCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\EditColumnsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CollectTUnitCommand.cs" />
@@ -511,6 +516,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSelectorWindow.xaml.cs">
+      <DependentUpon>ReportViewSelectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\IReportViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\IReportViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSelectorViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSolutionOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
       <DependentUpon>BaseDialogControl.xaml</DependentUpon>
     </Compile>
@@ -620,6 +633,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSelectorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
