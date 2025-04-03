@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Output
         ReportStyle ReportStyle { get; }
         List<string> RepositoryPaths { get; }
         string SelectedBranchName { get; }
-        string SelectedRepository { get; }
+        string SelectedRepositoryPath { get; }
     }
 
     internal class ReportViewState : IReportViewState
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Output
         {
             ReportStyle = optionValue.ReportStyle;
             ReportContentType = optionValue.ReportContent;
-            SelectedRepository = optionValue.SelectedRepository;
+            SelectedRepositoryPath = optionValue.SelectedRepository;
             SelectedBranchName = optionValue.SelectedBranchName;
             RepositoryPaths = repositories;
             CanUseRepositories = canUseRepositories;
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Output
 
         public ReportStyle ReportStyle { get; }
         public ReportContentType ReportContentType { get; }
-        public string SelectedRepository { get; }
+        public string SelectedRepositoryPath { get; }
         public string SelectedBranchName { get; }
         public List<string> RepositoryPaths { get; }
         public bool CanUseRepositories { get; }
@@ -144,7 +144,7 @@ namespace FineCodeCoverage.Output
             return initialReportViewState.ReportContentType != SelectedReportContentType.ReportContentType ||
                 initialReportViewState.ReportStyle != SelectedReportStyle.ReportStyle ||
                 initialReportViewState.SelectedBranchName != SelectedBranch ||
-                initialReportViewState.SelectedRepository != SelectedRepositoryPath;
+                initialReportViewState.SelectedRepositoryPath != SelectedRepositoryPath;
         }
 
         public ReportViewSelectorViewModel(IReportViewSelectorModel reportViewSelectorModel)
@@ -166,7 +166,7 @@ namespace FineCodeCoverage.Output
             var canUseRepositories = initialReportViewState.CanUseRepositories;
             if (hasRepositories)
             {
-                SelectedRepositoryPath = initialReportViewState.SelectedRepository ?? RepositoryPaths[0];
+                SelectedRepositoryPath = initialReportViewState.SelectedRepositoryPath ?? RepositoryPaths[0];
                 SelectedBranch = initialReportViewState.SelectedBranchName;
                 ShowBranchesCombo = true;
                 ShowRepositoriesCombo = RepositoryPaths.Count > 1;

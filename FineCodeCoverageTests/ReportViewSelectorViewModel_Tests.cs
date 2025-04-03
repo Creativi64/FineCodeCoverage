@@ -14,16 +14,16 @@ namespace FineCodeCoverageTests
             public ReportViewState(
                 ReportStyle reportStyle, 
                 ReportContentType reportContentType,
-                string selectedRepository,
-                string selectedBranch,
+                string selectedRepositoryPath,
+                string selectedBranchName,
                 List<string> repositoryPaths,
                 bool canUseRepositories
 
             ) {
                 ReportStyle = reportStyle;
                 ReportContentType = reportContentType;
-                SelectedRepository = selectedRepository;
-                SelectedBranch = selectedBranch;
+                SelectedRepositoryPath = selectedRepositoryPath;
+                SelectedBranchName = selectedBranchName;
                 RepositoryPaths = repositoryPaths;
                 CanUseRepositories = canUseRepositories;
             }
@@ -33,8 +33,7 @@ namespace FineCodeCoverageTests
             public ReportStyle ReportStyle { get; }
             public List<string> RepositoryPaths { get; }
             public string SelectedBranchName { get; }
-            public string SelectedRepository { get; }
-            public string SelectedBranch { get; }
+            public string SelectedRepositoryPath { get; }
         } 
         private ReportViewSelectorViewModel Setup(ReportViewState reportViewState)
         {
