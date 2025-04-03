@@ -18,6 +18,7 @@ using Microsoft.VisualStudio.ComponentModelHost;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 using System.IO;
 using FineCodeCoverage.Core.Utilities.Solution;
+using Microsoft;
 
 namespace FineCodeCoverage.Output
 {
@@ -85,7 +86,6 @@ namespace FineCodeCoverage.Output
             var componentModel = GetComponentModel();
             await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
-            
             await InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
@@ -107,6 +107,7 @@ namespace FineCodeCoverage.Output
                 AddOptionKey(key);
             }
             var solutionPersistence = await this.GetServiceAsync(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
+            Assumes.Present(solutionPersistence);
             foreach(var key in keys)
             {
                 solutionPersistence.LoadPackageUserOpts(this, key);

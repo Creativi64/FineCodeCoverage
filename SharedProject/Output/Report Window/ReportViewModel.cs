@@ -34,7 +34,6 @@ namespace FineCodeCoverage.Output
             this.treeExpander = treeExpander;
             ColumnManagerImpl = reportColumnManager;
             this.reportViews = reportViews;
-            // might want a single change event as also need to set ini
             reportViews.Changed += ReportViews_Changed;
         }
 
@@ -65,7 +64,7 @@ namespace FineCodeCoverage.Output
 
         private bool initializedView;
         private ReportStyle reportStyle;
-        private ReportContent reportContent;
+        private ReportContentType reportContentType;
         private Report lastReport;
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
@@ -84,7 +83,7 @@ namespace FineCodeCoverage.Output
         private void TakeViews()
         {
             reportStyle = reportViews.ReportStyle;
-            reportContent = reportViews.ReportContent;
+            reportContentType = reportViews.ReportContentType;
         }
 
         private void EnsureInitializedView()
@@ -109,7 +108,7 @@ namespace FineCodeCoverage.Output
                     foreach (IAssembly assembly in assemblies)
                     {
                         bool isTestAssembly = false;
-                        if (lastReport.TestAssemblyNames.Contains(assembly.Name) == true)
+                        if (lastReport.TestAssemblyNames.Contains(assembly.Name))
                         {
                             isTestAssembly = true;
                         }

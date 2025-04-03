@@ -138,6 +138,7 @@
     <Compile Include="Editor\DynamicCoverage\TrackingSpanRange_Tests.cs" />
     <Compile Include="FileLineCoverage_Tests.cs" />
     <Compile Include="FirstTimeToolWindowOpener_Tests.cs" />
+    <Compile Include="ReportViewSelectorViewModel_Tests.cs" />
     <Compile Include="TUnitRunner_Tests.cs" />
     <Compile Include="MsTestPlatformUtils_Tests.cs" />
     <Compile Include="MsCodeCoverage\ShimCopier_Tests.cs" />

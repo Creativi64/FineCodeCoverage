@@ -7,9 +7,10 @@ namespace FineCodeCoverage.Output
     internal class ReportViewSolutionOptionValue
     {
         public ReportStyle ReportStyle { get; set; }
-        public ReportContent ReportContent { get; set; }
+        public ReportContentType ReportContent { get; set; }
 
-        // todo branch and repo
+        public string SelectedRepository { get; set; }
+        public string SelectedBranchName { get; set; }
 
     }
 
@@ -23,7 +24,7 @@ namespace FineCodeCoverage.Output
             Value = new ReportViewSolutionOptionValue
             {
                 ReportStyle = ReportStyle.Assembly,
-                ReportContent = ReportContent.Full,
+                ReportContent = ReportContentType.Full,
             };
         }
 
