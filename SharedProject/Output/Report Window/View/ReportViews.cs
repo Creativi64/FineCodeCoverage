@@ -99,11 +99,9 @@ namespace FineCodeCoverage.Output
                         gitRepo = gitService.GetRepository(selectedRepositoryPath);
                     }
                     
-                    if (gitRepo != null)
-                    {
-                        selectedBranchName = gitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
-                        gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, selectedBranchName);
-                    }
+
+                    selectedBranchName = gitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
+                    gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, selectedBranchName);
                 }
                 else
                 {
