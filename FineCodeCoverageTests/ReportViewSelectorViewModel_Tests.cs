@@ -9,6 +9,33 @@ namespace FineCodeCoverageTests
 {
     internal class ReportViewSelectorViewModel_Tests
     {
+        private class ReportViewState : IReportViewState
+        {
+            public ReportViewState(
+                ReportStyle reportStyle, 
+                ReportContentType reportContentType,
+                string selectedRepository,
+                string selectedBranch,
+                List<string> repositoryPaths,
+                bool canUseRepositories
+
+            ) {
+                ReportStyle = reportStyle;
+                ReportContentType = reportContentType;
+                SelectedRepository = selectedRepository;
+                SelectedBranch = selectedBranch;
+                RepositoryPaths = repositoryPaths;
+                CanUseRepositories = canUseRepositories;
+            }
+
+            public bool CanUseRepositories { get; }
+            public ReportContentType ReportContentType { get; }
+            public ReportStyle ReportStyle { get; }
+            public List<string> RepositoryPaths { get; }
+            public string SelectedBranchName { get; }
+            public string SelectedRepository { get; }
+            public string SelectedBranch { get; }
+        } 
         private ReportViewSelectorViewModel Setup(ReportViewState reportViewState)
         {
             var autoMoqer = new AutoMoqer();

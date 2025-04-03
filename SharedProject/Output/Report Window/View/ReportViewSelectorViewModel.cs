@@ -8,20 +8,28 @@ using TreeGrid;
 
 namespace FineCodeCoverage.Output
 {
-    internal class ReportViewState {
+    internal interface IReportViewState
+    {
+        bool CanUseRepositories { get; }
+        ReportContentType ReportContentType { get; }
+        ReportStyle ReportStyle { get; }
+        List<string> RepositoryPaths { get; }
+        string SelectedBranchName { get; }
+        string SelectedRepository { get; }
+    }
+
+    internal class ReportViewState : IReportViewState
+    {
         public ReportViewState(
-            ReportStyle reportStyle,
-            ReportContentType reportContentType,
-            string selectedRepository,
-            string selectedBranchName,
+            ReportViewSolutionOptionValue optionValue,
             List<string> repositories,
             bool canUseRepositories
         )
         {
-            ReportStyle = reportStyle;
-            ReportContentType = reportContentType;
-            SelectedRepository = selectedRepository;
-            SelectedBranchName = selectedBranchName;
+            ReportStyle = optionValue.ReportStyle;
+            ReportContentType = optionValue.ReportContent;
+            SelectedRepository = optionValue.SelectedRepository;
+            SelectedBranchName = optionValue.SelectedBranchName;
             RepositoryPaths = repositories;
             CanUseRepositories = canUseRepositories;
         }
@@ -68,7 +76,7 @@ namespace FineCodeCoverage.Output
 
     internal interface IReportViewSelectorModel
     {
-        ReportViewState GetState();
+        IReportViewState GetState();
         void Update(ReportStyle reportStyle,
             ReportContentType reportContentType,
             string selectedBranchName,
@@ -194,7 +202,7 @@ namespace FineCodeCoverage.Output
 
         public ICommand CancelCommand { get; }
 
-        private readonly ReportViewState initialReportViewState;
+        private readonly IReportViewState initialReportViewState;
 
         public ICommand OkCommand { get; }
 

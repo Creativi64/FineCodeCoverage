@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Output
         }
 
         private GitRepoInfo gitRepoInfo;
-        private List<string> repositoryPaths;
+        private List<string> repositoryPaths = new List<string>();
 
         [ImportingConstructor]
         public ReportViews(ReportViewSolutionOption reportViewSolutionOption, IGitService gitService)
@@ -57,12 +57,19 @@ namespace FineCodeCoverage.Output
         }
 
         // may have already initialized.  Need to do active repositories each time
-        public ReportViewState GetState()
+        public IReportViewState GetState()
         {
             var state = reportViewSolutionOption.Value;
             InitializeRepositories(state.SelectedRepository, state.SelectedBranchName);
-
-            return new ReportViewState(ReportStyle, ReportContentType, gitRepoInfo?.RepositoryPath, gitRepoInfo?.SelectedBranchName, repositoryPaths, CanUseChangeset);
+            var optionValue = new ReportViewSolutionOptionValue
+            {
+                ReportContent = ReportContentType,
+                ReportStyle = ReportStyle,
+                SelectedBranchName = gitRepoInfo?.SelectedBranchName,
+                SelectedRepository = gitRepoInfo?.RepositoryPath
+            };
+            reportViewSolutionOption.Value = optionValue;
+            return new ReportViewState(optionValue, repositoryPaths, CanUseChangeset);
         }
 
         private void InitializeRepositories(string selectedRepositoryPath, string selectedBranchName)
@@ -70,16 +77,13 @@ namespace FineCodeCoverage.Output
             if (CanUseChangeset)
             {
                 repositoryPaths = gitService.GetRepositoryPaths();
-                if (reportViewSolutionOption.Value.ReportContent == ReportContentType.Changeset)
+                if (repositoryPaths.Contains(selectedRepositoryPath))
                 {
-                    if (repositoryPaths.Contains(selectedRepositoryPath))
+                    var gitRepo = gitService.GetRepository(selectedRepositoryPath);
+                    if (gitRepo != null)
                     {
-                        var gitRepo = gitService.GetRepository(selectedRepositoryPath);
-                        if (gitRepo != null)
-                        {
-                            selectedBranchName = gitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
-                            gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, selectedBranchName);
-                        }
+                        selectedBranchName = gitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
+                        gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, selectedBranchName);
                     }
                 }
             }
