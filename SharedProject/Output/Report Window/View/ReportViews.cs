@@ -45,6 +45,7 @@ namespace FineCodeCoverage.Output
 #endif
         }
 
+        //todo
         private void ReportViewSolutionOption_LoadedEvent(object sender, SolutionOptionLoadEventArgs<ReportViewSolutionOptionValue> e)
         {
             var previous = e.PreviousValue;
@@ -76,15 +77,41 @@ namespace FineCodeCoverage.Output
         {
             if (CanUseChangeset)
             {
+                // todo previous gitrepo....
                 repositoryPaths = gitService.GetRepositoryPaths();
                 if (repositoryPaths.Contains(selectedRepositoryPath))
                 {
-                    var gitRepo = gitService.GetRepository(selectedRepositoryPath);
+                    IGitRepo gitRepo = null;
+                    if(gitRepoInfo != null)
+                    {
+                        if(gitRepoInfo.RepositoryPath == selectedRepositoryPath)
+                        {
+                            gitRepo = gitRepoInfo.GitRepo;
+                        }
+                        else
+                        {
+                            gitRepoInfo.Dispose();
+                        }
+                        gitRepoInfo = null;
+                    }
+                    if (gitRepo == null)
+                    {
+                        gitRepo = gitService.GetRepository(selectedRepositoryPath);
+                    }
+                    
                     if (gitRepo != null)
                     {
                         selectedBranchName = gitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
                         gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, selectedBranchName);
                     }
+                }
+                else
+                {
+                    if(gitRepoInfo != null)
+                    {
+                        gitRepoInfo.Dispose();
+                    }
+                    gitRepoInfo = null;
                 }
             }
         }
