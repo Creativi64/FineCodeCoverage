@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Output
         bool CanUseRepositories { get; }
         ReportContentType ReportContentType { get; }
         ReportStyle ReportStyle { get; }
-        List<string> RepositoryPaths { get; }
+        IReadOnlyList<string> RepositoryPaths { get; }
         string SelectedBranchName { get; }
         string SelectedRepositoryPath { get; }
     }
@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Output
     {
         public ReportViewState(
             ReportViewSolutionOptionValue optionValue,
-            List<string> repositories,
+            IReadOnlyList<string> repositories,
             bool canUseRepositories
         )
         {
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Output
         public ReportContentType ReportContentType { get; }
         public string SelectedRepositoryPath { get; }
         public string SelectedBranchName { get; }
-        public List<string> RepositoryPaths { get; }
+        public IReadOnlyList<string> RepositoryPaths { get; }
         public bool CanUseRepositories { get; }
     }
 
@@ -152,8 +152,11 @@ namespace FineCodeCoverage.Output
             this.reportViewSelectorModel = reportViewSelectorModel;
             var okRelayCommand = new RelayCommand(() =>
             {
-                // this will only allow pressing if anything has changed
-                reportViewSelectorModel.Update(SelectedReportStyle.ReportStyle,SelectedReportContentType.ReportContentType,SelectedBranch, SelectedRepositoryPath);
+                reportViewSelectorModel.Update(
+                    SelectedReportStyle.ReportStyle,
+                    SelectedReportContentType.ReportContentType,
+                    SelectedBranch,
+                    SelectedRepositoryPath);
                 Done?.Invoke(this, EventArgs.Empty);
             }, () => changed);
             notifyOkCommandCanExecuteChanged = okRelayCommand.NotifyCanExecuteChanged;
@@ -196,7 +199,7 @@ namespace FineCodeCoverage.Output
         }
 
         private readonly bool hasRepositories;
-        public List<string> RepositoryPaths { get; }
+        public IReadOnlyList<string> RepositoryPaths { get; }
         public string NoRepositoriesMessage { get; }
         public bool ShowNoRepositoriesMessage { get; }
 
@@ -220,13 +223,10 @@ namespace FineCodeCoverage.Output
             set
             {
                 Set(ref selectedRepositoryPath, value);
-                if (hasRepositories)
+                ClearRepositoryBranches();
+                foreach (var branch in reportViewSelectorModel.GetBranches(selectedRepositoryPath))
                 {
-                    ClearRepositoryBranches();
-                    foreach (var branch in reportViewSelectorModel.GetBranches(selectedRepositoryPath))
-                    {
-                        this.Branches.Add(branch);
-                    }
+                    this.Branches.Add(branch);
                 }
                 RaiseOkChangedIfChanged();
             }

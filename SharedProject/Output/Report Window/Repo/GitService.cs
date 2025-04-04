@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Output
             this.gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
             Assumes.Present(this.gitExt);
         }
-        public List<string> GetRepositoryPaths()
+        public IReadOnlyList<string> GetRepositoryPaths()
         {
             return gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
         }
@@ -35,6 +35,12 @@ namespace FineCodeCoverage.Output
         {
             return new GitRepo(selectedRepositoryPath);
         }
+
+        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup) {
+            return new Changeset();
+        }
+
+        public bool CanUseChangeset => true;
     }
 #else
     [Export(typeof(IGitService))]
@@ -49,6 +55,8 @@ namespace FineCodeCoverage.Output
         {
             throw new NotImplementedException();
         }
+
+        public bool CanUseChangeset => false;
     }
 #endif
 }

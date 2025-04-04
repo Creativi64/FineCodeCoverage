@@ -37,12 +37,18 @@ namespace FineCodeCoverage.Output
             reportViews.Changed += ReportViews_Changed;
         }
 
-        private void ReportViews_Changed(object sender, EventArgs e)
+        private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
         {
-            TakeViews();
             if(lastReport != null)
             {
-                GenerateReport();
+                if (e.ChangesetChanged)
+                {
+                    GenerateReport(reportViews.GetChangeset());
+                }
+                else
+                {
+                    GenerateReport(null);
+                }
             }
         }
 
@@ -62,9 +68,6 @@ namespace FineCodeCoverage.Output
             public IDirectory Directory { get; internal set; }
         }
 
-        private bool initializedView;
-        private ReportStyle reportStyle;
-        private ReportContentType reportContentType;
         private Report lastReport;
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
@@ -74,35 +77,21 @@ namespace FineCodeCoverage.Output
         protected override IReportColumnManager ColumnManagerImpl { get; set; }
 
         private bool coverageRunning;
+
         public bool CoverageRunning
         {
             get => this.coverageRunning;
             set => this.Set(ref this.coverageRunning, value, nameof(this.CoverageRunning));
         }
 
-        private void TakeViews()
-        {
-            reportStyle = reportViews.ReportStyle;
-            reportContentType = reportViews.ReportContentType;
-        }
-
-        private void EnsureInitializedView()
-        {
-            if (!initializedView)
-            {
-                TakeViews();
-                initializedView = true;
-            }
-        }
-
-        private void GenerateReport()
+        private void GenerateReport(IChangeset newChangeset)
         {
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
-                if (reportStyle == ReportStyle.Assembly)
+                if (reportViews.ReportStyle == ReportStyle.Assembly)
                 {
                     IReadOnlyCollection<IAssembly> assemblies = lastReport.Assemblies;
                     foreach (IAssembly assembly in assemblies)
@@ -145,10 +134,9 @@ namespace FineCodeCoverage.Output
         {
             if(message.Report != null)
             {
-                EnsureInitializedView();
                 lastReport = new Report(message);
                 this.ColumnManagerImpl.ShowRelevantColumns(lastReport.MetricTypes);
-                GenerateReport();
+                GenerateReport(reportViews.GetChangeset());
             }
             else
             {

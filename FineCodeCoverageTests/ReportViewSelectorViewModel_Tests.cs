@@ -16,7 +16,7 @@ namespace FineCodeCoverageTests
                 ReportContentType reportContentType,
                 string selectedRepositoryPath,
                 string selectedBranchName,
-                List<string> repositoryPaths,
+                IReadOnlyList<string> repositoryPaths,
                 bool canUseRepositories
 
             ) {
@@ -31,7 +31,7 @@ namespace FineCodeCoverageTests
             public bool CanUseRepositories { get; }
             public ReportContentType ReportContentType { get; }
             public ReportStyle ReportStyle { get; }
-            public List<string> RepositoryPaths { get; }
+            public IReadOnlyList<string> RepositoryPaths { get; }
             public string SelectedBranchName { get; }
             public string SelectedRepositoryPath { get; }
         } 
@@ -418,7 +418,24 @@ namespace FineCodeCoverageTests
             Assert.That(canExecuteChanged, Is.False);
         }
 
-        // OK Execute test
-        // Cancel Execute test
+        [Test]
+        public void Should_Update_The_Model_When_Ok_Executed()
+        {
+            var autoMoqer = new AutoMoqer();
+            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, new List<string> { "repopath" }, true);
+            var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
+            mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
+            var selectedRepositoryBranches = new List<string> { "Branch1" };
+            mockReportViewSelectorModel.Setup(model => model.GetBranches("repopath")).Returns(selectedRepositoryBranches);
+
+            var reportViewSelectorViewModel = autoMoqer.Create<ReportViewSelectorViewModel>();
+
+            reportViewSelectorViewModel.SelectedReportStyle = reportViewSelectorViewModel.ReportStyles.First(rs => rs.ReportStyle == ReportStyle.Source);
+            reportViewSelectorViewModel.SelectedReportContentType = reportViewSelectorViewModel.ReportContentTypes.First(rct => rct.ReportContentType == ReportContentType.Changeset);
+
+            reportViewSelectorViewModel.OkCommand.Execute(null);
+
+            mockReportViewSelectorModel.Verify(m => m.Update(ReportStyle.Source, ReportContentType.Changeset, "Branch1", "repopath"));
+        }
     }
 }

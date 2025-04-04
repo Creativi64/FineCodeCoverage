@@ -7,5 +7,6 @@ namespace FineCodeCoverage.Output
     {
         bool HasBranch(string selectedBranchName);
         IEnumerable<string> GetBranches();
+        IDictionary<string, HashSet<int>> GetChangeset(string selectedBranchName);
     }
 }

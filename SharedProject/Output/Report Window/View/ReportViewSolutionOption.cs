@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Core.Utilities;
 using System.ComponentModel.Composition;
+using System;
 
 namespace FineCodeCoverage.Output
 {
@@ -14,13 +15,21 @@ namespace FineCodeCoverage.Output
 
     }
 
+    interface IReportViewSolutionOption
+    {
+        event EventHandler LoadedEvent;
+        event EventHandler UnloadedEvent;
+        ReportViewSolutionOptionValue Value { get; set; }
+    }
+
     [Export(typeof(ISolutionOption))]
-    [Export(typeof(ReportViewSolutionOption))]
-    internal class ReportViewSolutionOption : SolutionOption<ReportViewSolutionOptionValue>
+    [Export(typeof(IReportViewSolutionOption))]
+    internal class ReportViewSolutionOption : SolutionOption<ReportViewSolutionOptionValue>, IReportViewSolutionOption
     {
         [ImportingConstructor]
         public ReportViewSolutionOption(IJsonConvertService jsonConvertService) : base(jsonConvertService)
         {
+            
             Value = new ReportViewSolutionOptionValue
             {
                 ReportStyle = ReportStyle.Assembly,
@@ -28,6 +37,21 @@ namespace FineCodeCoverage.Output
             };
         }
 
+        protected override void Loaded(ReportViewSolutionOptionValue previousValue)
+        {
+            LoadedEvent?.Invoke(this, EventArgs.Empty);
+            base.Loaded(previousValue);
+        }
+
+        protected override void Saved()
+        {
+            UnloadedEvent?.Invoke(this, EventArgs.Empty);
+            base.Saved();
+        }
+
         public override string Key { get; protected set; } = "FCC_ReportView";
+
+        public event EventHandler LoadedEvent;
+        public event EventHandler UnloadedEvent;
     }
 }

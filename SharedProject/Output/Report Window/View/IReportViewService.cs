@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Output
 
         [ImportingConstructor]
         public ReportViewService(
-            IReportViewSelectorModel reportViewSelectorModel        )
+            IReportViewSelectorModel reportViewSelectorModel)
         {
             this.reportViewSelectorModel = reportViewSelectorModel;
         }

@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Core.Utilities.Solution;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 
 namespace FineCodeCoverage.Output
 {
@@ -9,21 +9,30 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IReportViewSelectorModel))]
     internal class ReportViews : IReportViews, IReportViewSelectorModel
     {
-        private readonly ReportViewSolutionOption reportViewSolutionOption;
+        private readonly IReportViewSolutionOption reportViewSolutionOption;
         private readonly IGitService gitService;
+        private SelectedGitRepo selectedGitRepo;
+        private IReadOnlyList<string> repositoryPaths = new List<string>();
+        private bool initialized;
 
-        private class GitRepoInfo : IDisposable
+        private class SelectedGitRepo : IDisposable
         {
-            public GitRepoInfo(IGitRepo gitRepo,string repositoryPath, string selectedBranchName)
+            public SelectedGitRepo(IGitRepo gitRepo,string repositoryPath, string selectedBranchName)
             {
                 GitRepo = gitRepo;
                 RepositoryPath = repositoryPath;
                 SelectedBranchName = selectedBranchName;
             }
 
+            public void SetSelectedBranchIfExists(string selectedBranchName)
+            {
+                selectedBranchName = GitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
+                SelectedBranchName = selectedBranchName;
+            }
+
             public IGitRepo GitRepo { get; }
             public string RepositoryPath { get; }
-            public string SelectedBranchName { get; }
+            public string SelectedBranchName { get; set; }
 
             public void Dispose()
             {
@@ -31,123 +40,120 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        private GitRepoInfo gitRepoInfo;
-        private List<string> repositoryPaths = new List<string>();
-
         [ImportingConstructor]
-        public ReportViews(ReportViewSolutionOption reportViewSolutionOption, IGitService gitService)
+        public ReportViews(IReportViewSolutionOption reportViewSolutionOption, IGitService gitService)
         {
-            reportViewSolutionOption.LoadedEvent += ReportViewSolutionOption_LoadedEvent;
             this.reportViewSolutionOption = reportViewSolutionOption;
             this.gitService = gitService;
-#if VS2022
-            CanUseChangeset = true;
-#endif
+            reportViewSolutionOption.UnloadedEvent += ReportViewSolutionOption_UnloadedEvent;
         }
 
-        //todo
-        private void ReportViewSolutionOption_LoadedEvent(object sender, SolutionOptionLoadEventArgs<ReportViewSolutionOptionValue> e)
+        private void ReportViewSolutionOption_UnloadedEvent(object sender, EventArgs e)
         {
-            var previous = e.PreviousValue;
-            var reportStyleDidChange = previous.ReportStyle != ReportStyle;
-            var reportContentDidChange = previous.ReportContent != ReportContentType;
-            if (reportStyleDidChange && reportContentDidChange)
-            {
-                Changed?.Invoke(this, EventArgs.Empty);
-            }
+            DisposeSelectedGitRepo();
+            initialized = false;
         }
 
-        // may have already initialized.  Need to do active repositories each time
         public IReportViewState GetState()
         {
-            var state = reportViewSolutionOption.Value;
-            InitializeRepositories(state.SelectedRepository, state.SelectedBranchName);
-            var optionValue = new ReportViewSolutionOptionValue
-            {
-                ReportContent = ReportContentType,
-                ReportStyle = ReportStyle,
-                SelectedBranchName = gitRepoInfo?.SelectedBranchName,
-                SelectedRepository = gitRepoInfo?.RepositoryPath
-            };
-            reportViewSolutionOption.Value = optionValue;
-            return new ReportViewState(optionValue, repositoryPaths, CanUseChangeset);
+            var optionValue = reportViewSolutionOption.Value;
+            InitializeRepositories(optionValue.SelectedRepository, optionValue.SelectedBranchName);
+            optionValue.SelectedBranchName = selectedGitRepo?.SelectedBranchName;
+            optionValue.SelectedRepository = selectedGitRepo?.RepositoryPath;
+            initialized = true;
+            return new ReportViewState(optionValue, repositoryPaths, gitService.CanUseChangeset);
+        }
+
+        private void DisposeSelectedGitRepo()
+        {
+            selectedGitRepo?.Dispose();
+            selectedGitRepo = null;
         }
 
         private void InitializeRepositories(string selectedRepositoryPath, string selectedBranchName)
         {
-            if (CanUseChangeset)
+            if (gitService.CanUseChangeset)
             {
-                // todo previous gitrepo....
                 repositoryPaths = gitService.GetRepositoryPaths();
                 if (repositoryPaths.Contains(selectedRepositoryPath))
                 {
-                    IGitRepo gitRepo = null;
-                    if(gitRepoInfo != null)
-                    {
-                        if(gitRepoInfo.RepositoryPath == selectedRepositoryPath)
-                        {
-                            gitRepo = gitRepoInfo.GitRepo;
-                        }
-                        else
-                        {
-                            gitRepoInfo.Dispose();
-                        }
-                        gitRepoInfo = null;
-                    }
-                    if (gitRepo == null)
-                    {
-                        gitRepo = gitService.GetRepository(selectedRepositoryPath);
-                    }
-                    
-
-                    selectedBranchName = gitRepo.HasBranch(selectedBranchName) ? selectedBranchName : null;
-                    gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, selectedBranchName);
+                    EnsureSelectedGitRepo(selectedRepositoryPath);
+                    selectedGitRepo.SetSelectedBranchIfExists(selectedBranchName);
                 }
                 else
                 {
-                    if(gitRepoInfo != null)
-                    {
-                        gitRepoInfo.Dispose();
-                    }
-                    gitRepoInfo = null;
+                    DisposeSelectedGitRepo();
                 }
             }
         }
 
-        // todo
         public void Update(
             ReportStyle reportStyle,
             ReportContentType reportContentType,
             string selectedBranchName,
             string selectedRepositoryPath)
         {
-            reportViewSolutionOption.Value = new ReportViewSolutionOptionValue
+            if (selectedRepositoryPath != null)
+            {
+                EnsureSelectedGitRepo(selectedRepositoryPath);
+                selectedGitRepo.SelectedBranchName = selectedBranchName;
+            }
+            else
+            {
+                DisposeSelectedGitRepo();
+            }
+                var oldValue = reportViewSolutionOption.Value;
+            var newValue = new ReportViewSolutionOptionValue
             {
                 ReportStyle = reportStyle,
                 ReportContent = reportContentType,
                 SelectedBranchName = selectedBranchName,
                 SelectedRepository = selectedRepositoryPath
             };
-            Changed?.Invoke(this, EventArgs.Empty);
+            reportViewSolutionOption.Value = newValue;
+            var changeSetChanged = oldValue.ReportContent != newValue.ReportContent
+                || oldValue.SelectedRepository != newValue.SelectedRepository
+                || oldValue.SelectedBranchName != newValue.SelectedBranchName;
+            Changed?.Invoke(this, new ReportViewChangedEventArgs(changeSetChanged));
+        }
+
+        private void EnsureSelectedGitRepo(string selectedRepositoryPath)
+        {
+            if (selectedGitRepo == null || selectedGitRepo.RepositoryPath != selectedRepositoryPath)
+            {
+                selectedGitRepo?.Dispose();
+                var gitRepo = gitService.GetRepository(selectedRepositoryPath);
+                selectedGitRepo = new SelectedGitRepo(gitRepo, selectedRepositoryPath, null);
+            }
         }
 
         public IEnumerable<string> GetBranches(string selectedRepositoryPath)
         {
-            // todo dispose of old
-            if(gitRepoInfo == null || gitRepoInfo.RepositoryPath != selectedRepositoryPath)
+            EnsureSelectedGitRepo(selectedRepositoryPath);
+            return selectedGitRepo.GitRepo.GetBranches();
+        }
+
+        public IChangeset GetChangeset()
+        {
+            if (gitService.CanUseChangeset)
             {
-                gitRepoInfo?.Dispose();
-                var gitRepo = gitService.GetRepository(selectedRepositoryPath);
-                gitRepoInfo = new GitRepoInfo(gitRepo, selectedRepositoryPath, null);
+                if (!initialized)
+                {
+                    GetState();
+                }
+                if (ReportContentType == ReportContentType.Changeset && selectedGitRepo?.SelectedBranchName != null)
+                {
+                    var cs = selectedGitRepo.GitRepo.GetChangeset(selectedGitRepo.SelectedBranchName);
+                    return gitService.GetChangeset(cs);
+                }
             }
-            return gitRepoInfo.GitRepo.GetBranches();
+            return null;
         }
 
         public ReportStyle ReportStyle => reportViewSolutionOption.Value.ReportStyle;
-        public ReportContentType ReportContentType => reportViewSolutionOption.Value.ReportContent;
-        public bool CanUseChangeset { get; }
+        private ReportContentType ReportContentType => reportViewSolutionOption.Value.ReportContent;
 
-        public event EventHandler Changed;
+        public event EventHandler<ReportViewChangedEventArgs> Changed;
     }
 
 }

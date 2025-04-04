@@ -4,10 +4,21 @@ namespace FineCodeCoverage.Output
 {
     internal enum ReportStyle { Assembly, Source }
     internal enum ReportContentType { Full, Changeset }
+
+    internal class ReportViewChangedEventArgs
+    {
+        public ReportViewChangedEventArgs(bool changeSetChanged) {
+            ChangesetChanged = changeSetChanged;
+        }
+
+        public bool ChangesetChanged { get; }
+    }
+
+
     internal interface IReportViews
     {
-        event EventHandler Changed;
+        event EventHandler<ReportViewChangedEventArgs> Changed;
         ReportStyle ReportStyle { get; }
-        ReportContentType ReportContentType { get; }
+        IChangeset GetChangeset();
     }
 }

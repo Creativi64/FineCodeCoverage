@@ -1,23 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace FineCodeCoverage.Core.Utilities.Solution
 {
-    internal class SolutionOptionLoadEventArgs<T>
-    {
-        public SolutionOptionLoadEventArgs(T previousValue)
-        {
-            PreviousValue = previousValue;
-        }
-
-        public T PreviousValue { get; }
-    }
-    interface ISolutionOptionEvents<T> {
-        event EventHandler<SolutionOptionLoadEventArgs<T>> LoadedEvent;
-        // event EventHandler SavedEvent;
-    }
-
-    internal abstract class SolutionOption<T> : ISolutionOption, ISolutionOptionEvents<T>
+    internal abstract class SolutionOption<T> : ISolutionOption
     {
         private readonly IJsonConvertService jsonConvertService;
 
@@ -27,8 +12,6 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         }
         public T Value { get; set; }
         public abstract string Key { get; protected set; }
-
-        public event EventHandler<SolutionOptionLoadEventArgs<T>> LoadedEvent;
 
         public void Load(Stream stream)
         {
@@ -41,7 +24,12 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                 }
                 Value = (T)jsonConvertService.DeserializeObject(optionAsString, typeof(T));
             }
-            LoadedEvent?.Invoke(this, new SolutionOptionLoadEventArgs<T>(previousValue));
+            Loaded(previousValue);
+        }
+
+        protected virtual void Loaded(T previousValue)
+        {
+
         }
 
         public void Save(Stream stream)
@@ -52,5 +40,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                 sw.Flush();
             }
         }
+
+        protected virtual void Saved() { }
     }
 }

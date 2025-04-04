@@ -516,6 +516,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\Changeset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IChangeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\GitRepo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\GitService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IGitRepo.cs" />
