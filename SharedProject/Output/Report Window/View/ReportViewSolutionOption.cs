@@ -29,12 +29,6 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public ReportViewSolutionOption(IJsonConvertService jsonConvertService) : base(jsonConvertService)
         {
-            
-            Value = new ReportViewSolutionOptionValue
-            {
-                ReportStyle = ReportStyle.Assembly,
-                ReportContent = ReportContentType.Full,
-            };
         }
 
         protected override void Loaded(ReportViewSolutionOptionValue previousValue)
@@ -47,6 +41,15 @@ namespace FineCodeCoverage.Output
         {
             UnloadedEvent?.Invoke(this, EventArgs.Empty);
             base.Saved();
+        }
+
+        protected override ReportViewSolutionOptionValue GetDefaultValue()
+        {
+            return new ReportViewSolutionOptionValue
+            {
+                ReportStyle = ReportStyle.Assembly,
+                ReportContent = ReportContentType.Full,
+            };
         }
 
         public override string Key { get; protected set; } = "FCC_ReportView";

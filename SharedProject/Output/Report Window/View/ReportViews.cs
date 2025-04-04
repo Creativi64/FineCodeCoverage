@@ -102,7 +102,7 @@ namespace FineCodeCoverage.Output
             {
                 DisposeSelectedGitRepo();
             }
-                var oldValue = reportViewSolutionOption.Value;
+            var oldValue = reportViewSolutionOption.Value;
             var newValue = new ReportViewSolutionOptionValue
             {
                 ReportStyle = reportStyle,

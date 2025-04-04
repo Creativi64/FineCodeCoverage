@@ -9,8 +9,11 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         public SolutionOption(IJsonConvertService jsonConvertService)
         {
             this.jsonConvertService = jsonConvertService;
+            Value = GetDefaultValue();
         }
+
         public T Value { get; set; }
+
         public abstract string Key { get; protected set; }
 
         public void Load(Stream stream)
@@ -24,13 +27,15 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                 }
                 Value = (T)jsonConvertService.DeserializeObject(optionAsString, typeof(T));
             }
-            Loaded(previousValue);
+            Loaded();
         }
 
-        protected virtual void Loaded(T previousValue)
+        protected virtual void Loaded()
         {
 
         }
+
+        protected abstract T GetDefaultValue();
 
         public void Save(Stream stream)
         {
@@ -39,6 +44,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                 sw.Write(jsonConvertService.SerializeObject(Value));
                 sw.Flush();
             }
+            Value = GetDefaultValue();
         }
 
         protected virtual void Saved() { }
