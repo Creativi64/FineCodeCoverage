@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Output
 {
     internal class ReportViewSolutionOptionValue
     {
+        public static ReportViewSolutionOptionValue Default => new ReportViewSolutionOptionValue { ReportStyle = ReportStyle.Assembly, ReportContent = ReportContentType.Full };
         public ReportStyle ReportStyle { get; set; }
         public ReportContentType ReportContent { get; set; }
 
@@ -17,7 +18,6 @@ namespace FineCodeCoverage.Output
 
     interface IReportViewSolutionOption
     {
-        event EventHandler LoadedEvent;
         event EventHandler UnloadedEvent;
         ReportViewSolutionOptionValue Value { get; set; }
     }
@@ -31,30 +31,11 @@ namespace FineCodeCoverage.Output
         {
         }
 
-        protected override void Loaded(ReportViewSolutionOptionValue previousValue)
-        {
-            LoadedEvent?.Invoke(this, EventArgs.Empty);
-            base.Loaded(previousValue);
-        }
-
-        protected override void Saved()
-        {
-            UnloadedEvent?.Invoke(this, EventArgs.Empty);
-            base.Saved();
-        }
-
         protected override ReportViewSolutionOptionValue GetDefaultValue()
         {
-            return new ReportViewSolutionOptionValue
-            {
-                ReportStyle = ReportStyle.Assembly,
-                ReportContent = ReportContentType.Full,
-            };
+            return ReportViewSolutionOptionValue.Default;
         }
 
         public override string Key { get; protected set; } = "FCC_ReportView";
-
-        public event EventHandler LoadedEvent;
-        public event EventHandler UnloadedEvent;
     }
 }

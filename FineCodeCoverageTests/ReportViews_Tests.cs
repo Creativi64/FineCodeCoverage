@@ -504,7 +504,38 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Re_Initialize_After_Option_Unloaded_GetChangeset_Without_GetState()
         {
-            throw new NotImplementedException();
+            SetupInitialSolutionOption(new ReportViewSolutionOptionValue { SelectedRepository = "selectedrepopath", SelectedBranchName = "selectedbranch" });
+
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+
+            var repositoryPaths = new List<string> { "repopath1", "selectedrepopath" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            var mockGitRepo = new Mock<IGitRepo>();
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(mockGitRepo.Object);
+
+            reportViews.GetState();
+
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(new List<string> { "selectedrepopath2" });
+            var mockGitRepo2 = new Mock<IGitRepo>();
+            mockGitRepo2.Setup(gitRepo2 => gitRepo2.HasBranch("selectedbranch2")).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath2")).Returns(mockGitRepo2.Object);
+            var changesetLookup = new Dictionary<string, HashSet<int>>();
+            mockGitRepo2.Setup(gitRepo => gitRepo.GetChangeset("selectedbranch2")).Returns(changesetLookup);
+            var changeset = new Mock<IChangeset>().Object;
+            gitServiceMock.Setup(gitService => gitService.GetChangeset(changesetLookup)).Returns(changeset);
+
+            var mockReportViewSolutionOption = autoMoqer.GetMock<IReportViewSolutionOption>();
+            mockReportViewSolutionOption.Raise(o => o.UnloadedEvent += null, EventArgs.Empty);
+
+            mockReportViewSolutionOption.Object.Value = new ReportViewSolutionOptionValue
+            {
+                ReportContent = ReportContentType.Changeset,
+                SelectedRepository = "selectedrepopath2",
+                SelectedBranchName = "selectedbranch2"
+            };
+
+            Assert.That(reportViews.GetChangeset(), Is.SameAs(changeset));
         }
     }
 }

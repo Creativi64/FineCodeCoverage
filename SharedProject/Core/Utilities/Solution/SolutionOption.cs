@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text;
 
 namespace FineCodeCoverage.Core.Utilities.Solution
 {
     internal abstract class SolutionOption<T> : ISolutionOption
     {
         private readonly IJsonConvertService jsonConvertService;
+        public event EventHandler UnloadedEvent;
 
         public SolutionOption(IJsonConvertService jsonConvertService)
         {
@@ -18,7 +21,6 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         public void Load(Stream stream)
         {
-            var previousValue = Value;
             using (var sr = new StreamReader(stream))
             {
                 var optionAsString = sr.ReadToEnd();
@@ -39,12 +41,14 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         public void Save(Stream stream)
         {
-            using (var sw = new StreamWriter(stream))
+            using (var sw = new StreamWriter(stream, Encoding.UTF8,1024, leaveOpen:true))
             {
                 sw.Write(jsonConvertService.SerializeObject(Value));
                 sw.Flush();
             }
             Value = GetDefaultValue();
+            Saved();
+            UnloadedEvent?.Invoke(this,EventArgs.Empty);
         }
 
         protected virtual void Saved() { }
