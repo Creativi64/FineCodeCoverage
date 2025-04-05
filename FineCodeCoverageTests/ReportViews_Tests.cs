@@ -176,7 +176,6 @@ namespace FineCodeCoverageTests
             Assert.That(state.RepositoryPaths, Is.Empty);
         }
 
-        // need to check if have an issue deleting repo when have it in memory
         [Test]
         public void Should_Dispose_Of_Selected_IGitRepo_When_GetState_And_It_No_Longer_Exists()
         {
@@ -303,8 +302,7 @@ namespace FineCodeCoverageTests
             Assert.That(optionValue.SelectedRepository, Is.EqualTo("selectedrepopath"));
         }
 
-        
-        public void Should_Raise_The_Changed_Event(ReportViewSolutionOptionValue initial,ReportViewSolutionOptionValue changes,bool expectedChangesetChanged)
+        private void Should_Raise_The_Changed_Event(ReportViewSolutionOptionValue initial,ReportViewSolutionOptionValue changes,bool expectedChangesetChanged)
         {
             SetupInitialSolutionOption(initial);
             ReportViewChangedEventArgs reportViewChangedEventArgs = null;
@@ -502,7 +500,7 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Should_Re_Initialize_After_Option_Unloaded_GetChangeset_Without_GetState()
+        public void Should_Re_Initialize_When_GetChangeset()
         {
             SetupInitialSolutionOption(new ReportViewSolutionOptionValue { SelectedRepository = "selectedrepopath", SelectedBranchName = "selectedbranch" });
 
@@ -514,8 +512,9 @@ namespace FineCodeCoverageTests
             var mockGitRepo = new Mock<IGitRepo>();
             gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(mockGitRepo.Object);
 
-            reportViews.GetState();
+            reportViews.GetState(); // first time initialization
 
+            // change to another solution
             gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(new List<string> { "selectedrepopath2" });
             var mockGitRepo2 = new Mock<IGitRepo>();
             mockGitRepo2.Setup(gitRepo2 => gitRepo2.HasBranch("selectedbranch2")).Returns(true);
@@ -524,7 +523,7 @@ namespace FineCodeCoverageTests
             mockGitRepo2.Setup(gitRepo => gitRepo.GetChangeset("selectedbranch2")).Returns(changesetLookup);
             var changeset = new Mock<IChangeset>().Object;
             gitServiceMock.Setup(gitService => gitService.GetChangeset(changesetLookup)).Returns(changeset);
-
+            
             var mockReportViewSolutionOption = autoMoqer.GetMock<IReportViewSolutionOption>();
             mockReportViewSolutionOption.Raise(o => o.UnloadedEvent += null, EventArgs.Empty);
 
@@ -536,6 +535,12 @@ namespace FineCodeCoverageTests
             };
 
             Assert.That(reportViews.GetChangeset(), Is.SameAs(changeset));
+
+            // repo deleted
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(new List<string>());
+
+            Assert.That(reportViews.GetChangeset(), Is.Null);
         }
+    
     }
 }

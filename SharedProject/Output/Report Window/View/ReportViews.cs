@@ -13,7 +13,6 @@ namespace FineCodeCoverage.Output
         private readonly IGitService gitService;
         private SelectedGitRepo selectedGitRepo;
         private IReadOnlyList<string> repositoryPaths = new List<string>();
-        private bool initialized;
 
         private class SelectedGitRepo : IDisposable
         {
@@ -51,17 +50,20 @@ namespace FineCodeCoverage.Output
         private void ReportViewSolutionOption_UnloadedEvent(object sender, EventArgs e)
         {
             DisposeSelectedGitRepo();
-            initialized = false;
         }
 
         public IReportViewState GetState()
         {
+            Initialize();
+            return new ReportViewState(reportViewSolutionOption.Value, repositoryPaths, gitService.CanUseChangeset);
+        }
+
+        private void Initialize()
+        {
             var optionValue = reportViewSolutionOption.Value;
-            InitializeRepositories(optionValue.SelectedRepository, optionValue.SelectedBranchName);
+            InitializeGit(optionValue.SelectedRepository, optionValue.SelectedBranchName);
             optionValue.SelectedBranchName = selectedGitRepo?.SelectedBranchName;
             optionValue.SelectedRepository = selectedGitRepo?.RepositoryPath;
-            initialized = true;
-            return new ReportViewState(optionValue, repositoryPaths, gitService.CanUseChangeset);
         }
 
         private void DisposeSelectedGitRepo()
@@ -70,7 +72,7 @@ namespace FineCodeCoverage.Output
             selectedGitRepo = null;
         }
 
-        private void InitializeRepositories(string selectedRepositoryPath, string selectedBranchName)
+        private void InitializeGit(string selectedRepositoryPath, string selectedBranchName)
         {
             if (gitService.CanUseChangeset)
             {
@@ -137,10 +139,7 @@ namespace FineCodeCoverage.Output
         {
             if (gitService.CanUseChangeset)
             {
-                if (!initialized)
-                {
-                    GetState();
-                }
+                Initialize();
                 if (ReportContentType == ReportContentType.Changeset && selectedGitRepo?.SelectedBranchName != null)
                 {
                     var cs = selectedGitRepo.GitRepo.GetChangeset(selectedGitRepo.SelectedBranchName);
