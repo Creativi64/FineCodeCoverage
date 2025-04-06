@@ -56,10 +56,40 @@ namespace FineCodeCoverageTests
             gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
             var repositoryPaths = new List<string> { "repopath1", "repopath2" };
             gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            
+            var state = reportViews.GetState();
+
+            Assert.That(state.RepositoryPaths, Is.EquivalentTo(repositoryPaths));
+        }
+
+        [Test]
+        public void Should_Not_Have_The_Selected_Repository_Path_In_Repository_Paths_If_Repository_Does_Not_Exist()
+        {
+            SetupInitialSolutionOption(new ReportViewSolutionOptionValue { SelectedRepository = "selectedrepopath", SelectedBranchName = "selectedbranch" });
+
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "selectedrepopath", "repopath2" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
 
             var state = reportViews.GetState();
 
-            Assert.That(state.RepositoryPaths, Is.SameAs(repositoryPaths));
+            Assert.That(state.RepositoryPaths, Is.EquivalentTo(new List<string> { "repopath2" }));
+        }
+
+        [Test]
+        public void Should_Have_The_Selected_Repository_Path_In_Repository_Paths_If_Repository_Exists()
+        {
+            SetupInitialSolutionOption(new ReportViewSolutionOptionValue { SelectedRepository = "selectedrepopath", SelectedBranchName = "selectedbranch" });
+
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "selectedrepopath", "repopath2" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(new Mock<IGitRepo>().Object);
+            var state = reportViews.GetState();
+
+            Assert.That(state.RepositoryPaths, Is.EquivalentTo(repositoryPaths));
         }
 
         private void SetupInvalidSelectedRepository()
@@ -227,12 +257,30 @@ namespace FineCodeCoverageTests
             gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(mockGitRepo.Object);
 
             reportViews.GetState();
-            var branches = reportViews.GetBranches("selectedrepopath");
 
-            Assert.That(branches, Is.EquivalentTo(selectedRepoBranches));
+            Assert.That(reportViews.GetBranches("selectedrepopath"), Is.SameAs(selectedRepoBranches));
+        }
 
-            reportViews.GetBranches("selectedrepopath");
-            gitServiceMock.Verify(gitService => gitService.GetRepository("selectedrepopath"), Times.Once());
+        [Test]
+        public void Should_Dispose_Of_SelectedRepo_If_Deleted_And_Return_No_Branches()
+        {
+            SetupInitialSolutionOption(new ReportViewSolutionOptionValue { SelectedRepository = "selectedrepopath", SelectedBranchName = "selectedbranch" });
+
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "repopath1", "selectedrepopath" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            var mockGitRepo = new Mock<IGitRepo>();
+            var selectedRepoBranches = new List<string> { "Branch1", "Branch2" };
+            mockGitRepo.Setup(gitRepo => gitRepo.GetBranches()).Returns(selectedRepoBranches);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(mockGitRepo.Object);
+
+            reportViews.GetState();
+
+            mockGitRepo.Setup(gitRepo => gitRepo.Deleted()).Returns(true);
+            
+            Assert.That(reportViews.GetBranches("selectedrepopath"), Is.Empty);
+            mockGitRepo.Verify(gitRepo => gitRepo.Dispose());
         }
 
         [Test]
@@ -283,23 +331,68 @@ namespace FineCodeCoverageTests
             mockGitRepo.Verify(gitRepo => gitRepo.Dispose());
         }
 
-        //Update tests
-        [Test]
-        public void Should_Update_The_ReportViewSolutionOptionValue_When_Update()
+        private ReportViewSolutionOptionValue UpdateTest(bool repoExists, bool branchExists)
         {
             SetupInitialSolutionOption(new ReportViewSolutionOptionValue
             {
                 ReportContent = ReportContentType.Full,
                 ReportStyle = ReportStyle.Assembly,
             });
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
 
+            var repositoryPaths = new List<string> { "repopath1", "selectedrepopath" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            var mockGitRepo = new Mock<IGitRepo>();
+            mockGitRepo.Setup(gitRepo => gitRepo.HasBranch("selectedbranch")).Returns(branchExists);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(repoExists ? mockGitRepo.Object : null);
+            
             reportViews.Update(ReportStyle.Source, ReportContentType.Changeset, "selectedbranch", "selectedrepopath");
 
-            var optionValue = autoMoqer.GetMock<IReportViewSolutionOption>().Object.Value;
+            return autoMoqer.GetMock<IReportViewSolutionOption>().Object.Value; ;
+        }
+
+        //Update tests
+        [Test]
+        public void Should_Update_The_ReportViewSolutionOptionValue_Enum_Properties_When_Update()
+        {
+            var optionValue = UpdateTest(false, false);
+
             Assert.That(optionValue.ReportStyle, Is.EqualTo(ReportStyle.Source));
             Assert.That(optionValue.ReportContent, Is.EqualTo(ReportContentType.Changeset));
-            Assert.That(optionValue.SelectedBranchName, Is.EqualTo("selectedbranch"));
+        }
+
+        [Test]
+        public void Should_Set_ReportViewSolutionOptionValue_RepositoryPath_If_Exists_When_Update()
+        {
+            var optionValue = UpdateTest(true, true);
+            
             Assert.That(optionValue.SelectedRepository, Is.EqualTo("selectedrepopath"));
+        }
+
+        [Test]
+        public void Should_Set_ReportViewSolutionOptionValue_SelectedBranchName_If_Exists_When_Update()
+        {
+            var optionValue = UpdateTest(true, true);
+            
+            Assert.That(optionValue.SelectedBranchName, Is.EqualTo("selectedbranch"));
+        }
+
+        [Test]
+        public void Should_Set_ReportViewSolutionOptionValue_RepositoryPath_SelectedBranchName_Null_When_Update_And_Repository_Does_Not_Exist()
+        {
+            var optionValue = UpdateTest(false, true);
+
+            Assert.That(optionValue.SelectedRepository, Is.Null);
+            Assert.That(optionValue.SelectedBranchName, Is.Null);
+        }
+
+        [Test]
+        public void Should_Set_ReportViewSolutionOptionValue_SelectedBranchName_Null_When_Update_And_Branch_Does_Not_Exist()
+        {
+            var optionValue = UpdateTest(true, false);
+
+            Assert.That(optionValue.SelectedBranchName, Is.Null);
         }
 
         private void Should_Raise_The_Changed_Event(ReportViewSolutionOptionValue initial,ReportViewSolutionOptionValue changes,bool expectedChangesetChanged)
@@ -341,20 +434,28 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Raise_The_Change_Event_ChangesetChanged_True_When_ReportContentType_Changed()
         {
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "repopath1", "selectedrepopath" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            var mockGitRepo = new Mock<IGitRepo>();
+            mockGitRepo.Setup(gitRepo => gitRepo.HasBranch("selectedbranch")).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(mockGitRepo.Object);
+
             Should_Raise_The_Changed_Event(
                 new ReportViewSolutionOptionValue
                 {
                     ReportStyle = ReportStyle.Source,
                     ReportContent = ReportContentType.Full,
-                    SelectedBranchName = null,
-                    SelectedRepository = null
+                    SelectedBranchName = "selectedbranch",
+                    SelectedRepository = "selectedrepopath"
                 },
                  new ReportViewSolutionOptionValue
                  {
                      ReportStyle = ReportStyle.Source,
                      ReportContent = ReportContentType.Changeset,
-                     SelectedBranchName = null,
-                     SelectedRepository = null
+                     SelectedBranchName = "selectedbranch",
+                     SelectedRepository = "selectedrepopath"
                  },
                  true);
         }
@@ -362,6 +463,19 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Raise_The_Change_Event_ChangesetChanged_True_When_SelectedRepository_Changed()
         {
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "originalrepo", "changedrepo" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+
+            var mockOriginalGitRepo = new Mock<IGitRepo>();
+            mockOriginalGitRepo.Setup(gitRepo => gitRepo.HasBranch("master")).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("original")).Returns(mockOriginalGitRepo.Object);
+
+            var mockChangedGitRepo = new Mock<IGitRepo>();
+            mockChangedGitRepo.Setup(gitRepo => gitRepo.HasBranch("master")).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("changedrepo")).Returns(mockChangedGitRepo.Object);
+
             Should_Raise_The_Changed_Event(
                 new ReportViewSolutionOptionValue
                 {
@@ -383,6 +497,17 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Raise_The_Change_Event_ChangesetChanged_True_When_SelectedBranch_Changed()
         {
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "repo" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+
+            var mockGitRepo = new Mock<IGitRepo>();
+            mockGitRepo.Setup(gitRepo => gitRepo.HasBranch("branch1")).Returns(true);
+            mockGitRepo.Setup(gitRepo => gitRepo.HasBranch("branch2")).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("repo")).Returns(mockGitRepo.Object);
+
+           
             Should_Raise_The_Changed_Event(
                 new ReportViewSolutionOptionValue
                 {
@@ -538,6 +663,19 @@ namespace FineCodeCoverageTests
 
             // repo deleted
             gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(new List<string>());
+
+            Assert.That(reportViews.GetChangeset(), Is.Null);
+        }
+
+        [Test]
+        public void Should_Have_Null_Changeset_When_Selected_Repo_Is_Invalid()
+        {
+            SetupInitialSolutionOption(new ReportViewSolutionOptionValue { SelectedRepository = "selectedrepopath", SelectedBranchName = "selectedbranch" });
+
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(new List<string> { "selectedrepopath" });
+            gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns<IGitRepo>(null);
 
             Assert.That(reportViews.GetChangeset(), Is.Null);
         }

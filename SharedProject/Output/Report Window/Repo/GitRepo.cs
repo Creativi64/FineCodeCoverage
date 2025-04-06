@@ -106,6 +106,19 @@ namespace FineCodeCoverage.Output
                 }
             }
         }
+
+        public bool Deleted()
+        {
+            try
+            {
+                var _ = _repository.Info.IsHeadDetached;
+            }
+            catch
+            {
+                return true;
+            }
+            return false;
+        }
     }
 #endif
 }
