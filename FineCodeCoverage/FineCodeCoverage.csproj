@@ -262,8 +262,11 @@
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
       <Name>TreeGrid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
+      <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
+      <Name>WpfHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

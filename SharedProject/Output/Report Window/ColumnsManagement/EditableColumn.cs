@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using TreeGrid;
+using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {

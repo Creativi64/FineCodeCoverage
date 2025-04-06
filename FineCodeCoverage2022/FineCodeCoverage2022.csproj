@@ -222,15 +222,19 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
+      <Link>Resources\ClearUICommand.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
       <Name>TreeGrid</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
-      <Link>Resources\ClearUICommand.png</Link>
-    </Resource>
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
+      <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
+      <Name>WpfHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildProjectDirectory)\LibGit2SharpNativeFiles.targets" />
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />

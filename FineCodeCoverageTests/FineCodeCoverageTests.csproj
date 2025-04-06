@@ -205,6 +205,10 @@
       <Project>{B1F5830C-2ACB-4ECC-AD8C-8EAADCA586DA}</Project>
       <Name>TreeGrid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
+      <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
+      <Name>WpfHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMoq">

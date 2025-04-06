@@ -2,7 +2,6 @@
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output.Pane;
 using System.ComponentModel.Composition;
-using TreeGrid;
 using FineCodeCoverage.Wpf;
 using System.Windows.Input;
 using System.Windows;
@@ -12,6 +11,7 @@ using System.Text;
 using System;
 using FineCodeCoverage.Readme;
 using System.Threading.Tasks;
+using WpfHelpers;
 
 namespace FineCodeCoverage.Github
 {

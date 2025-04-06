@@ -52,12 +52,17 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IGitService))]
     internal class GitService2019 : IGitService
     {
-        public List<string> GetRepositoryPaths()
+        public IGitRepo GetRepository(string selectedRepository)
         {
             throw new NotImplementedException();
         }
 
-        public IGitRepo GetRepository(string selectedRepository)
+        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<string> GetRepositoryPaths()
         {
             throw new NotImplementedException();
         }

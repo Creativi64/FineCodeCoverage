@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq;
+using WpfHelpers;
 
 namespace TreeGrid
 {

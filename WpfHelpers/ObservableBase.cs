@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace TreeGrid
+namespace WpfHelpers
 {
     public class ObservableBase : INotifyPropertyChanged, INotifyDataErrorInfo
     {
