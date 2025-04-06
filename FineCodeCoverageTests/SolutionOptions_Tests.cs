@@ -11,6 +11,17 @@ namespace FineCodeCoverageTests
     class ReportViewSolutionOption_Tests
     {
         [Test]
+        public void ReportViewSolutionOption_Default_Should_Have_ReportStyle_Assembly_ReportContentType_Full()
+        {
+            var reportViewSolutionOptionValueDefault = ReportViewSolutionOptionValue.Default;
+            AssertEqual(reportViewSolutionOptionValueDefault, new ReportViewSolutionOptionValue
+            {
+                ReportContent = ReportContentType.Full,
+                ReportStyle = ReportStyle.Assembly
+            });
+        }
+
+        [Test]
         public void Should_Have_Value_Equal_To_GetDefaultValue()
         {
             var option = new ReportViewSolutionOption(null);

@@ -146,7 +146,7 @@ namespace FineCodeCoverage.Output
             {
                 ReportStyle = reportStyle,
                 ReportContent = reportContentType,
-            }; ;
+            };
             UpdateOptionValueFromSelectedGitRepo();
         }
 

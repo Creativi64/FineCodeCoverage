@@ -395,7 +395,11 @@ namespace FineCodeCoverageTests
             Assert.That(optionValue.SelectedBranchName, Is.Null);
         }
 
-        private void Should_Raise_The_Changed_Event(ReportViewSolutionOptionValue initial,ReportViewSolutionOptionValue changes,bool expectedChangesetChanged)
+        private enum ExpectedChangeEvent { ReportStyle, Changeset, None }
+        private void Should_Raise_Changed_Test(
+            ReportViewSolutionOptionValue initial,
+            ReportViewSolutionOptionValue changes,
+            ExpectedChangeEvent expectedChangeEvent)
         {
             SetupInitialSolutionOption(initial);
             ReportViewChangedEventArgs reportViewChangedEventArgs = null;
@@ -403,16 +407,25 @@ namespace FineCodeCoverageTests
             {
                 reportViewChangedEventArgs = args;
             };
-
+            reportViews.GetState();
             reportViews.Update(changes.ReportStyle, changes.ReportContent, changes.SelectedBranchName, changes.SelectedRepository);
 
-            Assert.That(reportViewChangedEventArgs.ChangesetChanged, Is.EqualTo(expectedChangesetChanged));
+            if(expectedChangeEvent == ExpectedChangeEvent.None)
+            {
+                Assert.That(reportViewChangedEventArgs, Is.Null);
+            }
+            else
+            {
+                var expectedChangesetChanged = expectedChangeEvent == ExpectedChangeEvent.Changeset;
+                Assert.That(reportViewChangedEventArgs.ChangesetChanged, Is.EqualTo(expectedChangesetChanged));
+            }
+               
         }
 
         [Test]
-        public void Should_Raise_The_Change_Event_ChangesetChanged_False_When_Only_ReportStyleChanged()
+        public void Should_Raise_Changed_ChangesetChanged_False_When_Only_ReportStyleChanged()
         {
-            Should_Raise_The_Changed_Event(
+            Should_Raise_Changed_Test(
                 new ReportViewSolutionOptionValue
                 {
                     ReportStyle = ReportStyle.Source,
@@ -427,12 +440,12 @@ namespace FineCodeCoverageTests
                      SelectedBranchName = null,
                      SelectedRepository = null
                  },
-                 false);
+                 ExpectedChangeEvent.ReportStyle);
 
         }
 
         [Test]
-        public void Should_Raise_The_Change_Event_ChangesetChanged_True_When_ReportContentType_Changed()
+        public void Should_Raise_Changed_ChangesetChanged_True_When_ReportContentType_Changed()
         {
             var gitServiceMock = autoMoqer.GetMock<IGitService>();
             gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
@@ -442,7 +455,7 @@ namespace FineCodeCoverageTests
             mockGitRepo.Setup(gitRepo => gitRepo.HasBranch("selectedbranch")).Returns(true);
             gitServiceMock.Setup(gitService => gitService.GetRepository("selectedrepopath")).Returns(mockGitRepo.Object);
 
-            Should_Raise_The_Changed_Event(
+            Should_Raise_Changed_Test(
                 new ReportViewSolutionOptionValue
                 {
                     ReportStyle = ReportStyle.Source,
@@ -457,11 +470,11 @@ namespace FineCodeCoverageTests
                      SelectedBranchName = "selectedbranch",
                      SelectedRepository = "selectedrepopath"
                  },
-                 true);
+                 ExpectedChangeEvent.Changeset);
         }
 
         [Test]
-        public void Should_Raise_The_Change_Event_ChangesetChanged_True_When_SelectedRepository_Changed()
+        public void Should_Raise_Changed_ChangesetChanged_True_When_SelectedRepository_Changed()
         {
             var gitServiceMock = autoMoqer.GetMock<IGitService>();
             gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
@@ -476,7 +489,7 @@ namespace FineCodeCoverageTests
             mockChangedGitRepo.Setup(gitRepo => gitRepo.HasBranch("master")).Returns(true);
             gitServiceMock.Setup(gitService => gitService.GetRepository("changedrepo")).Returns(mockChangedGitRepo.Object);
 
-            Should_Raise_The_Changed_Event(
+            Should_Raise_Changed_Test(
                 new ReportViewSolutionOptionValue
                 {
                     ReportStyle = ReportStyle.Source,
@@ -491,11 +504,11 @@ namespace FineCodeCoverageTests
                      SelectedBranchName = "master",
                      SelectedRepository = "changedrepo"
                  },
-                 true);
+                 ExpectedChangeEvent.Changeset);
         }
 
         [Test]
-        public void Should_Raise_The_Change_Event_ChangesetChanged_True_When_SelectedBranch_Changed()
+        public void Should_Raise_Changed_ChangesetChanged_True_When_SelectedBranch_Changed()
         {
             var gitServiceMock = autoMoqer.GetMock<IGitService>();
             gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
@@ -508,7 +521,7 @@ namespace FineCodeCoverageTests
             gitServiceMock.Setup(gitService => gitService.GetRepository("repo")).Returns(mockGitRepo.Object);
 
            
-            Should_Raise_The_Changed_Event(
+            Should_Raise_Changed_Test(
                 new ReportViewSolutionOptionValue
                 {
                     ReportStyle = ReportStyle.Source,
@@ -523,7 +536,65 @@ namespace FineCodeCoverageTests
                      SelectedBranchName = "branch2",
                      SelectedRepository = "repo"
                  },
-                 true);
+                 ExpectedChangeEvent.Changeset);
+        }
+
+        [Test]
+        public void Should_Not_Raise_Changed_When_Selected_Repo_Changes_Old_And_New_ReportContentType_Full()
+        {
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "repo" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            var mockGitRepo = new Mock<IGitRepo>();
+            mockGitRepo.Setup(gitRepo => gitRepo.HasBranch(It.IsAny<string>())).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("repo")).Returns(mockGitRepo.Object);
+
+            Should_Raise_Changed_Test(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Source,
+                    ReportContent = ReportContentType.Full,
+                    SelectedBranchName = "branch1",
+                    SelectedRepository = "repo"
+                },
+                 new ReportViewSolutionOptionValue
+                 {
+                     ReportStyle = ReportStyle.Source,
+                     ReportContent = ReportContentType.Full,
+                     SelectedBranchName = "branch2",
+                     SelectedRepository = "repo"
+                 },
+                 ExpectedChangeEvent.None);
+        }
+
+        [Test]
+        public void Should_Not_Raise_Changed_When_No_Change_Repository_Or_Branch()
+        {
+            var gitServiceMock = autoMoqer.GetMock<IGitService>();
+            gitServiceMock.SetupGet(gitService => gitService.CanUseChangeset).Returns(true);
+            var repositoryPaths = new List<string> { "repo" };
+            gitServiceMock.Setup(gitService => gitService.GetRepositoryPaths()).Returns(repositoryPaths);
+            var mockGitRepo = new Mock<IGitRepo>();
+            mockGitRepo.Setup(gitRepo => gitRepo.HasBranch(It.IsAny<string>())).Returns(true);
+            gitServiceMock.Setup(gitService => gitService.GetRepository("repo")).Returns(mockGitRepo.Object);
+
+            Should_Raise_Changed_Test(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Source,
+                    ReportContent = ReportContentType.Changeset,
+                    SelectedBranchName = "branch1",
+                    SelectedRepository = "repo"
+                },
+                 new ReportViewSolutionOptionValue
+                 {
+                     ReportStyle = ReportStyle.Source,
+                     ReportContent = ReportContentType.Changeset,
+                     SelectedBranchName = "branch1",
+                     SelectedRepository = "repo"
+                 },
+                 ExpectedChangeEvent.None);
         }
 
         // changeset tests
