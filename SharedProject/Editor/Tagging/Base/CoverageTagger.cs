@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     internal class CoverageTagger<TTag> :
         ICoverageTagger<TTag>,
         IListener<CoverageTypeFilterChangedMessage>,
-        IListener<CoverageChangedMessage>,
+        IListener<CoverageChangedMessage>
         where TTag : ITag
 
     {
