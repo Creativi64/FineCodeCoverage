@@ -13,8 +13,6 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         ICoverageTagger<TTag>,
         IListener<CoverageTypeFilterChangedMessage>,
         IListener<CoverageChangedMessage>,
-        IDisposable,
-        ITagger<TTag>
         where TTag : ITag
 
     {
@@ -121,7 +119,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        private bool IsOwnChange(CoverageChangedMessage message) => message.AppliesTo == this.textInfo.FilePath;
+        private bool IsOwnChange(CoverageChangedMessage message) => message.FilePath == this.textInfo.FilePath;
 
         private void HandleOwnChange(CoverageChangedMessage message)
         {

@@ -467,7 +467,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             autoMoqer.Verify<IEventAggregator>(
                 eventAggregator => eventAggregator.SendMessage(
                     It.Is<CoverageChangedMessage>(message => 
-                        message.AppliesTo == filePath && 
+                        message.FilePath == filePath && 
                         message.BufferLineCoverage == bufferLineCoverage && 
                         message.ChangedLineNumbers.SequenceEqual(expectedMessageChangedLineNumbers))
                     , null
