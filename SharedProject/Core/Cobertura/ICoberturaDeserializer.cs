@@ -2,6 +2,6 @@
 {
     internal interface ICoberturaDeserializer
     {
-        CoverageReport Deserialize(string xmlFile);
+        CoberturaReport Deserialize(string xmlFile);
     }
 }

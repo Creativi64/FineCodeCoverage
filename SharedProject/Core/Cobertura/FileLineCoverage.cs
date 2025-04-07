@@ -43,12 +43,12 @@ namespace FineCodeCoverage.Engine.Model
     {
         private readonly Dictionary<string, UniqueCoverageLines> m_coverageLines = new Dictionary<string, UniqueCoverageLines>(StringComparer.OrdinalIgnoreCase);
 
-        public void Add(string filename, IEnumerable<ILine> lines)
+        public void Add(string filePath, IEnumerable<ILine> lines)
         {
-            if (!m_coverageLines.TryGetValue(filename, out var fileCoverageLines))
+            if (!m_coverageLines.TryGetValue(filePath, out var fileCoverageLines))
             {
                 fileCoverageLines = new UniqueCoverageLines();
-                m_coverageLines.Add(filename, fileCoverageLines);
+                m_coverageLines.Add(filePath, fileCoverageLines);
             }
 
             fileCoverageLines.AddRange(lines);

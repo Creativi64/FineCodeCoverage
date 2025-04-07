@@ -9,13 +9,13 @@ namespace FineCodeCoverage.Engine.Cobertura
     [Export(typeof(ICoberturaDeserializer))]
     internal class CoberturaDerializer : ICoberturaDeserializer
     {
-        private readonly XmlSerializer xmlSerializer = new XmlSerializer(typeof(CoverageReport));
+        private readonly XmlSerializer xmlSerializer = new XmlSerializer(typeof(CoberturaReport));
         private readonly XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
-        public CoverageReport Deserialize(string xmlFile)
+        public CoberturaReport Deserialize(string xmlFile)
         {
             using (var reader = XmlReader.Create(xmlFile, xmlReaderSettings))
             {
-                var report = (CoverageReport)xmlSerializer.Deserialize(reader);
+                var report = (CoberturaReport)xmlSerializer.Deserialize(reader);
                 return report;
             }
         }

@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoberturaUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Condition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Conditions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\CoverageReport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\CoberturaReport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ILine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Line.cs" />

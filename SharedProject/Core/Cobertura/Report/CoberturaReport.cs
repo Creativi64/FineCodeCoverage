@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Engine.Cobertura
 {
     [XmlRoot(ElementName = "coverage")]
     [ExcludeFromCodeCoverage]
-    public class CoverageReport
+    public class CoberturaReport
     {
         [XmlElement(ElementName = "sources")]
         public Sources Sources { get; set; }

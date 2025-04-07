@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Engine.Cobertura
     {
         private readonly ICoberturaDeserializer coberturaDeserializer;
         private readonly IFileLineCoverageFactory fileLineCoverageFactory;
-        private CoverageReport coverageReport;
+        private CoberturaReport coberturaReport;
         private IFileLineCoverage fileLineCoverage;
 
         private class FileLine : ILine
@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Engine.Cobertura
 		{
 			fileLineCoverage = fileLineCoverageFactory.Create();
 
-			coverageReport = coberturaDeserializer.Deserialize(xmlFile);
+			coberturaReport = coberturaDeserializer.Deserialize(xmlFile);
 
             AddThenSort();
             return fileLineCoverage;
@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Engine.Cobertura
 
         private void AddThenSort()
         {
-            foreach (var package in coverageReport.Packages)
+            foreach (var package in coberturaReport.Packages)
             {
                 foreach (var classs in package.Classes)
                 {
@@ -76,45 +76,6 @@ namespace FineCodeCoverage.Engine.Cobertura
             }
 
             fileLineCoverage.Sort();
-        }
-
-		private Package GetPackage(string assemblyName)
-		{
-            return coverageReport.Packages.SingleOrDefault(package => package.Name.Equals(assemblyName));
-        }
-
-		public string[] GetSourceFiles(string assemblyName, string qualifiedClassName, int file)
-		{
-			// Note : There may be more than one file; e.g. in the case of partial classes
-			// For riskhotspots the file parameter is available ( otherwise is -1 )
-
-			var package = GetPackage(assemblyName);
-            return package == null ? new string[0] : GetSourceFilesFromPackage(package, qualifiedClassName, file);
-		}
-
-		private static string[] GetSourceFilesFromPackage(Package package, string qualifiedClassName, int file)
-		{
-            var classes = GetClasses(package, qualifiedClassName);
-            return GetSourceFiles(classes, file);
-        }
-
-        private static IEnumerable<Class> GetClasses(Package package, string qualifiedClassName)
-        {
-            return package.Classes.Where(x => x.Name.Equals(qualifiedClassName));
-        }
-
-        private static string[] GetSourceFiles(IEnumerable<Class> classes, int file)
-        {
-            if (file != -1)
-            {
-                classes = new List<Class> { classes.ElementAt(file) };
-            }
-
-            var classFiles = classes
-                .Select(x => x.Filename)
-                .ToArray();
-
-            return classFiles;
         }
     }
 }
