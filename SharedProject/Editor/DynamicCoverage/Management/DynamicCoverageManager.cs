@@ -10,7 +10,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(IInitializable))]
     [Export(typeof(IDynamicCoverageManager))]
-    internal class DynamicCoverageManager : IDynamicCoverageManager, IListener<NewCoverageLinesMessage>, IListener<TestExecutionStartingMessage>, IInitializable
+    internal class DynamicCoverageManager :
+        IDynamicCoverageManager,
+        IListener<NewCoverageLinesMessage>,
+        IListener<TestExecutionStartingMessage>,
+        IInitializable
     {
         private readonly IEventAggregator eventAggregator;
         private readonly ITrackedLinesFactory trackedLinesFactory;

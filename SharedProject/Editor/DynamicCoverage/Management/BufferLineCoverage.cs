@@ -18,7 +18,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     }
 
     internal class BufferLineCoverage :
-        IBufferLineCoverage, IListener<NewCoverageLinesMessage>, IListener<TestExecutionStartingMessage>
+        IBufferLineCoverage,
+        IListener<NewCoverageLinesMessage>,
+        IListener<TestExecutionStartingMessage>,
+        IListener<ClearLinesMessage>
     {
         private readonly ITextInfo textInfo;
         private readonly IEventAggregator eventAggregator;
@@ -298,11 +301,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public IEnumerable<IDynamicLine> GetLines(int startLineNumber, int endLineNumber)
             => this.TrackedLines == null ? Enumerable.Empty<IDynamicLine>() : this.TrackedLines.GetLines(startLineNumber, endLineNumber);
 
-        public void Handle(NewCoverageLinesMessage message)
+        public void Handle(NewCoverageLinesMessage message) => this.UpdateCoverageLines(message.CoverageLines);
+
+        private void UpdateCoverageLines(IFileLineCoverage fileLineCoverage)
         {
             if (!this.applicableContentType) return;
 
-            this.fileLineCoverage = message.CoverageLines;
+            this.fileLineCoverage = fileLineCoverage;
 
             bool hadTrackedLines = this.TrackedLines != null;
             if (this.fileLineCoverage == null)
@@ -320,5 +325,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public void Handle(TestExecutionStartingMessage message) => this.lastTestExecutionStarting = DateTime.Now;
+        public void Handle(ClearLinesMessage message) => this.UpdateCoverageLines(null);
     }
 }

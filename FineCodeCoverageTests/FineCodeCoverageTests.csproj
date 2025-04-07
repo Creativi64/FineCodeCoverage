@@ -192,6 +192,7 @@
     <Compile Include="RunSettingsCoverletConfiguration_Tests.cs" />
     <Compile Include="ReferencedProject_Tests.cs" />
     <Compile Include="TestContainerDiscovery_Tests.cs" />
+    <Compile Include="UIClearer_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -17,36 +17,6 @@ using NUnit.Framework;
 
 namespace Test
 {
-    public class FCCEngine_Tests
-    {
-        private AutoMoqer mocker;
-        private FCCEngine fccEngine;
-
-        [SetUp]
-        public void SetUp()
-        {
-            mocker = new AutoMoqer();
-            fccEngine = mocker.Create<FCCEngine>();
-        }
-
-        [Test]
-        public void Should_Send_NewCoverageLinesMessage_With_Null_CoverageLines_When_ClearUI()
-        {
-            fccEngine.ClearUI();
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == null), null));
-        }
-
-        [Test]
-        public void Should_Clear_UI_When_Solution_Closes()
-        {
-            var mockSolutionEvents = mocker.GetMock<ISolutionEvents>();
-            mockSolutionEvents.Raise(s => s.AfterClosing += null, EventArgs.Empty);
-
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == null), null));
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewReportMessage>(msg => msg.Report == null && msg.CoverageProjects == null), null));
-        }
-    }
-
     public class FCCEngine_ReloadCoverage_Tests
     {
         private AutoMoqer mocker;

@@ -16,7 +16,8 @@ namespace FineCodeCoverage.Output
     internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
         IListener<NewReportMessage>,
         IListener<CoverageStartingMessage>,
-        IListener<CoverageEndedMessage>
+        IListener<CoverageEndedMessage>,
+        IListener<ClearReportMessage>
     {
         [ImportingConstructor]
         public ReportViewModel(
@@ -132,23 +133,21 @@ namespace FineCodeCoverage.Output
 
         public void Handle(NewReportMessage message)
         {
-            if(message.Report != null)
-            {
-                lastReport = new Report(message);
-                this.ColumnManagerImpl.ShowRelevantColumns(lastReport.MetricTypes);
-                GenerateReport(reportViews.GetChangeset());
-            }
-            else
-            {
-                lastReport = null;
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
-                {
-                    double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            lastReport = new Report(message);
+            this.ColumnManagerImpl.ShowRelevantColumns(lastReport.MetricTypes);
+            GenerateReport(reportViews.GetChangeset());
+        }
 
-                    this._items.Clear();
-                });
-            }
+        public void Handle(ClearReportMessage message)
+        {
+            lastReport = null;
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            {
+                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+                this._items.Clear();
+            });
         }
 
         public override void Sort(int displayIndex) => this.ColumnManagerImpl.SortColumns(displayIndex);

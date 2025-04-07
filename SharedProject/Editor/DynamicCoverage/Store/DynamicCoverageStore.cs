@@ -9,7 +9,10 @@ using Microsoft.VisualStudio.Threading;
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(IDynamicCoverageStore))]
-    internal class DynamicCoverageStore : IDynamicCoverageStore, IListener<NewCoverageLinesMessage>
+    internal class DynamicCoverageStore :
+        IDynamicCoverageStore,
+        IListener<NewCoverageLinesMessage>,
+        IListener<ClearLinesMessage>
     {
         private readonly IJsonConvertService jsonConvertService;
         private readonly IDateTimeService dateTimeService;
@@ -78,8 +81,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         // this is fundamental - the store is for restoring the coverage of the current coverage only
-        public void Handle(NewCoverageLinesMessage message) => this.RemoveStore();
-
+        public void Handle(NewCoverageLinesMessage _) => this.RemoveStore();
+        public void Handle(ClearLinesMessage _) => this.RemoveStore();
         private void RemoveStore()
         {
             bool collectionExists = this.WritableUserSettingsStore.CollectionExists(dynamicCoverageStoreCollectionName);

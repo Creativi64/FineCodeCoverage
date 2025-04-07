@@ -21,16 +21,16 @@ namespace FineCodeCoverage.Output
         /// </summary>
         public static readonly Guid CommandSet = PackageGuids.guidFCCPackageCmdSet;
 
-        private readonly IFCCEngine fccEngine;
+        private readonly IUIClearer uiClearer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClearUICommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private ClearUICommand(OleMenuCommandService commandService, IFCCEngine fccEngine)
+        private ClearUICommand(OleMenuCommandService commandService, IUIClearer uiClearer)
         {
-            this.fccEngine = fccEngine;
+            this.uiClearer = uiClearer;
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.Execute, menuCommandID);
@@ -50,14 +50,14 @@ namespace FineCodeCoverage.Output
         /// Initializes the singleton instance of the command.
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        public static async Task InitializeAsync(AsyncPackage package, IFCCEngine fccEngine)
+        public static async Task InitializeAsync(AsyncPackage package, IUIClearer uiClearer)
         {
             // Switch to the main thread - the call to AddCommand in ClearUICommand's constructor requires
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new ClearUICommand(commandService, fccEngine);
+            Instance = new ClearUICommand(commandService, uiClearer);
         }
 
         /// <summary>
@@ -69,8 +69,7 @@ namespace FineCodeCoverage.Output
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            fccEngine.ClearUI();
+            uiClearer.ClearUI();
         }
 
     }

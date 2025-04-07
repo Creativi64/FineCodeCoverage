@@ -132,7 +132,7 @@ namespace FineCodeCoverage.Output
 			var hotspotService = componentModel.GetService<IHotspotsService>();
             await OpenCoberturaCommand.InitializeAsync(this, eventAggregator);
             await OpenHotspotsCommand.InitializeAsync(this, eventAggregator, hotspotService);
-            await ClearUICommand.InitializeAsync(this, fccEngine);
+            await ClearUICommand.InitializeAsync(this, componentModel.GetService<IUIClearer>());
             await ToggleCoverageIndicatorsCommand.InitializeAsync(this, eventAggregator);
             await OpenReportWindowCommand.InitializeAsync(
                 this,

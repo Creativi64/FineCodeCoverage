@@ -9,12 +9,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         private readonly ITrackingSpan trackingSpan;
         private readonly ILineTracker lineTracker;
-        private readonly TrackedLineLine line;
+        private readonly DynamicLine line;
         public IDynamicLine Line => this.line;
 
         public CoverageLine(ITrackingSpan trackingSpan, ILine line, ILineTracker lineTracker)
         {
-            this.line = new TrackedLineLine(line);
+            this.line = DynamicLine.FromLine(line);
             this.trackingSpan = trackingSpan;
             this.lineTracker = lineTracker;
         }

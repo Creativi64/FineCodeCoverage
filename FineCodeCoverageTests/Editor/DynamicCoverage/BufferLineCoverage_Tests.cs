@@ -318,7 +318,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 null
                 )).Callback(() => Assert.IsNull(bufferLineCoverage.TrackedLines));
 
-            bufferLineCoverage.Handle(new NewCoverageLinesMessage());
+            bufferLineCoverage.Handle(new ClearLinesMessage());
 
             mockEventAggregator.VerifyAll();
         }
@@ -330,7 +330,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var bufferLineCoverage = autoMoqer.Create<BufferLineCoverage>();
             bufferLineCoverage.TrackedLines = null;
 
-            bufferLineCoverage.Handle(new NewCoverageLinesMessage());
+            bufferLineCoverage.Handle(new ClearLinesMessage());
 
             autoMoqer.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
                 It.IsAny<CoverageChangedMessage>(),
@@ -362,7 +362,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockFileLineCoverage = new Mock<IFileLineCoverage>();
             mockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(filePath)).Returns(newCoverageLines);  
             (bufferLineCoverage as IListener<NewCoverageLinesMessage>).Handle(
-                new NewCoverageLinesMessage { CoverageLines = mockFileLineCoverage.Object });
+                new NewCoverageLinesMessage(mockFileLineCoverage.Object));
 
             
             if (off)
@@ -412,7 +412,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 RaiseTestExecutionStartingMessage();
             }
 
-            bufferLineCoverage.Handle(new NewCoverageLinesMessage { CoverageLines = new Mock<IFileLineCoverage>().Object });
+            bufferLineCoverage.Handle(new NewCoverageLinesMessage(new Mock<IFileLineCoverage>().Object));
            
 
             Assert.That(bufferLineCoverage.TrackedLines, textChangedSinceTestExecutionStarting ? Is.Null : Is.Not.Null);
@@ -432,7 +432,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             Thread.Sleep(1);
             mockTextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, new TextContentChangedEventArgs(new Mock<ITextSnapshot>().Object, new Mock<ITextSnapshot>().Object, new EditOptions(), null));
 
-            bufferLineCoverage.Handle(new NewCoverageLinesMessage { CoverageLines = new Mock<IFileLineCoverage>().Object });
+            bufferLineCoverage.Handle(new NewCoverageLinesMessage (new Mock<IFileLineCoverage>().Object));
 
             autoMoqer.Verify<ILogger>(ILogger => ILogger.Log($"Not creating editor marks for {filePath} as it was changed after test execution started"));
         }

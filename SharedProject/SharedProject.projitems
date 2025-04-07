@@ -174,10 +174,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitCoverageRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\CPSTestProjectService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitSettingsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\NewCoverageLinesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportFilesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\DirectoryResultsTreeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HotspotsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\HtmlFilesToFolder.cs" />
@@ -260,6 +262,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\XmlFileEscaper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\XmlUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ZipFileWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\ClearLinesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicCoverageTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorCoverageContentType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorFileCodeSpanRangeService.cs" />
@@ -388,7 +391,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\TrackingSpanRangeContainingCodeTrackerFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLines.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLinesFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedLineLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\TrackedLines.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\ContainingCodeTrackedLinesBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\TrackingSpanRange.cs" />
@@ -450,10 +452,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ICoverageCollectableFromTestExplorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ClearReportMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ShowReportViewCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\EditColumnsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\IUiClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\RunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Container.cs" />
@@ -530,6 +534,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSelectorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\UIClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
       <DependentUpon>BaseDialogControl.xaml</DependentUpon>
     </Compile>

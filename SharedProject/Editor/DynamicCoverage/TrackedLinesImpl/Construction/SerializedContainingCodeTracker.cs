@@ -5,11 +5,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class SerializedContainingCodeTracker
     {
-        public SerializedContainingCodeTracker(CodeSpanRange codeSpanRange, ContainingCodeTrackerType type, List<DynamicLine> dynamicLines)
+        public SerializedContainingCodeTracker(CodeSpanRange codeSpanRange, ContainingCodeTrackerType type, List<DynamicLine> lines)
         {
             this.CodeSpanRange = codeSpanRange;
             this.Type = type;
-            this.Lines = dynamicLines;
+            this.Lines = lines;
         }
 
         public static SerializedContainingCodeTracker From(ContainingCodeTrackerState containingCodeTrackerState)

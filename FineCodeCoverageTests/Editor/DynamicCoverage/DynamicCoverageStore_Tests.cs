@@ -37,9 +37,26 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             
             var dynamicCoverageStore = autoMoqer.Create<DynamicCoverageStore>();
 
-            dynamicCoverageStore.Handle(new NewCoverageLinesMessage());
+            dynamicCoverageStore.Handle(new NewCoverageLinesMessage(null));
 
             mockWritableSettingsStore.Verify(writableSettingsStore => writableSettingsStore.DeleteCollection("FCC.DynamicCoverageStore"), Times.Exactly(collectionExists ? 1 : 0));
+        }
+
+        [Test]
+        public void Should_Delete_WritableUserSettingsStore_Collection_When_ClearLineMessage()
+        {
+            var autoMoqer = new AutoMoqer();
+            var mockWritableSettingsStore = new Mock<WritableSettingsStore>();
+            mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.CollectionExists("FCC.DynamicCoverageStore")).Returns(true);
+            var lazyWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            autoMoqer.Setup<IWritableUserSettingsStoreProvider, AsyncLazy<WritableSettingsStore>>(
+                writableUserSettingsStoreProvider => writableUserSettingsStoreProvider.LazySettingsStore).Returns(lazyWritableSettingsStore);
+
+            var dynamicCoverageStore = autoMoqer.Create<DynamicCoverageStore>();
+
+            dynamicCoverageStore.Handle(new ClearLinesMessage());
+
+            mockWritableSettingsStore.Verify(writableSettingsStore => writableSettingsStore.DeleteCollection("FCC.DynamicCoverageStore"), Times.Exactly(1));
         }
 
         [TestCase(true)]

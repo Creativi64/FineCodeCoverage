@@ -67,7 +67,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 var fileLineCoverage = new Mock<IFileLineCoverage>().Object;
                 lastCoverage = new LastCoverage(fileLineCoverage, now);
                 (dynamicCoverageManager as IListener<TestExecutionStartingMessage>).Handle(new TestExecutionStartingMessage());
-                dynamicCoverageManager.Handle(new NewCoverageLinesMessage { CoverageLines = fileLineCoverage});
+                dynamicCoverageManager.Handle(new NewCoverageLinesMessage (fileLineCoverage));
             }
 
             var mockTextInfo = new Mock<ITextInfo>();

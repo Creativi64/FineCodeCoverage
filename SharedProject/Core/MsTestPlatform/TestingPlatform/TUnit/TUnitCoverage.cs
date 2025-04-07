@@ -131,7 +131,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             var cancellationToken = cancellationTokenSource.Token;
             await LogCoverageStartingAsync();
-            eventAggregator.SendMessage(new NewReportMessage(null, null)); // clear existing report
 
             OnCollectingChanged(true);//order important
             eventAggregator.SendMessage(new CoverageStartingMessage());

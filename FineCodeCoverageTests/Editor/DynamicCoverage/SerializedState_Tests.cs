@@ -1,5 +1,8 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -12,13 +15,15 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         {
             var states = new List<SerializedContainingCodeTracker>
             {
-                new SerializedContainingCodeTracker(new CodeSpanRange(1,5), ContainingCodeTrackerType.OtherLines, new List<DynamicLine>
-                {
-                    new DynamicLine(1, DynamicCoverageType.Dirty)
-                })
+                new SerializedContainingCodeTracker(
+                    new CodeSpanRange(1,5), 
+                    ContainingCodeTrackerType.OtherLines, 
+                    new List<DynamicLine>
+                    {
+                        new DynamicLine(1, DynamicCoverageType.Dirty)
+                    })
             };
 
-            
             var jsonConvertService = new JsonConvertService();
             var serialized = jsonConvertService.SerializeObject(states);
             var deserialized = jsonConvertService.DeserializeObject<List<SerializedContainingCodeTracker>>(serialized);

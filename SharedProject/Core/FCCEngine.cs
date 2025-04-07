@@ -9,40 +9,22 @@ using FineCodeCoverage.Engine.Cobertura;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
-using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Engine
 {
-    internal sealed class NewCoverageLinesMessage
-    {
-        public IFileLineCoverage CoverageLines { get; set; }
-    }
-
-    internal class CoverageTaskState
-    {
-        public CancellationTokenSource CancellationTokenSource { get; set; }
-        public Action CleanUp { get; set; }
-    }
-
-    internal class ReportResult
-    {
-        public IFileLineCoverage FileLineCoverage { get; set; }
-        public IReportResult Report { get; set; }
-        public string CoberturaFile { get; set; }
-        public List<ICoverageProject> CoverageProjects { get; internal set; }
-    }
-
-    class ReportFilesMessage
-    {
-        public IReportResult ReportResult { get; set; }
-        public string CoberturaFile { get; set; }
-    }
-
     [Export(typeof(IFCCEngine))]
     internal class FCCEngine : IFCCEngine
     {
+        private class ReportResult
+        {
+            public IFileLineCoverage FileLineCoverage { get; set; }
+            public IReportResult Report { get; set; }
+            public string CoberturaFile { get; set; }
+            public List<ICoverageProject> CoverageProjects { get; internal set; }
+        }
+
         internal int InitializeWait { get; set; } = 5000;
         internal const string initializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
         private ICancellationTokenSource cancellationTokenSource;
@@ -53,9 +35,6 @@ namespace FineCodeCoverage.Engine
         private readonly ILogger logger;
 
         private readonly ICoverageToolOutputManager coverageOutputManager;
-#pragma warning disable IDE0052 // Remove unread private members
-        private readonly ISolutionEvents solutionEvents; // keep alive
-#pragma warning restore IDE0052 // Remove unread private members
         private readonly IEventAggregator eventAggregator;
         private readonly IDisposeAwareTaskRunner disposeAwareTaskRunner;
 
@@ -66,23 +45,12 @@ namespace FineCodeCoverage.Engine
             IReportGeneratorUtil reportGeneratorUtil,
             ILogger logger,
             ICoverageToolOutputManager coverageOutputManager,
-            ISolutionEvents solutionEvents,
-            IAppOptionsProvider appOptionsProvider,
             IEventAggregator eventAggregator,
             IDisposeAwareTaskRunner disposeAwareTaskRunner
             )
         {
-            this.solutionEvents = solutionEvents;
             this.eventAggregator = eventAggregator;
             this.disposeAwareTaskRunner = disposeAwareTaskRunner;
-            solutionEvents.AfterClosing += (s,args) => ClearUI();
-            appOptionsProvider.OptionsChanged += (appOptions) =>
-            {
-                if (!appOptions.Enabled)
-                {
-                    ClearUI();
-                }
-            };
             this.coverageOutputManager = coverageOutputManager;
             this.coverageUtilManager = coverageUtilManager;
             this.coberturaUtil = coberturaUtil;
@@ -94,15 +62,6 @@ namespace FineCodeCoverage.Engine
         {
             return logger.LogAsync(StatusMarkerProvider.Get(reloadCoverageStatus));
         }
-
-        public void ClearUI()
-        {
-            ClearCoverageLines();
-            this.RaiseNewReport(null, null);
-        }
-
-        private void RaiseNewReport(IReportResult reportResult, List<ICoverageProject>coverageProjects)
-            => this.eventAggregator.SendMessage(new NewReportMessage(reportResult, coverageProjects));
 
         public void StopCoverage()
         {
@@ -118,8 +77,6 @@ namespace FineCodeCoverage.Engine
 
         private void Reset()
         {
-            ClearCoverageLines();
-
             StopCoverage();
 
             cancellationTokenSource = disposeAwareTaskRunner.CreateLinkedTokenSource();
@@ -162,21 +119,10 @@ namespace FineCodeCoverage.Engine
 
         }
 
-
-        private void ClearCoverageLines()
-        {
-            RaiseCoverageLines(null);
-        }
-
-        private void RaiseCoverageLines(IFileLineCoverage coverageLines)
-        {
-            eventAggregator.SendMessage(new NewCoverageLinesMessage { CoverageLines = coverageLines});
-        }
-
         private void UpdateUI(IFileLineCoverage coverageLines, IReportResult reportResult, List<ICoverageProject> coverageProjects)
         {
-            RaiseCoverageLines(coverageLines);
-            RaiseNewReport(reportResult, coverageProjects);
+            eventAggregator.SendMessage(new NewCoverageLinesMessage(coverageLines));
+            this.eventAggregator.SendMessage(new NewReportMessage(reportResult, coverageProjects));
         }
 
         private async Task<ReportResult> RunAndProcessReportAsync(
