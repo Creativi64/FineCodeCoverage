@@ -49,11 +49,11 @@ namespace FineCodeCoverage.Output
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClearUICommand"/> class.
+        /// Initializes a new instance of the <see cref="OpenCoberturaCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private  OpenCoberturaCommand(OleMenuCommandService commandService, IEventAggregator eventAggregator, DTE2 dte)
+        private OpenCoberturaCommand(OleMenuCommandService commandService, IEventAggregator eventAggregator, DTE2 dte)
         {
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 

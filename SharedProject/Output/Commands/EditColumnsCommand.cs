@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Output
         /// <param name="package">Owner package, not null.</param>
         public static async Task InitializeAsync(AsyncPackage package, IReportColumnsService reportColumnsService)
         {
-            // Switch to the main thread - the call to AddCommand in ClearUICommand's constructor requires
+            // Switch to the main thread - the call to AddCommand in EditColumnsCommand's constructor requires
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 

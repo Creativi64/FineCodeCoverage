@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Output
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClearUICommand"/> class.
+        /// Initializes a new instance of the <see cref="CollectTUnitCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="commandService">Command service to add command to, not null.</param>
