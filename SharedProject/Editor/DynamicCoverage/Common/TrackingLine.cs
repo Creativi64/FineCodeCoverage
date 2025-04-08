@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.Line = new DynamicLine(startLineNumber, this.dynamicCoverageType);
         }
 
-        public List<int> Update(ITextSnapshot currentSnapshot)
+        public List<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)
         {
             int currentFirstLineNumber = this.Line.Number;
             this.SetLine(currentSnapshot);

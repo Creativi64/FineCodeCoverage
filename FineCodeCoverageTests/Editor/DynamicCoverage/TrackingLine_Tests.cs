@@ -49,7 +49,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockLineTracker.Setup(lineTracker => lineTracker.GetLineNumber(trackingSpan, currentSnapshot, false))
                 .Returns(newLineNumber);
 
-            var updatedLineNumbers = trackingLine.Update(currentSnapshot);
+            var updatedLineNumbers = trackingLine.GetUpdatedLineNumbers(currentSnapshot);
             Assert.That(updatedLineNumbers, Is.EqualTo(changeLineNumber ? new List<int> { 10, 11} : Enumerable.Empty<int>()));
             AssertTrackingLine(trackingLine, newLineNumber, DynamicCoverageType.Dirty);
         }

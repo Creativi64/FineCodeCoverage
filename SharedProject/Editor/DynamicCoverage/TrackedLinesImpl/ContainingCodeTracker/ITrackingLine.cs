@@ -7,6 +7,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         IDynamicLine Line { get; }
 
-        List<int> Update(ITextSnapshot currentSnapshot);
+        List<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot);
     }
 }

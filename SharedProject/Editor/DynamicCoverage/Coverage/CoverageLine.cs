@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.lineTracker = lineTracker;
         }
 
-        public List<int> Update(ITextSnapshot currentSnapshot)
+        public List<int> GetUpdateLineNumbers(ITextSnapshot currentSnapshot)
         {
             int previousLineNumber = this.Line.Number;
             int newLineNumber = this.lineTracker.GetLineNumber(this.trackingSpan, currentSnapshot, true);

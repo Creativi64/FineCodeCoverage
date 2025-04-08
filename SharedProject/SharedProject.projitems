@@ -385,7 +385,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\IRoslynService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ITrackedLines.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ITrackedLinesFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\LineSpan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineAndSnapshotSpan.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\RoslynService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TextInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\TrackingSpanRangeContainingCodeTrackerFactory.cs" />

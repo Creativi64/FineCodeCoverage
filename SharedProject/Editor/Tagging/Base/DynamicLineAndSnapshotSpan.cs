@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal class LineSpan : IDynamicLineAndSnapshotSpan
+    internal class DynamicLineAndSnapshotSpan : IDynamicLineAndSnapshotSpan
     {
-        public LineSpan(IDynamicLine line, SnapshotSpan span)
+        public DynamicLineAndSnapshotSpan(IDynamicLine line, SnapshotSpan span)
         {
             this.Line = line;
             this.Span = span;

@@ -155,7 +155,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockDirtyLine = new Mock<ITrackingLine>();
             mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line.Number).Returns(10);
             var dirtyLineUpdatedLineNumbers =new List<int> { 10, 20 };
-            mockDirtyLine.Setup(dirtyLine => dirtyLine.Update(textSnapshot2)).Returns(dirtyLineUpdatedLineNumbers);
+            mockDirtyLine.Setup(dirtyLine => dirtyLine.GetUpdatedLineNumbers(textSnapshot2)).Returns(dirtyLineUpdatedLineNumbers);
             mockDirtyLineFactory.Setup(dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(), It.IsAny<ITextSnapshot>())).Returns(mockDirtyLine.Object);
 
             var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();

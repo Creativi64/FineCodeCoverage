@@ -243,8 +243,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 }
             }
 
-            var lines = this.fileLineCoverage.GetLines(this.textInfo.FilePath).ToList();
-            this.TrackedLines = this.trackedLinesFactory.Create(lines, currentSnapshot, filePath);
+            var coberturaLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath).ToList();
+            this.TrackedLines = this.trackedLinesFactory.Create(coberturaLines, currentSnapshot, filePath);
         }
 
         private bool EditorCoverageColouringModeOff()

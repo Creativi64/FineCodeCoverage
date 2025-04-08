@@ -28,7 +28,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var textSnapshot = new Mock<ITextSnapshot>().Object;
             var mockTrackingLine = autoMoqer.GetMock<ITrackingLine>();
             var updatedLines = new List<int> { 10, 11 };
-            mockTrackingLine.Setup(trackingLine => trackingLine.Update(textSnapshot)).Returns(updatedLines);
+            mockTrackingLine.Setup(trackingLine => trackingLine.GetUpdatedLineNumbers(textSnapshot)).Returns(updatedLines);
 
             var trackingLineTracker = new TrackingLineTracker(mockTrackingLine.Object, ContainingCodeTrackerType.OtherLines);
 

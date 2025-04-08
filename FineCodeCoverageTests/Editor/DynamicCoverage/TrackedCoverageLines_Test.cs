@@ -16,7 +16,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             Mock<ICoverageLine> CreateMockCoverageLine(List<int> updatedCoverageLines)
             {
                 var mockCoverageLine = new Mock<ICoverageLine>();
-                mockCoverageLine.Setup(coverageLine => coverageLine.Update(textSnapshot)).Returns(updatedCoverageLines);
+                mockCoverageLine.Setup(coverageLine => coverageLine.GetUpdateLineNumbers(textSnapshot)).Returns(updatedCoverageLines);
                 return mockCoverageLine;
             }
 

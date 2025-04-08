@@ -41,7 +41,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 .Returns(updatedLineNumber);
             var coverageLine = new CoverageLine(trackingSpan, mockLine.Object, mockLineTracker.Object);
 
-            var updatedLineNumbers = coverageLine.Update(currentTextSnapshot);
+            var updatedLineNumbers = coverageLine.GetUpdateLineNumbers(currentTextSnapshot);
 
             Assert.That(updatedLineNumbers, Is.EqualTo(updateLineNumber ? new List<int> { 0, 10 } : Enumerable.Empty<int>()));
 

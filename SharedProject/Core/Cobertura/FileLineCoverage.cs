@@ -10,10 +10,10 @@ namespace FineCodeCoverage.Engine.Model
         {
         }
 
-        public void AddRange(IEnumerable<ICoberturaLine> lines)
+        public void AddRange(IEnumerable<ICoberturaLine> coberturaLines)
         {
-            foreach (var line in lines)
-                Add(line);
+            foreach (var coberturaLine in coberturaLines)
+                Add(coberturaLine);
         }
 
         private IEnumerable<ICoberturaLine> sortedLines;
