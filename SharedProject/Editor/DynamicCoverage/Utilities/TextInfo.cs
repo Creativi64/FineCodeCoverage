@@ -9,15 +9,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [ExcludeFromCodeCoverage]
     internal class TextInfo : ITextInfo
     {
-        private bool triedGetProperty;
+        private bool triedGetTextDocumentProperty;
         private ITextDocument document;
         private ITextDocument TextDocument
         {
             get
             {
-                if (!this.triedGetProperty)
+                if (!this.triedGetTextDocumentProperty)
                 {
-                    this.triedGetProperty = true;
+                    this.triedGetTextDocumentProperty = true;
                     if (this.TextBuffer.Properties.TryGetProperty(typeof(ITextDocument), out ITextDocument document))
                     {
                         this.document = document;
