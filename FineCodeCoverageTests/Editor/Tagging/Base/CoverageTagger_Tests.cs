@@ -124,7 +124,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 new Mock<IEventAggregator>().Object,
                 new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object,
                 new Mock<ILineSpanTagger<DummyTag>>().Object,
-                new Mock<IFileIndicatorVisibility>().Object
+                new Mock<IFileIndicatorVisibility>().Object,
+                new Mock<IDynamicLineFilter>().Object
             );
 
             Assert.That(coverageTagger.HasCoverage, Is.EqualTo(hasCoverage));
@@ -164,7 +165,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 new Mock<IEventAggregator>().Object,
                 new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object,
                 new Mock<ILineSpanTagger<DummyTag>>().Object,
-                new Mock<IFileIndicatorVisibility>().Object
+                new Mock<IFileIndicatorVisibility>().Object,
+                new Mock<IDynamicLineFilter>().Object
             );
 
             var tagsChanged = false;
@@ -189,7 +191,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 new Mock<IEventAggregator>().Object,
                 new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object,
                 new Mock<ILineSpanTagger<DummyTag>>().Object,
-                new Mock<IFileIndicatorVisibility>().Object
+                new Mock<IFileIndicatorVisibility>().Object,
+                new Mock<IDynamicLineFilter>().Object
             );
 
             var tags = coverageTagger.GetTags(new NormalizedSnapshotSpanCollection());
@@ -226,6 +229,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
             autoMoqer.Setup<IFileIndicatorVisibility,bool>(fileIndicatorVisibility => fileIndicatorVisibility.IsVisible(It.IsAny<string>())).Returns(true);
             var coverageTagger = autoMoqer.Create<CoverageTagger<DummyTag>>();
             var spans = new NormalizedSnapshotSpanCollection();
+            autoMoqer.Setup<IDynamicLineAndSnapshotSpansLogic, List<IDynamicLineAndSnapshotSpan>>(dynamicLineAndSnapshotSpansLogic => dynamicLineAndSnapshotSpansLogic.Apply(
+               It.IsAny<IBufferLineCoverage>(), spans)).Returns(new List<IDynamicLineAndSnapshotSpan>());
 
             var expectedBufferLineCoverageForLogic = bufferLineCoverage;
             if (newCoverage)
@@ -323,6 +328,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
         public void Should_Have_No_Tags_When_FileIndicatorVisibility_Is_Initially_False(bool initiallyVisible)
         {
             var autoMoqer = new AutoMoqer();
+            autoMoqer.Setup<IDynamicLineFilter, Func<IDynamicLine, bool>>(dynamicLineFilter => dynamicLineFilter.GetFileFilter(It.IsAny<string>())).Returns((_) => true);
             autoMoqer.Setup<ICoverageTypeFilter, bool>(coverageTypeFilter => coverageTypeFilter.Show(DynamicCoverageType.Covered)).Returns(true);
             var mockLineSpan = new Mock<IDynamicLineAndSnapshotSpan>();
             mockLineSpan.SetupGet(lineSpan => lineSpan.Line.CoverageType).Returns(DynamicCoverageType.Covered);

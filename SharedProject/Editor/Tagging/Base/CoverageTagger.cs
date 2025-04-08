@@ -1,14 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.IndicatorVisibility;
+using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
+    interface IDynamicLineFilter
+    {
+        event EventHandler FilterChanged;
+
+        Func<IDynamicLine,bool> GetFileFilter(string filePath);
+    }
+
+    [Export(typeof(IDynamicLineFilter))]
+    internal class DynamicLineFilter : IDynamicLineFilter
+    {
+        private readonly IReportViews reportViews;
+
+        [ImportingConstructor]
+        public DynamicLineFilter(
+            IReportViews reportViews
+        )
+        {
+            this.reportViews = reportViews;
+            reportViews.Changed += this.ReportViews_Changed;
+        }
+
+        private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
+        {
+            if (e.ChangesetChanged)
+            {
+                this.shouldGetChangeset = true;
+                FilterChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private IChangeset changeset = null;
+        private bool shouldGetChangeset = true;
+
+        private IChangeset GetChangeset()
+        {
+            if (this.shouldGetChangeset)
+            {
+                this.changeset = this.reportViews.GetChangeset();
+                this.shouldGetChangeset = false;
+            }
+
+            return this.changeset;
+        }
+
+        public event EventHandler FilterChanged;
+
+        public Func<IDynamicLine, bool> GetFileFilter(string filePath)
+        {
+            IChangeset changeset = this.GetChangeset();
+            if(changeset == null)
+            {
+                return (_) => true;
+            }
+
+            List<int> lineNumbers = changeset.GetLineNumbers(filePath);
+            return (dynamicLine) => lineNumbers.Contains(dynamicLine.Number + 1);
+            // todo IDynamicLine to have original line number
+        }
+    }
+
     internal class CoverageTagger<TTag> :
         ICoverageTagger<TTag>,
         IListener<CoverageTypeFilterChangedMessage>,
@@ -17,6 +79,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
     {
         private readonly ITextInfo textInfo;
+        private readonly string originalFilePath;
         private readonly ITextBuffer textBuffer;
         private IBufferLineCoverage bufferLineCoverage;
         private ICoverageTypeFilter coverageTypeFilter;
@@ -24,6 +87,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
         private readonly ILineSpanTagger<TTag> lineSpanTagger;
         private readonly IFileIndicatorVisibility fileIndicatorVisibility;
+        private readonly IDynamicLineFilter dynamicLineFilter;
         private bool isDisplayingIndicators;
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
@@ -35,7 +99,9 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IEventAggregator eventAggregator,
             IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             ILineSpanTagger<TTag> lineSpanTagger,
-            IFileIndicatorVisibility fileIndicatorVisibility)
+            IFileIndicatorVisibility fileIndicatorVisibility,
+            IDynamicLineFilter dynamicLineFilter
+            )
         {
             ThrowIf.Null(textInfo, nameof(textInfo));
             ThrowIf.Null(coverageTypeFilter, nameof(coverageTypeFilter));
@@ -43,6 +109,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             ThrowIf.Null(dynamicLineAndSnapshotSpansLogic, nameof(dynamicLineAndSnapshotSpansLogic));
             ThrowIf.Null(lineSpanTagger, nameof(lineSpanTagger));
             this.textInfo = textInfo;
+            this.originalFilePath = this.textInfo.FilePath;
             this.textBuffer = textInfo.TextBuffer;
             this.bufferLineCoverage = bufferLineCoverage;
             this.coverageTypeFilter = coverageTypeFilter;
@@ -50,6 +117,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.lineSpanTagger = lineSpanTagger;
             this.fileIndicatorVisibility = fileIndicatorVisibility;
+            dynamicLineFilter.FilterChanged += (_,__) => this.RaiseTagsChanged();
+            this.dynamicLineFilter = dynamicLineFilter;
             this.isDisplayingIndicators = fileIndicatorVisibility.IsVisible(textInfo.FilePath);
             fileIndicatorVisibility.VisibilityChanged += this.FileIndicatorVisibility_VisibilityChanged;
             _ = eventAggregator.AddListener(this);
@@ -98,13 +167,25 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private IEnumerable<ITagSpan<TTag>> GetTagsFromCoverageLines(NormalizedSnapshotSpanCollection spans)
         {
-            IEnumerable<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans = this.dynamicLineAndSnapshotSpansLogic.Apply(this.bufferLineCoverage, spans);
+            List<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans = this.dynamicLineAndSnapshotSpansLogic.Apply(this.bufferLineCoverage, spans);
             return this.GetTags(dynamicLineAndSnapshotSpans);
         }
 
-        private IEnumerable<ITagSpan<TTag>> GetTags(IEnumerable<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans)
-            => dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot => this.coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType))
-                .Select(dynamicLineAndSnapshot => this.lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
+        private bool IsNewOrDirty(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
+        {
+            DynamicCoverageType ct = dynamicLineAndSnapshotSpan.Line.CoverageType;
+            return ct == DynamicCoverageType.Dirty || ct == DynamicCoverageType.NewLine;
+        }
+
+        private IEnumerable<ITagSpan<TTag>> GetTags(List<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans)
+        {
+            Func<IDynamicLine, bool> fileFilter = dynamicLineAndSnapshotSpans.Any() ?
+                this.dynamicLineFilter.GetFileFilter(this.originalFilePath) : (_) => true;
+            return dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot
+                => this.coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType) &&
+                (this.IsNewOrDirty(dynamicLineAndSnapshot) || fileFilter(dynamicLineAndSnapshot.Line))
+            ).Select(dynamicLineAndSnapshot => this.lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
+        }
 
         public void Dispose() {
             _ = this.eventAggregator.RemoveListener(this);

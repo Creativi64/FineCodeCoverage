@@ -2,6 +2,7 @@
 using LibGit2Sharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 #endif
 
@@ -11,11 +12,13 @@ namespace FineCodeCoverage.Output
     internal class GitRepo : IGitRepo
     {
         private readonly Repository _repository;
+        private readonly string workingDirectory;
         private bool disposedValue;
 
         public GitRepo(string repository)
         {
             this._repository = new Repository(repository);
+            this.workingDirectory = this._repository.Info.WorkingDirectory;
         }
 
         // might want a wrapper if FriendlyName is not distinct or expensive to get the branch again
@@ -86,6 +89,10 @@ namespace FineCodeCoverage.Output
                     case ChangeKind.Modified:
                     case ChangeKind.Renamed:
                         string key = patchEntryChanges.Path.Replace("/", "\\");
+                        if(workingDirectory != null)
+                        {
+                            key = Path.Combine(workingDirectory, key);
+                        }
                         HashSet<int> intSet;
                         if (!changeset.TryGetValue(key, out intSet))
                         {

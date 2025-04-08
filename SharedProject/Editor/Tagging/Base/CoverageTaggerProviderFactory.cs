@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private readonly ITextInfoFactory textInfoFactory;
         private readonly IFileExcluder[] fileExcluders;
         private readonly IFileIndicatorVisibility fileIndicatorVisibility;
+        private readonly IDynamicLineFilter dynamicLineFilter;
 
         [ImportingConstructor]
         public CoverageTaggerProviderFactory(
@@ -29,7 +30,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             ITextInfoFactory textInfoFactory,
             [ImportMany]
             IFileExcluder[] fileExcluders,
-            IFileIndicatorVisibility fileIndicatorVisibility
+            IFileIndicatorVisibility fileIndicatorVisibility,
+            IDynamicLineFilter dynamicLineFilter
         )
         {
             this.eventAggregator = eventAggregator;
@@ -39,6 +41,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             this.textInfoFactory = textInfoFactory;
             this.fileExcluders = fileExcluders;
             this.fileIndicatorVisibility = fileIndicatorVisibility;
+            this.dynamicLineFilter = dynamicLineFilter;
         }
         public ICoverageTaggerProvider<TTag> Create<TTag, TCoverageTypeFilter>(ILineSpanTagger<TTag> tagger)
             where TTag : ITag
@@ -51,7 +54,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                     this.dynamicCoverageManager,
                     this.textInfoFactory,
                     this.fileExcluders,
-                    this.fileIndicatorVisibility
+                    this.fileIndicatorVisibility,
+                    this.dynamicLineFilter
                 );
     }
 }

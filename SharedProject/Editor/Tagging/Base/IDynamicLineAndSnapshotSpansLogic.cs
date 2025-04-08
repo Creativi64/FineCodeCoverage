@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 {
     internal interface IDynamicLineAndSnapshotSpansLogic
     {
-        IEnumerable<IDynamicLineAndSnapshotSpan> Apply(
+        List<IDynamicLineAndSnapshotSpan> Apply(
             IBufferLineCoverage bufferLineCoverage, NormalizedSnapshotSpanCollection spans);
     }
 }

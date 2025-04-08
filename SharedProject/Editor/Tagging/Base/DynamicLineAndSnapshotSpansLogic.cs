@@ -9,10 +9,10 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     [Export(typeof(IDynamicLineAndSnapshotSpansLogic))]
     internal class DynamicLineAndSnapshotSpansLogic : IDynamicLineAndSnapshotSpansLogic
     {
-        public IEnumerable<IDynamicLineAndSnapshotSpan> Apply(
+        public List<IDynamicLineAndSnapshotSpan> Apply(
             IBufferLineCoverage bufferLineCoverage,
             NormalizedSnapshotSpanCollection normalizedSnapshotSpanCollection
-        ) => normalizedSnapshotSpanCollection.SelectMany(snapshotSpan => GetApplicableLineSpans(snapshotSpan, bufferLineCoverage));
+        ) => normalizedSnapshotSpanCollection.SelectMany(snapshotSpan => GetApplicableLineSpans(snapshotSpan, bufferLineCoverage)).ToList();
 
         private static IEnumerable<IDynamicLineAndSnapshotSpan> GetApplicableLineSpans(SnapshotSpan snapshotSpan, IBufferLineCoverage bufferLineCoverage)
         {

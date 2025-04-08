@@ -56,7 +56,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 this.appOptionsProvider,
                 this.coverageContentTypes,
                 this.logger
-
                 );
     }
 }

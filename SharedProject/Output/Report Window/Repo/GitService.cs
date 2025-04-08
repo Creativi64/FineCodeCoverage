@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
         }
 
         public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup) {
-            return new Changeset();
+            return new Changeset(changeLookup);
         }
 
         public bool CanUseChangeset => true;
