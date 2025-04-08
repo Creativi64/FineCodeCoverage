@@ -20,7 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Conditions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\CoberturaReport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ILine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Line.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Method.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Package.cs" />
@@ -379,8 +379,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IDynamicCoverageManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\ILanguageContainingCodeVisitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IFileExcluder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ILineSpan.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ILineSpanLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineAndSnapshotSpan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineAndSnapshotSpansLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ILineSpanTagger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\IRoslynService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ITrackedLines.cs" />
@@ -422,7 +422,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ITextFormattingRunPropertiesFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\MarkerTypeNames.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\VsHasCoverageMarkersLogic.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\LineSpanLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineAndSnapshotSpansLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTagger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageLineOverviewMarkTaggerProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageOverviewMarginFilter.cs" />

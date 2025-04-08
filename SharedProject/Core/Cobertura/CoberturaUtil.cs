@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using FineCodeCoverage.Engine.Model;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
@@ -14,9 +13,9 @@ namespace FineCodeCoverage.Engine.Cobertura
         private CoberturaReport coberturaReport;
         private IFileLineCoverage fileLineCoverage;
 
-        private class FileLine : ILine
+        private class CoberturaLine : ICoberturaLine
         {
-			public FileLine(Line line)
+			public CoberturaLine(Line line)
 			{
                 CoverageType = GetCoverageType(line);
 				Number = line.Number;
@@ -71,7 +70,7 @@ namespace FineCodeCoverage.Engine.Cobertura
             {
                 foreach (var classs in package.Classes)
                 {
-                    fileLineCoverage.Add(classs.Filename, classs.Lines.Select(l => new FileLine(l)).Cast<ILine>());
+                    fileLineCoverage.Add(classs.Filename, classs.Lines.Select(l => new CoberturaLine(l)).Cast<ICoberturaLine>());
                 }
             }
 

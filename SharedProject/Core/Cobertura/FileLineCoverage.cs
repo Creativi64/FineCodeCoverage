@@ -4,34 +4,34 @@ using System.Linq;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class UniqueCoverageLines : HashSet<ILine>
+    internal class UniqueCoberturaLines : HashSet<ICoberturaLine>
     {
-        public UniqueCoverageLines() : base(new LineComparer())
+        public UniqueCoberturaLines() : base(new LineComparer())
         {
         }
 
-        public void AddRange(IEnumerable<ILine> lines)
+        public void AddRange(IEnumerable<ICoberturaLine> lines)
         {
             foreach (var line in lines)
                 Add(line);
         }
 
-        private IEnumerable<ILine> sortedLines;
-        public IEnumerable<ILine> SortedLines => sortedLines;
+        private IEnumerable<ICoberturaLine> sortedLines;
+        public IEnumerable<ICoberturaLine> SortedLines => sortedLines;
 
         public void Sort()
         {
             sortedLines = this.OrderBy(l => l.Number).ToList();
         }
 
-        class LineComparer : IEqualityComparer<ILine>
+        class LineComparer : IEqualityComparer<ICoberturaLine>
         {
-            public bool Equals(ILine x, ILine y)
+            public bool Equals(ICoberturaLine x, ICoberturaLine y)
             {
                 return x.Number == y.Number;
             }
 
-            public int GetHashCode(ILine obj)
+            public int GetHashCode(ICoberturaLine obj)
             {
                 return obj.Number;
             }
@@ -41,13 +41,13 @@ namespace FineCodeCoverage.Engine.Model
     // FileLineCoverage maps from a filename to the list of lines in the file
     internal class FileLineCoverage : IFileLineCoverage
     {
-        private readonly Dictionary<string, UniqueCoverageLines> m_coverageLines = new Dictionary<string, UniqueCoverageLines>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, UniqueCoberturaLines> m_coverageLines = new Dictionary<string, UniqueCoberturaLines>(StringComparer.OrdinalIgnoreCase);
 
-        public void Add(string filePath, IEnumerable<ILine> lines)
+        public void Add(string filePath, IEnumerable<ICoberturaLine> lines)
         {
             if (!m_coverageLines.TryGetValue(filePath, out var fileCoverageLines))
             {
-                fileCoverageLines = new UniqueCoverageLines();
+                fileCoverageLines = new UniqueCoberturaLines();
                 m_coverageLines.Add(filePath, fileCoverageLines);
             }
 
@@ -60,11 +60,11 @@ namespace FineCodeCoverage.Engine.Model
                 lines.Sort();
         }
 
-        public IEnumerable<ILine> GetLines(string filePath)
+        public IEnumerable<ICoberturaLine> GetLines(string filePath)
         {
             if (!m_coverageLines.TryGetValue(filePath, out var lines))
             {
-                return Enumerable.Empty<ILine>().ToList();
+                return Enumerable.Empty<ICoberturaLine>().ToList();
             }
             return lines.SortedLines;
         }

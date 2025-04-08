@@ -36,11 +36,11 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
             => this.coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
 
-        public TagSpan<OverviewMarkTag> GetTagSpan(ILineSpan lineSpan)
+        public TagSpan<OverviewMarkTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
             string editorFormatDefinitionName = this.coverageColoursEditorFormatMapNames.GetEditorFormatDefinitionName(
-                lineSpan.Line.CoverageType);
-            return new TagSpan<OverviewMarkTag>(lineSpan.Span, new OverviewMarkTag(editorFormatDefinitionName));
+                dynamicLineAndSnapshotSpan.Line.CoverageType);
+            return new TagSpan<OverviewMarkTag>(dynamicLineAndSnapshotSpan.Span, new OverviewMarkTag(editorFormatDefinitionName));
         }
     }
 }

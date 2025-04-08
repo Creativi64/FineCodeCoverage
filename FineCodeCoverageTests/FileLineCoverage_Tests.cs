@@ -7,9 +7,9 @@ namespace FineCodeCoverageTests
 {
     internal class FileLineCoverage_Tests
     {
-        private static ILine CreateLine(int lineNumber, CoverageType coverageType = CoverageType.Covered)
+        private static ICoberturaLine CreateLine(int lineNumber, CoverageType coverageType = CoverageType.Covered)
         {
-            var mockLine = new Mock<ILine>();
+            var mockLine = new Mock<ICoberturaLine>();
             mockLine.Setup(l => l.Number).Returns(lineNumber);
             mockLine.Setup(l => l.CoverageType).Returns(coverageType);
             return mockLine.Object;

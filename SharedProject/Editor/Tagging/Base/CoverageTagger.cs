@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private IBufferLineCoverage bufferLineCoverage;
         private ICoverageTypeFilter coverageTypeFilter;
         private readonly IEventAggregator eventAggregator;
-        private readonly ILineSpanLogic lineSpanLogic;
+        private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
         private readonly ILineSpanTagger<TTag> lineSpanTagger;
         private readonly IFileIndicatorVisibility fileIndicatorVisibility;
         private bool isDisplayingIndicators;
@@ -33,21 +33,21 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IBufferLineCoverage bufferLineCoverage,
             ICoverageTypeFilter coverageTypeFilter,
             IEventAggregator eventAggregator,
-            ILineSpanLogic lineSpanLogic,
+            IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             ILineSpanTagger<TTag> lineSpanTagger,
             IFileIndicatorVisibility fileIndicatorVisibility)
         {
             ThrowIf.Null(textInfo, nameof(textInfo));
             ThrowIf.Null(coverageTypeFilter, nameof(coverageTypeFilter));
             ThrowIf.Null(eventAggregator, nameof(eventAggregator));
-            ThrowIf.Null(lineSpanLogic, nameof(lineSpanLogic));
+            ThrowIf.Null(dynamicLineAndSnapshotSpansLogic, nameof(dynamicLineAndSnapshotSpansLogic));
             ThrowIf.Null(lineSpanTagger, nameof(lineSpanTagger));
             this.textInfo = textInfo;
             this.textBuffer = textInfo.TextBuffer;
             this.bufferLineCoverage = bufferLineCoverage;
             this.coverageTypeFilter = coverageTypeFilter;
             this.eventAggregator = eventAggregator;
-            this.lineSpanLogic = lineSpanLogic;
+            this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.lineSpanTagger = lineSpanTagger;
             this.fileIndicatorVisibility = fileIndicatorVisibility;
             this.isDisplayingIndicators = fileIndicatorVisibility.IsVisible(textInfo.FilePath);
@@ -98,13 +98,13 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private IEnumerable<ITagSpan<TTag>> GetTagsFromCoverageLines(NormalizedSnapshotSpanCollection spans)
         {
-            IEnumerable<ILineSpan> lineSpans = this.lineSpanLogic.GetLineSpans(this.bufferLineCoverage, spans);
-            return this.GetTags(lineSpans);
+            IEnumerable<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans = this.dynamicLineAndSnapshotSpansLogic.Apply(this.bufferLineCoverage, spans);
+            return this.GetTags(dynamicLineAndSnapshotSpans);
         }
 
-        private IEnumerable<ITagSpan<TTag>> GetTags(IEnumerable<ILineSpan> lineSpans)
-            => lineSpans.Where(lineSpan => this.coverageTypeFilter.Show(lineSpan.Line.CoverageType))
-                .Select(lineSpan => this.lineSpanTagger.GetTagSpan(lineSpan));
+        private IEnumerable<ITagSpan<TTag>> GetTags(IEnumerable<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans)
+            => dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot => this.coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType))
+                .Select(dynamicLineAndSnapshot => this.lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
 
         public void Dispose() {
             _ = this.eventAggregator.RemoveListener(this);

@@ -1,6 +1,5 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
-using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;
@@ -9,27 +8,19 @@ using System.Linq;
 
 namespace FineCodeCoverageTests.Editor.Tagging.Base
 {
-    internal class LineSpanLogic_Tests
+    internal class DynamicLineAndSnapshotSpansLogic_Tests
     {
-        class Line : ILine
+        ITextSnapshotLine GetMockedLine(ITextSnapshot textSnapshot, int lineNumber, int start = 0, int end = 0)
         {
-            public int Number { get; set; }
+            var mockTextSnapshotLine = new Mock<ITextSnapshotLine>();
+            mockTextSnapshotLine.SetupGet(textSnapshotLine => textSnapshotLine.LineNumber).Returns(lineNumber);
+            mockTextSnapshotLine.SetupGet(textSnapshotLine => textSnapshotLine.Start).Returns(new SnapshotPoint(textSnapshot, start));
+            mockTextSnapshotLine.SetupGet(textSnapshotLine => textSnapshotLine.End).Returns(new SnapshotPoint(textSnapshot, end));
+            return mockTextSnapshotLine.Object;
+        }
 
-            public CoverageType CoverageType
-            {
-                get; set;
-            }
-            ITextSnapshotLine GetMockedLine(ITextSnapshot textSnapshot, int lineNumber, int start = 0, int end = 0)
-            {
-                var mockTextSnapshotLine = new Mock<ITextSnapshotLine>();
-                mockTextSnapshotLine.SetupGet(textSnapshotLine => textSnapshotLine.LineNumber).Returns(lineNumber);
-                mockTextSnapshotLine.SetupGet(textSnapshotLine => textSnapshotLine.Start).Returns(new SnapshotPoint(textSnapshot, start));
-                mockTextSnapshotLine.SetupGet(textSnapshotLine => textSnapshotLine.End).Returns(new SnapshotPoint(textSnapshot, end));
-                return mockTextSnapshotLine.Object;
-            }
-
-            [Test]
-            public void Should_ForEach_Normalized_Span_Should_Have_A_Full_LineSpan_For_Each_Coverage_Line_In_The_Range()
+        [Test]
+        public void Should_ForEach_Normalized_Span_Should_Have_A_Full_LineSpan_For_Each_Coverage_Line_In_The_Range()
             {
                 var mockBufferLineCoverage = new Mock<IBufferLineCoverage>();
                 var firstLine = CreateDynamicLine(5, DynamicCoverageType.Covered);
@@ -71,18 +62,15 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                     Span.FromBounds(200, 299)
                 });
 
-                var lineSpanLogic = new LineSpanLogic();
-                var lineSpans = lineSpanLogic.GetLineSpans(mockBufferLineCoverage.Object, normalizedSpanCollection).ToList();
+                var dynamicLineAndSnapshotSpansLogic = new DynamicLineAndSnapshotSpansLogic();
+                var dynamicLineAndSnapshotSpans = dynamicLineAndSnapshotSpansLogic.Apply(mockBufferLineCoverage.Object, normalizedSpanCollection).ToList();
 
-                Assert.That(lineSpans.Count, Is.EqualTo(2));
-                Assert.That(lineSpans[0].Line, Is.SameAs(firstLine));
-                Assert.That(lineSpans[0].Span, Is.EqualTo(new SnapshotSpan(txtSnapshot, new Span(50, 10))));
-                Assert.That(lineSpans[1].Line, Is.SameAs(secondLine));
-                Assert.That(lineSpans[1].Span, Is.EqualTo(new SnapshotSpan(txtSnapshot, new Span(250, 10))));
+                Assert.That(dynamicLineAndSnapshotSpans.Count, Is.EqualTo(2));
+                Assert.That(dynamicLineAndSnapshotSpans[0].Line, Is.SameAs(firstLine));
+                Assert.That(dynamicLineAndSnapshotSpans[0].Span, Is.EqualTo(new SnapshotSpan(txtSnapshot, new Span(50, 10))));
+                Assert.That(dynamicLineAndSnapshotSpans[1].Line, Is.SameAs(secondLine));
+                Assert.That(dynamicLineAndSnapshotSpans[1].Span, Is.EqualTo(new SnapshotSpan(txtSnapshot, new Span(250, 10))));
                 
             }
-
-        }
-
     }
 }

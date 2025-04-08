@@ -6,15 +6,15 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    [Export(typeof(ILineSpanLogic))]
-    internal class LineSpanLogic : ILineSpanLogic
+    [Export(typeof(IDynamicLineAndSnapshotSpansLogic))]
+    internal class DynamicLineAndSnapshotSpansLogic : IDynamicLineAndSnapshotSpansLogic
     {
-        public IEnumerable<ILineSpan> GetLineSpans(
+        public IEnumerable<IDynamicLineAndSnapshotSpan> Apply(
             IBufferLineCoverage bufferLineCoverage,
             NormalizedSnapshotSpanCollection normalizedSnapshotSpanCollection
         ) => normalizedSnapshotSpanCollection.SelectMany(snapshotSpan => GetApplicableLineSpans(snapshotSpan, bufferLineCoverage));
 
-        private static IEnumerable<ILineSpan> GetApplicableLineSpans(SnapshotSpan snapshotSpan, IBufferLineCoverage bufferLineCoverage)
+        private static IEnumerable<IDynamicLineAndSnapshotSpan> GetApplicableLineSpans(SnapshotSpan snapshotSpan, IBufferLineCoverage bufferLineCoverage)
         {
             IEnumerable<IDynamicLine> applicableCoverageLines = GetApplicableCoverageLines(bufferLineCoverage, snapshotSpan);
             return applicableCoverageLines.Select(

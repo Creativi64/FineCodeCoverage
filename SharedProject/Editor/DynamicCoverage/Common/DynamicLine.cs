@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.CoverageType = coverageType;
         }
 
-        public static DynamicLine FromLine(ILine line) 
-            => new DynamicLine(line.Number - 1, DynamicCoverageTypeConverter.Convert(line.CoverageType));
+        public static DynamicLine FromCoberturaLine(ICoberturaLine coberturaLine)
+            => new DynamicLine(coberturaLine.Number - 1, DynamicCoverageTypeConverter.Convert(coberturaLine.CoverageType));
 
         public int Number { get; set; }
 

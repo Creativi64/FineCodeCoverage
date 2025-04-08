@@ -67,7 +67,7 @@ namespace FineCodeCoverageTests
             };
             autoMoqer.Setup<ICoberturaDeserializer, CoberturaReport>(x => x.Deserialize(reportPath)).Returns(coverageReport);
             var mockFileLineCoverage = new Mock<IFileLineCoverage>();
-            var expectedLines = new List<ILine>
+            var expectedLines = new List<ICoberturaLine>
             {
                 CreateExpectedLine(1, CoverageType.NotCovered),
                 CreateExpectedLine(2, CoverageType.Partial),
@@ -130,9 +130,9 @@ namespace FineCodeCoverageTests
 
 
         }
-        private static ILine CreateExpectedLine(int number, CoverageType coverageType)
+        private static ICoberturaLine CreateExpectedLine(int number, CoverageType coverageType)
         {
-            var mockLine = new Mock<ILine>();
+            var mockLine = new Mock<ICoberturaLine>();
             mockLine.SetupGet(x => x.Number).Returns(number);
             mockLine.SetupGet(x => x.CoverageType).Returns(coverageType);
             return mockLine.Object;

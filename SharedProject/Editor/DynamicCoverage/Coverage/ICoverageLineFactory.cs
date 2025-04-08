@@ -5,6 +5,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal interface ICoverageLineFactory
     {
-        ICoverageLine Create(ITrackingSpan trackingSpan, ILine line);
+        ICoverageLine Create(ITrackingSpan trackingSpan, ICoberturaLine line);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.Model
 {
-    internal interface ILine
+    internal interface ICoberturaLine
     {
         int Number { get; }
         CoverageType CoverageType { get; }

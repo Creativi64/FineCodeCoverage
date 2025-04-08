@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage
 {
-    class Line : ILine
+    class Line : ICoberturaLine
     {
         public Line(int number):this(number, CoverageType.Covered)
         {
@@ -27,7 +27,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         }
         public override bool Equals(object obj)
         {
-            var other = obj as ILine;
+            var other = obj as ICoberturaLine;
             return other.Number == Number && other.CoverageType == CoverageType;
         }
 
@@ -47,7 +47,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
     internal static class TestHelper
     {
-        public static CodeSpanRange CodeSpanRangeFromLine(ILine line)
+        public static CodeSpanRange CodeSpanRangeFromLine(ICoberturaLine line)
         {
             return CodeSpanRange.SingleLine(line.Number - 1);
         }
@@ -86,7 +86,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
 
-            containingCodeTrackedLinesBuilder.Create(new List<ILine> {}, mockTextSnapshot.Object,"");
+            containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> {}, mockTextSnapshot.Object,"");
 
             mockContainingCodeTrackedLinesFactory.VerifyAll();
         }
@@ -117,7 +117,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
 
-            containingCodeTrackedLinesBuilder.Create(new List<ILine> { }, mockTextSnapshot.Object, "");
+            containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { }, mockTextSnapshot.Object, "");
 
             mockContainingCodeTrackedLinesFactory.VerifyAll();
         }
@@ -140,7 +140,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
 
-            return containingCodeTrackedLinesBuilder.Create(new List<ILine> { line1, line2 }, mockTextSnapshot.Object, filePath);
+            return containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, filePath);
 
         }
 
@@ -305,11 +305,11 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var containingCodeTracker2 = new Mock<IContainingCodeTracker>().Object;
             mockCodeSpanRangeContainingCodeTrackerFactory.Setup(
                 codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
-                    mockTextSnapshot.Object, new List<ILine> { line1 }, TestHelper.CodeSpanRangeFromLine(line1), SpanTrackingMode.EdgeExclusive)
+                    mockTextSnapshot.Object, new List<ICoberturaLine> { line1 }, TestHelper.CodeSpanRangeFromLine(line1), SpanTrackingMode.EdgeExclusive)
                 ).Returns(containingCodeTracker1);
             mockCodeSpanRangeContainingCodeTrackerFactory.Setup(
                codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
-                   mockTextSnapshot.Object, new List<ILine> { line2 }, TestHelper.CodeSpanRangeFromLine(line2), SpanTrackingMode.EdgeExclusive)
+                   mockTextSnapshot.Object, new List<ICoberturaLine> { line2 }, TestHelper.CodeSpanRangeFromLine(line2), SpanTrackingMode.EdgeExclusive)
                ).Returns(containingCodeTracker2);
             var mockContainingCodeTrackedLinesFactory = autoMoqer.GetMock<IContainingCodeTrackedLinesFactory>();
             var trackedLinesFromFactory = new Mock<IContainingCodeTrackerTrackedLines>().Object;
@@ -326,7 +326,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
 
-            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(new List<ILine> { line1, line2 }, mockTextSnapshot.Object, "") as ContainingCodeTrackerTrackedLinesWithState;
+            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, "") as ContainingCodeTrackerTrackedLinesWithState;
 
             Assert.False(trackedLinesWithState.UsedFileCodeSpanRangeService);
             Assert.That(trackedLinesWithState.Wrapped, Is.SameAs(trackedLinesFromFactory));
@@ -356,7 +356,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         }
 
         private void TestCreatesContainingCodeTrackers(
-            List<ILine> lines,
+            List<ICoberturaLine> lines,
             bool coverageOnlyFromFileCodeSpanRangeService,
             List<CodeSpanRange> codeSpanRanges,
             int textSnapshotLineCount,
@@ -413,7 +413,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var line2 = new Line(2);
             ITextSnapshot textSnapshotForSetup = null;
             TestCreatesContainingCodeTrackers(
-                new List<ILine> { line1, line2 },
+                new List<ICoberturaLine> { line1, line2 },
                 false,
                 new List<CodeSpanRange> { new CodeSpanRange(0,1) },
                 2,
@@ -424,7 +424,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                         
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { line1, line2},
+                            new List<ICoberturaLine> { line1, line2},
                             new CodeSpanRange(0, 1),
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(coverageLinesTracker);
@@ -441,7 +441,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             ITextSnapshot textSnapshotForSetup = null;
             TestCreatesContainingCodeTrackers(
-                new List<ILine> { },
+                new List<ICoberturaLine> { },
                 false,
                 new List<CodeSpanRange> { new CodeSpanRange(0, 3) },
                 4,
@@ -475,7 +475,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var range2Line = new Line(4);
             ITextSnapshot textSnapshotForSetup = null;
             TestCreatesContainingCodeTrackers(
-                new List<ILine> { range1Line, range2Line },
+                new List<ICoberturaLine> { range1Line, range2Line },
                 false,
                 new List<CodeSpanRange> { coverageLinesRange1, coverageLinesRange2 },
                 5,
@@ -486,7 +486,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { range1Line },
+                            new List<ICoberturaLine> { range1Line },
                             coverageLinesRange1,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(coverageLinesTracker);
@@ -503,7 +503,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { range2Line},
+                            new List<ICoberturaLine> { range2Line},
                             coverageLinesRange2,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(coverageLinesTracker2);
@@ -525,7 +525,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var line2 = new Line(2);
             ITextSnapshot textSnapshotForSetup = null;
             TestCreatesContainingCodeTrackers(
-                new List<ILine> { line1, line2 },
+                new List<ICoberturaLine> { line1, line2 },
                 false,
                 new List<CodeSpanRange> { new CodeSpanRange(0, 1) },
                 4,
@@ -535,7 +535,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                     mockCodeSpanRangeContainingCodeTrackerFactory.Setup(
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { line1, line2 },
+                            new List<ICoberturaLine> { line1, line2 },
                             new CodeSpanRange(0, 1),
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(coverageLinesTracker);
@@ -591,7 +591,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var notInRangeLine3 = new Line(5);
             ITextSnapshot textSnapshotForSetup = null;
             TestCreatesContainingCodeTrackers(
-                new List<ILine> { notInRangeLine1, range1Line, notInRangeLine2, range2Line, notInRangeLine3 },
+                new List<ICoberturaLine> { notInRangeLine1, range1Line, notInRangeLine2, range2Line, notInRangeLine3 },
                 coverageOnlyFromFileCodeSpanRangeService,
                 new List<CodeSpanRange> { coverageLinesRange1, coverageLinesRange2 },
                 5,
@@ -602,7 +602,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { notInRangeLine1},
+                            new List<ICoberturaLine> { notInRangeLine1},
                             coverageLineNotInRangeRange1,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(notInRangeCoverageLineTracker1);
@@ -619,7 +619,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { range1Line },
+                            new List<ICoberturaLine> { range1Line },
                             coverageLinesRange1,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(coverageLinesTracker);
@@ -628,7 +628,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { notInRangeLine2},
+                            new List<ICoberturaLine> { notInRangeLine2},
                             coverageLineNotInRangeRange2,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(notInRangeCoverageLineTracker2);
@@ -645,7 +645,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { range2Line },
+                            new List<ICoberturaLine> { range2Line },
                             coverageLinesRange2,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(coverageLinesTracker2);
@@ -654,7 +654,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
                         codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                             textSnapshotForSetup,
-                            new List<ILine> { notInRangeLine3 },
+                            new List<ICoberturaLine> { notInRangeLine3 },
                             coverageLineNotInRangeRange3,
                             SpanTrackingMode.EdgeExclusive)
                             ).Returns(notInRangeCoverageLineTracker3);
@@ -818,7 +818,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 mockCodeSpanRangeContainingCodeTrackerFactory.Setup(
                     codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                         textSnapshot,
-                        new List<ILine> { 
+                        new List<ICoberturaLine> { 
                             new Line(2, CoverageType.Covered),
                             new Line(3, CoverageType.NotCovered),
                             new Line(4, CoverageType.Partial),
@@ -954,11 +954,11 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var containingCodeTracker2 = new Mock<IContainingCodeTracker>().Object;
             mockCodeSpanRangeContainingCodeTrackerFactory.Setup(
                 codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
-                    mockTextSnapshot.Object, new List<ILine> { line1 }, TestHelper.CodeSpanRangeFromLine(line1), SpanTrackingMode.EdgeExclusive)
+                    mockTextSnapshot.Object, new List<ICoberturaLine> { line1 }, TestHelper.CodeSpanRangeFromLine(line1), SpanTrackingMode.EdgeExclusive)
                 ).Returns(containingCodeTracker1);
             mockCodeSpanRangeContainingCodeTrackerFactory.Setup(
                codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
-                   mockTextSnapshot.Object, new List<ILine> { line2 }, TestHelper.CodeSpanRangeFromLine(line2), SpanTrackingMode.EdgeExclusive)
+                   mockTextSnapshot.Object, new List<ICoberturaLine> { line2 }, TestHelper.CodeSpanRangeFromLine(line2), SpanTrackingMode.EdgeExclusive)
                ).Returns(containingCodeTracker2);
             var mockContainingCodeTrackedLinesFactory = autoMoqer.GetMock<IContainingCodeTrackedLinesFactory>();
             var trackedLinesFromFactory = new Mock<IContainingCodeTrackerTrackedLines>().Object;
@@ -974,7 +974,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
             
-            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(new List<ILine> { line1, line2 }, mockTextSnapshot.Object, "") as ContainingCodeTrackerTrackedLinesWithState;
+            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, "") as ContainingCodeTrackerTrackedLinesWithState;
 
             Assert.False(trackedLinesWithState.UsedFileCodeSpanRangeService);
             Assert.That(trackedLinesWithState.Wrapped, Is.SameAs(trackedLinesFromFactory));
@@ -1007,7 +1007,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 codeSpanRangeContainingCodeTrackerFactory => codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
                     mockTextSnaphot.Object,
                     // adjusted IDynamicLine
-                    new List<ILine>{ new Line(1, expectedAdjustedCoverageType) },
+                    new List<ICoberturaLine>{ new Line(1, expectedAdjustedCoverageType) },
                     coverageCodeSpanRange,
                     SpanTrackingMode.EdgeExclusive
                 )).Returns(coverageContainingCodeTracker);

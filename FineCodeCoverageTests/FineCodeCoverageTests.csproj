@@ -128,7 +128,7 @@
     <Compile Include="Editor\Management\ItemCoverageColours_Equatable_Tests.cs" />
     <Compile Include="Editor\Tagging\TaggerProviders_LanguageSupport_Tests.cs" />
     <Compile Include="Editor\Tagging\Types\LineSpan.cs" />
-    <Compile Include="Editor\Tagging\Base\LineSpanLogic_Tests.cs" />
+    <Compile Include="Editor\Tagging\Base\DynamicLineAndSnapshotSpansLogic_Tests.cs" />
     <Compile Include="Editor\Tagging\Base\Types\OtherCoverageTypeFilter.cs" />
     <Compile Include="Editor\Tagging\Types\SnapshotSpanFactory.cs" />
     <Compile Include="Editor\Management\TextFormattingRunPropertiesFactory_Tests.cs" />

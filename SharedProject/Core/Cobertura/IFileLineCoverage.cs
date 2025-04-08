@@ -4,8 +4,8 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal interface IFileLineCoverage
     {
-        void Add(string filePath, IEnumerable<ILine> line);
-        IEnumerable<ILine> GetLines(string filePath);
+        void Add(string filePath, IEnumerable<ICoberturaLine> line);
+        IEnumerable<ICoberturaLine> GetLines(string filePath);
         void Sort();
         void UpdateRenamed(string oldFilePath, string newFilePath);
     }

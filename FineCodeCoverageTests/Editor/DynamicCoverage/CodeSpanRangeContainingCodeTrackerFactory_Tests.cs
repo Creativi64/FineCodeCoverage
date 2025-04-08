@@ -15,10 +15,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_CreateCoverageLines_From_TrackedCoverageLines_And_TrackingSpanRange(SpanTrackingMode spanTrackingMode)
         {
             var textSnapshot = new Mock<ITextSnapshot>().Object;
-            var mockLine = new Mock<ILine>();
+            var mockLine = new Mock<ICoberturaLine>();
             mockLine.SetupGet(line => line.Number).Returns(5);
             var adjustedLine = 4;
-            var mockLine2 = new Mock<ILine>();
+            var mockLine2 = new Mock<ICoberturaLine>();
             mockLine2.SetupGet(line => line.Number).Returns(6);
             var adjustedLine2 = 5;
             var codeSpanRange = new CodeSpanRange(1, 10);
@@ -61,7 +61,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var codeSpanRangeContainingCodeTrackerFactory = autoMoqer.Create<CodeSpanRangeContainingCodeTrackerFactory>();
 
-            Assert.That(codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(textSnapshot, new List<ILine> { mockLine.Object, mockLine2.Object },codeSpanRange, spanTrackingMode), Is.SameAs(containingCodeTracker));
+            Assert.That(codeSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(textSnapshot, new List<ICoberturaLine> { mockLine.Object, mockLine2.Object },codeSpanRange, spanTrackingMode), Is.SameAs(containingCodeTracker));
         }
 
         [TestCase(SpanTrackingMode.EdgePositive)]

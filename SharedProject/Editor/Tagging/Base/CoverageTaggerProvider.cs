@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         where TTag : ITag
     {
         protected readonly IEventAggregator eventAggregator;
-        private readonly ILineSpanLogic lineSpanLogic;
+        private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
         private readonly ILineSpanTagger<TTag> coverageTagger;
         private readonly IDynamicCoverageManager dynamicCoverageManager;
         private readonly ITextInfoFactory textInfoFactory;
@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         public CoverageTaggerProvider(
             IEventAggregator eventAggregator,
             IAppOptionsProvider appOptionsProvider,
-            ILineSpanLogic lineSpanLogic,
+            IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             ILineSpanTagger<TTag> coverageTagger,
             IDynamicCoverageManager dynamicCoverageManager,
             ITextInfoFactory textInfoFactory,
@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             this.coverageTypeFilter = this.CreateFilter(appOptions);
             appOptionsProvider.OptionsChanged += this.AppOptionsProvider_OptionsChanged;
             this.eventAggregator = eventAggregator;
-            this.lineSpanLogic = lineSpanLogic;
+            this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.coverageTagger = coverageTagger;
         }
 
@@ -83,7 +83,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 bufferLineCoverage,
                 this.coverageTypeFilter,
                 this.eventAggregator,
-                this.lineSpanLogic,
+                this.dynamicLineAndSnapshotSpansLogic,
                 this.coverageTagger,
                 this.fileIndicatorVisibility
                 );

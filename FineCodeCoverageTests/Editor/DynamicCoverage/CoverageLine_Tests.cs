@@ -15,7 +15,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         [TestCase(CoverageType.Partial, DynamicCoverageType.Partial)]
         public void Should_Have_A_DynamicLine_From_ILine_When_Constructed(CoverageType lineCoverageType, DynamicCoverageType expectedDynamicCoverageType)
         {
-            var mockLine = new Mock<ILine>();
+            var mockLine = new Mock<ICoberturaLine>();
             mockLine.SetupGet(l => l.CoverageType).Returns(lineCoverageType);
             mockLine.SetupGet(l => l.Number).Returns(1);
 
@@ -29,7 +29,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         [TestCase(false)]
         public void Should_Be_Updated_If_The_Line_Number_Changes(bool updateLineNumber)
         {
-            var mockLine = new Mock<ILine>();
+            var mockLine = new Mock<ICoberturaLine>();
             mockLine.SetupGet(l => l.Number).Returns(1);
 
             var currentTextSnapshot = new Mock<ITextSnapshot>().Object;

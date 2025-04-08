@@ -122,7 +122,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 hasCoverage ? new Mock<IBufferLineCoverage>().Object : null,
                 new Mock<ICoverageTypeFilter>().Object,
                 new Mock<IEventAggregator>().Object,
-                new Mock<ILineSpanLogic>(MockBehavior.Strict).Object,
+                new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object,
                 new Mock<ILineSpanTagger<DummyTag>>().Object,
                 new Mock<IFileIndicatorVisibility>().Object
             );
@@ -162,7 +162,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 null,
                 new DummyCoverageTypeFilter(),
                 new Mock<IEventAggregator>().Object,
-                new Mock<ILineSpanLogic>(MockBehavior.Strict).Object,
+                new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object,
                 new Mock<ILineSpanTagger<DummyTag>>().Object,
                 new Mock<IFileIndicatorVisibility>().Object
             );
@@ -187,7 +187,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 null,
                 new Mock<ICoverageTypeFilter>().Object,
                 new Mock<IEventAggregator>().Object,
-                new Mock<ILineSpanLogic>(MockBehavior.Strict).Object,
+                new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object,
                 new Mock<ILineSpanTagger<DummyTag>>().Object,
                 new Mock<IFileIndicatorVisibility>().Object
             );
@@ -202,7 +202,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.SetInstance<ICoverageTypeFilter>(new DummyCoverageTypeFilter { Disabled = true });
-            autoMoqer.SetInstance(new Mock<ILineSpanLogic>(MockBehavior.Strict).Object);
+            autoMoqer.SetInstance(new Mock<IDynamicLineAndSnapshotSpansLogic>(MockBehavior.Strict).Object);
 
             var coverageTagger = autoMoqer.Create<CoverageTagger<DummyTag>>();
 
@@ -213,7 +213,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Should_GetLineSpans_From_LineSpanLogic_For_The_Spans_When_Coverage_And_Coverage_Filter_Enabled(bool newCoverage)
+        public void Should_GetLineSpans_From_DynamicLineAndSnapshotSpansLogic_For_The_Spans_When_Coverage_And_Coverage_Filter_Enabled(bool newCoverage)
         {
             var autoMoqer = new AutoMoqer();
             var bufferLineCoverage = autoMoqer.GetMock<IBufferLineCoverage>().Object;
@@ -236,12 +236,12 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
 
             coverageTagger.GetTags(spans);
 
-            autoMoqer.Verify<ILineSpanLogic>(lineSpanLogic => lineSpanLogic.GetLineSpans(
+            autoMoqer.Verify<IDynamicLineAndSnapshotSpansLogic>(dynamicLineAndSnapshotSpansLogic => dynamicLineAndSnapshotSpansLogic.Apply(
                expectedBufferLineCoverageForLogic, spans));
         }
 
         [Test]
-        public void Should_GetTagsSpans_For_Filtered_LineSpans()
+        public void Should_GetTagsSpans_For_Filtered_DynamicLineAndSnapshotSpans()
         {
             var autoMoqer = new AutoMoqer();
             var mockCoverageTypeFilter = autoMoqer.GetMock<ICoverageTypeFilter>();
@@ -252,7 +252,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
             mockCoverageTypeFilter.Setup(coverageTypeFilter => coverageTypeFilter.Show(DynamicCoverageType.Dirty)).Returns(false);
             mockCoverageTypeFilter.Setup(coverageTypeFilter => coverageTypeFilter.Show(DynamicCoverageType.NewLine)).Returns(true);
 
-            var lineSpans = new List<ILineSpan>
+            var dynamicLineAndSnapshotSpans = new List<IDynamicLineAndSnapshotSpan>
             {
                 new LineSpan{  Line = CreateLine(DynamicCoverageType.Covered),Span = SnapshotSpanFactory.Create(1)},
                 new LineSpan{  Line = CreateLine(DynamicCoverageType.NotCovered), Span = SnapshotSpanFactory.Create(2)},
@@ -260,19 +260,19 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 new LineSpan{  Line = CreateLine(DynamicCoverageType.Dirty), Span = SnapshotSpanFactory.Create(4)},
                 new LineSpan{  Line = CreateLine(DynamicCoverageType.NewLine), Span = SnapshotSpanFactory.Create(5)},
             };
-            var expectedLineSpan = lineSpans[4];
+            var expectedDynamicLineAndSnapshotSpan = dynamicLineAndSnapshotSpans[4];
 
             var mockLineSpanTagger = autoMoqer.GetMock<ILineSpanTagger<DummyTag>>();
-            var tagSpan = new TagSpan<DummyTag>(expectedLineSpan.Span, new DummyTag());
-            mockLineSpanTagger.Setup(lineSpanTagger => lineSpanTagger.GetTagSpan(expectedLineSpan)).Returns(tagSpan);
+            var tagSpan = new TagSpan<DummyTag>(expectedDynamicLineAndSnapshotSpan.Span, new DummyTag());
+            mockLineSpanTagger.Setup(lineSpanTagger => lineSpanTagger.GetTagSpan(expectedDynamicLineAndSnapshotSpan)).Returns(tagSpan);
 
-            autoMoqer.Setup<ILineSpanLogic, IEnumerable<ILineSpan>>(
-                lineSpanLogic => lineSpanLogic.GetLineSpans(
+            autoMoqer.Setup<IDynamicLineAndSnapshotSpansLogic, IEnumerable<IDynamicLineAndSnapshotSpan>>(
+                dynamicLineAndSnapshotSpansLogic => dynamicLineAndSnapshotSpansLogic.Apply(
                     It.IsAny<IBufferLineCoverage>(),
                     It.IsAny<NormalizedSnapshotSpanCollection>()
                     )
                 )
-                .Returns(lineSpans);
+                .Returns(dynamicLineAndSnapshotSpans);
 
             autoMoqer.Setup<ITextInfo,string>(textInfo => textInfo.FilePath).Returns("filepath");
             autoMoqer.Setup<IFileIndicatorVisibility, bool>(fileIndicatorVisibility => fileIndicatorVisibility.IsVisible("filepath")).Returns(true);
@@ -324,11 +324,11 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.Setup<ICoverageTypeFilter, bool>(coverageTypeFilter => coverageTypeFilter.Show(DynamicCoverageType.Covered)).Returns(true);
-            var mockLineSpan = new Mock<ILineSpan>();
+            var mockLineSpan = new Mock<IDynamicLineAndSnapshotSpan>();
             mockLineSpan.SetupGet(lineSpan => lineSpan.Line.CoverageType).Returns(DynamicCoverageType.Covered);
-            autoMoqer.Setup<ILineSpanLogic, IEnumerable<ILineSpan>>(lineSpanLogic =>
-                lineSpanLogic.GetLineSpans(It.IsAny<IBufferLineCoverage>(), It.IsAny<NormalizedSnapshotSpanCollection>())
-            ).Returns(new List<ILineSpan> { mockLineSpan.Object });
+            autoMoqer.Setup<IDynamicLineAndSnapshotSpansLogic, IEnumerable<IDynamicLineAndSnapshotSpan>>(dynamicLineAndSnapshotSpansLogic =>
+                dynamicLineAndSnapshotSpansLogic.Apply(It.IsAny<IBufferLineCoverage>(), It.IsAny<NormalizedSnapshotSpanCollection>())
+            ).Returns(new List<IDynamicLineAndSnapshotSpan> { mockLineSpan.Object });
 
             var mockFileIndicatorVisibility = autoMoqer.GetMock<IFileIndicatorVisibility>();
             mockFileIndicatorVisibility.Setup(fileIndicatorVisibility => fileIndicatorVisibility.IsVisible(It.IsAny<string>()))

@@ -37,10 +37,10 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
             => this.coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
 
-        public TagSpan<IClassificationTag> GetTagSpan(ILineSpan lineSpan)
+        public TagSpan<IClassificationTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
-            IClassificationType ct = this.coverageTypeService.GetClassificationType(lineSpan.Line.CoverageType);
-            return new TagSpan<IClassificationTag>(lineSpan.Span, new ClassificationTag(ct));
+            IClassificationType ct = this.coverageTypeService.GetClassificationType(dynamicLineAndSnapshotSpan.Line.CoverageType);
+            return new TagSpan<IClassificationTag>(dynamicLineAndSnapshotSpan.Span, new ClassificationTag(ct));
         }
     }
 }

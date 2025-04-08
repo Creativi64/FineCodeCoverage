@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverageTests.Editor.Tagging.Types
 {
-    internal class LineSpan : ILineSpan
+    internal class LineSpan : IDynamicLineAndSnapshotSpan
     {
         public IDynamicLine Line { get; set; }
 

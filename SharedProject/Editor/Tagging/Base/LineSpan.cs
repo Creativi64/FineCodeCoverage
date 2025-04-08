@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal class LineSpan : ILineSpan
+    internal class LineSpan : IDynamicLineAndSnapshotSpan
     {
         public LineSpan(IDynamicLine line, SnapshotSpan span)
         {

@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public IContainingCodeTracker CreateCoverageLines(
             ITextSnapshot textSnapshot,
-            List<ILine> lines,
+            List<ICoberturaLine> lines,
             CodeSpanRange containingRange,
             SpanTrackingMode spanTrackingMode
         ) => this.trackedContainingCodeTrackerFactory.CreateCoverageLines(
@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return this.trackingSpanRangeFactory.Create(startTrackingSpan, endTrackingSpan, textSnapshot);
         }
 
-        private ITrackedCoverageLines CreateTrackedCoverageLines(ITextSnapshot textSnapshot, List<ILine> lines, SpanTrackingMode spanTrackingMode)
+        private ITrackedCoverageLines CreateTrackedCoverageLines(ITextSnapshot textSnapshot, List<ICoberturaLine> lines, SpanTrackingMode spanTrackingMode)
         {
             List<ICoverageLine> coverageLines = lines.ConvertAll(line => this.coverageLineFactory.Create(
                 this.trackingLineFactory.CreateTrackingSpan(textSnapshot, line.Number - 1, spanTrackingMode), line)

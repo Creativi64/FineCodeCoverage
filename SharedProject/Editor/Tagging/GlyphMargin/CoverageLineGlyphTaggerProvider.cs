@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Media;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
@@ -45,12 +44,11 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
             return coverageTagger == null ? null : new CoverageLineGlyphTagger(this.eventAggregator, coverageTagger) as ITagger<T>;
         }
 
-        public TagSpan<CoverageLineGlyphTag> GetTagSpan(ILineSpan lineSpan)
+        public TagSpan<CoverageLineGlyphTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
-            IDynamicLine coverageLine = lineSpan.Line;
             ICoverageColours coverageColours = this.coverageColoursProvider.GetCoverageColours();
-            Color colour = coverageColours.GetColour(coverageLine.CoverageType).Background;
-            return new TagSpan<CoverageLineGlyphTag>(lineSpan.Span, new CoverageLineGlyphTag(colour));
+            Color colour = coverageColours.GetColour(dynamicLineAndSnapshotSpan.Line.CoverageType).Background;
+            return new TagSpan<CoverageLineGlyphTag>(dynamicLineAndSnapshotSpan.Span, new CoverageLineGlyphTag(colour));
         }
     }
 }

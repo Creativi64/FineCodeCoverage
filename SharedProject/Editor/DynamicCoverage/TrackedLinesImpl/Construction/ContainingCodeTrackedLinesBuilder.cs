@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private INewCodeTracker GetNewCodeTrackerIfProvidesLineExcluder(ILineExcluder lineExcluder)
             => lineExcluder == null ? null : this.newCodeTrackerFactory.Create(lineExcluder);
 
-        public ITrackedLines Create(List<ILine> lines, ITextSnapshot textSnapshot, string filePath)
+        public ITrackedLines Create(List<ICoberturaLine> lines, ITextSnapshot textSnapshot, string filePath)
         {
             if (this.AnyLinesOutsideTextSnapshot(lines, textSnapshot))
             {
@@ -77,7 +77,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private (List<IContainingCodeTracker> containingCodeTrackers, bool usedFileCodeSpanRangeService) CreateContainingCodeTrackers(
-            List<ILine> lines,
+            List<ICoberturaLine> lines,
             ITextSnapshot textSnapshot,
             IFileCodeSpanRangeService fileCodeSpanRangeService,
             bool coverageOnlyFromFileCodeSpanRangeService
@@ -96,11 +96,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return (lines.ConvertAll(line => this.CreateSingleLineContainingCodeTracker(textSnapshot, line)), false);
         }
 
-        private bool AnyLinesOutsideTextSnapshot(List<ILine> lines, ITextSnapshot textSnapshot)
+        private bool AnyLinesOutsideTextSnapshot(List<ICoberturaLine> lines, ITextSnapshot textSnapshot)
             => lines.Any(line => line.Number - 1 >= textSnapshot.LineCount);
 
-        private IContainingCodeTracker CreateSingleLineContainingCodeTracker(ITextSnapshot textSnapshot, ILine line)
-            => this.CreateCoverageLines(textSnapshot, new List<ILine> { line }, CodeSpanRange.SingleLine(line.Number - 1));
+        private IContainingCodeTracker CreateSingleLineContainingCodeTracker(ITextSnapshot textSnapshot, ICoberturaLine line)
+            => this.CreateCoverageLines(textSnapshot, new List<ICoberturaLine> { line }, CodeSpanRange.SingleLine(line.Number - 1));
 
         private IContainingCodeTracker CreateOtherLines(ITextSnapshot textSnapshot, CodeSpanRange codeSpanRange)
             => this.containingCodeTrackerFactory.CreateOtherLines(
@@ -109,14 +109,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     SpanTrackingMode.EdgeNegative
                 );
 
-        private IContainingCodeTracker CreateCoverageLines(ITextSnapshot textSnapshot, List<ILine> lines, CodeSpanRange containingRange)
+        private IContainingCodeTracker CreateCoverageLines(ITextSnapshot textSnapshot, List<ICoberturaLine> lines, CodeSpanRange containingRange)
             => this.containingCodeTrackerFactory.CreateCoverageLines(textSnapshot, lines, containingRange, SpanTrackingMode.EdgeExclusive);
 
         private IContainingCodeTracker CreateNotIncluded(ITextSnapshot textSnapshot, CodeSpanRange containingRange)
             => this.containingCodeTrackerFactory.CreateNotIncluded(textSnapshot, containingRange, SpanTrackingMode.EdgeExclusive);
 
         private List<IContainingCodeTracker> CreateContainingCodeTrackersFromCodeSpanRanges(
-            List<ILine> lines,
+            List<ICoberturaLine> lines,
             ITextSnapshot textSnapshot,
             List<CodeSpanRange> codeSpanRanges,
             bool coverageOnlyFromFileCodeSpanRangeService
@@ -139,12 +139,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 return GetNext;
             }
 
-            Func<ILine> GetNextLine = GetNextCreator(lines);
+            Func<ICoberturaLine> GetNextLine = GetNextCreator(lines);
             Func<CodeSpanRange> GetNextCodeSpanRange = GetNextCreator(codeSpanRanges);
 
-            ILine line = GetNextLine();
+            ICoberturaLine line = GetNextLine();
             CodeSpanRange codeSpanRange = GetNextCodeSpanRange();
-            var containedLines = new List<ILine>();
+            var containedLines = new List<ICoberturaLine>();
             bool InCodeSpanRange(int lineNumber) => codeSpanRange != null && codeSpanRange.StartLine <= lineNumber && codeSpanRange.EndLine >= lineNumber;
             bool AtEndOfCodeSpanRange(int lineNumber) => codeSpanRange != null && codeSpanRange.EndLine == lineNumber;
             bool LineAtLineNumber(int lineNumber) => line != null && line.Number - 1 == lineNumber;
@@ -197,7 +197,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                         : this.CreateNotIncluded(textSnapshot, codeSpanRange);
                     containingCodeTrackers.Add(containingCodeTracker);
 
-                    containedLines = new List<ILine>();
+                    containedLines = new List<ICoberturaLine>();
                     codeSpanRange = GetNextCodeSpanRange();
                 }
             }
@@ -236,8 +236,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 : this.CreateCoverageLines(currentSnapshot, this.AdjustCoverageLines(serializedContainingCodeTracker.Lines), codeSpanRange);
         }
 
-        private List<ILine> AdjustCoverageLines(List<DynamicLine> dynamicLines)
-            => dynamicLines.Select(dynamicLine => new AdjustedLine(dynamicLine)).Cast<ILine>().ToList();
+        private List<ICoberturaLine> AdjustCoverageLines(List<DynamicLine> dynamicLines)
+            => dynamicLines.Select(dynamicLine => new AdjustedCoberturaLine(dynamicLine)).Cast<ICoberturaLine>().ToList();
 
         private List<IContainingCodeTracker> RecreateContainingCodeTrackers(
             List<SerializedContainingCodeTracker> serializedContainingCodeTrackers,
@@ -390,9 +390,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => trackedLines.ContainingCodeTrackers.Select(
                 containingCodeTracker => SerializedContainingCodeTracker.From(containingCodeTracker.GetState())).ToList();
 
-        private class AdjustedLine : ILine
+        private class AdjustedCoberturaLine : ICoberturaLine
         {
-            public AdjustedLine(IDynamicLine dynamicLine)
+            public AdjustedCoberturaLine(IDynamicLine dynamicLine)
             {
                 this.Number = dynamicLine.Number + 1;
                 this.CoverageType = DynamicCoverageTypeConverter.Convert(dynamicLine.CoverageType);
