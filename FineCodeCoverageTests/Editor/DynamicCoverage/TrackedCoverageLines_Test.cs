@@ -13,14 +13,14 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Update_All_CoverageLine()
         {
             var textSnapshot = new Mock<ITextSnapshot>().Object;
-            Mock<ICoverageLine> CreateMockCoverageLine(List<int> updatedCoverageLines)
+            Mock<ITrackedCoverageLine> CreateMockCoverageLine(List<int> updatedCoverageLines)
             {
-                var mockCoverageLine = new Mock<ICoverageLine>();
+                var mockCoverageLine = new Mock<ITrackedCoverageLine>();
                 mockCoverageLine.Setup(coverageLine => coverageLine.GetUpdateLineNumbers(textSnapshot)).Returns(updatedCoverageLines);
                 return mockCoverageLine;
             }
 
-            var mockCoverageLines = new List<Mock<ICoverageLine>>
+            var mockCoverageLines = new List<Mock<ITrackedCoverageLine>>
             {
                 CreateMockCoverageLine(new List<int>{ 1,2}),
                 CreateMockCoverageLine(new List<int>{3,4})
@@ -40,9 +40,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Return_Lines_From_CoverageLines()
         {
             var textSnapshot = new Mock<ITextSnapshot>().Object;
-            (ICoverageLine, IDynamicLine) SetUpCoverageLine()
+            (ITrackedCoverageLine, IDynamicLine) SetUpCoverageLine()
             {
-                var mockCoverageLine = new Mock<ICoverageLine>();
+                var mockCoverageLine = new Mock<ITrackedCoverageLine>();
                 var dynamicLine = new Mock<IDynamicLine>().Object;
                 mockCoverageLine.SetupGet(coverageLine => coverageLine.Line).Returns(dynamicLine);
                 return (mockCoverageLine.Object, dynamicLine);
@@ -50,7 +50,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var (firstCoverageLine, firstDynamicLine) = SetUpCoverageLine();
             var (secondCoverageLine, secondDynamicLine) = SetUpCoverageLine();
-            var trackedCoverageLines = new TrackedCoverageLines(new List<ICoverageLine> { firstCoverageLine, secondCoverageLine});
+            var trackedCoverageLines = new TrackedCoverageLines(new List<ITrackedCoverageLine> { firstCoverageLine, secondCoverageLine});
 
             var lines = trackedCoverageLines.Lines.ToList();
 

@@ -8,7 +8,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction
     internal class ContainingCodeTrackerTrackedLinesWithState : IContainingCodeTrackerTrackedLines
     {
         public IContainingCodeTrackerTrackedLines Wrapped { get; }
-        public ContainingCodeTrackerTrackedLinesWithState(IContainingCodeTrackerTrackedLines trackedLines, bool usedFileCodeSpanRangeService)
+        public ContainingCodeTrackerTrackedLinesWithState(
+            IContainingCodeTrackerTrackedLines trackedLines, bool usedFileCodeSpanRangeService)
         {
             this.Wrapped = trackedLines;
             this.UsedFileCodeSpanRangeService = usedFileCodeSpanRangeService;

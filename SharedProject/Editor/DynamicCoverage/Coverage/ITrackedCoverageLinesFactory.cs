@@ -4,6 +4,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal interface ITrackedCoverageLinesFactory
     {
-        ITrackedCoverageLines Create(List<ICoverageLine> coverageLines);
+        ITrackedCoverageLines Create(List<ITrackedCoverageLine> trackedCoverageLines);
     }
 }

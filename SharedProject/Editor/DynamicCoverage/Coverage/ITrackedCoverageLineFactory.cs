@@ -3,8 +3,8 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal interface ICoverageLineFactory
+    internal interface ITrackedCoverageLineFactory
     {
-        ICoverageLine Create(ITrackingSpan trackingSpan, ICoberturaLine line);
+        ITrackedCoverageLine Create(ITrackingSpan trackingSpan, ICoberturaLine line);
     }
 }

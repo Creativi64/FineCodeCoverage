@@ -5,14 +5,14 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class CoverageLine : ICoverageLine
+    internal class TrackedCoverageLine : ITrackedCoverageLine
     {
         private readonly ITrackingSpan trackingSpan;
         private readonly ILineTracker lineTracker;
         private readonly DynamicLine line;
         public IDynamicLine Line => this.line;
 
-        public CoverageLine(ITrackingSpan trackingSpan, ICoberturaLine coberturaLine, ILineTracker lineTracker)
+        public TrackedCoverageLine(ITrackingSpan trackingSpan, ICoberturaLine coberturaLine, ILineTracker lineTracker)
         {
             this.line = DynamicLine.FromCoberturaLine(coberturaLine);
             this.trackingSpan = trackingSpan;

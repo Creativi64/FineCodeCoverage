@@ -313,12 +313,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\CodeSpanRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\ContainingCodeTrackedLinesFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\CoverageCodeTracker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\CoverageLine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\CoverageLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLineFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IBufferLineCoverageFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\IContainingCodeTracker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ICoverageLine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ICoverageLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ITrackedCoverageLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ITrackedCoverageLineFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ILineTracker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\INewCodeTracker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\INewCodeTrackerFactory.cs" />

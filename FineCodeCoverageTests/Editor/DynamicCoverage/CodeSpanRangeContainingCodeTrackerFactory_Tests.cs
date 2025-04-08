@@ -38,15 +38,15 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 .Returns(trackingSpanLine2);
 
 
-            var coverageLine = new Mock<ICoverageLine>().Object;
-            var coverageLine2 = new Mock<ICoverageLine>().Object;
-            autoMoqer.Setup<ICoverageLineFactory, ICoverageLine>(coverageLineFactory => coverageLineFactory.Create(trackingSpanLine, mockLine.Object))
-                 .Returns(coverageLine);
-            autoMoqer.Setup<ICoverageLineFactory, ICoverageLine>(coverageLineFactory => coverageLineFactory.Create(trackingSpanLine2, mockLine2.Object))
-                 .Returns(coverageLine2);
+            var trackedCoverageLine = new Mock<ITrackedCoverageLine>().Object;
+            var trackedCoverageLine2 = new Mock<ITrackedCoverageLine>().Object;
+            autoMoqer.Setup<ITrackedCoverageLineFactory, ITrackedCoverageLine>(coverageLineFactory => coverageLineFactory.Create(trackingSpanLine, mockLine.Object))
+                 .Returns(trackedCoverageLine);
+            autoMoqer.Setup<ITrackedCoverageLineFactory, ITrackedCoverageLine>(coverageLineFactory => coverageLineFactory.Create(trackingSpanLine2, mockLine2.Object))
+                 .Returns(trackedCoverageLine2);
             var trackedCoverageLines = new Mock<ITrackedCoverageLines>().Object;
             autoMoqer.Setup<ITrackedCoverageLinesFactory, ITrackedCoverageLines>(
-                trackedCoverageLinesFactory => trackedCoverageLinesFactory.Create(new List<ICoverageLine> { coverageLine, coverageLine2 }))
+                trackedCoverageLinesFactory => trackedCoverageLinesFactory.Create(new List<ITrackedCoverageLine> { trackedCoverageLine, trackedCoverageLine2 }))
                 .Returns(trackedCoverageLines);
 
             var trackingSpanRange = new Mock<ITrackingSpanRange>().Object;

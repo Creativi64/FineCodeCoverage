@@ -19,7 +19,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockLine.SetupGet(l => l.CoverageType).Returns(lineCoverageType);
             mockLine.SetupGet(l => l.Number).Returns(1);
 
-            var coverageLine = new CoverageLine(null, mockLine.Object, null);
+            var coverageLine = new TrackedCoverageLine(null, mockLine.Object, null);
 
             Assert.That(coverageLine.Line.CoverageType, Is.EqualTo(expectedDynamicCoverageType));
             Assert.That(coverageLine.Line.Number, Is.EqualTo(0));
@@ -39,7 +39,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var updatedLineNumber = updateLineNumber ? 10 : 0;
             mockLineTracker.Setup(lineTracker => lineTracker.GetLineNumber(trackingSpan, currentTextSnapshot, true))
                 .Returns(updatedLineNumber);
-            var coverageLine = new CoverageLine(trackingSpan, mockLine.Object, mockLineTracker.Object);
+            var coverageLine = new TrackedCoverageLine(trackingSpan, mockLine.Object, mockLineTracker.Object);
 
             var updatedLineNumbers = coverageLine.GetUpdateLineNumbers(currentTextSnapshot);
 
