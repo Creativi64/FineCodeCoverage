@@ -92,7 +92,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     this.UpdateDynamicCoverageStore(((ITextView)s).TextSnapshot);
                 }
 
-                this.textBuffer.Changed -= this.TextBuffer_ChangedOnBackground;
+                this.textBuffer.ChangedOnBackground -= this.TextBuffer_ChangedOnBackground;
                 this.textBuffer.ContentTypeChanged -= this.ContentTypeChanged;
                 textInfo.TextView.Closed -= textViewClosedHandler;
                 appOptionsProvider.OptionsChanged -= AppOptionsChanged;
