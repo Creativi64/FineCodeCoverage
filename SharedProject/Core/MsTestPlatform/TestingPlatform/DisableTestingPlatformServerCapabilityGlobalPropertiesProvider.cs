@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             IAppOptionsProvider appOptionsProvider,
             ICoverageProjectSettingsManager coverageProjectSettingsManager
         )
-          : base((IProjectCommonServices)projectService.Services)
+          : base(projectService.Services)
         {
             this.unconfiguredProject = unconfiguredProject;
             this.appOptionsProvider = appOptionsProvider;
