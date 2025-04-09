@@ -276,6 +276,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\IRoslynFileCodeSpanRangeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\RoslynFileCodeSpanRangeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\VBCoverageContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\CoverageContentTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ICoverageContentTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ILastCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\LastCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Store\DynamicCoverageStore.cs" />

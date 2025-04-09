@@ -81,7 +81,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private readonly ITextInfo textInfo;
         private readonly string originalFilePath;
         private readonly ITextBuffer textBuffer;
-        private IBufferLineCoverage bufferLineCoverage;
+        private readonly IBufferLineCoverage bufferLineCoverage;
         private ICoverageTypeFilter coverageTypeFilter;
         private readonly IEventAggregator eventAggregator;
         private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
@@ -135,7 +135,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        public bool HasCoverage => this.bufferLineCoverage != null;
+        public bool HasCoverage => this.bufferLineCoverage.HasCoverage;
 
         public void RaiseTagsChanged() => this.RaiseTagsChangedLinesOrAll();
 
@@ -163,7 +163,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 ? this.GetTagsFromCoverageLines(spans)
                 : Enumerable.Empty<ITagSpan<TTag>>();
 
-        private bool CanGetTagsFromCoverageLines => this.bufferLineCoverage != null && !this.coverageTypeFilter.Disabled && this.isDisplayingIndicators;
+        private bool CanGetTagsFromCoverageLines
+            => this.bufferLineCoverage.HasCoverage && !this.coverageTypeFilter.Disabled && this.isDisplayingIndicators;
 
         private IEnumerable<ITagSpan<TTag>> GetTagsFromCoverageLines(NormalizedSnapshotSpanCollection spans)
         {
@@ -202,11 +203,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private bool IsOwnChange(CoverageChangedMessage message) => message.FilePath == this.textInfo.FilePath;
 
-        private void HandleOwnChange(CoverageChangedMessage message)
-        {
-            this.bufferLineCoverage = message.BufferLineCoverage;
-            this.RaiseTagsChangedLinesOrAll(message.ChangedLineNumbers);
-        }
+        private void HandleOwnChange(CoverageChangedMessage message) => this.RaiseTagsChangedLinesOrAll(message.ChangedLineNumbers);
 
         public void Handle(CoverageTypeFilterChangedMessage message)
         {

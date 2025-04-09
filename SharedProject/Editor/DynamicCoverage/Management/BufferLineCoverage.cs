@@ -12,11 +12,6 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal interface ICoverageContentTypes
-    {
-        bool IsApplicable(string contentTypeName);
-    }
-
     internal class BufferLineCoverage :
         IBufferLineCoverage,
         IListener<NewCoverageLinesMessage>,
@@ -37,7 +32,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private DateTime lastTestExecutionStarting;
         private bool applicableContentType = true;
 
-        public ITrackedLines TrackedLines { get; set; }
+        private ITrackedLines trackedLines;
+        public bool HasCoverage => this.trackedLines != null;
 
         internal enum SerializedCoverageState
         {
@@ -74,9 +70,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             {
                 bool newEditorCoverageModeOff = appOptions.EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
                 this.editorCoverageModeOff = newEditorCoverageModeOff;
-                if (this.TrackedLines != null && newEditorCoverageModeOff)
+                if (this.trackedLines != null && newEditorCoverageModeOff)
                 {
-                    this.TrackedLines = null;
+                    this.trackedLines = null;
                     this.SendCoverageChangedMessage();
                 }
             }
@@ -119,7 +115,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             else
             {
-                this.TrackedLines = null;
+                this.trackedLines = null;
             }
 
             this.SendCoverageChangedMessage();
@@ -127,7 +123,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void UpdateDynamicCoverageStore(ITextSnapshot textSnapshot)
         {
-            if (this.TrackedLines != null)
+            if (this.trackedLines != null)
             {
                 string snapshotText = textSnapshot.GetText();
                 if (this.FileSystemReflectsTrackedLines(snapshotText))
@@ -136,7 +132,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     // the DynamicCoverageStore ensures this is removed when next coverage is run
                     this.dynamicCoverageStore.SaveSerializedCoverage(
                         this.textInfo.FilePath,
-                        this.trackedLinesFactory.Serialize(this.TrackedLines, snapshotText)
+                        this.trackedLinesFactory.Serialize(this.trackedLines, snapshotText)
                     );
                 }
                 else
@@ -158,7 +154,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             if (this.EditorCoverageColouringModeOff())
             {
-                this.TrackedLines = null;
+                this.trackedLines = null;
             }
             else
             {
@@ -180,7 +176,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void CreateTrackedLinesIfRequiredWithMessage()
         {
-            bool hadTrackedLines = this.TrackedLines != null;
+            bool hadTrackedLines = this.trackedLines != null;
             if (!this.lastChanged.HasValue || this.lastChanged < this.lastTestExecutionStarting)
             {
                 this.CreateTrackedLinesIfRequired(false);
@@ -188,10 +184,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             else
             {
                 this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as it was changed after test execution started");
-                this.TrackedLines = null;
+                this.trackedLines = null;
             }
 
-            bool hasTrackedLines = this.TrackedLines != null;
+            bool hasTrackedLines = this.trackedLines != null;
             if (hadTrackedLines || hasTrackedLines)
             {
                 this.SendCoverageChangedMessage();
@@ -234,7 +230,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     case SerializedCoverageState.NotSerialized:
                         break;
                     case SerializedCoverageState.Ok:
-                        this.TrackedLines = this.trackedLinesFactory.Create(
+                        this.trackedLines = this.trackedLinesFactory.Create(
                             serializedCoverage, currentSnapshot, filePath);
                         return;
                     default: // Out of date
@@ -244,7 +240,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
 
             var coberturaLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath).ToList();
-            this.TrackedLines = this.trackedLinesFactory.Create(coberturaLines, currentSnapshot, filePath);
+            this.trackedLines = this.trackedLinesFactory.Create(coberturaLines, currentSnapshot, filePath);
         }
 
         private bool EditorCoverageColouringModeOff()
@@ -262,7 +258,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void TextBuffer_ChangedOnBackground(object sender, TextContentChangedEventArgs textContentChangedEventArgs)
         {
             this.lastChanged = DateTime.Now;
-            if (this.TrackedLines != null)
+            if (this.trackedLines != null)
             {
                 this.TryUpdateTrackedLines(textContentChangedEventArgs);
             }
@@ -282,7 +278,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void UpdateTrackedLines(TextContentChangedEventArgs textContentChangedEventArgs)
         {
-            IEnumerable<int> changedLineNumbers = this.TrackedLines.GetChangedLineNumbers(textContentChangedEventArgs.After, textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList())
+            IEnumerable<int> changedLineNumbers = this.trackedLines.GetChangedLineNumbers(textContentChangedEventArgs.After, textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList())
                 .Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
             this.SendCoverageChangedMessageIfChanged(changedLineNumbers);
         }
@@ -296,10 +292,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private void SendCoverageChangedMessage(IEnumerable<int> changedLineNumbers = null)
-            => this.eventAggregator.SendMessage(new CoverageChangedMessage(this, this.textInfo.FilePath, changedLineNumbers));
+            => this.eventAggregator.SendMessage(new CoverageChangedMessage(this.textInfo.FilePath, changedLineNumbers));
 
         public IEnumerable<IDynamicLine> GetLines(int startLineNumber, int endLineNumber)
-            => this.TrackedLines == null ? Enumerable.Empty<IDynamicLine>() : this.TrackedLines.GetLines(startLineNumber, endLineNumber);
+            => this.trackedLines == null ? Enumerable.Empty<IDynamicLine>() : this.trackedLines.GetLines(startLineNumber, endLineNumber);
 
         public void Handle(NewCoverageLinesMessage message) => this.UpdateCoverageLines(message.CoverageLines);
 
@@ -309,10 +305,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
             this.fileLineCoverage = fileLineCoverage;
 
-            bool hadTrackedLines = this.TrackedLines != null;
+            bool hadTrackedLines = this.trackedLines != null;
             if (this.fileLineCoverage == null)
             {
-                this.TrackedLines = null;
+                this.trackedLines = null;
                 if (hadTrackedLines)
                 {
                     this.SendCoverageChangedMessage();
