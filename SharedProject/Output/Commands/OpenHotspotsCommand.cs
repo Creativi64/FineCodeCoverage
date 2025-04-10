@@ -91,8 +91,6 @@ namespace FineCodeCoverage.Output
             ThreadHelper.ThrowIfNotOnUIThread();
             if(reportResult != null)
             {
-
-                // need the IHotspotService 
                 hotspotsService.WriteHotspotsToXml(reportResult.Assemblies, hotspotsPath);
                 dte.ItemOperations.OpenFile(hotspotsPath, EnvDTE.Constants.vsViewKindCode);
             }

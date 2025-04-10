@@ -297,7 +297,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     }
 
     [Export(typeof(IFCCReportGenerator))]
-    class PalmmediaReportGenerator
+    internal class PalmmediaReportGenerator
         : IFCCReportGenerator
     {
         private readonly Regex fileDoesNotExistAnymoreRegex = new Regex(@"File '.*' does not exist \(any more\)\.", RegexOptions.Compiled);
@@ -335,8 +335,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             new Generator().GenerateReport(config, parserResult);
             htmlFilesToFolder.Collate(reportDirectory);
             return new PalmmediaReportResult(parserResult);
-
         }
+
         private VerbosityLevel verbosityLevel;
         public void SetLogger(VerbosityLevel verbosityLevel, Action<VerbosityLevel, string> logger)
         {

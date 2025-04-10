@@ -27,9 +27,33 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             return root;
         }
 
+        public static IEnumerable<T> TakeAllButLast<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var enumerator = source.GetEnumerator();
+            try
+            {
+                if (!enumerator.MoveNext())
+                    yield break;
+
+                var previous = enumerator.Current;
+
+                while (enumerator.MoveNext())
+                {
+                    yield return previous;
+                    previous = enumerator.Current;
+                }
+            }
+            finally
+            {
+                enumerator.Dispose();
+            }
+        }
+
         private static string FindCommonRootPath(List<string> paths)
         {
-            var splitPaths = paths.ConvertAll(p => p.Split(Path.DirectorySeparatorChar));
+            var splitPaths = paths.ConvertAll(p => p.Split(Path.DirectorySeparatorChar).TakeAllButLast().ToArray());
             var commonParts = splitPaths
                 .Aggregate((current, next) => current.Zip(next, (c, n) => c == n ? c : null).TakeWhile(p => p != null).ToArray());
             return Path.Combine(commonParts);
