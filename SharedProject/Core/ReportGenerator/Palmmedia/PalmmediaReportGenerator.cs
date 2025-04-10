@@ -128,37 +128,40 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             Name = assemblyReport.Name;
             ShortName = assemblyReport.ShortName;
-            PalmmediaClasses = assemblyReport.Classes.Select(c => new PalmmediaClass(c)).ToList();
+            PalmmediaClasses = assemblyReport.Classes.Select(c => new PalmmediaAssemblyClass(c)).ToList();
             Classes = PalmmediaClasses;
         }
-        public List<PalmmediaClass> PalmmediaClasses { get; }
+        public List<PalmmediaAssemblyClass> PalmmediaClasses { get; }
         public string Name { get; }
         public string ShortName { get; }
-        public IReadOnlyCollection<IClass> Classes { get; }
+        public IReadOnlyList<IClass> Classes { get; }
     }
 
-    public class PalmmediaClass : IClass
+    public class PalmmediaAssemblyClass : IClass
     {
-        public PalmmediaClass(Class classReport) : this(classReport.Name, classReport.Files)
+        public PalmmediaAssemblyClass(Class classReport)
         {
+            DisplayName = classReport.Name;
+            this.CodeElementsLookup = classReport.Files.ToDictionary(cf => cf.Path, f => f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f)).ToList());
+            CodeElements = this.CodeElementsLookup.Values.SelectMany(ces => ces).ToList();
         }
-
-        public PalmmediaClass(string displayName, CodeFile codeFile) : this(displayName, new List<CodeFile> { codeFile })
-        {
-
-        }
-        private PalmmediaClass(string displayName, IEnumerable<CodeFile> codeFiles)
-        {
-            DisplayName = displayName;
-            CodeElements = codeFiles.SelectMany(f => f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f))).ToList();
-            CodeFiles = codeFiles.ToList();
-        }
-
-        public List<CodeFile> CodeFiles { get; }
 
         public string DisplayName { get; }
-        public IReadOnlyCollection<ICodeElement> CodeElements { get; }
+        public IReadOnlyDictionary<string, List<PalmmediaCodeElement>> CodeElementsLookup { get; }
+        public IReadOnlyList<ICodeElement> CodeElements { get; }
     }
+
+    public class PalmediaSourceFileClass : IClass
+    {
+        public PalmediaSourceFileClass(string displayName, List<PalmmediaCodeElement> codeElements)
+        {
+            DisplayName = displayName;
+            CodeElements  = codeElements;
+        }
+        public string DisplayName { get; }
+        public IReadOnlyList<ICodeElement> CodeElements { get; }
+    }
+
 
     public class PalmmediaCodeElement : ICodeElement
     {
@@ -212,7 +215,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public CodeElementType CodeElementType { get; }
         public string Name { get; }
         public int StartLine { get; }
-        public IReadOnlyCollection<LineVisitStatus> LineVisitStatuses { get; }
+        public IReadOnlyList<LineVisitStatus> LineVisitStatuses { get; }
         public string Path { get; }
         public int BlocksCovered { get; set; }
         public int BlocksNotCovered { get; set; }
@@ -223,25 +226,13 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
     class PalmmediaSourceFile : ISourceFile
     {
-        public PalmmediaSourceFile(string path, IEnumerable<IClass> classes)
+        public PalmmediaSourceFile(string path, List<PalmediaSourceFileClass> classes)
         {
             Path = path;
-            Classes = classes.ToList();
+            Classes = classes;
         }
         public string Path { get; }
-        public IReadOnlyCollection<IClass> Classes { get; }
-    }
-
-    public class PalmmediaCodeFileClass
-    {
-        public PalmmediaCodeFileClass(CodeFile codeFile, PalmmediaClass pamlmediaClass)
-        {
-            CodeFile = codeFile;
-            PalmmediaClass = pamlmediaClass;
-        }
-
-        public CodeFile CodeFile { get; }
-        public PalmmediaClass PalmmediaClass { get; }
+        public IReadOnlyList<IClass> Classes { get; }
     }
 
     class PalmmediaReportResult : IReportResult
@@ -263,8 +254,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             metricTypes.ForEach(metricType => staticMetricTypes.Add(metricType));
         }
 
-        private readonly IReadOnlyCollection<PalmmediaAssembly> palmmediaAssemblies;
-        public IReadOnlyCollection<IAssembly> Assemblies => palmmediaAssemblies;
+        private readonly IReadOnlyList<PalmmediaAssembly> palmmediaAssemblies;
+        public IReadOnlyList<IAssembly> Assemblies => palmmediaAssemblies;
         public IDirectory Directory
         {
             get
@@ -278,10 +269,16 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             return this.palmmediaAssemblies.SelectMany(a =>
             {
-                return a.PalmmediaClasses.SelectMany(pc => pc
-                    .CodeFiles
-                    .Select(cf => new PalmmediaCodeFileClass(cf, new PalmmediaClass(pc.DisplayName, cf))));
-            }).GroupBy(pcfc => pcfc.CodeFile.Path).Select(g => new PalmmediaSourceFile(g.Key, g.Select(pcfc => pcfc.PalmmediaClass)));
+                return a.PalmmediaClasses.SelectMany(
+                    pc => pc.CodeElementsLookup.Select(
+                        kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value }));
+            }).GroupBy(a => a.SourcePath)
+            .Select(g =>
+            {
+
+                var palmediaCodeFileClasses = g.Select(a => new PalmediaSourceFileClass(a.ClassName, a.CodeElements)).ToList();
+                return new PalmmediaSourceFile(g.Key, palmediaCodeFileClasses);
+            });
         }
         private IDirectory CreateDirectory()
         {

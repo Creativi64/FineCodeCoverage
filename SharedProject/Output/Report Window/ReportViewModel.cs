@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Output
             }
 
             public List<string> TestAssemblyNames { get; }
-            public IReadOnlyCollection<IAssembly> Assemblies { get; }
+            public IReadOnlyList<IAssembly> Assemblies { get; }
             public List<MetricType> MetricTypes { get; internal set; }
             public IDirectory Directory { get; internal set; }
         }
@@ -94,8 +94,7 @@ namespace FineCodeCoverage.Output
                 List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
                 if (reportViews.ReportStyle == ReportStyle.Assembly)
                 {
-                    IReadOnlyCollection<IAssembly> assemblies = lastReport.Assemblies;
-                    foreach (IAssembly assembly in assemblies)
+                    foreach (IAssembly assembly in lastReport.Assemblies)
                     {
                         bool isTestAssembly = false;
                         if (lastReport.TestAssemblyNames.Contains(assembly.Name))

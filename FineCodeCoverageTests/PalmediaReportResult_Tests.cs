@@ -187,7 +187,7 @@ namespace FineCodeCoverageTests
         {
             if (PalmmediaTestReportGenerator.TempDirectory != null)
             {
-                Directory.Delete(PalmmediaTestReportGenerator.TempDirectory);
+                Directory.Delete(PalmmediaTestReportGenerator.TempDirectory,true);
             }
         }
 
@@ -264,14 +264,13 @@ namespace FineCodeCoverageTests
                 AddData(coberturaReport);
                 return coberturaReport;
             });
-            var classCodeElements = result.Assemblies.ElementAt(0).Classes.ElementAt(0).CodeElements;
-            // a list and not readonlycollection
-            var sourceFileClassCodeElements = result.Directory.SourceFiles[0].Classes.ElementAt(0).CodeElements;
+            var classCodeElements = result.Assemblies[0].Classes[0].CodeElements;
+            var sourceFileClassCodeElements = result.Directory.SourceFiles[0].Classes[0].CodeElements;
             Assert.That(classCodeElements, Has.Count.EqualTo(sourceFileClassCodeElements.Count));
 
             for(var i = 0; i<classCodeElements.Count; i++)
             {
-                Assert.That(classCodeElements.ElementAt(i), Is.SameAs(sourceFileClassCodeElements.ElementAt(i)));
+                Assert.That(classCodeElements[i], Is.SameAs(sourceFileClassCodeElements[i]));
             }
         }
     }

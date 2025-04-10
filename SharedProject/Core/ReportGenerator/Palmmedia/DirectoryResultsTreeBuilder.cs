@@ -65,23 +65,39 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             for (int i = 0; i < parts.Length - 1; i++) // Traverse directories
             {
                 var part = parts[i];
-                if (!currentNode.SubDirectories.ContainsKey(part))
+                if (!currentNode.SubDirectoryParts.ContainsKey(part))
                 {
-                    currentNode.SubDirectories[part] = new DirectoryNode(part);
+                    currentNode.SubDirectoryParts[part] = new DirectoryNode(part);
                 }
-                currentNode = currentNode.SubDirectories[part];
+                currentNode = currentNode.SubDirectoryParts[part];
             }
 
             // Add the file to the current directory
-            currentNode.SourceFiles.Add(file);
+            currentNode.AddSourceFile(file);
         }
 
         public class DirectoryNode : IDirectory
         {
             public string Name { get; set; }
-            public Dictionary<string, DirectoryNode> SubDirectories { get; set; } = new Dictionary<string, DirectoryNode>();
-            public List<ISourceFile> SourceFiles { get; set; } = new List<ISourceFile>();
-            public List<IDirectory> Children => SubDirectories.Values.ToList<IDirectory>();
+            public Dictionary<string, DirectoryNode> SubDirectoryParts { get; set; } = new Dictionary<string, DirectoryNode>();
+            private List<ISourceFile> sourceFiles = new List<ISourceFile>();
+            public IReadOnlyList<ISourceFile> SourceFiles { get; set; } = new List<ISourceFile>();
+            public void AddSourceFile(ISourceFile sourceFile)
+            {
+                sourceFiles.Add(sourceFile);
+            }
+            public List<IDirectory> subDirectories;
+            public IReadOnlyList<IDirectory> SubDirectories
+            {
+                get
+                {
+                    if(subDirectories == null)
+                    {
+                        subDirectories = SubDirectoryParts.Values.ToList<IDirectory>();
+                    }
+                    return subDirectories;
+                }
+            }
 
             public DirectoryNode(string name)
             {

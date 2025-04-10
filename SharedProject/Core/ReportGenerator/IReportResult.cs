@@ -5,28 +5,27 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     public interface IDirectory
     {
         string Name { get; }
-        List<IDirectory> Children { get; }
-        List<ISourceFile> SourceFiles { get; }
-
+        IReadOnlyList<IDirectory> SubDirectories { get; }
+        IReadOnlyList<ISourceFile> SourceFiles { get; }
     }
 
     public interface ISourceFile
     {
         string Path { get; }
-        IReadOnlyCollection<IClass> Classes { get; }
+        IReadOnlyList<IClass> Classes { get; }
     }
 
     public interface IAssembly
     {
         string Name { get; }
         string ShortName { get; }
-        IReadOnlyCollection<IClass> Classes { get; }
+        IReadOnlyList<IClass> Classes { get; }
     }
 
     public interface IClass
     {
         string DisplayName { get; }
-        IReadOnlyCollection<ICodeElement> CodeElements { get; }
+        IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 
 
@@ -37,7 +36,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         string Name { get; }
         int StartLine { get; }
         string Path { get; }
-        IReadOnlyCollection<LineVisitStatus> LineVisitStatuses { get; }
+        IReadOnlyList<LineVisitStatus> LineVisitStatuses { get; }
         int BlocksCovered { get; }
         int BlocksNotCovered { get; }
         int CyclomaticComplexity { get; }
@@ -96,7 +95,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
     interface IReportResult
     {
-        IReadOnlyCollection<IAssembly> Assemblies { get; }
+        IReadOnlyList<IAssembly> Assemblies { get; }
         IDirectory Directory { get; }
         List<MetricType> MetricTypes { get; }
     }

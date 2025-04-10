@@ -49,7 +49,7 @@ namespace Test
         {
             if(tempDirectory != null && Directory.Exists(tempDirectory))
             {
-                Directory.Delete(tempDirectory);
+                Directory.Delete(tempDirectory,true);
             }
         }
 
