@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
+using FineCodeCoverage.Impl;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
 using Microsoft.CodeAnalysis;
@@ -133,6 +134,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             await LogCoverageStartingAsync();
 
             OnCollectingChanged(true);//order important
+            eventAggregator.SendMessage(new TestExecutionStartingMessage());
             eventAggregator.SendMessage(new CoverageStartingMessage());
 
             var raiseCoverageEndedMessage = true;
