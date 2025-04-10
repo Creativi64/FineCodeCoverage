@@ -239,17 +239,19 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                     throw new ArgumentOutOfRangeException();
             }
         }
-        public IEnumerable<ICoberturaLine> GetLines()
+        public List<ICoberturaLine> GetLines()
         {
+            var coberturaLines = new List<ICoberturaLine>();
             var lineNumber = StartLine;//+1 ?
             foreach(var lineVisitStatus in LineVisitStatuses)
             {
                 if(lineVisitStatus != LineVisitStatus.NotCoverable)
                 {
-                    yield return new CoberturaLine(lineNumber, ConvertLineVisitStatus(lineVisitStatus));
+                    coberturaLines.Add(new CoberturaLine(lineNumber, ConvertLineVisitStatus(lineVisitStatus)));
                 }
                 lineNumber++;
             }
+            return coberturaLines;
         }
     }
 
@@ -341,14 +343,14 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             return DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
         }
 
-        public IEnumerable<ICoberturaLine> GetLines(string filePath)
+        public List<ICoberturaLine> GetLines(string filePath)
         {
             var sourceFile = SourceFiles.FirstOrDefault(sf => sf.Path == filePath);
             if (sourceFile == null) {
-                return Enumerable.Empty<ICoberturaLine>();
+                return Enumerable.Empty<ICoberturaLine>().ToList();
             }
             var codeElements = sourceFile.PalmmediaSourceFileClasses.SelectMany(c => c.PalmmediaCodeElements);
-            return codeElements.SelectMany(codeElement => codeElement.GetLines());
+            return codeElements.SelectMany(codeElement => codeElement.GetLines()).ToList();
         }
     }
 

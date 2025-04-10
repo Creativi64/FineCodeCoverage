@@ -4,6 +4,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal interface IFileLineCoverage
     {
-        IEnumerable<ICoberturaLine> GetLines(string filePath);
+        List<ICoberturaLine> GetLines(string filePath);
     }
 }

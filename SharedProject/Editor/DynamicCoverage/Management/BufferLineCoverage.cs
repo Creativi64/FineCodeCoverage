@@ -237,7 +237,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 }
             }
 
-            var coberturaLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath).ToList();
+            List<ICoberturaLine> coberturaLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
             this.trackedLines = this.trackedLinesFactory.Create(coberturaLines, currentSnapshot, filePath);
         }
 

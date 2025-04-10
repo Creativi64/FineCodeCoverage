@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
@@ -29,8 +28,6 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         public static IEnumerable<T> TakeAllButLast<T>(this IEnumerable<T> source)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
             var enumerator = source.GetEnumerator();
             try
             {
@@ -80,7 +77,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             public string Name { get; set; }
             public Dictionary<string, DirectoryNode> SubDirectoryParts { get; set; } = new Dictionary<string, DirectoryNode>();
-            private List<ISourceFile> sourceFiles = new List<ISourceFile>();
+            private readonly List<ISourceFile> sourceFiles = new List<ISourceFile>();
             public IReadOnlyList<ISourceFile> SourceFiles => sourceFiles;
             public void AddSourceFile(ISourceFile sourceFile)
             {
@@ -91,11 +88,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             {
                 get
                 {
-                    if(subDirectories == null)
-                    {
-                        subDirectories = SubDirectoryParts.Values.ToList<IDirectory>();
-                    }
-                    return subDirectories;
+                    return subDirectories ?? (subDirectories = SubDirectoryParts.Values.ToList<IDirectory>());
                 }
             }
 

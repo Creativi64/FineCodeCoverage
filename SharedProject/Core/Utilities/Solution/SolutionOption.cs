@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         private readonly IJsonConvertService jsonConvertService;
         public event EventHandler UnloadedEvent;
 
-        public SolutionOption(IJsonConvertService jsonConvertService)
+        protected SolutionOption(IJsonConvertService jsonConvertService)
         {
             this.jsonConvertService = jsonConvertService;
             Value = GetDefaultValue();

@@ -102,13 +102,13 @@ namespace FineCodeCoverage.Output
             await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
             this.solutionOptions = componentModel.GetService<ISolutionOptions>();
             var keys = await solutionOptions.GetKeysAsync();
-            foreach(var key in keys)
+            foreach (var key in keys)
             {
                 AddOptionKey(key);
             }
             var solutionPersistence = await this.GetServiceAsync(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
             Assumes.Present(solutionPersistence);
-            foreach(var key in keys)
+            foreach (var key in keys)
             {
                 solutionPersistence.LoadPackageUserOpts(this, key);
             }
