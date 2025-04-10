@@ -11,10 +11,11 @@ using System.Text.RegularExpressions;
 using PalmmediaVerbosityLevel = Palmmedia.ReportGenerator.Core.Logging.VerbosityLevel;
 using PalmmediaMetric = Palmmedia.ReportGenerator.Core.Parser.Analysis.Metric;
 using System.ComponentModel.Composition;
+using FineCodeCoverage.Editor.DynamicCoverage;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    public static class MetricNames
+    internal static class MetricNames
     {
         private static string crap;
         public static string Crap
@@ -78,7 +79,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         }
     }
 
-    public static class MetricSetter
+    internal static class MetricSetter
     {
         private static readonly Dictionary<string, Func<PalmmediaCodeElement, decimal?,MetricType>> metricSetters = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
         {
@@ -122,7 +123,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         }
     }
 
-    public class PalmmediaAssembly : IAssembly
+    internal class PalmmediaAssembly : IAssembly
     {
         public PalmmediaAssembly(Assembly assemblyReport)
         {
@@ -137,7 +138,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public IReadOnlyList<IClass> Classes { get; }
     }
 
-    public class PalmmediaAssemblyClass : IClass
+    internal class PalmmediaAssemblyClass : IClass
     {
         public PalmmediaAssemblyClass(Class classReport)
         {
@@ -151,19 +152,20 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 
-    public class PalmediaSourceFileClass : IClass
+    internal class PalmediaSourceFileClass : IClass
     {
         public PalmediaSourceFileClass(string displayName, List<PalmmediaCodeElement> codeElements)
         {
             DisplayName = displayName;
-            CodeElements  = codeElements;
+            CodeElements = codeElements;
+            PalmmediaCodeElements = codeElements;
         }
         public string DisplayName { get; }
+        public IReadOnlyList<PalmmediaCodeElement> PalmmediaCodeElements { get; }
         public IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 
-
-    public class PalmmediaCodeElement : ICodeElement
+    internal class PalmmediaCodeElement : ICodeElement
     {
         public PalmmediaCodeElement(CodeElement codeElement, CodeFile codeFile)
         {
@@ -222,20 +224,61 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public int CyclomaticComplexity { get; set; }
         public int NPathComplexity { get; set; }
         public decimal CrapScore { get; set; }
+
+        private CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)
+        {
+            switch (lineVisitStatus)
+            {
+                case LineVisitStatus.Covered:
+                    return CoverageType.Covered;
+                case LineVisitStatus.NotCovered:
+                    return CoverageType.NotCovered;
+                case LineVisitStatus.PartiallyCovered:
+                    return CoverageType.Partial;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        public IEnumerable<ICoberturaLine> GetLines()
+        {
+            var lineNumber = StartLine;//+1 ?
+            foreach(var lineVisitStatus in LineVisitStatuses)
+            {
+                if(lineVisitStatus != LineVisitStatus.NotCoverable)
+                {
+                    yield return new CoberturaLine(lineNumber, ConvertLineVisitStatus(lineVisitStatus));
+                }
+                lineNumber++;
+            }
+        }
     }
 
-    class PalmmediaSourceFile : ISourceFile
+    internal class CoberturaLine : ICoberturaLine
+    {
+        // probably add the containing CodeElement or as an interface for change
+        public CoberturaLine(int number,CoverageType coverageType)
+        {
+            Number = number;
+            CoverageType = coverageType;
+        }
+        public int Number { get; }
+        public CoverageType CoverageType { get; }
+    }
+
+    internal class PalmmediaSourceFile : ISourceFile
     {
         public PalmmediaSourceFile(string path, List<PalmediaSourceFileClass> classes)
         {
             Path = path;
+            PalmmediaSourceFileClasses = classes;
             Classes = classes;
         }
         public string Path { get; }
+        public IReadOnlyCollection<PalmediaSourceFileClass> PalmmediaSourceFileClasses { get; }
         public IReadOnlyList<IClass> Classes { get; }
     }
 
-    class PalmmediaReportResult : IReportResult
+    internal class PalmmediaReportResult : IReportResult
     {
         private IDirectory directory;
         public PalmmediaReportResult(ParserResult parserResult)
@@ -264,8 +307,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
         }
 
-
-        private IEnumerable<PalmmediaSourceFile> GetSourceFiles()
+        private List<PalmmediaSourceFile> GetSourceFiles()
         {
             return this.palmmediaAssemblies.SelectMany(a =>
             {
@@ -278,11 +320,20 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
                 var palmediaCodeFileClasses = g.Select(a => new PalmediaSourceFileClass(a.ClassName, a.CodeElements)).ToList();
                 return new PalmmediaSourceFile(g.Key, palmediaCodeFileClasses);
-            });
+            }).ToList();
         }
+        private List<PalmmediaSourceFile> sourceFiles;
+        private List<PalmmediaSourceFile> SourceFiles
+        {
+            get
+            {
+                return sourceFiles ?? (sourceFiles = GetSourceFiles());
+            }
+        }
+
         private IDirectory CreateDirectory()
         {
-            return CreateDirectory(GetSourceFiles());
+            return CreateDirectory(SourceFiles);
         }
 
         private IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
@@ -290,7 +341,15 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             return DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
         }
 
-
+        public IEnumerable<ICoberturaLine> GetLines(string filePath)
+        {
+            var sourceFile = SourceFiles.FirstOrDefault(sf => sf.Path == filePath);
+            if (sourceFile == null) {
+                return Enumerable.Empty<ICoberturaLine>();
+            }
+            var codeElements = sourceFile.PalmmediaSourceFileClasses.SelectMany(c => c.PalmmediaCodeElements);
+            return codeElements.SelectMany(codeElement => codeElement.GetLines());
+        }
     }
 
     [Export(typeof(IFCCReportGenerator))]

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Cobertura;
+using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
@@ -19,7 +19,6 @@ namespace FineCodeCoverage.Engine
     {
         private class ReportResult
         {
-            public IFileLineCoverage FileLineCoverage { get; set; }
             public IReportResult Report { get; set; }
             public string CoberturaFile { get; set; }
             public List<ICoverageProject> CoverageProjects { get; internal set; }
@@ -30,7 +29,6 @@ namespace FineCodeCoverage.Engine
         private ICancellationTokenSource cancellationTokenSource;
 
         private readonly ICoverageUtilManager coverageUtilManager;
-        private readonly ICoberturaUtil coberturaUtil;
         private readonly IReportGeneratorUtil reportGeneratorUtil;
         private readonly ILogger logger;
 
@@ -41,7 +39,6 @@ namespace FineCodeCoverage.Engine
         [ImportingConstructor]
         public FCCEngine(
             ICoverageUtilManager coverageUtilManager,
-            ICoberturaUtil coberturaUtil,
             IReportGeneratorUtil reportGeneratorUtil,
             ILogger logger,
             ICoverageToolOutputManager coverageOutputManager,
@@ -53,7 +50,6 @@ namespace FineCodeCoverage.Engine
             this.disposeAwareTaskRunner = disposeAwareTaskRunner;
             this.coverageOutputManager = coverageOutputManager;
             this.coverageUtilManager = coverageUtilManager;
-            this.coberturaUtil = coberturaUtil;
             this.reportGeneratorUtil = reportGeneratorUtil;
             this.logger = logger;
         }
@@ -119,9 +115,9 @@ namespace FineCodeCoverage.Engine
 
         }
 
-        private void UpdateUI(IFileLineCoverage coverageLines, IReportResult reportResult, List<ICoverageProject> coverageProjects)
+        private void UpdateUI(IReportResult reportResult, List<ICoverageProject> coverageProjects)
         {
-            eventAggregator.SendMessage(new NewCoverageLinesMessage(coverageLines));
+            eventAggregator.SendMessage(new NewCoverageLinesMessage(reportResult));
             this.eventAggregator.SendMessage(new NewReportMessage(reportResult, coverageProjects));
         }
 
@@ -136,13 +132,11 @@ namespace FineCodeCoverage.Engine
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
             await logger.LogAsync("Processing cobertura");
-            var coverageLines = coberturaUtil.ProcessCoberturaXml(result.UnifiedXmlFile);
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
 
             return new ReportResult
             {
-                FileLineCoverage = coverageLines,
                 CoberturaFile = result.UnifiedXmlFile,
                 Report = result.ReportResult,
                 CoverageProjects = coverageProjects
@@ -208,7 +202,7 @@ namespace FineCodeCoverage.Engine
                 var result = await reportResultProvider(vsShutdownLinkedCancellationToken);
                 await LogCoverageStatusAsync("Done");
                 this.eventAggregator.SendMessage(new CoverageEndedMessage());
-                UpdateUI(result.FileLineCoverage, result.Report, result.CoverageProjects);
+                UpdateUI(result.Report, result.CoverageProjects);
                 RaiseReportFiles(result);
 
             }

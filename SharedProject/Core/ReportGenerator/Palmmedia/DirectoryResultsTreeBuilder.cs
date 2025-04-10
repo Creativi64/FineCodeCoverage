@@ -81,7 +81,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public string Name { get; set; }
             public Dictionary<string, DirectoryNode> SubDirectoryParts { get; set; } = new Dictionary<string, DirectoryNode>();
             private List<ISourceFile> sourceFiles = new List<ISourceFile>();
-            public IReadOnlyList<ISourceFile> SourceFiles { get; set; } = new List<ISourceFile>();
+            public IReadOnlyList<ISourceFile> SourceFiles => sourceFiles;
             public void AddSourceFile(ISourceFile sourceFile)
             {
                 sourceFiles.Add(sourceFile);

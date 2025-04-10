@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.Model
+﻿namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     public enum CoverageType { Covered, Partial, NotCovered }
 }

@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.Cobertura;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
@@ -189,18 +189,15 @@ namespace Test
         class SuccessState {
             public SuccessState(
                 ICoverageProject coverageProject, 
-                IFileLineCoverage fileLineCoverage,
                 IReportResult reportResult,
                 string coberturaFile)
             {
                 CoverageProject = coverageProject;
-                FileLineCoverage = fileLineCoverage;
                 ReportResult = reportResult;
                 CoberturaFile = coberturaFile;
             }
 
             public ICoverageProject CoverageProject { get; }
-            public IFileLineCoverage FileLineCoverage { get; }
             public IReportResult ReportResult { get; }
             public string CoberturaFile { get; }
         }
@@ -210,9 +207,6 @@ namespace Test
             var passedProject = CreateSuitableProject();
             var reportResult = new Mock<IReportResult>().Object;
             
-            var fileLineCoverage = new Mock<IFileLineCoverage>().Object;
-            
-            mocker.Setup<ICoberturaUtil, IFileLineCoverage>(coberturaUtil => coberturaUtil.ProcessCoberturaXml("unified.cobertura")).Returns(fileLineCoverage);
             var reportGeneratorResult = new ReportGeneratorResult
             {
                 UnifiedXmlFile = "unified.cobertura",
@@ -228,7 +222,7 @@ namespace Test
                 )).ReturnsAsync(reportGeneratorResult);
 
             ReloadInitializedCoverage(passedProject.Object);
-            return new SuccessState(passedProject.Object, fileLineCoverage,reportResult, "unified.cobertura");
+            return new SuccessState(passedProject.Object,reportResult, "unified.cobertura");
         }
 
         [Test]
@@ -253,8 +247,7 @@ namespace Test
         {
             var successState = Run_Success();
             
-            var fileLineCoverage = successState.FileLineCoverage;
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == fileLineCoverage), null));
+            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == successState.ReportResult), null));
         }
 
         [Test]

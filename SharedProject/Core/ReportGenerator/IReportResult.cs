@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using System.Collections.Generic;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
@@ -93,7 +94,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         Branches
     }
 
-    interface IReportResult
+    internal interface IReportResult : IFileLineCoverage
     {
         IReadOnlyList<IAssembly> Assemblies { get; }
         IDirectory Directory { get; }

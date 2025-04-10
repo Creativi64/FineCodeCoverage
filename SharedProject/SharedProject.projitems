@@ -10,17 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Core\AppDataFolder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoberturaDerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\FileLineCoverageFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaDeserializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\IFileLineCoverageFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Class.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoberturaUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Condition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Conditions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\CoberturaReport.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Line.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Method.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\Package.cs" />
@@ -91,7 +84,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectSettingsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IFCCSettingsFilesProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\IFileLineCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsMerger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IVsBuildFCCSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\CPPReferencedProjectsHelper.cs" />
@@ -174,7 +166,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitCoverageRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\CPSTestProjectService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\TestingPlatform\TUnit\TUnitSettingsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\NewCoverageLinesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExeArgumentsProvider.cs" />
@@ -277,9 +268,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\RoslynFileCodeSpanRangeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\VBCoverageContentType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\CoverageContentTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\CoverageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ICoberturaLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ICoverageContentTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IFileLineCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ILastCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\LastCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\NewCoverageLinesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Store\DynamicCoverageStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\DynamicCoverageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Store\IDynamicCoverageStore.cs" />
@@ -436,7 +431,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\CoverageLineGlyphTaggerProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\TextFormattingRunPropertiesFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoverageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Funding\FundingDialogWindow.xaml.cs">
       <DependentUpon>FundingDialogWindow.xaml</DependentUpon>
     </Compile>
