@@ -242,7 +242,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public List<ICoberturaLine> GetLines()
         {
             var coberturaLines = new List<ICoberturaLine>();
-            var lineNumber = StartLine;//+1 ?
+            var lineNumber = StartLine;
             foreach(var lineVisitStatus in LineVisitStatuses)
             {
                 if(lineVisitStatus != LineVisitStatus.NotCoverable)
