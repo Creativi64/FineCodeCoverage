@@ -243,14 +243,6 @@ namespace Test
         }
 
         [Test]
-        public void Should_Send_NewCoverageLinesMessage_When_Have_The_ReportResult()
-        {
-            var successState = Run_Success();
-            
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == successState.ReportResult), null));
-        }
-
-        [Test]
         public void Should_Send_NewReportMessage_When_Have_The_ReportResult()
         {
             var successState = Run_Success();

@@ -12,8 +12,6 @@ using PalmmediaVerbosityLevel = Palmmedia.ReportGenerator.Core.Logging.Verbosity
 using PalmmediaMetric = Palmmedia.ReportGenerator.Core.Parser.Analysis.Metric;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using System.IO;
-using System.Diagnostics;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
@@ -229,9 +227,6 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public int CyclomaticComplexity { get; set; }
         public int NPathComplexity { get; set; }
         public decimal CrapScore { get; set; }
-
-
-        
     }
 
     internal class CoberturaLine : ICoberturaLine

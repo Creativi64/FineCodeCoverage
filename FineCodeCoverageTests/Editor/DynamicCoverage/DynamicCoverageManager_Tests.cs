@@ -3,9 +3,9 @@ using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Impl;
+using FineCodeCoverage.Output;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -24,12 +24,34 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         }
 
         [Test]
-        public void Should_Listen_To_NewCoverageLinesMessage()
+        public void Should_Add_Itself_As_A_Listener()
         {
             var autoMocker = new AutoMoqer();
             var dynamicCoverageManager = autoMocker.Create<DynamicCoverageManager>();
 
             autoMocker.Verify<IEventAggregator>(e => e.AddListener(dynamicCoverageManager, null), Times.Once());
+        }
+
+        [Test]
+        public void Should_Send_NewCoverageLinesMessage_With_ReportFileLineCoverage_When_Handle_NewReportMessage()
+        {
+            var autoMocker = new AutoMoqer();
+            var mockReportResult = new Mock<IReportResult>();
+            var rootDirectory = new Mock<IDirectory>().Object;
+            mockReportResult.SetupGet(rr => rr.Directory).Returns(rootDirectory);
+            IFileLineCoverage flc = new Mock<IFileLineCoverage>().Object;
+            autoMocker.Setup<IReportFileLineCoverageFactory, IFileLineCoverage>(f => f.Create(It.IsAny<Func<IDirectory>>()))
+                .Returns(flc).
+                Callback<Func<IDirectory>>((fn) =>
+                {
+                    Assert.That(fn(), Is.SameAs(rootDirectory));
+                });
+            var dynamicCoverageManager = autoMocker.Create<DynamicCoverageManager>();
+
+            
+            dynamicCoverageManager.Handle(new NewReportMessage(mockReportResult.Object, null));
+            
+            autoMocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.Is<NewCoverageLinesMessage>(msg => msg.CoverageLines == flc), null));
         }
 
         [Test]
@@ -54,20 +76,23 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Manage_Should_Create_Singleton_IBufferLineCoverage_With_Last_Coverage_And_Dependencies(bool hasLastCoverage)
         {
             var autoMocker = new AutoMoqer();
-            
+
             var now = new DateTime();
             autoMocker.GetMock<IDateTimeService>().Setup(dateTimeService => dateTimeService.Now).Returns(now);
 
             var eventAggregator = autoMocker.GetMock<IEventAggregator>().Object;
             var trackedLinesFactory = autoMocker.GetMock<ITrackedLinesFactory>().Object;
             var dynamicCoverageManager = autoMocker.Create<DynamicCoverageManager>();
-            LastCoverage lastCoverage = null;
+            LastCoverage expectedLastCoverage = null;
             if (hasLastCoverage)
             {
                 var fileLineCoverage = new Mock<IFileLineCoverage>().Object;
-                lastCoverage = new LastCoverage(fileLineCoverage, now);
+                autoMocker.Setup<IReportFileLineCoverageFactory, IFileLineCoverage>(rflcf => rflcf.Create(It.IsAny<Func<IDirectory>>()))
+                    .Returns(fileLineCoverage);
+                
+                expectedLastCoverage = new LastCoverage(fileLineCoverage, now);
                 (dynamicCoverageManager as IListener<TestExecutionStartingMessage>).Handle(new TestExecutionStartingMessage());
-                dynamicCoverageManager.Handle(new NewCoverageLinesMessage (fileLineCoverage));
+                dynamicCoverageManager.Handle(new NewReportMessage(new Mock<IReportResult>().Object,null));
             }
 
             var mockTextInfo = new Mock<ITextInfo>();
@@ -75,16 +100,16 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var propertyCollection = new PropertyCollection();
             mockTextInfo.Setup(textInfo => textInfo.TextBuffer.Properties).Returns(propertyCollection);
 
-            var newBufferLineCoverage = new Mock<IBufferLineCoverage>().Object; 
+            var newBufferLineCoverage = new Mock<IBufferLineCoverage>().Object;
             var mockBufferLineCoverageFactory = autoMocker.GetMock<IBufferLineCoverageFactory>();
             var mockTextDocument = new Mock<ITextDocument>();
             mockTextDocument.Setup(textDocument => textDocument.FilePath).Returns("filepath");
             mockBufferLineCoverageFactory.Setup(
-                bufferLineCoverageFactory => bufferLineCoverageFactory.Create(lastCoverage, mockTextInfo.Object, eventAggregator,trackedLinesFactory))
+                bufferLineCoverageFactory => bufferLineCoverageFactory.Create(expectedLastCoverage, mockTextInfo.Object, eventAggregator, trackedLinesFactory))
                 .Returns(newBufferLineCoverage);
 
-           
-            
+
+
             var bufferLineCoverage = dynamicCoverageManager.Manage(mockTextInfo.Object);
 
             Assert.That(bufferLineCoverage, Is.SameAs(newBufferLineCoverage));
