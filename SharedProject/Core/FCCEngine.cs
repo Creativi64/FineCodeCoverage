@@ -10,6 +10,7 @@ using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
+using LibGit2Sharp;
 using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Engine
@@ -117,7 +118,6 @@ namespace FineCodeCoverage.Engine
 
         private void UpdateUI(IReportResult reportResult, List<ICoverageProject> coverageProjects)
         {
-            eventAggregator.SendMessage(new NewCoverageLinesMessage(reportResult));
             this.eventAggregator.SendMessage(new NewReportMessage(reportResult, coverageProjects));
         }
 
@@ -202,7 +202,7 @@ namespace FineCodeCoverage.Engine
                 var result = await reportResultProvider(vsShutdownLinkedCancellationToken);
                 await LogCoverageStatusAsync("Done");
                 this.eventAggregator.SendMessage(new CoverageEndedMessage());
-                UpdateUI(result.Report, result.CoverageProjects);
+                this.eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects));
                 RaiseReportFiles(result);
 
             }

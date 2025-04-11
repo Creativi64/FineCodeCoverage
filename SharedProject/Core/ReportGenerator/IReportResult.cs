@@ -26,6 +26,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     public interface IClass
     {
         string DisplayName { get; }
+        IReadOnlyDictionary<string, List<ICodeElement>> FileCodeElements { get; }
         IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 
@@ -94,10 +95,10 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         Branches
     }
 
-    internal interface IReportResult : IFileLineCoverage
+    internal interface IReportResult
     {
         IReadOnlyList<IAssembly> Assemblies { get; }
         IDirectory Directory { get; }
-        List<MetricType> MetricTypes { get; }
+        IReadOnlyList<MetricType> MetricTypes { get; }
     }
 }

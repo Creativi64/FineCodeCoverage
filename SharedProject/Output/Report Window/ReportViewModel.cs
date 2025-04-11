@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Output
 
             public List<string> TestAssemblyNames { get; }
             public IReadOnlyList<IAssembly> Assemblies { get; }
-            public List<MetricType> MetricTypes { get; internal set; }
+            public IReadOnlyList<MetricType> MetricTypes { get; internal set; }
             public IDirectory Directory { get; internal set; }
         }
 

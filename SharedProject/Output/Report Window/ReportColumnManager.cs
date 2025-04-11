@@ -99,7 +99,7 @@ namespace FineCodeCoverage.Output
             });
         }
 
-        public void ShowRelevantColumns(List<MetricType> metricTypes)
+        public void ShowRelevantColumns(IReadOnlyList<MetricType> metricTypes)
         {
             foreach(var column in this.Columns)
             {
