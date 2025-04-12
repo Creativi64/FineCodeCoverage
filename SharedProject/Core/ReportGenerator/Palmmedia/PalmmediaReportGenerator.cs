@@ -143,7 +143,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public PalmmediaAssemblyClass(Class classReport)
         {
             DisplayName = classReport.Name;
-            this.FileCodeElements = classReport.Files.ToDictionary(cf => cf.Path, f => f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f) as ICodeElement).ToList());
+            this.FileCodeElements = classReport.Files.ToDictionary(
+                cf => cf.Path, 
+                f => f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f) as ICodeElement).ToList());
             CodeElements = this.FileCodeElements.Values.SelectMany(ces => ces).ToList();
         }
 
