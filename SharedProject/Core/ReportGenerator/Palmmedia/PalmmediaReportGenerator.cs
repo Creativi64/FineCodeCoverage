@@ -144,7 +144,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             DisplayName = classReport.Name;
             this.FileCodeElements = classReport.Files.ToDictionary(
-                cf => cf.Path, 
+                cf => cf.Path,
                 f => f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f) as ICodeElement).ToList());
             CodeElements = this.FileCodeElements.Values.SelectMany(ces => ces).ToList();
         }
