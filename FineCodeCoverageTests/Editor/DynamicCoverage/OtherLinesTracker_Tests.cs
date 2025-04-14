@@ -20,15 +20,5 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             Assert.That(otherLinesTracker.GetUpdatedLineNumbers(null, null, null), Is.Empty);
         }
-
-        [Test]
-        public void Should_Have_Correct_ContainingCodeTrackerType()
-        {
-            var otherLinesTracker = new OtherLinesTracker();
-
-            Assert.That(otherLinesTracker.Type, Is.EqualTo(ContainingCodeTrackerType.OtherLines));
-        }
     }
-    
-
 }

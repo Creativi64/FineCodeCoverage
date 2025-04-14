@@ -8,16 +8,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ITrackingLine trackingLine;
 
         public TrackingLineTracker(
-            ITrackingLine trackingLine, ContainingCodeTrackerType containingCodeTrackerType
-            )
-        {
-            this.trackingLine = trackingLine;
-            this.Type = containingCodeTrackerType;
-        }
+            ITrackingLine trackingLine
+            ) => this.trackingLine = trackingLine;
 
         public IEnumerable<IDynamicLine> Lines => new List<IDynamicLine> { this.trackingLine.Line };
-
-        public ContainingCodeTrackerType Type { get; }
 
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,

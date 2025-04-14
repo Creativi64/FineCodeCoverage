@@ -61,18 +61,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
             ICoverageContentType coverageContentType = this.GetCoverageContentType(textSnapshot);
             IFileCodeSpanRangeService fileCodeSpanRangeService = coverageContentType.FileCodeSpanRangeService;
-            (List<IContainingCodeTracker> containingCodeTrackers, bool usedFileCodeSpanRangeService) = this.CreateContainingCodeTrackers(
+            List<IContainingCodeTracker> containingCodeTrackers  = this.CreateContainingCodeTrackers(
                 coberturaLines, textSnapshot, fileCodeSpanRangeService, coverageContentType.CoverageOnlyFromFileCodeSpanRangeService);
-
-            IContainingCodeTrackerTrackedLines trackedLines = this.containingCodeTrackedLinesFactory.Create(
+            return  this.containingCodeTrackedLinesFactory.Create(
                 containingCodeTrackers,
                 this.GetNewCodeTrackerIfProvidesLineExcluder(coverageContentType.LineExcluder),
                 this.GetFileCodeSpanRangeServiceForChanges(coverageContentType));
-
-            return new ContainingCodeTrackerTrackedLinesWithState(trackedLines, usedFileCodeSpanRangeService);
         }
 
-        private (List<IContainingCodeTracker> containingCodeTrackers, bool usedFileCodeSpanRangeService) CreateContainingCodeTrackers(
+        private List<IContainingCodeTracker> CreateContainingCodeTrackers(
             List<ICoberturaLine> coberturaLines,
             ITextSnapshot textSnapshot,
             IFileCodeSpanRangeService fileCodeSpanRangeService,
@@ -84,12 +81,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 List<CodeSpanRange> codeSpanRanges = fileCodeSpanRangeService.GetFileCodeSpanRanges(textSnapshot);
                 if (codeSpanRanges != null)
                 {
-                    return (this.CreateContainingCodeTrackersFromCodeSpanRanges(
-                        coberturaLines, textSnapshot, codeSpanRanges, coverageOnlyFromFileCodeSpanRangeService), true);
+                    return this.CreateContainingCodeTrackersFromCodeSpanRanges(
+                        coberturaLines, textSnapshot, codeSpanRanges, coverageOnlyFromFileCodeSpanRangeService);
                 }
             }
 
-            return (coberturaLines.ConvertAll(coberturaLine => this.CreateSingleLineContainingCodeTracker(textSnapshot, coberturaLine)), false);
+            return coberturaLines.ConvertAll(coberturaLine => this.CreateSingleLineContainingCodeTracker(textSnapshot, coberturaLine));
         }
 
         private bool AnyLinesOutsideTextSnapshot(List<ICoberturaLine> coberturaLines, ITextSnapshot textSnapshot)

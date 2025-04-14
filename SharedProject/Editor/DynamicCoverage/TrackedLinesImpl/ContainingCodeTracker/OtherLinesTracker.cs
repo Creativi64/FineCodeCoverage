@@ -8,8 +8,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public IEnumerable<IDynamicLine> Lines { get; } = Enumerable.Empty<IDynamicLine>();
 
-        public ContainingCodeTrackerType Type => ContainingCodeTrackerType.OtherLines;
-
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
             ITextSnapshot currentSnapshot,

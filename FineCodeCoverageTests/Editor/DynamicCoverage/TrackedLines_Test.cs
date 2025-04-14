@@ -92,7 +92,6 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                     containingCodeTracker => containingCodeTracker.GetState()
                 ).Returns(
                     new ContainingCodeTrackerState(
-                        ContainingCodeTrackerType.OtherLines, 
                         CodeSpanRange.SingleLine(1), 
                         Enumerable.Empty<IDynamicLine>()));
             }
@@ -146,7 +145,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             {
                 var mockContainingCodeTracker = new Mock<IContainingCodeTracker>();
                 mockContainingCodeTracker.Setup(containingCodeTracker => containingCodeTracker.GetState())
-                    .Returns(new ContainingCodeTrackerState(ContainingCodeTrackerType.OtherLines, codeSpanRange, Enumerable.Empty<IDynamicLine>()));
+                    .Returns(new ContainingCodeTrackerState(codeSpanRange, Enumerable.Empty<IDynamicLine>()));
                 mockContainingCodeTracker.Setup(containingCodeTracker => containingCodeTracker.ProcessChanges(
                     It.IsAny<ITextSnapshot>(),
                     It.IsAny<List<SpanAndLineRange>>())

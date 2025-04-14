@@ -16,7 +16,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockTrackingLine = new Mock<ITrackingLine>();
             var line = new Mock<IDynamicLine>().Object;
             mockTrackingLine.Setup(t => t.Line).Returns(line);
-            var trackingLineTracker = new TrackingLineTracker(mockTrackingLine.Object,ContainingCodeTrackerType.OtherLines);
+            var trackingLineTracker = new TrackingLineTracker(mockTrackingLine.Object);
 
             Assert.That(trackingLineTracker.Lines.Single(), Is.SameAs(line));
         }
@@ -30,20 +30,11 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var updatedLines = new List<int> { 10, 11 };
             mockTrackingLine.Setup(trackingLine => trackingLine.GetUpdatedLineNumbers(textSnapshot)).Returns(updatedLines);
 
-            var trackingLineTracker = new TrackingLineTracker(mockTrackingLine.Object, ContainingCodeTrackerType.OtherLines);
+            var trackingLineTracker = new TrackingLineTracker(mockTrackingLine.Object);
 
             var updatedLineNumbers = trackingLineTracker.GetUpdatedLineNumbers(null, textSnapshot, null);
 
             Assert.That(updatedLineNumbers, Is.SameAs(updatedLines));
-        }
-
-        [TestCase(ContainingCodeTrackerType.NotIncluded)]
-        [TestCase(ContainingCodeTrackerType.CoverageLines)]
-        public void Should_Have_Correct_ContainingCodeTrackerType(ContainingCodeTrackerType containingCodeTrackerType)
-        {
-            var autoMoqer = new AutoMoqer();
-            var notIncludedCodeTracker = new TrackingLineTracker(null, containingCodeTrackerType);
-            Assert.That(notIncludedCodeTracker.Type, Is.EqualTo(containingCodeTrackerType));
         }
     }
     

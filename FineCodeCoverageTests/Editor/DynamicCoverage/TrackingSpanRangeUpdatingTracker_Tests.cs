@@ -77,13 +77,11 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             Assert.That(result.IsEmpty, Is.False);
         }
 
-        [TestCase(ContainingCodeTrackerType.NotIncluded)]
-        [TestCase(ContainingCodeTrackerType.OtherLines)]
-        public void Should_GetState(ContainingCodeTrackerType containingCodeTrackerType)
+        [Test]
+        public void Should_GetState()
         {
             var autoMoqer = new AutoMoqer();
             var mockUpdatableDynamicLines = autoMoqer.GetMock<IUpdatableDynamicLines>();
-            mockUpdatableDynamicLines.SetupGet(updatableDynamicLines => updatableDynamicLines.Type).Returns(containingCodeTrackerType);
             var lines = Enumerable.Empty<IDynamicLine>();
             mockUpdatableDynamicLines.SetupGet(updatableDynamicLines => updatableDynamicLines.Lines).Returns(lines);
             var codeSpanRange = new CodeSpanRange(1, 2);
@@ -92,7 +90,6 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var state = trackingSpanRangeUpdatingTracker.GetState();
 
-            Assert.That(containingCodeTrackerType, Is.EqualTo(state.Type));
             Assert.That(lines, Is.SameAs(state.Lines));
             Assert.That(codeSpanRange, Is.SameAs(state.CodeSpanRange));
 

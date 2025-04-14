@@ -128,6 +128,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockTextSnapshot.SetupGet(textSnapshot => textSnapshot.ContentType.TypeName).Returns("contenttypename");
             mockTextSnapshot.SetupGet(textSnapshot => textSnapshot.LineCount).Returns(5);
             var autoMoqer = new AutoMoqer();
+            autoMoqer.Setup<IContainingCodeTrackedLinesFactory, IContainingCodeTrackerTrackedLines>(
+                cctlf => cctlf.Create(It.IsAny<List<IContainingCodeTracker>>(), It.IsAny<INewCodeTracker>(), It.IsAny<IFileCodeSpanRangeService>())).Returns(new Mock<IContainingCodeTrackerTrackedLines>().Object);
             additionalSetup?.Invoke(autoMoqer);
             var trackedLinesFromFactory = new Mock<IContainingCodeTrackerTrackedLines>().Object;
 
@@ -208,10 +210,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
 
-            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, "") as ContainingCodeTrackerTrackedLinesWithState;
-
-            Assert.False(trackedLinesWithState.UsedFileCodeSpanRangeService);
-            Assert.That(trackedLinesWithState.Wrapped, Is.SameAs(trackedLinesFromFactory));
+            var trackedLines = containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, "");
+            Assert.That(trackedLines, Is.SameAs(trackedLinesFromFactory));
         }
     
         private struct OtherLineText
@@ -280,10 +280,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
 
-            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(lines, mockTextSnapshot.Object,"") as ContainingCodeTrackerTrackedLinesWithState;
+            var trackedLines = containingCodeTrackedLinesBuilder.Create(lines, mockTextSnapshot.Object, "");
 
-            Assert.That(trackedLinesWithState.Wrapped, Is.SameAs(trackedLinesFromFactory));
-            Assert.True(trackedLinesWithState.UsedFileCodeSpanRangeService);
+            Assert.That(trackedLines, Is.SameAs(trackedLinesFromFactory));
         }
 
         [Test]
@@ -609,11 +608,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             autoMoqer.SetInstance(new ICoverageContentType[] { mockCoverageContentType .Object});
 
             var containingCodeTrackedLinesBuilder = autoMoqer.Create<ContainingCodeTrackedLinesBuilder>();
-            
-            var trackedLinesWithState = containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, "") as ContainingCodeTrackerTrackedLinesWithState;
 
-            Assert.False(trackedLinesWithState.UsedFileCodeSpanRangeService);
-            Assert.That(trackedLinesWithState.Wrapped, Is.SameAs(trackedLinesFromFactory));
+            var trackedLines = containingCodeTrackedLinesBuilder.Create(new List<ICoberturaLine> { line1, line2 }, mockTextSnapshot.Object, "");
+
+            Assert.That(trackedLines, Is.SameAs(trackedLinesFromFactory));
         }
     }
 }

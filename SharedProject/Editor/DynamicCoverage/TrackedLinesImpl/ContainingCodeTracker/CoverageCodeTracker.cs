@@ -63,7 +63,5 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 : this.trackedCoverageLines.GetUpdatedLineNumbers(currentSnapshot);
 
         public IEnumerable<IDynamicLine> Lines => this.dirtyLine != null ? new List<IDynamicLine> { this.dirtyLine.Line } : this.trackedCoverageLines.Lines;
-
-        public ContainingCodeTrackerType Type => ContainingCodeTrackerType.CoverageLines;
     }
 }

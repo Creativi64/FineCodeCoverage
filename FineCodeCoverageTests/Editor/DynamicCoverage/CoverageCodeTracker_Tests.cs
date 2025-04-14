@@ -12,14 +12,6 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
     internal class CoverageCodeTracker_Tests
     {
         [Test]
-        public void Should_Have_Correct_ContainingCodeTrackerType()
-        {
-            var autoMoqer = new AutoMoqer();
-            var containingCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
-            Assert.That(containingCodeTracker.Type, Is.EqualTo(ContainingCodeTrackerType.CoverageLines));
-        }
-
-        [Test]
         public void Should_Return_Lines_From_TrackedCoverageLines_When_No_DirtyLine()
         {
             var autoMoqer = new AutoMoqer();
