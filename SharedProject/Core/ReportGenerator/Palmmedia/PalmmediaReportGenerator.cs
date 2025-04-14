@@ -177,7 +177,6 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
             Name = codeElement.Name;
             StartLine = codeElement.FirstLine;
-
             LineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
             .Take(codeElement.LastLine - codeElement.FirstLine + 1).Select(ConvertLineVisitStatus).ToList();
             Path = codeFile.Path;
