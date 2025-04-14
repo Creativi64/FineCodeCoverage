@@ -137,6 +137,7 @@
     <Compile Include="FileLineCoverage_Tests.cs" />
     <Compile Include="FirstTimeToolWindowOpener_Tests.cs" />
     <Compile Include="PalmediaReportResult_Tests.cs" />
+    <Compile Include="TreeExpander_Tests.cs" />
     <Compile Include="ReportViewSelectorViewModel_Tests.cs" />
     <Compile Include="ReportViews_Tests.cs" />
     <Compile Include="SolutionOptions_Tests.cs" />

@@ -12,17 +12,6 @@ using TreeGrid;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ITreeExpander))]
-    internal class ReportViewModelTreeExpander : ITreeExpander
-    {
-        private readonly TreeExpander<ReportTreeItemBase> treeExpander = new TreeExpander<ReportTreeItemBase>(
-            ti => ti.Name, ti => ti.IsExpanded, (ti, isExpanded) => ti.IsExpanded = isExpanded, ti => ti.observableChildren);
-        public void RestoreExpansionState(IList<ReportTreeItemBase> oldItems, IList<ReportTreeItemBase> newItems)
-        {
-            treeExpander.RestoreExpansionState(oldItems, newItems);
-        }
-    }
-
     [Export(typeof(ReportViewModel))]
     internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
         IListener<NewReportMessage>,
@@ -34,7 +23,7 @@ namespace FineCodeCoverage.Output
         public ReportViewModel(
             IEventAggregator eventAggregator,
             ISourceFileOpener sourceFileOpener,
-            ITreeExpander treeExpander,
+            IReportTreeExpander treeExpander,
             IReportColumnManager reportColumnManager,
             IReportViews reportViews
         )
@@ -83,7 +72,7 @@ namespace FineCodeCoverage.Output
         private Report lastReport;
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener sourceFileOpener;
-        private readonly ITreeExpander treeExpander;
+        private readonly IReportTreeExpander treeExpander;
         private readonly IReportViews reportViews;
 
         protected override IReportColumnManager ColumnManagerImpl { get; set; }

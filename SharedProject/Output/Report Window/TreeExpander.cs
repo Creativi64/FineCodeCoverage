@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Output
         private TreeExpansionStateWrapper wrapper;
         private readonly Func<T, string> getId;
         private readonly Func<T, bool> getIsExpanded;
-        private readonly Action<T, bool> setIsExpanded;
+        private readonly Action<T> setIsExpanded;
         private readonly Func<T, IList<T>> getChildren;
 
         private class TreeExpansionStateWrapper
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Output
             var newTreeId = getId(newTree);
             if (newTreeId == savedState.Id)
             {
-                setIsExpanded(newTree, true);
+                setIsExpanded(newTree);
 
                 int newIndex = 0, savedIndex = 0;
                 var children = getChildren(newTree);
@@ -105,7 +105,7 @@ namespace FineCodeCoverage.Output
 
         private TreeExpansionState SaveExpansionStateForNode(T item)
         {
-            if (getIsExpanded(item) != true)
+            if (!getIsExpanded(item))
                 return null;
 
             var state = new TreeExpansionState { Id = getId(item) };
@@ -124,7 +124,7 @@ namespace FineCodeCoverage.Output
         public TreeExpander(
              Func<T, string> getId,
             Func<T, bool> getIsExpanded,
-            Action<T, bool> setIsExpanded,
+            Action<T> setIsExpanded,
             Func<T, IList<T>> getChildren
         )
         {
@@ -137,7 +137,6 @@ namespace FineCodeCoverage.Output
         public void RestoreExpansionState(
             IList<T> oldItems, IList<T> newItems)
         {
-           
             SaveExpansionState(oldItems);
             RestoreExpansionState(newItems, wrapper);
             this.wrapper = null;

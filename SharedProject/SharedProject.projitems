@@ -519,6 +519,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\Changeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IChangeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\GitRepo.cs" />
@@ -567,7 +568,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\IColumnStatesStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\IReportColumnManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\IReportColumnsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ITreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\IReportTreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReflectionMEFToolWindowContextProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\MetricColumnData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportColumnData.cs" />
