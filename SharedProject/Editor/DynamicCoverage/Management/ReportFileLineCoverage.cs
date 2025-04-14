@@ -1,91 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
+    class LineComparer : IEqualityComparer<ICoberturaLine>
+    {
+        public bool Equals(ICoberturaLine x, ICoberturaLine y) => x.Number == y.Number;
+
+        public int GetHashCode(ICoberturaLine obj) => obj.Number;
+    }
+
     internal class ReportFileLineCoverage : IFileLineCoverage
     {
-        private Dictionary<string, ISourceFile> sourceFileLookup;
-        private readonly Func<IDirectory> directoryProvider;
+        private Dictionary<string, List<ICodeElement>> fileLookup;
+        private readonly Dictionary<string, List<ICoberturaLine>> coberturaLinesLookup = new Dictionary<string, List<ICoberturaLine>>();
+        private readonly IReadOnlyList<IAssembly> assemblies;
+        private readonly LineComparer lineComparer = new LineComparer();
 
-        private Dictionary<string, ISourceFile> SourceFileLookup
-        {
-            get
-            {
-                if (this.sourceFileLookup == null)
-                {
-                    this.CollectSourceFiles();
-                }
+        public ReportFileLineCoverage(IReadOnlyList<IAssembly> assemblies)
+                => this.assemblies = assemblies;
 
-                return this.sourceFileLookup;
-            }
-        }
+        public static Dictionary<string, List<ICodeElement>> GetCodeElementLookup(IReadOnlyList<IAssembly> assemblies)
+            => assemblies.SelectMany(assembly => assembly.Classes.SelectMany(c => c.FileCodeElements))
+                .GroupBy(kvp => kvp.Key).ToDictionary(g => g.Key, g => g.SelectMany(kvp => kvp.Value).ToList());
 
-        public ReportFileLineCoverage(Func<IDirectory> directoryProvider)
-            => this.directoryProvider = directoryProvider;
+        private Dictionary<string, List<ICodeElement>> FileLookup
+            => this.fileLookup ?? (this.fileLookup = GetCodeElementLookup(this.assemblies));
 
         public List<ICoberturaLine> GetLines(string filePath)
-        {
-            if (!this.SourceFileLookup.TryGetValue(filePath, out ISourceFile sourceFile))
             {
-                return Enumerable.Empty<ICoberturaLine>().ToList();
-            }
-
-            IEnumerable<ICodeElement> codeElements = sourceFile.Classes.SelectMany(c => c.CodeElements);
-            return codeElements.SelectMany(codeElement => this.GetLines(codeElement)).ToList();
-        }
-
-        private CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)
-        {
-            switch (lineVisitStatus)
-            {
-                case LineVisitStatus.Covered:
-                    return CoverageType.Covered;
-                case LineVisitStatus.NotCovered:
-                    return CoverageType.NotCovered;
-                case LineVisitStatus.PartiallyCovered:
-                    return CoverageType.Partial;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private List<ICoberturaLine> GetLines(ICodeElement codeElement)
-        {
-            var coberturaLines = new List<ICoberturaLine>();
-            int lineNumber = codeElement.StartLine;
-            foreach (LineVisitStatus lineVisitStatus in codeElement.LineVisitStatuses)
-            {
-                if (lineVisitStatus != LineVisitStatus.NotCoverable)
+                if (!this.FileLookup.TryGetValue(filePath, out List<ICodeElement> codeElements))
                 {
-                    coberturaLines.Add(new CoberturaLine(lineNumber, this.ConvertLineVisitStatus(lineVisitStatus)));
+                    return Enumerable.Empty<ICoberturaLine>().ToList();
                 }
 
-                lineNumber++;
-            }
+                if(this.coberturaLinesLookup.TryGetValue(filePath, out List<ICoberturaLine> coberturaLines))
+                {
+                    return coberturaLines;
+                }
 
-            return coberturaLines;
-        }
-
-        private void CollectSourceFiles()
-        {
-            this.sourceFileLookup = new Dictionary<string, ISourceFile>();
-            this.CollectSourceFiles(this.directoryProvider(), this.sourceFileLookup);
-        }
-
-        private void CollectSourceFiles(IDirectory directory, Dictionary<string, ISourceFile> sourceFileLookup)
-        {
-            foreach (ISourceFile sourceFile in directory.SourceFiles)
-            {
-                sourceFileLookup.Add(sourceFile.Path, sourceFile);
-            }
-
-            foreach (IDirectory subDirectory in directory.SubDirectories)
-            {
-                this.CollectSourceFiles(subDirectory, sourceFileLookup);
+                var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this.lineComparer).ToList();
+                this.coberturaLinesLookup.Add(filePath, lines);
+                return lines;
             }
         }
-    }
 }

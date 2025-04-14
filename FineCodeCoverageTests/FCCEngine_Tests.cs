@@ -205,7 +205,7 @@ namespace Test
         private SuccessState Run_Success()
         {
             var passedProject = CreateSuitableProject();
-            var reportResult = new Mock<IReportResult>().Object;
+            var reportResult = new Mock<IDynamicReportResult>().Object;
             
             var reportGeneratorResult = new ReportGeneratorResult
             {

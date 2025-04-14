@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal interface IReportFileLineCoverageFactory
     {
-        IFileLineCoverage Create(Func<IDirectory> rootDirectoryProvider);
+        IFileLineCoverage Create(IReadOnlyList<IAssembly> assemblies);
     }
 }

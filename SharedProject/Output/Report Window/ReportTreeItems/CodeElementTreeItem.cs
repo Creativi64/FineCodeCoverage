@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Output
             this.FileLine = codeElement.StartLine;
             this.ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ? 
                 KnownMonikers.Method : KnownMonikers.Property;
-            var lineVisitStatuses = codeElement.LineVisitStatuses;
-            this.CoverableLines = lineVisitStatuses.Count(lineVisitStatus => lineVisitStatus != LineVisitStatus.NotCoverable);
+            this.CoverableLines = codeElement.Lines.Count;
             this.NPathComplexity = codeElement.NPathComplexity;
             this.CrapScore = codeElement.CrapScore;
             this.CyclomaticComplexity = codeElement.CyclomaticComplexity;

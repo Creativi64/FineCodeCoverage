@@ -2,8 +2,7 @@
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;

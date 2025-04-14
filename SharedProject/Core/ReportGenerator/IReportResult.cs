@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using System.Collections.Generic;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
@@ -29,45 +30,25 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 
-
-
+    public enum CoverageType { Covered, Partial, NotCovered }
+    public interface ICoberturaLine
+    {
+        int Number { get; }
+        CoverageType CoverageType { get; }
+    }
     public interface ICodeElement
     {
         CodeElementType CodeElementType { get; }
         string Name { get; }
         int StartLine { get; }
         string Path { get; }
-        IReadOnlyList<LineVisitStatus> LineVisitStatuses { get; }
+        List<ICoberturaLine> Lines { get; }
         int BlocksCovered { get; }
         int BlocksNotCovered { get; }
         int CyclomaticComplexity { get; }
         int NPathComplexity { get; }
         decimal CrapScore { get; }
 
-    }
-
-
-    public enum LineVisitStatus
-    {
-        /// <summary>
-        /// Line can not be covered.
-        /// </summary>
-        NotCoverable,
-
-        /// <summary>
-        /// Line was not covered.
-        /// </summary>
-        NotCovered,
-
-        /// <summary>
-        /// Line was partially covered.
-        /// </summary>
-        PartiallyCovered,
-
-        /// <summary>
-        /// Line was covered.
-        /// </summary>
-        Covered
     }
 
     public enum CodeElementType
@@ -97,7 +78,6 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     internal interface IReportResult
     {
         IReadOnlyList<IAssembly> Assemblies { get; }
-        IDirectory Directory { get; }
         IReadOnlyList<MetricType> MetricTypes { get; }
     }
 }

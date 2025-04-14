@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
@@ -60,13 +61,53 @@ namespace FineCodeCoverage.Output
                 TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
                 Assemblies = message.Report.Assemblies;
                 MetricTypes = message.Report.MetricTypes;
-                Directory = message.Report.Directory; // lazy ?
             }
 
             public List<string> TestAssemblyNames { get; }
             public IReadOnlyList<IAssembly> Assemblies { get; }
             public IReadOnlyList<MetricType> MetricTypes { get; internal set; }
-            public IDirectory Directory { get; internal set; }
+            private IDirectory directory;
+            public IDirectory Directory
+            {
+                get
+                {
+                    return directory ?? (directory = CreateDirectory());
+                }
+            }
+
+            private List<SourceFile> GetSourceFiles()
+            {
+                return this.Assemblies.SelectMany(a =>
+                {
+                    return a.Classes.SelectMany(
+                        pc => pc.FileCodeElements.Select(
+                            kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value }));
+                }).GroupBy(a => a.SourcePath)
+                .Select(g =>
+                {
+
+                    var sourceFileClasses = g.Select(a => new SourceFileClass(a.ClassName, a.SourcePath, a.CodeElements)).ToList();
+                    return new SourceFile(g.Key, sourceFileClasses);
+                }).ToList();
+            }
+            private List<SourceFile> sourceFiles;
+            protected List<SourceFile> SourceFiles
+            {
+                get
+                {
+                    return sourceFiles ?? (sourceFiles = GetSourceFiles());
+                }
+            }
+
+            private IDirectory CreateDirectory()
+            {
+                return CreateDirectory(SourceFiles);
+            }
+
+            private IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
+            {
+                return DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
+            }
         }
 
         private Report lastReport;

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Engine.ReportGenerator;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

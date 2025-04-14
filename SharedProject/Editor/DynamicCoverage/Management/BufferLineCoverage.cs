@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;

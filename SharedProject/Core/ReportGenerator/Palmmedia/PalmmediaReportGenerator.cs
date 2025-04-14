@@ -11,7 +11,6 @@ using System.Text.RegularExpressions;
 using PalmmediaVerbosityLevel = Palmmedia.ReportGenerator.Core.Logging.VerbosityLevel;
 using PalmmediaMetric = Palmmedia.ReportGenerator.Core.Parser.Analysis.Metric;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Editor.DynamicCoverage;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
@@ -177,14 +176,47 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
             Name = codeElement.Name;
             StartLine = codeElement.FirstLine;
-            LineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
-            .Take(codeElement.LastLine - codeElement.FirstLine + 1).Select(ConvertLineVisitStatus).ToList();
+            var lineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
+            .Take(codeElement.LastLine - codeElement.FirstLine + 1);
+            SetLines(lineVisitStatuses);
+
             Path = codeFile.Path;
             var methodMetrics = codeFile.MethodMetrics.FirstOrDefault(methodMetric => methodMetric.FullName == codeElement.FullName);
             if (methodMetrics != null)
             {
                 var metricTypes = this.SetMetricProperties(methodMetrics.Metrics);
                 PalmmediaReportResult.AddMetricTypes(metricTypes);
+            }
+        }
+
+        private void SetLines(IEnumerable<LineVisitStatus> lineVisitStatuses)
+        {
+            var coberturaLines = new List<ICoberturaLine>();
+            int lineNumber = StartLine;
+            foreach (LineVisitStatus lineVisitStatus in lineVisitStatuses)
+            {
+                if (lineVisitStatus != LineVisitStatus.NotCoverable)
+                {
+                    coberturaLines.Add(new CoberturaLine(lineNumber, this.ConvertLineVisitStatus(lineVisitStatus)));
+                }
+
+                lineNumber++;
+            }
+            Lines = coberturaLines;
+        }
+
+        private CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)
+        {
+            switch (lineVisitStatus)
+            {
+                case LineVisitStatus.Covered:
+                    return CoverageType.Covered;
+                case LineVisitStatus.NotCovered:
+                    return CoverageType.NotCovered;
+                case LineVisitStatus.PartiallyCovered:
+                    return CoverageType.Partial;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -201,33 +233,16 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
         }
 
-        private LineVisitStatus ConvertLineVisitStatus(Palmmedia.ReportGenerator.Core.Parser.Analysis.LineVisitStatus lvs)
-        {
-            switch (lvs)
-            {
-                case Palmmedia.ReportGenerator.Core.Parser.Analysis.LineVisitStatus.NotCoverable:
-                    return LineVisitStatus.NotCoverable;
-                case Palmmedia.ReportGenerator.Core.Parser.Analysis.LineVisitStatus.NotCovered:
-                    return LineVisitStatus.NotCovered;
-                case Palmmedia.ReportGenerator.Core.Parser.Analysis.LineVisitStatus.PartiallyCovered:
-                    return LineVisitStatus.PartiallyCovered;
-                case Palmmedia.ReportGenerator.Core.Parser.Analysis.LineVisitStatus.Covered:
-                    return LineVisitStatus.Covered;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         public CodeElementType CodeElementType { get; }
         public string Name { get; }
         public int StartLine { get; }
-        public IReadOnlyList<LineVisitStatus> LineVisitStatuses { get; }
         public string Path { get; }
         public int BlocksCovered { get; set; }
         public int BlocksNotCovered { get; set; }
         public int CyclomaticComplexity { get; set; }
         public int NPathComplexity { get; set; }
         public decimal CrapScore { get; set; }
+        public List<ICoberturaLine> Lines { get; private set; }
     }
 
     internal class CoberturaLine : ICoberturaLine
@@ -253,56 +268,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public IReadOnlyList<IClass> Classes { get; }
     }
 
-    internal abstract class ReportResultBase : IReportResult
-    {
-        private IDirectory directory;
-        public IDirectory Directory
-        {
-            get
-            {
-                return directory ?? (directory = CreateDirectory());
-            }
-        }
-
-        private List<SourceFile> GetSourceFiles()
-        {
-            return this.Assemblies.SelectMany(a =>
-            {
-                return a.Classes.SelectMany(
-                    pc => pc.FileCodeElements.Select(
-                        kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value }));
-            }).GroupBy(a => a.SourcePath)
-            .Select(g =>
-            {
-
-                var sourceFileClasses = g.Select(a => new SourceFileClass(a.ClassName, a.SourcePath, a.CodeElements)).ToList();
-                return new SourceFile(g.Key, sourceFileClasses);
-            }).ToList();
-        }
-        private List<SourceFile> sourceFiles;
-        protected List<SourceFile> SourceFiles
-        {
-            get
-            {
-                return sourceFiles ?? (sourceFiles = GetSourceFiles());
-            }
-        }
-
-        public abstract IReadOnlyList<IAssembly> Assemblies { get; }
-        public abstract IReadOnlyList<MetricType> MetricTypes { get; }
-
-        private IDirectory CreateDirectory()
-        {
-            return CreateDirectory(SourceFiles);
-        }
-
-        private IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
-        {
-            return DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
-        }
-    }
-
-    internal class PalmmediaReportResult : ReportResultBase
+    internal class PalmmediaReportResult : IReportResult
     {
         public PalmmediaReportResult(ParserResult parserResult)
         {
@@ -313,14 +279,14 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
             Assemblies = parserResult.Assemblies.Select(a => (IAssembly)new PalmmediaAssembly(a)).ToList();
         }
-        public override IReadOnlyList<MetricType> MetricTypes => staticMetricTypes.ToList();
+        public IReadOnlyList<MetricType> MetricTypes => staticMetricTypes.ToList();
         private static readonly HashSet<MetricType> staticMetricTypes = new HashSet<MetricType>();
         public static void AddMetricTypes(List<MetricType> metricTypes)
         {
             metricTypes.ForEach(metricType => staticMetricTypes.Add(metricType));
         }
 
-        public override IReadOnlyList<IAssembly> Assemblies { get; }
+        public IReadOnlyList<IAssembly> Assemblies { get; }
     }
 
     [Export(typeof(IFCCReportGenerator))]

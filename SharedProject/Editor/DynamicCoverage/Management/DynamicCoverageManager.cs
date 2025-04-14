@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public void Handle(NewReportMessage message) {
-            IFileLineCoverage fileLineCoverage = this.reportFileLineCoverageFactory.Create(() => message.Report.Directory);
+            IFileLineCoverage fileLineCoverage = this.reportFileLineCoverageFactory.Create(message.Report.Assemblies);
             this.lastCoverage = new LastCoverage(fileLineCoverage, this.lastTestExecutionStartingDate);
             this.eventAggregator.SendMessage(new NewCoverageLinesMessage(fileLineCoverage));
         }

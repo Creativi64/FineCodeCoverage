@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Engine.ReportGenerator;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

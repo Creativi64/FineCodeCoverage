@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
+    interface IDynamicReportResult : IReportResult { }
+    internal class DynamicReportResult : IDynamicReportResult
+    {
+        public IReadOnlyList<IAssembly> Assemblies { get; set; }
+        public IReadOnlyList<MetricType> MetricTypes { get; set; }
+    }
+
+
     [Export(typeof(IReportGeneratorUtil))]
     internal partial class ReportGeneratorUtil : IReportGeneratorUtil
     {
@@ -26,6 +34,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => logs.Add(message));
         }
 
+        private IDynamicReportResult CreateDynamicReport(IReportResult reportResult)
+            => new DynamicReportResult { Assemblies = reportResult.Assemblies, MetricTypes = reportResult.MetricTypes };
+
         public async Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
@@ -37,7 +48,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             await logger.LogAsync(logs);
             return new ReportGeneratorResult
             {
-                ReportResult = reportResult,
+                ReportResult = CreateDynamicReport(reportResult),
                 UnifiedXmlFile = Path.Combine(reportOutputFolder, "Cobertura.xml"),
             };
         }

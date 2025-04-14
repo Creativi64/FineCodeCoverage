@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
@@ -36,18 +37,14 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Send_NewCoverageLinesMessage_With_ReportFileLineCoverage_When_Handle_NewReportMessage()
         {
             var autoMocker = new AutoMoqer();
-            var mockReportResult = new Mock<IReportResult>();
-            var rootDirectory = new Mock<IDirectory>().Object;
-            mockReportResult.SetupGet(rr => rr.Directory).Returns(rootDirectory);
+            var mockReportResult = new Mock<IDynamicReportResult>();
+            IReadOnlyList<IAssembly> assemblies = new List<IAssembly> { new Mock<IAssembly>().Object };
+            mockReportResult.SetupGet(r => r.Assemblies).Returns(assemblies);
             IFileLineCoverage flc = new Mock<IFileLineCoverage>().Object;
-            autoMocker.Setup<IReportFileLineCoverageFactory, IFileLineCoverage>(f => f.Create(It.IsAny<Func<IDirectory>>()))
-                .Returns(flc).
-                Callback<Func<IDirectory>>((fn) =>
-                {
-                    Assert.That(fn(), Is.SameAs(rootDirectory));
-                });
+            autoMocker.Setup<IReportFileLineCoverageFactory, IFileLineCoverage>(f => f.Create(assemblies))
+                .Returns(flc);
+            
             var dynamicCoverageManager = autoMocker.Create<DynamicCoverageManager>();
-
             
             dynamicCoverageManager.Handle(new NewReportMessage(mockReportResult.Object, null));
             
@@ -87,7 +84,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             if (hasLastCoverage)
             {
                 var fileLineCoverage = new Mock<IFileLineCoverage>().Object;
-                autoMocker.Setup<IReportFileLineCoverageFactory, IFileLineCoverage>(rflcf => rflcf.Create(It.IsAny<Func<IDirectory>>()))
+                autoMocker.Setup<IReportFileLineCoverageFactory, IFileLineCoverage>(rflcf => rflcf.Create(It.IsAny<IReadOnlyList<IAssembly>>()))
                     .Returns(fileLineCoverage);
                 
                 expectedLastCoverage = new LastCoverage(fileLineCoverage, now);
