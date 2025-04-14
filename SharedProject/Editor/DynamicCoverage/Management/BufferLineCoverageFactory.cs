@@ -12,7 +12,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     internal class BufferLineCoverageFactory : IBufferLineCoverageFactory
     {
         private readonly ICoverageContentTypes coverageContentTypes;
-        private readonly IDynamicCoverageStore dynamicCoverageStore;
         private readonly IAppOptionsProvider appOptionsProvider;
         private readonly ILogger logger;
 
@@ -20,7 +19,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public BufferLineCoverageFactory(
             [ImportMany]
             ICoverageContentType[] coverageContentTypes,
-            IDynamicCoverageStore dynamicCoverageStore,
             IAppOptionsProvider appOptionsProvider,
             ILogger logger
         )
@@ -28,20 +26,16 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.appOptionsProvider = appOptionsProvider;
             this.logger = logger;
             this.coverageContentTypes = new CoverageContentTypes(coverageContentTypes);
-            this.dynamicCoverageStore = dynamicCoverageStore;
         }
 
         public IBufferLineCoverage Create(
-            LastCoverage lastCoverage,
             ITextInfo textInfo,
             IEventAggregator eventAggregator,
             ITrackedLinesFactory trackedLinesFactory
-        ) => new BufferLineCoverage(
-                lastCoverage,
+        ) =>  new BufferLineCoverage(
                 textInfo,
                 eventAggregator,
                 trackedLinesFactory,
-                this.dynamicCoverageStore,
                 this.appOptionsProvider,
                 this.coverageContentTypes,
                 this.logger

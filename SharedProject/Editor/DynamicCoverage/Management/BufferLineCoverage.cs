@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
@@ -20,7 +19,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ITextInfo textInfo;
         private readonly IEventAggregator eventAggregator;
         private readonly ITrackedLinesFactory trackedLinesFactory;
-        private readonly IDynamicCoverageStore dynamicCoverageStore;
         private readonly IAppOptionsProvider appOptionsProvider;
         private readonly ICoverageContentTypes coverageContentTypes;
         private readonly ILogger logger;
@@ -30,38 +28,24 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private DateTime? lastChanged;
         private DateTime lastTestExecutionStarting;
         private bool applicableContentType = true;
-
+        private FileLines fileLines;
         private ITrackedLines trackedLines;
         public bool HasCoverage => this.trackedLines != null;
 
-        internal enum SerializedCoverageState
-        {
-            NotSerialized, OutOfDate, Ok
-        }
-
         public BufferLineCoverage(
-            ILastCoverage lastCoverage,
             ITextInfo textInfo,
             IEventAggregator eventAggregator,
             ITrackedLinesFactory trackedLinesFactory,
-            IDynamicCoverageStore dynamicCoverageStore,
             IAppOptionsProvider appOptionsProvider,
             ICoverageContentTypes coverageContentTypes,
             ILogger logger
         )
         {
-            if (lastCoverage != null)
-            {
-                this.fileLineCoverage = lastCoverage.FileLineCoverage;
-                this.lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
-            }
-
             this.textBuffer = textInfo.TextBuffer;
             this.textBuffer.ContentTypeChanged += this.ContentTypeChanged;
             this.textInfo = textInfo;
             this.eventAggregator = eventAggregator;
             this.trackedLinesFactory = trackedLinesFactory;
-            this.dynamicCoverageStore = dynamicCoverageStore;
             this.appOptionsProvider = appOptionsProvider;
             this.coverageContentTypes = coverageContentTypes;
             this.logger = logger;
@@ -77,18 +61,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
 
             appOptionsProvider.OptionsChanged += AppOptionsChanged;
-            if (this.fileLineCoverage != null)
-            {
-                this.CreateTrackedLinesIfRequired(true);
-            }
-
             _ = eventAggregator.AddListener(this);
             this.textBuffer.ChangedOnBackground += this.TextBuffer_ChangedOnBackground;
             void textViewClosedHandler(object s, EventArgs e)
             {
                 if (s is ITextView textView)
                 {
-                    this.UpdateDynamicCoverageStore(((ITextView)s).TextSnapshot);
+                    this.UpdateTrackedLines(((ITextView)s).TextSnapshot);
                 }
 
                 this.textBuffer.ChangedOnBackground -= this.TextBuffer_ChangedOnBackground;
@@ -101,6 +80,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             textInfo.TextView.Closed += textViewClosedHandler;
         }
 
+        public void SetLastCoverage(ILastCoverage lastCoverage)
+        {
+            this.fileLineCoverage = lastCoverage.FileLineCoverage;
+            this.lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
+            this.UseLastTrackedLinesIfNotOutOfDate();
+        }
+
         private void ContentTypeChanged(object sender, ContentTypeChangedEventArgs args)
         {
             // purpose is so do not create tracked lines for a content type that is not applicable when new coverage
@@ -110,7 +96,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 // this currently does not work as Roslyn is not ready.
                 // could fallback to single lines but would have to look at other uses of IFileCodeSpanRangeService
                 // this is low priority 
-                this.CreateTrackedLinesIfRequired(true);
+                this.CreateTrackedLinesIfRequired();
             }
             else
             {
@@ -120,36 +106,25 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.SendCoverageChangedMessage();
         }
 
-        private void UpdateDynamicCoverageStore(ITextSnapshot textSnapshot)
+        private void UpdateTrackedLines(ITextSnapshot textSnapshot)
         {
             if (this.trackedLines != null)
             {
                 string snapshotText = textSnapshot.GetText();
-                if (this.FileSystemReflectsTrackedLines(snapshotText))
+                if (!this.FileSystemReflectsTrackedLines(snapshotText))
                 {
-                    // this only applies to the last coverage run.
-                    // the DynamicCoverageStore ensures this is removed when next coverage is run
-                    this.dynamicCoverageStore.SaveSerializedCoverage(
-                        this.textInfo.FilePath,
-                        this.trackedLinesFactory.Serialize(this.trackedLines, snapshotText)
-                    );
-                }
-                else
+                    //todo
+                }else
                 {
-                    this.dynamicCoverageStore.RemoveSerializedCoverage(this.textInfo.FilePath);
+                    this.fileLines.TrackedLinesState.Date = DateTime.Now;
                 }
-            }
-            else
-            {
-                this.dynamicCoverageStore.RemoveSerializedCoverage(this.textInfo.FilePath);
             }
         }
 
-        //todo - behaviour if exception reading text
         private bool FileSystemReflectsTrackedLines(string snapshotText)
             => this.textInfo.GetFileText() == snapshotText;
 
-        private void CreateTrackedLinesIfRequired(bool fromStore)
+        private void CreateTrackedLinesIfRequired()
         {
             if (this.EditorCoverageColouringModeOff())
             {
@@ -157,15 +132,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             else
             {
-                this.TryCreateTrackedLines(fromStore);
+                this.TryCreateTrackedLines();
             }
         }
 
-        private void TryCreateTrackedLines(bool fromStore)
+        private void TryCreateTrackedLines()
         {
             try
             {
-                this.CreateTrackedLines(fromStore);
+                this.CreateTrackedLines();
             }
             catch (Exception e)
             {
@@ -178,7 +153,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             bool hadTrackedLines = this.trackedLines != null;
             if (!this.lastChanged.HasValue || this.lastChanged < this.lastTestExecutionStarting)
             {
-                this.CreateTrackedLinesIfRequired(false);
+                this.CreateTrackedLinesIfRequired();
             }
             else
             {
@@ -193,53 +168,45 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
         }
 
-        private (SerializedCoverageState,string) GetSerializedCoverageInfo(SerializedCoverageWhen serializedCoverageWhen)
+        private void UseLastTrackedLinesIfNotOutOfDate()
         {
-            DateTime lastWriteTime = this.textInfo.GetLastWriteTime();
-
-            if (serializedCoverageWhen == null)
+            FileLines fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
+            if (false) // todo coverageoutofdate
             {
-                SerializedCoverageState state = lastWriteTime > this.lastTestExecutionStarting ?
-                    SerializedCoverageState.OutOfDate :
-                    SerializedCoverageState.NotSerialized;
-                return (state, null);
+                this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as coverage is out of date");
             }
-
-            /*
-                If there is a When then it applies to the current coverage run ( as DynamicCoverageStore removes )
-                as When is written when the text view is closed it is always - LastWriteTime < When
-            */
-            return serializedCoverageWhen.When < lastWriteTime
-                ? ((SerializedCoverageState, string))(SerializedCoverageState.OutOfDate, null)
-                : (SerializedCoverageState.Ok, serializedCoverageWhen.Serialized);
+            else
+            {
+                this.fileLines = fileLines;//todo null check
+                if(fileLines.TrackedLinesState != null)
+                {
+                    this.trackedLines = fileLines.TrackedLinesState.TrackedLines;
+                }
+                else
+                {
+                    this.CreateTrackedLinesFromFileLines();
+                }
+            }
+        }
+        private void CreateTrackedLines()
+        {
+            this.fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
+            if(this.fileLines == null)
+            {
+                this.trackedLines = null;
+            }
+            else
+            {
+                this.CreateTrackedLinesFromFileLines();
+            }
         }
 
-        private void CreateTrackedLines(bool fromStore)
+        private void CreateTrackedLinesFromFileLines()
         {
             string filePath = this.textInfo.FilePath;
             ITextSnapshot currentSnapshot = this.textBuffer.CurrentSnapshot;
-            if (fromStore)
-            {
-                SerializedCoverageWhen serializedCoverageWhen = this.dynamicCoverageStore.GetSerializedCoverage(
-                    filePath
-                );
-                (SerializedCoverageState state, string serializedCoverage) = this.GetSerializedCoverageInfo(serializedCoverageWhen);
-                switch (state)
-                {
-                    case SerializedCoverageState.NotSerialized:
-                        break;
-                    case SerializedCoverageState.Ok:
-                        this.trackedLines = this.trackedLinesFactory.Create(
-                            serializedCoverage, currentSnapshot, filePath);
-                        return;
-                    default: // Out of date
-                        this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as coverage is out of date");
-                        return;
-                }
-            }
-
-            List<ICoberturaLine> coberturaLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
-            this.trackedLines = this.trackedLinesFactory.Create(coberturaLines, currentSnapshot, filePath);
+            this.trackedLines = this.trackedLinesFactory.Create(this.fileLines.Lines, currentSnapshot, filePath);
+            this.fileLines.TrackedLinesState = new TrackedLinesState(this.trackedLines);
         }
 
         private bool EditorCoverageColouringModeOff()

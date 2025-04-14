@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     internal class ReportFileLineCoverage : IFileLineCoverage
     {
         private Dictionary<string, List<ICodeElement>> fileLookup;
-        private readonly Dictionary<string, List<ICoberturaLine>> coberturaLinesLookup = new Dictionary<string, List<ICoberturaLine>>();
+        private readonly Dictionary<string, FileLines> fileLinesLookup = new Dictionary<string, FileLines>();
         private readonly IReadOnlyList<IAssembly> assemblies;
         private readonly LineComparer lineComparer = new LineComparer();
 
@@ -28,21 +28,22 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private Dictionary<string, List<ICodeElement>> FileLookup
             => this.fileLookup ?? (this.fileLookup = GetCodeElementLookup(this.assemblies));
 
-        public List<ICoberturaLine> GetLines(string filePath)
+        public FileLines GetLines(string filePath)
+        {
+            if (!this.FileLookup.TryGetValue(filePath, out List<ICodeElement> codeElements))
             {
-                if (!this.FileLookup.TryGetValue(filePath, out List<ICodeElement> codeElements))
-                {
-                    return Enumerable.Empty<ICoberturaLine>().ToList();
-                }
-
-                if(this.coberturaLinesLookup.TryGetValue(filePath, out List<ICoberturaLine> coberturaLines))
-                {
-                    return coberturaLines;
-                }
-
-                var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this.lineComparer).ToList();
-                this.coberturaLinesLookup.Add(filePath, lines);
-                return lines;
+                return null;
             }
+
+            if(this.fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
+            {
+                return fileLines;
+            }
+
+            var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this.lineComparer).ToList();
+            fileLines = new FileLines(lines);
+            this.fileLinesLookup.Add(filePath, fileLines);
+            return fileLines;
         }
+    }
 }

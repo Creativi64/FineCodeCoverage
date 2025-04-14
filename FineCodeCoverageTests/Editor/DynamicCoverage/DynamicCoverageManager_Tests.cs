@@ -97,19 +97,27 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var propertyCollection = new PropertyCollection();
             mockTextInfo.Setup(textInfo => textInfo.TextBuffer.Properties).Returns(propertyCollection);
 
-            var newBufferLineCoverage = new Mock<IBufferLineCoverage>().Object;
+            var mockBufferLineCoverage = new Mock<IBufferLineCoverage>();
             var mockBufferLineCoverageFactory = autoMocker.GetMock<IBufferLineCoverageFactory>();
             var mockTextDocument = new Mock<ITextDocument>();
             mockTextDocument.Setup(textDocument => textDocument.FilePath).Returns("filepath");
             mockBufferLineCoverageFactory.Setup(
-                bufferLineCoverageFactory => bufferLineCoverageFactory.Create(expectedLastCoverage, mockTextInfo.Object, eventAggregator, trackedLinesFactory))
-                .Returns(newBufferLineCoverage);
+                bufferLineCoverageFactory => bufferLineCoverageFactory.Create( mockTextInfo.Object, eventAggregator, trackedLinesFactory))
+                .Returns(mockBufferLineCoverage.Object);
 
 
 
             var bufferLineCoverage = dynamicCoverageManager.Manage(mockTextInfo.Object);
+            if (hasLastCoverage)
+            {
+                mockBufferLineCoverage.Verify(blc => blc.SetLastCoverage(expectedLastCoverage));
+            }
+            else
+            {
+                mockBufferLineCoverage.Verify(blc => blc.SetLastCoverage(It.IsAny<ILastCoverage>()), Times.Never());
+            }
 
-            Assert.That(bufferLineCoverage, Is.SameAs(newBufferLineCoverage));
+            Assert.That(bufferLineCoverage, Is.SameAs(mockBufferLineCoverage.Object));
         }
     }
 }

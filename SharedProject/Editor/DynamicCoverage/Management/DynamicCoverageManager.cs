@@ -50,7 +50,16 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public IBufferLineCoverage Manage(ITextInfo textInfo)
             => textInfo.TextBuffer.Properties.GetOrCreateSingletonProperty(
-                () => this.bufferLineCoverageFactory.Create(this.lastCoverage, textInfo, this.eventAggregator, this.trackedLinesFactory)
+                () =>
+                {
+                    IBufferLineCoverage bufferLineCoverage = this.bufferLineCoverageFactory.Create(textInfo, this.eventAggregator, this.trackedLinesFactory);
+                    if(this.lastCoverage != null)
+                    {
+                        bufferLineCoverage.SetLastCoverage(this.lastCoverage);
+                    }
+
+                    return bufferLineCoverage;
+                }
             );
     }
 }
