@@ -89,7 +89,6 @@
     <Compile Include="Editor\DynamicCoverage\RoslynFileCodeSpanRangeService_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\VBCoverageContentType_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\CSharpCoverageContentType_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\DynamicCoverageStore_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\LineExcluder_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\CoverageCodeTracker_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\CoverageLine_Tests.cs" />
@@ -98,7 +97,6 @@
     <Compile Include="Editor\DynamicCoverage\NewCodeTracker_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\TrackingLineTracker_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\OtherLinesTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\SerializedState_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\TextInfo_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\TrackedNewCodeLine_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\LineTracker_Tests.cs" />
