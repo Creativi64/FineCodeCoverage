@@ -46,11 +46,15 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                 sw.Write(jsonConvertService.SerializeObject(Value));
                 sw.Flush();
             }
-            Value = GetDefaultValue();
             Saved();
-            UnloadedEvent?.Invoke(this,EventArgs.Empty);
         }
 
         protected virtual void Saved() { }
+
+        public void Unloaded()
+        {
+            this.Value = this.GetDefaultValue();
+            UnloadedEvent?.Invoke(this,EventArgs.Empty);
+        }
     }
 }

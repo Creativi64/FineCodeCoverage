@@ -1,13 +1,75 @@
 ﻿using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Output;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FineCodeCoverageTests
 {
+    class SolutionOptions_Tests
+    {
+        [Test]
+        public async Task Should_Get_Keys_From_Options_Async()
+        {
+            var solutionOptions = new SolutionOptions(new ISolutionOption[] { CreateOption("key1"), CreateOption("key2") }, new Mock<ISolutionEvents>().Object);
+            
+            var keys = await solutionOptions.GetKeysAsync();
+            
+            Assert.That(keys, Is.EqualTo(new string[] { "key1", "key2" }));
+
+            ISolutionOption CreateOption(string key)
+            {
+                var mockSolutionOption = new Mock<ISolutionOption>();
+                mockSolutionOption.SetupGet(o => o.Key).Returns(key);
+                return mockSolutionOption.Object;
+            }
+        }
+
+        [Test]
+        public void Should_Delegate_Load_To_Option()
+        {
+            var mockSolutionOption = new Mock<ISolutionOption>();
+            mockSolutionOption.SetupGet(o => o.Key).Returns("key");
+            var solutionOptions = new SolutionOptions(new ISolutionOption[] {mockSolutionOption.Object }, new Mock<ISolutionEvents>().Object);
+
+            var stream = new MemoryStream();
+            solutionOptions.LoadOptions("key", stream);
+
+            mockSolutionOption.Verify(o => o.Load(stream));
+        }
+
+        [Test]
+        public void Should_Delegate_Save_To_Option()
+        {
+            var mockSolutionOption = new Mock<ISolutionOption>();
+            mockSolutionOption.SetupGet(o => o.Key).Returns("key");
+            var solutionOptions = new SolutionOptions(new ISolutionOption[] { mockSolutionOption.Object }, new Mock<ISolutionEvents>().Object);
+
+            var stream = new MemoryStream();
+            solutionOptions.SaveOptions("key", stream);
+
+            mockSolutionOption.Verify(o => o.Save(stream));
+        }
+
+        [Test]
+        public void Should_Call_Unloaded_On_Each_Option_After_Solution_Closing()
+        {
+            var mockSolutionEvents = new Mock<ISolutionEvents>();
+            var mockSolutionOption = new Mock<ISolutionOption>();
+            var mockSolutionOption2 = new Mock<ISolutionOption>();
+            var solutionOptions = new SolutionOptions(
+                new ISolutionOption[] { mockSolutionOption.Object,mockSolutionOption2.Object }, mockSolutionEvents.Object);
+
+            mockSolutionEvents.Raise(se => se.AfterClosing += null, EventArgs.Empty);
+
+            mockSolutionOption.Verify(so => so.Unloaded());
+            mockSolutionOption2.Verify(so => so.Unloaded());
+        }
+    }
     class ReportViewSolutionOption_Tests
     {
         [Test]
@@ -104,24 +166,25 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public void Save_Should_Set_The_Value_To_The_GetDefaultValue()
+        public void Unloaded_Should_Set_The_Value_To_The_GetDefaultValue()
         {
-            ReportViewSolutionOption option = null;
-            Save(o =>
+            ReportViewSolutionOption option = new ReportViewSolutionOption(null);
+            option.Value = new ReportViewSolutionOptionValue
             {
-                option = o;
-            });
+                ReportContent = ReportContentType.Full,
+                ReportStyle = ReportStyle.Source,
+            };
+            option.Unloaded();
             AssertValueDefault(option);
         }
 
         [Test]
-        public void Save_Should_Raise_The_Unloaded_Event()
+        public void Unloaded_Should_Raise_The_Unloaded_Event()
         {
             var raisedEvent = false;
-            Save(o =>
-            {
-                o.UnloadedEvent += (_, __) => raisedEvent = true;
-            });
+            ReportViewSolutionOption option = new ReportViewSolutionOption(null);
+            option.UnloadedEvent += (_, __) => raisedEvent = true;
+            option.Unloaded();
 
             Assert.IsTrue(raisedEvent);
         }

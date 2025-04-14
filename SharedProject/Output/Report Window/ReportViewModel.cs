@@ -12,6 +12,17 @@ using TreeGrid;
 
 namespace FineCodeCoverage.Output
 {
+    [Export(typeof(ITreeExpander))]
+    internal class ReportViewModelTreeExpander : ITreeExpander
+    {
+        private readonly TreeExpander<ReportTreeItemBase> treeExpander = new TreeExpander<ReportTreeItemBase>(
+            ti => ti.Name, ti => ti.IsExpanded, (ti, isExpanded) => ti.IsExpanded = isExpanded, ti => ti.observableChildren);
+        public void RestoreExpansionState(IList<ReportTreeItemBase> oldItems, IList<ReportTreeItemBase> newItems)
+        {
+            treeExpander.RestoreExpansionState(oldItems, newItems);
+        }
+    }
+
     [Export(typeof(ReportViewModel))]
     internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
         IListener<NewReportMessage>,
@@ -84,7 +95,7 @@ namespace FineCodeCoverage.Output
             get => this.coverageRunning;
             set => this.Set(ref this.coverageRunning, value, nameof(this.CoverageRunning));
         }
-
+        private ReportStyle? lastReportStyle = null;
         private void GenerateReport(IChangeset newChangeset)
         {
             ThreadHelper.JoinableTaskFactory.Run(async () =>
@@ -116,7 +127,7 @@ namespace FineCodeCoverage.Output
                     }
                 }
 
-                if (this._items.Count > 0)
+                if (this._items.Count > 0 && reportViews.ReportStyle == lastReportStyle)
                 {
                     this.treeExpander.RestoreExpansionState(this._items, newItems);
                 }
@@ -127,6 +138,7 @@ namespace FineCodeCoverage.Output
                     newItem.AdjustWidth(firstColumnWidth);
                     this._items.Add(newItem);
                 }
+                lastReportStyle = reportViews.ReportStyle;
             });
         }
 

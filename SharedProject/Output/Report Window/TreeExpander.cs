@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ITreeExpander))]
-    public class TreeExpander : ITreeExpander
+    public class TreeExpander<T>
     {
         private TreeExpansionStateWrapper wrapper;
+        private readonly Func<T, string> getId;
+        private readonly Func<T, bool> getIsExpanded;
+        private readonly Action<T, bool> setIsExpanded;
+        private readonly Func<T, IList<T>> getChildren;
 
         private class TreeExpansionStateWrapper
         {
@@ -19,7 +22,7 @@ namespace FineCodeCoverage.Output
             public List<TreeExpansionState> Children { get; set; } = new List<TreeExpansionState>();
         }
 
-        private void RestoreExpansionState(IList<ReportTreeItemBase> newRoots, TreeExpansionStateWrapper savedState)
+        private void RestoreExpansionState(IList<T> newRoots, TreeExpansionStateWrapper savedState)
         {
             if (newRoots == null || savedState == null)
                 return;
@@ -31,15 +34,15 @@ namespace FineCodeCoverage.Output
             {
                 var newRoot = newRoots[newIndex];
                 var savedRoot = savedState.Roots[savedIndex];
-
-                if (newRoot.Name == savedRoot.Id)
+                var newRootId = getId(newRoot);
+                if (newRootId == savedRoot.Id)
                 {
                     // Recursively restore expansion state for the root and its children
                     RestoreExpansionStateForNode(newRoot, savedRoot);
                     newIndex++;
                     savedIndex++;
                 }
-                else if (string.CompareOrdinal(newRoot.Name, savedRoot.Id) < 0)
+                else if (string.CompareOrdinal(newRootId, savedRoot.Id) < 0)
                 {
                     // New tree has additional roots; skip them
                     newIndex++;
@@ -52,29 +55,29 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        private void RestoreExpansionStateForNode(ReportTreeItemBase newTree, TreeExpansionState savedState)
+        private void RestoreExpansionStateForNode(T newTree, TreeExpansionState savedState)
         {
             if (newTree == null || savedState == null)
                 return;
-
-            if (newTree.Name == savedState.Id)
+            var newTreeId = getId(newTree);
+            if (newTreeId == savedState.Id)
             {
-                newTree.IsExpanded = true;
+                setIsExpanded(newTree, true);
 
                 int newIndex = 0, savedIndex = 0;
-
-                while (newIndex < newTree.observableChildren.Count && savedIndex < savedState.Children.Count)
+                var children = getChildren(newTree);
+                while (newIndex < children.Count && savedIndex < savedState.Children.Count)
                 {
-                    var newChild = newTree.observableChildren[newIndex];
+                    var newChild = children[newIndex];
                     var savedChild = savedState.Children[savedIndex];
-
-                    if (newChild.Name == savedChild.Id)
+                    var newChildId = getId(newChild);
+                    if (newChildId == savedChild.Id)
                     {
                         RestoreExpansionStateForNode(newChild, savedChild);
                         newIndex++;
                         savedIndex++;
                     }
-                    else if (string.CompareOrdinal(newChild.Name, savedChild.Id) < 0)
+                    else if (string.CompareOrdinal(newChildId, savedChild.Id) < 0)
                     {
                         newIndex++;
                     }
@@ -86,7 +89,7 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        private void SaveExpansionState(IList<ReportTreeItemBase> roots)
+        private void SaveExpansionState(IList<T> roots)
         {
             wrapper = new TreeExpansionStateWrapper();
 
@@ -100,14 +103,14 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        private TreeExpansionState SaveExpansionStateForNode(ReportTreeItemBase item)
+        private TreeExpansionState SaveExpansionStateForNode(T item)
         {
-            if (item?.IsExpanded != true)
+            if (getIsExpanded(item) != true)
                 return null;
 
-            var state = new TreeExpansionState { Id = item.Name };
-
-            foreach (var child in item.observableChildren)
+            var state = new TreeExpansionState { Id = getId(item) };
+            var children = getChildren(item);
+            foreach (var child in children)
             {
                 var childState = SaveExpansionStateForNode(child);
                 if (childState != null)
@@ -118,9 +121,23 @@ namespace FineCodeCoverage.Output
 
             return state;
         }
-
-        public void RestoreExpansionState(IList<ReportTreeItemBase> oldItems, IList<ReportTreeItemBase> newItems)
+        public TreeExpander(
+             Func<T, string> getId,
+            Func<T, bool> getIsExpanded,
+            Action<T, bool> setIsExpanded,
+            Func<T, IList<T>> getChildren
+        )
         {
+            this.getId = getId;
+            this.getIsExpanded = getIsExpanded;
+            this.setIsExpanded = setIsExpanded;
+            this.getChildren = getChildren;
+        }
+
+        public void RestoreExpansionState(
+            IList<T> oldItems, IList<T> newItems)
+        {
+           
             SaveExpansionState(oldItems);
             RestoreExpansionState(newItems, wrapper);
             this.wrapper = null;

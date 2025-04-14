@@ -14,10 +14,20 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         [ImportingConstructor]
         public SolutionOptions(
             [ImportMany]
-            ISolutionOption[] options
+            ISolutionOption[] options,
+            ISolutionEvents solutionEvents
         )
         {
             this.options = options;
+            solutionEvents.AfterClosing += SolutionEvents_AfterClosing;
+        }
+
+        private void SolutionEvents_AfterClosing(object sender, System.EventArgs e)
+        {
+            foreach(var option in options)
+            {
+                option.Unloaded();
+            }
         }
 
         public Task<IEnumerable<string>> GetKeysAsync()

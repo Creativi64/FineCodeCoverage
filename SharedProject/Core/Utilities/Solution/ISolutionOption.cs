@@ -8,5 +8,6 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         void Load(Stream stream);
         void Save(Stream stream);
+        void Unloaded();
     }
 }
