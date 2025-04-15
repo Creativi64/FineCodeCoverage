@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Engine.ReportGenerator;
 
@@ -10,10 +10,22 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     internal class ReportFileLineCoverageFactory : IReportFileLineCoverageFactory
     {
         private readonly IDateTimeService dateTimeService;
+        private ReportFileLineCoverage reportFileLineCoverage;
 
         [ImportingConstructor]
-        public ReportFileLineCoverageFactory(IDateTimeService dateTimeService) => this.dateTimeService = dateTimeService;
+        public ReportFileLineCoverageFactory(IDateTimeService dateTimeService, IFileRenameListener fileRenameListener)
+        {
+            this.dateTimeService = dateTimeService;
+            fileRenameListener.FileRenamedEvent += this.FileRenameListener_FileRenamedEvent;
+        }
+
+        private void FileRenameListener_FileRenamedEvent(List<FileRename> fileRenames)
+            => this.reportFileLineCoverage?.FilesRenamed(fileRenames);
+
         public IFileLineCoverage Create(IReadOnlyList<IAssembly> assemblies)
-            => new ReportFileLineCoverage(assemblies, this.dateTimeService);
+        {
+            this.reportFileLineCoverage =  new ReportFileLineCoverage(assemblies, this.dateTimeService);
+            return this.reportFileLineCoverage;
+        }
     }
 }

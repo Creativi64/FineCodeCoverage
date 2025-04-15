@@ -11,8 +11,6 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IFileRenameListener))]
     internal class FileRenameListener : IFileRenameListener, IVsTrackProjectDocumentsEvents2
     {
-        private readonly List<Action<string, string>> callbacks = new List<Action<string, string>>();
-
         [ImportingConstructor]
         public FileRenameListener(
             [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
@@ -29,10 +27,7 @@ namespace FineCodeCoverage.Core.Utilities
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 
-        public void ListenForFileRename(Action<string, string> callback)
-        {
-            callbacks.Add(callback);
-        }
+        public event Action<List<FileRename>> FileRenamedEvent;
 
         public int OnQueryAddFiles(IVsProject pProject, int cFiles, string[] rgpszMkDocuments, VSQUERYADDFILEFLAGS[] rgFlags, VSQUERYADDFILERESULTS[] pSummaryResult, VSQUERYADDFILERESULTS[] rgResults)
         {
@@ -96,16 +91,17 @@ namespace FineCodeCoverage.Core.Utilities
 
         public int OnAfterRenameFiles(int cProjects, int cFiles, IVsProject[] rgpProjects, int[] rgFirstIndices, string[] rgszMkOldNames, string[] rgszMkNewNames, VSRENAMEFILEFLAGS[] rgFlags)
         {
-            for (var i = 0; i < cFiles; i++)
+            if(FileRenamedEvent != null)
             {
-                Callback(rgszMkOldNames[i], rgszMkNewNames[i]);
+                List<FileRename> fileRenames = new List<FileRename>();
+                for (var i = 0; i < cFiles; i++)
+                {
+                    fileRenames.Add(new FileRename(rgszMkOldNames[i], rgszMkNewNames[i]));
+                }
+                FileRenamedEvent(fileRenames);
             }
-            return VSConstants.S_OK;
-        }
 
-        private void Callback(string oldFilePath, string newFilePath)
-        {
-            callbacks.ForEach(callback => callback(oldFilePath, newFilePath));
+            return VSConstants.S_OK;
         }
     }
 

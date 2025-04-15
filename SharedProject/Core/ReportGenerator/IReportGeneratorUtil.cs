@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 {
     internal class ReportGeneratorResult
     {
-        public IDynamicReportResult ReportResult { get; set; }
+        public IReportResult ReportResult { get; set; }
         public string UnifiedXmlFile { get; set; }
     }
 

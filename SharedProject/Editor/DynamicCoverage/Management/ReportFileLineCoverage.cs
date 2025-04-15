@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Engine.ReportGenerator;
 
@@ -33,6 +34,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private Dictionary<string, List<ICodeElement>> FileLookup
             => this.fileLookup ?? (this.fileLookup = GetCodeElementLookup(this.assemblies));
 
+        public IFileRenameListener FileRenameListener { get; }
+
         public IFileLines GetLines(string filePath)
         {
             if (this.fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
@@ -48,6 +51,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this.lineComparer).ToList();
             fileLines = new FileLines(lines, this.dateTimeService);
             this.fileLinesLookup.Add(filePath, fileLines);
+            _ = this.FileLookup.Remove(filePath);
             return fileLines;
         }
 
@@ -55,6 +59,22 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             _ = this.FileLookup.Remove(filePath);
             _ = this.fileLinesLookup.Remove(filePath);
+        }
+
+        private static void TryUpdate<T>(List<FileRename> fileRenames, IDictionary<string, T> fileDictionary)
+            => fileRenames.ForEach(fileRename =>
+                {
+                    if (fileDictionary != null && fileDictionary.TryGetValue(fileRename.OldFilePath, out T fileLines))
+                    {
+                        _ = fileDictionary.Remove(fileRename.OldFilePath);
+                        fileDictionary.Add(fileRename.NewFilePath, fileLines);
+                    }
+                });
+
+        internal void FilesRenamed(List<FileRename> fileRenames)
+        {
+            TryUpdate(fileRenames, this.fileLinesLookup);
+            TryUpdate(fileRenames, this.FileLookup);
         }
     }
 }

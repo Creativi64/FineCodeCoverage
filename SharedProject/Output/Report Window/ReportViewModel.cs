@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
@@ -194,7 +195,7 @@ namespace FineCodeCoverage.Output
         protected override void LeafTreeItemDoubleClick(ReportTreeItemBase treeItem)
         {
             var codeElementTreeItem = treeItem as CodeElementTreeItem;
-            if (!IsRelativePath(codeElementTreeItem.FilePath))
+            if (!IsRelativePath(codeElementTreeItem.FilePath) && File.Exists(codeElementTreeItem.FilePath))
             {
                 _ = this.sourceFileOpener.OpenAsync(codeElementTreeItem.FilePath, codeElementTreeItem.FileLine);
             }

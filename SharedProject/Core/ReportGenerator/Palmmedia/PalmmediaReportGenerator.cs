@@ -144,29 +144,29 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             DisplayName = classReport.Name;
             this.FileCodeElements = classReport.Files.ToDictionary(
                 cf => cf.Path,
-                f => f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f) as ICodeElement).ToList());
+                f => (IReadOnlyList<ICodeElement>) f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f) as ICodeElement).ToList());
             CodeElements = this.FileCodeElements.Values.SelectMany(ces => ces).ToList();
         }
 
         public string DisplayName { get; }
-        public IReadOnlyDictionary<string, List<ICodeElement>> FileCodeElements { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; }
         public IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 
     internal class SourceFileClass : IClass
     {
-        public SourceFileClass(string displayName,string path, List<ICodeElement> codeElements)
+        public SourceFileClass(string displayName,string path, IReadOnlyList<ICodeElement> codeElements)
         {
             DisplayName = displayName;
             CodeElements = codeElements;
-            FileCodeElements = new Dictionary<string, List<ICodeElement>>
+            FileCodeElements = new Dictionary<string, IReadOnlyList<ICodeElement>>
             {
                 {path, codeElements},
             };
         }
         public string DisplayName { get; }
         public IReadOnlyList<ICodeElement> CodeElements { get; }
-        public IReadOnlyDictionary<string, List<ICodeElement>> FileCodeElements { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; }
     }
 
     internal class PalmmediaCodeElement : ICodeElement
