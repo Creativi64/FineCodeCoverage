@@ -28,6 +28,22 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
         }
 
         [Test]
+        public void Should_Create_TrackedLines_From_NewCoverageLinesMessage_If_Text_Changed_Before_TestExecutionStartingMessage()
+        {
+            var setup = SetupForCoverageLines.Setup();
+            var bufferLineCoverage = setup.BufferLineCoverage;
+
+            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, new TextContentChangedEventArgs(new Mock<ITextSnapshot>().Object, new Mock<ITextSnapshot>().Object, new EditOptions(), null));
+            Thread.Sleep(1);
+            bufferLineCoverage.Handle(new TestExecutionStartingMessage());
+
+            bufferLineCoverage.Handle(setup.NewCoverageLinesMessage);
+
+            Assert.That(bufferLineCoverage.HasCoverage, Is.True);
+        }
+
+
+        [Test]
         public void Should_Log_When_Text_Changed_Since_TestExecutionStartingMessage()
         {
             var setup = SetupForCoverageLines.Setup();
@@ -54,7 +70,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 
             bufferLineCoverage.Handle(new TestExecutionStartingMessage());
             Thread.Sleep(1);
-            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, new TextContentChangedEventArgs(new Mock<ITextSnapshot>().Object, new Mock<ITextSnapshot>().Object, new EditOptions(), null));
+            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, TextContentChangedEventArgsCreator.Create(new Mock<ITextSnapshot>().Object));
             bufferLineCoverage.Handle(setup.NewCoverageLinesMessage);
 
             Assert.That(bufferLineCoverage.HasCoverage, Is.False);

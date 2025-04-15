@@ -25,10 +25,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ITextBuffer2 textBuffer;
         private bool? editorCoverageModeOff;
         private IFileLineCoverage fileLineCoverage;
-        private DateTime? lastChanged;
+        private DateTime? textBufferLastChanged;
         private DateTime lastTestExecutionStarting;
-        private bool applicableContentType = true;
-        private FileLines fileLines;
+        private bool isApplicableContentType = true;
+        private IFileLines fileLines;
         private ITrackedLines trackedLines;
         public bool HasCoverage => this.trackedLines != null;
 
@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             {
                 if (s is ITextView textView)
                 {
-                    this.UpdateTrackedLines(((ITextView)s).TextSnapshot);
+                    this.fileLines?.TextViewClosed();
                 }
 
                 this.textBuffer.ChangedOnBackground -= this.TextBuffer_ChangedOnBackground;
@@ -82,16 +82,61 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public void SetLastCoverage(ILastCoverage lastCoverage)
         {
+            if (!this.EditorCoverageColouringModeOff())
+            {
+                this.UseLastCoverageIfHasFileLines(lastCoverage);
+            }
+        }
+
+        private void UseLastCoverageIfHasFileLines(ILastCoverage lastCoverage)
+        {
             this.fileLineCoverage = lastCoverage.FileLineCoverage;
             this.lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
-            this.UseLastTrackedLinesIfNotOutOfDate();
+            this.fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
+            if(this.fileLines != null)
+            {
+                this.UseLastCoverage();
+            }
+        }
+
+        private void UseLastCoverage()
+        {
+            bool isOutOfDate = this.FileLinesFromLastCoverageIfNotOutOfDate();
+
+            if (isOutOfDate)
+            {
+                this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as coverage is out of date");
+                this.fileLineCoverage.OutOfDate(this.textInfo.FilePath);
+                this.fileLines = null;
+            }
+        }
+
+        private bool FileLinesFromLastCoverageIfNotOutOfDate()
+        {
+            bool isOutOfDate;
+            DateTime lastWriteTime = this.textInfo.GetLastWriteTime();
+            if (this.fileLines.HasTrackedLines)
+            {
+                this.trackedLines = this.fileLines.GetTrackedLinesIfNotOutOfDate(lastWriteTime);
+                isOutOfDate = this.trackedLines == null;
+            }
+            else
+            {
+                isOutOfDate = lastWriteTime > this.lastTestExecutionStarting;
+                if (!isOutOfDate)
+                {
+                    this.TryCreateTrackedLines(this.CreateTrackedLinesFromFileLines);
+                }
+            }
+
+            return isOutOfDate;
         }
 
         private void ContentTypeChanged(object sender, ContentTypeChangedEventArgs args)
         {
             // purpose is so do not create tracked lines for a content type that is not applicable when new coverage
-            this.applicableContentType = this.coverageContentTypes.IsApplicable(args.AfterContentType.TypeName);
-            if (this.applicableContentType)
+            this.isApplicableContentType = this.coverageContentTypes.IsApplicable(args.AfterContentType.TypeName);
+            if (this.isApplicableContentType)
             {
                 // this currently does not work as Roslyn is not ready.
                 // could fallback to single lines but would have to look at other uses of IFileCodeSpanRangeService
@@ -106,24 +151,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.SendCoverageChangedMessage();
         }
 
-        private void UpdateTrackedLines(ITextSnapshot textSnapshot)
-        {
-            if (this.trackedLines != null)
-            {
-                string snapshotText = textSnapshot.GetText();
-                if (!this.FileSystemReflectsTrackedLines(snapshotText))
-                {
-                    //todo
-                }else
-                {
-                    this.fileLines.TrackedLinesState.Date = DateTime.Now;
-                }
-            }
-        }
-
-        private bool FileSystemReflectsTrackedLines(string snapshotText)
-            => this.textInfo.GetFileText() == snapshotText;
-
         private void CreateTrackedLinesIfRequired()
         {
             if (this.EditorCoverageColouringModeOff())
@@ -136,11 +163,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
         }
 
-        private void TryCreateTrackedLines()
+        private void TryCreateTrackedLines() => this.TryCreateTrackedLines(this.CreateTrackedLines);
+
+        private void TryCreateTrackedLines(Action action)
         {
             try
             {
-                this.CreateTrackedLines();
+                action();
             }
             catch (Exception e)
             {
@@ -151,7 +180,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void CreateTrackedLinesIfRequiredWithMessage()
         {
             bool hadTrackedLines = this.trackedLines != null;
-            if (!this.lastChanged.HasValue || this.lastChanged < this.lastTestExecutionStarting)
+            if (!this.textBufferLastChanged.HasValue || this.textBufferLastChanged.Value < this.lastTestExecutionStarting)
             {
                 this.CreateTrackedLinesIfRequired();
             }
@@ -168,26 +197,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
         }
 
-        private void UseLastTrackedLinesIfNotOutOfDate()
-        {
-            FileLines fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
-            if (false) // todo coverageoutofdate
-            {
-                this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as coverage is out of date");
-            }
-            else
-            {
-                this.fileLines = fileLines;//todo null check
-                if(fileLines.TrackedLinesState != null)
-                {
-                    this.trackedLines = fileLines.TrackedLinesState.TrackedLines;
-                }
-                else
-                {
-                    this.CreateTrackedLinesFromFileLines();
-                }
-            }
-        }
         private void CreateTrackedLines()
         {
             this.fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
@@ -206,7 +215,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             string filePath = this.textInfo.FilePath;
             ITextSnapshot currentSnapshot = this.textBuffer.CurrentSnapshot;
             this.trackedLines = this.trackedLinesFactory.Create(this.fileLines.Lines, currentSnapshot, filePath);
-            this.fileLines.TrackedLinesState = new TrackedLinesState(this.trackedLines);
+            this.fileLines.SetTrackedLines(this.trackedLines);
         }
 
         private bool EditorCoverageColouringModeOff()
@@ -223,7 +232,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void TextBuffer_ChangedOnBackground(object sender, TextContentChangedEventArgs textContentChangedEventArgs)
         {
-            this.lastChanged = DateTime.Now;
+            this.textBufferLastChanged = DateTime.Now;
             if (this.trackedLines != null)
             {
                 this.TryUpdateTrackedLines(textContentChangedEventArgs);
@@ -267,7 +276,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void UpdateCoverageLines(IFileLineCoverage fileLineCoverage)
         {
-            if (!this.applicableContentType) return;
+            if (!this.isApplicableContentType) return;
 
             this.fileLineCoverage = fileLineCoverage;
 

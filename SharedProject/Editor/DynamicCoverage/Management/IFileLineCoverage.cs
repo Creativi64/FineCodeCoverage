@@ -4,24 +4,18 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class TrackedLinesState
+    internal interface IFileLines
     {
-        public TrackedLinesState(ITrackedLines trackedLines)
-        {
-            this.TrackedLines = trackedLines;
-            this.Date = DateTime.Now;
-        }
-        public ITrackedLines TrackedLines { get; }
-        public DateTime Date { get; set; }
-    }
-    internal class FileLines {
-        public FileLines(List<ICoberturaLine> Lines) => this.Lines = Lines;
-        public List<ICoberturaLine> Lines { get; }
-        public TrackedLinesState TrackedLinesState { get; set; }
+        List<ICoberturaLine> Lines { get; }
+        bool HasTrackedLines { get; }
+        void SetTrackedLines(ITrackedLines trackedLines);
+        void TextViewClosed();
+        ITrackedLines GetTrackedLinesIfNotOutOfDate(DateTime lastWriteTime);
     }
 
     internal interface IFileLineCoverage
     {
-        FileLines GetLines(string filePath);
+        IFileLines GetLines(string filePath);
+        void OutOfDate(string filePath);
     }
 }

@@ -32,20 +32,20 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
         }
 
         [Test]
-        public void Should_Create_TrackedLines_From_FileLineCoverage_Updating_State()
+        public void Should_Create_TrackedLines_From_FileLineCoverage_Storing_On_FileLines()
         {
             var setup = SimpleSetup.Setup();
             
-            var mockFileLineCoverage = new Mock<IFileLineCoverage>();
             var coberturaLines = new List<ICoberturaLine> { new TestCoberturaLIne(1) };
-            var fileLines = new FileLines(coberturaLines);
-            mockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(FilePath.Value)).Returns(fileLines);
+            var mockFileLines = new Mock<IFileLines>();
+            mockFileLines.SetupGet(fileLines => fileLines.Lines).Returns(coberturaLines);
+            var newCoverageLinesMessage = SetupNewCoverageLinesMessage.Setup(mockFileLines.Object);
             var trackedLines = new Mock<ITrackedLines>().Object;
             setup.AutoMoqer.Setup<ITrackedLinesFactory, ITrackedLines>(trackedLinesFactory => trackedLinesFactory.Create(coberturaLines, setup.TextInfoMocks.TextSnapshot.Object, FilePath.Value))
                 .Returns(trackedLines);
-            setup.BufferLineCoverage.Handle(new NewCoverageLinesMessage(mockFileLineCoverage.Object));
+            setup.BufferLineCoverage.Handle(newCoverageLinesMessage);
 
-            Assert.That(fileLines.TrackedLinesState.TrackedLines, Is.SameAs(trackedLines));
+            mockFileLines.Verify(fileLines => fileLines.SetTrackedLines(trackedLines));
         }
 
         [Test]
@@ -67,6 +67,20 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 
             setup.AutoMoqer.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
                     new CoverageChangedMessage(FilePath.Value, null), null));
+        }
+
+        [Test]
+        public void Should_Not_Have_Tracked_Lines_When_No_FileLines()
+        {
+            var setup = SetupForCoverageLines.Setup();
+            var bufferLineCoverage = setup.BufferLineCoverage;
+
+            bufferLineCoverage.Handle(setup.NewCoverageLinesMessage);
+
+            bufferLineCoverage.Handle(SetupNewCoverageLinesMessage.Setup(null));
+
+            Assert.That(bufferLineCoverage.HasCoverage, Is.False);
+            setup.AutoMoqer.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(It.IsAny<CoverageChangedMessage>(), null), Times.Exactly(2));
         }
 
         [Test]

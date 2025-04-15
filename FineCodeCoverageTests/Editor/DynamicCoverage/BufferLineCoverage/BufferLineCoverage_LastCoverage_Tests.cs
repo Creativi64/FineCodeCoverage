@@ -1,120 +1,148 @@
-﻿using FineCodeCoverage.Editor.DynamicCoverage;
+﻿using AutoMoq;
+using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.Output;
+using Microsoft.VisualStudio.Text;
+using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 {
     internal class BufferLineCoverage_LastCoverage_Tests
     {
-        [Test]
-        public void Should_Create_TrackedLines_From_Serialized_Coverage_If_Present_And_Not_Out_Of_Date()
+        class TestLastCoverage : ILastCoverage
         {
-            throw new NotImplementedException();
-            //SimpleSetUp(false);
-
-            //DateTime lastWriteDate = new DateTime(2024, 5, 8);
-            //DateTime textExecutionStartingDate = new DateTime(2024, 5, 10);
-            //DateTime serializedDate = new DateTime(2024, 5, 8);
-
-            //mockTextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteDate);
-            //var mockLastCoverage = autoMoqer.GetMock<ILastCoverage>();
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.TestExecutionStartingDate).Returns(textExecutionStartingDate);
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.FileLineCoverage).Returns(new Mock<IFileLineCoverage>().Object);
-
-            //autoMoqer.Setup<IDynamicCoverageStore, SerializedCoverageWhen>(dynamicCoverageStore => dynamicCoverageStore.GetSerializedCoverage(filePath))
-            //    .Returns(new SerializedCoverageWhen { Serialized = "serialized", When = serializedDate });
-
-            //var mockTrackedLinesFactory = autoMoqer.GetMock<ITrackedLinesFactory>();
-            //mockTrackedLinesFactory.Setup(
-            //    trackedLinesFactory => trackedLinesFactory.Create("serialized", textSnapshot, filePath)
-            //).Returns(new Mock<ITrackedLines>().Object);
-
-            //var bufferLineCoverage = autoMoqer.Create<BufferLineCoverage>();
-
-            //mockTrackedLinesFactory.VerifyAll();
-            //Assert.That(bufferLineCoverage.HasCoverage, Is.True);
+            public TestLastCoverage(IFileLines fileLines, DateTime textExecutionStartingDate)
+            {
+                MockFileLineCoverage = new Mock<IFileLineCoverage>();
+                MockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(FilePath.Value)).Returns(fileLines);
+                FileLineCoverage = MockFileLineCoverage.Object;
+                TestExecutionStartingDate = textExecutionStartingDate;
+            }
+            public IFileLineCoverage FileLineCoverage { get; }
+            public DateTime TestExecutionStartingDate { get; }
+            public Mock<IFileLineCoverage> MockFileLineCoverage { get; }
         }
 
         [Test]
-        public void Should_Not_Create_TrackedLines_When_Existing_Coverage_When_LastWriteTime_After_LastTestExecutionStarting_When_No_Serialized_Coverage()
+        public void Should_Have_No_Tracked_Lines_If_None_For_The_File_Path()
         {
-            throw new NotImplementedException();
-            //SimpleSetUp(false);
-            //mockTextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(new DateTime(2024, 5, 10));
-            //var mockLastCoverage = autoMoqer.GetMock<ILastCoverage>();
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.TestExecutionStartingDate).Returns(new DateTime(2024, 5, 9));
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.FileLineCoverage).Returns(new Mock<IFileLineCoverage>().Object);
+            var setup = SimpleSetup.Setup();
+            var bufferLineCoverage = setup.BufferLineCoverage;
+            
+            bufferLineCoverage.SetLastCoverage(new TestLastCoverage(null, DateTime.Now));
 
-            //var bufferLineCoverage = autoMoqer.Create<BufferLineCoverage>();
-
-            //Assert.IsFalse(bufferLineCoverage.HasCoverage);
-        }
-
-        private BufferLineCoverage SerializedCoverageisOutOfDate()
-        {
-            throw new NotImplementedException();
-            //SimpleSetUp(false);
-
-            //DateTime lastWriteDate = new DateTime(2024, 5, 9);
-            //DateTime textExecutionStartingDate = new DateTime(2024, 5, 10);
-            //DateTime serializedDate = new DateTime(2024, 5, 8);
-
-            //mockTextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteDate);
-            //var mockLastCoverage = autoMoqer.GetMock<ILastCoverage>();
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.TestExecutionStartingDate).Returns(textExecutionStartingDate);
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.FileLineCoverage).Returns(new Mock<IFileLineCoverage>().Object);
-
-            //autoMoqer.Setup<IDynamicCoverageStore, SerializedCoverageWhen>(dynamicCoverageStore => dynamicCoverageStore.GetSerializedCoverage(filePath))
-            //    .Returns(new SerializedCoverageWhen { Serialized = "serialized", When = serializedDate });
-
-            //return autoMoqer.Create<BufferLineCoverage>();
+            Assert.That(bufferLineCoverage.HasCoverage, Is.False);
         }
 
         [Test]
-        public void Should_Not_Create_TrackedLines_When_Existing_Coverage_When_Serialized_Coverage_Is_Out_Of_Date()
+        public void Should_Use_TrackedLines_If_Not_Out_Of_Date()
         {
-            throw new NotImplementedException();
-            //var bufferLineCoverage = SerializedCoverageisOutOfDate();
+            var setup = SimpleSetup.Setup();
+            var bufferLineCoverage = setup.BufferLineCoverage;
+            var lastWriteTime = DateTime.Now;
+            setup.TextInfoMocks.TextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteTime);
+            
+            var mockTrackedLines = new Mock<ITrackedLines>();
+            var dynamicLines = new List<IDynamicLine>();
+            mockTrackedLines.Setup(trackedLines => trackedLines.GetLines(0, 5)).Returns(dynamicLines);
+            var mockFileLines = new Mock<IFileLines>();
+            mockFileLines.SetupGet(fileLines => fileLines.HasTrackedLines).Returns(true);
+            mockFileLines.Setup(fileLines => fileLines.GetTrackedLinesIfNotOutOfDate(lastWriteTime)).Returns(mockTrackedLines.Object);
+            bufferLineCoverage.SetLastCoverage(new TestLastCoverage(mockFileLines.Object, lastWriteTime));
 
-            //Assert.IsFalse(bufferLineCoverage.HasCoverage);
+            Assert.That(bufferLineCoverage.HasCoverage, Is.True);
+            Assert.That(dynamicLines, Is.SameAs(bufferLineCoverage.GetLines(0, 5)));
         }
 
         [Test]
-        public void Should_Log_When_Not_Creating_TrackedLines_As_Out_Of_Date()
+        public void Should_Not_Have_TrackedLines_If_Out_Of_Date()
         {
-            throw new NotImplementedException();
-            //SerializedCoverageisOutOfDate();
+            var setup = SimpleSetup.Setup();
+            var bufferLineCoverage = setup.BufferLineCoverage;
+            var lastWriteTime = DateTime.Now;
+            setup.TextInfoMocks.TextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteTime);
 
-            //autoMoqer.Verify<ILogger>(logger => logger.Log($"Not creating editor marks for {filePath} as coverage is out of date"));
+            var mockFileLines = new Mock<IFileLines>();
+            mockFileLines.SetupGet(fileLines => fileLines.HasTrackedLines).Returns(true);
+            mockFileLines.Setup(fileLines => fileLines.GetTrackedLinesIfNotOutOfDate(lastWriteTime)).Returns<ITrackedLines>(null);
+            bufferLineCoverage.SetLastCoverage(new TestLastCoverage(mockFileLines.Object, lastWriteTime));
+
+            Assert.That(bufferLineCoverage.HasCoverage, Is.False);
+        }
+
+        private (BufferLineCoverage bufferLineCoverage, AutoMoqer autoMoqer, Mock<IFileLineCoverage> mockFileLineCoverage) SetLastCovergeHasTrackedLinesFalse(bool outOfDate)
+        {
+            var setup = SimpleSetup.Setup();
+            var mockTrackedLinesFactory = setup.AutoMoqer.GetMock<ITrackedLinesFactory>();
+            mockTrackedLinesFactory.Setup(trackedLinesFactory => trackedLinesFactory.Create(It.IsAny<List<ICoberturaLine>>(), It.IsAny<ITextSnapshot>(), FilePath.Value))
+                .Returns(new Mock<ITrackedLines>().Object);
+
+            var bufferLineCoverage = setup.BufferLineCoverage;
+            var lastWriteTime = DateTime.Now;
+            setup.TextInfoMocks.TextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteTime);
+            var mockFileLines = new Mock<IFileLines>();
+            mockFileLines.SetupGet(fileLines => fileLines.HasTrackedLines).Returns(false);
+            var lastCoverage = new TestLastCoverage(mockFileLines.Object, lastWriteTime.AddMinutes(outOfDate ? -1 : 0));
+            bufferLineCoverage.SetLastCoverage(lastCoverage);
+
+            return (bufferLineCoverage, setup.AutoMoqer, lastCoverage.MockFileLineCoverage);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Should_Create_TrackedLines_If_HasTrackedLines_False_And_Not_Out_Of_Date(bool outOfDate)
+        {
+            var (bufferLineCoverage, _,__) = SetLastCovergeHasTrackedLinesFalse(outOfDate);
+            
+            Assert.That(bufferLineCoverage.HasCoverage, Is.EqualTo(!outOfDate));
         }
 
         [Test]
-        public void Should_Create_TrackedLines_When_No_Serialized_Coverage_And_Not_Out_Of_Date()
+        public void Should_Log_When_LastCoverage_Out_Of_Date()
         {
-            throw new NotImplementedException();
-            //SimpleSetUp(false);
+            var (_, autoMoqer, __) = SetLastCovergeHasTrackedLinesFalse(true);
 
-            //DateTime lastWriteDate = new DateTime(2024, 5, 9);
-            //DateTime textExecutionStartingDate = new DateTime(2024, 5, 10);
-
-            //mockTextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteDate);
-            //var mockLastCoverage = autoMoqer.GetMock<ILastCoverage>();
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.TestExecutionStartingDate).Returns(textExecutionStartingDate);
-            //var mockFileLineCoverage = new Mock<IFileLineCoverage>();
-            //mockLastCoverage.SetupGet(lastCoverage => lastCoverage.FileLineCoverage).Returns(mockFileLineCoverage.Object);
-            //var lines = new List<ICoberturaLine> { new Mock<ICoberturaLine>().Object };
-            //mockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(filePath)).Returns(lines);
-            //var trackedLinesFromSerialized = new Mock<ITrackedLines>().Object;
-            //var mockTrackedLinesFactory = autoMoqer.GetMock<ITrackedLinesFactory>();
-            //mockTrackedLinesFactory.Setup(
-            //    trackedLinesFactory => trackedLinesFactory.Create(lines, textSnapshot, filePath)
-            //).Returns(trackedLinesFromSerialized);
-
-            //var bufferLineCoverage = autoMoqer.Create<BufferLineCoverage>();
-
-            //mockTrackedLinesFactory.VerifyAll();
-            //Assert.True(bufferLineCoverage.HasCoverage);
+            autoMoqer.Verify<ILogger>(logger => logger.Log($"Not creating editor marks for {FilePath.Value} as coverage is out of date"));
         }
 
+        [Test]
+        public void Should_Info_FileLineCoverage_When_LastCoverage_Out_Of_Date()
+        {
+            var (_, __, mockFileLineCoverage) = SetLastCovergeHasTrackedLinesFalse(true);
+
+            mockFileLineCoverage.Verify(fileLineCoverage => fileLineCoverage.OutOfDate(FilePath.Value));
+        }
+
+        [Test]
+        public void Should_Not_Throw_When_TextView_Closed_And_No_FileLines()
+        {
+            var setup = SimpleSetup.Setup();
+
+            setup.TextInfoMocks.TextView.Raise(textView => textView.Closed += null, EventArgs.Empty);
+        }
+
+        [Test]
+        public void Should_Inform_The_FileLines_When_TextView_Closed()
+        {
+            var setup = SimpleSetup.Setup();
+            var mockTrackedLinesFactory = setup.AutoMoqer.GetMock<ITrackedLinesFactory>();
+            mockTrackedLinesFactory.Setup(trackedLinesFactory => trackedLinesFactory.Create(It.IsAny<List<ICoberturaLine>>(), It.IsAny<ITextSnapshot>(), FilePath.Value))
+                .Returns(new Mock<ITrackedLines>().Object);
+
+            var bufferLineCoverage = setup.BufferLineCoverage;
+            var lastWriteTime = DateTime.Now;
+            setup.TextInfoMocks.TextInfo.Setup(textInfo => textInfo.GetLastWriteTime()).Returns(lastWriteTime);
+            var mockFileLines = new Mock<IFileLines>();
+            mockFileLines.SetupGet(fileLines => fileLines.HasTrackedLines).Returns(false);
+            var lastCoverage = new TestLastCoverage(mockFileLines.Object, lastWriteTime);
+            bufferLineCoverage.SetLastCoverage(lastCoverage);
+
+            setup.TextInfoMocks.TextView.Raise(textView => textView.Closed += null, EventArgs.Empty);
+
+            mockFileLines.Verify(fileLines => fileLines.TextViewClosed());
+        }
     }
 }

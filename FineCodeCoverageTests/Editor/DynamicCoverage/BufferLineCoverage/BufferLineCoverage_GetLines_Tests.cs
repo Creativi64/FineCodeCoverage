@@ -17,8 +17,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 
             var mockFileLineCoverage = new Mock<IFileLineCoverage>();
             var coberturaLines = new List<ICoberturaLine> { new TestCoberturaLIne(1) };
-            var fileLines = new FileLines(coberturaLines);
-            mockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(FilePath.Value)).Returns(fileLines);
+            var mockFileLines = new Mock<IFileLines>();
+            mockFileLines.SetupGet(fileLines => fileLines.Lines).Returns(coberturaLines);
+            mockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(FilePath.Value)).Returns(mockFileLines.Object);
             var mockTrackedLines = new Mock<ITrackedLines>();
             var dynamicLines = new List<IDynamicLine> { new Mock<IDynamicLine>().Object };
             mockTrackedLines.Setup(trackedLines => trackedLines.GetLines(0, 5)).Returns(dynamicLines);

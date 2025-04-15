@@ -11,10 +11,6 @@ using System.Linq;
 namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 {
     internal class BufferLineCoverage_TextChanged_Tests {
-        class NormalizedTextChangeCollection : List<ITextChange>, INormalizedTextChangeCollection
-        {
-            public bool IncludesLineChanges => throw new NotImplementedException();
-        }
         [TestCase(10, new int[] { -1, 9, 10 }, new int[] { 9 })]
         [TestCase(10, new int[] { 9, 10 }, new int[] { })]
         public void Should_Update_TrackedLines_When_Text_Buffer_ChangedOnBackground_And_Send_CoverageChangedMessage_If_Any_Changed_Within_Snapshot(
@@ -36,7 +32,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
                 trackedLines => trackedLines.GetChangedLineNumbers(mockAfterSnapshot.Object, new List<Span> { newSpan })
             ).Returns(changedLineNumbers);
 
-            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, CreateTextContentChangedEventArgs(mockAfterSnapshot.Object, newSpan));
+            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, TextContentChangedEventArgsCreator.Create(mockAfterSnapshot.Object, newSpan));
 
             setup.AutoMoqer.Verify<IEventAggregator>(
                 eventAggregator => eventAggregator.SendMessage(
@@ -60,7 +56,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
                 trackedLines => trackedLines.GetChangedLineNumbers(It.IsAny<ITextSnapshot>(), It.IsAny<List<Span>>())
             ).Throws(exception);
 
-            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, CreateTextContentChangedEventArgs(new Mock<ITextSnapshot>().Object, new Span(0, 1)));
+            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, TextContentChangedEventArgsCreator.Create(new Mock<ITextSnapshot>().Object, new Span(0, 1)));
 
             setup.AutoMoqer.Verify<ILogger>(logger => logger.Log($"Error updating tracked lines for {FilePath.Value}", exception.ToString()));
         }
@@ -70,23 +66,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
         {
             var setup = SimpleSetup.Setup();
 
-            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.Changed += null, CreateTextContentChangedEventArgs(new Mock<ITextSnapshot>().Object, new Span(0, 0)));
+            setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.Changed += null, TextContentChangedEventArgsCreator.Create(new Mock<ITextSnapshot>().Object, new Span(0, 0)));
         }
-
-        private TextContentChangedEventArgs CreateTextContentChangedEventArgs(ITextSnapshot afterSnapshot, params Span[] newSpans)
-        {
-            var normalizedTextChangeCollection = new NormalizedTextChangeCollection();
-            foreach (var newSpan in newSpans)
-            {
-                var mockTextChange = new Mock<ITextChange>();
-                mockTextChange.SetupGet(textChange => textChange.NewSpan).Returns(newSpan);
-                normalizedTextChangeCollection.Add(mockTextChange.Object);
-            }
-
-            var mockBeforeSnapshot = new Mock<ITextSnapshot>();
-            mockBeforeSnapshot.Setup(snapshot => snapshot.Version.Changes).Returns(normalizedTextChangeCollection);
-            return new TextContentChangedEventArgs(mockBeforeSnapshot.Object, afterSnapshot, EditOptions.None, null);
-        }
-
     }
 }
