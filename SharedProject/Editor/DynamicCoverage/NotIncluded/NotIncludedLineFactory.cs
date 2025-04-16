@@ -8,14 +8,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(INotIncludedLineFactory))]
     internal class NotIncludedLineFactory : INotIncludedLineFactory
     {
-        private readonly ILineTracker lineTracker;
+        private readonly ITrackingLineFactory trackingLineFactory;
 
         [ImportingConstructor]
         public NotIncludedLineFactory(
-             ILineTracker lineTracker
-        ) => this.lineTracker = lineTracker;
+             ITrackingLineFactory lineTracker
+        ) => this.trackingLineFactory = lineTracker;
 
         public ITrackingLine Create(ITrackingSpan startTrackingSpan, ITextSnapshot currentSnapshot)
-            => new TrackingLine(startTrackingSpan, currentSnapshot, this.lineTracker, DynamicCoverageType.NotIncluded);
+            => this.trackingLineFactory.Create(startTrackingSpan, currentSnapshot,  DynamicCoverageType.NotIncluded);
     }
 }

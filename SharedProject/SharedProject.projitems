@@ -320,7 +320,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ITrackedCoverageLinesFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\ITrackedNewCodeLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\ITrackedNewCodeLineFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ITrackingLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ITrackingSpanFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\ITrackingSpanRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\ITrackingSpanRangeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\CodeSpanRangeContainingCodeTrackerFactory.cs" />

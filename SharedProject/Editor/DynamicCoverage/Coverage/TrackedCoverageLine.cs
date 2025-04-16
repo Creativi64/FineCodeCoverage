@@ -12,6 +12,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ILineTracker lineTracker;
         private readonly DynamicLine line;
         public IDynamicLine Line => this.line;
+
+        public IDynamicCoberturaLine DynamicCoberturaLine { get; }
+
         private readonly Action<int> updateDynamicCoberturaLine = (_) => { };
 
         public TrackedCoverageLine(ITrackingSpan trackingSpan, ICoberturaLine coberturaLine, ILineTracker lineTracker)
@@ -20,6 +23,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.trackingSpan = trackingSpan;
             this.lineTracker = lineTracker;
             if (coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine) {
+                this.DynamicCoberturaLine = dynamicCoberturaLine;
                 this.updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
             }
         }

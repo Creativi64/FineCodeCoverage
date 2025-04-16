@@ -8,11 +8,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(IDirtyLineFactory))]
     internal class DirtyLineFactory : IDirtyLineFactory
     {
-        private readonly ILineTracker lineTracker;
+        private readonly ITrackingLineFactory trackingLineFactory;
 
         [ImportingConstructor]
-        public DirtyLineFactory(ILineTracker lineTracker) => this.lineTracker = lineTracker;
-        public ITrackingLine Create(ITrackingSpan trackingSpan, ITextSnapshot snapshot)
-            => new TrackingLine(trackingSpan, snapshot, this.lineTracker, DynamicCoverageType.Dirty);
+        public DirtyLineFactory(ITrackingLineFactory trackingLineFactory) => this.trackingLineFactory = trackingLineFactory;
+        public ITrackingLine Create(ITrackingSpan trackingSpan, ITextSnapshot snapshot, IDynamicCoberturaLine dynamicCoberturaLine)
+            => new DirtyTrackingLine(
+                    this.trackingLineFactory.Create(trackingSpan, snapshot, DynamicCoverageType.Dirty),
+                    dynamicCoberturaLine);
     }
 }

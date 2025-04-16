@@ -11,25 +11,28 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
+    internal enum DynamicCodeElementState {  Original, Dirty}
     internal class DynamicReportResult : IReportResult
     {
         public class DynamicCoberturaLine : IDynamicCoberturaLine
         {
-            public DynamicCoberturaLine(ICoberturaLine coberturaLine)
+            public DynamicCoberturaLine(ICoberturaLine coberturaLine, IDynamicCodeElement codeElement)
             {
                 this.Number = coberturaLine.Number;
                 this.OriginalLineNumber = this.Number;
+                CodeElement = codeElement;
             }
             public int OriginalLineNumber { get; }
             public int Number { get; private set; }
             public CoverageType CoverageType { get; }
+            public IDynamicCodeElement CodeElement { get; }
 
             public void LineMoved(int newLineNumber)
             {
                 this.Number = newLineNumber;
             }
         }
-        public class DynamicCodeElement : ICodeElement
+        public class DynamicCodeElement : IDynamicCodeElement
         {
             public CodeElementType CodeElementType => codeElement.CodeElementType;
             public string Name => codeElement.Name;
@@ -47,7 +50,13 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             {
                 this.codeElement = codeElement;
                 this.Path = codeElement.Path;
-                this.Lines = codeElement.Lines.Select((l,i) => i == 0 ? new DynamicCoberturaLine(l) : l).ToList();
+                this.Lines = codeElement.Lines.Select(l => new DynamicCoberturaLine(l, this)).ToList();
+            }
+
+            public DynamicCodeElementState State { get; set; }
+            public void IsDirty()
+            {
+                State = DynamicCodeElementState.Dirty;
             }
         }
         public class DynamicClass : IClass

@@ -31,8 +31,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private List<int> CreateDirtyLine(ITextSnapshot currentSnapshot, ITrackingSpanRange trackingSpanRange)
         {
+            IDynamicCoberturaLine dynamicCoberturaLine = this.trackedCoverageLines.GetStartDynamicCoberturaLine();
             ITrackingSpan firstTrackingSpan = trackingSpanRange.GetFirstTrackingSpan();
-            this.dirtyLine = this.dirtyLineFactory.Create(firstTrackingSpan, currentSnapshot);
+            this.dirtyLine = this.dirtyLineFactory.Create(firstTrackingSpan, currentSnapshot, dynamicCoberturaLine);
+            dynamicCoberturaLine?.CodeElement.IsDirty();
             return new int[] { this.dirtyLine.Line.Number }.Concat(this.trackedCoverageLines.Lines.Select(l => l.Number)).ToList();
         }
 

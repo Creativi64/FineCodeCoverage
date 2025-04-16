@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using Microsoft.VisualStudio.Text;
 
@@ -10,7 +9,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(ICodeSpanRangeContainingCodeTrackerFactory))]
     internal class CodeSpanRangeContainingCodeTrackerFactory : ICodeSpanRangeContainingCodeTrackerFactory
     {
-        private readonly ITrackingLineFactory trackingLineFactory;
+        private readonly ITrackingSpanFactory trackingLineFactory;
         private readonly ITrackingSpanRangeFactory trackingSpanRangeFactory;
         private readonly ITrackedCoverageLinesFactory trackedCoverageLinesFactory;
         private readonly ITrackedCoverageLineFactory trackedCoverageLineFactory;
@@ -19,7 +18,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         [ImportingConstructor]
         public CodeSpanRangeContainingCodeTrackerFactory(
-            ITrackingLineFactory trackingLineFactory,
+            ITrackingSpanFactory trackingLineFactory,
             ITrackingSpanRangeFactory trackingSpanRangeFactory,
             ITrackedCoverageLinesFactory trackedCoverageLinesFactory,
             ITrackedCoverageLineFactory trackedCoverageLineFactory,
@@ -72,13 +71,5 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             );
             return this.trackedCoverageLinesFactory.Create(trackedCoverageLines.ToList());
         }
-
-        public IContainingCodeTracker CreateDirty(
-            ITextSnapshot currentSnapshot,
-            CodeSpanRange containingRange,
-            SpanTrackingMode spanTrackingMode
-        ) => this.trackingSpanRangeContainingCodeTrackerFactory.CreateDirty(
-            this.CreateTrackingSpanRange(currentSnapshot, containingRange, spanTrackingMode),
-            currentSnapshot);
     }
 }

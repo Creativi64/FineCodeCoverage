@@ -41,7 +41,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var textSnapshot = new Mock<ITextSnapshot>().Object;
             var newSpanAndLineRanges = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(1, 2), 0, 1) };
             var autoMoqer = new AutoMoqer();
-
+            var mockDynamicCodeElement = new Mock<IDynamicCodeElement>();
+            var mockStartDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>();
+            mockStartDynamicCoberturaLine.SetupGet(startDynamicCoberturaLine => startDynamicCoberturaLine.CodeElement).Returns(mockDynamicCodeElement.Object);
+            autoMoqer.Setup<ITrackedCoverageLines, IDynamicCoberturaLine>(trackedCoverageLines => trackedCoverageLines.GetStartDynamicCoberturaLine()).Returns(mockStartDynamicCoberturaLine.Object);
             var mockTrackingSpanRange = new Mock<ITrackingSpanRange>();
             var firstTrackingSpan = new Mock<ITrackingSpan>().Object;
             mockTrackingSpanRange.Setup(trackingSpanRange => trackingSpanRange.GetFirstTrackingSpan()).Returns(firstTrackingSpan);
@@ -51,7 +54,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var dirtyDynamicLine = new Mock<IDynamicLine>().Object;
             mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line).Returns(dirtyDynamicLine);
             mockDirtyLineFactory.Setup(
-                dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, textSnapshot)
+                dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, textSnapshot, mockStartDynamicCoberturaLine.Object)
             ).Returns(mockDirtyLine.Object);
 
             var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
@@ -65,13 +68,14 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newSpanAndLineRanges);
 
             mockDirtyLineFactory.Verify(
-                dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, textSnapshot),
+                dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, textSnapshot, It.IsAny<IDynamicCoberturaLine>()),
                 MoqAssertionsHelper.ExpectedTimes(expectedCreatedDirtyLine));
 
             var lines = coverageCodeTracker.Lines;
             if (expectedCreatedDirtyLine)
             {
                 Assert.That(lines.Single(), Is.SameAs(dirtyDynamicLine));
+                mockDynamicCodeElement.Verify(dynamicCodeElement => dynamicCodeElement.IsDirty());
             }
             else
             {
@@ -93,7 +97,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockDirtyLine = new Mock<ITrackingLine>();
             mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line.Number).Returns(10);
             mockDirtyLineFactory.Setup(
-                dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(), textSnapshot)
+                dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(), textSnapshot, It.IsAny<IDynamicCoberturaLine>())
             ).Returns(mockDirtyLine.Object);
 
             var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
@@ -148,7 +152,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line.Number).Returns(10);
             var dirtyLineUpdatedLineNumbers =new List<int> { 10, 20 };
             mockDirtyLine.Setup(dirtyLine => dirtyLine.GetUpdatedLineNumbers(textSnapshot2)).Returns(dirtyLineUpdatedLineNumbers);
-            mockDirtyLineFactory.Setup(dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(), It.IsAny<ITextSnapshot>())).Returns(mockDirtyLine.Object);
+            mockDirtyLineFactory.Setup(dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(), It.IsAny<ITextSnapshot>(), It.IsAny<IDynamicCoberturaLine>()))
+                .Returns(mockDirtyLine.Object);
 
             var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
 
@@ -173,6 +178,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             Assert.That(updatedLineNumbers, Is.EqualTo(dirtyLineUpdatedLineNumbers));
 
         }
+
 
     }
     

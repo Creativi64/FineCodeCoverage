@@ -66,5 +66,17 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             mockDynamicCoberturaLine.Verify(dynamicCoberturaLine => dynamicCoberturaLine.LineMoved(10));
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Should_Have_DynamicCoberturaLine_If_is_That_Type(bool isDynamicCoberturaLine)
+        {
+            var trackedCoverageLines = new TrackedCoverageLine(
+                new Mock<ITrackingSpan>().Object, 
+                isDynamicCoberturaLine ? new Mock<IDynamicCoberturaLine>().Object : new Mock<ICoberturaLine>().Object, 
+                new Mock<ILineTracker>().Object);
+
+            Assert.That(trackedCoverageLines.DynamicCoberturaLine != null, Is.EqualTo(isDynamicCoberturaLine));
+        }
     }
 }

@@ -8,12 +8,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(ITrackedNewCodeLineFactory))]
     internal class TrackedNewLineFactory : ITrackedNewCodeLineFactory
     {
-        private readonly ITrackingLineFactory trackingLineFactory;
+        private readonly ITrackingSpanFactory trackingLineFactory;
         private readonly ILineTracker lineTracker;
 
         [ImportingConstructor]
         public TrackedNewLineFactory(
-            ITrackingLineFactory trackingLineFactory,
+            ITrackingSpanFactory trackingLineFactory,
             ILineTracker lineTracker
             )
         {
