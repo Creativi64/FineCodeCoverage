@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Output
 {
     public static class DirectoryResultsTreeBuilder
     {
@@ -98,5 +98,4 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
         }
     }
-
 }

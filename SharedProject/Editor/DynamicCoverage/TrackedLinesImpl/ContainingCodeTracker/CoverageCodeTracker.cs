@@ -64,6 +64,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 ? this.dirtyLine.GetUpdatedLineNumbers(currentSnapshot)
                 : this.trackedCoverageLines.GetUpdatedLineNumbers(currentSnapshot);
 
+        public void Deleted() => this.trackedCoverageLines.GetStartDynamicCoberturaLine()?.CodeElement.Deleted();
+
         public IEnumerable<IDynamicLine> Lines => this.dirtyLine != null ? new List<IDynamicLine> { this.dirtyLine.Line } : this.trackedCoverageLines.Lines;
     }
 }

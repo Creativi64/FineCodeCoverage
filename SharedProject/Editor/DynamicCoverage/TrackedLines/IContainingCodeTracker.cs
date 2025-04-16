@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         IContainingCodeTrackerProcessResult ProcessChanges(ITextSnapshot currentSnapshot, List<SpanAndLineRange> newSpanAndLineRanges);
         ContainingCodeTrackerState GetState();
+        void Deleted();
 
         IEnumerable<IDynamicLine> Lines { get; }
     }

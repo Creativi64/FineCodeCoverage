@@ -20,6 +20,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public IEnumerable<IDynamicLine> Lines => this.updatableDynamicLines.Lines;
 
+        public void Deleted() => this.updatableDynamicLines.Deleted();
+
         public ContainingCodeTrackerState GetState()
             => new ContainingCodeTrackerState(this.trackingSpanRange.ToCodeSpanRange(), this.Lines);
 

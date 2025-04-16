@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;
@@ -70,6 +71,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var times = isEmpty ? Times.Once() : Times.Exactly(2);
             mockContainingCodeTracker1.Verify(
                 containingCodeTracker => containingCodeTracker.ProcessChanges(mockTextSnapshot.Object, It.IsAny<List<SpanAndLineRange>>()), times);
+            mockContainingCodeTracker1.Verify(containingCodeTracker => containingCodeTracker.Deleted(),MoqAssertionsHelper.ExpectedTimes(isEmpty));
             Assert.That(trackedLines.ContainingCodeTrackers, Has.Count.EqualTo(isEmpty ? 0 : 1));
         }
 

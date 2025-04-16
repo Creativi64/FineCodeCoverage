@@ -179,7 +179,31 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
         }
 
+        [Test]
+        public void Should_Update_DynamicCodeElement_When_Deleted()
+        {
+            var autoMoqer = new AutoMoqer();
+            var mockDynamicCodeElement = new Mock<IDynamicCodeElement>();
+            var mockDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>();
+            mockDynamicCoberturaLine.SetupGet(dynamicCoberturaLine => dynamicCoberturaLine.CodeElement)
+                .Returns(mockDynamicCodeElement.Object);
+            autoMoqer.Setup<ITrackedCoverageLines, IDynamicCoberturaLine>(trackedCoverageLines => trackedCoverageLines.GetStartDynamicCoberturaLine())
+                .Returns(mockDynamicCoberturaLine.Object);
 
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+            coverageCodeTracker.Deleted();
+
+            mockDynamicCodeElement.Verify(dynamicCodeElement => dynamicCodeElement.Deleted());
+        }
+
+        [Test]
+        public void Should_Not_Throw_When_Deleted_And_Not_A_DynamicCoberturaLine()
+        {
+            var autoMoqer = new AutoMoqer();
+            
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+            coverageCodeTracker.Deleted();
+        }
     }
     
 

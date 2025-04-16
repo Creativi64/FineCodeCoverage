@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         IEnumerable<IDynamicLine> Lines { get; }
 
+        void Deleted();
         IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
             ITextSnapshot currentSnapshot,

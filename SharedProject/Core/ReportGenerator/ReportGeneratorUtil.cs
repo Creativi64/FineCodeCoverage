@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    internal enum DynamicCodeElementState {  Original, Dirty}
+    internal enum DynamicCodeElementState {  Original, Dirty, Deleted}
     internal class DynamicReportResult : IReportResult
     {
         public class DynamicCoberturaLine : IDynamicCoberturaLine
@@ -57,6 +57,11 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public void IsDirty()
             {
                 State = DynamicCodeElementState.Dirty;
+            }
+
+            public void Deleted()
+            {
+                State = DynamicCodeElementState.Deleted;
             }
         }
         public class DynamicClass : IClass

@@ -49,7 +49,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 spanAndLineRanges = unprocessedSpans;
             }
 
-            removals.ForEach(removal => this.containingCodeTrackers.Remove(removal));
+            removals.ForEach(removal => {
+                removal.Deleted();
+                _ = this.containingCodeTrackers.Remove(removal);
+            });
 
             return (allChangedLines, spanAndLineRanges);
         }

@@ -170,7 +170,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportFilesMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\DirectoryResultsTreeBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\CodeElementType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IAssembly.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ICoberturaLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ICodeElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\MetricType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\CoberturaLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\MetricNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\MetricSetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaAssembly.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaCodeElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaReportResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HotspotsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\HtmlFilesToFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IFCCReportGenerator.cs" />
@@ -254,6 +267,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ZipFileWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\ClearLinesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicCoverageTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\ITrackingLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\TrackingLineFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorCoverageContentType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorFileCodeSpanRangeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\IBlazorFileCodeSpanRangeService.cs" />
@@ -267,6 +282,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\RoslynFileCodeSpanRangeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\VBCoverageContentType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\IDynamicCoberturaLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Dirty\DirtyTrackingLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\CoverageContentTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\FileLines.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ICoverageContentTypes.cs" />
@@ -512,6 +528,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ColumnsManagement\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\IDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\ISourceFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\Report.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\SourceFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\SourceFileClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\Changeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IChangeset.cs" />
@@ -704,7 +725,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Dirty\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
   </ItemGroup>
   <ItemGroup>

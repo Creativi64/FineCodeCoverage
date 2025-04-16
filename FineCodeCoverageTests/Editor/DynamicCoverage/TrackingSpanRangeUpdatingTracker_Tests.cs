@@ -94,7 +94,16 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             Assert.That(codeSpanRange, Is.SameAs(state.CodeSpanRange));
 
         }
-    }
-    
 
+        [Test]
+        public void Should_Call_Deleted_On_IUpdatableDynamicLines_When_Deleted()
+        {
+            var autoMoqer = new AutoMoqer();
+            var trackingSpanRangeUpdatingTracker = autoMoqer.Create<TrackingSpanRangeUpdatingTracker>();
+
+            trackingSpanRangeUpdatingTracker.Deleted();
+            autoMoqer.Verify<IUpdatableDynamicLines>(updatableDynamicLines => updatableDynamicLines.Deleted());
+
+        }
+    }
 }
