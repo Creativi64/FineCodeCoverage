@@ -37,7 +37,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Send_NewCoverageLinesMessage_With_ReportFileLineCoverage_When_Handle_NewReportMessage()
         {
             var autoMocker = new AutoMoqer();
-            var mockReportResult = new Mock<IDynamicReportResult>();
+            var mockReportResult = new Mock<IReportResult>();
             IReadOnlyList<IAssembly> assemblies = new List<IAssembly> { new Mock<IAssembly>().Object };
             mockReportResult.SetupGet(r => r.Assemblies).Returns(assemblies);
             IFileLineCoverage flc = new Mock<IFileLineCoverage>().Object;

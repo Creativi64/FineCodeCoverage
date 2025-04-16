@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Output;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -12,13 +13,29 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 {
     internal class DynamicReportResult : IReportResult
     {
+        public class DynamicCoberturaLine : IDynamicCoberturaLine
+        {
+            public DynamicCoberturaLine(ICoberturaLine coberturaLine)
+            {
+                this.Number = coberturaLine.Number;
+                this.OriginalLineNumber = this.Number;
+            }
+            public int OriginalLineNumber { get; }
+            public int Number { get; private set; }
+            public CoverageType CoverageType { get; }
+
+            public void LineMoved(int newLineNumber)
+            {
+                this.Number = newLineNumber;
+            }
+        }
         public class DynamicCodeElement : ICodeElement
         {
             public CodeElementType CodeElementType => codeElement.CodeElementType;
             public string Name => codeElement.Name;
             public int StartLine => codeElement.StartLine;
             public string Path { get; set; }
-            public List<ICoberturaLine> Lines => codeElement.Lines;
+            public IReadOnlyList<ICoberturaLine> Lines { get; }
             public int BlocksCovered => codeElement.BlocksCovered;
             public int BlocksNotCovered => codeElement.BlocksNotCovered;
             public int CyclomaticComplexity => codeElement.CyclomaticComplexity;
@@ -30,6 +47,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             {
                 this.codeElement = codeElement;
                 this.Path = codeElement.Path;
+                this.Lines = codeElement.Lines.Select((l,i) => i == 0 ? new DynamicCoberturaLine(l) : l).ToList();
             }
         }
         public class DynamicClass : IClass

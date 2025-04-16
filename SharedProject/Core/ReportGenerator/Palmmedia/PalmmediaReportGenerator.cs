@@ -242,7 +242,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public int CyclomaticComplexity { get; set; }
         public int NPathComplexity { get; set; }
         public decimal CrapScore { get; set; }
-        public List<ICoberturaLine> Lines { get; private set; }
+        public IReadOnlyList<ICoberturaLine> Lines { get; private set; }
     }
 
     internal class CoberturaLine : ICoberturaLine

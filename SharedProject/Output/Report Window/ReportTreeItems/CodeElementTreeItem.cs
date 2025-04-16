@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Imaging;
 using FineCodeCoverage.Engine.ReportGenerator;
+using System.Collections.Generic;
 
 namespace FineCodeCoverage.Output
 {
@@ -13,9 +14,9 @@ namespace FineCodeCoverage.Output
         )
         {
             this.Name = codeElement.Name;
-            this.FileLine = codeElement.StartLine;
             this.ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ?
                 KnownMonikers.Method : KnownMonikers.Property;
+            this.lines = codeElement.Lines;
             this.CoverableLines = codeElement.Lines.Count;
             this.NPathComplexity = codeElement.NPathComplexity;
             this.CrapScore = codeElement.CrapScore;
@@ -24,9 +25,9 @@ namespace FineCodeCoverage.Output
             this.BlocksNotCovered = codeElement.BlocksNotCovered;
             this.codeElement = codeElement;
         }
-
+        private readonly IReadOnlyList<ICoberturaLine> lines;
         public override ImageMoniker ImageMoniker { get; }
-        public int FileLine { get; internal set; }
+        public int FileLine => this.lines[0].Number;
         public string FilePath => codeElement.Path;
     }
 }

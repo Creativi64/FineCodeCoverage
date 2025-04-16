@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage
 {
-    internal class CoverageLine_Tests
+    internal class TrackedCoverageLine_Tests
     {
         [TestCase(CoverageType.Covered, DynamicCoverageType.Covered)]
         [TestCase(CoverageType.NotCovered, DynamicCoverageType.NotCovered)]
@@ -46,6 +46,25 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             Assert.That(updatedLineNumbers, Is.EqualTo(updateLineNumber ? new List<int> { 0, 10 } : Enumerable.Empty<int>()));
 
             Assert.That(coverageLine.Line.Number, Is.EqualTo(updatedLineNumber));
+        }
+    
+        [Test]
+        public void Should_Update_IDynamicCoberturaLine_If_Is_That_Type()
+        {
+            var mockDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>();
+            mockDynamicCoberturaLine.SetupGet(l => l.Number).Returns(1);
+
+            var currentTextSnapshot = new Mock<ITextSnapshot>().Object;
+            var trackingSpan = new Mock<ITrackingSpan>().Object;
+            var mockLineTracker = new Mock<ILineTracker>();
+
+            mockLineTracker.Setup(lineTracker => lineTracker.GetLineNumber(trackingSpan, currentTextSnapshot, true))
+                .Returns(10);
+            var coverageLine = new TrackedCoverageLine(trackingSpan, mockDynamicCoberturaLine.Object, mockLineTracker.Object);
+
+            coverageLine.GetUpdateLineNumbers(currentTextSnapshot);
+
+            mockDynamicCoberturaLine.Verify(dynamicCoberturaLine => dynamicCoberturaLine.LineMoved(10));
         }
     }
 }

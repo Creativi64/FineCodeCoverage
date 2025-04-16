@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         string Name { get; }
         int StartLine { get; }
         string Path { get; }
-        List<ICoberturaLine> Lines { get; }
+        IReadOnlyList<ICoberturaLine> Lines { get; }
         int BlocksCovered { get; }
         int BlocksNotCovered { get; }
         int CyclomaticComplexity { get; }

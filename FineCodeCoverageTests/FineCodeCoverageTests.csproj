@@ -92,7 +92,7 @@
     <Compile Include="Editor\DynamicCoverage\CSharpCoverageContentType_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\LineExcluder_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\CoverageCodeTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\CoverageLine_Tests.cs" />
+    <Compile Include="Editor\DynamicCoverage\TrackedCoverageLine_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\TrackingLine_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\CodeSpanRangeContainingCodeTrackerFactory_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\NewCodeTracker_Tests.cs" />
