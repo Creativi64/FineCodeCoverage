@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Engine.ReportGenerator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,6 +58,18 @@ namespace FineCodeCoverage.Output
         private IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
         {
             return DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
+        }
+
+        internal void NewCodeChanged(string path, bool hasNewCode)
+        {
+            foreach (var sourceFile in SourceFiles)
+            {
+                if(sourceFile.Path == path)
+                {
+                    sourceFile.SetHasNewCode(hasNewCode);
+                    break;
+                }
+            }
         }
     }
 

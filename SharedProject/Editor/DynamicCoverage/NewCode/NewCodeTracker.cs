@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Text;
 
@@ -9,27 +10,26 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly List<ITrackedNewCodeLine> trackedNewCodeLines = new List<ITrackedNewCodeLine>();
         private readonly ITrackedNewCodeLineFactory trackedNewCodeLineFactory;
         private readonly ILineExcluder codeLineExcluder;
-
-        public NewCodeTracker(ITrackedNewCodeLineFactory trackedNewCodeLineFactory, ILineExcluder codeLineExcluder)
-        {
-            this.trackedNewCodeLineFactory = trackedNewCodeLineFactory;
-            this.codeLineExcluder = codeLineExcluder;
-        }
+        private readonly ITextInfoFactory textInfoFactory;
 
         public NewCodeTracker(
             ITrackedNewCodeLineFactory trackedNewCodeLineFactory,
             ILineExcluder codeLineExcluder,
-            IEnumerable<int> lineNumbers,
-            ITextSnapshot currentSnapshot
+            ITextInfoFactory textInfoFactory
             )
         {
             this.trackedNewCodeLineFactory = trackedNewCodeLineFactory;
             this.codeLineExcluder = codeLineExcluder;
-            foreach (int lineNumber in lineNumbers)
-            {
-                _ = this.AddTrackedNewCodeLineIfNotExcluded(currentSnapshot, lineNumber);
-            }
+            this.textInfoFactory = textInfoFactory;
         }
+
+        public event EventHandler<NewCodeChangedEventArgs> NewCodeChanged;
+
+        private void OnNewCodeChanged(bool hasNewCode, ITextSnapshot textSnapshot)
+            => NewCodeChanged?.Invoke(
+                    this,
+                    new NewCodeChangedEventArgs(this.textInfoFactory.GetFilePath(textSnapshot.TextBuffer), hasNewCode)
+            );
 
         public IEnumerable<IDynamicLine> Lines => this.trackedNewCodeLines.OrderBy(l => l.Line.Number).Select(l => l.Line);
 
@@ -37,9 +37,21 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITextSnapshot currentSnapshot,
             List<SpanAndLineRange> potentialNewLines,
             IEnumerable<CodeSpanRange> newCodeCodeRanges
-        ) => newCodeCodeRanges != null
-                ? this.ProcessNewCodeCodeRanges(newCodeCodeRanges, currentSnapshot)
+        ){
+            bool hasTracked = this.trackedNewCodeLines.Any();
+
+            List<int> changedLineNumbers = newCodeCodeRanges != null
+                    ? this.ProcessNewCodeCodeRanges(newCodeCodeRanges, currentSnapshot)
                 : this.ProcessSpanAndLineRanges(potentialNewLines, currentSnapshot);
+
+            bool newHasTracked = this.trackedNewCodeLines.Any();
+            if (newHasTracked != hasTracked)
+            {
+                this.OnNewCodeChanged(newHasTracked, currentSnapshot);
+            }
+
+            return changedLineNumbers;
+        }
 
         #region NewCodeCodeRanges
 
@@ -68,6 +80,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 this.trackedNewCodeLines.Add(trackedNewCodeLine);
             }
         }
+
         #endregion
         #region SpanAndLineRanges
         private List<int> ProcessSpanAndLineRanges(List<SpanAndLineRange> potentialNewLines, ITextSnapshot currentSnapshot)

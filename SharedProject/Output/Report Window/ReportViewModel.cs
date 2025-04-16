@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.ReportGenerator;
@@ -17,7 +18,8 @@ namespace FineCodeCoverage.Output
         IListener<NewReportMessage>,
         IListener<CoverageStartingMessage>,
         IListener<CoverageEndedMessage>,
-        IListener<ClearReportMessage>
+        IListener<ClearReportMessage>,
+        IListener<NewCodeChangedMessage>
     {
         [ImportingConstructor]
         public ReportViewModel(
@@ -149,6 +151,11 @@ namespace FineCodeCoverage.Output
         public void Handle(CoverageEndedMessage message)
         {
             this.CoverageRunning = false;
+        }
+
+        public void Handle(NewCodeChangedMessage message)
+        {
+            lastReport?.NewCodeChanged(message.Path, message.HasNewCode);
         }
     }
 }

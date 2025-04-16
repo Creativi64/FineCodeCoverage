@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
@@ -9,6 +10,18 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
+    internal class NewCodeChangedMessage
+    {
+        public NewCodeChangedMessage(string path, bool hasNewCode)
+        {
+            this.Path = path;
+            this.HasNewCode = hasNewCode;
+        }
+
+        public string Path { get; }
+        public bool HasNewCode { get; }
+    }
+
     [Export(typeof(ITrackedLinesFactory))]
     internal class ContainingCodeTrackedLinesBuilder : ITrackedLinesFactory
     {
@@ -18,6 +31,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly INewCodeTrackerFactory newCodeTrackerFactory;
         private readonly ITextSnapshotText textSnapshotText;
         private readonly ILogger logger;
+        private readonly IEventAggregator eventAggregator;
 
         [ImportingConstructor]
         public ContainingCodeTrackedLinesBuilder(
@@ -27,7 +41,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             IContainingCodeTrackedLinesFactory containingCodeTrackedLinesFactory,
             INewCodeTrackerFactory newCodeTrackerFactory,
             ITextSnapshotText textSnapshotText,
-            ILogger logger
+            ILogger logger,
+            IEventAggregator eventAggregator
         )
         {
             this.coverageContentTypes = coverageContentTypes;
@@ -36,6 +51,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.newCodeTrackerFactory = newCodeTrackerFactory;
             this.textSnapshotText = textSnapshotText;
             this.logger = logger;
+            this.eventAggregator = eventAggregator;
         }
 
         private ICoverageContentType GetCoverageContentType(ITextSnapshot textSnapshot)
@@ -49,7 +65,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => coverageContentType.UseFileCodeSpanRangeServiceForChanges ? coverageContentType.FileCodeSpanRangeService : null;
 
         private INewCodeTracker GetNewCodeTrackerIfProvidesLineExcluder(ILineExcluder lineExcluder)
-            => lineExcluder == null ? null : this.newCodeTrackerFactory.Create(lineExcluder);
+        {
+            if(lineExcluder == null) return null;
+            INewCodeTracker newCodeTracker = this.newCodeTrackerFactory.Create(lineExcluder);
+            newCodeTracker.NewCodeChanged += (_, args)
+                => this.eventAggregator.SendMessage(new NewCodeChangedMessage(args.FilePath, args.HasNewCode),null);
+
+            return newCodeTracker;
+        }
 
         public ITrackedLines Create(List<ICoberturaLine> coberturaLines, ITextSnapshot textSnapshot, string filePath)
         {
