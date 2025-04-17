@@ -55,7 +55,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 
             bufferLineCoverage.Handle(setup.NewCoverageLinesMessage);
 
-            setup.AutoMoqer.Verify<ILogger>(ILogger => ILogger.Log($"Not creating editor marks for {FilePath.Value} as it was changed after test execution started"));
+            setup.AutoMoqer.Verify<ILogger>(ILogger => ILogger.LogFileAndForget($"Not creating editor marks for {FilePath.Value} as it was changed after test execution started"));
         }
 
         [Test]

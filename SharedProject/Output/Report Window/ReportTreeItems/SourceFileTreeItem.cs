@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Imaging;
 using System.IO;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.Telemetry;
 
 namespace FineCodeCoverage.Output
 {
@@ -12,10 +13,9 @@ namespace FineCodeCoverage.Output
         public SourceFileTreeItem(ISourceFile sourceFile)
         {
             sourceFile.HasNewCodeChanged += (_, __) => {
-                MainThreadHelper.SwitchAndFileAndForget(FCCFaultEventName.Create<SourceFileTreeItem>("Report"), () =>
-                {
-                    this.SetName(sourceFile.HasNewCode);
-                },"sourceFile.HasNewCodeChanged");
+                MainThreadHelper.SwitchAndFileAndForget(
+                    FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
+                    () => this.SetName(sourceFile.HasNewCode), "sourceFile.HasNewCodeChanged");
             };
             this.baseName = Path.GetFileName(sourceFile.Path);
             this.SetName(sourceFile.HasNewCode);

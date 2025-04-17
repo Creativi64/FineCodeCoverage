@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace FineCodeCoverage.Output.Pane
 {
-
     [Export(typeof(IFCCOutputWindowPaneCreator))]
     internal class FCCOutputWindowPaneCreator : IFCCOutputWindowPaneCreator
     {

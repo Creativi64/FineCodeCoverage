@@ -105,7 +105,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
             if (isOutOfDate)
             {
-                this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as coverage is out of date");
+                this.logger.LogFileAndForget($"Not creating editor marks for {this.textInfo.FilePath} as coverage is out of date");
                 this.fileLineCoverage.OutOfDate(this.textInfo.FilePath);
                 this.fileLines = null;
             }
@@ -173,7 +173,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             catch (Exception e)
             {
-                this.logger.Log($"Error creating tracked lines for {this.textInfo.FilePath}", e.ToString());
+                this.logger.LogFileAndForget($"Error creating tracked lines for {this.textInfo.FilePath}", e.ToString());
             }
         }
 
@@ -186,7 +186,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             else
             {
-                this.logger.Log($"Not creating editor marks for {this.textInfo.FilePath} as it was changed after test execution started");
+                this.logger.LogFileAndForget($"Not creating editor marks for {this.textInfo.FilePath} as it was changed after test execution started");
                 this.trackedLines = null;
             }
 
@@ -247,7 +247,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             catch (Exception e)
             {
-                this.logger.Log($"Error updating tracked lines for {this.textInfo.FilePath}", e.ToString());
+                this.logger.LogFileAndForget($"Error updating tracked lines for {this.textInfo.FilePath}", e.ToString());
             }
         }
 

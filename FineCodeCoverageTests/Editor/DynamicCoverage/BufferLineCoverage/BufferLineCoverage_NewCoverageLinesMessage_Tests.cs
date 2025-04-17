@@ -93,7 +93,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
             mockFileLineCoverage.Setup(fileLineCoverage => fileLineCoverage.GetLines(FilePath.Value)).Throws(exception);
 
             setup.BufferLineCoverage.Handle(new NewCoverageLinesMessage(mockFileLineCoverage.Object));
-            setup.AutoMoqer.Verify<ILogger>(logger => logger.Log($"Error creating tracked lines for {FilePath.Value}", exception.ToString()));
+            setup.AutoMoqer.Verify<ILogger>(logger => logger.LogFileAndForget($"Error creating tracked lines for {FilePath.Value}", exception.ToString()));
         }
     }
 }

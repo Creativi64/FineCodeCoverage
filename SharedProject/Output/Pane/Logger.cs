@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using Task = System.Threading.Tasks.Task;
 using System.Globalization;
 using System.Text;
+using FineCodeCoverage.Core.Utilities.Telemetry;
 
 namespace FineCodeCoverage.Output.Pane
 {
@@ -70,8 +71,9 @@ namespace FineCodeCoverage.Output.Pane
             return LogAsync(message as IEnumerable<string>);
         }
 
-        public void Log(params string[] message){
-            ThreadHelper.JoinableTaskFactory.Run(async () => await LogAsync(message));
+        private readonly FaultEventName logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
+        public void LogFileAndForget(params string[] message){
+            LogAsync(message).FileAndForget(logFaultEventName.ToString());
         }
     }
 }

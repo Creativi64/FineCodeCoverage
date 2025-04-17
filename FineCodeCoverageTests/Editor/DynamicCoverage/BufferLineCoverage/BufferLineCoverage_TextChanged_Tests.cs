@@ -58,7 +58,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 
             setup.TextInfoMocks.TextBuffer.Raise(textBuffer => textBuffer.ChangedOnBackground += null, TextContentChangedEventArgsCreator.Create(new Mock<ITextSnapshot>().Object, new Span(0, 1)));
 
-            setup.AutoMoqer.Verify<ILogger>(logger => logger.Log($"Error updating tracked lines for {FilePath.Value}", exception.ToString()));
+            setup.AutoMoqer.Verify<ILogger>(logger => logger.LogFileAndForget($"Error updating tracked lines for {FilePath.Value}", exception.ToString()));
         }
 
         [Test]

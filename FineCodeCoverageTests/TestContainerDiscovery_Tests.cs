@@ -477,7 +477,7 @@ namespace Test
             RaiseTestExecutionStarting(operation);
 
             mocker.Verify<ILogger>(
-                logger => logger.Log("================================== COVERAGE STARTING - 1 =================================="), Times.Never());
+                logger => logger.LogFileAndForget("================================== COVERAGE STARTING - 1 =================================="), Times.Never());
 
         }
 

@@ -165,7 +165,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             _ = CoverageLinesNotWithinSnapshot(false, "filepath", autoMoqer => autoMoqer.SetInstance(mockLogger.Object));
 
-            mockLogger.Verify(logger => logger.Log("Not creating editor marks for filepath as some coverage lines are outside the text snapshot"));
+            mockLogger.Verify(logger => logger.LogFileAndForget("Not creating editor marks for filepath as some coverage lines are outside the text snapshot"));
         }
 
 

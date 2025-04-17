@@ -116,7 +116,7 @@ namespace FineCodeCoverage.Options
                 }
                 catch (Exception exception)
                 {
-                    logger.Log($"Failed to load '{property.Name}' setting", exception.ToString());
+                    logger.LogFileAndForget($"Failed to load '{property.Name}' setting", exception.ToString());
                 }
             }
         }
@@ -136,7 +136,7 @@ namespace FineCodeCoverage.Options
                 }
                 catch (Exception exception)
                 {
-                    logger.Log($"Failed to save '{property.Name}' setting", exception.ToString());
+                    logger.LogFileAndForget($"Failed to save '{property.Name}' setting", exception.ToString());
                 }
             }
             RaiseOptionsChanged(appOptions);

@@ -105,7 +105,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
         {
             var (_, autoMoqer, __) = SetLastCovergeHasTrackedLinesFalse(true);
 
-            autoMoqer.Verify<ILogger>(logger => logger.Log($"Not creating editor marks for {FilePath.Value} as coverage is out of date"));
+            autoMoqer.Verify<ILogger>(logger => logger.LogFileAndForget($"Not creating editor marks for {FilePath.Value} as coverage is out of date"));
         }
 
         [Test]

@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Output.Pane
         public async System.Threading.Tasks.Task OutputStringThreadSafeAsync(string text)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            _ = this.outputWindowPane.OutputStringThreadSafe(text);
+            this.outputWindowPane.OutputStringNoPump(text);
         }
 
         public async System.Threading.Tasks.Task ShowAsync()

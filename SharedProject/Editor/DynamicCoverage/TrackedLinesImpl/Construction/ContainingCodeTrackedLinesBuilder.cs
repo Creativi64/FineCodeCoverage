@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             if (this.AnyLinesOutsideTextSnapshot(coberturaLines, textSnapshot))
             {
-                this.logger.Log($"Not creating editor marks for {filePath} as some coverage lines are outside the text snapshot");
+                this.logger.LogFileAndForget($"Not creating editor marks for {filePath} as some coverage lines are outside the text snapshot");
                 return null;
             }
 

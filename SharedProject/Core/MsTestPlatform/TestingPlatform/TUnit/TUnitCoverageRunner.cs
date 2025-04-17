@@ -127,7 +127,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             if (!string.IsNullOrEmpty(e.Data))
             {
-                logger.Log($"Error: {e.Data}");
+                logger.LogFileAndForget($"Error: {e.Data}");
             }
         }
 
@@ -135,7 +135,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             if (!cancellationToken.IsCancellationRequested)
             {
-                logger.Log(e.Data);
+                logger.LogFileAndForget(e.Data);
             }
         }
 

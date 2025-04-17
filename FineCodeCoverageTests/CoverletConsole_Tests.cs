@@ -290,7 +290,7 @@ namespace Test
         public async Task Should_Log_The_ExecuteResponse_Output_On_Success_Async()
         {
             var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Setup(logger => logger.Log(It.IsAny<string[]>())).Callback<string[]>(messages =>
+            mockLogger.Setup(logger => logger.LogFileAndForget(It.IsAny<string[]>())).Callback<string[]>(messages =>
             {
                 Assert.Multiple(() =>
                 {
