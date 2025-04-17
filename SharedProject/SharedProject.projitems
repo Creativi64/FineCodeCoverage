@@ -183,6 +183,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaCodeElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaReportResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HotspotsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\HtmlFilesToFolder.cs" />

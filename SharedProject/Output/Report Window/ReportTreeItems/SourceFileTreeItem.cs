@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Imaging;
 using System.IO;
-using Microsoft.VisualStudio.Shell;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Output
 {
@@ -12,14 +12,10 @@ namespace FineCodeCoverage.Output
         public SourceFileTreeItem(ISourceFile sourceFile)
         {
             sourceFile.HasNewCodeChanged += (_, __) => {
-#pragma warning disable VSSDK007 // ThreadHelper.JoinableTaskFactory.RunAsync
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                MainThreadHelper.SwitchAndFileAndForget(FCCFaultEventName.Create<SourceFileTreeItem>("Report"), () =>
                 {
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     this.SetName(sourceFile.HasNewCode);
-                }).FileAndForget("SourceFileTreeItem.HasNewNodechanged");
-#pragma warning restore VSSDK007 // ThreadHelper.JoinableTaskFactory.RunAsync
-
+                },"sourceFile.HasNewCodeChanged");
             };
             this.baseName = Path.GetFileName(sourceFile.Path);
             this.SetName(sourceFile.HasNewCode);
