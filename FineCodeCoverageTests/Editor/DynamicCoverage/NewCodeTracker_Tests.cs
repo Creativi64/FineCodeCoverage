@@ -115,101 +115,80 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         [Test]
         public void Should_Raise_HasNewCodeChanged_True_When_Add_For_The_First_Time()
         {
-            var textSnapshot = new Mock<ITextSnapshot>().Object;
-            var includeTrackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "include").Object;
+            var textBuffer = new Mock<ITextBuffer>().Object;
+            var mockTextSnapshot = new Mock<ITextSnapshot>();
+            mockTextSnapshot.SetupGet(textSnapshot => textSnapshot.TextBuffer).Returns(textBuffer);;
+            var includeTrackedNewCodeLine = CreateMockTrackedNewCodeLine(mockTextSnapshot.Object, "include").Object;
 
             var mockTrackedNewCodeLineFactory = new Mock<ITrackedNewCodeLineFactory>(MockBehavior.Strict);
             mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
-                trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
+                trackedNewCodeLineFactory.Create(mockTextSnapshot.Object, SpanTrackingMode.EdgeExclusive, 1)
             ).Returns(includeTrackedNewCodeLine);
 
             var mockLineExcluder = new Mock<ILineExcluder>(MockBehavior.Strict);
             mockLineExcluder.Setup(lineExcluder => lineExcluder.ExcludeIfNotCode("include")).Returns(false);
 
+            var mockTextInfoFactory = new Mock<ITextInfoFactory>();
+            var filePath = "filepath";
+            mockTextInfoFactory.Setup(textInfoFactory => textInfoFactory.GetFilePath(textBuffer)).Returns(filePath);
             var newCodeTracker = new NewCodeTracker(
                 mockTrackedNewCodeLineFactory.Object,
                 mockLineExcluder.Object,
-                new Mock<ITextInfoFactory>().Object
+                mockTextInfoFactory.Object
             );
 
-            var hasNewCodeChanged = false;
+            HasNewCodeChangedEventArgs hasNewCodeChangedEventArgs = null;
             newCodeTracker.HasNewCodeChanged += (_, args) =>
             {
-                hasNewCodeChanged = args.HasNewCode;
+                hasNewCodeChangedEventArgs = args;
             };
 
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
-                textSnapshot,
+                mockTextSnapshot.Object,
                 new List<LineRange> { new LineRange(1, 2) },
                 null);
 
-            Assert.That(hasNewCodeChanged, Is.True);
+            Assert.That(hasNewCodeChangedEventArgs.HasNewCode, Is.True);
+            Assert.That(hasNewCodeChangedEventArgs.FilePath, Is.EqualTo(filePath));
         }
 
-        private void UpdateTrackedTest(TrackedNewCodeLineUpdate trackedNewCodeLineUpdate,Action<NewCodeTracker> beforeUpdate = null)
+        private (IEnumerable<int> changeLineNumbers, IEnumerable<IDynamicLine> lines) UpdateTrackedTest(TrackedNewCodeLineUpdate trackedNewCodeLineUpdate,Action<NewCodeTracker, AutoMoqer> beforeUpdate = null)
         {
+            var autoMoqer = new AutoMoqer();
             var textSnapshot = new Mock<ITextSnapshot>().Object;
             var textSnapshot2 = new Mock<ITextSnapshot>().Object;
             var mockTrackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "include");
             mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.Update(textSnapshot2))
                 .Returns(trackedNewCodeLineUpdate);
 
-
-            var mockTrackedNewCodeLineFactory = new Mock<ITrackedNewCodeLineFactory>();
-            mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(trackedNewCodeLineFactory =>
                 trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
             ).Returns(mockTrackedNewCodeLine.Object);
 
-            var mockLineExcluder = new Mock<ILineExcluder>();
-            mockLineExcluder.Setup(lineExcluder => lineExcluder.ExcludeIfNotCode("include")).Returns(false);
+            autoMoqer.Setup<ILineExcluder, bool>(lineExcluder => lineExcluder.ExcludeIfNotCode("include")).Returns(false);
 
-            var newCodeTracker = new NewCodeTracker(
-                mockTrackedNewCodeLineFactory.Object,
-                mockLineExcluder.Object,
-                new Mock<ITextInfoFactory>().Object
-            );
+            var newCodeTracker = autoMoqer.Create<NewCodeTracker>();
 
             newCodeTracker.GetChangedLineNumbers(
                 textSnapshot,
                 new List<LineRange> { new LineRange(1, 2) },
                 null);
 
-            beforeUpdate?.Invoke(newCodeTracker);
-            newCodeTracker.GetChangedLineNumbers(
+            beforeUpdate?.Invoke(newCodeTracker,autoMoqer);
+            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                  textSnapshot2,
                  new List<LineRange> { new LineRange(1, 2) },
                  null);
+            return (changedLineNumbers, newCodeTracker.Lines);
         }
         
 
         [Test]
         public void Should_Not_Have_Changed_Lines_When_Line_Exists_And_Not_Updated_Or_Excluded()
         {
-            throw new NotImplementedException();
-            //var textSnapshot = new Mock<ITextSnapshot>().Object;
-            //var currentTextSnapshot = new Mock<ITextSnapshot>().Object;
-
-            //var mockTrackedNewCodeLine = new Mock<ITrackedNewCodeLine>();
-            //var dynamicLine = new Mock<IDynamicLine>().Object;
-            //mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.Line).Returns(dynamicLine);
-            //mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.Update(currentTextSnapshot))
-            //    .Returns(new TrackedNewCodeLineUpdate("", 1, 1));
-            //mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.GetText(textSnapshot)).Returns("exclude");
-            //var mockTrackedNewCodeLineFactory = new Mock<ITrackedNewCodeLineFactory>();
-            //mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
-            //    trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
-            //).Returns(mockTrackedNewCodeLine.Object);
-
-            //var newCodeTracker = new NewCodeTracker(
-            //    mockTrackedNewCodeLineFactory.Object, new Mock<ILineExcluder>().Object, new List<int> { 1 }, textSnapshot);
-
-            //var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
-            //    currentTextSnapshot,
-            //    new List<SpanAndLineRange> { new SpanAndLineRange(new Span(), 1, 1) },
-            //    null);
-
-            //Assert.That(changedLineNumbers, Is.Empty);
-            //Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(dynamicLine));
+            var (changedLineNumbers, lines ) = UpdateTrackedTest(new TrackedNewCodeLineUpdate("include", 1, 1));
+            Assert.That(changedLineNumbers, Is.Empty);
+            Assert.That(lines.ToList(), Has.Count.EqualTo(1));
         }
 
         [Test]
