@@ -4,7 +4,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class TrackingSpanRangeProcessResult
     {
-        public TrackingSpanRangeProcessResult(ITrackingSpanRange trackingSpanRange, List<SpanAndLineRange> nonIntersectingSpans, bool isEmpty, bool textChanged)
+        public TrackingSpanRangeProcessResult(ITrackingSpanRange trackingSpanRange, List<LineRange> nonIntersectingSpans, bool isEmpty, bool textChanged)
         {
             this.TrackingSpanRange = trackingSpanRange;
             this.NonIntersectingSpans = nonIntersectingSpans;
@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.TextChanged = textChanged;
         }
         public ITrackingSpanRange TrackingSpanRange { get; }
-        public List<SpanAndLineRange> NonIntersectingSpans { get; }
+        public List<LineRange> NonIntersectingSpans { get; }
         public bool IsEmpty { get; }
         public bool TextChanged { get; }
     }

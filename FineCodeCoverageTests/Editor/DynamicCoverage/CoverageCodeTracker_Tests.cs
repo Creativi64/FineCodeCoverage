@@ -39,7 +39,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         {
             var expectedCreatedDirtyLine = textChanged && intersected;
             var textSnapshot = new Mock<ITextSnapshot>().Object;
-            var newSpanAndLineRanges = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(1, 2), 0, 1) };
+            var newLineRanges = new List<LineRange> { new LineRange( 0, 1) };
             var autoMoqer = new AutoMoqer();
             var mockDynamicCodeElement = new Mock<IDynamicCodeElement>();
             var mockStartDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>();
@@ -61,11 +61,11 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(
                     mockTrackingSpanRange.Object,
-                    intersected ? new List<SpanAndLineRange>() : newSpanAndLineRanges,
+                    intersected ? new List<LineRange>() : newLineRanges,
                     false,
                     textChanged
             );
-            coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newSpanAndLineRanges);
+            coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newLineRanges);
 
             mockDirtyLineFactory.Verify(
                 dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, textSnapshot, It.IsAny<IDynamicCoberturaLine>()),
@@ -104,7 +104,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(
                     new Mock<ITrackingSpanRange>().Object,
-                    new List<SpanAndLineRange>(),
+                    new List<LineRange>(),
                     false,
                     true
             );
@@ -112,7 +112,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var updatedLineNumbers = coverageCodeTracker.GetUpdatedLineNumbers(
                 trackingSpanRangeProcessResult, 
                 textSnapshot, 
-                new List<SpanAndLineRange> { new SpanAndLineRange(new Span(1, 2), 0, 1) });
+                new List<LineRange> { new LineRange(0, 1) });
 
             Assert.That(updatedLineNumbers, Is.EqualTo(new List<int> { 10, 1, 2 }));
         }
@@ -126,10 +126,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var trackedCoverageLinesUpdatedLineNumbers = new List<int> { 1, 2 };
             mockTrackedCoverageLines.Setup(trackedCoverageLines => trackedCoverageLines.GetUpdatedLineNumbers(textSnapshot))
                 .Returns(trackedCoverageLinesUpdatedLineNumbers);
-            var newSpanAndLineRanges = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(1, 2), 0, 1) };
+            var newSpanAndLineRanges = new List<LineRange> { new LineRange(0, 1) };
             var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(
                 new Mock<ITrackingSpanRange>().Object,
-                new List<SpanAndLineRange>(),
+                new List<LineRange>(),
                 false,
                 false
             );
@@ -145,7 +145,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Update_DirtyLine_When_DirtyLine()
         {
             var textSnapshot2 = new Mock<ITextSnapshot>().Object;
-            var spanAndLineRange2 = new List<SpanAndLineRange>() { new SpanAndLineRange(new Span(1, 3), 0, 0) };
+            var spanAndLineRange2 = new List<LineRange>() { new LineRange(0, 0) };
             var autoMoqer = new AutoMoqer();
             var mockDirtyLineFactory = autoMoqer.GetMock<IDirtyLineFactory>();
             var mockDirtyLine = new Mock<ITrackingLine>();
@@ -159,15 +159,15 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var trackingSpanRangeProcessResult1 = new TrackingSpanRangeProcessResult(
                 new Mock<ITrackingSpanRange>().Object,
-                new List<SpanAndLineRange>(),
+                new List<LineRange>(),
                 false,
                 true
             );
-            coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult1, new Mock<ITextSnapshot>().Object, new List<SpanAndLineRange>() { new SpanAndLineRange(new Span(1, 2), 0, 0) });
+            coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult1, new Mock<ITextSnapshot>().Object, new List<LineRange>() { new LineRange(0, 0) });
 
             var trackingSpanRangeProcessResult2 = new TrackingSpanRangeProcessResult(
                 new Mock<ITrackingSpanRange>().Object,
-                new List<SpanAndLineRange>(),
+                new List<LineRange>(),
                 false,
                 true
             );

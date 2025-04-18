@@ -13,6 +13,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
             ITextSnapshot currentSnapshot,
-            List<SpanAndLineRange> newSpanAndLineRanges) => Enumerable.Empty<int>();
+            List<LineRange> newSpanAndLineRanges) => Enumerable.Empty<int>();
     }
 }

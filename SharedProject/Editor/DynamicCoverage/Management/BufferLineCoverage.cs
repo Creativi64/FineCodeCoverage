@@ -253,8 +253,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void UpdateTrackedLines(TextContentChangedEventArgs textContentChangedEventArgs)
         {
-            IEnumerable<int> changedLineNumbers = this.trackedLines.GetChangedLineNumbers(textContentChangedEventArgs.After, textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList())
-                .Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
+            IEnumerable<int> changedLineNumbers = this.trackedLines.GetChangedLineNumbers(
+                textContentChangedEventArgs.After, 
+                textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList()
+            ).Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
             this.SendCoverageChangedMessageIfChanged(changedLineNumbers);
         }
 

@@ -10,7 +10,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 {
     internal class TrackedLines_Test
     {
-        private IContainingCodeTrackerProcessResult GetProcessResult(List<SpanAndLineRange> unprocessedSpans,List<int> changedLines = default,bool isEmpty = false)
+        private IContainingCodeTrackerProcessResult GetProcessResult(List<LineRange> unprocessedSpans,List<int> changedLines = default,bool isEmpty = false)
         {
             changedLines = changedLines ?? new List<int>();
             var mockContainingCodeTrackerProcessResult = new Mock<IContainingCodeTrackerProcessResult>();
@@ -28,13 +28,13 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockTextSnapshot.Setup(textSnapshot => textSnapshot.GetLineNumberFromPosition(10)).Returns(1);
             mockTextSnapshot.Setup(textSnapshot => textSnapshot.GetLineNumberFromPosition(20)).Returns(2);
 
-            var changes = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(15, 5), 1, 1) };
-            var unprocessedSpans = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(10, 5), 0, 1) };
+            var changes = new List<LineRange> { new LineRange(1, 1) };
+            var unprocessedSpans = new List<LineRange> { new LineRange(0, 1) };
             var mockContainingCodeTracker1 = new Mock<IContainingCodeTracker>();
             mockContainingCodeTracker1.Setup(
                 containingCodeTracker => containingCodeTracker.ProcessChanges(
                     mockTextSnapshot.Object,
-                    new List<SpanAndLineRange> { new SpanAndLineRange(newSpanChanges[0], 1, 2) }))
+                    new List<LineRange> { new LineRange(1, 2) }))
                 .Returns(GetProcessResult(unprocessedSpans));
 
             var mockContainingCodeTracker2 = new Mock<IContainingCodeTracker>();
@@ -60,8 +60,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockContainingCodeTracker1.Setup(
                 containingCodeTracker => containingCodeTracker.ProcessChanges(
                     mockTextSnapshot.Object,
-                    It.IsAny<List<SpanAndLineRange>>()))
-                .Returns(GetProcessResult(new List<SpanAndLineRange>(), new List<int> { }, isEmpty));
+                    It.IsAny<List<LineRange>>()))
+                .Returns(GetProcessResult(new List<LineRange>(), new List<int> { }, isEmpty));
 
             var trackedLines = new TrackedLines(new List<IContainingCodeTracker> { mockContainingCodeTracker1.Object }, null, null);
             Assert.That(trackedLines.ContainingCodeTrackers, Is.EquivalentTo(new List<IContainingCodeTracker> { mockContainingCodeTracker1.Object }));
@@ -70,7 +70,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var times = isEmpty ? Times.Once() : Times.Exactly(2);
             mockContainingCodeTracker1.Verify(
-                containingCodeTracker => containingCodeTracker.ProcessChanges(mockTextSnapshot.Object, It.IsAny<List<SpanAndLineRange>>()), times);
+                containingCodeTracker => containingCodeTracker.ProcessChanges(mockTextSnapshot.Object, It.IsAny<List<LineRange>>()), times);
             mockContainingCodeTracker1.Verify(containingCodeTracker => containingCodeTracker.Deleted(),MoqAssertionsHelper.ExpectedTimes(isEmpty));
             Assert.That(trackedLines.ContainingCodeTrackers, Has.Count.EqualTo(isEmpty ? 0 : 1));
         }
@@ -85,8 +85,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             mockContainingCodeTracker.Setup(
                 containingCodeTracker => containingCodeTracker.ProcessChanges(
                     mockTextSnapshot.Object,
-                    It.IsAny<List<SpanAndLineRange>>()))
-                .Returns(GetProcessResult(new List<SpanAndLineRange>(), new List<int> { },isEmpty));
+                    It.IsAny<List<LineRange>>()))
+                .Returns(GetProcessResult(new List<LineRange>(), new List<int> { },isEmpty));
 
             if (!isEmpty)
             {
@@ -119,12 +119,12 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockNewCodeTracker = new Mock<INewCodeTracker>();
             var newCodeTrackerChangedLines = new List<int> { 1, 2, 3 };
             mockNewCodeTracker.Setup(newCodeTracker => newCodeTracker.GetChangedLineNumbers(
-                mockTextSnapshot.Object, It.IsAny<List<SpanAndLineRange>>(), It.IsAny<IEnumerable<CodeSpanRange>>())
+                mockTextSnapshot.Object, It.IsAny<List<LineRange>>(), It.IsAny<IEnumerable<CodeSpanRange>>())
             ).Returns(newCodeTrackerChangedLines);
 
             var mockContainingCodeTracker = new Mock<IContainingCodeTracker>();
-            mockContainingCodeTracker.Setup(containingCodeTracker => containingCodeTracker.ProcessChanges(mockTextSnapshot.Object, It.IsAny<List<SpanAndLineRange>>()))
-                .Returns(GetProcessResult(new List<SpanAndLineRange>(), new List<int> { 3, 4, 5 }));
+            mockContainingCodeTracker.Setup(containingCodeTracker => containingCodeTracker.ProcessChanges(mockTextSnapshot.Object, It.IsAny<List<LineRange>>()))
+                .Returns(GetProcessResult(new List<LineRange>(), new List<int> { 3, 4, 5 }));
             var containingCodeTrackers = new List<IContainingCodeTracker> { 
                 mockContainingCodeTracker.Object
             };
@@ -150,8 +150,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                     .Returns(new ContainingCodeTrackerState(codeSpanRange, Enumerable.Empty<IDynamicLine>()));
                 mockContainingCodeTracker.Setup(containingCodeTracker => containingCodeTracker.ProcessChanges(
                     It.IsAny<ITextSnapshot>(),
-                    It.IsAny<List<SpanAndLineRange>>())
-                ).Returns(GetProcessResult(new List<SpanAndLineRange>()));
+                    It.IsAny<List<LineRange>>())
+                ).Returns(GetProcessResult(new List<LineRange>()));
                 return mockContainingCodeTracker.Object;
             }).ToList();
 
@@ -162,7 +162,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockNewCodeTracker = new Mock<INewCodeTracker>();
             var changedLines = new List<int> { 1, 2, 3 };
             mockNewCodeTracker.Setup(newCodeTracker => newCodeTracker.GetChangedLineNumbers(
-                mockTextSnapshot.Object, It.IsAny<List<SpanAndLineRange>>(), expectedApplyNewCodeCodeRanges)
+                mockTextSnapshot.Object, It.IsAny<List<LineRange>>(), expectedApplyNewCodeCodeRanges)
             ).Returns(changedLines);
 
             var trackedLines = new TrackedLines(containingCodeTrackers, mockNewCodeTracker.Object, mockFileCodeSpanRangeService.Object);

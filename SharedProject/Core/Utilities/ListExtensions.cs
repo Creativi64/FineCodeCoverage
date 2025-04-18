@@ -5,6 +5,16 @@ namespace FineCodeCoverage.Core.Utilities
 {
     public static class List
     {
+        public static bool AddIfNotNull<T>(this IList<T> list, T item)
+        {
+            if (item != null)
+            {
+                list.Add(item);
+                return true;
+            }
+            return false;
+        }
+
         // To be performed on a sorted list
         // Returns -1 for empty list or when all elements are outside the lower bounds
         // Compare fn to return 0 for element considered the lower bound

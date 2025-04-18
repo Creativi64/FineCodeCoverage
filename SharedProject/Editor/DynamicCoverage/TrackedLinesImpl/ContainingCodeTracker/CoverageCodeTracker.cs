@@ -20,8 +20,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private List<int> CreateDirtyLineIfRequired(
-            List<SpanAndLineRange> newSpanChanges,
-            List<SpanAndLineRange> nonIntersecting,
+            List<LineRange> newSpanChanges,
+            List<LineRange> nonIntersecting,
             bool textChanged,
             ITextSnapshot currentSnapshot,
             ITrackingSpanRange trackingSpanRange
@@ -39,14 +39,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private bool Intersected(
-            List<SpanAndLineRange> newSpanChanges,
-            List<SpanAndLineRange> nonIntersecting
+            List<LineRange> newSpanChanges,
+            List<LineRange> nonIntersecting
         ) => nonIntersecting.Count < newSpanChanges.Count;
 
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
             ITextSnapshot currentSnapshot,
-            List<SpanAndLineRange> newSpanAndLineRanges
+            List<LineRange> newSpanAndLineRanges
         )
         {
             List<int> changedLineNumbers = this.CreateDirtyLineIfRequired(

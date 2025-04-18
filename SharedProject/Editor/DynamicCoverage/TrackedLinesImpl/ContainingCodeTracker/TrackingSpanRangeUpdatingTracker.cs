@@ -25,10 +25,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public ContainingCodeTrackerState GetState()
             => new ContainingCodeTrackerState(this.trackingSpanRange.ToCodeSpanRange(), this.Lines);
 
-        public IContainingCodeTrackerProcessResult ProcessChanges(ITextSnapshot currentSnapshot, List<SpanAndLineRange> newSpanAndLineRanges)
+        public IContainingCodeTrackerProcessResult ProcessChanges(ITextSnapshot currentSnapshot, List<LineRange> newSpanAndLineRanges)
         {
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult = this.trackingSpanRange.Process(currentSnapshot, newSpanAndLineRanges);
-            List<SpanAndLineRange> nonIntersectingSpans = trackingSpanRangeProcessResult.NonIntersectingSpans;
+            List<LineRange> nonIntersectingSpans = trackingSpanRangeProcessResult.NonIntersectingSpans;
             if (trackingSpanRangeProcessResult.IsEmpty)
             {
                 IEnumerable<int> lines = this.updatableDynamicLines.Lines.Select(l => l.Number);

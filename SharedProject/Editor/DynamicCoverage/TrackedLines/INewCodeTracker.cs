@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    class NewCodeChangedEventArgs : EventArgs
+    class HasNewCodeChangedEventArgs : EventArgs
     {
-        public NewCodeChangedEventArgs(string filePath, bool hasNewCode)
+        public HasNewCodeChangedEventArgs(string filePath, bool hasNewCode)
         {
             this.FilePath = filePath;
             this.HasNewCode = hasNewCode;
@@ -15,14 +15,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public string FilePath { get; }
         public bool HasNewCode { get; }
     }
+
     internal interface INewCodeTracker
     {
-        event EventHandler<NewCodeChangedEventArgs> NewCodeChanged;
+        event EventHandler<HasNewCodeChangedEventArgs> HasNewCodeChanged;
         IEnumerable<IDynamicLine> Lines { get; }
 
         IEnumerable<int> GetChangedLineNumbers(
             ITextSnapshot currentSnapshot,
-            List<SpanAndLineRange> newSpanChanges,
+            List<LineRange> newSpanChanges,
             IEnumerable<CodeSpanRange> newCodeCodeRanges);
     }
 }

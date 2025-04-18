@@ -55,23 +55,23 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             SetupSpan(mockFirstTrackingSpan,10, 5);
             SetupSpan(mockEndTrackingSpan,20, 10);
 
-            var expectedNewSpanAndLineRanges = new List<SpanAndLineRange>
+            var expectedNewSpanAndLineRanges = new List<LineRange>
             {
-                new SpanAndLineRange(new Span(0,1),0,0),
-                new SpanAndLineRange(new Span(160,10),11,11),
+                new LineRange(0,0),
+                new LineRange(11,11),
             };
 
-            var newSpanAndLineRanges = new List<SpanAndLineRange>
+            var newSpanAndLineRanges = new List<LineRange>
             {
                 expectedNewSpanAndLineRanges[0],
 
-                new SpanAndLineRange(new Span(50,10),4,5),
-                new SpanAndLineRange(new Span(100,10),5,6),
-                new SpanAndLineRange(new Span(110,10),7,7),
-                new SpanAndLineRange(new Span(120,10),8,8),
-                new SpanAndLineRange(new Span(130,10),9,9),
-                new SpanAndLineRange(new Span(140,10),10,10),
-                new SpanAndLineRange(new Span(150,10),10,11),
+                new LineRange(4,5),
+                new LineRange(5,6),
+                new LineRange(7,7),
+                new LineRange(8,8),
+                new LineRange(9,9),
+                new LineRange(10,10),
+                new LineRange(10,11),
 
                 expectedNewSpanAndLineRanges[1]
 
@@ -98,7 +98,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             SetupSpan(mockFirstTrackingSpan, firstStart, 15);
             SetupSpan(mockEndTrackingSpan, 20, endEnd);
 
-           return trackingSpanRange.Process(mockTextSnapshot.Object, new List<SpanAndLineRange>());
+           return trackingSpanRange.Process(mockTextSnapshot.Object, new List<LineRange>());
         }
 
         [TestCase(true)]

@@ -33,10 +33,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Not_Update_IUpdatableDynamicLines_When_Empty_Returning_All_UpdatableDynamicLines_Line_Numbers()
         {
             var textSnapshot = new Mock<ITextSnapshot>().Object;
-            var newSpanAndLineRanges = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(1, 2), 0, 0) };
+            var newLineRanges = new List<LineRange> { new LineRange(0, 0) };
             var mockTrackingSpanRange = new Mock<ITrackingSpanRange>();
-            var nonIntersectingSpans = new List<SpanAndLineRange>();
-            mockTrackingSpanRange.Setup(trackingSpanRange => trackingSpanRange.Process(textSnapshot, newSpanAndLineRanges))
+            var nonIntersectingSpans = new List<LineRange>();
+            mockTrackingSpanRange.Setup(trackingSpanRange => trackingSpanRange.Process(textSnapshot, newLineRanges))
                 .Returns(new TrackingSpanRangeProcessResult(mockTrackingSpanRange.Object, nonIntersectingSpans, true, false));
             var mockUpdatableDynamicLines = new Mock<IUpdatableDynamicLines>(MockBehavior.Strict);
 
@@ -45,7 +45,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var trackingSpanRangeUpdatingTracker = new TrackingSpanRangeUpdatingTracker(mockTrackingSpanRange.Object, mockUpdatableDynamicLines.Object);
 
-            var result = trackingSpanRangeUpdatingTracker.ProcessChanges(textSnapshot, newSpanAndLineRanges);
+            var result = trackingSpanRangeUpdatingTracker.ProcessChanges(textSnapshot, newLineRanges);
 
             Assert.That(result.UnprocessedSpans, Is.SameAs(nonIntersectingSpans));
             Assert.That(result.ChangedLines, Is.EqualTo(new List<int> { 1,2}));
@@ -56,21 +56,21 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_Update_IUpdatableDynamicLines_When_Non_Empty()
         {
             var textSnapshot = new Mock<ITextSnapshot>().Object;
-            var newSpanAndLineRanges = new List<SpanAndLineRange> { new SpanAndLineRange(new Span(1, 2), 0, 0) };
+            var newLineRanges = new List<LineRange> { new LineRange(0, 0) };
             var mockTrackingSpanRange = new Mock<ITrackingSpanRange>();
-            var nonIntersectingSpans = new List<SpanAndLineRange>();
+            var nonIntersectingSpans = new List<LineRange>();
             var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(mockTrackingSpanRange.Object, nonIntersectingSpans, false, false);
-            mockTrackingSpanRange.Setup(trackingSpanRange => trackingSpanRange.Process(textSnapshot, newSpanAndLineRanges))
+            mockTrackingSpanRange.Setup(trackingSpanRange => trackingSpanRange.Process(textSnapshot, newLineRanges))
                 .Returns(trackingSpanRangeProcessResult);
             var mockUpdatableDynamicLines = new Mock<IUpdatableDynamicLines>();
             var updatedLineNumbers = new List<int> { 1, 2 };
             mockUpdatableDynamicLines.Setup(
-                updatableDynamicLines => updatableDynamicLines.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newSpanAndLineRanges)
+                updatableDynamicLines => updatableDynamicLines.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newLineRanges)
             ).Returns(updatedLineNumbers);
 
             var trackingSpanRangeUpdatingTracker = new TrackingSpanRangeUpdatingTracker(mockTrackingSpanRange.Object, mockUpdatableDynamicLines.Object);
 
-            var result = trackingSpanRangeUpdatingTracker.ProcessChanges(textSnapshot, newSpanAndLineRanges);
+            var result = trackingSpanRangeUpdatingTracker.ProcessChanges(textSnapshot, newLineRanges);
 
             Assert.That(result.UnprocessedSpans, Is.SameAs(nonIntersectingSpans));
             Assert.That(result.ChangedLines, Is.SameAs(updatedLineNumbers));

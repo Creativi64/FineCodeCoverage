@@ -6,6 +6,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         bool IsEmpty { get; }
         IEnumerable<int> ChangedLines { get; }
-        List<SpanAndLineRange> UnprocessedSpans { get; }
+        List<LineRange> UnprocessedSpans { get; }
     }
 }

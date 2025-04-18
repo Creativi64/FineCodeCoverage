@@ -39,11 +39,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void SetRangeText(ITextSnapshot currentSnapshot, SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan)
             => this.lastRangeText = currentSnapshot.GetText(new Span(currentFirstSpan.Start, currentEndSpan.End - currentFirstSpan.Start));
 
-        public TrackingSpanRangeProcessResult Process(ITextSnapshot currentSnapshot, List<SpanAndLineRange> newSpanAndLineRanges)
+        public TrackingSpanRangeProcessResult Process(ITextSnapshot currentSnapshot, List<LineRange> newSpanAndLineRanges)
         {
             (SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan) = this.GetCurrentRange(currentSnapshot);
             (bool isEmpty, bool textChanged) = this.GetTextChangeInfo(currentSnapshot, currentFirstSpan, currentEndSpan);
-            List<SpanAndLineRange> nonIntersecting = this.GetNonIntersecting(currentSnapshot, currentFirstSpan, currentEndSpan, newSpanAndLineRanges);
+            List<LineRange> nonIntersecting = this.GetNonIntersecting(currentSnapshot, currentFirstSpan, currentEndSpan, newSpanAndLineRanges);
             return new TrackingSpanRangeProcessResult(this, nonIntersecting, isEmpty, textChanged);
         }
 
@@ -57,8 +57,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         }
 
-        private List<SpanAndLineRange> GetNonIntersecting(
-            ITextSnapshot currentSnapshot, SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan, List<SpanAndLineRange> newSpanAndLineRanges)
+        private List<LineRange> GetNonIntersecting(
+            ITextSnapshot currentSnapshot, SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan, List<LineRange> newSpanAndLineRanges)
         {
             int currentFirstTrackedLineNumber = currentSnapshot.GetLineNumberFromPosition(currentFirstSpan.End);
             int currentEndTrackedLineNumber = currentSnapshot.GetLineNumberFromPosition(currentEndSpan.End);

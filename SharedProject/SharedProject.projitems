@@ -351,7 +351,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\NewCodeTracker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\NewCodeTrackerFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\NotIncludedLineFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\SpanAndLineRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\LineRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\SyntaxNodeLocationMapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TextInfoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TextSnapshotText.cs" />
