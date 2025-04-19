@@ -81,7 +81,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         {
             var mockTextSnapshot = new Mock<ITextSnapshot>();
 
-            var mockContainingCodeTracker = new Mock<IContainingCodeTracker>(MockBehavior.Strict);
+            var mockContainingCodeTracker = new Mock<IContainingCodeTracker>();
             mockContainingCodeTracker.Setup(
                 containingCodeTracker => containingCodeTracker.ProcessChanges(
                     mockTextSnapshot.Object,
