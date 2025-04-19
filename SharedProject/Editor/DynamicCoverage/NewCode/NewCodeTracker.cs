@@ -54,36 +54,38 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return t;
         }
 
-        private IEnumerable<int> GetChangedLineNumbersActual(
+        private List<int> GetChangedLineNumbersActual(
             ITextSnapshot currentSnapshot,
             List<LineRange> potentialNewLines,
             IEnumerable<CodeSpanRange> newCodeCodeRanges
-        ) => newCodeCodeRanges != null
+        ) => (newCodeCodeRanges != null
                     ? this.GetChangedLineNumbers(newCodeCodeRanges, currentSnapshot)
-                : this.GetChangedLineNumbers(potentialNewLines, currentSnapshot);
+                : this.GetChangedLineNumbers(potentialNewLines, currentSnapshot)
+            ).OrderBy(lineNumber => lineNumber).ToList();
 
         #region NewCodeCodeRanges
 
         private List<int> GetChangedLineNumbers(IEnumerable<CodeSpanRange> newCodeCodeRanges, ITextSnapshot textSnapshot)
         {
-            var startLineNumbers = newCodeCodeRanges.Select(newCodeCodeRange => newCodeCodeRange.StartLine).ToList();
-            IEnumerable<int> removed = this.RemoveAndReduceByLineNumbers(startLineNumbers);
-            this.CreateTrackedNewCodeLines(startLineNumbers, textSnapshot);
-            return removed.Concat(startLineNumbers).ToList();
+            var rangeStartLineNumbers = newCodeCodeRanges.Select(newCodeCodeRange => newCodeCodeRange.StartLine).ToList();
+            List<int> removed = this.RemoveAndReduceByDynamicLineNumbers(rangeStartLineNumbers);
+            List<int> newRangeStartLineNumbers = rangeStartLineNumbers;
+            this.CreateTrackedNewCodeLinesFromRangeStartLineNumbers(newRangeStartLineNumbers, textSnapshot);
+            return removed.Concat(newRangeStartLineNumbers).ToList();
         }
 
-        private IEnumerable<int> RemoveAndReduceByLineNumbers(List<int> startLineNumbers)
+        private List<int> RemoveAndReduceByDynamicLineNumbers(List<int> rangeStartLineNumbers)
         {
             var removals = this.trackedNewCodeLines.Where(
-                trackedNewCodeLine => !startLineNumbers.Remove(trackedNewCodeLine.Line.Number)).ToList();
+                trackedNewCodeLine => !rangeStartLineNumbers.Remove(trackedNewCodeLine.Line.Number)).ToList();
 
             removals.ForEach(removal => this.trackedNewCodeLines.Remove(removal));
-            return removals.Select(removal => removal.Line.Number);
+            return removals.Select(removal => removal.Line.Number).ToList();
         }
 
-        private void CreateTrackedNewCodeLines(IEnumerable<int> lineNumbers, ITextSnapshot currentSnapshot)
+        private void CreateTrackedNewCodeLinesFromRangeStartLineNumbers(IEnumerable<int> rangeStartLineNumbers, ITextSnapshot currentSnapshot)
             => this.trackedNewCodeLines.AddRange(
-                lineNumbers.Select(lineNumber => this.CreateTrackedNewCodeLine(currentSnapshot, lineNumber))
+                rangeStartLineNumbers.Select(lineNumber => this.CreateTrackedNewCodeLine(currentSnapshot, lineNumber))
             );
 
         #endregion

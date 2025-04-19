@@ -179,100 +179,99 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         #endregion
 
         #region NewCodeCodeRanges updates
-        //[Test]
-        public void Should_Have_No_Changes_When_All_CodeSpanRange_Start_Line_Numbers_Are_Already_Tracked()
+
+        [Test]
+        public void Should_Create_From_New_Range_Start_Line_Numbers()
         {
-            throw new NotImplementedException();
-            //var textSnapshot = new Mock<ITextSnapshot>().Object;
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
+            List<CodeSpanRange> newCodeSpanRanges = new List<CodeSpanRange> {
+                new CodeSpanRange(1,3)
+            };
+            var trackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "", 1).Object;
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(
+                trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
+                ).Returns(trackedNewCodeLine);
 
-            //var mockTrackedNewCodeLine = new Mock<ITrackedNewCodeLine>();
-            //var mockDynamicLine = new Mock<IDynamicLine>();
-            //mockDynamicLine.SetupGet(dynamicLine => dynamicLine.Number).Returns(1);
-            //mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.Line).Returns(mockDynamicLine.Object);
-            //var mockTrackedNewCodeLineFactory = new Mock<ITrackedNewCodeLineFactory>();
-            //mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
-            //    trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
-            //).Returns(mockTrackedNewCodeLine.Object);
+            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
 
-            //var newCodeTracker = new NewCodeTracker(
-            //    mockTrackedNewCodeLineFactory.Object, new Mock<ILineExcluder>().Object, new List<int> { 1 }, textSnapshot);
-
-            //var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
-            //    new Mock<ITextSnapshot>().Object,
-            //    null,
-            //    new List<CodeSpanRange> { new CodeSpanRange(1, 3) });
-
-            //Assert.That(changedLineNumbers, Is.Empty);
-            //Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(mockDynamicLine.Object));
+            Assert.That(changedLineNumbers.Single(), Is.EqualTo(1));
+            Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(trackedNewCodeLine.Line));
         }
 
-        //[Test]
-        public void Should_Have_Single_Changed_Line_Number_When_CodeSpanRange_Start_Line_Not_Tracked_And_No_Existing()
+        [Test]
+        public void Should_Have_No_Changes_When_All_CodeSpanRange_Start_Line_Numbers_Are_Already_Tracked()
         {
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
+            List<CodeSpanRange> newCodeSpanRanges = new List<CodeSpanRange> {
+                new CodeSpanRange(1,3)
+            };
+            var trackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "", 1).Object;
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(
+                trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
+                ).Returns(trackedNewCodeLine);
+
+            newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+
+            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+            
+            Assert.That(changedLineNumbers.Any(),Is.False);
+            Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(trackedNewCodeLine.Line));
+        }
+
+        [Test]
+        public void Should_Have_Single_Changed_Line_Number_When_CodeSpanRange_Start_Line_Not_Tracked()
+        {
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
             var currentTextSnapshot = new Mock<ITextSnapshot>().Object;
+            List<CodeSpanRange> newCodeSpanRanges = new List<CodeSpanRange> {
+                new CodeSpanRange(1,3)
+            };
+            var trackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "", 1).Object;
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(
+                trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
+                ).Returns(trackedNewCodeLine);
+            var newTrackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "", 5).Object;
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(
+                trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(currentTextSnapshot, SpanTrackingMode.EdgeExclusive, 5)
+                ).Returns(newTrackedNewCodeLine);
 
-            var mockTrackedNewCodeLine = new Mock<ITrackedNewCodeLine>();
-            var dynamicLine = new Mock<IDynamicLine>().Object;
-            mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.Line).Returns(dynamicLine);
-            var mockTrackedNewCodeLineFactory = new Mock<ITrackedNewCodeLineFactory>();
-            mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
-                trackedNewCodeLineFactory.Create(currentTextSnapshot, SpanTrackingMode.EdgeExclusive, 1)
-            ).Returns(mockTrackedNewCodeLine.Object);
-
-            var newCodeTracker = new NewCodeTracker(
-                mockTrackedNewCodeLineFactory.Object, null,new Mock<ITextInfoFactory>().Object);
+            newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
 
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                 currentTextSnapshot,
                 null,
-                new List<CodeSpanRange> { new CodeSpanRange(1, 3) });
+                new List<CodeSpanRange> { new CodeSpanRange(1, 3), new CodeSpanRange(5,7) });
 
-            Assert.That(changedLineNumbers.Single(), Is.EqualTo(1));
-            Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(dynamicLine));
+            Assert.That(changedLineNumbers.Single(), Is.EqualTo(5));
+            Assert.That(newCodeTracker.Lines, Is.EqualTo(new List<IDynamicLine> { trackedNewCodeLine.Line, newTrackedNewCodeLine.Line }));
         }
 
-        private IDynamicLine CreateDynamicLine(int lineNumber)
-        {
-            var mockDynamicLine = new Mock<IDynamicLine>();
-            mockDynamicLine.SetupGet(dynamicLine => dynamicLine.Number).Returns(lineNumber);
-            return mockDynamicLine.Object;
-        }
-
-        //[Test]
+        [Test]
         public void Should_Remove_Tracked_Lines_That_Are_Not_CodeSpanRange_Start()
         {
-            throw new NotImplementedException();
-            //var textSnapshot = new Mock<ITextSnapshot>().Object;
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
+            var currentTextSnapshot = new Mock<ITextSnapshot>().Object;
+            List<CodeSpanRange> newCodeSpanRanges = new List<CodeSpanRange> {
+                new CodeSpanRange(1,3)
+            };
+            var trackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "", 1).Object;
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(
+                trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
+                ).Returns(trackedNewCodeLine);
+            var newTrackedNewCodeLine = CreateMockTrackedNewCodeLine(textSnapshot, "", 5).Object;
+            autoMoqer.Setup<ITrackedNewCodeLineFactory, ITrackedNewCodeLine>(
+                trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(currentTextSnapshot, SpanTrackingMode.EdgeExclusive, 5)
+                ).Returns(newTrackedNewCodeLine);
 
-            //var mockTrackedNewCodeLine = new Mock<ITrackedNewCodeLine>();
-            //var dynamicLine = CreateDynamicLine(1);
-            //mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.Line).Returns(dynamicLine);
-            //var mockTrackedNewCodeLineFactory = new Mock<ITrackedNewCodeLineFactory>();
-            //mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
-            //    trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
-            //).Returns(mockTrackedNewCodeLine.Object);
-            //var mockRemovedTrackedNewCodeLine2 = new Mock<ITrackedNewCodeLine>();
-            //var removedDynamicLine = CreateDynamicLine(2);
-            //mockRemovedTrackedNewCodeLine2.Setup(trackedNewCodeLine => trackedNewCodeLine.Line).Returns(removedDynamicLine);
-            //mockTrackedNewCodeLineFactory.Setup(trackedNewCodeLineFactory =>
-            //    trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 2)
-            //).Returns(mockRemovedTrackedNewCodeLine2.Object);
+            newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
 
-            //var newCodeTracker = new NewCodeTracker(
-            //    mockTrackedNewCodeLineFactory.Object,
-            //    new Mock<ILineExcluder>().Object,
-            //    new List<int> { 1, 2, },
-            //    textSnapshot);
+            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
+                currentTextSnapshot,
+                null,
+                new List<CodeSpanRange> { new CodeSpanRange(5, 7) });
 
-            //Assert.That(newCodeTracker.Lines.Count(), Is.EqualTo(2));
-
-            //var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
-            //    new Mock<ITextSnapshot>().Object,
-            //    null,
-            //    new List<CodeSpanRange> { new CodeSpanRange(1, 3) });
-
-            //Assert.That(changedLineNumbers, Is.EqualTo(new List<int> { 2 }));
-            //Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(dynamicLine));
+            Assert.That(changedLineNumbers, Is.EqualTo(new int[] { 1, 5}));
+            Assert.That(newCodeTracker.Lines, Is.EqualTo(new List<IDynamicLine> { newTrackedNewCodeLine.Line }));
 
         }
         #endregion
