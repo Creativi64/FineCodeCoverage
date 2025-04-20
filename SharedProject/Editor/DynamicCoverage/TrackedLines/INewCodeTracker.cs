@@ -21,9 +21,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         event EventHandler<HasNewCodeChangedEventArgs> HasNewCodeChanged;
         IEnumerable<IDynamicLine> Lines { get; }
 
-        IEnumerable<int> GetChangedLineNumbers(
-            ITextSnapshot currentSnapshot,
-            List<LineRange> newSpanChanges,
-            IEnumerable<CodeSpanRange> newCodeCodeRanges);
+        IEnumerable<int> GetChangedLineNumbers(ITextSnapshot currentSnapshot, List<CodeSpanRange> codeSpanRanges);
+
+        IEnumerable<int> GetChangedLineNumbers(ITextSnapshot currentSnapshot, List<LineRange> ranges);
     }
 }

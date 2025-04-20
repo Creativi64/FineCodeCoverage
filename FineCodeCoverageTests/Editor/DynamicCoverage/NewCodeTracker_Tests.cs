@@ -63,8 +63,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 new List<LineRange> { 
                     new LineRange(1, 2), 
                     new LineRange(1, 2),
-                    new LineRange(3, 4) },
-                null);
+                    new LineRange(3, 4) }
+                );
             
             Assert.That(changedLineNumbers.Single(), Is.EqualTo(1));
             Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(includeTrackedNewCodeLine.Line));
@@ -95,8 +95,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                 mockTextSnapshot.Object,
-                new List<LineRange> { new LineRange(1, 2) },
-                null);
+                new List<LineRange> { new LineRange(1, 2) }
+                );
 
             Assert.That(hasNewCodeChangedEventArgs.HasNewCode, Is.True);
             Assert.That(hasNewCodeChangedEventArgs.FilePath, Is.EqualTo(filePath));
@@ -119,14 +119,14 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             newCodeTracker.GetChangedLineNumbers(
                 textSnapshot,
-                new List<LineRange> { new LineRange(1, 1) },
-                null);
+                new List<LineRange> { new LineRange(1, 1) }
+                );
 
             beforeUpdate?.Invoke();
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                  textSnapshot2,
-                 new List<LineRange> { lineRange2 ?? new LineRange(1, 1) },
-                 null);
+                 new List<LineRange> { lineRange2 ?? new LineRange(1, 1) }
+                 );
             return (changedLineNumbers, newCodeTracker.Lines);
         }
         
@@ -192,7 +192,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
                 ).Returns(trackedNewCodeLine);
 
-            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(textSnapshot, newCodeSpanRanges);
 
             Assert.That(changedLineNumbers.Single(), Is.EqualTo(1));
             Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(trackedNewCodeLine.Line));
@@ -210,9 +210,9 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(textSnapshot, SpanTrackingMode.EdgeExclusive, 1)
                 ).Returns(trackedNewCodeLine);
 
-            newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+            newCodeTracker.GetChangedLineNumbers(textSnapshot, newCodeSpanRanges);
 
-            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+            var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(textSnapshot, newCodeSpanRanges);
             
             Assert.That(changedLineNumbers.Any(),Is.False);
             Assert.That(newCodeTracker.Lines.Single(), Is.SameAs(trackedNewCodeLine.Line));
@@ -235,11 +235,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(currentTextSnapshot, SpanTrackingMode.EdgeExclusive, 5)
                 ).Returns(newTrackedNewCodeLine);
 
-            newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+            newCodeTracker.GetChangedLineNumbers(textSnapshot, newCodeSpanRanges);
 
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                 currentTextSnapshot,
-                null,
                 new List<CodeSpanRange> { new CodeSpanRange(1, 3), new CodeSpanRange(5,7) });
 
             Assert.That(changedLineNumbers.Single(), Is.EqualTo(5));
@@ -263,11 +262,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                 trackedNewCodeLineFactory => trackedNewCodeLineFactory.Create(currentTextSnapshot, SpanTrackingMode.EdgeExclusive, 5)
                 ).Returns(newTrackedNewCodeLine);
 
-            newCodeTracker.GetChangedLineNumbers(textSnapshot, null, newCodeSpanRanges);
+            newCodeTracker.GetChangedLineNumbers(textSnapshot, newCodeSpanRanges);
 
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                 currentTextSnapshot,
-                null,
                 new List<CodeSpanRange> { new CodeSpanRange(5, 7) });
 
             Assert.That(changedLineNumbers, Is.EqualTo(new int[] { 1, 5}));
@@ -297,13 +295,13 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             newCodeTracker.GetChangedLineNumbers(
                 textSnapshot,
-                new List<LineRange> { new LineRange(3, 3) },
-                null);
+                new List<LineRange> { new LineRange(3, 3) }
+                );
 
             var changedLineNumbers = newCodeTracker.GetChangedLineNumbers(
                  textSnapshot2,
-                 new List<LineRange> { new LineRange(1, 1), new LineRange(3, 3) },
-                 null);
+                 new List<LineRange> { new LineRange(1, 1), new LineRange(3, 3) }
+                 );
 
             
             Assert.That(newCodeTracker.Lines.Select(dl => dl.Number),Is.EqualTo(new int[] { 1,3}));

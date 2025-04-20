@@ -119,7 +119,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockNewCodeTracker = new Mock<INewCodeTracker>();
             var newCodeTrackerChangedLines = new List<int> { 1, 2, 3 };
             mockNewCodeTracker.Setup(newCodeTracker => newCodeTracker.GetChangedLineNumbers(
-                mockTextSnapshot.Object, It.IsAny<List<LineRange>>(), It.IsAny<IEnumerable<CodeSpanRange>>())
+                mockTextSnapshot.Object, It.IsAny<List<LineRange>>())
             ).Returns(newCodeTrackerChangedLines);
 
             var mockContainingCodeTracker = new Mock<IContainingCodeTracker>();
@@ -162,7 +162,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var mockNewCodeTracker = new Mock<INewCodeTracker>();
             var changedLines = new List<int> { 1, 2, 3 };
             mockNewCodeTracker.Setup(newCodeTracker => newCodeTracker.GetChangedLineNumbers(
-                mockTextSnapshot.Object, It.IsAny<List<LineRange>>(), expectedApplyNewCodeCodeRanges)
+                mockTextSnapshot.Object, expectedApplyNewCodeCodeRanges)
             ).Returns(changedLines);
 
             var trackedLines = new TrackedLines(containingCodeTrackers, mockNewCodeTracker.Object, mockFileCodeSpanRangeService.Object);
