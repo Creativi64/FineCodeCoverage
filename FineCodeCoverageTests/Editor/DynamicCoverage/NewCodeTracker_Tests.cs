@@ -30,7 +30,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         private Mock<ITrackedNewCodeLine> CreateMockTrackedNewCodeLine(ITextSnapshot textSnapshot, string text, int lineNumber = 10)
         {
             var mockNewDynamicLine = new Mock<IDynamicLine>();
-            mockNewDynamicLine.SetupGet(l => l.Number).Returns(lineNumber);
+            mockNewDynamicLine.SetupGet(l => l.LineNumber).Returns(lineNumber);
             var newDynamicLine = mockNewDynamicLine.Object;
             var mockTrackedNewCodeLine = new Mock<ITrackedNewCodeLine>();
             mockTrackedNewCodeLine.Setup(trackedNewCodeLine => trackedNewCodeLine.GetText(textSnapshot)).Returns(text);
@@ -304,7 +304,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
                  );
 
             
-            Assert.That(newCodeTracker.Lines.Select(dl => dl.Number),Is.EqualTo(new int[] { 1,3}));
+            Assert.That(newCodeTracker.Lines.Select(dl => dl.LineNumber),Is.EqualTo(new int[] { 1,3}));
         }
     }
 }

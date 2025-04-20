@@ -234,7 +234,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         private static IDynamicLine CreateDynamicLine(int lineNumber)
         {
             var mockDynamicLine = new Mock<IDynamicLine>();
-            mockDynamicLine.SetupGet(x => x.Number).Returns(lineNumber);
+            mockDynamicLine.SetupGet(x => x.LineNumber).Returns(lineNumber);
             return mockDynamicLine.Object;
         }
 

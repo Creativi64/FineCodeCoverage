@@ -22,10 +22,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public TrackedNewCodeLineUpdate Update(ITextSnapshot currentSnapshot)
         {
-            int oldLineNumber = this.line.Number;
+            int oldLineNumber = this.line.LineNumber;
             TrackedLineInfo trackedLineInfo = this.lineTracker.GetTrackedLineInfo(this.trackingSpan, currentSnapshot, true);
-            this.line.Number = trackedLineInfo.LineNumber;
-            return new TrackedNewCodeLineUpdate(trackedLineInfo.LineText, this.line.Number, oldLineNumber);
+            this.line.LineNumber = trackedLineInfo.LineNumber;
+            return new TrackedNewCodeLineUpdate(trackedLineInfo.LineText, this.line.LineNumber, oldLineNumber);
         }
     }
 }

@@ -2,7 +2,8 @@
 {
     internal interface IDynamicLine
     {
-        int Number { get; }
+        int OriginalLineNumber { get; }
+        int LineNumber { get; }
         DynamicCoverageType CoverageType { get; }
     }
 }

@@ -60,14 +60,20 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         }
 
         [Test]
-        public void Should_GetStartDynamicCoberturaLine_From_First_TrackedCoverageLine()
+        public void Should_GetFirstTrackedCoverageLineInfo_From_First_TrackedCoverageLine()
         {
             var firstDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>().Object;
             var mockFirstTrackedCoverageLine = new Mock<ITrackedCoverageLine>();
             mockFirstTrackedCoverageLine.SetupGet(trackedCoverageLine => trackedCoverageLine.DynamicCoberturaLine).Returns(firstDynamicCoberturaLine);
+            var mockDynamicLine = new Mock<IDynamicLine>();
+            mockDynamicLine.SetupGet(dynamicLine => dynamicLine.OriginalLineNumber).Returns(123);
+            mockFirstTrackedCoverageLine.SetupGet(trackedCoverageLine => trackedCoverageLine.Line).Returns(mockDynamicLine.Object);
             var trackedCoverageLines = new TrackedCoverageLines(new List<ITrackedCoverageLine> { mockFirstTrackedCoverageLine.Object, new Mock<ITrackedCoverageLine>().Object });
             
-            Assert.That(firstDynamicCoberturaLine, Is.SameAs(trackedCoverageLines.GetStartDynamicCoberturaLine()));
+            var firstTrackedCoverageLineInfo = trackedCoverageLines.GetFirstTrackedCoverageLineInfo();
+
+            Assert.That(firstTrackedCoverageLineInfo.DynamicCoberturaLine, Is.SameAs(firstDynamicCoberturaLine));
+            Assert.That(firstTrackedCoverageLineInfo.OriginalLineNumber, Is.EqualTo(123));
         }
     }
 }

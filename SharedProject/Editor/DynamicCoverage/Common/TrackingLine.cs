@@ -7,9 +7,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         private readonly ITrackingSpan startTrackingSpan;
         private readonly ILineTracker lineTracker;
-        private readonly DynamicCoverageType dynamicCoverageType;
 
-        public IDynamicLine Line { get; private set; }
+        public IDynamicLine Line { get; }
         public TrackingLine(
             ITrackingSpan startTrackingSpan,
             ITextSnapshot currentSnapshot,
@@ -18,23 +17,33 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             this.startTrackingSpan = startTrackingSpan;
             this.lineTracker = lineTracker;
-            this.dynamicCoverageType = dynamicCoverageType;
-            this.SetLine(currentSnapshot);
+            int lineNumber = this.lineTracker.GetLineNumber(this.startTrackingSpan, currentSnapshot, false);
+            this.Line = new DynamicLine(lineNumber, dynamicCoverageType);
         }
 
-        private void SetLine(ITextSnapshot currentSnapshot)
+        public TrackingLine(
+            ITrackingSpan startTrackingSpan,
+            ILineTracker lineTracker,
+            DynamicCoverageType dynamicCoverageType,
+            int originalLineNumber)
         {
-            int startLineNumber = this.lineTracker.GetLineNumber(this.startTrackingSpan, currentSnapshot, false);
+            this.lineTracker = lineTracker;
+            this.startTrackingSpan = startTrackingSpan;
+            this.Line = new DynamicLine(originalLineNumber, dynamicCoverageType);
+        }
 
-            this.Line = new DynamicLine(startLineNumber, this.dynamicCoverageType);
+        private void UpdateLineNumber(ITextSnapshot currentSnapshot)
+        {
+            int lineNumber = this.lineTracker.GetLineNumber(this.startTrackingSpan, currentSnapshot, false);
+            (this.Line as DynamicLine).LineNumber = lineNumber;
         }
 
         public List<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)
         {
-            int currentFirstLineNumber = this.Line.Number;
-            this.SetLine(currentSnapshot);
-            bool updated = currentFirstLineNumber != this.Line.Number;
-            return updated ? new List<int> { currentFirstLineNumber, this.Line.Number } : new List<int>();
+            int currentFirstLineNumber = this.Line.LineNumber;
+            this.UpdateLineNumber(currentSnapshot);
+            bool updated = currentFirstLineNumber != this.Line.LineNumber;
+            return updated ? new List<int> { currentFirstLineNumber, this.Line.LineNumber } : new List<int>();
         }
     }
 }

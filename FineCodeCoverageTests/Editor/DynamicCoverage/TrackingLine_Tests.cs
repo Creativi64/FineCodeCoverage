@@ -24,12 +24,20 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             AssertTrackingLine(trackingLine, 10, coverageType);
         }
 
-        private void AssertTrackingLine(TrackingLine trackingLine, int lineNumber, DynamicCoverageType coverageType)
+        [Test]
+        public void Should_Have_A_Line_From_OriginalLineNumber_Ctor_Parameter()
+        {
+            var trackingLine = new TrackingLine(null, null, DynamicCoverageType.Covered,123);
+
+            AssertTrackingLine(trackingLine, 123, DynamicCoverageType.Covered);
+        }
+
+        private void AssertTrackingLine(TrackingLine trackingLine, int expectedLineNumber, DynamicCoverageType expectedCoverageType)
         {
             var dynamicLine = trackingLine.Line;
 
-            Assert.That(coverageType, Is.EqualTo(dynamicLine.CoverageType));
-            Assert.That(lineNumber, Is.EqualTo(dynamicLine.Number));
+            Assert.That(expectedCoverageType, Is.EqualTo(dynamicLine.CoverageType));
+            Assert.That(expectedLineNumber, Is.EqualTo(dynamicLine.LineNumber));
         }
 
         [TestCase(true)]

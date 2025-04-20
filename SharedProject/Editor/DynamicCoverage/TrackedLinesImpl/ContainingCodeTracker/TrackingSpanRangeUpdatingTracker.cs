@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<LineRange> nonIntersectingSpans = trackingSpanRangeProcessResult.NonIntersectingSpans;
             if (trackingSpanRangeProcessResult.IsEmpty)
             {
-                IEnumerable<int> lines = this.updatableDynamicLines.Lines.Select(l => l.Number);
+                IEnumerable<int> lines = this.updatableDynamicLines.Lines.Select(l => l.LineNumber);
                 return new ContainingCodeTrackerProcessResult(lines, nonIntersectingSpans, true);
             }
 

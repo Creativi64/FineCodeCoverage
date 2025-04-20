@@ -28,7 +28,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 IDynamicLine CreateDynamicLine(int lineNumber, DynamicCoverageType coverageType)
                 {
                     var mockDynamicLine = new Mock<IDynamicLine>();
-                    mockDynamicLine.SetupGet(dynamicLine => dynamicLine.Number).Returns(lineNumber);
+                    mockDynamicLine.SetupGet(dynamicLine => dynamicLine.LineNumber).Returns(lineNumber);
                     mockDynamicLine.SetupGet(dynamicLine => dynamicLine.CoverageType).Returns(coverageType);
                     return mockDynamicLine.Object;
                 }

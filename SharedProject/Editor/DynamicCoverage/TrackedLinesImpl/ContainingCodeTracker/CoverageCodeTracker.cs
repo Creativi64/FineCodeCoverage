@@ -23,19 +23,19 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<LineRange> newSpanChanges,
             List<LineRange> nonIntersecting,
             bool textChanged,
-            ITextSnapshot currentSnapshot,
             ITrackingSpanRange trackingSpanRange
         ) => this.dirtyLine == null && textChanged && this.Intersected(newSpanChanges, nonIntersecting)
-                ? this.CreateDirtyLine(currentSnapshot, trackingSpanRange)
+                ? this.CreateDirtyLine(trackingSpanRange)
                 : null;
 
-        private List<int> CreateDirtyLine(ITextSnapshot currentSnapshot, ITrackingSpanRange trackingSpanRange)
+        private List<int> CreateDirtyLine(ITrackingSpanRange trackingSpanRange)
         {
-            IDynamicCoberturaLine dynamicCoberturaLine = this.trackedCoverageLines.GetStartDynamicCoberturaLine();
+            FirstTrackedCoverageLineInfo firstTrackedCoverageLineInfo = this.trackedCoverageLines.GetFirstTrackedCoverageLineInfo();
+            IDynamicCoberturaLine dynamicCoberturaLine = firstTrackedCoverageLineInfo.DynamicCoberturaLine;
             ITrackingSpan firstTrackingSpan = trackingSpanRange.GetFirstTrackingSpan();
-            this.dirtyLine = this.dirtyLineFactory.Create(firstTrackingSpan, currentSnapshot, dynamicCoberturaLine);
+            this.dirtyLine = this.dirtyLineFactory.Create(firstTrackingSpan, firstTrackedCoverageLineInfo.OriginalLineNumber, dynamicCoberturaLine);
             dynamicCoberturaLine?.CodeElement.IsDirty();
-            return new int[] { this.dirtyLine.Line.Number }.Concat(this.trackedCoverageLines.Lines.Select(l => l.Number)).ToList();
+            return new int[] { this.dirtyLine.Line.LineNumber }.Concat(this.trackedCoverageLines.Lines.Select(l => l.LineNumber)).ToList();
         }
 
         private bool Intersected(
@@ -53,7 +53,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     newSpanAndLineRanges,
                     trackingSpanRangeProcessResult.NonIntersectingSpans,
                     trackingSpanRangeProcessResult.TextChanged,
-                    currentSnapshot,
                     trackingSpanRangeProcessResult.TrackingSpanRange
                 );
             return changedLineNumbers ?? this.UpdateLines(currentSnapshot);
@@ -64,7 +63,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 ? this.dirtyLine.GetUpdatedLineNumbers(currentSnapshot)
                 : this.trackedCoverageLines.GetUpdatedLineNumbers(currentSnapshot);
 
-        public void Deleted() => this.trackedCoverageLines.GetStartDynamicCoberturaLine()?.CodeElement.Deleted();
+        public void Deleted() => this.trackedCoverageLines.GetFirstTrackedCoverageLineInfo().DynamicCoberturaLine?.CodeElement.Deleted();
 
         public IEnumerable<IDynamicLine> Lines => this.dirtyLine != null ? new List<IDynamicLine> { this.dirtyLine.Line } : this.trackedCoverageLines.Lines;
     }

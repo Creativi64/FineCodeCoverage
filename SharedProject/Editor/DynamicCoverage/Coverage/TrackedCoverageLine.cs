@@ -30,11 +30,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public List<int> GetUpdateLineNumbers(ITextSnapshot currentSnapshot)
         {
-            int previousLineNumber = this.Line.Number;
+            int previousLineNumber = this.Line.LineNumber;
             int newLineNumber = this.lineTracker.GetLineNumber(this.trackingSpan, currentSnapshot, true);
             if (newLineNumber != previousLineNumber)
             {
-                this.line.Number = newLineNumber;
+                this.line.LineNumber = newLineNumber;
                 this.updateDynamicCoberturaLine(newLineNumber);
                 return new List<int> { previousLineNumber, newLineNumber };
 

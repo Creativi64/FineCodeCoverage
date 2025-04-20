@@ -143,13 +143,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private (bool done, IEnumerable<IDynamicLine> lines) GetLines(IEnumerable<IDynamicLine> dynamicLines, int startLineNumber, int endLineNumber)
         {
             IEnumerable<IDynamicLine> linesApplicableToStartLineNumber = this.LinesApplicableToStartLineNumber(dynamicLines, startLineNumber);
-            var lines = linesApplicableToStartLineNumber.TakeWhile(l => l.Number <= endLineNumber).ToList();
+            var lines = linesApplicableToStartLineNumber.TakeWhile(l => l.LineNumber <= endLineNumber).ToList();
             bool done = lines.Count != linesApplicableToStartLineNumber.Count();
             return (done, lines);
         }
 
         private IEnumerable<IDynamicLine> LinesApplicableToStartLineNumber(IEnumerable<IDynamicLine> dynamicLines, int startLineNumber)
-            => dynamicLines.Where(l => l.Number >= startLineNumber);
+            => dynamicLines.Where(l => l.LineNumber >= startLineNumber);
 
         private IEnumerable<IDynamicLine> GetLinesFromContainingCodeTrackers(int startLineNumber, int endLineNumber)
             => this.containingCodeTrackers.Select(containingCodeTracker => this.GetLines(containingCodeTracker.Lines, startLineNumber, endLineNumber))
@@ -159,7 +159,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private IEnumerable<IDynamicLine> GetNewLines(int startLineNumber, int endLineNumber)
             => this.LinesApplicableToStartLineNumber(this.NewCodeTrackerLines(), startLineNumber)
-                .TakeWhile(l => l.Number <= endLineNumber);
+                .TakeWhile(l => l.LineNumber <= endLineNumber);
 
         public IEnumerable<IDynamicLine> GetLines(int startLineNumber, int endLineNumber)
             => this.GetLinesFromContainingCodeTrackers(startLineNumber, endLineNumber)
@@ -168,8 +168,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private class DynamicLineByLineNumberComparer : IEqualityComparer<IDynamicLine>
         {
-            public bool Equals(IDynamicLine x, IDynamicLine y) => x.Number == y.Number;
-            public int GetHashCode(IDynamicLine obj) => obj.Number;
+            public bool Equals(IDynamicLine x, IDynamicLine y) => x.LineNumber == y.LineNumber;
+            public int GetHashCode(IDynamicLine obj) => obj.LineNumber;
         }
     }
 }

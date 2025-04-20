@@ -18,10 +18,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var textSnapshot = new Mock<ITextSnapshot>().Object;
             mockTrackingLineFactory = new Mock<ITrackingLineFactory>();
             mockWrappedTrackingLine = new Mock<ITrackingLine>();
-            mockTrackingLineFactory.Setup(trackingLineFactory => trackingLineFactory.Create(trackingSpan, textSnapshot, DynamicCoverageType.Dirty))
+            mockTrackingLineFactory.Setup(trackingLineFactory => trackingLineFactory.Create(trackingSpan, 123, DynamicCoverageType.Dirty))
                 .Returns(mockWrappedTrackingLine.Object);
             var dirtyLineFactory = new DirtyLineFactory(mockTrackingLineFactory.Object);
-            return dirtyLineFactory.Create(trackingSpan, textSnapshot, dynamicCoberturaLine);
+            return dirtyLineFactory.Create(trackingSpan, 123, dynamicCoberturaLine);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var dirtyLine = Setup(mockDynamicCoberturaLine.Object);
 
             var mockDynamicLine = new Mock<IDynamicLine>();
-            mockDynamicLine.SetupGet(dynamicLine => dynamicLine.Number).Returns(123);
+            mockDynamicLine.SetupGet(dynamicLine => dynamicLine.LineNumber).Returns(123);
             mockWrappedTrackingLine.SetupGet(wrappedTrackingLine => wrappedTrackingLine.Line).Returns(mockDynamicLine.Object);
 
             var textSnapshot = new Mock<ITextSnapshot>().Object;

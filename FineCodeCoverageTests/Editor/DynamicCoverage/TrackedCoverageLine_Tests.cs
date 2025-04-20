@@ -13,7 +13,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         [TestCase(CoverageType.Covered, DynamicCoverageType.Covered)]
         [TestCase(CoverageType.NotCovered, DynamicCoverageType.NotCovered)]
         [TestCase(CoverageType.Partial, DynamicCoverageType.Partial)]
-        public void Should_Have_A_DynamicLine_From_ILine_When_Constructed(CoverageType lineCoverageType, DynamicCoverageType expectedDynamicCoverageType)
+        public void Should_Have_A_DynamicLine_From_ICoberturaLine_When_Constructed(CoverageType lineCoverageType, DynamicCoverageType expectedDynamicCoverageType)
         {
             var mockLine = new Mock<ICoberturaLine>();
             mockLine.SetupGet(l => l.CoverageType).Returns(lineCoverageType);
@@ -22,7 +22,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var coverageLine = new TrackedCoverageLine(null, mockLine.Object, null);
 
             Assert.That(coverageLine.Line.CoverageType, Is.EqualTo(expectedDynamicCoverageType));
-            Assert.That(coverageLine.Line.Number, Is.EqualTo(0));
+            Assert.That(coverageLine.Line.LineNumber, Is.EqualTo(0));
+            Assert.That(coverageLine.Line.OriginalLineNumber, Is.EqualTo(0));
         }
 
         [TestCase(true)]
@@ -45,7 +46,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
 
             Assert.That(updatedLineNumbers, Is.EqualTo(updateLineNumber ? new List<int> { 0, 10 } : Enumerable.Empty<int>()));
 
-            Assert.That(coverageLine.Line.Number, Is.EqualTo(updatedLineNumber));
+            Assert.That(coverageLine.Line.LineNumber, Is.EqualTo(updatedLineNumber));
         }
     
         [Test]

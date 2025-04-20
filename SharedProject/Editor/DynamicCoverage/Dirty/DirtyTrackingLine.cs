@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<int> updatedLineNumbers = this.trackingLine.GetUpdatedLineNumbers(currentSnapshot);
             if (this.dynamicCoberturaLine != null && updatedLineNumbers.Count > 0)
             {
-                this.dynamicCoberturaLine.LineMoved(this.Line.Number);
+                this.dynamicCoberturaLine.LineMoved(this.Line.LineNumber);
             }
 
             return updatedLineNumbers;

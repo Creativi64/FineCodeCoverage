@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public event EventHandler<HasNewCodeChangedEventArgs> HasNewCodeChanged;
 
-        public IEnumerable<IDynamicLine> Lines => this.trackedNewCodeLines.OrderBy(l => l.Line.Number).Select(l => l.Line);
+        public IEnumerable<IDynamicLine> Lines => this.trackedNewCodeLines.OrderBy(l => l.Line.LineNumber).Select(l => l.Line);
 
         private void OnHasNewCodeChanged(bool hasNewCode, ITextSnapshot textSnapshot)
             => HasNewCodeChanged?.Invoke(
@@ -62,10 +62,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private List<int> RemoveAndReduceByDynamicLineNumbers(List<int> rangeStartLineNumbers)
         {
             var removals = this.trackedNewCodeLines.Where(
-                trackedNewCodeLine => !rangeStartLineNumbers.Remove(trackedNewCodeLine.Line.Number)).ToList();
+                trackedNewCodeLine => !rangeStartLineNumbers.Remove(trackedNewCodeLine.Line.LineNumber)).ToList();
 
             removals.ForEach(removal => this.trackedNewCodeLines.Remove(removal));
-            return removals.ConvertAll(removal => removal.Line.Number);
+            return removals.ConvertAll(removal => removal.Line.LineNumber);
         }
 
         private void CreateTrackedNewCodeLinesFromRangeStartLineNumbers(IEnumerable<int> rangeStartLineNumbers, ITextSnapshot currentSnapshot)

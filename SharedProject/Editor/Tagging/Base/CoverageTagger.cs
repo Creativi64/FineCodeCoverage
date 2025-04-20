@@ -66,8 +66,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
 
             List<int> lineNumbers = changeset.GetLineNumbers(filePath);
-            return (dynamicLine) => lineNumbers.Contains(dynamicLine.Number + 1);
-            // todo IDynamicLine to have original line number
+            return (dynamicLine) => lineNumbers.Contains(dynamicLine.OriginalLineNumber + 1);
         }
     }
 

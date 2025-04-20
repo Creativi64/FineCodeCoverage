@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         {
             IEnumerable<IDynamicLine> applicableCoverageLines = GetApplicableCoverageLines(bufferLineCoverage, snapshotSpan);
             return applicableCoverageLines.Select(
-                applicableCoverageLine => new DynamicLineAndSnapshotSpan(applicableCoverageLine, GetLineSnapshotSpan(applicableCoverageLine.Number, snapshotSpan)));
+                applicableCoverageLine => new DynamicLineAndSnapshotSpan(applicableCoverageLine, GetLineSnapshotSpan(applicableCoverageLine.LineNumber, snapshotSpan)));
         }
 
         private static IEnumerable<IDynamicLine> GetApplicableCoverageLines(IBufferLineCoverage bufferLineCoverage, SnapshotSpan span)
