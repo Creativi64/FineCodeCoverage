@@ -34,8 +34,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private Dictionary<string, List<ICodeElement>> FileLookup
             => this.fileLookup ?? (this.fileLookup = GetCodeElementLookup(this.assemblies));
 
-        public IFileRenameListener FileRenameListener { get; }
-
         public IFileLines GetLines(string filePath)
         {
             if (this.fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
@@ -61,20 +59,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             _ = this.fileLinesLookup.Remove(filePath);
         }
 
-        private static void TryUpdate<T>(List<FileRename> fileRenames, IDictionary<string, T> fileDictionary)
-            => fileRenames.ForEach(fileRename =>
-                {
-                    if (fileDictionary != null && fileDictionary.TryGetValue(fileRename.OldFilePath, out T fileLines))
-                    {
-                        _ = fileDictionary.Remove(fileRename.OldFilePath);
-                        fileDictionary.Add(fileRename.NewFilePath, fileLines);
-                    }
-                });
-
-        internal void FilesRenamed(List<FileRename> fileRenames)
+        internal void FilesRenamed(IReadOnlyList<FileRename> fileRenames)
         {
-            TryUpdate(fileRenames, this.fileLinesLookup);
-            TryUpdate(fileRenames, this.FileLookup);
+            _ = fileRenames.TryUpdateDictionary(this.fileLinesLookup);
+            _ = fileRenames.TryUpdateDictionary(this.FileLookup);
         }
     }
 }

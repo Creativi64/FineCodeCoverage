@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             fileRenameListener.FileRenamedEvent += this.FileRenameListener_FileRenamedEvent;
         }
 
-        private void FileRenameListener_FileRenamedEvent(List<FileRename> fileRenames)
+        private void FileRenameListener_FileRenamedEvent(IReadOnlyList<FileRename> fileRenames)
             => this.reportFileLineCoverage?.FilesRenamed(fileRenames);
 
         public IFileLineCoverage Create(IReadOnlyList<IAssembly> assemblies)

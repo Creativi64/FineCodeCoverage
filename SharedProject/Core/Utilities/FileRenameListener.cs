@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Core.Utilities
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 
-        public event Action<List<FileRename>> FileRenamedEvent;
+        public event Action<IReadOnlyList<FileRename>> FileRenamedEvent;
 
         public int OnQueryAddFiles(IVsProject pProject, int cFiles, string[] rgpszMkDocuments, VSQUERYADDFILEFLAGS[] rgFlags, VSQUERYADDFILERESULTS[] pSummaryResult, VSQUERYADDFILERESULTS[] rgResults)
         {

@@ -120,8 +120,17 @@ namespace FineCodeCoverage.Output
         public void Handle(NewReportMessage message)
         {
             lastReport = new Report(message);
+            lastReport.DirectoryStructureChanged += LastReport_DirectoryStructureChanged;
             this.ColumnManagerImpl.ShowRelevantColumns(lastReport.MetricTypes);
             GenerateReport(reportViews.GetChangeset());
+        }
+
+        private void LastReport_DirectoryStructureChanged(object sender, EventArgs e)
+        {
+            if(reportViews.ReportStyle == ReportStyle.Source)
+            {
+                GenerateReport(null);
+            }
         }
 
         public void Handle(ClearReportMessage message)

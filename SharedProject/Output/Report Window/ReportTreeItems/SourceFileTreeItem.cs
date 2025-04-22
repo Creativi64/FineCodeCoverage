@@ -9,16 +9,23 @@ namespace FineCodeCoverage.Output
 {
     internal class SourceFileTreeItem : ReportTreeItemBase
     {
-        private readonly string baseName;
+        private ISourceFile sourceFile;
         public SourceFileTreeItem(ISourceFile sourceFile)
         {
+            this.sourceFile = sourceFile;
+            this.SetName();
             sourceFile.HasNewCodeChanged += (_, __) => {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => this.SetName(sourceFile.HasNewCode), "sourceFile.HasNewCodeChanged");
+                    () => this.SetName(), "sourceFile.HasNewCodeChanged");
             };
-            this.baseName = Path.GetFileName(sourceFile.Path);
-            this.SetName(sourceFile.HasNewCode);
+            sourceFile.PathChanged += (_, __) => {
+                MainThreadHelper.SwitchAndFileAndForget(
+                    FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
+                    () => this.SetName(), "sourceFile.PathChanged");
+            };
+            
+
             this.ImageMoniker = KnownMonikers.TextFile;
             sourceFile.Classes.ToList().ForEach(clss => this.observableChildren.Add(new ClassTreeItem(clss) { Parent = this }));
 
@@ -30,10 +37,10 @@ namespace FineCodeCoverage.Output
             this.BlocksNotCovered = this.observableChildren.Sum(c => c.BlocksNotCovered);
         }
 
-        private void SetName(bool hasNewCode)
+        private void SetName()
         {
-            var suffix = hasNewCode ? " ***" : "";
-            this.Name = $"{this.baseName}{suffix}";
+            var suffix = sourceFile.HasNewCode ? " ***" : "";
+            this.Name = $"{Path.GetFileName(sourceFile.Path)}{suffix}";
         }
         public override ImageMoniker ImageMoniker { get; }
     }

@@ -183,6 +183,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaCodeElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaReportResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRename.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRenameExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LoggerSingleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\FaultEventName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\FCCFaultEventName.cs" />
