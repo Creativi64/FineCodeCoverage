@@ -9,22 +9,26 @@ namespace FineCodeCoverage.Output
 {
     internal class SourceFileTreeItem : ReportTreeItemBase
     {
-        private ISourceFile sourceFile;
+        private readonly ISourceFile sourceFile;
         public SourceFileTreeItem(ISourceFile sourceFile)
         {
             this.sourceFile = sourceFile;
-            this.SetName();
+            this.Name = Path.GetFileName(sourceFile.Path);
             sourceFile.HasNewCodeChanged += (_, __) => {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => this.SetName(), "sourceFile.HasNewCodeChanged");
+                    () =>
+                    {
+                        HasNewCode = sourceFile.HasNewCode;
+                    }, "sourceFile.HasNewCodeChanged");
             };
             sourceFile.PathChanged += (_, __) => {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => this.SetName(), "sourceFile.PathChanged");
+                    () => {
+                        this.Name = Path.GetFileName(sourceFile.Path); 
+                    }, "sourceFile.PathChanged");
             };
-            
 
             this.ImageMoniker = KnownMonikers.TextFile;
             sourceFile.Classes.ToList().ForEach(clss => this.observableChildren.Add(new ClassTreeItem(clss) { Parent = this }));
@@ -37,10 +41,14 @@ namespace FineCodeCoverage.Output
             this.BlocksNotCovered = this.observableChildren.Sum(c => c.BlocksNotCovered);
         }
 
-        private void SetName()
+        private bool hasNewCode;
+        public bool HasNewCode
         {
-            var suffix = sourceFile.HasNewCode ? " ***" : "";
-            this.Name = $"{Path.GetFileName(sourceFile.Path)}{suffix}";
+            get => hasNewCode;
+            set
+            {
+                Set(ref hasNewCode, value);
+            }
         }
         public override ImageMoniker ImageMoniker { get; }
     }

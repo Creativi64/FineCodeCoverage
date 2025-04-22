@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="FineCodeCoverage.Output.ReportTreeItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:tg="clr-namespace:TreeGrid;assembly=TreeGrid"
+            xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+            xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+             xmlns:local="clr-namespace:FineCodeCoverage.Output"
+              Margin="0"
+             Padding="0"
+             x:Name="root">
+
+	<DockPanel>
+		<!-- Icon Border (Externally configurable color) -->
+		<!--<Border DockPanel.Dock="Left"
+                BorderBrush="{Binding IconBorderColor, ElementName=root}"
+                BorderThickness="1"
+                CornerRadius="2"
+                VerticalAlignment="Center">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="True">
+                            --><!-- If IconBorderColor is Transparent, remove the Margin --><!--
+                            <Setter Property="Margin" Value="0"/>
+                        </DataTrigger>
+                        --><!-- Optional: Trigger for non-transparent border color --><!--
+                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="False">
+                            --><!-- If IconBorderColor is not Transparent, set a margin --><!--
+                            <Setter Property="Margin" Value="25"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <imaging:CrispImage
+                Margin="5 2 5 2"
+                Height="16"
+                Moniker="{Binding ImageMoniker}"
+                RenderOptions.BitmapScalingMode="HighQuality" />
+		</Border>-->
+
+        <imaging:CrispImage
+            DockPanel.Dock="Left"
+             Margin="5 2 5 2"
+             Height="16"
+             Moniker="{Binding ImageMoniker}"
+             RenderOptions.BitmapScalingMode="HighQuality"
+            >
+            <imaging:CrispImage.Style>
+                <Style TargetType="imaging:CrispImage">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="False">
+                            <Setter Property="Grayscale" Value="True"></Setter>
+                            <Setter Property="imaging:CrispImage.GrayscaleBiasColor" Value="{DynamicResource {x:Static vsShell:DecorativeColors.RedPrimaryColorKey}}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="True">
+                            <Setter Property="Grayscale" Value="False"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </imaging:CrispImage.Style>
+        </imaging:CrispImage>
+        <Border Padding="0 2 0 2" Background="{Binding Background}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="{Binding AdjustedWidth}" />
+				</Grid.ColumnDefinitions>
+				<tg:TreeItemContentControl Content="{Binding}"
+                    ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type tg:TreeGridControl}}, Path=ItemTemplate}" />
+			</Grid>
+		</Border>
+	</DockPanel>
+</UserControl>

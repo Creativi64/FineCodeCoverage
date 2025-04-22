@@ -379,7 +379,7 @@ namespace TreeGrid
         public TreeGridControl()
         {
             InitializeComponent();
-            SetHierarchicalDataTemplate();
+            //SetHierarchicalDataTemplate();
             SetHeaderStyle();
         }
 

@@ -9,6 +9,7 @@
     xmlns:tg="clr-namespace:TreeGrid;assembly=TreeGrid"
     xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:output="clr-namespace:FineCodeCoverage.Output"
 	mc:Ignorable="d"
 	d:DesignWidth="500"
 	d:DesignHeight="300"
@@ -20,6 +21,7 @@
         </Grid.RowDefinitions>
         <Grid.Resources>
             <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Hidden"/>
+
         </Grid.Resources>
         <ProgressBar Grid.Row="0" Height="2" Foreground="{DynamicResource ResourceKey=VsBrush.Highlight}" Visibility="{Binding CoverageRunning, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" IsIndeterminate="true">
             <ProgressBar.Style>
@@ -85,22 +87,46 @@
         ViewModel="{Binding}"
         vsShell:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundColorKey}}"
     >
-        <tg:TreeGridControl.ItemTemplate>
-            <DataTemplate>
-                <StackPanel>
-                    <TextBlock Tag="Name"  Text="{Binding Name}"/>
-                    <TextBlock Tag="CoverableLines" Text="{Binding CoverableLines}"/>
-                    <TextBlock Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
-                    <TextBlock Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
-                    <TextBlock Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
-                    <TextBlock Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
-                    <TextBlock Tag="CrapScore" Text="{Binding CrapScore}"/>
+
+            <tg:TreeGridControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Tag="Name"  Text="{Binding Name}"/>
+                        <TextBlock Tag="CoverableLines" Text="{Binding CoverableLines}"/>
+                        <TextBlock Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
+                        <TextBlock Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
+                        <TextBlock Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
+                        <TextBlock Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
+                        <TextBlock Tag="CrapScore" Text="{Binding CrapScore}"/>
                     </StackPanel>
-            </DataTemplate>
-        </tg:TreeGridControl.ItemTemplate>
-        <tg:TreeGridControl.HierarchicalDataTemplate>
-            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                <DockPanel>
+                </DataTemplate>
+            </tg:TreeGridControl.ItemTemplate>
+            <tg:TreeGridControl.HierarchicalDataTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <HierarchicalDataTemplate.Resources>
+                        <DataTemplate x:Key="DefaultTemplate">
+                            <output:ReportTreeItemView/>
+                        </DataTemplate>
+                        <DataTemplate x:Key="SourceFileTemplate">
+                            <output:ReportTreeItemView>
+                                <output:ReportTreeItemView.Style>
+                                    <Style TargetType="output:ReportTreeItemView">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasNewCode}" Value="True">
+                                                <Setter Property="IconBorderColor" Value="Red"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </output:ReportTreeItemView.Style>
+                            </output:ReportTreeItemView>
+                        </DataTemplate>
+                        <output:ReportTreeItemContentTemplateSelector x:Key="TreeItemTemplateSelector"
+                                          DefaultTemplate="{StaticResource DefaultTemplate}"
+                                          SourceFileTemplate="{StaticResource SourceFileTemplate}" />
+                    </HierarchicalDataTemplate.Resources>
+                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ResourceKey=TreeItemTemplateSelector}"/>
+                </HierarchicalDataTemplate>
+                <!--<DockPanel>
                     <imaging:CrispImage DockPanel.Dock="Left" FrameworkElement.Margin="5 2 5 2" FrameworkElement.Height="16"
                                 RenderOptions.BitmapScalingMode="HighQuality" Moniker="{Binding ImageMoniker}"/>
                     <Border Padding="0 2 0 2" Background="{Binding Background}">
@@ -112,10 +138,8 @@
                                 ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type tg:TreeGridControl},AncestorLevel=1},Path=ItemTemplate}" />
                         </Grid>
                     </Border>
-                </DockPanel>
-            </HierarchicalDataTemplate>
-        </tg:TreeGridControl.HierarchicalDataTemplate>
-        
-    </tg:TreeGridControl>
+                </DockPanel>-->
+            </tg:TreeGridControl.HierarchicalDataTemplate>
+        </tg:TreeGridControl>
     </Grid>
 </UserControl>
