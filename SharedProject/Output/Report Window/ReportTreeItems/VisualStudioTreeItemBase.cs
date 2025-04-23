@@ -1,24 +1,28 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows;
+using System.Windows.Media;
+using FineCodeCoverage.Core.Utilities;
 using Microsoft.VisualStudio.PlatformUI;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output
 {
-    public abstract class VisualStudioTreeItemBase : TreeItemBase
+    public abstract class VisualStudioTreeItemBase : TreeItemBase, IWeakEventListener
     {
-        protected override Brush SelectedActiveBackgroundBrush => ThemedTreeGridColours.Instance.SelectedItemActiveBackColor;
-        protected override Brush SelectedInactiveBackgroundBrush => ThemedTreeGridColours.Instance.SelectedItemInactiveBackColor;
-        protected override Brush SelectedActiveForegroundBrush => ThemedTreeGridColours.Instance.SelectedItemActiveForeColor;
-        protected override Brush SelectedInactiveForegroundBrush => ThemedTreeGridColours.Instance.SelectedItemInactiveForeColor;
-        protected override Brush NotSelectedForegroundBrush => ThemedTreeGridColours.Instance.ForegroundColor;
-        protected VisualStudioTreeItemBase() => this.SetupThemeChange();
+        // so the instance handles the ThemeChanged event first
+        private ThemedTreeGridColours themedTreeGridColours = ThemedTreeGridColours.Instance;
+        protected override Brush SelectedActiveBackgroundBrush => themedTreeGridColours.SelectedItemActiveBackColor;
+        protected override Brush SelectedInactiveBackgroundBrush => themedTreeGridColours.SelectedItemInactiveBackColor;
+        protected override Brush SelectedActiveForegroundBrush => themedTreeGridColours.SelectedItemActiveForeColor;
+        protected override Brush SelectedInactiveForegroundBrush => themedTreeGridColours.SelectedItemInactiveForeColor;
+        protected override Brush NotSelectedForegroundBrush => themedTreeGridColours.ForegroundColor;
+        protected VisualStudioTreeItemBase() => ThemeChangedWeakEventManager.AddListener(this);
 
-        private void SetupThemeChange()
-            => VSColorTheme.ThemeChanged += (ThemeChangedEventHandler)(e =>
-            {
-                ThemedTreeGridColours.Instance.VSColorTheme_ThemeChanged(e);
-                this.OnPropertyChanged("Background");
-                this.OnPropertyChanged("Foreground");
-            });
+        public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
+        {
+            this.OnPropertyChanged("Background");
+            this.OnPropertyChanged("Foreground");
+            return true;
+        }
     }
 }

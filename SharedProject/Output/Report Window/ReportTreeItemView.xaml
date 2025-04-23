@@ -9,9 +9,9 @@
              Padding="0"
              x:Name="root">
 
-	<DockPanel>
-		<!-- Icon Border (Externally configurable color) -->
-		<!--<Border DockPanel.Dock="Left"
+    <DockPanel>
+        <!-- Icon Border (Externally configurable color) -->
+        <!--<Border DockPanel.Dock="Left"
                 BorderBrush="{Binding IconBorderColor, ElementName=root}"
                 BorderThickness="1"
                 CornerRadius="2"
@@ -20,12 +20,18 @@
                 <Style TargetType="Border">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="True">
-                            --><!-- If IconBorderColor is Transparent, remove the Margin --><!--
+                            -->
+        <!-- If IconBorderColor is Transparent, remove the Margin -->
+        <!--
                             <Setter Property="Margin" Value="0"/>
                         </DataTrigger>
-                        --><!-- Optional: Trigger for non-transparent border color --><!--
+                        -->
+        <!-- Optional: Trigger for non-transparent border color -->
+        <!--
                         <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="False">
-                            --><!-- If IconBorderColor is not Transparent, set a margin --><!--
+                            -->
+        <!-- If IconBorderColor is not Transparent, set a margin -->
+        <!--
                             <Setter Property="Margin" Value="25"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -59,14 +65,20 @@
                 </Style>
             </imaging:CrispImage.Style>
         </imaging:CrispImage>
-        <Border Padding="0 2 0 2" Background="{Binding Background}">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="{Binding AdjustedWidth}" />
-				</Grid.ColumnDefinitions>
-				<tg:TreeItemContentControl Content="{Binding}"
+
+        <StackPanel Background="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}">
+            <StackPanel.RenderTransform>
+                <TranslateTransform X="{Binding Adjustment.TranslateX}"/>
+            </StackPanel.RenderTransform>
+            <Border Padding="0 2 0 2" Background="{Binding Background}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding Adjustment.Width}" />
+                    </Grid.ColumnDefinitions>
+                    <tg:TreeItemContentControl Content="{Binding}"
                     ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type tg:TreeGridControl}}, Path=ItemTemplate}" />
-			</Grid>
-		</Border>
-	</DockPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </DockPanel>
 </UserControl>

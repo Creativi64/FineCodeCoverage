@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿using FineCodeCoverage.Core.Utilities;
+using Microsoft.VisualStudio.PlatformUI;
 using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
@@ -7,9 +8,8 @@ namespace FineCodeCoverage.Output
     {
         private ThemedTreeGridColours()
         {
-
-            VSColorTheme.ThemeChanged += new ThemeChangedEventHandler(this.VSColorTheme_ThemeChanged);
-            this.PopulateColors();
+            VSColorTheme.ThemeChanged += (_) => this.PopulateColors();
+            PopulateColors();
         }
 
         public static ThemedTreeGridColours Instance { get; } = new ThemedTreeGridColours();
@@ -26,20 +26,14 @@ namespace FineCodeCoverage.Output
 
         public Brush ForegroundColor { get; internal set; }
 
-        internal void VSColorTheme_ThemeChanged(ThemeChangedEventArgs e) => this.PopulateColors();
-
         private void PopulateColors()
         {
-            this.SelectedItemActiveBackColor = ThemedTreeGridColours.DrawingColorToMediaBrush(VSColorTheme.GetThemedColor(TreeViewColors.SelectedItemActiveColorKey));
-            this.SelectedItemActiveForeColor = ThemedTreeGridColours.DrawingColorToMediaBrush(VSColorTheme.GetThemedColor(TreeViewColors.SelectedItemActiveTextColorKey));
-            this.SelectedItemInactiveBackColor = ThemedTreeGridColours.DrawingColorToMediaBrush(VSColorTheme.GetThemedColor(TreeViewColors.SelectedItemInactiveColorKey));
-            this.SelectedItemInactiveForeColor = ThemedTreeGridColours.DrawingColorToMediaBrush(VSColorTheme.GetThemedColor(TreeViewColors.SelectedItemInactiveTextColorKey));
-            this.ForegroundColor = ThemedTreeGridColours.DrawingColorToMediaBrush(VSColorTheme.GetThemedColor(TreeViewColors.BackgroundTextColorKey));
+            this.SelectedItemActiveBackColor = TreeViewColors.SelectedItemActiveColorKey.ToBrush();
+            this.SelectedItemActiveForeColor = TreeViewColors.SelectedItemActiveTextColorKey.ToBrush();
+            this.SelectedItemInactiveBackColor = TreeViewColors.SelectedItemInactiveColorKey.ToBrush();
+            this.SelectedItemInactiveForeColor = TreeViewColors.SelectedItemInactiveTextColorKey.ToBrush();
+            this.ForegroundColor = TreeViewColors.BackgroundTextColorKey.ToBrush();
         }
-
-        private static SolidColorBrush DrawingColorToMediaBrush(System.Drawing.Color color) => new SolidColorBrush(ThemedTreeGridColours.DrawingColorToMediaColor(color));
-
-        private static Color DrawingColorToMediaColor(System.Drawing.Color color) => System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
-    }
+   }
 }
 

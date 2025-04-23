@@ -116,11 +116,6 @@ namespace FineCodeCoverage.Engine
 
         }
 
-        private void UpdateUI(IReportResult reportResult, List<ICoverageProject> coverageProjects)
-        {
-            this.eventAggregator.SendMessage(new NewReportMessage(reportResult, coverageProjects));
-        }
-
         private async Task<ReportResult> RunAndProcessReportAsync(
             string[] coverOutputFiles,
             List<ICoverageProject> coverageProjects,

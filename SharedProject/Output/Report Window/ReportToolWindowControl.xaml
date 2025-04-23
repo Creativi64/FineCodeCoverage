@@ -87,7 +87,6 @@
         ViewModel="{Binding}"
         vsShell:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundColorKey}}"
     >
-
             <tg:TreeGridControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -126,19 +125,6 @@
                     </HierarchicalDataTemplate.Resources>
                     <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ResourceKey=TreeItemTemplateSelector}"/>
                 </HierarchicalDataTemplate>
-                <!--<DockPanel>
-                    <imaging:CrispImage DockPanel.Dock="Left" FrameworkElement.Margin="5 2 5 2" FrameworkElement.Height="16"
-                                RenderOptions.BitmapScalingMode="HighQuality" Moniker="{Binding ImageMoniker}"/>
-                    <Border Padding="0 2 0 2" Background="{Binding Background}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding AdjustedWidth}"/>
-                            </Grid.ColumnDefinitions>
-                            <tg:TreeItemContentControl Content="{Binding}" 
-                                ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type tg:TreeGridControl},AncestorLevel=1},Path=ItemTemplate}" />
-                        </Grid>
-                    </Border>
-                </DockPanel>-->
             </tg:TreeGridControl.HierarchicalDataTemplate>
         </tg:TreeGridControl>
     </Grid>

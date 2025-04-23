@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using WpfHelpers;
@@ -9,8 +10,9 @@ namespace TreeGrid
     {
         private bool _isSelected;
         protected double _rootWidth;
-        private GridLength _adjustedWidth;
+        //private GridLength _adjustedWidth;
         private bool _isSelectionActive = true;
+        //private double translateX;
 
         public bool IsSelected
         {
@@ -68,23 +70,47 @@ namespace TreeGrid
         public abstract bool IsExpanded { get; set; }
         public ITreeItem Parent { get; set; }
         public IEnumerable<ITreeItem> Children { get; protected set; }
-        
-        public GridLength AdjustedWidth
+
+        //public GridLength AdjustedWidth
+        //{
+        //    get => this._adjustedWidth;
+        //    set
+        //    {
+        //        this.Set(ref this._adjustedWidth, value, nameof(AdjustedWidth));
+        //    }
+        //}
+        private Adjustment adjustment;
+        public Adjustment Adjustment
         {
-            get => this._adjustedWidth;
+            get => adjustment;
             set
             {
-                this.Set(ref this._adjustedWidth, value, nameof(AdjustedWidth));
+                Set(ref adjustment, value);
             }
         }
-    
+        //public double TranslateX
+        //{
+        //    get => translateX;
+        //    set
+        //    {
+        //        this.Set(ref translateX, value, nameof(TranslateX));
+        //    }
+        //}
         private int Depth => this.Parent != null ? (this.Parent as TreeItemBase).Depth + 1 : 1;
         protected virtual double AdditionalAdjustment => 0.0;   
         public void AdjustWidth(double width)
         {
             this._rootWidth = width;
             var adjustedWidth = GetAdjustedWidth(Depth);
-            this.AdjustedWidth = new GridLength(width - adjustedWidth);
+            var pixels = width - adjustedWidth;
+            var translateX = pixels > 0 ? 0 : pixels;
+            //if(pixels < 0)
+            //{
+            //    TranslateX = pixels;
+            //}
+            var clampedPixels = Math.Max(pixels, 0);
+            this.Adjustment = new Adjustment(new GridLength(clampedPixels), translateX);
+            //this.AdjustedWidth = new GridLength(clampedPixels);
             foreach (var treeItem in this.Children)
                 treeItem.AdjustWidth(width);
         }

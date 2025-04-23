@@ -127,7 +127,7 @@ namespace FineCodeCoverage.Output
 
         private void LastReport_DirectoryStructureChanged(object sender, EventArgs e)
         {
-            if(reportViews.ReportStyle == ReportStyle.Source)
+            if(this.lastReport != null && this.reportViews.ReportStyle == ReportStyle.Source)
             {
                 GenerateReport(null);
             }

@@ -301,11 +301,32 @@ namespace TreeGrid
                 BindingOperations.SetBinding(child, UIElement.VisibilityProperty, visibilityBinding);
             }
 
-            if (child is TextBlock textBlock && this.BindTextBlockForeground)
+            if (this.BindTextBlockForeground)
             {
-                var foregroundBinding = new Binding("Foreground");
+                TextBlock tb = null;
+                if(child is TextBlock textBlock)
+                {
+                    tb = textBlock;
+                }
+                else
+                {
+                    var childrenCount = VisualTreeHelper.GetChildrenCount(child);
+                    for (var i = 0; i < childrenCount; i++)
+                    {
+                        var x = VisualTreeHelper.GetChild(child, i);
+                        tb = x as TextBlock;
+                        if(tb != null)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (tb != null)
+                {
+                    var foregroundBinding = new Binding("Foreground");
 
-                BindingOperations.SetBinding(textBlock, TextBlock.ForegroundProperty, foregroundBinding);
+                    BindingOperations.SetBinding(tb, TextBlock.ForegroundProperty, foregroundBinding);
+                }
             }
         }
 
@@ -379,7 +400,7 @@ namespace TreeGrid
         public TreeGridControl()
         {
             InitializeComponent();
-            //SetHierarchicalDataTemplate();
+            SetHierarchicalDataTemplate();
             SetHeaderStyle();
         }
 
