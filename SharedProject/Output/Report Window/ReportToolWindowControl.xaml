@@ -85,7 +85,7 @@
         HeaderBackground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
         HeaderForeground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowTextBrushKey}}"
         ViewModel="{Binding}"
-        vsShell:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundColorKey}}"
+        vsShell:ImageThemingUtilities.ImageBackgroundColor="{Binding ImageBackgroundColor, Source={x:Static output:ThemedTreeGridColours.Instance}}"
     >
             <tg:TreeGridControl.ItemTemplate>
                 <DataTemplate>
