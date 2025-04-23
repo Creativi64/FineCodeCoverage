@@ -100,7 +100,7 @@ namespace TreeGrid
         private void SetHeaderStyle()
         {
             Style baseStyle = HeaderStyle ?? GetDefaultDataGridColumnHeaderStyle();
-            GridHeader.ColumnHeaderStyle = AddRequiredDataGridColumnHeaderSetters(baseStyle); ;
+            GridHeader.ColumnHeaderStyle = AddRequiredDataGridColumnHeaderSetters(baseStyle);
         }
 
         private Style GetDefaultDataGridColumnHeaderStyle() => (this.Resources["DataGridColumnHeaderStyle"] as Style);

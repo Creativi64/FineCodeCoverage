@@ -4,9 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TreeGrid"
+             xmlns:wpfhelpers="clr-namespace:WpfHelpers;assembly=WpfHelpers"
+             x:Name="TGC"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="{Binding TreeGridControlBackground, RelativeSource={RelativeSource Self}}">
     <UserControl.Resources>
+        <wpfhelpers:BindingProxy x:Key="TreeGridProxy" Data="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:TreeGridControl}}" />
         <local:SortDirectionToVisibilityConverter x:Key="SortDirectionToVisibilityConverter"/>
         <HierarchicalDataTemplate x:Key="DefaultHierarchicalDataTemplate" ItemsSource="{Binding Children}">
             <DockPanel>
@@ -23,9 +26,12 @@
         </HierarchicalDataTemplate>
         <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Control.BorderThickness" Value="0 0 1 1"/>
-            <Setter Property="Control.Background" Value="{Binding HeaderBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <Setter Property="Control.Foreground" Value="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <Setter Property="Control.BorderBrush" Value="{Binding HeaderGridLines, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <Setter Property="Background" 
+            Value="{Binding Data.HeaderBackground, Source={StaticResource TreeGridProxy}}" />
+            <Setter Property="Foreground" 
+Value="{Binding Data.HeaderForeground, Source={StaticResource TreeGridProxy}}" />
+            <Setter Property="BorderBrush" 
+Value="{Binding Data.HeaderGridLines, Source={StaticResource TreeGridProxy}}" />
             <Style.Triggers>
                 <Trigger Property="DataGridColumnHeader.SortDirection" Value="{x:Null}">
                     <Setter Property="ContentControl.ContentTemplate">
