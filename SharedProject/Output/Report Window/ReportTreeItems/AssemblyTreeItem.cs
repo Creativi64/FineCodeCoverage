@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Output
         public AssemblyTreeItem(IAssembly assembly, bool isTestAssembly)
         {
             this.Name = assembly.ShortName;
-            this.ImageMoniker = isTestAssembly ? KnownMonikers.Test : KnownMonikers.Module;
+            this.ImageMoniker = isTestAssembly ? KnownMonikers.Test : KnownMonikers.Assembly;
             IEnumerable<NamespaceTreeItem> namespaceTreeItems = assembly.Classes.GroupBy(clss =>
             {
                 string[] classNameParts = clss.DisplayName.Split('.');
