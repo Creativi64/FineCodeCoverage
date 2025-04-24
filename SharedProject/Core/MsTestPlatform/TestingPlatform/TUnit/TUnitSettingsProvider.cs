@@ -145,6 +145,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(exitCodes))
+                {
+                    return Enumerable.Empty<int>().ToList();
+                }
                 var codes = exitCodes.Split(';');
                 return codes.Select(code => int.Parse(code)).ToList();
             }
