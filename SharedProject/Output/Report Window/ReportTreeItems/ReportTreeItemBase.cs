@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
@@ -7,8 +8,12 @@ namespace FineCodeCoverage.Output
     {
         private bool _isExpanded;
         internal readonly ObservableCollection<ReportTreeItemBase> observableChildren = new ObservableCollection<ReportTreeItemBase>();
-
-        protected ReportTreeItemBase() => this.Children = this.observableChildren;
+        private static readonly Random _random = new Random();
+        protected ReportTreeItemBase()
+        {
+            this.Children = this.observableChildren;
+            _lineCoveragePercentage = _random.NextDouble();
+        }
 
         public abstract ImageMoniker ImageMoniker { get; }
         private string _name;
@@ -23,6 +28,13 @@ namespace FineCodeCoverage.Output
         {
             get => this._coverableLines;
             set => this.Set(ref this._coverableLines, value);
+        }
+
+        private double _lineCoveragePercentage;
+        public double LineCoveragePercentage
+        {
+            get => _lineCoveragePercentage;
+            set => this.Set(ref _lineCoveragePercentage, value);
         }
 
         private int cyclomaticComplexity;

@@ -98,6 +98,27 @@
                         <TextBlock Margin="4,0,4,0" Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
                         <TextBlock Margin="4,0,4,0" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
                         <TextBlock Margin="4,0,4,0" Tag="CrapScore" Text="{Binding CrapScore}"/>
+                        <Border Margin="4,0,4,0"  BorderThickness="1" BorderBrush="{DynamicResource ResourceKey={x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}">
+                            <ProgressBar Minimum="0" Maximum="1" Value="{Binding LineCoveragePercentage}" Background="Transparent " BorderThickness="0">
+                                <ProgressBar.Foreground>
+                                    <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute" Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+                                        <DrawingBrush.Drawing>
+                                            <GeometryDrawing>
+                                                <GeometryDrawing.Geometry>
+                                                    <GeometryGroup>
+                                                        <LineGeometry StartPoint="0,10" EndPoint="10,0" />
+                                                    </GeometryGroup>
+                                                </GeometryDrawing.Geometry>
+                                                <GeometryDrawing.Pen>
+                                                    <Pen Thickness="1" Brush="{DynamicResource ResourceKey={x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}" />
+                                                </GeometryDrawing.Pen>
+                                            </GeometryDrawing>
+                                        </DrawingBrush.Drawing>
+                                    </DrawingBrush>
+                                </ProgressBar.Foreground>
+                            </ProgressBar>
+                        </Border>
+                        
                     </StackPanel>
                 </DataTemplate>
             </tg:TreeGridControl.ItemTemplate>

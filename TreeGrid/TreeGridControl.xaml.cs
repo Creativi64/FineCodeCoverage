@@ -309,29 +309,29 @@ namespace TreeGrid
 
             if (this.BindTextBlockForeground)
             {
-                TextBlock tb = null;
-                if(child is TextBlock textBlock)
+                if(child is TextBlock tb)
                 {
-                    tb = textBlock;
+                    BindTextBlock(tb);
                 }
                 else
                 {
+                    // todo this should descend 
                     var childrenCount = VisualTreeHelper.GetChildrenCount(child);
                     for (var i = 0; i < childrenCount; i++)
                     {
-                        var x = VisualTreeHelper.GetChild(child, i);
-                        tb = x as TextBlock;
+                        var tb = VisualTreeHelper.GetChild(child, i) as TextBlock;
                         if(tb != null)
                         {
-                            break;
+                            BindTextBlock(tb);
                         }
                     }
                 }
-                if (tb != null)
+
+                void BindTextBlock(TextBlock textBlock)
                 {
                     var foregroundBinding = new Binding("Foreground");
 
-                    BindingOperations.SetBinding(tb, TextBlock.ForegroundProperty, foregroundBinding);
+                    BindingOperations.SetBinding(textBlock, TextBlock.ForegroundProperty, foregroundBinding);
                 }
             }
         }

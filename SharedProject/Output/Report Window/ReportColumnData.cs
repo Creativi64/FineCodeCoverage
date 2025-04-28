@@ -15,18 +15,30 @@ namespace FineCodeCoverage.Output
     internal class ReportColumnData : ColumnData, IReportColumnData
     {
         public ReportColumnData(
-            string reportColumnType, 
-            string name, 
-            int displayIndex, 
-            bool isVisible, 
-            double width, 
+            string reportColumnType,
+            string name,
+            int displayIndex,
+            bool isVisible,
+            double width,
             double minWidth = 100,
             HorizontalAlignment initialAlignment = default
         ) : base(name, displayIndex, isVisible, width, minWidth, initialAlignment, initialAlignment)
         {
             ReportColumnType = reportColumnType;
         }
-
+        public ReportColumnData(
+            string reportColumnType,
+            string name,
+            int displayIndex,
+            bool isVisible,
+            HorizontalAlignment headerAlignment,
+            HorizontalAlignment cellAlignment,
+            double width,
+            double minWidth = 100
+        ) : base(name, displayIndex, isVisible, width, minWidth, headerAlignment, cellAlignment)
+        {
+            ReportColumnType = reportColumnType;
+        }
         public string ReportColumnType { get; }
 
         public const string NameColumnType = "Name";
@@ -36,6 +48,7 @@ namespace FineCodeCoverage.Output
         public const string NPathComplexityColumnType = "NPath Complexity";
         public const string CyclomaticComplexityColumnType = "Cyclomatic Complexity";
         public const string CrapScoreColumnType = "Crap Score";
+        public const string LineCoveragePercentColumnType = "Line coverage percent";
 
     }
 }

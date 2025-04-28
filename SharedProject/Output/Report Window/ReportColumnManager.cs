@@ -50,6 +50,7 @@ namespace FineCodeCoverage.Output
         public ReportColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath, ReportColumnData.NPathComplexityColumnType, "NPath Complexity", 4, true, 115, 20);
         public ReportColumnData CyclomaticComplexity { get; } = new MetricColumnData(MetricType.CyclomaticComplexity, ReportColumnData.CyclomaticComplexityColumnType, "Cyclomatic Complexity", 5, true, 140, 20);
         public ReportColumnData CrapScore { get; } = new MetricColumnData(MetricType.Crap, ReportColumnData.CrapScoreColumnType, "Crap Score", 6, true, 75, 20);
+        public ReportColumnData LineCoveragePercent { get; } = new ReportColumnData(ReportColumnData.LineCoveragePercentColumnType, "Line Coverage %", 7, true, HorizontalAlignment.Right, HorizontalAlignment.Stretch,100, 20 );
         #endregion
 
         private void VsShutdown_Shutdown(object sender, System.EventArgs e)
@@ -86,7 +87,8 @@ namespace FineCodeCoverage.Output
                 BlocksNotCovered,
                 NPathComplexity,
                 CyclomaticComplexity,
-                CrapScore
+                CrapScore,
+                LineCoveragePercent
             };
             this.Columns = reportColumns;
             var columnsLookup = reportColumns.ToDictionary(c => c.ReportColumnType);
