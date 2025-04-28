@@ -13,6 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:pf="clr-namespace:System.Windows;assembly=PresentationFramework"
     fccWpf:VsDesignTimeColors.ThemeName="Dark"
     Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}" 
 	Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
@@ -216,6 +217,11 @@
                     <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="IsEnabled" Value="{Binding CanEditVisible}" />
                 </Style>
+                <ObjectDataProvider x:Key="horizontalAlignmentEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type Type="pf:HorizontalAlignment"/>
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Column" Binding="{Binding Column, Mode=OneWay}"  />
@@ -291,6 +297,8 @@
                         </Style>
                     </DataGridCheckBoxColumn.ElementStyle>
                 </DataGridCheckBoxColumn>
+                <DataGridComboBoxColumn EditingElementStyle="{StaticResource ResourceKey={x:Static vsx:VsResourceKeys.ComboBoxStyleKey}}" Header="Header Alignment" SelectedItemBinding="{Binding HeaderAlignment}" ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"/>
+                <DataGridComboBoxColumn EditingElementStyle="{StaticResource ResourceKey={x:Static vsx:VsResourceKeys.ComboBoxStyleKey}}" Header="Cell Alignment" SelectedItemBinding="{Binding CellAlignment}" ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"/>
             </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">

@@ -89,6 +89,8 @@ namespace FineCodeCoverage.Output
                 var reportColumnData = column.ReportColumnData;
                 reportColumnData.Name = column.Name.Trim();
                 reportColumnData.IsVisible = column.IsVisible;
+                reportColumnData.CellAlignment = column.CellAlignment;
+                reportColumnData.HeaderAlignment = column.HeaderAlignment;
                 if (reportColumnData.DisplayIndex != displayIndex)
                 {
                     reportColumnData.DisplayIndex = displayIndex;
@@ -114,12 +116,6 @@ namespace FineCodeCoverage.Output
 
         public ObservableCollection<EditableColumn> Columns { get; }
 
-        internal void SelectionChanged(IList selectedItems)
-        {
-            selectedEditableColumns = selectedItems.OfType<EditableColumn>().ToList();
-            SetCanMove();
-        }
-
         private void SetCanMove()
         {
             var ascendingOrderedSelectedIndices = GetAscendingSelectedIndices().ToList();
@@ -141,8 +137,11 @@ namespace FineCodeCoverage.Output
 
         public void SelectionChanged(List<EditableColumn> selectedItems)
         {
-            selectedEditableColumns = selectedItems.OfType<EditableColumn>().ToList();
-            SetCanMove();
+            selectedEditableColumns = selectedItems;
+            if (selectedItems.Count > 0)
+            {
+                SetCanMove();
+            }
         }
 
         // Reset

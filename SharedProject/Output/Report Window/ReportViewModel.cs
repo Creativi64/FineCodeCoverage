@@ -68,7 +68,7 @@ namespace FineCodeCoverage.Output
         public bool CoverageRunning
         {
             get => this.coverageRunning;
-            set => this.Set(ref this.coverageRunning, value, nameof(this.CoverageRunning));
+            set => this.Set(ref this.coverageRunning, value);
         }
         private ReportStyle? lastReportStyle = null;
         private void GenerateReport(IChangeset newChangeset)

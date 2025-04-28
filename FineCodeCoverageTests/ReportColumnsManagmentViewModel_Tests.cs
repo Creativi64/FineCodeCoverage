@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace FineCodeCoverageTests
 {
@@ -45,6 +46,8 @@ namespace FineCodeCoverageTests
             public string Name { get; set; }
             public bool IsVisible { get; set; }
             public int DisplayIndex { get; set; }
+            public HorizontalAlignment HeaderAlignment { get; set; }
+            public HorizontalAlignment CellAlignment { get; set; }
         }
 
 
@@ -221,12 +224,15 @@ namespace FineCodeCoverageTests
             
             reportColumnsManagementViewModel.Columns[1].IsVisible = true;
             reportColumnsManagementViewModel.Columns[1].Name = " NewName ";
-            
+            reportColumnsManagementViewModel.Columns[1].HeaderAlignment = HorizontalAlignment.Center;
+            reportColumnsManagementViewModel.Columns[1].CellAlignment = HorizontalAlignment.Right;
             reportColumnsManagementViewModel.OkCommand.Execute(null);
 
-            Assert.That(reportColumnsManagementViewModel.Columns[1].ReportColumnData.Name, Is.EqualTo("NewName"));
-            Assert.That(reportColumnsManagementViewModel.Columns[1].ReportColumnData.IsVisible, Is.True);
-            
+            var reportColumnData = reportColumnsManagementViewModel.Columns[1].ReportColumnData;
+            Assert.That(reportColumnData.Name, Is.EqualTo("NewName"));
+            Assert.That(reportColumnData.IsVisible, Is.True);
+            Assert.That(reportColumnData.HeaderAlignment, Is.EqualTo(HorizontalAlignment.Center));
+            Assert.That(reportColumnData.CellAlignment, Is.EqualTo(HorizontalAlignment.Right));
         }
 
         [Test]

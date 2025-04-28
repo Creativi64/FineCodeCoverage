@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Media;
 using FineCodeCoverage.Core.Utilities;
-using Microsoft.VisualStudio.PlatformUI;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output
@@ -20,8 +19,7 @@ namespace FineCodeCoverage.Output
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
         {
-            this.OnPropertyChanged("Background");
-            this.OnPropertyChanged("Foreground");
+            this.NotifyForegroundBackgroundChanged();
             return true;
         }
     }

@@ -1,4 +1,5 @@
-﻿using TreeGrid;
+﻿using System.Windows;
+using TreeGrid;
 
 namespace FineCodeCoverage.Output
 {
@@ -8,11 +9,20 @@ namespace FineCodeCoverage.Output
         string Name { get; set; }
         bool IsVisible { get; set; }
         int DisplayIndex { get; set; }
+        HorizontalAlignment HeaderAlignment { get; set; }
+        HorizontalAlignment CellAlignment { get; set; }
     }
     internal class ReportColumnData : ColumnData, IReportColumnData
     {
-        public ReportColumnData(string reportColumnType, string name, int displayIndex, bool isVisible, double width, double minWidth = 100)
-            : base(name, displayIndex, isVisible, width, minWidth)
+        public ReportColumnData(
+            string reportColumnType, 
+            string name, 
+            int displayIndex, 
+            bool isVisible, 
+            double width, 
+            double minWidth = 100,
+            HorizontalAlignment initialAlignment = default
+        ) : base(name, displayIndex, isVisible, width, minWidth, initialAlignment, initialAlignment)
         {
             ReportColumnType = reportColumnType;
         }

@@ -10,19 +10,16 @@ namespace TreeGrid
     {
         private bool _isSelected;
         protected double _rootWidth;
-        //private GridLength _adjustedWidth;
         private bool _isSelectionActive = true;
-        //private double translateX;
 
         public bool IsSelected
         {
             get => this._isSelected;
             set
             {
-                this.Set(ref this._isSelected, value, nameof(IsSelected));
+                this.Set(ref this._isSelected, value);
                 this._isSelectionActive = true;
-                this.OnPropertyChanged("Background");
-                this.OnPropertyChanged("Foreground");
+                this.NotifyForegroundBackgroundChanged();
             }
         }
 
@@ -55,6 +52,12 @@ namespace TreeGrid
             }
         }
 
+        protected void NotifyForegroundBackgroundChanged()
+        {
+            this.OnPropertyChanged(nameof(Background));
+            this.OnPropertyChanged(nameof(Foreground));
+        }
+
         public bool IsSelectionActive
         {
             get => this._isSelectionActive;
@@ -63,22 +66,13 @@ namespace TreeGrid
                 this._isSelectionActive = value;
                 if (!this.IsSelected)
                     return;
-                this.OnPropertyChanged("Background");
-                this.OnPropertyChanged("Foreground");
+                this.NotifyForegroundBackgroundChanged();
             }
         }
         public abstract bool IsExpanded { get; set; }
         public ITreeItem Parent { get; set; }
         public IEnumerable<ITreeItem> Children { get; protected set; }
 
-        //public GridLength AdjustedWidth
-        //{
-        //    get => this._adjustedWidth;
-        //    set
-        //    {
-        //        this.Set(ref this._adjustedWidth, value, nameof(AdjustedWidth));
-        //    }
-        //}
         private Adjustment adjustment;
         public Adjustment Adjustment
         {
@@ -88,14 +82,6 @@ namespace TreeGrid
                 Set(ref adjustment, value);
             }
         }
-        //public double TranslateX
-        //{
-        //    get => translateX;
-        //    set
-        //    {
-        //        this.Set(ref translateX, value, nameof(TranslateX));
-        //    }
-        //}
         private int Depth => this.Parent != null ? (this.Parent as TreeItemBase).Depth + 1 : 1;
         protected virtual double AdditionalAdjustment => 0.0;   
         public void AdjustWidth(double width)
@@ -104,13 +90,8 @@ namespace TreeGrid
             var adjustedWidth = GetAdjustedWidth(Depth);
             var pixels = width - adjustedWidth;
             var translateX = pixels > 0 ? 0 : pixels;
-            //if(pixels < 0)
-            //{
-            //    TranslateX = pixels;
-            //}
             var clampedPixels = Math.Max(pixels, 0);
             this.Adjustment = new Adjustment(new GridLength(clampedPixels), translateX);
-            //this.AdjustedWidth = new GridLength(clampedPixels);
             foreach (var treeItem in this.Children)
                 treeItem.AdjustWidth(width);
         }

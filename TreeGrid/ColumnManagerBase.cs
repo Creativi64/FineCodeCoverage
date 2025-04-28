@@ -14,7 +14,7 @@ namespace TreeGrid
         public virtual void SortColumnsArray()
         {
             this.Columns = this.Columns.OrderBy(c => c.DisplayIndex).ToArray();
-            this.OnPropertyChanged("Columns");
+            this.OnPropertyChanged(nameof(Columns));
         }
 
         public virtual void SortColumns(int columnIndex)

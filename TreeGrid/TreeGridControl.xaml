@@ -32,6 +32,9 @@
 Value="{Binding Data.HeaderForeground, Source={StaticResource TreeGridProxy}}" />
             <Setter Property="BorderBrush" 
 Value="{Binding Data.HeaderGridLines, Source={StaticResource TreeGridProxy}}" />
+            <!-- Note the binding to Content -->
+            <Setter Property="HorizontalContentAlignment"
+        Value="{Binding Content.HeaderAlignment, RelativeSource={RelativeSource Self}}" />
             <Style.Triggers>
                 <Trigger Property="DataGridColumnHeader.SortDirection" Value="{x:Null}">
                     <Setter Property="ContentControl.ContentTemplate">
@@ -39,7 +42,7 @@ Value="{Binding Data.HeaderGridLines, Source={StaticResource TreeGridProxy}}" />
                             <DataTemplate>
                                 <Border Padding="4 2 4 2">
                                     <DockPanel>
-                                        <TextBlock Margin="0" Text="{Binding}"/>
+                                        <TextBlock Margin="0" Text="{Binding Name}"/>
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
@@ -54,7 +57,7 @@ Value="{Binding Data.HeaderGridLines, Source={StaticResource TreeGridProxy}}" />
                                     <DockPanel>
                                         <Path x:Name="upArrow" DockPanel.Dock="Right" x:Uid="upArrow" StrokeThickness="1"
                         Fill="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=UserControl}}" Data="M 0,10 L 10,10 5,5 0,10 "/>
-                                        <TextBlock Margin="0 0 5 0" Text="{Binding}"/>
+                                        <TextBlock Margin="0 0 5 0" Text="{Binding Name}"/>
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
@@ -69,7 +72,7 @@ Value="{Binding Data.HeaderGridLines, Source={StaticResource TreeGridProxy}}" />
                                     <DockPanel>
                                         <Path x:Name="downArrow" DockPanel.Dock="Right" x:Uid="downArrow" StrokeThickness="1"
                         Fill="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=UserControl}}" Data="M 0,5 L 5,10 10,5 0,5 "/>
-                                        <TextBlock Margin="0 0 5 0" Text="{Binding}"/>
+                                        <TextBlock Margin="0 0 5 0" Text="{Binding Name}"/>
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>

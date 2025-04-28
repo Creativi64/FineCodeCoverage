@@ -15,21 +15,21 @@ namespace FineCodeCoverage.Output
         public string Name
         {
             get => this._name;
-            set => this.Set(ref this._name, value, nameof(this.Name));
+            set => this.Set(ref this._name, value);
         }
 
         private double _coverableLines;
         public double CoverableLines
         {
             get => this._coverableLines;
-            set => this.Set(ref this._coverableLines, value, nameof(this.CoverableLines));
+            set => this.Set(ref this._coverableLines, value);
         }
 
         private int cyclomaticComplexity;
         public int CyclomaticComplexity
         {
             get => this.cyclomaticComplexity;
-            set => this.Set(ref this.cyclomaticComplexity, value, nameof(this.CyclomaticComplexity));
+            set => this.Set(ref this.cyclomaticComplexity, value);
         }
 
 
@@ -37,31 +37,31 @@ namespace FineCodeCoverage.Output
         public int NPathComplexity
         {
             get => this.npathComplexity;
-            set => this.Set(ref this.npathComplexity, value, nameof(this.NPathComplexity));
+            set => this.Set(ref this.npathComplexity, value);
         }
         private decimal crapScore;
         public decimal CrapScore
         {
             get => this.crapScore;
-            set => this.Set(ref this.crapScore, value, nameof(this.CrapScore));
+            set => this.Set(ref this.crapScore, value);
         }
         private int blocksCovered;
         public int BlocksCovered
         {
             get => this.blocksCovered;
-            set => this.Set(ref this.blocksCovered, value, nameof(this.BlocksCovered));
+            set => this.Set(ref this.blocksCovered, value);
         }
         private int blocksNotCovered;
         public int BlocksNotCovered
         {
             get => this.blocksNotCovered;
-            set => this.Set(ref this.blocksNotCovered, value, nameof(this.BlocksNotCovered));
+            set => this.Set(ref this.blocksNotCovered, value);
         }
 
         public override bool IsExpanded
         {
             get => this._isExpanded;
-            set => this.Set(ref this._isExpanded, value, nameof(this.IsExpanded));
+            set => this.Set(ref this._isExpanded, value);
         }
 
         // crisp image width and margin

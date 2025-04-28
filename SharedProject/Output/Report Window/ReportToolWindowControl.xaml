@@ -90,13 +90,14 @@
             <tg:TreeGridControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Tag="Name"  Text="{Binding Name}"/>
-                        <TextBlock Tag="CoverableLines" Text="{Binding CoverableLines}"/>
-                        <TextBlock Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
-                        <TextBlock Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
-                        <TextBlock Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
-                        <TextBlock Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
-                        <TextBlock Tag="CrapScore" Text="{Binding CrapScore}"/>
+                        <!-- cannot put margin in style due to the reparenting-->
+                        <TextBlock Margin="4,0,4,0" Tag="Name"  Text="{Binding Name}"/>
+                        <TextBlock Margin="4,0,4,0" Tag="CoverableLines" Text="{Binding CoverableLines}"/>
+                        <TextBlock Margin="4,0,4,0" Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
+                        <TextBlock Margin="4,0,4,0" Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
+                        <TextBlock Margin="4,0,4,0" Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
+                        <TextBlock Margin="4,0,4,0" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
+                        <TextBlock Margin="4,0,4,0" Tag="CrapScore" Text="{Binding CrapScore}"/>
                     </StackPanel>
                 </DataTemplate>
             </tg:TreeGridControl.ItemTemplate>

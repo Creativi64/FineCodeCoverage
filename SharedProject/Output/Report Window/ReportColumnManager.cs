@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Engine.ReportGenerator;
@@ -43,7 +44,7 @@ namespace FineCodeCoverage.Output
         // note that the control uses reflection to create bindings - these properties are required
         public ReportColumnData Name { get; } = new ReportColumnData(ReportColumnData.NameColumnType, "Name", 0, true, 450, 100);
 
-        public ReportColumnData CoverableLines { get; } = new ReportColumnData(ReportColumnData.CoverableLinesColumnType, "Coverable Lines", 1, true, 100, 20);
+        public ReportColumnData CoverableLines { get; } = new ReportColumnData(ReportColumnData.CoverableLinesColumnType, "Coverable Lines", 1, true, 100, 20, HorizontalAlignment.Right);
         public ReportColumnData BlocksCovered { get; } = new MetricColumnData(MetricType.BlocksCovered,ReportColumnData.BlocksCoveredColumnType, "Blocks Covered", 2, true, 100, 20);
         public ReportColumnData BlocksNotCovered { get; } = new MetricColumnData(MetricType.BlocksNotCovered, ReportColumnData.BlocksNotCoveredColumnType, "Blocks Not Covered", 3, true, 125, 20);
         public ReportColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath, ReportColumnData.NPathComplexityColumnType, "NPath Complexity", 4, true, 115, 20);
@@ -67,6 +68,8 @@ namespace FineCodeCoverage.Output
                     IsVisible = reportColumnData.UserIsVisible,
                     DisplayIndex = c.DisplayIndex,
                     Width = c.Width.Value,
+                    HeaderAlignment = c.HeaderAlignment,
+                    CellAlignment = c.CellAlignment
                 };
             }).ToList();
             var jsonColumnStates = jsonConvertService.SerializeObject(reportColumnStates);
@@ -95,6 +98,8 @@ namespace FineCodeCoverage.Output
                     column.IsVisible = columnState.IsVisible;
                     column.DisplayIndex = columnState.DisplayIndex;
                     column.Width = columnState.Width;
+                    column.HeaderAlignment = columnState.HeaderAlignment;
+                    column.CellAlignment = columnState.CellAlignment;
                 }
             });
         }

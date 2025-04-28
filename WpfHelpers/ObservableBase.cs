@@ -28,7 +28,7 @@ namespace WpfHelpers
             this._errors.TryRemove(propertyName, out IEnumerable<string> _);
             this._errors.TryAdd(propertyName, errors);
             this.ErrorsChanged?.Invoke((object)this, new DataErrorsChangedEventArgs(propertyName));
-            this.OnPropertyChanged("HasErrors");
+            this.OnPropertyChanged(nameof(HasErrors));
         }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

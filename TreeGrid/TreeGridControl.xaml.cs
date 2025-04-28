@@ -223,14 +223,12 @@ namespace TreeGrid
         {
             var column = new DataGridTextColumn();
             var ColumnManager = ViewModel.ColumnManager;
-
-            BindingOperations.SetBinding(column, DataGridTextColumn.HeaderProperty, new Binding($"{columnPropertyName}.Name") { Source = ColumnManager });
+            BindingOperations.SetBinding(column, DataGridTextColumn.HeaderProperty, new Binding(columnPropertyName) { Source = ColumnManager });
             BindingOperations.SetBinding(column, DataGridTextColumn.DisplayIndexProperty, new Binding($"{columnPropertyName}.DisplayIndex") { Source = ColumnManager, FallbackValue = 1, Mode = BindingMode.TwoWay });
             BindingOperations.SetBinding(column, DataGridTextColumn.WidthProperty, new Binding($"{columnPropertyName}.Width") { Source = ColumnManager, Mode = BindingMode.TwoWay });
             BindingOperations.SetBinding(column, DataGridTextColumn.VisibilityProperty, new Binding($"{columnPropertyName}.IsVisible") { Source = ColumnManager, Mode = BindingMode.TwoWay, Converter = new BooleanToVisibilityConverter() });
             BindingOperations.SetBinding(column, DataGridTextColumn.MinWidthProperty, new Binding($"{columnPropertyName}.MinWidth") { Source = ColumnManager });
             BindingOperations.SetBinding(column, DataGridTextColumn.SortDirectionProperty, new Binding($"{columnPropertyName}.SortDirection") { Source = ColumnManager, Mode = BindingMode.TwoWay });
-
             if (column.DisplayIndex == 0)
             {
                 column.CanUserReorder = false;
@@ -253,7 +251,7 @@ namespace TreeGrid
                 Binding widthBinding = new Binding
                 {
                     Source = ViewModel.ColumnManager,
-                    Path = new PropertyPath($"Columns[{i}].GridWidth")
+                    Path = new PropertyPath($"Columns[{i}].{nameof(ColumnData.GridWidth)}")
                 };
 
                 var columnDefinition = new ColumnDefinition();
@@ -285,16 +283,24 @@ namespace TreeGrid
             var displayIndexBinding = new Binding
             {
                 Source = this,
-                Path = GetColumnManagerPropertyPath("DisplayIndex", index, columnPropertyName)
+                Path = GetColumnManagerPropertyPath(nameof(ColumnData.DisplayIndex), index, columnPropertyName)
             };
 
             BindingOperations.SetBinding(child, Grid.ColumnProperty, displayIndexBinding);
+
+            var horizontalAlignmentBinding = new Binding
+            {
+                Source = this,
+                Path = GetColumnManagerPropertyPath(nameof(ColumnData.CellAlignment), index, columnPropertyName)
+            };
+            BindingOperations.SetBinding(child, Grid.HorizontalAlignmentProperty, horizontalAlignmentBinding);
+
             if (index != 0)
             {
                 var visibilityBinding = new Binding
                 {
                     Source = this,
-                    Path = GetColumnManagerPropertyPath("IsVisible", index, columnPropertyName),
+                    Path = GetColumnManagerPropertyPath(nameof(ColumnData.IsVisible), index, columnPropertyName),
                     Converter = new BooleanToVisibilityConverter()
                 };
 

@@ -16,29 +16,35 @@ namespace TreeGrid
         private ListSortDirection? _sortDirection;
         private string _name;
         private bool _isInvalid;
+        private HorizontalAlignment _headerAlignment;
+        private HorizontalAlignment _cellAlignment;
 
         public ColumnData(
           string name,
           int displayIndex,
           bool isVisible,
           double width,
-          double minWidth = 100)
+          double minWidth = 100,
+          HorizontalAlignment headerAlignment = default,
+          HorizontalAlignment cellAlignment = default)
         {
             this.Name = name;
             this.DisplayIndex = displayIndex;
             this.IsVisible = isVisible;
             this.Width = new DataGridLength(width);
             this.MinWidth = minWidth;
+            _headerAlignment = headerAlignment;
+            _cellAlignment = cellAlignment;
         }
 
-        public string Name { get => _name; set =>this.Set(ref this._name, value, nameof(Name)); }
+        public string Name { get => _name; set =>this.Set(ref this._name, value); }
 
         public double MinWidth { get; set; }
 
         public int DisplayIndex
         {
             get => this._displayIndex;
-            set => this.Set(ref this._displayIndex, value, nameof(DisplayIndex));
+            set => this.Set(ref this._displayIndex, value);
         }
 
         public bool IsInvalid
@@ -47,9 +53,9 @@ namespace TreeGrid
             set
             {
                 this._isInvalid = value;
-                this.OnPropertyChanged("IsVisible");
-                this.OnPropertyChanged("Width");
-                this.OnPropertyChanged("GridWidth");
+                this.OnPropertyChanged(nameof(IsVisible));
+                this.OnPropertyChanged(nameof(Width));
+                this.OnPropertyChanged(nameof(GridWidth));
             }
         }
         public bool UserIsVisible { get => this._isVisible; }
@@ -58,9 +64,9 @@ namespace TreeGrid
             get => !this._isInvalid && this._isVisible;
             set
             {
-                this.Set(ref this._isVisible, value, nameof(IsVisible));
-                this.OnPropertyChanged("Width");
-                this.OnPropertyChanged("GridWidth");
+                this.Set(ref this._isVisible, value);
+                this.OnPropertyChanged(nameof(Width));
+                this.OnPropertyChanged(nameof(GridWidth));
             }
         }
 
@@ -69,7 +75,7 @@ namespace TreeGrid
             get => !this.IsVisible ? ColumnData.EmptyDataGridLength : this._actualWidth;
             set
             {
-                this.Set(ref this._actualWidth, value, nameof(Width));
+                this.Set(ref this._actualWidth, value);
                 this.GridWidth = new GridLength(this._actualWidth.Value);
             }
         }
@@ -77,7 +83,7 @@ namespace TreeGrid
         public GridLength GridWidth
         {
             get => !this.IsVisible ? ColumnData.EmptyGridLength : this._gridWidth;
-            set => this.Set(ref this._gridWidth, value, nameof(GridWidth));
+            set => this.Set(ref this._gridWidth, value);
         }
 
         public ListSortDirection? SortDirection
@@ -85,9 +91,21 @@ namespace TreeGrid
             get => this._sortDirection;
             set
             {
-                this.Set(ref this._sortDirection, value, nameof(SortDirection));
-                this.OnPropertyChanged("Visibility");
+                this.Set(ref this._sortDirection, value);
+                this.OnPropertyChanged(nameof(Visibility));
             }
+        }
+
+        public HorizontalAlignment HeaderAlignment
+        {
+            get => this._headerAlignment;
+            set => this.Set(ref this._headerAlignment, value);
+        }
+
+        public HorizontalAlignment CellAlignment
+        {
+            get => this._cellAlignment;
+            set => this.Set(ref this._cellAlignment, value);
         }
     }
 }

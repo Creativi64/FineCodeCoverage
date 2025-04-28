@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -16,6 +17,8 @@ namespace FineCodeCoverage.Output
             IsVisible = reportColumnData.IsVisible;
             this.ReportColumnData = reportColumnData;
             CanEditVisible = reportColumnData.DisplayIndex > 0;
+            this.HeaderAlignment = reportColumnData.HeaderAlignment;
+            this.CellAlignment = reportColumnData.CellAlignment;
         }
         private bool _isVisible;
         public bool IsVisible
@@ -23,7 +26,7 @@ namespace FineCodeCoverage.Output
             get => this._isVisible;
             set
             {
-                this.Set(ref this._isVisible, value, nameof(IsVisible));
+                this.Set(ref this._isVisible, value);
             }
         }
 
@@ -38,9 +41,23 @@ namespace FineCodeCoverage.Output
             get => this._name;
             set
             {
-                this.Set(ref this._name, value, nameof(Name));
+                this.Set(ref this._name, value);
 
             }
+        }
+
+        private HorizontalAlignment _headerAlignment;
+        public HorizontalAlignment HeaderAlignment
+        {
+            get => this._headerAlignment;
+            set => this.Set(ref this._headerAlignment, value);
+        }
+
+        private HorizontalAlignment _cellAlignment;
+        public HorizontalAlignment CellAlignment
+        {
+            get => this._cellAlignment;
+            set => this.Set(ref this._cellAlignment, value);
         }
 
         public string Error { get => this[nameof(Name)]; }
