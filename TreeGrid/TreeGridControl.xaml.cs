@@ -319,7 +319,7 @@ namespace TreeGrid
                     var childrenCount = VisualTreeHelper.GetChildrenCount(child);
                     for (var i = 0; i < childrenCount; i++)
                     {
-                        var tb = VisualTreeHelper.GetChild(child, i) as TextBlock;
+                        tb = VisualTreeHelper.GetChild(child, i) as TextBlock;
                         if(tb != null)
                         {
                             BindTextBlock(tb);
