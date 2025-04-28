@@ -99,8 +99,8 @@
                         <TextBlock Margin="4,0,4,0" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
                         <TextBlock Margin="4,0,4,0" Tag="CrapScore" Text="{Binding CrapScore}"/>
                         <Border Margin="4,0,4,0"  BorderThickness="1" BorderBrush="{DynamicResource ResourceKey={x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}">
-                            <ProgressBar Minimum="0" Maximum="1" Value="{Binding LineCoveragePercentage}" Background="Transparent " BorderThickness="0">
-                                <ProgressBar.Foreground>
+                            <ProgressBar Minimum="0" Maximum="1" Value="{Binding LineCoveragePercentage}" Foreground="#339933" Background="#E51400" BorderThickness="0">
+                                <!--<ProgressBar.Foreground>
                                     <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute" Viewbox="0,0,10,10" ViewboxUnits="Absolute">
                                         <DrawingBrush.Drawing>
                                             <GeometryDrawing>
@@ -115,7 +115,7 @@
                                             </GeometryDrawing>
                                         </DrawingBrush.Drawing>
                                     </DrawingBrush>
-                                </ProgressBar.Foreground>
+                                </ProgressBar.Foreground>-->
                             </ProgressBar>
                         </Border>
                         
