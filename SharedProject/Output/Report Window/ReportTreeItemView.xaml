@@ -66,7 +66,7 @@
             </imaging:CrispImage.Style>
         </imaging:CrispImage>
 
-        <StackPanel Background="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}">
+        <StackPanel Background="{Binding ImageBackgroundBrush, Source={x:Static local:ThemedTreeGridColours.Instance}}">
             <StackPanel.RenderTransform>
                 <TranslateTransform X="{Binding Adjustment.TranslateX}"/>
             </StackPanel.RenderTransform>

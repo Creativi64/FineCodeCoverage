@@ -16,12 +16,13 @@ namespace FineCodeCoverage.Output
 
         public static ThemedTreeGridColours Instance { get; } = new ThemedTreeGridColours();
 
-        private ThemeResourceKey ImageBackgroundThemeResourceKey = TreeViewColors.BackgroundColorKey;
-        private ThemeResourceKey ImageBackgroundFallbackThemeResourceKey = EnvironmentColors.ToolWindowBackgroundColorKey;
+        private readonly ThemeResourceKey ImageBackgroundThemeResourceKey = TreeViewColors.BackgroundColorKey;
+        private readonly ThemeResourceKey ImageBackgroundFallbackThemeResourceKey = EnvironmentColors.ToolWindowBackgroundColorKey;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Color ImageBackgroundColor { get; private set; }
+        public Brush ImageBackgroundBrush { get; private set; }
 
         public Brush TransparentBrush { get; } = new SolidColorBrush(Colors.Transparent);
 
@@ -42,7 +43,10 @@ namespace FineCodeCoverage.Output
             {
                 this.ImageBackgroundColor = ImageBackgroundFallbackThemeResourceKey.ToColor();
             }
+            this.ImageBackgroundBrush = new SolidColorBrush(this.ImageBackgroundColor);
+            this.ImageBackgroundBrush.Freeze();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBackgroundColor)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBackgroundBrush)));
         }
 
         private void PopulateColors()
