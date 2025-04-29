@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Imaging;
 using FineCodeCoverage.Engine.ReportGenerator;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FineCodeCoverage.Output
 {
@@ -18,6 +19,7 @@ namespace FineCodeCoverage.Output
                 KnownMonikers.Method : KnownMonikers.Property;
             this.lines = codeElement.Lines;
             this.CoverableLines = codeElement.Lines.Count;
+            this.CoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Covered);
             this.NPathComplexity = codeElement.NPathComplexity;
             this.CrapScore = codeElement.CrapScore;
             this.CyclomaticComplexity = codeElement.CyclomaticComplexity;

@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(VsImageButtonX), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(VsImageButtonX), new PropertyMetadata(null));
 
     }
     public partial class VsCrispImageButtonX : VsImageButtonX

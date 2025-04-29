@@ -25,10 +25,12 @@ namespace FineCodeCoverage.Output
                     Parent = this
                 }
             );
+            
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)
             {
                 this.observableChildren.Add(namespaceTreeItem);
                 this.CoverableLines += namespaceTreeItem.CoverableLines;
+                this.CoveredLines += namespaceTreeItem.CoveredLines;
 
                 this.NPathComplexity += namespaceTreeItem.NPathComplexity;
                 this.CrapScore += namespaceTreeItem.CrapScore;

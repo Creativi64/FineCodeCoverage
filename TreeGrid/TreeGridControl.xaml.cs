@@ -26,7 +26,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty BindTextBlockForegroundProperty =
-            DependencyProperty.Register("BindTextBlockForeground", typeof(bool), typeof(TreeGridControl), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(BindTextBlockForeground), typeof(bool), typeof(TreeGridControl), new PropertyMetadata(true));
 
         public Brush TreeViewBackground
         {
@@ -35,7 +35,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty TreeViewBackgroundProperty =
-            DependencyProperty.Register("TreeViewBackground", typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(TreeViewBackground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public Brush TreeViewForeground
         {
@@ -44,7 +44,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty TreeViewForegroundProperty =
-            DependencyProperty.Register("TreeViewForeground", typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register(nameof(TreeViewForeground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public Brush TreeGridControlBackground
         {
@@ -53,7 +53,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty TreeGridControlBackgroundProperty =
-            DependencyProperty.Register("TreeGridControlBackground", typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(TreeGridControlBackground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public Brush HeaderBackground
         {
@@ -62,7 +62,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty HeaderBackgroundProperty =
-            DependencyProperty.Register("HeaderBackground", typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(HeaderBackground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public Brush HeaderForeground
         {
@@ -71,7 +71,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty HeaderForegroundProperty =
-            DependencyProperty.Register("HeaderForeground", typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register(nameof(HeaderForeground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public Brush HeaderGridLines
         {
@@ -80,7 +80,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty HeaderGridLinesProperty =
-            DependencyProperty.Register("HeaderGridLines", typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(HeaderGridLines), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public Style HeaderStyle
         {
@@ -89,7 +89,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty HeaderStyleProperty =
-            DependencyProperty.Register("HeaderStyle", typeof(Style), typeof(TreeGridControl), new PropertyMetadata(null, OnHeaderStyleChanged));
+            DependencyProperty.Register(nameof(HeaderStyle), typeof(Style), typeof(TreeGridControl), new PropertyMetadata(null, OnHeaderStyleChanged));
 
         private static void OnHeaderStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -151,7 +151,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(ITreeGridViewModel), typeof(TreeGridControl), new PropertyMetadata(null, OnViewModelChanged));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ITreeGridViewModel), typeof(TreeGridControl), new PropertyMetadata(null, OnViewModelChanged));
 
         private static void OnViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -166,7 +166,7 @@ namespace TreeGrid
         }
 
         public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(TreeGridControl), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(TreeGridControl), new PropertyMetadata(null));
 
         #endregion
 

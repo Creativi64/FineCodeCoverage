@@ -26,10 +26,10 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(VsImageButton), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(VsImageButton), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(object), typeof(VsImageButton), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Image), typeof(object), typeof(VsImageButton), new PropertyMetadata(null));
 
     }
 

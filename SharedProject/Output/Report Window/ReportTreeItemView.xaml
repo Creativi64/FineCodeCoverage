@@ -53,7 +53,7 @@
             >
             <imaging:CrispImage.Style>
                 <Style TargetType="imaging:CrispImage">
-                    <Style.Triggers>
+                    <!--<Style.Triggers>
                         <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="False">
                             <Setter Property="Grayscale" Value="True"></Setter>
                             <Setter Property="imaging:CrispImage.GrayscaleBiasColor" Value="{DynamicResource {x:Static vsShell:DecorativeColors.RedPrimaryColorKey}}"/>
@@ -61,7 +61,7 @@
                         <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="True">
                             <Setter Property="Grayscale" Value="False"></Setter>
                         </DataTrigger>
-                    </Style.Triggers>
+                    </Style.Triggers>-->
                 </Style>
             </imaging:CrispImage.Style>
         </imaging:CrispImage>

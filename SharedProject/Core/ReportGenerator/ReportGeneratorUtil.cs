@@ -26,6 +26,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             {
                 this.Number = coberturaLine.Number;
                 this.OriginalLineNumber = this.Number;
+                this.CoverageType = coberturaLine.CoverageType;
                 CodeElement = codeElement;
             }
             public int OriginalLineNumber { get; }

@@ -8,11 +8,9 @@ namespace FineCodeCoverage.Output
     {
         private bool _isExpanded;
         internal readonly ObservableCollection<ReportTreeItemBase> observableChildren = new ObservableCollection<ReportTreeItemBase>();
-        private static readonly Random _random = new Random();
         protected ReportTreeItemBase()
         {
             this.Children = this.observableChildren;
-            _lineCoveragePercentage = _random.NextDouble();
         }
 
         public abstract ImageMoniker ImageMoniker { get; }
@@ -30,11 +28,11 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this._coverableLines, value);
         }
 
-        private double _lineCoveragePercentage;
-        public double LineCoveragePercentage
+        private double _coveredLines;
+        public double CoveredLines
         {
-            get => _lineCoveragePercentage;
-            set => this.Set(ref _lineCoveragePercentage, value);
+            get => this._coveredLines;
+            set => this.Set(ref this._coveredLines, value);
         }
 
         private int cyclomaticComplexity;

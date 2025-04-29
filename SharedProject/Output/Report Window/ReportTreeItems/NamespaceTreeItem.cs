@@ -14,6 +14,7 @@ namespace FineCodeCoverage.Output
                 this.observableChildren.Add(child);
                 child.Parent = this;
                 this.CoverableLines += child.CoverableLines;
+                this.CoveredLines += child.CoveredLines;
                 this.NPathComplexity += child.NPathComplexity;
                 this.CrapScore += child.CrapScore;
                 this.CyclomaticComplexity += child.CyclomaticComplexity;
