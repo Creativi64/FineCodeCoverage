@@ -103,12 +103,12 @@ namespace FineCodeCoverage.Output
                 var dependedUponDp = dependencyProperties.First(dp => dp.Name == kvp.Key);
                 var descriptor = DependencyPropertyDescriptor.FromProperty(dependedUponDp, type);
 
-                return new DescriptorAndDependentProperties(descriptor, kvp.Value, (changedPropertyName) =>
+                return new DependentPropertiesDescriptor(descriptor, (changedPropertyName) =>
                 {
                     return GetDependentProperties(changedPropertyName, dependencies);
                 });
             }).ToList();
-            return new DpInfo<T>(allDescriptorDependents);
+            return new DependentPropertiesChangedNotifier<T>(allDescriptorDependents);
             // no reason why could not depen
 
         }
