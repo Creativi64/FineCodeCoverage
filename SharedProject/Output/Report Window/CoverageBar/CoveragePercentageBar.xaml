@@ -12,28 +12,73 @@
         <Border.Resources>
             <wpf:SimpleLineBrushConverter x:Key="SimpleLineBrushConverter"/>
             <wpf:BoolRotateConverter x:Key="BoolRotateConverter"/>
+            <local:InvertPercentageConverter x:Key="InvertPercentageConverter"/>
         </Border.Resources>
         <Border.RenderTransform>
             <RotateTransform Angle="{Binding ElementName=root, Path=CoveredPercentageLeft, Converter={StaticResource BoolRotateConverter}, ConverterParameter=false}"/>
         </Border.RenderTransform>
         <ProgressBar x:Name="pb" Minimum="0" Maximum="1" BorderThickness="0"
-					 Value="{Binding ElementName=root, Path=Percentage}"
+					
 					 >
             <ProgressBar.Style>
                 <Style TargetType="ProgressBar">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.CoveredLine}">
-                            <DataTrigger.Setters>
-                                <Setter Property="Foreground" Value="{Binding CoveredBrush,RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource SimpleLineBrushConverter}}"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl} }" Value="{x:Static local:CoveragePercentageBarStyle.Solid}">
-                            <DataTrigger.Setters>
-                                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CoveredBrush}"/>
-                                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=NotCoveredBrush}"/>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UseSolidBrush,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="true"/>
+                                <Condition Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.Percent}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CoveredBrush}"/>
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=NotCoveredBrush}"/>
+                            <Setter Property="Value" Value="{Binding ElementName=root, Path=Percentage}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UseSolidBrush,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="false"/>
+                                <Condition Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.Percent}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{Binding CoveredBrush,RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource SimpleLineBrushConverter}}"/>
+                            <Setter Property="Background" Value="{Binding NotCoveredBrush,RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource SimpleLineBrushConverter}}"/>
+                            <Setter Property="Value" Value="{Binding ElementName=root, Path=Percentage}"/>
+                        </MultiDataTrigger>
+                        
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UseSolidBrush,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="true"/>
+                                <Condition Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.Covered}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CoveredBrush}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Value" Value="{Binding ElementName=root, Path=Percentage}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UseSolidBrush,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="false"/>
+                                <Condition Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.Covered}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{Binding CoveredBrush,RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource SimpleLineBrushConverter}}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Value" Value="{Binding ElementName=root, Path=Percentage}"/>
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UseSolidBrush,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="true"/>
+                                <Condition Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.NotCovered}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=NotCoveredBrush}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Value" Value="{Binding ElementName=root, Path=Percentage, Converter={StaticResource InvertPercentageConverter}}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UseSolidBrush,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="false"/>
+                                <Condition Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.NotCovered}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{Binding NotCoveredBrush,RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource SimpleLineBrushConverter}}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Value" Value="{Binding ElementName=root, Path=Percentage, Converter={StaticResource InvertPercentageConverter}}"/>
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </ProgressBar.Style>

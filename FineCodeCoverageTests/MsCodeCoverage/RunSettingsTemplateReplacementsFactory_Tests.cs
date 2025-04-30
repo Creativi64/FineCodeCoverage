@@ -942,5 +942,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
         public bool ThemeCoveragePercentageBar { get; set; }
         public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
+        public bool CoveragePercentageSolidBrush { get; set; }
     }
 }

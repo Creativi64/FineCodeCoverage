@@ -105,6 +105,7 @@
                                 Coverable="{Binding CoverableLines}" 
                                 Covered="{Binding CoveredLines}" 
                                 CoverageBarBorderThickness="1" 
+                                UseSolidBrush="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
                                 NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
                                 CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
                                 CoverageBorderBrush="{DynamicResource ResourceKey={x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"

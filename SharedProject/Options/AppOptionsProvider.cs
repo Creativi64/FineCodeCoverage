@@ -87,7 +87,7 @@ namespace FineCodeCoverage.Options
 
             appOptions.Hide0Coverable = true;
             appOptions.ThemeCoveragePercentageBar = true;
-            appOptions.CoveragePercentageBarStyle = CoveragePercentageBarStyle.CoveredLine;
+            appOptions.CoveragePercentageBarStyle = CoveragePercentageBarStyle.Percent;
             appOptions.CoveredPercentageLeft = true;
         }
 
@@ -258,5 +258,6 @@ namespace FineCodeCoverage.Options
         public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
         public bool ThemeCoveragePercentageBar { get; set; }
         public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
+        public bool CoveragePercentageSolidBrush { get; set; }
     }
 }

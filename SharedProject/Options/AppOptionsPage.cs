@@ -507,6 +507,10 @@ namespace FineCodeCoverage.Options
         [Category(coverageBarCategory)]
         [Description("Report coverage percentage bar, colours from vs fonts and colors settings")]
         public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
+
+        [Category(coverageBarCategory)]
+        [Description("Report coverage percentage bar, set to false for dashed line brush")]
+        public bool CoveragePercentageSolidBrush { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

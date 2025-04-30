@@ -2,17 +2,224 @@
 using System.Windows.Media;
 using System;
 using System.Windows;
+using System.ComponentModel;
+using System.Linq;
+using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Utilities;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Windows.Navigation;
 
 namespace FineCodeCoverage.Output
 {
-    public enum CoveragePercentageBarStyle { Solid, CoveredLine, UncoveredLine}
+    public enum CoveragePercentageBarStyle { Percent, Covered, NotCovered }
 
-    public partial class CoveragePercentageBar : UserControl
+    public class DependentPropertiesDescriptor
     {
+        private DependencyPropertyDescriptor dependencyPropertyDescriptor;
+        private Func<string, IEnumerable<string>> _getDependentProperties;
+        public DependentPropertiesDescriptor(
+            DependencyPropertyDescriptor dependencyPropertyDescriptor, 
+            Func<string, IEnumerable<string>> getDependentProperties
+            )
+        {
+            this.dependencyPropertyDescriptor = dependencyPropertyDescriptor;
+            _getDependentProperties = getDependentProperties;
+        }
+
+        public void AddValueChanged(object instance, EventHandler handler)
+        {
+            this.dependencyPropertyDescriptor.AddValueChanged(instance, handler);
+        }
+
+        public void RemoveValueChanged(object instance, EventHandler handler)
+        {
+            this.dependencyPropertyDescriptor.RemoveValueChanged(instance, handler);
+        }
+
+        public IEnumerable<string> GetDependentProperties()
+        {
+            return _getDependentProperties(dependencyPropertyDescriptor.Name);
+        }
+
+        
+    }
+
+    public class DependentPropertiesChangedNotifier<T> where T : IPropertyDependencyChanged
+    {
+        private readonly List<DependentPropertiesDescriptor> dependentPropertiesDescriptors;
+        private Dictionary<T, EventHandler> handlers = new Dictionary<T, EventHandler>();
+
+        public DependentPropertiesChangedNotifier(List<DependentPropertiesDescriptor> dependentPropertiesDescriptors)
+        {
+            this.dependentPropertiesDescriptors = dependentPropertiesDescriptors;
+        }
+
+        private EventHandler CreateHandler(T instance, DependentPropertiesDescriptor dependentPropertiesDescriptor)
+        {
+            EventHandler handler = (_, __) =>
+            {
+                var dependentPropertyNames = dependentPropertiesDescriptor.GetDependentProperties();
+                foreach (var propertyName in dependentPropertyNames)
+                {
+                    instance.NotifyDependentPropertyChanged(propertyName);
+                }
+            };
+            handlers.Add(instance, handler);
+            return handler;
+        }
+
+        public void NotifyOrChanges(T instance)
+        {
+            this.dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
+            {
+                dependentPropertiesDescriptor.AddValueChanged(instance, CreateHandler(instance, dependentPropertiesDescriptor));
+            });
+        }
+
+
+        public void RemoveNotificationOfChanges(T instance)
+        {
+            this.dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
+            {
+                dependentPropertiesDescriptor.RemoveValueChanged(instance, handlers[instance]);
+            });
+        }
+        // need to remove as well
+    }
+
+
+    public static class DependencyPropertyHelper
+    {
+        public static DependentPropertiesChangedNotifier<T> Build<T>() where T : IPropertyDependencyChanged
+        {
+            var type = typeof(T);
+            var dependencies = BuildPropertyDependencies(type);
+            var dependencyPropertyFields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).Where(f => f.FieldType == typeof(DependencyProperty));
+            var dependencyProperties = dependencyPropertyFields.Select(f => f.GetValue(null) as DependencyProperty).ToList();
+            var propertyNamesDependOn = dependencies.Keys;
+            var allDescriptorDependents = dependencies.Select(kvp =>
+            {
+                var dependedUponDp = dependencyProperties.First(dp => dp.Name == kvp.Key);
+                var descriptor = DependencyPropertyDescriptor.FromProperty(dependedUponDp, type);
+
+                return new DescriptorAndDependentProperties(descriptor, kvp.Value, (changedPropertyName) =>
+                {
+                    return GetDependentProperties(changedPropertyName, dependencies);
+                });
+            }).ToList();
+            return new DpInfo<T>(allDescriptorDependents);
+            // no reason why could not depen
+
+        }
+        public static IDictionary<string, OneOrMany<string>> BuildPropertyDependencies(Type type)
+        {
+            IDictionary<string, OneOrMany<string>> map1 = (IDictionary<string, OneOrMany<string>>)null;
+            IDictionary<string, OneOrMany<string>> map2 = (IDictionary<string, OneOrMany<string>>)null;
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            HashSet<string> stringSet = new HashSet<string>(((IEnumerable<PropertyInfo>)properties).Select((Func<PropertyInfo, string>)(prop => prop.Name)));
+            foreach (PropertyInfo propertyInfo in properties)
+            {
+                foreach (string str in Enumerable.Cast<DependsOnPropertyAttribute>(propertyInfo.GetCustomAttributes(typeof(DependsOnPropertyAttribute), true)).Select((attr => attr.PropertyName)))
+                {
+                    if (!stringSet.Contains(str))
+                        throw new DependsOnPropertyNotFoundException(propertyInfo.DeclaringType, propertyInfo.Name, str);
+                    AddToMapValues(ref map2, str, propertyInfo.Name);
+                    AddToMapValues(ref map1, propertyInfo.Name, str);
+                }
+            }
+            ValidatePropertyDependencies(map1);
+            return map2;
+
+            void AddToMapValues(
+              ref IDictionary<string, OneOrMany<string>> map,
+              string key,
+              string valueToAdd)
+            {
+                if (map == null)
+                    map = new Dictionary<string, OneOrMany<string>>();
+                OneOrMany<string> oneOrMany;
+                map.TryGetValue(key, out oneOrMany);
+                oneOrMany.Add(valueToAdd);
+                map[key] = oneOrMany;
+            }
+        }
+        private static void ValidatePropertyDependencies(
+  IDictionary<string, OneOrMany<string>> propertyDependencies)
+        {
+            if (propertyDependencies == null)
+                return;
+            List<string> allDependentProperties = new List<string>();
+            foreach (string key in (IEnumerable<string>)propertyDependencies.Keys)
+            {
+                allDependentProperties.Clear();
+                AddDependentProperties(key, key, propertyDependencies, ref allDependentProperties);
+            }
+        }
+
+        private static bool AddDependentProperties(
+          string rootProperty,
+          string property,
+          IDictionary<string, OneOrMany<string>> propertyDependencies,
+          ref List<string> allDependentProperties)
+        {
+            OneOrMany<string> oneOrMany;
+            if (propertyDependencies == null || !propertyDependencies.TryGetValue(property, out oneOrMany))
+                return false;
+            foreach (string str in oneOrMany)
+            {
+                if (allDependentProperties == null)
+                    allDependentProperties = new List<string>();
+                if (!allDependentProperties.Contains(str))
+                {
+                    allDependentProperties.Add(str);
+                    if (str == rootProperty)
+                        throw new CircularPropertyDependencyException(str, allDependentProperties.ToArray());
+                    AddDependentProperties(rootProperty, str, propertyDependencies, ref allDependentProperties);
+                }
+                else
+                    break;
+            }
+            return true;
+        }
+
+        public static IEnumerable<string> GetDependentProperties(string property, IDictionary<string, OneOrMany<string>> _propertyDependencies)
+        {
+            List<string> allDependentProperties = (List<string>)null;
+            return !AddDependentProperties(property, property, _propertyDependencies, ref allDependentProperties) ? Enumerable.Empty<string>() : (IEnumerable<string>)allDependentProperties;
+        }
+    }
+
+    public interface IPropertyDependencyChanged
+    {
+        void NotifyDependentPropertyChanged(string propertyName);
+    }
+
+    public partial class CoveragePercentageBar : UserControl, INotifyPropertyChanged, IPropertyDependencyChanged
+    {
+        private static DependentPropertiesChangedNotifier<CoveragePercentageBar> dpInfo;
         public CoveragePercentageBar()
         {
             InitializeComponent();
+            if(dpInfo == null)
+            {
+                dpInfo = DependencyPropertyHelper.Build<CoveragePercentageBar>();
+            }
+            // could wait for load event
+            dpInfo.NotifyOrChanges(this);
         }
+
+        public void NotifyDependentPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if (propertyChanged == null)
+                return;
+
+           propertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        [DependsOnProperty(nameof(CoveragePercentageBarStyle))]
+        public bool ADp => CoveragePercentageBarStyle == CoveragePercentageBarStyle.Covered;
 
         public CoveragePercentageBarStyle CoveragePercentageBarStyle
         {
@@ -21,7 +228,18 @@ namespace FineCodeCoverage.Output
         }
 
         public static readonly DependencyProperty CoveragePercentageBarStyleProperty =
-            DependencyProperty.Register(nameof(CoveragePercentageBarStyle), typeof(CoveragePercentageBarStyle), typeof(CoveragePercentageBar), new PropertyMetadata(CoveragePercentageBarStyle.Solid));
+            DependencyProperty.Register(nameof(CoveragePercentageBarStyle), typeof(CoveragePercentageBarStyle), typeof(CoveragePercentageBar), new PropertyMetadata(CoveragePercentageBarStyle.Percent));
+
+        public bool UseSolidBrush
+        {
+            get { return (bool)GetValue(UseSolidBrushProperty); }
+            set { SetValue(UseSolidBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for UseSolidBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseSolidBrushProperty =
+            DependencyProperty.Register(nameof(UseSolidBrush), typeof(bool), typeof(CoveragePercentageBar), new PropertyMetadata(true));
+
 
         public int? Partial
         {
@@ -247,6 +465,8 @@ Partial       - {partialValue}
 
         private static readonly DependencyProperty NotCoveredBrushProperty =
             DependencyProperty.Register(nameof(NotCoveredBrush), typeof(Brush), typeof(CoveragePercentageBar), new PropertyMetadata(new SolidColorBrush(VisualStudioNotificationColors.Red)));
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void UpdateBrush(bool isCovered)
         {

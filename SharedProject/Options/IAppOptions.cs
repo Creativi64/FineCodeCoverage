@@ -100,13 +100,14 @@ namespace FineCodeCoverage.Options
 
     internal interface ICoveragePercentageBarOptions
     {
+        bool CoveragePercentageSolidBrush { get; set; }
         bool CoveredPercentageLeft { get; set; }
         CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
         bool ThemeCoveragePercentageBar { get; set; }
         bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
     }
 
-    internal interface IAppOptions : 
+    internal interface IAppOptions :
         IMsCodeCoverageOptions,
         IOpenCoverCoverletExcludeIncludeOptions,
         IFCCCommonOptions,
