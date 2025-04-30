@@ -4,6 +4,7 @@ using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.ComponentModelHost;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Options
 {
@@ -37,6 +38,7 @@ namespace FineCodeCoverage.Options
         private const string commonOutputCategory = "Output ( Common )";
         private const string commonReportCategory = "Report ( Common )";
         private const string openCoverReportCategory = "Report ( OpenCover )";
+        private const string coverageBarCategory = "Report Coverage bar";
         private const string toolbarCategory = "Toolbar";
         private const string editorColouringControlCategory = "Editor Colouring Control";
         private const string overviewMarginCategory = "Editor Colouring Overview Margin";
@@ -487,8 +489,24 @@ namespace FineCodeCoverage.Options
         [Description("If supplying your own target you can also supply additional arguments.  FCC supplies the test dll path.")]
         //[DisplayName("OpenCover Target Args")]
         public string OpenCoverTargetArgs { get; set; }
+        #endregion
 
+        #region coverage bar
+        [Category(coverageBarCategory)]
+        [Description("Report coverage percentage bar, covered on the left or the right")]
+        public bool CoveredPercentageLeft { get; set; }
 
+        [Category(coverageBarCategory)]
+        [Description("Report coverage percentage bar, change the style.")]
+        public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
+
+        [Category(coverageBarCategory)]
+        [Description("Report coverage percentage bar, theme colours against the background")]
+        public bool ThemeCoveragePercentageBar { get; set; }
+
+        [Category(coverageBarCategory)]
+        [Description("Report coverage percentage bar, colours from vs fonts and colors settings")]
+        public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

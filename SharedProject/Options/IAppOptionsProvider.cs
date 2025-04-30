@@ -7,6 +7,4 @@ namespace FineCodeCoverage.Options
         event Action<IAppOptions> OptionsChanged;
         IAppOptions Get();
     }
-
-
 }

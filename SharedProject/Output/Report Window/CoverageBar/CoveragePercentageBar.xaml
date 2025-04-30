@@ -11,10 +11,10 @@
 	<Border RenderTransformOrigin="0.5,0.5" BorderBrush="{Binding CoverageBorderBrush,  ElementName=root}" BorderThickness="{Binding CoverageBorderThicknessActual, ElementName=root}">
         <Border.Resources>
             <wpf:SimpleLineBrushConverter x:Key="SimpleLineBrushConverter"/>
-            <wpf:TrueRotateConverter x:Key="TrueRotateConverter"/>
+            <wpf:BoolRotateConverter x:Key="BoolRotateConverter"/>
         </Border.Resources>
         <Border.RenderTransform>
-            <RotateTransform Angle="{Binding ElementName=root, Path=Invert, Converter={StaticResource TrueRotateConverter}}"/>
+            <RotateTransform Angle="{Binding ElementName=root, Path=CoveredPercentageLeft, Converter={StaticResource BoolRotateConverter}, ConverterParameter=false}"/>
         </Border.RenderTransform>
         <ProgressBar x:Name="pb" Minimum="0" Maximum="1" BorderThickness="0"
 					 Value="{Binding ElementName=root, Path=Percentage}"
@@ -22,13 +22,13 @@
             <ProgressBar.Style>
                 <Style TargetType="ProgressBar">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.GreenLine}">
+                        <DataTrigger Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Static local:CoveragePercentageBarStyle.CoveredLine}">
                             <DataTrigger.Setters>
                                 <Setter Property="Foreground" Value="{Binding CoveredBrush,RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource SimpleLineBrushConverter}}"/>
                                 <Setter Property="Background" Value="Transparent"/>
                             </DataTrigger.Setters>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl} }" Value="{x:Static local:CoveragePercentageBarStyle.GreenRed}">
+                        <DataTrigger Binding="{Binding CoveragePercentageBarStyle,RelativeSource={RelativeSource AncestorType=UserControl} }" Value="{x:Static local:CoveragePercentageBarStyle.Solid}">
                             <DataTrigger.Setters>
                                 <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CoveredBrush}"/>
                                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=NotCoveredBrush}"/>

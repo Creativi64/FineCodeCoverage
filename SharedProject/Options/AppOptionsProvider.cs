@@ -86,6 +86,9 @@ namespace FineCodeCoverage.Options
             appOptions.UseEnterpriseFontsAndColors = true;
 
             appOptions.Hide0Coverable = true;
+            appOptions.ThemeCoveragePercentageBar = true;
+            appOptions.CoveragePercentageBarStyle = CoveragePercentageBarStyle.CoveredLine;
+            appOptions.CoveredPercentageLeft = true;
         }
 
         public void LoadSettingsFromStorage(IAppOptions instance)
@@ -251,6 +254,9 @@ namespace FineCodeCoverage.Options
         public EditorCoverageColouringMode EditorCoverageColouringMode { get; set; }
 
         public bool BlazorCoverageLinesFromGeneratedSource { get; set; }
-
+        public bool CoveredPercentageLeft { get; set; }
+        public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
+        public bool ThemeCoveragePercentageBar { get; set; }
+        public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
     }
 }

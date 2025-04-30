@@ -9,6 +9,7 @@ using FineCodeCoverage.Engine.Model;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {
@@ -937,5 +938,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public bool ShowNotIncludedInGlyphMargin { get; set; }
         public bool ShowLineNotIncludedHighlighting { get; set; }
         public bool BlazorCoverageLinesFromGeneratedSource { get; set; }
+        public bool CoveredPercentageLeft { get; set; }
+        public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
+        public bool ThemeCoveragePercentageBar { get; set; }
+        public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
     }
 }

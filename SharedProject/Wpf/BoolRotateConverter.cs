@@ -4,11 +4,11 @@ using System.Windows.Data;
 
 namespace FineCodeCoverage.Wpf
 {
-    public class TrueRotateConverter : IValueConverter
+    public class BoolRotateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
+            if ((bool)value == bool.Parse((string)parameter))
             {
                 return 180;
             }

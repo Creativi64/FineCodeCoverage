@@ -220,7 +220,10 @@ namespace FineCodeCoverageTests
                 nameof(IAppOptions.ShowLineCoveredHighlighting),
                 nameof(IAppOptions.ShowLinePartiallyCoveredHighlighting),
                 nameof(IAppOptions.ShowLineUncoveredHighlighting),
-                nameof(IAppOptions.UseEnterpriseFontsAndColors)
+                nameof(IAppOptions.UseEnterpriseFontsAndColors),
+                nameof(ICoveragePercentageBarOptions.CoveragePercentageBarStyle),
+                nameof(ICoveragePercentageBarOptions.CoveredPercentageLeft),
+                nameof(ICoveragePercentageBarOptions.ThemeCoveragePercentageBar)
             };
             CollectionAssert.AreEquivalent(expectedSetters.Select(s => $"set_{s}"), invocationNames);
         }
@@ -355,7 +358,10 @@ namespace FineCodeCoverageTests
                 {nameof(IAppOptions.ShowLineNotIncludedHighlighting),true },
                 {nameof(IAppOptions.UseEnterpriseFontsAndColors),true },
                 {nameof(IAppOptions.EditorCoverageColouringMode), EditorCoverageColouringMode.UseRoslynWhenTextChanges },
-                {nameof(IAppOptions.BlazorCoverageLinesFromGeneratedSource), true }
+                {nameof(IAppOptions.BlazorCoverageLinesFromGeneratedSource), true },
+                {nameof(ICoveragePercentageBarOptions.ThemeCoveragePercentageBar), true},
+                {nameof(ICoveragePercentageBarOptions.CoveredPercentageLeft), true},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageBarStyle), CoveragePercentageBarStyle.Solid},
             };
             var mockJsonConvertService = autoMocker.GetMock<IJsonConvertService>();
             mockJsonConvertService.Setup(

@@ -10,6 +10,7 @@
     xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:output="clr-namespace:FineCodeCoverage.Output"
+    xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
     xmlns:wpf="clr-namespace:FineCodeCoverage.Wpf"
 	mc:Ignorable="d"
 	d:DesignWidth="500"
@@ -104,11 +105,25 @@
                                 Coverable="{Binding CoverableLines}" 
                                 Covered="{Binding CoveredLines}" 
                                 CoverageBarBorderThickness="1" 
+                                NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
+                                CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
                                 CoverageBorderBrush="{DynamicResource ResourceKey={x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"
-                                Invert="True"
-                                CoveragePercentageBarStyle="{wpf:BindToMarkedAncestor Marker=FCCOutputToolWindow, Path=CoveragePercentageBarStyle}"
-                                BackgroundColor="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundColorKey}}"
-                                />
+                                CoveredPercentageLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageLeft}"
+                                CoveragePercentageBarStyle="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveragePercentageBarStyle}"
+                                >
+                            <output:CoveragePercentageBar.Style>
+                                <Style TargetType="output:CoveragePercentageBar">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                            <Setter Property="ThemedBackgroundColor" Value="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundColorKey}}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                            <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </output:CoveragePercentageBar.Style>
+                        </output:CoveragePercentageBar>
                     </StackPanel>
                 </DataTemplate>
             </tg:TreeGridControl.ItemTemplate>

@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Options
+﻿using FineCodeCoverage.Output;
+
+namespace FineCodeCoverage.Options
 {
     /*
         Note that option properties must not be renamed
@@ -96,7 +98,21 @@
         EditorCoverageColouringMode EditorCoverageColouringMode { get; set; }
     }
 
-    internal interface IAppOptions : IMsCodeCoverageOptions, IOpenCoverCoverletExcludeIncludeOptions, IFCCCommonOptions, IOpenCoverOptions, IEditorCoverageColouringOptions
+    internal interface ICoveragePercentageBarOptions
+    {
+        bool CoveredPercentageLeft { get; set; }
+        CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
+        bool ThemeCoveragePercentageBar { get; set; }
+        bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
+    }
+
+    internal interface IAppOptions : 
+        IMsCodeCoverageOptions,
+        IOpenCoverCoverletExcludeIncludeOptions,
+        IFCCCommonOptions,
+        IOpenCoverOptions,
+        IEditorCoverageColouringOptions,
+        ICoveragePercentageBarOptions
     {
         bool RunInParallel { get; set; }
         int RunWhenTestsExceed { get; set; }

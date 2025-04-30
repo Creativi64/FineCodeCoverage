@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
+using System.Windows.Data;
+using System.Windows.Media;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.ReportGenerator;
-using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Shell;
 using TreeGrid;
 
@@ -28,11 +30,9 @@ namespace FineCodeCoverage.Output
             ISourceFileOpener sourceFileOpener,
             IReportTreeExpander treeExpander,
             IReportColumnManager reportColumnManager,
-            IReportViews reportViews,
-            IAppOptionsProvider appOptionsProvider
+            IReportViews reportViews
         )
         {
-            appOptionsProvider.OptionsChanged += AppOptionsProvider_OptionsChanged;
             this.TreeViewAutomationName = "Coverage Report Tree";
             _ = eventAggregator.AddListener(this);
             this.SetItems(this._items);
@@ -41,11 +41,6 @@ namespace FineCodeCoverage.Output
             ColumnManagerImpl = reportColumnManager;
             this.reportViews = reportViews;
             reportViews.Changed += ReportViews_Changed;
-        }
-
-        private void AppOptionsProvider_OptionsChanged(IAppOptions obj)
-        {
-            CoveragePercentageBarStyle = CoveragePercentageBarStyle.GreenLine;
         }
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
@@ -69,17 +64,10 @@ namespace FineCodeCoverage.Output
         private readonly IReportTreeExpander treeExpander;
         private readonly IReportViews reportViews;
 
+
         protected override IReportColumnManager ColumnManagerImpl { get; set; }
 
         private bool coverageRunning;
-
-        // demo that binds
-        private CoveragePercentageBarStyle coveragePercentageBarStyle = CoveragePercentageBarStyle.GreenRed;
-        public CoveragePercentageBarStyle CoveragePercentageBarStyle
-        {
-            get => coveragePercentageBarStyle;
-            set => this.Set(ref coveragePercentageBarStyle, value);
-        }
 
         public bool CoverageRunning
         {

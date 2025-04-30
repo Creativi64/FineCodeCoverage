@@ -1,19 +1,14 @@
-﻿using Microsoft.VisualStudio.Imaging;
-using Microsoft.VisualStudio.PlatformUI;
-using System.Globalization;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 using System;
 using System.Windows;
 
 namespace FineCodeCoverage.Output
 {
-    public enum CoveragePercentageBarStyle { GreenRed, GreenLine, RedLine}
+    public enum CoveragePercentageBarStyle { Solid, CoveredLine, UncoveredLine}
+
     public partial class CoveragePercentageBar : UserControl
     {
-        private static Color DefaultCoveredColor = (Color)ColorConverter.ConvertFromString("#339933");
-        private static Color DefaultNotCoveredColor = (Color)ColorConverter.ConvertFromString("#E51400");
         public CoveragePercentageBar()
         {
             InitializeComponent();
@@ -26,16 +21,16 @@ namespace FineCodeCoverage.Output
         }
 
         public static readonly DependencyProperty CoveragePercentageBarStyleProperty =
-            DependencyProperty.Register(nameof(CoveragePercentageBarStyle), typeof(CoveragePercentageBarStyle), typeof(CoveragePercentageBar), new PropertyMetadata(CoveragePercentageBarStyle.GreenRed));
+            DependencyProperty.Register(nameof(CoveragePercentageBarStyle), typeof(CoveragePercentageBarStyle), typeof(CoveragePercentageBar), new PropertyMetadata(CoveragePercentageBarStyle.Solid));
 
-        //public int  Partial
-        //{
-        //    get { return (int )GetValue(PartialProperty); }
-        //    set { SetValue(PartialProperty, value); }
-        //}
+        public int? Partial
+        {
+            get { return (int?)GetValue(PartialProperty); }
+            set { SetValue(PartialProperty, value); }
+        }
 
-        //public static readonly DependencyProperty PartialProperty =
-        //    DependencyProperty.Register(nameof(Partial), typeof(int ), typeof(CoveragePercentageBar), new PropertyMetadata(0));
+        public static readonly DependencyProperty PartialProperty =
+            DependencyProperty.Register(nameof(Partial), typeof(int?), typeof(CoveragePercentageBar), new PropertyMetadata(null, CalculatePercentage));
 
         public double Coverable
         {
@@ -75,8 +70,31 @@ namespace FineCodeCoverage.Output
             if(Coverable != 0)
             {
                 Percentage = Covered / Coverable;
+            }
+
+            SetCoverageToolTip();
+        }
+
+        private void SetCoverageToolTip()
+        {
+            if (Coverable != 0)
+            {
                 var percentageRounded = Math.Round(Percentage * 100, 2);
-                CoverageTooltip = $"{percentageRounded} % - {Covered} / {Coverable}";
+                if (Partial.HasValue)
+                {
+                    var partialValue = Partial.Value;
+                    var uncovered = Coverable - Covered - Partial;
+                    CoverageTooltip =
+    $@"{percentageRounded} %
+Covered     - {Covered}
+Uncovered - {uncovered}
+Partial       - {partialValue}
+";
+                }
+                else
+                {
+                    CoverageTooltip = $"{percentageRounded} % - {Covered} / {Coverable}";
+                }
             }
             else
             {
@@ -93,28 +111,27 @@ namespace FineCodeCoverage.Output
         public static readonly DependencyProperty CoverageTooltipProperty =
             DependencyProperty.Register(nameof(CoverageTooltip), typeof(string), typeof(CoveragePercentageBar), new PropertyMetadata(""));
 
-        public bool Invert
+        public bool CoveredPercentageLeft
         {
-            get { return (bool)GetValue(InvertProperty); }
-            set { SetValue(InvertProperty, value); }
+            get { return (bool)GetValue(CoveredPercentageLeftProperty); }
+            set { SetValue(CoveredPercentageLeftProperty, value); }
         }
 
-        public static readonly DependencyProperty InvertProperty =
-            DependencyProperty.Register(nameof(Invert), typeof(bool), typeof(CoveragePercentageBar), new PropertyMetadata(false));
+        public static readonly DependencyProperty CoveredPercentageLeftProperty =
+            DependencyProperty.Register(nameof(CoveredPercentageLeft), typeof(bool), typeof(CoveragePercentageBar), new PropertyMetadata(false));
 
 
-        // just use ImageTheming ???? Call it ThemeBackgroundColor
-        public static readonly DependencyProperty BackgroundColorProperty =
+        public static readonly DependencyProperty ThemedBackgroundColorProperty =
         DependencyProperty.Register(
-            nameof(BackgroundColor),
+            nameof(ThemedBackgroundColor),
             typeof(Color),
             typeof(CoveragePercentageBar),
             new PropertyMetadata(Colors.Transparent, OnBackgroundColorChanged));
 
-        public Color BackgroundColor
+        public Color ThemedBackgroundColor
         {
-            get => (Color)GetValue(BackgroundColorProperty);
-            set => SetValue(BackgroundColorProperty, value);
+            get => (Color)GetValue(ThemedBackgroundColorProperty);
+            set => SetValue(ThemedBackgroundColorProperty, value);
         }
 
         private static void OnBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -126,13 +143,13 @@ namespace FineCodeCoverage.Output
 
         private void BackgroundColorChanged()
         {
-            if(BackgroundColor == Colors.Transparent)
+            if(ThemedBackgroundColor == Colors.Transparent)
             {
                 CoverageBorderThicknessActual = CoverageBarBorderThickness;
             }
             else
             {
-                BorderThickness = new Thickness(0);
+                CoverageBorderThicknessActual = new Thickness(0);
             }
             UpdateBrush(false);
             UpdateBrush(true);
@@ -154,7 +171,7 @@ namespace FineCodeCoverage.Output
 
         private void CoverageBarBorderThicknessChanged()
         {
-            if (BackgroundColor == Colors.Transparent)
+            if (ThemedBackgroundColor == Colors.Transparent)
             {
                 CoverageBorderThicknessActual = CoverageBarBorderThickness;
             }
@@ -185,7 +202,7 @@ namespace FineCodeCoverage.Output
         }
 
         public static readonly DependencyProperty CoveredColorProperty =
-            DependencyProperty.Register(nameof(CoveredColor), typeof(Color), typeof(CoveragePercentageBar), new PropertyMetadata(DefaultCoveredColor, CoveredColorChanged));
+            DependencyProperty.Register(nameof(CoveredColor), typeof(Color), typeof(CoveragePercentageBar), new PropertyMetadata(VisualStudioNotificationColors.Green, CoveredColorChanged));
 
         private static void CoveredColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -202,7 +219,7 @@ namespace FineCodeCoverage.Output
         }
 
         public static readonly DependencyProperty NotCoveredColorProperty =
-            DependencyProperty.Register(nameof(NotCoveredColor), typeof(Color), typeof(CoveragePercentageBar), new PropertyMetadata(DefaultNotCoveredColor, NotCoveredColorChanged));
+            DependencyProperty.Register(nameof(NotCoveredColor), typeof(Color), typeof(CoveragePercentageBar), new PropertyMetadata(VisualStudioNotificationColors.Red, NotCoveredColorChanged));
 
         private static void NotCoveredColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -220,7 +237,7 @@ namespace FineCodeCoverage.Output
         }
 
         private static readonly DependencyProperty CoveredBrushProperty =
-            DependencyProperty.Register(nameof(CoveredBrush), typeof(Brush), typeof(CoveragePercentageBar), new PropertyMetadata(new SolidColorBrush(DefaultCoveredColor)));
+            DependencyProperty.Register(nameof(CoveredBrush), typeof(Brush), typeof(CoveragePercentageBar), new PropertyMetadata(new SolidColorBrush(VisualStudioNotificationColors.Green)));
 
         private Brush NotCoveredBrush
         {
@@ -229,19 +246,19 @@ namespace FineCodeCoverage.Output
         }
 
         private static readonly DependencyProperty NotCoveredBrushProperty =
-            DependencyProperty.Register(nameof(NotCoveredBrush), typeof(Brush), typeof(CoveragePercentageBar), new PropertyMetadata(new SolidColorBrush(DefaultNotCoveredColor)));
+            DependencyProperty.Register(nameof(NotCoveredBrush), typeof(Brush), typeof(CoveragePercentageBar), new PropertyMetadata(new SolidColorBrush(VisualStudioNotificationColors.Red)));
 
         private void UpdateBrush(bool isCovered)
         {
             var baseColor = isCovered ? CoveredColor : NotCoveredColor;
             SolidColorBrush brush = null;
-            if ((BackgroundColor == Colors.Transparent))
+            if (ThemedBackgroundColor == Colors.Transparent)
             {
                 brush = new SolidColorBrush(baseColor);
             }
             else
             {
-                brush = ImageThemingUtilitiesX.ThemeColorToSolidBrush(baseColor, BackgroundColor);
+                brush = ImageThemingUtilitiesX.ThemeColorToSolidBrush(baseColor, ThemedBackgroundColor);
             }
             brush.Freeze();
 
@@ -250,22 +267,5 @@ namespace FineCodeCoverage.Output
             else
                 NotCoveredBrush = brush;
         }
-    }
-}
-
-internal static class ImageThemingUtilitiesX
-{
-    public static Color ThemeColor(Color color, Color backgroundColor)
-    {
-        HslColor backgroundHsl = HslColor.FromColor(backgroundColor);
-        var baseR = color.R;
-        var baseG = color.G;
-        var baseB = color.B;
-        ImageThemingUtilities.ThemePixel(ref baseR, ref baseG, ref baseB, backgroundHsl);
-        return Color.FromArgb(255, baseR, baseG, baseB);
-    }
-    public static SolidColorBrush ThemeColorToSolidBrush(Color color, Color backgroundColor)
-    {
-        return new SolidColorBrush(ThemeColor(color, backgroundColor));
     }
 }
