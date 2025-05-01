@@ -15,9 +15,7 @@ namespace FineCodeCoverage.Wpf
         {
             var type = typeof(T);
             var dependencies = BuildPropertyDependencies(type);
-            var dependencyPropertyFields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).Where(f => f.FieldType == typeof(DependencyProperty));
-            var dependencyProperties = dependencyPropertyFields.Select(f => f.GetValue(null) as DependencyProperty).ToList();
-            var propertyNamesDependOn = dependencies.Keys;
+            var dependencyProperties = GetDependencyProperties(type);
             var allDescriptorDependents = dependencies.Select(kvp =>
             {
                 var dependedUponDp = dependencyProperties.FirstOrDefault(dp => dp.Name == kvp.Key);
@@ -26,6 +24,12 @@ namespace FineCodeCoverage.Wpf
                 return new DependentPropertiesDescriptor(descriptor, (changedPropertyName) => GetDependentProperties(changedPropertyName, dependencies));
             }).Where(dpd => dpd != null).ToList();
             return new DependentPropertiesChangedNotifier<T>(allDescriptorDependents);
+        }
+
+        private static List<DependencyProperty> GetDependencyProperties(Type type)
+        {
+            return type.GetFields(BindingFlags.Static | BindingFlags.Public).Where(f => f.FieldType == typeof(DependencyProperty))
+                .Select(f => f.GetValue(null) as DependencyProperty).ToList();
         }
 
         private static IDictionary<string, OneOrMany<string>> BuildPropertyDependencies(Type type)
