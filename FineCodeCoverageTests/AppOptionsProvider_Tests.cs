@@ -361,7 +361,7 @@ namespace FineCodeCoverageTests
                 {nameof(IAppOptions.BlazorCoverageLinesFromGeneratedSource), true },
                 {nameof(ICoveragePercentageBarOptions.ThemeCoveragePercentageBar), true},
                 {nameof(ICoveragePercentageBarOptions.CoveredPercentageLeft), true},
-                {nameof(ICoveragePercentageBarOptions.CoveragePercentageBarStyle), CoveragePercentageBarStyle.Solid},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageBarStyle), CoveragePercentageBarStyle.Percent},
             };
             var mockJsonConvertService = autoMocker.GetMock<IJsonConvertService>();
             mockJsonConvertService.Setup(

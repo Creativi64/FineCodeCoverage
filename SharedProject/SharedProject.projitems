@@ -201,6 +201,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ImageThemingUtilitiesX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
@@ -583,6 +584,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseViewModelDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BindToMarkedAncestorExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifierBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\IPropertyDependencyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\Crispy.xaml.cs">
       <DependentUpon>Crispy.xaml</DependentUpon>
     </Compile>
@@ -603,7 +608,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\LineBrush\LineBrushCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\LineBrush\LineBrushCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\LineBrush\SimpleLineBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
@@ -656,7 +660,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\Themes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BoolRotateConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
     </Compile>

@@ -1,28 +1,12 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Options;
-using System;
 using System.ComponentModel.Composition;
-using System.Globalization;
-using System.Windows.Data;
 using System.Windows.Media;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    internal class InvertPercentageConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return 1 - (double)value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     [Export(typeof(CoveragePercentageBarOptionsViewModel))]
     internal class CoveragePercentageBarOptionsViewModel : ObservableBase, IListener<CoverageColoursChangedMessage>
     {
