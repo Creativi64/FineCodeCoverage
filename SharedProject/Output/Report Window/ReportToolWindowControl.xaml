@@ -109,7 +109,6 @@
                                 CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
                                 CoveredPercentageLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageLeft}"
                                 CoveragePercentageBarStyle="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveragePercentageBarStyle}"
-                                SingularPartBrush="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"
                                 >
                             <output:CoveragePercentageBar.Style>
                                 <Style TargetType="output:CoveragePercentageBar">
