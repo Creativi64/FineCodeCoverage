@@ -105,6 +105,7 @@ namespace FineCodeCoverage.Options
         CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
         bool ThemeCoveragePercentageBar { get; set; }
         bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
+        bool ContrastThemeSingularPart { get; set; }
     }
 
     internal interface IAppOptions :

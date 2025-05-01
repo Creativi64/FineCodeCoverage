@@ -24,6 +24,7 @@ namespace FineCodeCoverage.Output
         private CoveragePercentageBarStyle coveragePercentageBarStyle;
         private bool coveredPercentageLeft;
         private bool themeCoveragePercentageBar;
+        private bool contrastThemeSingularPart;
         private bool useSolidBrush;
         private Color coveredColor;
         private Color notCoveredColor;
@@ -52,6 +53,7 @@ namespace FineCodeCoverage.Output
             this.CoveredPercentageLeft = appOptions.CoveredPercentageLeft;
             this.ThemeCoveragePercentageBar = appOptions.ThemeCoveragePercentageBar;
             this.UseSolidBrush = appOptions.CoveragePercentageSolidBrush;
+            this.ContrastThemeSingularPart = appOptions.ContrastThemeSingularPart;
             if (appOptions.CoveragePercentageBarColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
             {
                 SetCoverageColours(appOptions.CoveragePercentageBarColorsFromFontsAndColors);
@@ -135,6 +137,12 @@ namespace FineCodeCoverage.Output
         {
             get => this.useSolidBrush;
             set => this.Set(ref useSolidBrush, value);
+        }
+
+        public bool ContrastThemeSingularPart
+        {
+            get => this.contrastThemeSingularPart;
+            set => this.Set(ref contrastThemeSingularPart, value);
         }
     }
 }

@@ -109,6 +109,7 @@
                                 CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
                                 CoveredPercentageLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageLeft}"
                                 CoveragePercentageBarStyle="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveragePercentageBarStyle}"
+                                SingularPartBrush="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"
                                 >
                             <output:CoveragePercentageBar.Style>
                                 <Style TargetType="output:CoveragePercentageBar">
@@ -118,6 +119,13 @@
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                             <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ContrastThemeSingularPart, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                            <Setter Property="SingularPartBrush" Value="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                            <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

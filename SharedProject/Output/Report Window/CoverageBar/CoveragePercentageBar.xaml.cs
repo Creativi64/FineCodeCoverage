@@ -68,6 +68,19 @@ namespace FineCodeCoverage.Output
 
         #region colors
 
+
+
+        public SolidColorBrush SingularPartBrush
+        {
+            get {   return (SolidColorBrush)GetValue(SingularPartBrushProperty); }
+            set { SetValue(SingularPartBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty SingularPartBrushProperty =
+            DependencyProperty.Register(nameof(SingularPartBrush), typeof(SolidColorBrush), typeof(CoveragePercentageBarBase), new PropertyMetadata(Brushes.Transparent));
+
+
+
         public static readonly DependencyProperty ThemedBackgroundColorProperty =
         DependencyProperty.Register(
             nameof(ThemedBackgroundColor),
@@ -141,25 +154,37 @@ namespace FineCodeCoverage.Output
             return brush;
         }
 
+        [DependsOnProperty(nameof(SingularPartBrush))]
         [DependsOnProperty(nameof(CoveredBrush))]
         [DependsOnProperty(nameof(UseSolidBrush))]
         [DependsOnProperty(nameof(CoveragePercentageBarStyle))]
         public Brush StyledCoveredBrush => GetStyleBrush(CoveragePercentageBarStyle.NotCovered, CoveredBrush);
 
-
+        [DependsOnProperty(nameof(SingularPartBrush))]
         [DependsOnProperty(nameof(NotCoveredBrush))]
         [DependsOnProperty(nameof(UseSolidBrush))]
         [DependsOnProperty(nameof(CoveragePercentageBarStyle))]
         public Brush StyledNotCoveredBrush => GetStyleBrush(CoveragePercentageBarStyle.Covered, NotCoveredBrush);
 
         private Brush GetStyleBrush(CoveragePercentageBarStyle otherStyle, SolidColorBrush solidColorBrush)
-            => CoveragePercentageBarStyle == otherStyle ? Brushes.Transparent : UseSolidBrush ? solidColorBrush : LineBrushCreator.Create(solidColorBrush);
+        {
+            if (CoveragePercentageBarStyle == otherStyle) {
+                return Brushes.Transparent;
+            }
+
+            if(CoveragePercentageBarStyle != CoveragePercentageBarStyle.Percent && SingularPartBrush.Color != Colors.Transparent)
+            {
+                solidColorBrush = SingularPartBrush;
+            }
+            return UseSolidBrush ? solidColorBrush : LineBrushCreator.Create(solidColorBrush);
+        }
 
         [DependsOnProperty(nameof(Covered))]
         [DependsOnProperty(nameof(Coverable))]
         public double Percentage => Coverable != 0 ? Covered / Coverable : 0;
 
-        [DependsOnProperty(nameof(Percentage))]
+        [DependsOnProperty(nameof(Covered))]
+        [DependsOnProperty(nameof(Coverable))]
         [DependsOnProperty(nameof(Partial))]
         public string CoverageTooltip
         {

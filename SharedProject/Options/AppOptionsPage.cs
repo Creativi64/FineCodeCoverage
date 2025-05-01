@@ -511,6 +511,10 @@ namespace FineCodeCoverage.Options
         [Category(coverageBarCategory)]
         [Description("Report coverage percentage bar, set to false for dashed line brush")]
         public bool CoveragePercentageSolidBrush { get; set; }
+
+        [Category(coverageBarCategory)]
+        [Description("Report coverage percentage bar, contrast color when singular style")]
+        public bool ContrastThemeSingularPart { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

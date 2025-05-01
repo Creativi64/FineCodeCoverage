@@ -260,5 +260,6 @@ namespace FineCodeCoverage.Options
         public bool ThemeCoveragePercentageBar { get; set; }
         public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
         public bool CoveragePercentageSolidBrush { get; set; }
+        public bool ContrastThemeSingularPart { get; set; }
     }
 }
