@@ -586,6 +586,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BindToMarkedAncestorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifierBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedUserControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesDescriptor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\IPropertyDependencyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\Crispy.xaml.cs">

@@ -86,9 +86,10 @@ namespace FineCodeCoverage.Options
             appOptions.UseEnterpriseFontsAndColors = true;
 
             appOptions.Hide0Coverable = true;
+
             appOptions.ThemeCoveragePercentageBar = true;
-            appOptions.CoveragePercentageBarStyle = CoveragePercentageBarStyle.Percent;
             appOptions.CoveredPercentageLeft = true;
+            appOptions.CoveragePercentageSolidBrush = true;
         }
 
         public void LoadSettingsFromStorage(IAppOptions instance)
