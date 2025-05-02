@@ -68,8 +68,6 @@ namespace FineCodeCoverage.Output
 
         #region colors
 
-
-
         public SolidColorBrush SingularPartBrush
         {
             get {   return (SolidColorBrush)GetValue(SingularPartBrushProperty); }
@@ -78,8 +76,6 @@ namespace FineCodeCoverage.Output
 
         public static readonly DependencyProperty SingularPartBrushProperty =
             DependencyProperty.Register(nameof(SingularPartBrush), typeof(SolidColorBrush), typeof(CoveragePercentageBarBase), new PropertyMetadata(Brushes.Transparent));
-
-
 
         public static readonly DependencyProperty ThemedBackgroundColorProperty =
         DependencyProperty.Register(

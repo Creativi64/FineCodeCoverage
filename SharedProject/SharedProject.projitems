@@ -185,6 +185,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaReportResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ColorConversionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ColourUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRename.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRenameExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LoggerSingleton.cs" />

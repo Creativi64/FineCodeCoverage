@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Wpf
 {
     public static class DependentPropertiesChangedNotifierBuilder
     {
-        public static DependentPropertiesChangedNotifier<T> Build<T>() where T : IPropertyDependencyChanged
+        public static DependentPropertiesChangedNotifier<T> Build<T>() where T : FrameworkElement, IPropertyDependencyChanged
         {
             var type = typeof(T);
             var dependencies = BuildPropertyDependencies(type);
