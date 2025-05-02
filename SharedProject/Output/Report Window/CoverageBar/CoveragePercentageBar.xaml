@@ -6,13 +6,32 @@
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                   Margin="0"
                  Padding="0"
-			     ToolTip="{Binding  RelativeSource={RelativeSource Self}, Path=CoverageTooltip}"
             >
-    <ProgressBar Value="{Binding ProgressBarValue, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}" x:Name="pb" Minimum="0" Maximum="1" BorderThickness="0" RenderTransformOrigin="0.5,0.5" 
-        Foreground="{Binding ProgressBarForegroundBrush, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
-        Background="{Binding ProgressBarBackgroundBrush, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
-        <ProgressBar.RenderTransform>
-            <RotateTransform Angle="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RotationAngle}"/>
+    <UserControl.Resources>
+        <local:SizeOrMultiplierConverter x:Key="SizeOrMultiplierConverter"/>
+    </UserControl.Resources>
+    <Grid>
+    <ProgressBar Minimum="0" Maximum="1" BorderThickness="0" 
+            ToolTipService.IsEnabled="{Binding ShowToolTip, RelativeSource={RelativeSource  AncestorType=UserControl}}"
+            ToolTip="{Binding CoverageTooltip, RelativeSource={RelativeSource  AncestorType=UserControl}}"
+            RenderTransformOrigin="0.5,0.5"
+            Value="{Binding ProgressBarValue, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+            Foreground="{Binding ProgressBarForegroundBrush, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Background="{Binding ProgressBarBackgroundBrush, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <ProgressBar.RenderTransform>
+                <RotateTransform Angle="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RotationAngle}"/>
             </ProgressBar.RenderTransform>
-    </ProgressBar>
+            <ProgressBar.Height>
+            <MultiBinding Converter="{StaticResource SizeOrMultiplierConverter}">
+                <Binding Path="HeightOrMultiplier" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                <Binding Path="(TextBlock.FontSize)" RelativeSource="{RelativeSource Self}"/>
+            </MultiBinding>
+            </ProgressBar.Height>
+        <ProgressBar.Style>
+            <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">
+                <Setter Property="FontSize" Value="{DynamicResource EnvironmentFontSizeKey}"/>
+            </Style>
+        </ProgressBar.Style>
+        </ProgressBar>
+    </Grid>
 </local:CoveragePercentageBarBase>

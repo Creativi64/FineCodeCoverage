@@ -938,11 +938,13 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public bool ShowNotIncludedInGlyphMargin { get; set; }
         public bool ShowLineNotIncludedHighlighting { get; set; }
         public bool BlazorCoverageLinesFromGeneratedSource { get; set; }
-        public bool CoveredPercentageLeft { get; set; }
-        public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
-        public bool ThemeCoveragePercentageBar { get; set; }
-        public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
-        public bool CoveragePercentageSolidBrush { get; set; }
-        public bool ContrastThemeSingularPart { get; set; }
+        public bool CoveragePercentageCoveredIsLeft { get; set; }
+        public CoveragePercentageBarDisplayParts CoveragePercentageDisplayParts { get; set; }
+        public bool CoveragePercentageIsThemed { get; set; }
+        public bool CoveragePercentageUseColorsFromFontsAndColors { get; set; }
+        public bool CoveragePercentageUseSolidBrush { get; set; }
+        public bool CoveragePercentageUseContrastedThemeWhenSingularDisplay { get; set; }
+        public double? CoveragePercentageHeightOrMultiplier { get; set; }
+        public bool CoveragePercentageShowTooltip { get; set; }
     }
 }

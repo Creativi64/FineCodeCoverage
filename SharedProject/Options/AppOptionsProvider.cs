@@ -87,9 +87,10 @@ namespace FineCodeCoverage.Options
 
             appOptions.Hide0Coverable = true;
 
-            appOptions.ThemeCoveragePercentageBar = true;
-            appOptions.CoveredPercentageLeft = true;
-            appOptions.CoveragePercentageSolidBrush = true;
+            appOptions.CoveragePercentageIsThemed = true;
+            appOptions.CoveragePercentageCoveredIsLeft = true;
+            appOptions.CoveragePercentageUseSolidBrush = true;
+            appOptions.CoveragePercentageShowTooltip = true;
         }
 
         public void LoadSettingsFromStorage(IAppOptions instance)
@@ -255,11 +256,13 @@ namespace FineCodeCoverage.Options
         public EditorCoverageColouringMode EditorCoverageColouringMode { get; set; }
 
         public bool BlazorCoverageLinesFromGeneratedSource { get; set; }
-        public bool CoveredPercentageLeft { get; set; }
-        public CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
-        public bool ThemeCoveragePercentageBar { get; set; }
-        public bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
-        public bool CoveragePercentageSolidBrush { get; set; }
-        public bool ContrastThemeSingularPart { get; set; }
+        public bool CoveragePercentageCoveredIsLeft { get; set; }
+        public CoveragePercentageBarDisplayParts CoveragePercentageDisplayParts { get; set; }
+        public bool CoveragePercentageIsThemed { get; set; }
+        public bool CoveragePercentageUseColorsFromFontsAndColors { get; set; }
+        public bool CoveragePercentageUseSolidBrush { get; set; }
+        public bool CoveragePercentageUseContrastedThemeWhenSingularDisplay { get; set; }
+        public double? CoveragePercentageHeightOrMultiplier { get; set; }
+        public bool CoveragePercentageShowTooltip { get; set; }
     }
 }

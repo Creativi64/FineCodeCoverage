@@ -94,43 +94,53 @@
                 <DataTemplate>
                     <StackPanel>
                         <!-- cannot put margin in style due to the reparenting-->
-                        <TextBlock Margin="4,0,4,0" Tag="Name"  Text="{Binding Name}"/>
-                        <TextBlock Margin="4,0,4,0" Tag="CoverableLines" Text="{Binding CoverableLines}"/>
-                        <TextBlock Margin="4,0,4,0" Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
-                        <TextBlock Margin="4,0,4,0" Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
-                        <TextBlock Margin="4,0,4,0" Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
-                        <TextBlock Margin="4,0,4,0" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
-                        <TextBlock Margin="4,0,4,0" Tag="CrapScore" Text="{Binding CrapScore}"/>
-                        <output:CoveragePercentageBar Margin="4,0,4,0" 
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="Name"  Text="{Binding Name}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CoverableLines" Text="{Binding CoverableLines}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CrapScore" Text="{Binding CrapScore}"/>
+                        <Grid>
+                            <Grid.Resources>
+                                <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+                            </Grid.Resources>
+                            <TextBlock Text="N/A"
+                                    Visibility="{Binding CoverableLines,
+                                    Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center"/>
+                            <output:CoveragePercentageBar Visibility="{Binding CoverableLines, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
                                 Coverable="{Binding CoverableLines}" 
                                 Covered="{Binding CoveredLines}" 
                                 UseSolidBrush="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
                                 NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
                                 CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
-                                CoveredPercentageLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageLeft}"
-                                CoveragePercentageBarStyle="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveragePercentageBarStyle}"
+                                CoveredPercentageIsLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageIsLeft}"
+                                DisplayParts="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=DisplayParts}"
+                                HeightOrMultiplier="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
+                                ShowToolTip="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
                                 >
                             <output:CoveragePercentageBar.Style>
                                 <Style TargetType="output:CoveragePercentageBar">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                        <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
                                             <Setter Property="ThemedBackgroundColor" Value="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundColorKey}}"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                        <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                             <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding ContrastThemeSingularPart, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                        <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
                                             <Setter Property="SingularPartBrush" Value="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ThemeCoveragePercentageBar, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                        <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                             <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </output:CoveragePercentageBar.Style>
                         </output:CoveragePercentageBar>
-                    </StackPanel>
+                        </Grid>
+                        </StackPanel>
                 </DataTemplate>
             </tg:TreeGridControl.ItemTemplate>
             <tg:TreeGridControl.HierarchicalDataTemplate>

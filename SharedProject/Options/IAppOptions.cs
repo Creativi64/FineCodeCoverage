@@ -100,12 +100,14 @@ namespace FineCodeCoverage.Options
 
     internal interface ICoveragePercentageBarOptions
     {
-        bool CoveragePercentageSolidBrush { get; set; }
-        bool CoveredPercentageLeft { get; set; }
-        CoveragePercentageBarStyle CoveragePercentageBarStyle { get; set; }
-        bool ThemeCoveragePercentageBar { get; set; }
-        bool CoveragePercentageBarColorsFromFontsAndColors { get; set; }
-        bool ContrastThemeSingularPart { get; set; }
+        bool CoveragePercentageUseSolidBrush { get; set; }
+        bool CoveragePercentageCoveredIsLeft { get; set; }
+        CoveragePercentageBarDisplayParts CoveragePercentageDisplayParts { get; set; }
+        bool CoveragePercentageIsThemed { get; set; }
+        bool CoveragePercentageUseColorsFromFontsAndColors { get; set; }
+        bool CoveragePercentageUseContrastedThemeWhenSingularDisplay { get; set; }
+        double? CoveragePercentageHeightOrMultiplier { get; set; }
+        bool CoveragePercentageShowTooltip { get; set; }
     }
 
     internal interface IAppOptions :

@@ -202,7 +202,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarDisplayParts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\SizeOrMultiplierConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ImageThemingUtilitiesX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
@@ -574,6 +575,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSelectorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ZeroToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\UIClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">

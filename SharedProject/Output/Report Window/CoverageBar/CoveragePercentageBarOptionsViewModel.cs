@@ -21,11 +21,13 @@ namespace FineCodeCoverage.Output
             public Color NotCoveredColor { get; }
         }
 
-        private CoveragePercentageBarStyle coveragePercentageBarStyle;
-        private bool coveredPercentageLeft;
-        private bool themeCoveragePercentageBar;
-        private bool contrastThemeSingularPart;
+        private CoveragePercentageBarDisplayParts displayParts;
+        private bool coveredPercentageIsLeft;
+        private bool isThemed;
+        private bool useContrastThemeWhenSingularDisplay;
+        private double? heightOrMultiplier;
         private bool useSolidBrush;
+        private bool showToolTip;
         private Color coveredColor;
         private Color notCoveredColor;
         private readonly ICoverageColoursProvider coverageColoursProvider;
@@ -43,21 +45,23 @@ namespace FineCodeCoverage.Output
             eventAggregator.AddListener(this);
             appOptionsProvider.OptionsChanged += this.SetOptions;
             var appOptions = appOptionsProvider.Get();
-            lastCoveragePercentageBarColorsFromFontsAndColors = !appOptions.CoveragePercentageBarColorsFromFontsAndColors;
+            lastCoveragePercentageBarColorsFromFontsAndColors = !appOptions.CoveragePercentageUseColorsFromFontsAndColors;
             SetOptions(appOptions);
         }
 
-        private void SetOptions(IAppOptions appOptions)
+        private void SetOptions(ICoveragePercentageBarOptions coveragePercentageBarOptions)
         {
-            this.CoveragePercentageBarStyle = appOptions.CoveragePercentageBarStyle;
-            this.CoveredPercentageLeft = appOptions.CoveredPercentageLeft;
-            this.ThemeCoveragePercentageBar = appOptions.ThemeCoveragePercentageBar;
-            this.UseSolidBrush = appOptions.CoveragePercentageSolidBrush;
-            this.ContrastThemeSingularPart = appOptions.ContrastThemeSingularPart;
-            if (appOptions.CoveragePercentageBarColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
+            this.DisplayParts = coveragePercentageBarOptions.CoveragePercentageDisplayParts;
+            this.CoveredPercentageIsLeft = coveragePercentageBarOptions.CoveragePercentageCoveredIsLeft;
+            this.IsThemed = coveragePercentageBarOptions.CoveragePercentageIsThemed;
+            this.UseSolidBrush = coveragePercentageBarOptions.CoveragePercentageUseSolidBrush;
+            this.UseContrastedThemeWhenSingularDisplay = coveragePercentageBarOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
+            this.HeightOrMultiplier = coveragePercentageBarOptions.CoveragePercentageHeightOrMultiplier;
+            this.ShowToolTip = coveragePercentageBarOptions.CoveragePercentageShowTooltip;
+            if (coveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
             {
-                SetCoverageColours(appOptions.CoveragePercentageBarColorsFromFontsAndColors);
-                lastCoveragePercentageBarColorsFromFontsAndColors = appOptions.CoveragePercentageBarColorsFromFontsAndColors;
+                SetCoverageColours(coveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors);
+                lastCoveragePercentageBarColorsFromFontsAndColors = coveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors;
             }
         }
 
@@ -69,8 +73,8 @@ namespace FineCodeCoverage.Output
             }
             else
             {
-                NotCoveredColor = VisualStudioNotificationColors.Red;
-                CoveredColor = VisualStudioNotificationColors.Green;
+                NotCoveredColor = VisualStudioNotificationColors.Negative;
+                CoveredColor = VisualStudioNotificationColors.Positive;
             }
         }
 
@@ -103,22 +107,22 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        public CoveragePercentageBarStyle CoveragePercentageBarStyle
+        public CoveragePercentageBarDisplayParts DisplayParts
         {
-            get => this.coveragePercentageBarStyle;
-            set => this.Set(ref coveragePercentageBarStyle, value);
+            get => this.displayParts;
+            set => this.Set(ref displayParts, value);
         }
 
-        public bool CoveredPercentageLeft
+        public bool CoveredPercentageIsLeft
         {
-            get => this.coveredPercentageLeft;
-            set => this.Set(ref coveredPercentageLeft, value);
+            get => this.coveredPercentageIsLeft;
+            set => this.Set(ref coveredPercentageIsLeft, value);
         }
 
-        public bool ThemeCoveragePercentageBar
+        public bool IsThemed
         {
-            get => this.themeCoveragePercentageBar;
-            set => this.Set(ref themeCoveragePercentageBar, value);
+            get => this.isThemed;
+            set => this.Set(ref isThemed, value);
         }
 
         public Color CoveredColor
@@ -139,10 +143,22 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref useSolidBrush, value);
         }
 
-        public bool ContrastThemeSingularPart
+        public bool UseContrastedThemeWhenSingularDisplay
         {
-            get => this.contrastThemeSingularPart;
-            set => this.Set(ref contrastThemeSingularPart, value);
+            get => this.useContrastThemeWhenSingularDisplay;
+            set => this.Set(ref useContrastThemeWhenSingularDisplay, value);
+        }
+
+        public double? HeightOrMultiplier
+        {
+            get => this.heightOrMultiplier;
+            set => this.Set(ref heightOrMultiplier, value);
+        }
+
+        public bool ShowToolTip
+        {
+            get => this.showToolTip;
+            set => this.Set(ref showToolTip, value);
         }
     }
 }

@@ -221,9 +221,10 @@ namespace FineCodeCoverageTests
                 nameof(IAppOptions.ShowLinePartiallyCoveredHighlighting),
                 nameof(IAppOptions.ShowLineUncoveredHighlighting),
                 nameof(IAppOptions.UseEnterpriseFontsAndColors),
-                nameof(ICoveragePercentageBarOptions.CoveredPercentageLeft),
-                nameof(ICoveragePercentageBarOptions.ThemeCoveragePercentageBar),
-                nameof(ICoveragePercentageBarOptions.CoveragePercentageSolidBrush)
+                nameof(ICoveragePercentageBarOptions.CoveragePercentageCoveredIsLeft),
+                nameof(ICoveragePercentageBarOptions.CoveragePercentageIsThemed),
+                nameof(ICoveragePercentageBarOptions.CoveragePercentageUseSolidBrush),
+                nameof(ICoveragePercentageBarOptions.CoveragePercentageShowTooltip)
             };
             CollectionAssert.AreEquivalent(expectedSetters.Select(s => $"set_{s}"), invocationNames);
         }
@@ -359,11 +360,14 @@ namespace FineCodeCoverageTests
                 {nameof(IAppOptions.UseEnterpriseFontsAndColors),true },
                 {nameof(IAppOptions.EditorCoverageColouringMode), EditorCoverageColouringMode.UseRoslynWhenTextChanges },
                 {nameof(IAppOptions.BlazorCoverageLinesFromGeneratedSource), true },
-                {nameof(ICoveragePercentageBarOptions.ThemeCoveragePercentageBar), true},
-                {nameof(ICoveragePercentageBarOptions.CoveredPercentageLeft), true},
-                {nameof(ICoveragePercentageBarOptions.CoveragePercentageBarStyle), CoveragePercentageBarStyle.Percent},
-                {nameof(ICoveragePercentageBarOptions.CoveragePercentageBarColorsFromFontsAndColors), false},
-                {nameof(ICoveragePercentageBarOptions.CoveragePercentageSolidBrush), true}
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageIsThemed), true},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageCoveredIsLeft), true},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageDisplayParts), CoveragePercentageBarDisplayParts.Covered},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors), false},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageUseSolidBrush), true},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageHeightOrMultiplier), (bool?)null},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay), false},
+                {nameof(ICoveragePercentageBarOptions.CoveragePercentageShowTooltip), true }
             };
             var mockJsonConvertService = autoMocker.GetMock<IJsonConvertService>();
             mockJsonConvertService.Setup(
