@@ -105,7 +105,7 @@
                             <Grid.Resources>
                                 <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
                             </Grid.Resources>
-                            <TextBlock Text="N/A"
+                            <TextBlock Text="---"
                                     Visibility="{Binding CoverableLines,
                                     Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center"/>
                             <output:CoveragePercentageBar Visibility="{Binding CoverableLines, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
