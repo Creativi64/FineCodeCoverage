@@ -26,6 +26,19 @@ namespace FineCodeCoverage.Output
 
         public static readonly DependencyProperty UseSolidBrushProperty =
             DependencyProperty.Register(nameof(UseSolidBrush), typeof(bool), typeof(CoveragePercentageBarBase), new PropertyMetadata(true));
+
+
+
+        public ILineBrushCreator LineBrushCreator
+        {
+            get { return (ILineBrushCreator)GetValue(LineBrushCreatorProperty); }
+            set { SetValue(LineBrushCreatorProperty, value); }
+        }
+
+        public static readonly DependencyProperty LineBrushCreatorProperty =
+            DependencyProperty.Register(nameof(LineBrushCreator), typeof(ILineBrushCreator), typeof(CoveragePercentageBarBase), new PropertyMetadata(DefaultLineBrushCreator.Instance));
+
+
         #endregion
 
         #region coverage values
@@ -170,12 +183,14 @@ namespace FineCodeCoverage.Output
         [DependsOnProperty(nameof(CoveredBrush))]
         [DependsOnProperty(nameof(UseSolidBrush))]
         [DependsOnProperty(nameof(DisplayParts))]
+        [DependsOnProperty(nameof(LineBrushCreator))]
         public Brush StyledCoveredBrush => GetStyleBrush(CoveragePercentageBarDisplayParts.NotCovered, CoveredBrush);
 
         [DependsOnProperty(nameof(SingularPartBrush))]
         [DependsOnProperty(nameof(NotCoveredBrush))]
         [DependsOnProperty(nameof(UseSolidBrush))]
         [DependsOnProperty(nameof(DisplayParts))]
+        [DependsOnProperty(nameof(LineBrushCreator))]
         public Brush StyledNotCoveredBrush => GetStyleBrush(CoveragePercentageBarDisplayParts.Covered, NotCoveredBrush);
 
         private Brush GetStyleBrush(CoveragePercentageBarDisplayParts otherStyle, SolidColorBrush solidColorBrush)
@@ -188,7 +203,7 @@ namespace FineCodeCoverage.Output
             {
                 solidColorBrush = SingularPartBrush;
             }
-            return UseSolidBrush ? solidColorBrush : LineBrushCreator.Create(solidColorBrush);
+            return UseSolidBrush ? solidColorBrush : LineBrushCreator.Create(solidColorBrush.Color);
         }
 
         [DependsOnProperty(nameof(Covered))]

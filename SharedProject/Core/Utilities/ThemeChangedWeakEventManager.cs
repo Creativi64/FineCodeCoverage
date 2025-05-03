@@ -46,5 +46,4 @@ namespace FineCodeCoverage.Core.Utilities
             this.DeliverEvent(null, e);
         }
     }
-   
 }
