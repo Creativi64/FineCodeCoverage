@@ -101,7 +101,7 @@
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CrapScore" Text="{Binding CrapScore}"/>
-                        <Grid>
+                        <Grid Margin="4,0,4,0">
                             <Grid.Resources>
                                 <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
                             </Grid.Resources>

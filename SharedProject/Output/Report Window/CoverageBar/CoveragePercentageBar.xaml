@@ -10,7 +10,6 @@
     <UserControl.Resources>
         <local:SizeOrMultiplierConverter x:Key="SizeOrMultiplierConverter"/>
     </UserControl.Resources>
-    <Grid>
     <ProgressBar Minimum="0" Maximum="1" BorderThickness="0" 
             ToolTipService.IsEnabled="{Binding ShowToolTip, RelativeSource={RelativeSource  AncestorType=UserControl}}"
             ToolTip="{Binding CoverageTooltip, RelativeSource={RelativeSource  AncestorType=UserControl}}"
@@ -33,5 +32,4 @@
             </Style>
         </ProgressBar.Style>
         </ProgressBar>
-    </Grid>
 </local:CoveragePercentageBarBase>
