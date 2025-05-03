@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Output
             CanEditVisible = reportColumnData.DisplayIndex > 0;
             this.HeaderAlignment = reportColumnData.HeaderAlignment;
             this.CellAlignment = reportColumnData.CellAlignment;
+            this.CanEditCellAlignment = reportColumnData.CanEditCellAlignment;
         }
         private bool _isVisible;
         public bool IsVisible
@@ -58,6 +59,13 @@ namespace FineCodeCoverage.Output
         {
             get => this._cellAlignment;
             set => this.Set(ref this._cellAlignment, value);
+        }
+
+        private bool _canEditCellAlignment;
+        public bool CanEditCellAlignment
+        {
+            get => this._canEditCellAlignment;
+            set => this.Set(ref this._canEditCellAlignment, value);
         }
 
         public string Error { get => this[nameof(Name)]; }

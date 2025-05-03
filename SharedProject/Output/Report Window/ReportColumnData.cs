@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Output
         int DisplayIndex { get; set; }
         HorizontalAlignment HeaderAlignment { get; set; }
         HorizontalAlignment CellAlignment { get; set; }
+        bool CanEditCellAlignment { get; }
     }
     internal class ReportColumnData : ColumnData, IReportColumnData
     {
@@ -40,6 +41,7 @@ namespace FineCodeCoverage.Output
             ReportColumnType = reportColumnType;
         }
         public string ReportColumnType { get; }
+        public bool CanEditCellAlignment { get; set; } = true;
 
         public const string NameColumnType = "Name";
         public const string CoverableLinesColumnType = "Coverable Lines";

@@ -222,6 +222,9 @@
                         <x:Type Type="pf:HorizontalAlignment"/>
                     </ObjectDataProvider.MethodParameters>
                 </ObjectDataProvider>
+                <Style x:Key="CellAlignmentEditingElementStyle" TargetType="ComboBox" BasedOn="{StaticResource ResourceKey={x:Static vsx:VsResourceKeys.ComboBoxStyleKey}}">
+                    <Setter Property="IsEnabled" Value="{Binding CanEditCellAlignment}" />
+                </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Column" Binding="{Binding Column, Mode=OneWay}"  />
@@ -298,7 +301,7 @@
                     </DataGridCheckBoxColumn.ElementStyle>
                 </DataGridCheckBoxColumn>
                 <DataGridComboBoxColumn EditingElementStyle="{StaticResource ResourceKey={x:Static vsx:VsResourceKeys.ComboBoxStyleKey}}" Header="Header Alignment" SelectedItemBinding="{Binding HeaderAlignment}" ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"/>
-                <DataGridComboBoxColumn EditingElementStyle="{StaticResource ResourceKey={x:Static vsx:VsResourceKeys.ComboBoxStyleKey}}" Header="Cell Alignment" SelectedItemBinding="{Binding CellAlignment}" ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"/>
+                <DataGridComboBoxColumn EditingElementStyle="{StaticResource ResourceKey=CellAlignmentEditingElementStyle}" Header="Cell Alignment" SelectedItemBinding="{Binding CellAlignment}" ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"/>
             </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
