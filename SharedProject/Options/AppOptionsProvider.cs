@@ -91,6 +91,7 @@ namespace FineCodeCoverage.Options
             appOptions.CoveragePercentageCoveredIsLeft = true;
             appOptions.CoveragePercentageUseSolidBrush = true;
             appOptions.CoveragePercentageShowTooltip = true;
+            appOptions.HeaderUseTabularSharedColors = true;
         }
 
         public void LoadSettingsFromStorage(IAppOptions instance)
@@ -264,5 +265,6 @@ namespace FineCodeCoverage.Options
         public bool CoveragePercentageUseContrastedThemeWhenSingularDisplay { get; set; }
         public double? CoveragePercentageHeightOrMultiplier { get; set; }
         public bool CoveragePercentageShowTooltip { get; set; }
+        public bool HeaderUseTabularSharedColors { get; set; }
     }
 }

@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <Grid.Resources>
             <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Hidden"/>
-
+            <wpf:ResourceKeyConverter x:Key="ThemeResourceKeyConverter"/>
         </Grid.Resources>
         <ProgressBar Grid.Row="0" Height="2" Foreground="{DynamicResource ResourceKey=VsBrush.Highlight}" Visibility="{Binding CoverageRunning, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" IsIndeterminate="true">
             <ProgressBar.Style>
@@ -84,10 +84,15 @@
         <tg:TreeGridControl Grid.Row="1"
         TreeGridControlBackground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
         TreeViewBackground="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundBrushKey}}"
-        HeaderGridLines="{DynamicResource {x:Static vsShell:EnvironmentColors.FileTabInactiveBorderBrushKey}}"
-        HeaderBackground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
-        HeaderForeground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowTextBrushKey}}"
+        HeaderGridLines="{Binding GridLinesBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderForeground="{Binding ForegroundBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderForegroundIsMouseOver="{Binding ForegroundIsMouseOverBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderForegroundIsPressed="{Binding ForegroundIsPressedBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderBackground="{Binding BackgroundBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderBackgroundIsMouseOver="{Binding BackgroundIsMouseOverBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderBackgroundIsPressed="{Binding BackgroundIsPressedBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
         ViewModel="{Binding}"
+        
         vsShell:ImageThemingUtilities.ImageBackgroundColor="{Binding ImageBackgroundColor, Source={x:Static output:ThemedTreeGridColours.Instance}}"
     >
             <tg:TreeGridControl.ItemTemplate>

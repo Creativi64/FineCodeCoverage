@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using WpfHelpers;
 
 namespace TreeGrid
 {
@@ -18,6 +19,23 @@ namespace TreeGrid
         private List<string> ColumnPropertyNames { get; set; }
 
         #region dependency properties
+
+        static TreeGridControl()
+        {
+            TrackedDependencyProperties.Track<TreeGridControl, Brush>(
+                (nameof(HeaderBackground), dp => HeaderBackgroundProperty = dp),
+                new SolidColorBrush(Colors.White),
+                (nameof(HeaderBackgroundIsMouseOver), dp => HeaderBackgroundIsMouseOverProperty = dp),
+                (nameof(HeaderBackgroundIsPressed), dp => HeaderBackgroundIsPressedProperty = dp)
+            );
+
+            TrackedDependencyProperties.Track<TreeGridControl, Brush>(
+                (nameof(HeaderForeground), dp => HeaderForegroundProperty = dp),
+                new SolidColorBrush(Colors.Black),
+                (nameof(HeaderForegroundIsMouseOver), dp => HeaderForegroundIsMouseOverProperty = dp),
+                (nameof(HeaderForegroundIsPressed), dp => HeaderForegroundIsPressedProperty = dp)
+            );
+        }
 
         public bool BindTextBlockForeground
         {
@@ -61,8 +79,23 @@ namespace TreeGrid
             set { SetValue(HeaderBackgroundProperty, value); }
         }
 
-        public static readonly DependencyProperty HeaderBackgroundProperty =
-            DependencyProperty.Register(nameof(HeaderBackground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+        private static DependencyProperty HeaderBackgroundProperty;
+
+        public Brush HeaderBackgroundIsMouseOver
+        {
+            get { return (Brush)GetValue(HeaderBackgroundIsMouseOverProperty); }
+            set { SetValue(HeaderBackgroundIsMouseOverProperty, value); }
+        }
+
+        private static DependencyProperty HeaderBackgroundIsMouseOverProperty;
+
+        public Brush HeaderBackgroundIsPressed
+        {
+            get { return (Brush)GetValue(HeaderBackgroundIsPressedProperty); }
+            set { SetValue(HeaderBackgroundIsPressedProperty, value); }
+        }
+
+        private static DependencyProperty HeaderBackgroundIsPressedProperty;
 
         public Brush HeaderForeground
         {
@@ -70,8 +103,23 @@ namespace TreeGrid
             set { SetValue(HeaderForegroundProperty, value); }
         }
 
-        public static readonly DependencyProperty HeaderForegroundProperty =
-            DependencyProperty.Register(nameof(HeaderForeground), typeof(Brush), typeof(TreeGridControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+        private static DependencyProperty HeaderForegroundProperty;
+
+        public Brush HeaderForegroundIsMouseOver
+        {
+            get { return (Brush)GetValue(HeaderForegroundIsMouseOverProperty); }
+            set { SetValue(HeaderForegroundIsMouseOverProperty, value); }
+        }
+
+        private static DependencyProperty HeaderForegroundIsMouseOverProperty;
+
+        public Brush HeaderForegroundIsPressed
+        {
+            get { return (Brush)GetValue(HeaderForegroundIsPressedProperty); }
+            set { SetValue(HeaderForegroundIsPressedProperty, value); }
+        }
+
+        private static DependencyProperty HeaderForegroundIsPressedProperty;
 
         public Brush HeaderGridLines
         {

@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Options
         private const string commonOutputCategory = "Output ( Common )";
         private const string commonReportCategory = "Report ( Common )";
         private const string openCoverReportCategory = "Report ( OpenCover )";
-        private const string coverageBarCategory = "Report Coverage Bar";
+        private const string reportBrushOptionsCategory = "Report Brushes";
         private const string toolbarCategory = "Toolbar";
         private const string editorColouringControlCategory = "Editor Colouring Control";
         private const string overviewMarginCategory = "Editor Colouring Overview Margin";
@@ -491,38 +491,42 @@ namespace FineCodeCoverage.Options
         public string OpenCoverTargetArgs { get; set; }
         #endregion
 
-        #region coverage bar
-        [Category(coverageBarCategory)]
+        #region IReportBrushOptions
+        [Category(reportBrushOptionsCategory)]
         [Description("Covered on the left or the right")]
         public bool CoveragePercentageCoveredIsLeft { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Display covered and uncovered percentages ( Both ), Covered or UnCovered")]
         public CoveragePercentageBarDisplayParts CoveragePercentageDisplayParts { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Theme colours against the background.")]
         public bool CoveragePercentageIsThemed { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Use colours from Environment / Fonts and Colors - e.g Coverage Touched Area FCC")]
         public bool CoveragePercentageUseColorsFromFontsAndColors { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Set to false for dashed line brush")]
         public bool CoveragePercentageUseSolidBrush { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Use contrast color when singular display")]
         public bool CoveragePercentageUseContrastedThemeWhenSingularDisplay { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Set to between 0 and 1 as percentage of environment font size or a specific height.")]
         public double? CoveragePercentageHeightOrMultiplier { get; set; }
 
-        [Category(coverageBarCategory)]
+        [Category(reportBrushOptionsCategory)]
         [Description("Set to false to hide tooltip showing contributing amounts.")]
         public bool CoveragePercentageShowTooltip { get; set; }
+
+        [Category(reportBrushOptionsCategory)]
+        [Description("Set to false to use HeaderColors resource keys")]
+        public bool HeaderUseTabularSharedColors { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

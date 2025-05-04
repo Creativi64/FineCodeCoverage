@@ -110,13 +110,20 @@ namespace FineCodeCoverage.Options
         bool CoveragePercentageShowTooltip { get; set; }
     }
 
+    internal interface IReportBrushOptions : ICoveragePercentageBarOptions {
+        // https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/shared-colors-for-visual-studio?view=vs-2022#tabular-data-grid-controls
+        bool HeaderUseTabularSharedColors { get; set; }
+    }
+
+
+
     internal interface IAppOptions :
         IMsCodeCoverageOptions,
         IOpenCoverCoverletExcludeIncludeOptions,
         IFCCCommonOptions,
         IOpenCoverOptions,
         IEditorCoverageColouringOptions,
-        ICoveragePercentageBarOptions
+        IReportBrushOptions
     {
         bool RunInParallel { get; set; }
         int RunWhenTestsExceed { get; set; }

@@ -36,6 +36,14 @@ Value="{Binding Data.HeaderGridLines, Source={StaticResource TreeGridProxy}}" />
             <Setter Property="HorizontalContentAlignment"
         Value="{Binding Content.HeaderAlignment, RelativeSource={RelativeSource Self}}" />
             <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background"  Value="{Binding Data.HeaderBackgroundIsPressed, Source={StaticResource TreeGridProxy}}" />
+                    <Setter Property="Foreground"  Value="{Binding Data.HeaderForegroundIsPressed, Source={StaticResource TreeGridProxy}}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background"  Value="{Binding Data.HeaderBackgroundIsMouseOver, Source={StaticResource TreeGridProxy}}" />
+                    <Setter Property="Foreground"  Value="{Binding Data.HeaderForegroundIsMouseOver, Source={StaticResource TreeGridProxy}}" />
+                </Trigger>
                 <Trigger Property="DataGridColumnHeader.SortDirection" Value="{x:Null}">
                     <Setter Property="ContentControl.ContentTemplate">
                         <Setter.Value>

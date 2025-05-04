@@ -560,6 +560,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\Report.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\SourceFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\SourceFileClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportHeader\ReportHeaderBrushesViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportHeader\ReportHeaderBrushesViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItemContentTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItemView.xaml.cs">
@@ -665,6 +667,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\Themes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
