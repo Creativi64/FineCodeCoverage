@@ -48,6 +48,7 @@ namespace FineCodeCoverageTests
             public int DisplayIndex { get; set; }
             public HorizontalAlignment HeaderAlignment { get; set; }
             public HorizontalAlignment CellAlignment { get; set; }
+            public bool CanEditCellAlignment { get; }
         }
 
 

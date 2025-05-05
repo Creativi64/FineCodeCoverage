@@ -92,6 +92,7 @@ namespace FineCodeCoverage.Options
             appOptions.CoveragePercentageUseSolidBrush = true;
             appOptions.CoveragePercentageShowTooltip = true;
             appOptions.HeaderUseTabularSharedColors = true;
+            appOptions.ShowIcons = true;
         }
 
         public void LoadSettingsFromStorage(IAppOptions instance)
@@ -266,5 +267,6 @@ namespace FineCodeCoverage.Options
         public double? CoveragePercentageHeightOrMultiplier { get; set; }
         public bool CoveragePercentageShowTooltip { get; set; }
         public bool HeaderUseTabularSharedColors { get; set; }
+        public bool ShowIcons { get; set; }
     }
 }

@@ -152,10 +152,10 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <HierarchicalDataTemplate.Resources>
                         <DataTemplate x:Key="DefaultTemplate">
-                            <output:ReportTreeItemView/>
+                            <output:ReportTreeItemView ShowIcon="{Binding Source={x:Static output:ShowIconsViewModelProvider.Instance}, Path=ShowIcons}"/>
                         </DataTemplate>
                         <DataTemplate x:Key="SourceFileTemplate">
-                            <output:ReportTreeItemView>
+                            <output:ReportTreeItemView ShowIcon="{Binding Source={x:Static output:ShowIconsViewModelProvider.Instance}, Path=ShowIcons}">
                                 <output:ReportTreeItemView.Style>
                                     <Style TargetType="output:ReportTreeItemView">
                                         <Style.Triggers>

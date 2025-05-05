@@ -30,6 +30,15 @@ namespace FineCodeCoverage.Output
         public static readonly DependencyProperty IconBorderColorProperty =
             DependencyProperty.Register(nameof(IconBorderColor), typeof(Brush), typeof(ReportTreeItemView), new PropertyMetadata(Brushes.Transparent, OnIconBorderColorChanged));
 
+        public bool ShowIcon
+        {
+            get { return (bool)GetValue(ShowIconProperty); }
+            set { SetValue(ShowIconProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowIconProperty =
+            DependencyProperty.Register(nameof(ShowIcon), typeof(bool), typeof(ReportTreeItemView), new PropertyMetadata(true));
+
 
         private static void OnIconBorderColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

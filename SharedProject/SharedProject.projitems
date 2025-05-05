@@ -573,6 +573,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\GitService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IGitRepo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IGitService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ShowIcons\IShowIcons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ShowIcons\ShowIconsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ShowIcons\ShowIconsViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSelectorWindow.xaml.cs">
       <DependentUpon>ReportViewSelectorWindow.xaml</DependentUpon>
     </Compile>

@@ -73,8 +73,8 @@ namespace FineCodeCoverage.Output
             get => this._isExpanded;
             set => this.Set(ref this._isExpanded, value);
         }
-
+        internal static double SharedAdditionalAdjustment { get; set; } = 26;
         // crisp image width and margin
-        protected override double AdditionalAdjustment => 26;
+        protected override double AdditionalAdjustment => SharedAdditionalAdjustment;
     }
 }

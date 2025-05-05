@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.IO;
-using System.Windows.Data;
-using System.Windows.Media;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
@@ -30,7 +27,8 @@ namespace FineCodeCoverage.Output
             ISourceFileOpener sourceFileOpener,
             IReportTreeExpander treeExpander,
             IReportColumnManager reportColumnManager,
-            IReportViews reportViews
+            IReportViews reportViews,
+            IShowIcons showIcons
         )
         {
             this.TreeViewAutomationName = "Coverage Report Tree";
@@ -41,6 +39,21 @@ namespace FineCodeCoverage.Output
             ColumnManagerImpl = reportColumnManager;
             this.reportViews = reportViews;
             reportViews.Changed += ReportViews_Changed;
+            SetIconsAdjustment(showIcons.ShowIcons);
+            showIcons.ShowIconsChanged += (sender, args) =>
+            {
+                SetIconsAdjustment(showIcons.ShowIcons);
+                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+                foreach (var item in Items)
+                {
+                    item.AdjustWidth(firstColumnWidth);
+                }
+            };
+        }
+
+        private void SetIconsAdjustment(bool showIcons)
+        {
+            ReportTreeItemBase.SharedAdditionalAdjustment = showIcons ? 26 : 0;
         }
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
@@ -79,7 +92,6 @@ namespace FineCodeCoverage.Output
         {
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
-                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
                 if (reportViews.ReportStyle == ReportStyle.Assembly)
@@ -112,6 +124,7 @@ namespace FineCodeCoverage.Output
                 }
 
                 this._items.Clear();
+                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
                 foreach (var newItem in newItems)
                 {
                     newItem.AdjustWidth(firstColumnWidth);

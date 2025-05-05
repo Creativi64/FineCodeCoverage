@@ -10,6 +10,9 @@
              x:Name="root">
 
     <DockPanel>
+        <DockPanel.Resources>
+            <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
+        </DockPanel.Resources>
         <!-- Icon Border (Externally configurable color) -->
         <!--<Border DockPanel.Dock="Left"
                 BorderBrush="{Binding IconBorderColor, ElementName=root}"
@@ -50,6 +53,7 @@
              Width="16"
              Moniker="{Binding ImageMoniker}"
              RenderOptions.BitmapScalingMode="HighQuality"
+             Visibility="{Binding ShowIcon,ElementName=root, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
             >
             <imaging:CrispImage.Style>
                 <Style TargetType="imaging:CrispImage">
