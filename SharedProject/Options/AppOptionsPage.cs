@@ -531,6 +531,14 @@ namespace FineCodeCoverage.Options
         [Category(reportDisplayCategory)]
         [Description("Set to false to not display tree item icons")]
         public bool ShowIcons { get; set; }
+
+        [Category(reportDisplayCategory)]
+        [Description("Set the icon size")]
+        public int IconSize { get; set; }
+
+        [Category(reportDisplayCategory)]
+        [Description("All report tree view icons themed monochrome")]
+        public bool ThemedMonochromeIcons { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

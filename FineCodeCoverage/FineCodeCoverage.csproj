@@ -252,10 +252,14 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="themes">
-      <HintPath>..\..\..\..\Downloads\themes.dll</HintPath>
+    <Reference Include="themes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Shared Files\themes.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="WpfExtended">
+      <HintPath>..\Shared Files\WpfExtended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">

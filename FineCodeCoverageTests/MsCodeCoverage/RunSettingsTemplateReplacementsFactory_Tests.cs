@@ -948,5 +948,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public bool CoveragePercentageShowTooltip { get; set; }
         public bool HeaderUseTabularSharedColors { get; set; }
         public bool ShowIcons { get; set; }
+        public int IconSize { get; set; }
+        public bool ThemedMonochromeIcons { get; set; }
     }
 }

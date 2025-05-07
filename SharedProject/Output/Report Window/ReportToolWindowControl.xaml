@@ -92,8 +92,6 @@
         HeaderBackgroundIsMouseOver="{Binding BackgroundIsMouseOverBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
         HeaderBackgroundIsPressed="{Binding BackgroundIsPressedBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
         ViewModel="{Binding}"
-        
-        vsShell:ImageThemingUtilities.ImageBackgroundColor="{Binding ImageBackgroundColor, Source={x:Static output:ThemedTreeGridColours.Instance}}"
     >
             <tg:TreeGridControl.ItemTemplate>
                 <DataTemplate>
@@ -152,19 +150,10 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <HierarchicalDataTemplate.Resources>
                         <DataTemplate x:Key="DefaultTemplate">
-                            <output:ReportTreeItemView ShowIcon="{Binding Source={x:Static output:ShowIconsViewModelProvider.Instance}, Path=ShowIcons}"/>
+                            <output:ReportTreeItemView ThemedMonochromeIcons="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ThemedMonochromeIcons}" ShowIcon="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons}" IconSize="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}"/>
                         </DataTemplate>
                         <DataTemplate x:Key="SourceFileTemplate">
-                            <output:ReportTreeItemView ShowIcon="{Binding Source={x:Static output:ShowIconsViewModelProvider.Instance}, Path=ShowIcons}">
-                                <output:ReportTreeItemView.Style>
-                                    <Style TargetType="output:ReportTreeItemView">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasNewCode}" Value="True">
-                                                <Setter Property="IconBorderColor" Value="Red"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </output:ReportTreeItemView.Style>
+                            <output:ReportTreeItemView  ThemedMonochromeIcons="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ThemedMonochromeIcons}"  ShowIcon="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons}"  IconSize="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}">
                             </output:ReportTreeItemView>
                         </DataTemplate>
                         <output:ReportTreeItemContentTemplateSelector x:Key="TreeItemTemplateSelector"

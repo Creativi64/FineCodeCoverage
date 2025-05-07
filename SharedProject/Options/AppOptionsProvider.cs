@@ -93,6 +93,8 @@ namespace FineCodeCoverage.Options
             appOptions.CoveragePercentageShowTooltip = true;
             appOptions.HeaderUseTabularSharedColors = true;
             appOptions.ShowIcons = true;
+            appOptions.IconSize = 16;
+            appOptions.ThemedMonochromeIcons = true;
         }
 
         public void LoadSettingsFromStorage(IAppOptions instance)
@@ -268,5 +270,7 @@ namespace FineCodeCoverage.Options
         public bool CoveragePercentageShowTooltip { get; set; }
         public bool HeaderUseTabularSharedColors { get; set; }
         public bool ShowIcons { get; set; }
+        public int IconSize { get; set; }
+        public bool ThemedMonochromeIcons { get; set; }
     }
 }

@@ -19,6 +19,7 @@ using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 using System.IO;
 using FineCodeCoverage.Core.Utilities.Solution;
 using Microsoft;
+using System.Windows.Media.Extensions.Effects;
 
 namespace FineCodeCoverage.Output
 {

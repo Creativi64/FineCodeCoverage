@@ -5,6 +5,8 @@
             xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
             xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
              xmlns:local="clr-namespace:FineCodeCoverage.Output"
+             xmlns:imageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
+             xmlns:effects="clr-namespace:System.Windows.Media.Extensions.Effects;assembly=WpfExtended"
               Margin="0"
              Padding="0"
              x:Name="root">
@@ -12,65 +14,34 @@
     <DockPanel>
         <DockPanel.Resources>
             <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
+            <local:BoolToDoubleConverter x:Key="BoolToDoubleConverter" />
         </DockPanel.Resources>
-        <!-- Icon Border (Externally configurable color) -->
-        <!--<Border DockPanel.Dock="Left"
-                BorderBrush="{Binding IconBorderColor, ElementName=root}"
-                BorderThickness="1"
-                CornerRadius="2"
-                VerticalAlignment="Center">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="True">
-                            -->
-        <!-- If IconBorderColor is Transparent, remove the Margin -->
-        <!--
-                            <Setter Property="Margin" Value="0"/>
-                        </DataTrigger>
-                        -->
-        <!-- Optional: Trigger for non-transparent border color -->
-        <!--
-                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="False">
-                            -->
-        <!-- If IconBorderColor is not Transparent, set a margin -->
-        <!--
-                            <Setter Property="Margin" Value="25"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-            <imaging:CrispImage
-                Margin="5 2 5 2"
-                Height="16"
-                Moniker="{Binding ImageMoniker}"
-                RenderOptions.BitmapScalingMode="HighQuality" />
-		</Border>-->
-
         <imaging:CrispImage
-            DockPanel.Dock="Left"
+            DockPanel.Dock="Left" VerticalAlignment="Center"
              Margin="5 2 5 2"
-             Width="16"
+             Width="{Binding ElementName=root, Path=IconSize}"
              Moniker="{Binding ImageMoniker}"
              RenderOptions.BitmapScalingMode="HighQuality"
              Visibility="{Binding ShowIcon,ElementName=root, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
-            >
+        >
+            <!-- 
+                Note that putting the effect in the trigger does not work with a dynamic resource.
+                Hence added boolean to the effect to just return the original color when disabled
+            -->
+            <imaging:CrispImage.Effect>
+                <effects:MonochromeAlphaSwap IsEnabled="{Binding ElementName=root, Path=ThemedMonochromeIcons}"  FilterColor="{DynamicResource ResourceKey={x:Static vsShell:TreeViewColors.BackgroundTextColorKey}}"/>
+            </imaging:CrispImage.Effect>
             <imaging:CrispImage.Style>
                 <Style TargetType="imaging:CrispImage">
-                    <!--<Style.Triggers>
-                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="False">
-                            <Setter Property="Grayscale" Value="True"></Setter>
-                            <Setter Property="imaging:CrispImage.GrayscaleBiasColor" Value="{DynamicResource {x:Static vsShell:DecorativeColors.RedPrimaryColorKey}}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=ThemedMonochromeIcons}" Value="False">
+                            <Setter Property="vsShell:ImageThemingUtilities.ImageBackgroundColor"  Value="{Binding ImageBackgroundColor, Source={x:Static local:ThemedTreeGridColours.Instance}}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsIconBorderColorTransparent, ElementName=root}" Value="True">
-                            <Setter Property="Grayscale" Value="False"></Setter>
-                        </DataTrigger>
-                    </Style.Triggers>-->
+                    </Style.Triggers>
                 </Style>
             </imaging:CrispImage.Style>
         </imaging:CrispImage>
-
-        <StackPanel Background="{Binding ImageBackgroundBrush, Source={x:Static local:ThemedTreeGridColours.Instance}}">
+        <StackPanel VerticalAlignment="Center" Background="{Binding ImageBackgroundBrush, Source={x:Static local:ThemedTreeGridColours.Instance}}">
             <StackPanel.RenderTransform>
                 <TranslateTransform X="{Binding Adjustment.TranslateX}"/>
             </StackPanel.RenderTransform>

@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Output
             IReportTreeExpander treeExpander,
             IReportColumnManager reportColumnManager,
             IReportViews reportViews,
-            IShowIcons showIcons
+            IIconsOptions iconsOptions
         )
         {
             this.TreeViewAutomationName = "Coverage Report Tree";
@@ -38,22 +38,26 @@ namespace FineCodeCoverage.Output
             this.treeExpander = treeExpander;
             ColumnManagerImpl = reportColumnManager;
             this.reportViews = reportViews;
+            this.iconsOptions = iconsOptions;
             reportViews.Changed += ReportViews_Changed;
-            SetIconsAdjustment(showIcons.ShowIcons);
-            showIcons.ShowIconsChanged += (sender, args) =>
-            {
-                SetIconsAdjustment(showIcons.ShowIcons);
-                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
-                foreach (var item in Items)
-                {
-                    item.AdjustWidth(firstColumnWidth);
-                }
-            };
+            SetIconsAdjustment();
+            iconsOptions.ShowIconsChanged += AdjustIcons;
+            iconsOptions.IconSizeChanged += AdjustIcons;
         }
 
-        private void SetIconsAdjustment(bool showIcons)
+        private void AdjustIcons(object sender, EventArgs e)
         {
-            ReportTreeItemBase.SharedAdditionalAdjustment = showIcons ? 26 : 0;
+            SetIconsAdjustment();
+            double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+            foreach (var item in Items)
+            {
+                item.AdjustWidth(firstColumnWidth);
+            }
+        }
+
+        private void SetIconsAdjustment()
+        {
+            ReportTreeItemBase.SharedAdditionalAdjustment = this.iconsOptions.ShowIcons ? this.iconsOptions.IconSize + 10 : 0;
         }
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
@@ -76,7 +80,7 @@ namespace FineCodeCoverage.Output
         private readonly ISourceFileOpener sourceFileOpener;
         private readonly IReportTreeExpander treeExpander;
         private readonly IReportViews reportViews;
-
+        private readonly IIconsOptions iconsOptions;
 
         protected override IReportColumnManager ColumnManagerImpl { get; set; }
 
