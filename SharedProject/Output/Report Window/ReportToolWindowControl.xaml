@@ -12,6 +12,7 @@
     xmlns:output="clr-namespace:FineCodeCoverage.Output"
     xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
     xmlns:wpf="clr-namespace:FineCodeCoverage.Wpf"
+    xmlns:effects="clr-namespace:System.Windows.Media.Extensions.Effects;assembly=WpfExtended"
 	mc:Ignorable="d"
 	d:DesignWidth="500"
 	d:DesignHeight="300"
@@ -148,19 +149,53 @@
             </tg:TreeGridControl.ItemTemplate>
             <tg:TreeGridControl.HierarchicalDataTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <HierarchicalDataTemplate.Resources>
-                        <DataTemplate x:Key="DefaultTemplate">
-                            <output:ReportTreeItemView ThemedMonochromeIcons="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ThemedMonochromeIcons}" ShowIcon="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons}" IconSize="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}"/>
-                        </DataTemplate>
-                        <DataTemplate x:Key="SourceFileTemplate">
-                            <output:ReportTreeItemView  ThemedMonochromeIcons="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ThemedMonochromeIcons}"  ShowIcon="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons}"  IconSize="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}">
-                            </output:ReportTreeItemView>
-                        </DataTemplate>
-                        <output:ReportTreeItemContentTemplateSelector x:Key="TreeItemTemplateSelector"
-                                          DefaultTemplate="{StaticResource DefaultTemplate}"
-                                          SourceFileTemplate="{StaticResource SourceFileTemplate}" />
-                    </HierarchicalDataTemplate.Resources>
-                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ResourceKey=TreeItemTemplateSelector}"/>
+
+                    <DockPanel>
+                        <DockPanel.Resources>
+                            <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
+                        </DockPanel.Resources>
+                        <imaging:CrispImage
+            DockPanel.Dock="Left" VerticalAlignment="Center"
+             Margin="5 2 5 2"
+             Width="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}"
+             Moniker="{Binding ImageMoniker}"
+             RenderOptions.BitmapScalingMode="HighQuality"
+             Visibility="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
+        >
+                            <!-- 
+                Note that putting the effect in the trigger does not work with a dynamic resource.
+                Hence added boolean to the effect to just return the original color when disabled
+            -->
+                            <imaging:CrispImage.Effect>
+                                <effects:MonochromeAlphaSwap IsEnabled="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=Monochrome}"  FilterColor="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=MonochromeColor}"/>
+                            </imaging:CrispImage.Effect>
+                            <imaging:CrispImage.Style>
+                                <Style TargetType="imaging:CrispImage">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=Monochrome}" Value="False">
+                                            <Setter Property="vsShell:ImageThemingUtilities.ImageBackgroundColor"  Value="{Binding ImageBackgroundColor, Source={x:Static output:ThemedTreeGridColours.Instance}}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </imaging:CrispImage.Style>
+                        </imaging:CrispImage>
+                        <StackPanel VerticalAlignment="Center" Background="{Binding ImageBackgroundBrush, Source={x:Static output:ThemedTreeGridColours.Instance}}">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform X="{Binding Adjustment.TranslateX}"/>
+                            </StackPanel.RenderTransform>
+                            <Border Padding="0 2 0 2" Background="{Binding Background}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="{Binding Adjustment.Width}"/>
+                                    </Grid.ColumnDefinitions>
+                                    <tg:TreeItemContentControl Content="{Binding}"
+                    ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type tg:TreeGridControl}}, Path=ItemTemplate}" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </DockPanel>
+
+
                 </HierarchicalDataTemplate>
             </tg:TreeGridControl.HierarchicalDataTemplate>
         </tg:TreeGridControl>

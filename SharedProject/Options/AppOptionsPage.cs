@@ -537,8 +537,8 @@ namespace FineCodeCoverage.Options
         public int IconSize { get; set; }
 
         [Category(reportDisplayCategory)]
-        [Description("All report tree view icons themed monochrome")]
-        public bool ThemedMonochromeIcons { get; set; }
+        [Description("Themed icon style")]
+        public ThemedIconStyle ThemedIconStyle { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

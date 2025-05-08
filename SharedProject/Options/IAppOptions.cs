@@ -110,11 +110,12 @@ namespace FineCodeCoverage.Options
         bool CoveragePercentageShowTooltip { get; set; }
     }
 
+    public enum ThemedIconStyle { MonochromeGlyph, MonochromeText, Moniker}
     interface IIconOptions
     {
         bool ShowIcons { get; set; }
         int IconSize { get; set; }
-        bool ThemedMonochromeIcons { get; set; }
+        ThemedIconStyle ThemedIconStyle { get; set; }
     }
 
     internal interface IReportDisplayOptions : ICoveragePercentageBarOptions, IIconOptions {

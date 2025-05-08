@@ -4,6 +4,7 @@
                  xmlns:local="clr-namespace:FineCodeCoverage.Output"
                  xmlns:wpf="clr-namespace:FineCodeCoverage.Wpf"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
                   Margin="0"
                  Padding="0"
             >
@@ -28,7 +29,7 @@
             </ProgressBar.Height>
         <ProgressBar.Style>
             <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">
-                <Setter Property="FontSize" Value="{DynamicResource EnvironmentFontSizeKey}"/>
+                <Setter Property="FontSize" Value="{DynamicResource {x:Static shell:VsFonts.EnvironmentFontSizeKey}}"/>
             </Style>
         </ProgressBar.Style>
         </ProgressBar>

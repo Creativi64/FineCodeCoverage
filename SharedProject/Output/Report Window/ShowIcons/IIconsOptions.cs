@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {
@@ -6,9 +7,9 @@ namespace FineCodeCoverage.Output
     {
         event EventHandler ShowIconsChanged;
         event EventHandler IconSizeChanged;
-        event EventHandler ThemedMonochromeIconsChanged;
         bool ShowIcons { get; }
         int IconSize { get; }
-        bool ThemedMonochromeIcons { get; }
+        bool Monochrome { get; }
+        Color MonochromeColor { get; }
     }
 }

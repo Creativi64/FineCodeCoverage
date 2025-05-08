@@ -31,10 +31,7 @@ namespace FineCodeCoverage.Editor.Management
         }
 
         private System.Windows.Media.Color ParseColor(uint color)
-        {
-            System.Drawing.Color dcolor = System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(color));
-            return System.Windows.Media.Color.FromArgb(dcolor.A, dcolor.R, dcolor.G, dcolor.B);
-        }
+            => System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(color)).ToMediaColor();
 
         private IVsFontAndColorStorage vsFontAndColorStorage;
         private async Task<IVsFontAndColorStorage> GetVsFontAndColorStorageAsync()

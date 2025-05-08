@@ -1,6 +1,10 @@
-﻿using FineCodeCoverage.Options;
+﻿using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options;
+using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Composition;
+using System.Windows.Media;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -10,14 +14,21 @@ namespace FineCodeCoverage.Output
     {
         private bool showIcons;
         private int iconSize;
-        private bool themedMonochromeIcons;
+       
         public event EventHandler ShowIconsChanged;
         public event EventHandler IconSizeChanged;
-        public event EventHandler ThemedMonochromeIconsChanged;
+        private ThemedIconStyle themedIconStyle;
 
         [ImportingConstructor]
         public IconsViewModel(IAppOptionsProvider appOptionsProvider)
         {
+            VSColorTheme.ThemeChanged += (_) =>
+            {
+                if (this.Monochrome)
+                {
+                    SetIconStyles();
+                }
+            };
             appOptionsProvider.OptionsChanged += (newAppOptions) =>
             {
                 if (newAppOptions.ShowIcons != this.ShowIcons)
@@ -30,16 +41,36 @@ namespace FineCodeCoverage.Output
                     this.IconSize = newAppOptions.IconSize;
                     IconSizeChanged?.Invoke(this, EventArgs.Empty);
                 }
-                if (newAppOptions.ThemedMonochromeIcons != this.ThemedMonochromeIcons)
+                if(newAppOptions.ThemedIconStyle != themedIconStyle)
                 {
-                    this.ThemedMonochromeIcons = newAppOptions.ThemedMonochromeIcons;
-                    ThemedMonochromeIconsChanged?.Invoke(this, EventArgs.Empty);
+                    this.themedIconStyle = newAppOptions.ThemedIconStyle;
+                    SetIconStyles();
                 }
             };
             var appOptions = appOptionsProvider.Get();
             this.ShowIcons = appOptions.ShowIcons;
             this.IconSize = appOptions.IconSize;
-            this.ThemedMonochromeIcons = appOptions.ThemedMonochromeIcons;
+            this.themedIconStyle = appOptions.ThemedIconStyle;
+            this.SetIconStyles();
+        }
+
+        private void SetIconStyles()
+        {
+            switch (this.themedIconStyle)
+            {
+                case ThemedIconStyle.MonochromeGlyph:
+                    this.Monochrome = true;
+                    this.MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.GlyphColorKey).ToMediaColor(); ;
+                    break;
+                case ThemedIconStyle.MonochromeText:
+                    this.Monochrome = true;
+                    this.MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.BackgroundTextColorKey).ToMediaColor();
+                    break;
+                case ThemedIconStyle.Moniker:
+                    this.Monochrome = false;
+                    this.MonochromeColor = Colors.Transparent;
+                    break;
+            }
         }
 
         public bool ShowIcons
@@ -54,9 +85,18 @@ namespace FineCodeCoverage.Output
             private set => this.Set(ref this.iconSize, value);
         }
 
-        public bool ThemedMonochromeIcons {
-            get => this.themedMonochromeIcons;
-            set => this.Set(ref this.themedMonochromeIcons, value);
+        private bool monochrome;
+        public bool Monochrome
+        {
+            get => this.monochrome;
+            private set => this.Set(ref this.monochrome, value);
+        }
+
+        private Color monochromeColor;
+        public Color MonochromeColor
+        {
+            get => this.monochromeColor;
+            private set => this.Set(ref this.monochromeColor, value);
         }
     }
 }

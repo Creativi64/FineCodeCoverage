@@ -563,10 +563,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportHeader\ReportHeaderBrushesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportHeader\ReportHeaderBrushesViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeExpander.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItemContentTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItemView.xaml.cs">
-      <DependentUpon>ReportTreeItemView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\Changeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IChangeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\GitRepo.cs" />
@@ -707,10 +703,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportToolWindowControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
