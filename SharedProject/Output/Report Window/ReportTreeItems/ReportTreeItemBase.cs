@@ -92,7 +92,7 @@ namespace FineCodeCoverage.Output
             get => this.coveredBranches;
             set => this.Set(ref this.coveredBranches, value);
         }
-        
+
         public int NotCoveredBranches
         {
             get => this.TotalBranches - this.CoveredBranches;

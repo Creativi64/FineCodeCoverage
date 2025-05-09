@@ -8,7 +8,6 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output.Report_Window.ReportTreeItems;
 using Microsoft.VisualStudio.Shell;
@@ -24,8 +23,17 @@ namespace FineCodeCoverage.Output
         IListener<ClearReportMessage>,
         IListener<NewCodeChangedMessage>
     {
-
+        private bool coverageRunning;
         private ReportTotalRow reportTotalRow;
+        private Report lastReport;
+        private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
+        private readonly ISourceFileOpener sourceFileOpener;
+        private readonly IReportTreeExpander treeExpander;
+        private readonly IReportViews reportViews;
+        private readonly IIconsOptions iconsOptions;
+        private ReportStyle? lastReportStyle = null;
+        private TotalTreeItem totalTreeItem;
+
         [ImportingConstructor]
         public ReportViewModel(
             IEventAggregator eventAggregator,
@@ -42,35 +50,7 @@ namespace FineCodeCoverage.Output
             {
                 if (newOptions.ReportTotalRow != this.reportTotalRow)
                 {
-                    this.reportTotalRow = newOptions.ReportTotalRow;
-                    if (this._items.Count > 0)
-                    {
-                        var firstItemIsTotal = this._items[0] is TotalTreeItem;
-                        switch (this.reportTotalRow)
-                        {
-                            case ReportTotalRow.Always:
-                                
-                                if (!firstItemIsTotal)
-                                {
-                                    this._items.Insert(0, this.totalTreeItem);
-                                    AdjustWidths(this.totalTreeItem);
-                                }
-                                break;
-                            case ReportTotalRow.WhenRequired:
-                                if (!firstItemIsTotal && this._items.Count > 1)
-                                {
-                                    this._items.Insert(0, this.totalTreeItem);
-                                    AdjustWidths(this.totalTreeItem);
-                                }
-                                break;
-                            case ReportTotalRow.Never:
-                                if (firstItemIsTotal)
-                                {
-                                    this._items.RemoveAt(0);
-                                }
-                                break;
-                        }
-                    }
+                    UpdateTotalRow(newOptions.ReportTotalRow);
                 }
             };
             this.TreeViewAutomationName = "Coverage Report Tree";
@@ -87,15 +67,46 @@ namespace FineCodeCoverage.Output
             iconsOptions.IconSizeChanged += AdjustIcons;
         }
 
+        private void UpdateTotalRow(ReportTotalRow newReportTotalRow)
+        {
+            this.reportTotalRow = newReportTotalRow;
+            if (this._items.Count > 0)
+            {
+                var firstItemIsTotal = this._items[0] is TotalTreeItem;
+                switch (this.reportTotalRow)
+                {
+                    case ReportTotalRow.Always:
+                        if (!firstItemIsTotal)
+                        {
+                            InsertTotalRow();
+                        }
+                        break;
+                    case ReportTotalRow.WhenRequired:
+                        if (!firstItemIsTotal && this._items.Count > 1)
+                        {
+                            InsertTotalRow();
+                        }
+                        break;
+                    case ReportTotalRow.Never:
+                        if (firstItemIsTotal)
+                        {
+                            this._items.RemoveAt(0);
+                        }
+                        break;
+                }
+            }
+        }
+
         private void AdjustIcons(object sender, EventArgs e)
         {
             SetIconsAdjustment();
             AdjustWidths(Items);
         }
 
-        private void AdjustWidths(params ITreeItem[] items)
+        private void InsertTotalRow()
         {
-            AdjustWidths((IEnumerable<ITreeItem>)items);
+            this._items.Insert(0, this.totalTreeItem);
+            AdjustWidths(new ITreeItem[] { this.totalTreeItem });
         }
 
         private void AdjustWidths(IEnumerable<ITreeItem> items)
@@ -127,73 +138,66 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        private Report lastReport;
-        private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
-        private readonly ISourceFileOpener sourceFileOpener;
-        private readonly IReportTreeExpander treeExpander;
-        private readonly IReportViews reportViews;
-        private readonly IIconsOptions iconsOptions;
-
         protected override IReportColumnManager ColumnManagerImpl { get; set; }
-
-        private bool coverageRunning;
 
         public bool CoverageRunning
         {
             get => this.coverageRunning;
             set => this.Set(ref this.coverageRunning, value);
         }
-        private ReportStyle? lastReportStyle = null;
-        private TotalTreeItem totalTreeItem;
+
 
         private void GenerateReport(IChangeset newChangeset)
         {
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                List<ReportTreeItemBase> newItems = new List<ReportTreeItemBase>();
-                if (reportViews.ReportStyle == ReportStyle.Assembly)
-                {
-                    foreach (IAssembly assembly in lastReport.Assemblies)
-                    {
-                        bool isTestAssembly = false;
-                        if (lastReport.TestAssemblyNames.Contains(assembly.Name))
-                        {
-                            isTestAssembly = true;
-                        }
-
-                        var assemblyTreeItem = new AssemblyTreeItem(assembly, isTestAssembly);
-                        newItems.Add(assemblyTreeItem);
-                    }
-                }
-                else
-                {
-                    var rootDirectory = lastReport.Directory;
-                    if (rootDirectory != null)
-                    {
-                        if (rootDirectory.SourceFiles.Any())
-                        {
-                            var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
-                            newItems.Add(directoryTreeItem);
-                        }
-                        else
-                        {
-                            newItems.AddRange(rootDirectory.SubDirectories.Select(d => new DirectoryTreeItem(d)));
-                        }
-                        
-                    }
-                }
+                List<ReportTreeItemBase> newItems = reportViews.ReportStyle == ReportStyle.Assembly ? CreateAssemblyTreeItems() :
+                    CreateSourceTreeItems();
                 this.AddTotalRowIfRequired(newItems);
                 this.RestoreExpansionStateIfRequired(newItems);
-
-                this._items.Clear();
-                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
-                foreach (var newItem in newItems)
-                {
-                    newItem.AdjustWidth(firstColumnWidth);
-                    this._items.Add(newItem);
-                }
+                AdjustWidths(newItems);
+                AddTreeItems(newItems);
             });
+        }
+
+        private void AddTreeItems(IList<ReportTreeItemBase> newItems)
+        {
+            this._items.Clear();
+            this._items.AddRange(newItems);
+        }
+
+        private List<ReportTreeItemBase> CreateAssemblyTreeItems()
+        {
+            return lastReport.Assemblies.Select(assembly =>
+            {
+                bool isTestAssembly = false;
+                if (lastReport.TestAssemblyNames.Contains(assembly.Name))
+                {
+                    isTestAssembly = true;
+                }
+
+                return (ReportTreeItemBase) new AssemblyTreeItem(assembly, isTestAssembly);
+            }).ToList();
+        }
+
+        private List<ReportTreeItemBase> CreateSourceTreeItems()
+        {
+            var rootDirectory = lastReport.Directory;
+            if (rootDirectory != null)
+            {
+                if (rootDirectory.SourceFiles.Any())
+                {
+                    var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
+                    return new List<ReportTreeItemBase>
+                    {
+                        directoryTreeItem
+                    };
+                }
+
+                return rootDirectory.SubDirectories.Select(d => (ReportTreeItemBase) new DirectoryTreeItem(d)).ToList();
+            }
+            return new List<ReportTreeItemBase>();
         }
 
         private void RestoreExpansionStateIfRequired(IList<ReportTreeItemBase> newItems)

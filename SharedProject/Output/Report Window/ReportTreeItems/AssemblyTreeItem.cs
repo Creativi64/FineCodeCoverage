@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Output
                     Parent = this
                 }
             );
-            
+
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)
             {
                 this.observableChildren.Add(namespaceTreeItem);
