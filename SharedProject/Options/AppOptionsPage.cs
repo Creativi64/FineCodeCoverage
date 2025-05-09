@@ -543,6 +543,10 @@ namespace FineCodeCoverage.Options
         [Category(reportDisplayCategory)]
         [Description("When to show the report total row")]
         public ReportTotalRow ReportTotalRow { get; set; }
+
+        [Category(reportDisplayCategory)]
+        [Description("Use the full path for the name or just the directory name.")]
+        public bool RootDirectoryNameFromPath { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

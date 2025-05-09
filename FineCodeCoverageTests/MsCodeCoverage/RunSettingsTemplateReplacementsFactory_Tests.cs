@@ -951,5 +951,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public int IconSize { get; set; }
         public ThemedIconStyle ThemedIconStyle { get; set; }
         public ReportTotalRow ReportTotalRow { get; set; }
+        public bool RootDirectoryNameFromPath { get; set; }
     }
 }

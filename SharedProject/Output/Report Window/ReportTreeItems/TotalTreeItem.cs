@@ -27,6 +27,8 @@ namespace FineCodeCoverage.Output.Report_Window.ReportTreeItems
             }
             this.Name = "Total";
         }
+
+        // possibilities: AutoSum, Aggregate, Summary, Statistics
         public override ImageMoniker ImageMoniker { get; } = KnownMonikers.AutoSum;
     }
 }

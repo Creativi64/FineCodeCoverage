@@ -11,11 +11,11 @@ namespace FineCodeCoverage.Output
         {
             this.Name = directory.Name;
             ImageMoniker = KnownMonikers.FolderClosed;
-            foreach(var subDirectory in directory.SubDirectories)
+            foreach (var subDirectory in directory.SubDirectories)
             {
                 this.observableChildren.Add(new DirectoryTreeItem(subDirectory) { Parent = this });
             }
-            foreach(var sourceFile in directory.SourceFiles)
+            foreach (var sourceFile in directory.SourceFiles)
             {
                 this.observableChildren.Add(new SourceFileTreeItem(sourceFile) { Parent = this });
             }
@@ -36,4 +36,24 @@ namespace FineCodeCoverage.Output
 
         public override ImageMoniker ImageMoniker { get; }
     }
+
+    internal class RootDirectoryTreeItem : DirectoryTreeItem
+    {
+        private readonly string name;
+        private readonly string path;
+
+        public RootDirectoryTreeItem(IDirectory directory, string path,bool nameIsPath) : base(directory)
+        {
+            this.name = Name;
+            this.path = path;
+            SetName(nameIsPath);
+        }
+
+        public void SetName(bool fromPath)
+        {
+            this.Name = fromPath ? path : name;
+        }
+
+    }
+
 }
