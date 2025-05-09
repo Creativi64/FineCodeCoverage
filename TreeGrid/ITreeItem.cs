@@ -19,9 +19,7 @@ namespace TreeGrid
     {
         bool IsSelectionActive { get; set; }
         Adjustment Adjustment { get; }
-        //GridLength AdjustedWidth { get; }
         void AdjustWidth(double value);
-       //  double TranslateX { get; }
         bool IsSelected { get; set; }
         bool IsExpanded { get; set; }
         ITreeItem Parent { get; set; }

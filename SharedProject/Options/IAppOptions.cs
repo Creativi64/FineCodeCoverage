@@ -110,7 +110,7 @@ namespace FineCodeCoverage.Options
         bool CoveragePercentageShowTooltip { get; set; }
     }
 
-    public enum ThemedIconStyle { MonochromeGlyph, MonochromeText, Moniker}
+    internal enum ThemedIconStyle { MonochromeGlyph, MonochromeText, Moniker}
     interface IIconOptions
     {
         bool ShowIcons { get; set; }
@@ -118,9 +118,17 @@ namespace FineCodeCoverage.Options
         ThemedIconStyle ThemedIconStyle { get; set; }
     }
 
+    internal enum ReportTotalRow
+    {
+        WhenRequired,
+        Always,
+        Never
+    }
+
     internal interface IReportDisplayOptions : ICoveragePercentageBarOptions, IIconOptions {
         // https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/shared-colors-for-visual-studio?view=vs-2022#tabular-data-grid-controls
         bool HeaderUseTabularSharedColors { get; set; }
+        ReportTotalRow ReportTotalRow { get; set; }
     }
 
     internal interface IAppOptions :

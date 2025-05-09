@@ -5,27 +5,84 @@
                  xmlns:wpf="clr-namespace:FineCodeCoverage.Wpf"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-                  Margin="0"
+                 xmlns:wpfhelpers="clr-namespace:WpfHelpers;assembly=WpfHelpers"
+                 Margin="0"
                  Padding="0"
             >
     <UserControl.Resources>
+        <wpfhelpers:BindingProxy x:Key="CoveragePercentageBarTooltipProxy" Data="{Binding TooltipModel, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CoveragePercentageBar}}" />
         <local:SizeOrMultiplierConverter x:Key="SizeOrMultiplierConverter"/>
+        <DataTemplate x:Key="FullCoverageTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Percentage, StringFormat={}{0:F2} %}" Margin="0,0,0,4"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Coverable"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text=" - " Margin="4,0"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Coverable, Mode=OneWay}"/>
+                    
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Covered"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text=" - " Margin="4,0"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Covered, Mode=OneWay}"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Uncovered"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text=" - " Margin="4,0"/>
+                    <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Uncovered,Mode=OneWay}"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Partial"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text=" - " Margin="4,0"/>
+                    <TextBlock Grid.Column="2" Grid.Row="3" Text="{Binding Partial, Mode=OneWay}"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SimpleCoverageTemplate">
+            <TextBlock>
+                <Run Text="{Binding Percentage,Mode=OneWay, StringFormat={}{0:F2} %}"/>
+                <Run Text="{Binding Covered,Mode=OneWay}"/>
+                <Run Text=" / "/>
+                <Run Text="{Binding Coverable,Mode=OneWay}"/>
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NoCoverageTemplate">
+            <TextBlock Text="No coverable"/>
+        </DataTemplate>
+
+        <local:CoverageTooltipTemplateSelector
+        x:Key="CoverageTooltipTemplateSelector"
+        FullTemplate="{StaticResource FullCoverageTemplate}"
+        SimpleTemplate="{StaticResource SimpleCoverageTemplate}"
+        NoneTemplate="{StaticResource NoCoverageTemplate}" />
     </UserControl.Resources>
     <ProgressBar Minimum="0" Maximum="1" BorderThickness="0" 
             ToolTipService.IsEnabled="{Binding ShowToolTip, RelativeSource={RelativeSource  AncestorType=UserControl}}"
-            ToolTip="{Binding CoverageTooltip, RelativeSource={RelativeSource  AncestorType=UserControl}}"
             RenderTransformOrigin="0.5,0.5"
             Value="{Binding ProgressBarValue, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}"  
             Foreground="{Binding ProgressBarForegroundBrush, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
             Background="{Binding ProgressBarBackgroundBrush, Mode=OneWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
-            <ProgressBar.RenderTransform>
+        <ProgressBar.ToolTip>
+            <ContentControl Content="{Binding Data,Source={StaticResource CoveragePercentageBarTooltipProxy}}" ContentTemplateSelector="{StaticResource CoverageTooltipTemplateSelector}" />
+        </ProgressBar.ToolTip>
+        <ProgressBar.RenderTransform>
                 <RotateTransform Angle="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RotationAngle}"/>
             </ProgressBar.RenderTransform>
             <ProgressBar.Height>
-            <MultiBinding Converter="{StaticResource SizeOrMultiplierConverter}">
-                <Binding Path="HeightOrMultiplier" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
-                <Binding Path="(TextBlock.FontSize)" RelativeSource="{RelativeSource Self}"/>
-            </MultiBinding>
+                <MultiBinding Converter="{StaticResource SizeOrMultiplierConverter}">
+                    <Binding Path="HeightOrMultiplier" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                    <Binding Path="(TextBlock.FontSize)" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
             </ProgressBar.Height>
         <ProgressBar.Style>
             <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">

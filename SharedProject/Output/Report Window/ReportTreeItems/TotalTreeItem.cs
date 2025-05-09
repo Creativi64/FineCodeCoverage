@@ -1,32 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
-using Microsoft.VisualStudio.Imaging;
+using System.Collections.Generic;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Output.Report_Window.ReportTreeItems
 {
-    public class NamespaceTreeItem : ReportTreeItemBase
+    internal class TotalTreeItem : ReportTreeItemBase
     {
-        public NamespaceTreeItem(string namespaceName, IEnumerable<ReportTreeItemBase> children)
+        public TotalTreeItem(IEnumerable<ReportTreeItemBase> children)
         {
-            this.Name = namespaceName;
-            foreach (ReportTreeItemBase child in children)
+            foreach (var child in children)
             {
-                this.observableChildren.Add(child);
-                child.Parent = this;
                 this.CoverableLines += child.CoverableLines;
+                this.CoveredLines += child.CoveredLines;
                 this.NotCoveredLines += child.NotCoveredLines;
                 this.PartialLines += child.PartialLines;
-                this.CoveredLines += child.CoveredLines;
+
                 this.NPathComplexity += child.NPathComplexity;
                 this.CrapScore += child.CrapScore;
                 this.CyclomaticComplexity += child.CyclomaticComplexity;
+
                 this.BlocksCovered += child.BlocksCovered;
                 this.BlocksNotCovered += child.BlocksNotCovered;
                 this.TotalBranches += child.TotalBranches;
                 this.CoveredBranches += child.CoveredBranches;
-            }
-        }
 
-        public override ImageMoniker ImageMoniker => KnownMonikers.Namespace;
+            }
+            this.Name = "Total";
+        }
+        public override ImageMoniker ImageMoniker { get; } = KnownMonikers.AutoSum;
     }
 }

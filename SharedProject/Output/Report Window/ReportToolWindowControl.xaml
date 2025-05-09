@@ -96,18 +96,43 @@
     >
             <tg:TreeGridControl.ItemTemplate>
                 <DataTemplate>
+                    <DataTemplate.Resources>
+                        <output:PercentageConverter x:Key="PercentageConverter"/>
+                    </DataTemplate.Resources>
                     <StackPanel>
                         <!-- cannot put margin in style due to the reparenting-->
-                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="Name"  Text="{Binding Name}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="Name" Text="{Binding Name}"/>
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CoverableLines" Text="{Binding CoverableLines}"/>
-                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="BlocksCovered" Text="{Binding BlocksCovered}"/>
-                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="BlocksNotCovered" Text="{Binding BlocksNotCovered}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CoveredLines" Text="{Binding CoveredLines}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="NotCoveredLines" Text="{Binding NotCoveredLines}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="PartialLines" Text="{Binding PartialLines}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="TotalBranches" Text="{Binding TotalBranches}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CoveredBranches" Text="{Binding CoveredBranches}"/>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="NotCoveredBranches" Text="{Binding NotCoveredBranches}"/>
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="NPathComplexity" Text="{Binding NPathComplexity}"/>
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CyclomaticComplexity" Text="{Binding CyclomaticComplexity}"/>
                         <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="CrapScore" Text="{Binding CrapScore}"/>
-                        <Grid Margin="4,0,4,0">
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="LineCoveragePercent">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                    <Binding Path="CoverableLines" />
+                                    <Binding Path="CoveredLines" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Margin="4,0,4,0" VerticalAlignment="Center" Tag="BranchCoveragePercent">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                    <Binding Path="TotalBranches" />
+                                    <Binding Path="CoveredBranches" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Grid Tag="LineCoveragePercentBar" Margin="4,0,4,0">
                             <Grid.Resources>
                                 <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+                                <output:BrushToSolidColorBrushConverter x:Key="BrushToSolidColorBrushConverter"/>
+                                <vsShell:BrushToColorConverter x:Key="BrushToColorConverter"/>
                             </Grid.Resources>
                             <TextBlock Text="---"
                                     Visibility="{Binding CoverableLines,
@@ -115,6 +140,7 @@
                             <output:CoveragePercentageBar Visibility="{Binding CoverableLines, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
                                 Coverable="{Binding CoverableLines}" 
                                 Covered="{Binding CoveredLines}" 
+                                Partial="{Binding PartialLines}"
                                 UseSolidBrush="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
                                 NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
                                 CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
@@ -123,45 +149,85 @@
                                 HeightOrMultiplier="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
                                 ShowToolTip="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
                                 >
-                            <output:CoveragePercentageBar.Style>
-                                <Style TargetType="output:CoveragePercentageBar">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
-                                            <Setter Property="ThemedBackgroundColor" Value="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundColorKey}}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
-                                            <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
-                                        </DataTrigger>
+                                <output:CoveragePercentageBar.Style>
+                                    <Style TargetType="output:CoveragePercentageBar">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                                <Setter Property="ThemedBackgroundColor" Value="{Binding Background, Converter={StaticResource ResourceKey=BrushToColorConverter}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                                <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
+                                            </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
-                                            <Setter Property="SingularPartBrush" Value="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundTextBrushKey}}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
-                                            <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </output:CoveragePercentageBar.Style>
-                        </output:CoveragePercentageBar>
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                                <Setter Property="SingularPartBrush" Value="{Binding Foreground, Converter={StaticResource ResourceKey=BrushToSolidColorBrushConverter}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                                <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </output:CoveragePercentageBar.Style>
+                            </output:CoveragePercentageBar>
                         </Grid>
-                        </StackPanel>
+                        <Grid Tag="BranchCoveragePercentBar" Margin="4,0,4,0">
+                            <Grid.Resources>
+                                <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+                                <output:BrushToSolidColorBrushConverter x:Key="BrushToSolidColorBrushConverter"/>
+                                <vsShell:BrushToColorConverter x:Key="BrushToColorConverter"/>
+                            </Grid.Resources>
+                            <TextBlock Text="---"
+            Visibility="{Binding TotalBranches,
+            Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center"/>
+                            <output:CoveragePercentageBar Visibility="{Binding TotalBranches, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
+        Coverable="{Binding TotalBranches}" 
+        Covered="{Binding CoveredBranches}" 
+        UseSolidBrush="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
+        NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
+        CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
+        CoveredPercentageIsLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageIsLeft}"
+        DisplayParts="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=DisplayParts}"
+        HeightOrMultiplier="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
+        ShowToolTip="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
+        >
+                                <output:CoveragePercentageBar.Style>
+                                    <Style TargetType="output:CoveragePercentageBar">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                                <Setter Property="ThemedBackgroundColor" Value="{Binding Background, Converter={StaticResource ResourceKey=BrushToColorConverter}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                                <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                                <Setter Property="SingularPartBrush" Value="{Binding Foreground, Converter={StaticResource ResourceKey=BrushToSolidColorBrushConverter}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                                <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </output:CoveragePercentageBar.Style>
+                            </output:CoveragePercentageBar>
+                        </Grid>
+                    </StackPanel>
                 </DataTemplate>
             </tg:TreeGridControl.ItemTemplate>
             <tg:TreeGridControl.HierarchicalDataTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-
                     <DockPanel>
                         <DockPanel.Resources>
                             <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
                         </DockPanel.Resources>
                         <imaging:CrispImage
-            DockPanel.Dock="Left" VerticalAlignment="Center"
-             Margin="5 2 5 2"
-             Width="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}"
-             Moniker="{Binding ImageMoniker}"
-             RenderOptions.BitmapScalingMode="HighQuality"
-             Visibility="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
-        >
+                            DockPanel.Dock="Left" VerticalAlignment="Center"
+                             Margin="5 2 5 2"
+                             Width="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}"
+                             Moniker="{Binding ImageMoniker}"
+                             RenderOptions.BitmapScalingMode="HighQuality"
+                             Visibility="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
+                        >
                             <!-- 
                 Note that putting the effect in the trigger does not work with a dynamic resource.
                 Hence added boolean to the effect to just return the original color when disabled

@@ -45,12 +45,20 @@ namespace FineCodeCoverage.Output
 
         public const string NameColumnType = "Name";
         public const string CoverableLinesColumnType = "Coverable Lines";
+        public const string CoveredLinesColumnType = "Covered Lines";
+        public const string NotCoveredLinesColumnType = "Not Covered Lines";
+        public const string PartialLinesColumnType = "Partial Lines";
+        public const string TotalBranchesColumnType = "Total Branches";
+        public const string CoveredBranchesColumnType = "Covered Branches";
+        public const string NotCoveredBranchesColumnType = "Not Covered Branches";
         public const string BlocksCoveredColumnType = "Blocks Covered";
         public const string BlocksNotCoveredColumnType = "Blocks Not Covered";
         public const string NPathComplexityColumnType = "NPath Complexity";
         public const string CyclomaticComplexityColumnType = "Cyclomatic Complexity";
         public const string CrapScoreColumnType = "Crap Score";
         public const string LineCoveragePercentColumnType = "Line coverage percent";
-
+        public const string LineCoveragePercentBarColumnType = "Line coverage percent bar";
+        public const string BranchCoveragePercentColumnType = "Branch coverage percent";
+        public const string BranchCoveragePercentBarColumnType = "Branch coverage percent bar";
     }
 }

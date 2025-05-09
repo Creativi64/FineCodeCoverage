@@ -271,5 +271,6 @@ namespace FineCodeCoverage.Options
         public bool ShowIcons { get; set; }
         public int IconSize { get; set; }
         public ThemedIconStyle ThemedIconStyle { get; set; }
+        public ReportTotalRow ReportTotalRow { get; set; }
     }
 }

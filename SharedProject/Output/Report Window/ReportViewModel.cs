@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.Options;
+using FineCodeCoverage.Output.Report_Window.ReportTreeItems;
 using Microsoft.VisualStudio.Shell;
 using TreeGrid;
 
@@ -21,6 +24,8 @@ namespace FineCodeCoverage.Output
         IListener<ClearReportMessage>,
         IListener<NewCodeChangedMessage>
     {
+
+        private ReportTotalRow reportTotalRow;
         [ImportingConstructor]
         public ReportViewModel(
             IEventAggregator eventAggregator,
@@ -28,9 +33,46 @@ namespace FineCodeCoverage.Output
             IReportTreeExpander treeExpander,
             IReportColumnManager reportColumnManager,
             IReportViews reportViews,
-            IIconsOptions iconsOptions
+            IIconsOptions iconsOptions,
+            IAppOptionsProvider appOptionsProvider
         )
         {
+            this.reportTotalRow = appOptionsProvider.Get().ReportTotalRow;
+            appOptionsProvider.OptionsChanged += (newOptions) =>
+            {
+                if (newOptions.ReportTotalRow != this.reportTotalRow)
+                {
+                    this.reportTotalRow = newOptions.ReportTotalRow;
+                    if (this._items.Count > 0)
+                    {
+                        var firstItemIsTotal = this._items[0] is TotalTreeItem;
+                        switch (this.reportTotalRow)
+                        {
+                            case ReportTotalRow.Always:
+                                
+                                if (!firstItemIsTotal)
+                                {
+                                    this._items.Insert(0, this.totalTreeItem);
+                                    AdjustWidths(this.totalTreeItem);
+                                }
+                                break;
+                            case ReportTotalRow.WhenRequired:
+                                if (!firstItemIsTotal && this._items.Count > 1)
+                                {
+                                    this._items.Insert(0, this.totalTreeItem);
+                                    AdjustWidths(this.totalTreeItem);
+                                }
+                                break;
+                            case ReportTotalRow.Never:
+                                if (firstItemIsTotal)
+                                {
+                                    this._items.RemoveAt(0);
+                                }
+                                break;
+                        }
+                    }
+                }
+            };
             this.TreeViewAutomationName = "Coverage Report Tree";
             _ = eventAggregator.AddListener(this);
             this.SetItems(this._items);
@@ -48,8 +90,18 @@ namespace FineCodeCoverage.Output
         private void AdjustIcons(object sender, EventArgs e)
         {
             SetIconsAdjustment();
+            AdjustWidths(Items);
+        }
+
+        private void AdjustWidths(params ITreeItem[] items)
+        {
+            AdjustWidths((IEnumerable<ITreeItem>)items);
+        }
+
+        private void AdjustWidths(IEnumerable<ITreeItem> items)
+        {
             double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
-            foreach (var item in Items)
+            foreach (var item in items)
             {
                 item.AdjustWidth(firstColumnWidth);
             }
@@ -92,6 +144,8 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this.coverageRunning, value);
         }
         private ReportStyle? lastReportStyle = null;
+        private TotalTreeItem totalTreeItem;
+
         private void GenerateReport(IChangeset newChangeset)
         {
             ThreadHelper.JoinableTaskFactory.Run(async () =>
@@ -117,9 +171,30 @@ namespace FineCodeCoverage.Output
                     var rootDirectory = lastReport.Directory;
                     if (rootDirectory != null)
                     {
-                        var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
-                        newItems.Add(directoryTreeItem);
+                        if (rootDirectory.SourceFiles.Any())
+                        {
+                            var directoryTreeItem = new DirectoryTreeItem(rootDirectory);
+                            newItems.Add(directoryTreeItem);
+                        }
+                        else
+                        {
+                            newItems.AddRange(rootDirectory.SubDirectories.Select(d => new DirectoryTreeItem(d)));
+                        }
+                        
                     }
+                }
+                this.totalTreeItem = new TotalTreeItem(newItems);
+                switch (this.reportTotalRow)
+                {
+                    case ReportTotalRow.Always:
+                        newItems.Insert(0, this.totalTreeItem);
+                        break;
+                    case ReportTotalRow.WhenRequired:
+                        if(newItems.Count > 1)
+                        {
+                            newItems.Insert(0, this.totalTreeItem);
+                        }
+                        break;
                 }
 
                 if (this._items.Count > 0 && reportViews.ReportStyle == lastReportStyle)
@@ -157,6 +232,7 @@ namespace FineCodeCoverage.Output
         public void Handle(ClearReportMessage message)
         {
             lastReport = null;
+            this.totalTreeItem = null;
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;

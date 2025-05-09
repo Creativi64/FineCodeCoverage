@@ -80,6 +80,8 @@ namespace TreeGrid
             }
         }
 
+        public double ActualWidth => this._actualWidth.Value;
+
         public GridLength GridWidth
         {
             get => !this.IsVisible ? ColumnData.EmptyGridLength : this._gridWidth;

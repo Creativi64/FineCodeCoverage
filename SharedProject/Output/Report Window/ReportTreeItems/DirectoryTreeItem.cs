@@ -22,11 +22,15 @@ namespace FineCodeCoverage.Output
 
             this.CoverableLines = this.observableChildren.Sum(c => c.CoverableLines);
             this.CoveredLines = this.observableChildren.Sum(c => c.CoveredLines);
+            this.NotCoveredLines = this.observableChildren.Sum(c => c.NotCoveredLines);
+            this.PartialLines = this.observableChildren.Sum(c => c.PartialLines);
             this.NPathComplexity = this.observableChildren.Sum(c => c.NPathComplexity);
             this.CrapScore = this.observableChildren.Sum(c => c.CrapScore);
             this.CyclomaticComplexity = this.observableChildren.Sum(c => c.CyclomaticComplexity);
             this.BlocksCovered = this.observableChildren.Sum(c => c.BlocksCovered);
             this.BlocksNotCovered = this.observableChildren.Sum(c => c.BlocksNotCovered);
+            this.TotalBranches = this.observableChildren.Sum(c => c.TotalBranches);
+            this.CoveredBranches = this.observableChildren.Sum(c => c.CoveredBranches);
         }
 
 

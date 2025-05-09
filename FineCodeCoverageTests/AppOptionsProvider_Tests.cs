@@ -225,8 +225,9 @@ namespace FineCodeCoverageTests
                 nameof(ICoveragePercentageBarOptions.CoveragePercentageIsThemed),
                 nameof(ICoveragePercentageBarOptions.CoveragePercentageUseSolidBrush),
                 nameof(ICoveragePercentageBarOptions.CoveragePercentageShowTooltip),
-                nameof(IReportDisplayOptions.ShowIcons),
-                nameof(IReportDisplayOptions.HeaderUseTabularSharedColors)
+                nameof(IIconOptions.ShowIcons),
+                nameof(IIconOptions.IconSize),
+                nameof(IReportDisplayOptions.HeaderUseTabularSharedColors),
             };
             CollectionAssert.AreEquivalent(expectedSetters.Select(s => $"set_{s}"), invocationNames);
         }
@@ -370,7 +371,9 @@ namespace FineCodeCoverageTests
                 {nameof(ICoveragePercentageBarOptions.CoveragePercentageHeightOrMultiplier), (bool?)null},
                 {nameof(ICoveragePercentageBarOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay), false},
                 {nameof(ICoveragePercentageBarOptions.CoveragePercentageShowTooltip), true },
-                {nameof(IReportDisplayOptions.ShowIcons), true},
+                {nameof(IIconOptions.ShowIcons), true},
+                {nameof(IIconOptions.IconSize), 16},
+                {nameof(IIconOptions.ThemedIconStyle), ThemedIconStyle.MonochromeText},
                 {nameof(IReportDisplayOptions.HeaderUseTabularSharedColors), false},
             };
             var mockJsonConvertService = autoMocker.GetMock<IJsonConvertService>();

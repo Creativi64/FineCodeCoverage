@@ -31,6 +31,8 @@ namespace FineCodeCoverage.Output
                 this.observableChildren.Add(namespaceTreeItem);
                 this.CoverableLines += namespaceTreeItem.CoverableLines;
                 this.CoveredLines += namespaceTreeItem.CoveredLines;
+                this.NotCoveredLines += namespaceTreeItem.NotCoveredLines;
+                this.PartialLines += namespaceTreeItem.PartialLines;
 
                 this.NPathComplexity += namespaceTreeItem.NPathComplexity;
                 this.CrapScore += namespaceTreeItem.CrapScore;
@@ -38,6 +40,8 @@ namespace FineCodeCoverage.Output
 
                 this.BlocksCovered += namespaceTreeItem.BlocksCovered;
                 this.BlocksNotCovered += namespaceTreeItem.BlocksNotCovered;
+                this.TotalBranches += namespaceTreeItem.TotalBranches;
+                this.CoveredBranches += namespaceTreeItem.CoveredBranches;
 
             }
         }

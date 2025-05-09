@@ -199,17 +199,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\WeakCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IVsOutputWindowPaneExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\BrushToSolidColorBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBar.xaml.cs">
       <DependentUpon>CoveragePercentageBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarDisplayParts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoverageTooltipTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoverageTooltipViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\DefaultLineBrushCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\ILineBrushCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\SizeOrMultiplierConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ImageThemingUtilitiesX.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\PercentageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\HotspotsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\HtmlFilesToFolder.cs" />
@@ -563,6 +567,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportHeader\ReportHeaderBrushesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportHeader\ReportHeaderBrushesViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ReportTreeItems\TotalTreeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\Changeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\IChangeset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\Repo\GitRepo.cs" />

@@ -20,11 +20,15 @@ namespace FineCodeCoverage.Output
             this.lines = codeElement.Lines;
             this.CoverableLines = codeElement.Lines.Count;
             this.CoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Covered);
+            this.NotCoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.NotCovered);
+            this.PartialLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Partial);
             this.NPathComplexity = codeElement.NPathComplexity;
             this.CrapScore = codeElement.CrapScore;
             this.CyclomaticComplexity = codeElement.CyclomaticComplexity;
             this.BlocksCovered = codeElement.BlocksCovered;
             this.BlocksNotCovered = codeElement.BlocksNotCovered;
+            this.TotalBranches = codeElement.TotalBranches;
+            this.CoveredBranches = codeElement.BranchesCovered;
             this.codeElement = codeElement;
         }
         private readonly IReadOnlyList<ICoberturaLine> lines;

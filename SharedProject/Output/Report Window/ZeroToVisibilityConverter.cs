@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Output
                 invert = parsed;
             }
 
-            bool isZero = value is double d && d == 0;
+            bool isZero = value is int i && i == 0;
 
             return (isZero ^ invert) ? Visibility.Visible : Visibility.Collapsed;
         }

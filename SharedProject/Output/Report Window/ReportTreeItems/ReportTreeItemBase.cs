@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
@@ -21,18 +20,32 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this._name, value);
         }
 
-        private double _coverableLines;
-        public double CoverableLines
+        private int _coverableLines;
+        public int CoverableLines
         {
             get => this._coverableLines;
             set => this.Set(ref this._coverableLines, value);
         }
 
-        private double _coveredLines;
-        public double CoveredLines
+        private int _coveredLines;
+        public int CoveredLines
         {
             get => this._coveredLines;
             set => this.Set(ref this._coveredLines, value);
+        }
+
+        private int _notCoveredLines;
+        public int NotCoveredLines
+        {
+            get => this._notCoveredLines;
+            set => this.Set(ref this._notCoveredLines, value);
+        }
+
+        private int _partialLines;
+        public int PartialLines
+        {
+            get => this._partialLines;
+            set => this.Set(ref this._partialLines, value);
         }
 
         private int cyclomaticComplexity;
@@ -67,7 +80,23 @@ namespace FineCodeCoverage.Output
             get => this.blocksNotCovered;
             set => this.Set(ref this.blocksNotCovered, value);
         }
-
+        private int totalBranches;
+        public int TotalBranches
+        {
+            get => this.totalBranches;
+            set => this.Set(ref this.totalBranches, value);
+        }
+        private int coveredBranches;
+        public int CoveredBranches
+        {
+            get => this.coveredBranches;
+            set => this.Set(ref this.coveredBranches, value);
+        }
+        
+        public int NotCoveredBranches
+        {
+            get => this.TotalBranches - this.CoveredBranches;
+        }
         public override bool IsExpanded
         {
             get => this._isExpanded;

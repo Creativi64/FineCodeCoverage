@@ -23,6 +23,15 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 var metricTypes = this.SetMetricProperties(methodMetrics.Metrics);
                 PalmmediaReportResult.AddMetricTypes(metricTypes);
             }
+            codeFile.BranchesByLine
+                .Where(kvp => kvp.Key >= codeElement.FirstLine && kvp.Key <= codeElement.LastLine)
+                .ToList()
+                .ForEach(kvp =>
+                {
+                    var branches = kvp.Value;
+                    TotalBranches += branches.Count;
+                    BranchesCovered += branches.Count(b => b.BranchVisits > 0);
+                });
         }
 
         private void SetLines(IEnumerable<LineVisitStatus> lineVisitStatuses)
@@ -75,6 +84,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public string Path { get; }
         public int BlocksCovered { get; set; }
         public int BlocksNotCovered { get; set; }
+        public int TotalBranches { get; set; }
+        public int BranchesCovered { get; set; }
         public int CyclomaticComplexity { get; set; }
         public int NPathComplexity { get; set; }
         public decimal CrapScore { get; set; }

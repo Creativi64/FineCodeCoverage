@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
@@ -86,7 +87,16 @@ namespace FineCodeCoverageTests
                         DisplayIndex = 1,
                         IsVisible = false,
                         Width = 456,
-                        ColumnType = ReportColumnData.CyclomaticComplexityColumnType
+                        ColumnType = ReportColumnData.CyclomaticComplexityColumnType,
+                        CellAlignment = System.Windows.HorizontalAlignment.Stretch,
+                        HeaderAlignment = System.Windows.HorizontalAlignment.Stretch
+                    },
+                    new ReportColumnState
+                    {
+                        DisplayIndex = 11,
+                        IsVisible = false,
+                        Width = 456,
+                        ColumnType = ReportColumnData.CoverableLinesColumnType
                     },
                     new ReportColumnState
                     {
@@ -114,17 +124,9 @@ namespace FineCodeCoverageTests
             
             Assert.That(reportColumnManager.CyclomaticComplexity.IsVisible, Is.False);
             Assert.That(reportColumnManager.CyclomaticComplexity.DisplayIndex, Is.EqualTo(1));
-            reportColumnManager.CyclomaticComplexity.IsVisible = true;
-            Assert.That(reportColumnManager.CyclomaticComplexity.Width.Value, Is.EqualTo(456));
-
-            Assert.That(reportColumnManager.BlocksCovered.Width.Value, Is.EqualTo(333));
-            Assert.That(reportColumnManager.BlocksCovered.IsVisible, Is.True);
-            Assert.That(reportColumnManager.BlocksCovered.DisplayIndex, Is.EqualTo(2));
-
-            // default
-            Assert.That(reportColumnManager.BlocksNotCovered.Width.Value, Is.EqualTo((125)));
-            Assert.That(reportColumnManager.BlocksNotCovered.IsVisible, Is.EqualTo(true));
-            Assert.That(reportColumnManager.BlocksNotCovered.DisplayIndex, Is.EqualTo(3));
+            Assert.That(reportColumnManager.CyclomaticComplexity.Width.Value, Is.EqualTo(0)); // not visible
+            Assert.That(reportColumnManager.CyclomaticComplexity.HeaderAlignment, Is.EqualTo(HorizontalAlignment.Stretch));
+            Assert.That(reportColumnManager.CyclomaticComplexity.CellAlignment, Is.EqualTo(HorizontalAlignment.Stretch));
         }
 
         [Test]
@@ -140,12 +142,13 @@ namespace FineCodeCoverageTests
             var crapScoreColumn = reportColumnManager.CrapScore;
             var nPathComplexityColumn = reportColumnManager.NPathComplexity;
             var cyclomaticComplexityColumn = reportColumnManager.CyclomaticComplexity;
-            var blocksNotCoveredColumn = reportColumnManager.BlocksNotCovered;
 
             Assert.That(crapScoreColumn.IsInvalid, Is.True);
             Assert.That(nPathComplexityColumn.IsInvalid, Is.True);
             Assert.That(cyclomaticComplexityColumn.IsInvalid, Is.False);
-            Assert.That(blocksNotCoveredColumn.IsInvalid, Is.False);
+            Assert.That(reportColumnManager.BranchCoveragePercentBar.IsInvalid, Is.True);
+            Assert.That(reportColumnManager.CoveredBranches.IsInvalid, Is.True);
+            Assert.That(reportColumnManager.TotalBranches.IsInvalid, Is.True);
         }
 
         [Test]
@@ -168,18 +171,18 @@ namespace FineCodeCoverageTests
             autoMoqer.SetInstance(mockJsonConvertService.Object);
             autoMoqer.SetInstance(mockVsShutdown.Object);
 
-            var reportColumnManger = autoMoqer.Create<ReportColumnManager>();
-            var nPathComplexityColumn = reportColumnManger.NPathComplexity;
+            var reportColumnManager = autoMoqer.Create<ReportColumnManager>();
+            var nPathComplexityColumn = reportColumnManager.NPathComplexity;
             nPathComplexityColumn.Width = 456;
             nPathComplexityColumn.DisplayIndex = 3;
             nPathComplexityColumn.IsInvalid = true;
 
-            var crapScoreColumn = reportColumnManger.CrapScore;
+            var crapScoreColumn = reportColumnManager.CrapScore;
             crapScoreColumn.IsVisible = false;
             crapScoreColumn.DisplayIndex = 2;
             crapScoreColumn.Width = 111;
 
-            reportColumnManger.SortColumnsArray();
+            reportColumnManager.SortColumnsArray();
 
             mockVsShutdown.Raise(vsShutdown => vsShutdown.Shutdown += null, new object[] { null, null });
 
@@ -187,16 +190,16 @@ namespace FineCodeCoverageTests
 
             var serializeObjectInvocation = mockJsonConvertService.Invocations.Where(invocation => invocation.Method.Name == nameof(JsonConvertService.SerializeObject)).Single();
             var reportColumnStates = (List<ReportColumnState>)serializeObjectInvocation.Arguments[0];
-            for(var i = 0; i < reportColumnManger.Columns.Length; i++)
+            for(var i = 0; i < reportColumnManager.Columns.Length; i++)
             {
-                var column = reportColumnManger.Columns[i] as ReportColumnData;
+                var column = reportColumnManager.Columns[i] as ReportColumnData;
                 var expectedsVisible = column.ReportColumnType != ReportColumnData.CrapScoreColumnType;
                 Assert.That(reportColumnStates[i].ColumnType, Is.EqualTo(column.ReportColumnType));
                 Assert.That(reportColumnStates[i].IsVisible, Is.EqualTo(expectedsVisible));
-                Assert.That(reportColumnStates[i].DisplayIndex, Is.EqualTo(reportColumnManger.Columns[i].DisplayIndex));
-                Assert.That(reportColumnStates[i].Width, Is.EqualTo(reportColumnManger.Columns[i].Width.Value));
+                Assert.That(reportColumnStates[i].DisplayIndex, Is.EqualTo(reportColumnManager.Columns[i].DisplayIndex));
+                Assert.That(reportColumnStates[i].Width, Is.EqualTo(reportColumnManager.Columns[i].ActualWidth));
             }
-            Assert.That(reportColumnStates.Count, Is.EqualTo(reportColumnManger.Columns.Length));
+            Assert.That(reportColumnStates.Count, Is.EqualTo(reportColumnManager.Columns.Length));
         }
     }
 }

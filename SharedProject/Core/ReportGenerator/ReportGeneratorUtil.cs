@@ -50,6 +50,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public int BlocksNotCovered => codeElement.BlocksNotCovered;
             public int CyclomaticComplexity => codeElement.CyclomaticComplexity;
             public int NPathComplexity => codeElement.NPathComplexity;
+            public int TotalBranches => codeElement.TotalBranches;
+            public int BranchesCovered => codeElement.BranchesCovered;
             public decimal CrapScore => codeElement.CrapScore;
             private readonly ICodeElement codeElement;
 

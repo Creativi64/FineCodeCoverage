@@ -1,5 +1,4 @@
 ﻿using System.Windows.Media;
-using System;
 using System.Windows;
 using Microsoft.VisualStudio.PlatformUI;
 using FineCodeCoverage.Wpf;
@@ -210,39 +209,6 @@ namespace FineCodeCoverage.Output
         [DependsOnProperty(nameof(Coverable))]
         public double Percentage => Coverable != 0 ? Covered / Coverable : 0;
 
-        [DependsOnProperty(nameof(Covered))]
-        [DependsOnProperty(nameof(Coverable))]
-        [DependsOnProperty(nameof(Partial))]
-        public string CoverageTooltip
-        {
-            get
-            {
-                if (Coverable != 0)
-                {
-                    var percentageRounded = Math.Round(Percentage * 100, 2);
-                    if (Partial.HasValue)
-                    {
-                        var partialValue = Partial.Value;
-                        var uncovered = Coverable - Covered - Partial;
-                        return
-         $@"{percentageRounded} %
-Covered     - {Covered}
-Uncovered - {uncovered}
-Partial       - {partialValue}
-";
-                    }
-                    else
-                    {
-                        return $"{percentageRounded} % - {Covered} / {Coverable}";
-                    }
-                }
-                else
-                {
-                    return "No coverable";
-                }
-            }
-        }
-
         [DependsOnProperty(nameof(CoveredPercentageIsLeft))]
         [DependsOnProperty(nameof(DisplayParts))]
         public double RotationAngle
@@ -269,6 +235,13 @@ Partial       - {partialValue}
         [DependsOnProperty(nameof(StyledNotCoveredBrush))]
         public Brush ProgressBarForegroundBrush => DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? StyledNotCoveredBrush : StyledCoveredBrush;
         #endregion
+
+        public CoverageTooltipViewModel TooltipModel => new CoverageTooltipViewModel(
+            this.Percentage,
+            this.Covered,
+            this.Coverable,
+            this.Partial
+        );
     }
 
     public partial class CoveragePercentageBar : CoveragePercentageBarBase {

@@ -539,6 +539,10 @@ namespace FineCodeCoverage.Options
         [Category(reportDisplayCategory)]
         [Description("Themed icon style")]
         public ThemedIconStyle ThemedIconStyle { get; set; }
+
+        [Category(reportDisplayCategory)]
+        [Description("When to show the report total row")]
+        public ReportTotalRow ReportTotalRow { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

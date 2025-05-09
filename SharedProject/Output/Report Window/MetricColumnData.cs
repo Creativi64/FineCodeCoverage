@@ -5,8 +5,21 @@ namespace FineCodeCoverage.Output
 {
     class MetricColumnData : ReportColumnData
     {
-        public MetricColumnData(MetricType metricType, string reportColumnType,string name, int displayIndex, bool isVisible, double width, double minWidth = 100)
-            : base(reportColumnType, name, displayIndex, isVisible, width, minWidth, HorizontalAlignment.Right)
+        public MetricColumnData(
+           MetricType metricType,
+           string reportColumnType,
+           string name,
+           int displayIndex,
+           bool isVisible,
+           HorizontalAlignment headerAlignment,
+           HorizontalAlignment cellAlignment,
+           double width,
+           double minWidth = 100
+       ) : base(reportColumnType, name, displayIndex, isVisible, headerAlignment, cellAlignment, width, minWidth) {
+            this.MetricType = metricType;
+        }
+        public MetricColumnData(MetricType metricType, string reportColumnType, string name, int displayIndex, bool isVisible, double width, double minWidth = 100, HorizontalAlignment initialAlignment = HorizontalAlignment.Right)
+            : base(reportColumnType, name, displayIndex, isVisible, initialAlignment, initialAlignment, width, minWidth )
         {
             this.MetricType = metricType;
         }
