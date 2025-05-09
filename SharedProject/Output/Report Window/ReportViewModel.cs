@@ -183,24 +183,8 @@ namespace FineCodeCoverage.Output
                         
                     }
                 }
-                this.totalTreeItem = new TotalTreeItem(newItems);
-                switch (this.reportTotalRow)
-                {
-                    case ReportTotalRow.Always:
-                        newItems.Insert(0, this.totalTreeItem);
-                        break;
-                    case ReportTotalRow.WhenRequired:
-                        if(newItems.Count > 1)
-                        {
-                            newItems.Insert(0, this.totalTreeItem);
-                        }
-                        break;
-                }
-
-                if (this._items.Count > 0 && reportViews.ReportStyle == lastReportStyle)
-                {
-                    this.treeExpander.RestoreExpansionState(this._items, newItems);
-                }
+                this.AddTotalRowIfRequired(newItems);
+                this.RestoreExpansionStateIfRequired(newItems);
 
                 this._items.Clear();
                 double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
@@ -209,8 +193,34 @@ namespace FineCodeCoverage.Output
                     newItem.AdjustWidth(firstColumnWidth);
                     this._items.Add(newItem);
                 }
-                lastReportStyle = reportViews.ReportStyle;
             });
+        }
+
+        private void RestoreExpansionStateIfRequired(IList<ReportTreeItemBase> newItems)
+        {
+
+            if (this._items.Count > 0 && reportViews.ReportStyle == lastReportStyle)
+            {
+                this.treeExpander.RestoreExpansionState(this._items, newItems);
+            }
+            lastReportStyle = reportViews.ReportStyle;
+        }
+
+        private void AddTotalRowIfRequired(List<ReportTreeItemBase> newItems)
+        {
+            this.totalTreeItem = new TotalTreeItem(newItems);
+            switch (this.reportTotalRow)
+            {
+                case ReportTotalRow.Always:
+                    newItems.Insert(0, this.totalTreeItem);
+                    break;
+                case ReportTotalRow.WhenRequired:
+                    if (newItems.Count > 1)
+                    {
+                        newItems.Insert(0, this.totalTreeItem);
+                    }
+                    break;
+            }
         }
 
         public void Handle(NewReportMessage message)
