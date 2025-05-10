@@ -14,7 +14,9 @@ namespace FineCodeCoverage.Options
         private readonly ILogger logger;
         private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
         private readonly IJsonConvertService jsonConvertService;
-        private readonly PropertyInfo[] appOptionsPropertyInfos;
+        private readonly IAppOptionsDefaults appOptionsDefaults;
+        private readonly IReflectionService reflectionService;
+        private readonly Lazy<PropertyInfo[]> lazyAppOptionsPropertyInfos;
 
         public event Action<IAppOptions> OptionsChanged;
 
@@ -22,13 +24,17 @@ namespace FineCodeCoverage.Options
         public AppOptionsProvider(
             ILogger logger,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
-            IJsonConvertService jsonConvertService
+            IJsonConvertService jsonConvertService,
+            IAppOptionsDefaults appOptionsDefaults,
+            IReflectionService reflectionService
             )
         {
             this.logger = logger;
             this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
             this.jsonConvertService = jsonConvertService;
-            appOptionsPropertyInfos =typeof(IAppOptions).GetPublicProperties();
+            this.appOptionsDefaults = appOptionsDefaults;
+            this.reflectionService = reflectionService;
+            lazyAppOptionsPropertyInfos = new Lazy<PropertyInfo[]>(() => reflectionService.GetPublicProperties(typeof(IAppOptions)));
         }
 
         public void RaiseOptionsChanged(IAppOptions appOptions)
@@ -53,55 +59,13 @@ namespace FineCodeCoverage.Options
             return settingsStore;
         }
 
-        private void AddDefaults(IAppOptions appOptions)
-        {
-            appOptions.ShowToolWindowToolbar = true;
-            appOptions.ThresholdForCrapScore = 15;
-            appOptions.ThresholdForNPathComplexity = 200;
-            appOptions.ThresholdForCyclomaticComplexity = 30;
-            appOptions.RunMsCodeCoverage = RunMsCodeCoverage.Yes;
-            appOptions.RunSettingsOnly = true;
-            appOptions.RunWhenTestsFail = true;
-            appOptions.ExcludeByAttribute = new[] { "GeneratedCode" };
-            appOptions.IncludeTestAssembly = true;
-            appOptions.ExcludeByFile = new[] { "**/Migrations/*" };
-            appOptions.Enabled = true;
-            appOptions.DisabledNoCoverage = true;
-            appOptions.ShowEditorCoverage = true;
-            appOptions.ShowCoverageInOverviewMargin = true;
-            appOptions.ShowCoveredInOverviewMargin = true;
-            appOptions.ShowPartiallyCoveredInOverviewMargin = true;
-            appOptions.ShowUncoveredInOverviewMargin = true;
-
-            appOptions.ShowCoverageInGlyphMargin = true;
-            appOptions.ShowCoveredInGlyphMargin = true;
-            appOptions.ShowPartiallyCoveredInGlyphMargin = true;
-            appOptions.ShowUncoveredInGlyphMargin = true;
-
-            appOptions.ShowLineCoveredHighlighting = true;
-            appOptions.ShowLinePartiallyCoveredHighlighting = true;
-            appOptions.ShowLineUncoveredHighlighting = true;
-
-            appOptions.UseEnterpriseFontsAndColors = true;
-
-            appOptions.Hide0Coverable = true;
-
-            appOptions.CoveragePercentageIsThemed = true;
-            appOptions.CoveragePercentageCoveredIsLeft = true;
-            appOptions.CoveragePercentageUseSolidBrush = true;
-            appOptions.CoveragePercentageShowTooltip = true;
-            appOptions.HeaderUseTabularSharedColors = true;
-            appOptions.ShowIcons = true;
-            appOptions.IconSize = 16;
-        }
-
         public void LoadSettingsFromStorage(IAppOptions instance)
         {
-            AddDefaults(instance);
+            this.appOptionsDefaults.Set(instance);
 
             var settingsStore = EnsureStore();
 
-            foreach (var property in appOptionsPropertyInfos)
+            foreach (var property in lazyAppOptionsPropertyInfos.Value)
             {
                 try
                 {
@@ -118,8 +82,7 @@ namespace FineCodeCoverage.Options
                     }
 
                     var objValue = jsonConvertService.DeserializeObject(strValue, property.PropertyType);
-
-                    property.SetValue(instance, objValue);
+                    this.reflectionService.SetPropertyValue(property, instance, objValue);
                 }
                 catch (Exception exception)
                 {
@@ -132,11 +95,11 @@ namespace FineCodeCoverage.Options
         {
             var settingsStore = EnsureStore();
 
-            foreach (var property in appOptionsPropertyInfos)
+            foreach (var property in lazyAppOptionsPropertyInfos.Value)
             {
                 try
                 {
-                    var objValue = property.GetValue(appOptions);
+                    var objValue = this.reflectionService.GetPropertyValue(property, appOptions);
                     var strValue = jsonConvertService.SerializeObject(objValue);
 
                     settingsStore.SetString(Vsix.Code, property.Name, strValue);
