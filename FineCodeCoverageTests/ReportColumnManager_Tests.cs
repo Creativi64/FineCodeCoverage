@@ -93,19 +93,11 @@ namespace FineCodeCoverageTests
                     },
                     new ReportColumnState
                     {
-                        DisplayIndex = 11,
+                        DisplayIndex = 13,
                         IsVisible = false,
                         Width = 456,
                         ColumnType = ReportColumnData.CoverableLinesColumnType
                     },
-                    new ReportColumnState
-                    {
-                        DisplayIndex = 2,
-                        IsVisible = true,
-                        Width = 333,
-                        ColumnType = ReportColumnData.BlocksCoveredColumnType
-                    },
-
                     // unknown column type
                     new ReportColumnState
                     {

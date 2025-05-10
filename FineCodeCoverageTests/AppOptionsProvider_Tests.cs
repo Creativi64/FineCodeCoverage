@@ -375,6 +375,8 @@ namespace FineCodeCoverageTests
                 {nameof(IIconOptions.IconSize), 16},
                 {nameof(IIconOptions.ThemedIconStyle), ThemedIconStyle.MonochromeText},
                 {nameof(IReportDisplayOptions.HeaderUseTabularSharedColors), false},
+                {nameof(IReportDisplayOptions.ReportTotalRow), ReportTotalRow.Never },
+                {nameof(IReportDisplayOptions.RootDirectoryNameFromPath), false }
             };
             var mockJsonConvertService = autoMocker.GetMock<IJsonConvertService>();
             mockJsonConvertService.Setup(
