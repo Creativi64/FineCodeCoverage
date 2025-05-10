@@ -154,8 +154,6 @@ namespace FineCodeCoverage.Options
         int ThresholdForCyclomaticComplexity { get; set; }
         int ThresholdForNPathComplexity { get; set; }
         int ThresholdForCrapScore { get; set; }
-        bool StickyCoverageTable { get; set; }
-        bool NamespacedClasses { get; set; }
         bool HideFullyCovered { get; set; }
         bool Hide0Coverable { get; set; }
         bool Hide0Coverage { get; set; }
@@ -163,15 +161,6 @@ namespace FineCodeCoverage.Options
         RunMsCodeCoverage RunMsCodeCoverage { get; set; }
         bool ShowToolWindowToolbar { get; set; }
 
-        NamespaceQualification NamespaceQualification { get; set; }
         bool BlazorCoverageLinesFromGeneratedSource { get; set; }
-    }
-
-    internal enum NamespaceQualification
-    {
-        FullyQualified,
-        AlwaysUnqualified,
-        UnqualifiedByNamespace,
-        QualifiedByNamespaceLevel
     }
 }

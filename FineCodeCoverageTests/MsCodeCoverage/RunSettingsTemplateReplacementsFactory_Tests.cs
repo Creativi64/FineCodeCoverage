@@ -874,10 +874,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
         public bool CoverageColoursFromFontsAndColours { get; set; }
 
-        public bool StickyCoverageTable { get; set; }
-
-        public bool NamespacedClasses { get; set; }
-
         public bool HideFullyCovered { get; set; }
 
         public bool AdjacentBuildOutput { get; set; }
@@ -915,7 +911,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public string[] ExcludeAssemblies { get; set; }
         public string[] IncludeAssemblies { get; set; }
         public bool DisabledNoCoverage { get; set; }
-        public NamespaceQualification NamespaceQualification { get; set; }
         public OpenCoverRegister OpenCoverRegister { get; set; }
         public string OpenCoverTarget { get; set; }
         public string OpenCoverTargetArgs { get; set; }

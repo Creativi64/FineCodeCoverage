@@ -405,21 +405,6 @@ namespace FineCodeCoverage.Options
         public int ThresholdForCyclomaticComplexity { get; set; }
 
         [Category(commonReportCategory)]
-        [Description("Set to true for coverage table to have a sticky thead.")]
-        //[DisplayName("Sticky Coverage Table")]
-        public bool StickyCoverageTable { get; set; }
-
-        [Category(commonReportCategory)]
-        [Description("Set to false to show types in report in short form.")]
-        //[DisplayName("Namespaced Classes")]
-        public bool NamespacedClasses { get; set; }
-
-        [Category(commonReportCategory)]
-        [Description("Control qualification of types when NamespacedClasses is true.")]
-        //[DisplayName("Namespace Qualification")]
-        public NamespaceQualification NamespaceQualification { get; set; }
-
-        [Category(commonReportCategory)]
         [Description("Set to true to hide classes, namespaces and assemblies that are fully covered.")]
         //[DisplayName("Hide Fully Covered")]
         public bool HideFullyCovered { get; set; }

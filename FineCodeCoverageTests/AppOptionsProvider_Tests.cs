@@ -86,12 +86,6 @@ namespace FineCodeCoverageTests
             mockWritableSettingsStore.VerifyAll();
         }
 
-        [Test]
-        public void Should_Default_NamespacedClasses_True()
-        {
-            DefaultTest(appOptions => appOptions.NamespacedClasses = true);
-        }
-
         private void DefaultTest(Action<IAppOptions> verifyOptions)
         {
             mockWritableSettingsStore.Setup(
@@ -204,7 +198,6 @@ namespace FineCodeCoverageTests
                 nameof(IAppOptions.ThresholdForNPathComplexity),
                 nameof(IAppOptions.ThresholdForCyclomaticComplexity),
                 nameof(IAppOptions.RunMsCodeCoverage),
-                nameof(IAppOptions.NamespacedClasses),
                 nameof(IAppOptions.ShowCoverageInOverviewMargin),
                 nameof(IAppOptions.ShowCoveredInOverviewMargin),
                 nameof(IAppOptions.ShowUncoveredInOverviewMargin),
@@ -315,7 +308,6 @@ namespace FineCodeCoverageTests
                 { nameof(IAppOptions.IncludeTestAssembly),true},
                 { nameof(IAppOptions.ModulePathsExclude),new string[]{ "ModulePathsExclude" }},
                 { nameof(IAppOptions.ModulePathsInclude),new string[]{ "ModulePathsInclude" }},
-                { nameof(IAppOptions.NamespacedClasses),true},
                 { nameof(IAppOptions.OpenCoverCustomPath),"OpenCoverCustomPath"},
                 { nameof(IAppOptions.PublicKeyTokensExclude),new string[]{ "PublicKeyTokensExclude" }},
                 { nameof(IAppOptions.PublicKeyTokensInclude),new string[]{ "PublicKeyTokensInclude" }},
@@ -325,7 +317,6 @@ namespace FineCodeCoverageTests
                 { nameof(IAppOptions.RunWhenTestsFail),true},
                 { nameof(IAppOptions.SourcesExclude),new string[]{ "SourcesExclude" }},
                 { nameof(IAppOptions.SourcesInclude),new string[]{ "SourcesInclude" }},
-                { nameof(IAppOptions.StickyCoverageTable),true},
                 { nameof(IAppOptions.ThresholdForCrapScore),1},
                 { nameof(IAppOptions.ThresholdForCyclomaticComplexity),1},
                 { nameof(IAppOptions.ThresholdForNPathComplexity),1},
@@ -341,7 +332,6 @@ namespace FineCodeCoverageTests
                 { nameof(IAppOptions.ShowToolWindowToolbar),true},
                 {nameof(IAppOptions.ExcludeAssemblies),new string[]{ "Exclude"} },
                 {nameof(IAppOptions.IncludeAssemblies),new string[]{ "Include"} },
-                {nameof(IAppOptions.NamespaceQualification),NamespaceQualification.AlwaysUnqualified },
                 {nameof(IAppOptions.OpenCoverRegister),OpenCoverRegister.Default },
                 {nameof(IAppOptions.OpenCoverTarget),"" },
                 {nameof(IAppOptions.OpenCoverTargetArgs),"" },

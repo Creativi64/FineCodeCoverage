@@ -56,7 +56,6 @@ namespace FineCodeCoverage.Options
         private void AddDefaults(IAppOptions appOptions)
         {
             appOptions.ShowToolWindowToolbar = true;
-            appOptions.NamespacedClasses = true;
             appOptions.ThresholdForCrapScore = 15;
             appOptions.ThresholdForNPathComplexity = 200;
             appOptions.ThresholdForCyclomaticComplexity = 30;
@@ -202,10 +201,6 @@ namespace FineCodeCoverage.Options
         public bool ShowNewInOverviewMargin { get; set; }
         public bool ShowNotIncludedInOverviewMargin { get; set; }
 
-        public bool StickyCoverageTable { get; set; }
-
-        public bool NamespacedClasses { get; set; }
-
         public bool HideFullyCovered { get; set; }
 
         public bool Hide0Coverable { get; set; }
@@ -236,7 +231,6 @@ namespace FineCodeCoverage.Options
         public bool ShowToolWindowToolbar { get; set; }
         public string[] ExcludeAssemblies { get; set; }
         public string[] IncludeAssemblies { get; set; }
-        public NamespaceQualification NamespaceQualification { get; set; }
         public OpenCoverRegister OpenCoverRegister { get; set; }
         public string OpenCoverTarget { get; set; }
         public string OpenCoverTargetArgs { get; set; }
