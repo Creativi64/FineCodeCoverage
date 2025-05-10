@@ -68,18 +68,7 @@ namespace FineCodeCoverage.Output
             get => this.crapScore;
             set => this.Set(ref this.crapScore, value);
         }
-        private int blocksCovered;
-        public int BlocksCovered
-        {
-            get => this.blocksCovered;
-            set => this.Set(ref this.blocksCovered, value);
-        }
-        private int blocksNotCovered;
-        public int BlocksNotCovered
-        {
-            get => this.blocksNotCovered;
-            set => this.Set(ref this.blocksNotCovered, value);
-        }
+
         private int totalBranches;
         public int TotalBranches
         {

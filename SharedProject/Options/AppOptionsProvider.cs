@@ -267,5 +267,6 @@ namespace FineCodeCoverage.Options
         public ThemedIconStyle ThemedIconStyle { get; set; }
         public ReportTotalRow ReportTotalRow { get; set; }
         public bool RootDirectoryNameFromPath { get; set; }
+        public SourceFileStructure SourceFileStructure { get; set; }
     }
 }

@@ -29,8 +29,6 @@ namespace FineCodeCoverage.Output
                 this.NPathComplexity += codeElement.NPathComplexity;
                 this.CyclomaticComplexity += codeElement.CyclomaticComplexity;
                 this.CrapScore += codeElement.CrapScore;
-                this.BlocksCovered += codeElement.BlocksCovered;
-                this.BlocksNotCovered += codeElement.BlocksNotCovered;
                 this.TotalBranches += codeElement.TotalBranches;
                 this.CoveredBranches += codeElement.CoveredBranches;
             }

@@ -38,8 +38,6 @@ namespace FineCodeCoverage.Output
                 this.CrapScore += namespaceTreeItem.CrapScore;
                 this.CyclomaticComplexity += namespaceTreeItem.CyclomaticComplexity;
 
-                this.BlocksCovered += namespaceTreeItem.BlocksCovered;
-                this.BlocksNotCovered += namespaceTreeItem.BlocksNotCovered;
                 this.TotalBranches += namespaceTreeItem.TotalBranches;
                 this.CoveredBranches += namespaceTreeItem.CoveredBranches;
 

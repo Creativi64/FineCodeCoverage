@@ -34,6 +34,7 @@ namespace FineCodeCoverage.Output
         private readonly IIconsOptions iconsOptions;
         private ReportStyle? lastReportStyle = null;
         private TotalTreeItem totalTreeItem;
+        private SourceFileStructure sourceFileStructure;
 
         [ImportingConstructor]
         public ReportViewModel(
@@ -47,6 +48,7 @@ namespace FineCodeCoverage.Output
         )
         {
             var appOptions = appOptionsProvider.Get();
+            this.sourceFileStructure = appOptions.SourceFileStructure;
             this.reportTotalRow = appOptions.ReportTotalRow;
             this.rootDirectoryNameFromPath = appOptions.RootDirectoryNameFromPath;
             appOptionsProvider.OptionsChanged += (newOptions) =>
@@ -58,6 +60,10 @@ namespace FineCodeCoverage.Output
                 if(newOptions.RootDirectoryNameFromPath != this.rootDirectoryNameFromPath)
                 {
                     UpdateRootDirectoryTreeItemNames(newOptions.RootDirectoryNameFromPath);
+                }
+                if(newOptions.SourceFileStructure != this.sourceFileStructure)
+                {
+                    UpdateSourceViewStructure(newOptions.SourceFileStructure);
                 }
             };
             this.TreeViewAutomationName = "Coverage Report Tree";
@@ -74,6 +80,14 @@ namespace FineCodeCoverage.Output
             iconsOptions.IconSizeChanged += AdjustIcons;
         }
 
+        private void UpdateSourceViewStructure(SourceFileStructure newSourceFileStructure)
+        {
+            this.sourceFileStructure = newSourceFileStructure;
+            if(lastReportStyle == ReportStyle.Source)
+            {
+                GenerateReport(null);
+            }
+        }
         private void UpdateRootDirectoryTreeItemNames(bool rootDirectoryNameFromPath)
         {
             this.rootDirectoryNameFromPath = rootDirectoryNameFromPath;
@@ -204,7 +218,7 @@ namespace FineCodeCoverage.Output
             {
                 if (rootDirectory.SourceFiles.Any())
                 {
-                    var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory,rootDirectory.Name, this.rootDirectoryNameFromPath);
+                    var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory,rootDirectory.Name, this.rootDirectoryNameFromPath,this.sourceFileStructure);
                     return new List<ReportTreeItemBase>
                     {
                         directoryTreeItem
@@ -212,7 +226,7 @@ namespace FineCodeCoverage.Output
                 }
 
                 return rootDirectory.SubDirectories.Select(d => (ReportTreeItemBase) new RootDirectoryTreeItem(
-                    d,Path.Combine(rootDirectory.Name,d.Name),this.rootDirectoryNameFromPath)
+                    d,Path.Combine(rootDirectory.Name,d.Name),this.rootDirectoryNameFromPath, this.sourceFileStructure)
                 ).ToList();
             }
             return new List<ReportTreeItemBase>();

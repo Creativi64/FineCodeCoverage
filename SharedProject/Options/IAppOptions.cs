@@ -125,11 +125,20 @@ namespace FineCodeCoverage.Options
         Never
     }
 
+    internal enum SourceFileStructure
+    {
+        Method,
+        Class,
+        NamespaceAndClass,
+        AsRequired
+    }
+
     internal interface IReportDisplayOptions : ICoveragePercentageBarOptions, IIconOptions {
         // https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/shared-colors-for-visual-studio?view=vs-2022#tabular-data-grid-controls
         bool HeaderUseTabularSharedColors { get; set; }
         ReportTotalRow ReportTotalRow { get; set; }
         bool RootDirectoryNameFromPath { get; set; }
+        SourceFileStructure SourceFileStructure { get; set; }
     }
 
     internal interface IAppOptions :

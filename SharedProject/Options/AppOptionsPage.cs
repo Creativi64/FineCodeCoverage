@@ -532,6 +532,10 @@ namespace FineCodeCoverage.Options
         [Category(reportDisplayCategory)]
         [Description("Use the full path for the name or just the directory name.")]
         public bool RootDirectoryNameFromPath { get; set; }
+
+        [Category(reportDisplayCategory)]
+        [Description("Controls the tree item nesting of a file when source view.")]
+        public SourceFileStructure SourceFileStructure { get; set; }
         #endregion
 
         public override void SaveSettingsToStorage()

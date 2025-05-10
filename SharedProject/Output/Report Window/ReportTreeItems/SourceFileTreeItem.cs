@@ -4,46 +4,71 @@ using Microsoft.VisualStudio.Imaging;
 using System.IO;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Telemetry;
+using FineCodeCoverage.Options;
+using System.Collections.Generic;
 
 namespace FineCodeCoverage.Output
 {
     internal class SourceFileTreeItem : ReportTreeItemBase
     {
         private readonly ISourceFile sourceFile;
-        public SourceFileTreeItem(ISourceFile sourceFile)
+        public SourceFileTreeItem(ISourceFile sourceFile, SourceFileStructure sourceFileStructure)
         {
             this.sourceFile = sourceFile;
             this.Name = Path.GetFileName(sourceFile.Path);
             sourceFile.HasNewCodeChanged += (_, __) => {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () =>
-                    {
-                        HasNewCode = sourceFile.HasNewCode;
-                    }, "sourceFile.HasNewCodeChanged");
+                    () => HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
             };
             sourceFile.PathChanged += (_, __) => {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => {
-                        this.Name = Path.GetFileName(sourceFile.Path); 
-                    }, "sourceFile.PathChanged");
+                    () => this.Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
             };
 
             this.ImageMoniker = KnownMonikers.TextFile;
-            sourceFile.Classes.ToList().ForEach(clss => this.observableChildren.Add(new ClassTreeItem(clss) { Parent = this }));
-
-            this.CoverableLines = this.observableChildren.Sum(c => c.CoverableLines);
-            this.CoveredLines = this.observableChildren.Sum(c => c.CoveredLines);
-            this.NotCoveredLines = this.observableChildren.Sum(c => c.NotCoveredLines);
-            this.PartialLines = this.observableChildren.Sum(c => c.PartialLines);
-            this.NPathComplexity = this.observableChildren.Sum(c => c.NPathComplexity);
-            this.CrapScore = this.observableChildren.Sum(c => c.CrapScore);
-            this.CyclomaticComplexity = this.observableChildren.Sum(c => c.CyclomaticComplexity);
-            this.BlocksCovered = this.observableChildren.Sum(c => c.BlocksCovered);
-            this.BlocksNotCovered = this.observableChildren.Sum(c => c.BlocksNotCovered);
-            this.TotalBranches = this.observableChildren.Sum(c => c.TotalBranches);
-            this.CoveredBranches = this.observableChildren.Sum(c => c.CoveredBranches);
+            if(sourceFileStructure == SourceFileStructure.AsRequired )
+            {
+                sourceFileStructure = sourceFile.Classes.Count > 1 ?
+                    sourceFile.Classes.Select(c => c.DisplayName).Distinct().Count() > 1 ?
+                    SourceFileStructure.NamespaceAndClass:
+                    SourceFileStructure.Class : SourceFileStructure.Method;
+            }
+            IEnumerable<ReportTreeItemBase> children = null;
+            switch (sourceFileStructure)
+            {
+                case SourceFileStructure.Class:
+                    children = sourceFile.Classes.Select(clss => new ClassTreeItem(clss));
+                    break;
+                case SourceFileStructure.Method:
+                    children = sourceFile.Classes.SelectMany(c => c.CodeElements.Select(codeElement => new CodeElementTreeItem(codeElement)));
+                    break;
+                case SourceFileStructure.NamespaceAndClass:
+                    children = sourceFile.Classes.GroupBy(clss =>
+                    {
+                        string[] classNameParts = clss.DisplayName.Split('.');
+                        return string.Join(".", classNameParts, 0, classNameParts.Length - 1);
+                    }).Select(namespaceGroup => new NamespaceTreeItem(
+                        namespaceGroup.Key,
+                        namespaceGroup.Select(clss => new ClassTreeItem(clss))
+                    ));
+                    break;
+            }
+            foreach(var child in children)
+            {
+                child.Parent = this;
+                this.observableChildren.Add(child);
+                this.CoverableLines += child.CoverableLines;
+                this.CoveredLines += child.CoveredLines;
+                this.NotCoveredLines += child.NotCoveredLines;
+                this.PartialLines += child.PartialLines;
+                this.NPathComplexity += child.NPathComplexity;
+                this.CrapScore += child.CrapScore;
+                this.CyclomaticComplexity += child.CyclomaticComplexity;
+                this.TotalBranches += child.TotalBranches;
+                this.CoveredBranches += child.CoveredBranches;
+            }
         }
 
         private bool hasNewCode;
