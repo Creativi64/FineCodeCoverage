@@ -905,7 +905,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public bool ShowPartiallyCoveredInOverviewMargin { get; set; }
         public bool ShowDirtyInOverviewMargin { get; set; }
         public bool ShowNewInOverviewMargin { get; set; }
-        public bool ShowToolWindowToolbar { get; set; }
         public bool Hide0Coverable { get; set; }
         public bool Hide0Coverage { get; set; }
         public string[] ExcludeAssemblies { get; set; }

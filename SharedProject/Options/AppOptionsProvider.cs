@@ -191,7 +191,6 @@ namespace FineCodeCoverage.Options
         public bool IncludeTestAssembly { get; set; }
 
         public bool IncludeReferencedProjects { get; set; }
-        public bool ShowToolWindowToolbar { get; set; }
         public string[] ExcludeAssemblies { get; set; }
         public string[] IncludeAssemblies { get; set; }
         public OpenCoverRegister OpenCoverRegister { get; set; }

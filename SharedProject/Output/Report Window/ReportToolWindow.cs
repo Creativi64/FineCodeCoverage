@@ -39,10 +39,7 @@ namespace FineCodeCoverage.Output
 
 		private void Initialize(ReportToolWindowContext context)
         {
-			if (context.ShowToolWindowToolbar())
-			{
-				this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
-			}
+			this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
 
             Caption = Vsix.Name;
             this.BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };

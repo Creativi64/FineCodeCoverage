@@ -39,7 +39,6 @@ namespace FineCodeCoverage.Options
         private const string commonReportCategory = "Report ( Common )";
         private const string openCoverReportCategory = "Report ( OpenCover )";
         private const string reportDisplayCategory = "Report Display";
-        private const string toolbarCategory = "Toolbar";
         private const string editorColouringControlCategory = "Editor Colouring Control";
         private const string overviewMarginCategory = "Editor Colouring Overview Margin";
         private const string glyphMarginCategory = "Editor Colouring Glyph Margin";
@@ -390,13 +389,6 @@ namespace FineCodeCoverage.Options
         public bool ShowLineNotIncludedHighlighting { get; set; }
 
         #endregion
-
-
-        [Category(toolbarCategory)]
-        [Description("Set to false to hide the toolbar on the report tool window")]
-        //[DisplayName("Show Tool Window Toolbar")]
-        public bool ShowToolWindowToolbar { get; set; }
-
 
         #region common report category
         [Category(commonReportCategory)]

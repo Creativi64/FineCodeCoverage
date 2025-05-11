@@ -8,7 +8,6 @@ namespace FineCodeCoverage.Options
     {
         public void Set(IAppOptions appOptions)
         {
-            appOptions.ShowToolWindowToolbar = true;
             appOptions.ThresholdForCrapScore = 15;
             appOptions.ThresholdForNPathComplexity = 200;
             appOptions.ThresholdForCyclomaticComplexity = 30;

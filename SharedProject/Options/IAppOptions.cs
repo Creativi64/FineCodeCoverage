@@ -168,8 +168,6 @@ namespace FineCodeCoverage.Options
         bool Hide0Coverage { get; set; }
         bool AdjacentBuildOutput { get; set; }
         RunMsCodeCoverage RunMsCodeCoverage { get; set; }
-        bool ShowToolWindowToolbar { get; set; }
-
         bool BlazorCoverageLinesFromGeneratedSource { get; set; }
     }
 }
