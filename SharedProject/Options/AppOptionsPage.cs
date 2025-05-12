@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel;
 using Microsoft.VisualStudio.Shell;
-using Microsoft;
-using Microsoft.VisualStudio.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.ComponentModelHost;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Core.Utilities;
+using System;
 
 namespace FineCodeCoverage.Options
 {
@@ -44,15 +42,7 @@ namespace FineCodeCoverage.Options
         private const string glyphMarginCategory = "Editor Colouring Glyph Margin";
         private const string lineHighlightingCategory = "Editor Colouring Line Highlighting";
 
-        private static readonly AsyncLazy<IAppOptionsStorageProvider> lazyAppOptionsStorageProvider = new AsyncLazy<IAppOptionsStorageProvider>(GetAppOptionsStorageProviderAsync, ThreadHelper.JoinableTaskFactory);
-
-        private async static Task<IAppOptionsStorageProvider> GetAppOptionsStorageProviderAsync()
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var componentModel = ServiceProvider.GlobalProvider.GetService(typeof(SComponentModel)) as IComponentModel;
-            Assumes.Present(componentModel);
-            return componentModel.GetService<IAppOptionsStorageProvider>();
-        }
+        private static readonly Lazy<IAppOptionsStorageProvider> lazyAppOptionsStorageProvider = new Lazy<IAppOptionsStorageProvider>(() => MefServiceProvider.Get<IAppOptionsStorageProvider>());
 
         #region run
         #region common run category
@@ -532,12 +522,12 @@ namespace FineCodeCoverage.Options
 
         public override void SaveSettingsToStorage()
         {
-            lazyAppOptionsStorageProvider.GetValue().SaveSettingsToStorage(this);
+            lazyAppOptionsStorageProvider.Value.SaveSettingsToStorage(this);
         }
 
         public override void LoadSettingsFromStorage()
         {
-            lazyAppOptionsStorageProvider.GetValue().LoadSettingsFromStorage(this);
+            lazyAppOptionsStorageProvider.Value.LoadSettingsFromStorage(this);
         }
 
     }

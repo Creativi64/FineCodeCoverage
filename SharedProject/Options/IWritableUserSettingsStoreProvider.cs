@@ -5,7 +5,6 @@ namespace FineCodeCoverage.Options
 {
     internal interface IWritableUserSettingsStoreProvider
     {
-        //WritableSettingsStore Provide();
         AsyncLazy<WritableSettingsStore> LazySettingsStore { get; }
     }
 }
