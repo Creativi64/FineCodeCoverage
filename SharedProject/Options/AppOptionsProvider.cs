@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Options
 {
     [Export(typeof(IAppOptionsProvider))]
     [Export(typeof(IAppOptionsStorageProvider))]
-    internal class AppOptionsProvider : IAppOptionsProvider, IAppOptionsStorageProvider
+    internal class AppOptionsProviderX : IAppOptionsProvider, IAppOptionsStorageProvider
     {
         private readonly ILogger logger;
         private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Options
         public event Action<IAppOptions> OptionsChanged;
 
         [ImportingConstructor]
-        public AppOptionsProvider(
+        public AppOptionsProviderX(
             ILogger logger,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
             IJsonConvertService jsonConvertService,
@@ -112,6 +112,65 @@ namespace FineCodeCoverage.Options
             RaiseOptionsChanged(appOptions);
         }
     }
+
+    [Export(typeof(IAppOptionsProvider))]
+    [Export(typeof(IAppOptionsStorageProvider))]
+    [Export(typeof(IOptionsProvider))]
+    internal class AppOptionsProvider : OptionsProviderBase<IAppOptions, AppOptions>, IAppOptionsProvider, IAppOptionsStorageProvider
+    {
+        [ImportingConstructor]
+        public AppOptionsProvider(
+            ILogger logger,
+            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
+            IJsonConvertService jsonConvertService,
+            ITypeDescriptorService typeDescriptorService
+        ) :base(logger,writableUserSettingsStoreProvider, jsonConvertService, typeDescriptorService)
+        {
+
+        }
+        protected override IAppOptions DefaultOptions { get; } = new AppOptions
+        {
+            // these will be able to go directly on AppOptions
+            ThresholdForCrapScore = 15,
+            ThresholdForNPathComplexity = 200,
+            ThresholdForCyclomaticComplexity = 30,
+            RunMsCodeCoverage = RunMsCodeCoverage.Yes,
+            RunSettingsOnly = true,
+            RunWhenTestsFail = true,
+            ExcludeByAttribute = new[] { "GeneratedCode" },
+            IncludeTestAssembly = true,
+            ExcludeByFile = new[] { "**/Migrations/*" },
+            Enabled = true,
+            DisabledNoCoverage = true,
+            ShowEditorCoverage = true,
+            ShowCoverageInOverviewMargin = true,
+            ShowCoveredInOverviewMargin = true,
+            ShowPartiallyCoveredInOverviewMargin = true,
+            ShowUncoveredInOverviewMargin = true,
+
+            ShowCoverageInGlyphMargin = true,
+            ShowCoveredInGlyphMargin = true,
+            ShowPartiallyCoveredInGlyphMargin = true,
+            ShowUncoveredInGlyphMargin = true,
+
+            ShowLineCoveredHighlighting = true,
+            ShowLinePartiallyCoveredHighlighting = true,
+            ShowLineUncoveredHighlighting = true,
+
+            UseEnterpriseFontsAndColors = true,
+
+            Hide0Coverable = true,
+
+            CoveragePercentageIsThemed = true,
+            CoveragePercentageCoveredIsLeft = true,
+            CoveragePercentageUseSolidBrush = true,
+            CoveragePercentageShowTooltip = true,
+            HeaderUseTabularSharedColors = true,
+            ShowIcons = true,
+            IconSize = 16,
+        };
+    }
+
 
     internal class AppOptions : IAppOptions
     {

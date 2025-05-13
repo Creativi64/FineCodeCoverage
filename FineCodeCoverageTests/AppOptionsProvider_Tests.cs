@@ -40,14 +40,14 @@ namespace FineCodeCoverageTests
     public class AppOptionsProvider_Tests
     {
         private AutoMoqer autoMocker;
-        private AppOptionsProvider appOptionsProvider;
+        private AppOptionsProviderX appOptionsProvider;
         private Mock<WritableSettingsStore> mockWritableSettingsStore;
 
         [SetUp]
         public void Setup()
         {
             autoMocker = new AutoMoqer();
-            appOptionsProvider = autoMocker.Create<AppOptionsProvider>();
+            appOptionsProvider = autoMocker.Create<AppOptionsProviderX>();
             mockWritableSettingsStore = new Mock<WritableSettingsStore>();
             var lazyMockWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object),null);
             var mockWritableUserSettingsStoreProvider = autoMocker.GetMock<IWritableUserSettingsStoreProvider>();

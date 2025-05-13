@@ -201,6 +201,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\WeakCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\BrushToSolidColorBrushConverter.cs" />
