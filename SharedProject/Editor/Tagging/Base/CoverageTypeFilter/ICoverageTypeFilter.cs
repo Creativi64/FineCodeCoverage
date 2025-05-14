@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 {
     internal interface ICoverageTypeFilter
     {
-        void Initialize(IAppOptions appOptions);
+        void Initialize(AppOptions appOptions);
         bool Disabled { get; }
         bool Show(DynamicCoverageType coverageType);
         string TypeIdentifier { get; }

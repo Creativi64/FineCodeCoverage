@@ -3,10 +3,10 @@
 namespace FineCodeCoverage.Options
 {
 
-    [Export(typeof(IAppOptionsDefaults))]
-    internal class AppOptionsDefaults : IAppOptionsDefaults
+    [Export(typeof(IDefaultOptionsSetter<AppOptions>))]
+    internal class AppOptionsDefaults : IDefaultOptionsSetter<AppOptions>
     {
-        public void Set(IAppOptions appOptions)
+        public void Set(AppOptions appOptions)
         {
             appOptions.ThresholdForCrapScore = 15;
             appOptions.ThresholdForNPathComplexity = 200;

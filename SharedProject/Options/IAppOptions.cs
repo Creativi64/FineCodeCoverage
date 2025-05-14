@@ -170,4 +170,28 @@ namespace FineCodeCoverage.Options
         RunMsCodeCoverage RunMsCodeCoverage { get; set; }
         bool BlazorCoverageLinesFromGeneratedSource { get; set; }
     }
+
+    internal interface ICoverageSettings
+    {
+        bool IncludeReferencedProjects { get; }
+        string CoverletConsoleCustomPath { get; }
+        bool CoverletConsoleGlobal { get; }
+        bool CoverletConsoleLocal { get; }
+        string[] Exclude { get; }
+        string[] Include { get; }
+        bool IncludeTestAssembly { get; set; }
+        string[] ExcludeByFile { get; set; }
+        string[] ExcludeByAttribute { get; }
+        bool RunSettingsOnly { get; }
+        string CoverletCollectorDirectoryPath { get; }
+        bool Enabled { get; }
+        string OpenCoverTarget { get; }
+        string OpenCoverTargetArgs { get; }
+        OpenCoverRegister OpenCoverRegister { get; }
+        string[] ModulePathsInclude { get; }
+        string OpenCoverCustomPath { get; }
+        string[] ModulePathsExclude { get; }
+        string[] ExcludeAssemblies { get; }
+        string[] IncludeAssemblies { get; }
+    }
 }

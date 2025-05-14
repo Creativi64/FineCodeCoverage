@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.appOptionsProvider.OptionsChanged += TakeFCCOptions;
         }
 
-        private void TakeFCCOptions(IAppOptions appOptions)
+        private void TakeFCCOptions(AppOptions appOptions)
         {
             this.fccRunWhenTestsExceed = appOptions.RunWhenTestsExceed;
             this.fccRunWhenTestsFail = appOptions.RunWhenTestsFail;

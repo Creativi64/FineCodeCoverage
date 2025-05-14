@@ -69,7 +69,6 @@
     <Compile Include="CoverageToolOutput_Tests\CoverageToolOutput_Exports_Tests.cs" />
     <Compile Include="CoverageToolOutput_Tests\FccOutputExistenceCoverageToolOutputFolderSolutionProvider_Tests.cs" />
     <Compile Include="CoverageToolOutput_Tests\SolutionFolderProvider_Tests.cs" />
-    <Compile Include="AppOptionsProvider_Tests.cs" />
     <Compile Include="CoverageUtilManager_Tests.cs" />
     <Compile Include="CoverageProject_Tests.cs" />
     <Compile Include="Editor\DynamicCoverage\BlazorCoverageContentType_Tests.cs" />
@@ -145,6 +144,7 @@
     <Compile Include="Editor\DynamicCoverage\TrackingSpanRange_Tests.cs" />
     <Compile Include="FileLineCoverage_Tests.cs" />
     <Compile Include="FirstTimeToolWindowOpener_Tests.cs" />
+    <Compile Include="Options_Tests.cs" />
     <Compile Include="PalmediaReportResult_Tests.cs" />
     <Compile Include="TreeExpander_Tests.cs" />
     <Compile Include="ReportViewSelectorViewModel_Tests.cs" />

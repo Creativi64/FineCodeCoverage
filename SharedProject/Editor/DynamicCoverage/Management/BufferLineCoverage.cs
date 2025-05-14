@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.appOptionsProvider = appOptionsProvider;
             this.coverageContentTypes = coverageContentTypes;
             this.logger = logger;
-            void AppOptionsChanged(IAppOptions appOptions)
+            void AppOptionsChanged(AppOptions appOptions)
             {
                 bool newEditorCoverageModeOff = appOptions.EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
                 this.editorCoverageModeOff = newEditorCoverageModeOff;

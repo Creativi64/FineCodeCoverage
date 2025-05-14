@@ -13,12 +13,12 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
     {
         public override string TypeIdentifier => "";
 
-        protected override bool Enabled(IAppOptions appOptions)
+        protected override bool Enabled(AppOptions appOptions)
         {
             return true;
         }
         public Func<Dictionary<DynamicCoverageType, bool>> ShowLookup;
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(IAppOptions appOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions)
         {
             return ShowLookup?.Invoke();
         }
@@ -30,10 +30,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
         public void Should_Throw_If_ShowLookup_Null()
         {
             var coverageTypeFilterExceptions = new CoverageTypeFilterExceptions();
-            var appOptions = new Mock<IAppOptions>().SetupAllProperties().Object;
-            appOptions.ShowEditorCoverage = true;
 
-            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(appOptions));
+            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(new AppOptions { ShowEditorCoverage = true}));
 
         }
 
@@ -46,10 +44,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 { DynamicCoverageType.Covered, true },
                 { DynamicCoverageType.NotCovered, true }
             };
-            var appOptions = new Mock<IAppOptions>().SetupAllProperties().Object;
-            appOptions.ShowEditorCoverage = true;
 
-            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(appOptions));
+            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(new AppOptions { ShowEditorCoverage = true}));
 
         }
 

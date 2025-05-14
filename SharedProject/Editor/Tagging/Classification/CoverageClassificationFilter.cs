@@ -9,9 +9,9 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
     {
         public override string TypeIdentifier => "Classification";
 
-        protected override bool Enabled(IAppOptions appOptions) => appOptions.ShowLineCoverageHighlighting;
+        protected override bool Enabled(AppOptions appOptions) => appOptions.ShowLineCoverageHighlighting;
 
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(IAppOptions appOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions)
             => new Dictionary<DynamicCoverageType, bool>()
             {
                 { DynamicCoverageType.Covered, appOptions.ShowLineCoveredHighlighting },

@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Editor.Management
             this.appOptionsProvider = appOptionsProvider;
         }
 
-        private void AppOptionsProvider_OptionsChanged(IAppOptions appOptions)
+        private void AppOptionsProvider_OptionsChanged(AppOptions appOptions)
         {
             if (this.initialized)
             {
@@ -37,7 +37,7 @@ namespace FineCodeCoverage.Editor.Management
             }
         }
 
-        private void ReactToAppOptionsChanging(IAppOptions appOptions)
+        private void ReactToAppOptionsChanging(AppOptions appOptions)
         {
             bool preUsingEnterprise = this.usingEnterprise;
             this.Set(() => appOptions.UseEnterpriseFontsAndColors);

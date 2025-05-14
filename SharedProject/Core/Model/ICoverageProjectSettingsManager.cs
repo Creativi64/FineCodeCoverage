@@ -5,6 +5,6 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal interface ICoverageProjectSettingsManager
     {
-        Task<IAppOptions> GetSettingsAsync(ICoverageProject coverageProject);
+        Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject);
     }
 }

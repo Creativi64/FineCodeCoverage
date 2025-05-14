@@ -93,35 +93,47 @@ namespace FineCodeCoverage.Engine.Model
 
         }
 
-        public async Task<IAppOptions> MergeAsync(
-            IAppOptions globalOptions,
+        private AppOptions Clone(AppOptions appOptions)
+        {
+            var clone = new AppOptions();
+            foreach(var settingsPropertyInfo in settingsPropertyInfos)
+            {
+                settingsPropertyInfo.SetValue(clone, settingsPropertyInfo.GetValue(appOptions));
+            }
+            return clone;
+        }
+
+        public async Task<AppOptions> MergeAsync(
+            AppOptions globalOptions,
             List<XElement> settingsFileElements,
             XElement projectSettingsElement)
         {
-            var settingsElementsWithDefaultMergeStrategy =
-                settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge {
-                    SettingsElement = e,
-                    DefaultMerge = settingsFileDefaultMerge,
-                    FromProjectSettings = false
-                });
+            throw new NotImplementedException();
+            //globalOptions = Clone(globalOptions);
+            //var settingsElementsWithDefaultMergeStrategy =
+            //    settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge {
+            //        SettingsElement = e,
+            //        DefaultMerge = settingsFileDefaultMerge,
+            //        FromProjectSettings = false
+            //    });
 
-            if (projectSettingsElement != null)
-            {
-                settingsElementsWithDefaultMergeStrategy.Add(
-                    new SettingsElementDefaultMerge {
-                        SettingsElement = projectSettingsElement,
-                        DefaultMerge = projectSettingsDefaultMerge,
-                        FromProjectSettings = true
-                    }
-                );
-            }
+            //if (projectSettingsElement != null)
+            //{
+            //    settingsElementsWithDefaultMergeStrategy.Add(
+            //        new SettingsElementDefaultMerge {
+            //            SettingsElement = projectSettingsElement,
+            //            DefaultMerge = projectSettingsDefaultMerge,
+            //            FromProjectSettings = true
+            //        }
+            //    );
+            //}
 
-            if (settingsElementsWithDefaultMergeStrategy.Count != 0)
-            {
-                await MergeAsync(globalOptions, settingsElementsWithDefaultMergeStrategy);
-            }
+            //if (settingsElementsWithDefaultMergeStrategy.Count != 0)
+            //{
+            //    await MergeAsync(globalOptions, settingsElementsWithDefaultMergeStrategy);
+            //}
 
-            return globalOptions;
+            //return globalOptions;
         }
 
         private async Task MergeAsync(

@@ -40,24 +40,24 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             this.fileExcluders = fileExcluders;
             this.fileIndicatorVisibility = fileIndicatorVisibility;
             this.dynamicLineFilter = dynamicLineFilter;
-            IAppOptions appOptions = appOptionsProvider.Get();
-            this.coverageTypeFilter = this.CreateFilter(appOptions);
+            AppOptions appOptions = appOptionsProvider.Get();
+            this.coverageTypeFilter = CreateFilter(appOptions);
             appOptionsProvider.OptionsChanged += this.AppOptionsProvider_OptionsChanged;
             this.eventAggregator = eventAggregator;
             this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.coverageTagger = coverageTagger;
         }
 
-        private TCoverageTypeFilter CreateFilter(IAppOptions appOptions)
+        private static TCoverageTypeFilter CreateFilter(AppOptions appOptions)
         {
             var newCoverageTypeFilter = new TCoverageTypeFilter();
             newCoverageTypeFilter.Initialize(appOptions);
             return newCoverageTypeFilter;
         }
 
-        private void AppOptionsProvider_OptionsChanged(IAppOptions appOptions)
+        private void AppOptionsProvider_OptionsChanged(AppOptions appOptions)
         {
-            TCoverageTypeFilter newCoverageTypeFilter = this.CreateFilter(appOptions);
+            TCoverageTypeFilter newCoverageTypeFilter = CreateFilter(appOptions);
             if (newCoverageTypeFilter.Changed(this.coverageTypeFilter))
             {
                 this.coverageTypeFilter = newCoverageTypeFilter;

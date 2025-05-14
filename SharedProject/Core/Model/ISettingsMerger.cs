@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal interface ISettingsMerger
     {
-        Task<IAppOptions> MergeAsync(
-            IAppOptions globalOptions,
+        Task<AppOptions> MergeAsync(
+            AppOptions globalOptions,
             List<XElement> settingsFileElements,
             XElement projectSettingsElement
         );

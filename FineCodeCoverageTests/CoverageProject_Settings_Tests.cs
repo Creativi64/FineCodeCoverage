@@ -155,353 +155,370 @@ namespace FineCodeCoverageTests
         [Test]
         public async Task Should_Use_Global_Settings_If_No_Project_Level_Or_FCC_Settings_Files_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>(MockBehavior.Strict);
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+            //var mockAppOptions = new Mock<IAppOptions>(MockBehavior.Strict);
+            //var appOptions = mockAppOptions.Object;
 
-            var mergedSettings = await settingsMerger.MergeAsync(appOptions, new List<XElement>(), null);
+            //var mergedSettings = await settingsMerger.MergeAsync(appOptions, new List<XElement>(), null);
             
-            Assert.AreSame(appOptions, mergedSettings);
+            //Assert.AreSame(appOptions, mergedSettings);
         }
 
         [Test]
         public async Task Should_Overwrite_GlobalOptions_Bool_Properties_From_Settings_File_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>(MockBehavior.Strict);
-            mockAppOptions.SetupSet(o => o.IncludeReferencedProjects = true);
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+            //var mockAppOptions = new Mock<IAppOptions>(MockBehavior.Strict);
+            //mockAppOptions.SetupSet(o => o.IncludeReferencedProjects = true);
+            //var appOptions = mockAppOptions.Object;
 
-            var settingsFileElement = CreateIncludeReferencedProjectsElement(true);
-            var mergedSettings = await settingsMerger.MergeAsync(appOptions, new List<XElement> { settingsFileElement}, null);
+            //var settingsFileElement = CreateIncludeReferencedProjectsElement(true);
+            //var mergedSettings = await settingsMerger.MergeAsync(appOptions, new List<XElement> { settingsFileElement}, null);
 
-            Assert.AreSame(appOptions, mergedSettings);
+            //Assert.AreSame(appOptions, mergedSettings);
         }
 
         [TestCase(true)]
         [TestCase(false)]
         public async Task Should_Overwrite_GlobalOptions_Bool_Properties_From_Settings_File_In_Order_Async(bool last)
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+            //var mockAppOptions = new Mock<IAppOptions>();
+            //mockAppOptions.SetupAllProperties();
+            //var appOptions = mockAppOptions.Object;
 
-            var settingsFileElementTop = CreateIncludeReferencedProjectsElement(!last);
-            var settingsFileElementLast = CreateIncludeReferencedProjectsElement(last);
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions, 
-                new List<XElement> { settingsFileElementTop, settingsFileElementLast}, 
-                null);
+            //var settingsFileElementTop = CreateIncludeReferencedProjectsElement(!last);
+            //var settingsFileElementLast = CreateIncludeReferencedProjectsElement(last);
+            //var mergedSettings = await settingsMerger.MergeAsync(
+            //    appOptions, 
+            //    new List<XElement> { settingsFileElementTop, settingsFileElementLast}, 
+            //    null);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(last, appOptions.IncludeReferencedProjects);
+            //Assert.AreSame(appOptions, mergedSettings);
+            //Assert.AreEqual(last, appOptions.IncludeReferencedProjects);
         }
 
         [TestCase(true)]
         [TestCase(false)]
         public async Task Should_Overwrite_GlobalOptions_Bool_Properties_From_Project_Async(bool last)
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+            //var mockAppOptions = new Mock<IAppOptions>();
+            //mockAppOptions.SetupAllProperties();
+            //var appOptions = mockAppOptions.Object;
 
-            var settingsFileElement = CreateIncludeReferencedProjectsElement(!last);
-            var projectElement = CreateIncludeReferencedProjectsElement(last);
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { settingsFileElement },
-                projectElement);
+            //var settingsFileElement = CreateIncludeReferencedProjectsElement(!last);
+            //var projectElement = CreateIncludeReferencedProjectsElement(last);
+            //var mergedSettings = await settingsMerger.MergeAsync(
+            //    appOptions,
+            //    new List<XElement> { settingsFileElement },
+            //    projectElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(last, appOptions.IncludeReferencedProjects);
+            //Assert.AreSame(appOptions, mergedSettings);
+            //Assert.AreEqual(last, appOptions.IncludeReferencedProjects);
         }
 
         [Test]
         public async Task Should_Overwrite_Int_Properties_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+            //            var mockAppOptions = new Mock<IAppOptions>();
+            //            mockAppOptions.SetupAllProperties();
+            //            var appOptions = mockAppOptions.Object;
 
-            var intElement = XElement.Parse($@"
-<Root>
-    <ThresholdForCyclomaticComplexity>123</ThresholdForCyclomaticComplexity>
-</Root>
-");
+            //            var intElement = XElement.Parse($@"
+            //<Root>
+            //    <ThresholdForCyclomaticComplexity>123</ThresholdForCyclomaticComplexity>
+            //</Root>
+            //");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> {},
-                intElement);
+            //            var mergedSettings = await settingsMerger.MergeAsync(
+            //                appOptions,
+            //                new List<XElement> {},
+            //                intElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(123, appOptions.ThresholdForCyclomaticComplexity);
+            //            Assert.AreSame(appOptions, mergedSettings);
+            //            Assert.AreEqual(123, appOptions.ThresholdForCyclomaticComplexity);
         }
 
         [Test]
         public async Task Should_Overwrite_Enum_Properties_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+//            var mockAppOptions = new Mock<IAppOptions>();
+//            mockAppOptions.SetupAllProperties();
+//            var appOptions = mockAppOptions.Object;
 
-            var enumElement = XElement.Parse($@"
-<Root>
-    <RunMsCodeCoverage>IfInRunSettings</RunMsCodeCoverage>
-</Root>
-");
+//            var enumElement = XElement.Parse($@"
+//<Root>
+//    <RunMsCodeCoverage>IfInRunSettings</RunMsCodeCoverage>
+//</Root>
+//");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                enumElement);
+//            var mergedSettings = await settingsMerger.MergeAsync(
+//                appOptions,
+//                new List<XElement> { },
+//                enumElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(RunMsCodeCoverage.IfInRunSettings, appOptions.RunMsCodeCoverage);
+//            Assert.AreSame(appOptions, mergedSettings);
+//            Assert.AreEqual(RunMsCodeCoverage.IfInRunSettings, appOptions.RunMsCodeCoverage);
         }
 
         [Test]
         public async Task Should_Overwrite_String_Properties_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
+            throw new NotImplementedException();
+//            var mockAppOptions = new Mock<IAppOptions>();
+//            mockAppOptions.SetupAllProperties();
+//            var appOptions = mockAppOptions.Object;
 
-            var stringElement = XElement.Parse($@"
-<Root>
-    <ToolsDirectory>ToolsDirectory</ToolsDirectory>
-</Root>
-");
+//            var stringElement = XElement.Parse($@"
+//<Root>
+//    <ToolsDirectory>ToolsDirectory</ToolsDirectory>
+//</Root>
+//");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringElement);
+//            var mergedSettings = await settingsMerger.MergeAsync(
+//                appOptions,
+//                new List<XElement> { },
+//                stringElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual("ToolsDirectory", appOptions.ToolsDirectory);
+//            Assert.AreSame(appOptions, mergedSettings);
+//            Assert.AreEqual("ToolsDirectory", appOptions.ToolsDirectory);
         }
 
         [Test]
         public async Task Should_Overwrite_String_Array_By_Default_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "global" };
-            var stringArrayElement = XElement.Parse($@"
-<Root>
-  <Exclude>
-    1
-    2
-  </Exclude>
-</Root>
-");
+            throw new NotImplementedException();
+            //            var mockAppOptions = new Mock<IAppOptions>();
+            //            mockAppOptions.SetupAllProperties();
+            //            var appOptions = mockAppOptions.Object;
+            //            appOptions.Exclude = new string[] { "global" };
+            //            var stringArrayElement = XElement.Parse($@"
+            //<Root>
+            //  <Exclude>
+            //    1
+            //    2
+            //  </Exclude>
+            //</Root>
+            //");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+            //            var mergedSettings = await settingsMerger.MergeAsync(
+            //                appOptions,
+            //                new List<XElement> { },
+            //                stringArrayElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "1", "2"}, appOptions.Exclude);
+            //            Assert.AreSame(appOptions, mergedSettings);
+            //            Assert.AreEqual(new string[] { "1", "2"}, appOptions.Exclude);
         }
 
         [Test]
         public async Task Should_Overwrite_String_Array_DefaultMerge_False_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "global" };
-            var stringArrayElement = XElement.Parse($@"
-<Root defaultMerge='false'>
-  <Exclude>
-    1
-    2
-  </Exclude>
-</Root>
-");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+            throw new NotImplementedException();
+//            var mockAppOptions = new Mock<IAppOptions>();
+//            mockAppOptions.SetupAllProperties();
+//            var appOptions = mockAppOptions.Object;
+//            appOptions.Exclude = new string[] { "global" };
+//            var stringArrayElement = XElement.Parse($@"
+//<Root defaultMerge='false'>
+//  <Exclude>
+//    1
+//    2
+//  </Exclude>
+//</Root>
+//");
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
+//            var mergedSettings = await settingsMerger.MergeAsync(
+//                appOptions,
+//                new List<XElement> { },
+//                stringArrayElement);
+
+//            Assert.AreSame(appOptions, mergedSettings);
+//            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
         }
 
         [Test]
         public async Task Should_Overwrite_String_Array_DefaultMerge_True_Property_Merge_False_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "global" };
-            var stringArrayElement = XElement.Parse($@"
-<Root defaultMerge='true'>
-  <Exclude merge='false'>
-    1
-    2
-  </Exclude>
-</Root>
-");
+            throw new NotImplementedException();
+            //            var mockAppOptions = new Mock<IAppOptions>();
+            //            mockAppOptions.SetupAllProperties();
+            //            var appOptions = mockAppOptions.Object;
+            //            appOptions.Exclude = new string[] { "global" };
+            //            var stringArrayElement = XElement.Parse($@"
+            //<Root defaultMerge='true'>
+            //  <Exclude merge='false'>
+            //    1
+            //    2
+            //  </Exclude>
+            //</Root>
+            //");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+            //            var mergedSettings = await settingsMerger.MergeAsync(
+            //                appOptions,
+            //                new List<XElement> { },
+            //                stringArrayElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
+            //            Assert.AreSame(appOptions, mergedSettings);
+            //            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
         }
 
         [Test]
         public async Task Should_Overwrite_String_Array_DefaultMerge_Not_Bool_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "global" };
-            var stringArrayElement = XElement.Parse($@"
-<Root defaultMerge='xxx'>
-  <Exclude>
-    1
-    2
-  </Exclude>
-</Root>
-");
+            throw new NotImplementedException();
+            //            var mockAppOptions = new Mock<IAppOptions>();
+            //            mockAppOptions.SetupAllProperties();
+            //            var appOptions = mockAppOptions.Object;
+            //            appOptions.Exclude = new string[] { "global" };
+            //            var stringArrayElement = XElement.Parse($@"
+            //<Root defaultMerge='xxx'>
+            //  <Exclude>
+            //    1
+            //    2
+            //  </Exclude>
+            //</Root>
+            //");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+            //            var mergedSettings = await settingsMerger.MergeAsync(
+            //                appOptions,
+            //                new List<XElement> { },
+            //                stringArrayElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
+            //            Assert.AreSame(appOptions, mergedSettings);
+            //            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
         }
 
         [Test]
         public async Task Should_Merge_String_Array_If_DefaultMerge_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "global" };
-            var stringArrayElement = XElement.Parse($@"
-<Root defaultMerge='true'>
-  <Exclude>
-    1
-    2
-  </Exclude>
-</Root>
-");
+            throw new NotImplementedException();
+            //            var mockAppOptions = new Mock<IAppOptions>();
+            //            mockAppOptions.SetupAllProperties();
+            //            var appOptions = mockAppOptions.Object;
+            //            appOptions.Exclude = new string[] { "global" };
+            //            var stringArrayElement = XElement.Parse($@"
+            //<Root defaultMerge='true'>
+            //  <Exclude>
+            //    1
+            //    2
+            //  </Exclude>
+            //</Root>
+            //");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+            //            var mergedSettings = await settingsMerger.MergeAsync(
+            //                appOptions,
+            //                new List<XElement> { },
+            //                stringArrayElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "global","1", "2" }, appOptions.Exclude);
+            //            Assert.AreSame(appOptions, mergedSettings);
+            //            Assert.AreEqual(new string[] { "global","1", "2" }, appOptions.Exclude);
         }
 
         [Test]
         public async Task Should_Merge_If_Property_Element_Merge_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "global" };
-            var stringArrayElement = XElement.Parse($@"
-<Root defaultMerge='false'>
-  <Exclude merge='true'>
-    1
-    2
-  </Exclude>
-</Root>
-");
+            throw new NotImplementedException();
+//            var mockAppOptions = new Mock<IAppOptions>();
+//            mockAppOptions.SetupAllProperties();
+//            var appOptions = mockAppOptions.Object;
+//            appOptions.Exclude = new string[] { "global" };
+//            var stringArrayElement = XElement.Parse($@"
+//<Root defaultMerge='false'>
+//  <Exclude merge='true'>
+//    1
+//    2
+//  </Exclude>
+//</Root>
+//");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+//            var mergedSettings = await settingsMerger.MergeAsync(
+//                appOptions,
+//                new List<XElement> { },
+//                stringArrayElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "global", "1", "2" }, appOptions.Exclude);
+//            Assert.AreSame(appOptions, mergedSettings);
+//            Assert.AreEqual(new string[] { "global", "1", "2" }, appOptions.Exclude);
         }
 
         [Test]
         public async Task Should_Log_Failed_To_Get_Setting_From_Project_Settings_Exception_And_Not_Throw_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            var element = XElement.Parse($@"
-<Root>
-  <OpenCoverRegister>
-    DefaultX
-  </OpenCoverRegister>
-</Root>
-");
+            throw new NotImplementedException();
+            //            var mockAppOptions = new Mock<IAppOptions>();
+            //            mockAppOptions.SetupAllProperties();
+            //            var appOptions = mockAppOptions.Object;
+            //            var element = XElement.Parse($@"
+            //<Root>
+            //  <OpenCoverRegister>
+            //    DefaultX
+            //  </OpenCoverRegister>
+            //</Root>
+            //");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                element);
+            //            var mergedSettings = await settingsMerger.MergeAsync(
+            //                appOptions,
+            //                new List<XElement> { },
+            //                element);
 
-            var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from project settings", It.IsAny<string>()));
-            Assert.AreEqual(mergedSettings.OpenCoverRegister, OpenCoverRegister.Default);
+            //            var mockLogger = mocker.GetMock<ILogger>();
+            //            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from project settings", It.IsAny<string>()));
+            //            Assert.AreEqual(mergedSettings.OpenCoverRegister, OpenCoverRegister.Default);
         }
 
         [Test]
         public async Task Should_Log_Failed_To_Get_Setting_From_Settings_File_Exception_And_Not_Throw_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            var element = XElement.Parse($@"
-<Root>
-  <OpenCoverRegister>
-    DefaultX
-  </OpenCoverRegister>
-</Root>
-");
+            throw new NotImplementedException();
+//            var mockAppOptions = new Mock<IAppOptions>();
+//            mockAppOptions.SetupAllProperties();
+//            var appOptions = mockAppOptions.Object;
+//            var element = XElement.Parse($@"
+//<Root>
+//  <OpenCoverRegister>
+//    DefaultX
+//  </OpenCoverRegister>
+//</Root>
+//");
 
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { element},
-                null);
+//            var mergedSettings = await settingsMerger.MergeAsync(
+//                appOptions,
+//                new List<XElement> { element},
+//                null);
 
-            var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from settings file", It.IsAny<string>()));
-            Assert.AreEqual(mergedSettings.OpenCoverRegister, OpenCoverRegister.Default);
+//            var mockLogger = mocker.GetMock<ILogger>();
+//            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from settings file", It.IsAny<string>()));
+//            Assert.AreEqual(mergedSettings.OpenCoverRegister, OpenCoverRegister.Default);
         }
 
         [Test]
         public async Task Should_Not_Throw_If_Merge_Current_Null_String_Array_Type_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = null;
-            var stringArrayElement = XElement.Parse($@"
-<Root>
-  <Exclude merge='true'>
-    1
-    2
-  </Exclude>
-</Root>
-");
+            throw new NotImplementedException();
+//            var mockAppOptions = new Mock<IAppOptions>();
+//            mockAppOptions.SetupAllProperties();
+//            var appOptions = mockAppOptions.Object;
+//            appOptions.Exclude = null;
+//            var stringArrayElement = XElement.Parse($@"
+//<Root>
+//  <Exclude merge='true'>
+//    1
+//    2
+//  </Exclude>
+//</Root>
+//");
 
-            var settingsMerger = new SettingsMerger(null);
-            var mergedSettings = await settingsMerger.MergeAsync(
-                appOptions,
-                new List<XElement> { },
-                stringArrayElement);
+//            var settingsMerger = new SettingsMerger(null);
+//            var mergedSettings = await settingsMerger.MergeAsync(
+//                appOptions,
+//                new List<XElement> { },
+//                stringArrayElement);
 
-            Assert.AreSame(appOptions, mergedSettings);
-            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
+//            Assert.AreSame(appOptions, mergedSettings);
+//            Assert.AreEqual(new string[] { "1", "2" }, appOptions.Exclude);
         }
 
         [TestCaseSource(nameof(XmlConversionCases))]
@@ -637,118 +654,121 @@ namespace FineCodeCoverageTests
         [Test]
         public async Task Should_Provide_The_Merged_Result_Using_Global_Options_Async()
         {
-            var mockAppOptionsProvider = new Mock<IAppOptionsProvider>();
-            var mockAppOptions = new Mock<IAppOptions>();
-            var globalOptions = mockAppOptions.Object;
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(globalOptions);
+            throw new NotImplementedException();
+            //var mockAppOptionsProvider = new Mock<IAppOptionsProvider>();
+            //var globalOptions = new AppOptions();
+            //mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(globalOptions);
 
-            var mockSettingsMerger = new Mock<ISettingsMerger>();
-            var mergedSettings = new Mock<IAppOptions>().Object;
-            mockSettingsMerger.Setup(settingsMerger =>
-                settingsMerger.MergeAsync(globalOptions, It.IsAny<List<XElement>>(), It.IsAny<XElement>())
-            ).ReturnsAsync(mergedSettings);
+            //var mockSettingsMerger = new Mock<ISettingsMerger>();
+            //var mergedSettings = new Mock<IAppOptions>().Object;
+            //mockSettingsMerger.Setup(settingsMerger =>
+            //    settingsMerger.MergeAsync(globalOptions, It.IsAny<List<XElement>>(), It.IsAny<XElement>())
+            //).ReturnsAsync(mergedSettings);
 
-            var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
-                mockAppOptionsProvider.Object,
-                new Mock<ICoverageProjectSettingsProvider>().Object,
-                new Mock<IFCCSettingsFilesProvider>().Object,
-                mockSettingsMerger.Object
-            );
+            //var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
+            //    mockAppOptionsProvider.Object,
+            //    new Mock<ICoverageProjectSettingsProvider>().Object,
+            //    new Mock<IFCCSettingsFilesProvider>().Object,
+            //    mockSettingsMerger.Object
+            //);
 
-            var coverageProjectSettings = await coverageProjectSettingsManager.GetSettingsAsync(
-                new Mock<ICoverageProject>().Object
-            );
-            Assert.AreSame(mergedSettings, coverageProjectSettings);
+            //var coverageProjectSettings = await coverageProjectSettingsManager.GetSettingsAsync(
+            //    new Mock<ICoverageProject>().Object
+            //);
+            //Assert.AreSame(mergedSettings, coverageProjectSettings);
         }
 
         [Test]
         public async Task Should_Provide_The_Merged_Result_Using_FCC_Settings_Files_Async()
         {
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.ProjectFile).Returns("SomeProject/SomeProject.csproj");
+            throw new NotImplementedException();
+            //var mockCoverageProject = new Mock<ICoverageProject>();
+            //mockCoverageProject.Setup(cp => cp.ProjectFile).Returns("SomeProject/SomeProject.csproj");
 
-            var mockFCCSettingsFilesProvider = new Mock<IFCCSettingsFilesProvider>();
-            var settingsFileElements = new List<XElement>();
-            mockFCCSettingsFilesProvider.Setup(
-                fccSettingsFilesProvider => fccSettingsFilesProvider.Provide("SomeProject")
-            ).Returns(settingsFileElements);
+            //var mockFCCSettingsFilesProvider = new Mock<IFCCSettingsFilesProvider>();
+            //var settingsFileElements = new List<XElement>();
+            //mockFCCSettingsFilesProvider.Setup(
+            //    fccSettingsFilesProvider => fccSettingsFilesProvider.Provide("SomeProject")
+            //).Returns(settingsFileElements);
 
-            var mockSettingsMerger = new Mock<ISettingsMerger>();
-            var mergedSettings = new Mock<IAppOptions>().Object;
-            mockSettingsMerger.Setup(settingsMerger =>
-                settingsMerger.MergeAsync(It.IsAny<IAppOptions>(), settingsFileElements, It.IsAny<XElement>())
-            ).ReturnsAsync(mergedSettings);
+            //var mockSettingsMerger = new Mock<ISettingsMerger>();
+            //var mergedSettings = new Mock<IAppOptions>().Object;
+            //mockSettingsMerger.Setup(settingsMerger =>
+            //    settingsMerger.MergeAsync(It.IsAny<IAppOptions>(), settingsFileElements, It.IsAny<XElement>())
+            //).ReturnsAsync(mergedSettings);
 
-            var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
-                new Mock<IAppOptionsProvider>().Object,
-                new Mock<ICoverageProjectSettingsProvider>().Object,
-                mockFCCSettingsFilesProvider.Object,
-                mockSettingsMerger.Object
-            );
+            //var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
+            //    new Mock<IAppOptionsProvider>().Object,
+            //    new Mock<ICoverageProjectSettingsProvider>().Object,
+            //    mockFCCSettingsFilesProvider.Object,
+            //    mockSettingsMerger.Object
+            //);
 
-            
-            var coverageProject = mockCoverageProject.Object;
-            var coverageProjectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
-            Assert.AreSame(mergedSettings, coverageProjectSettings);
+
+            //var coverageProject = mockCoverageProject.Object;
+            //var coverageProjectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
+            //Assert.AreSame(mergedSettings, coverageProjectSettings);
         }
 
         [Test]
         public async Task Should_Provide_The_Merged_Result_Using_Project_Settings_Async()
         {
-            var coverageProject = new Mock<ICoverageProject>().Object;
+            throw new NotImplementedException();
+            //var coverageProject = new Mock<ICoverageProject>().Object;
 
-            var coverageProjectSettingsElement = new XElement("Root");
-            var mockCoverageProjectSettingsProvider = new Mock<ICoverageProjectSettingsProvider>();
-            mockCoverageProjectSettingsProvider.Setup(
-                coverageProjectSettingsProvider => coverageProjectSettingsProvider.ProvideAsync(coverageProject)
-            ).ReturnsAsync(coverageProjectSettingsElement);
+            //var coverageProjectSettingsElement = new XElement("Root");
+            //var mockCoverageProjectSettingsProvider = new Mock<ICoverageProjectSettingsProvider>();
+            //mockCoverageProjectSettingsProvider.Setup(
+            //    coverageProjectSettingsProvider => coverageProjectSettingsProvider.ProvideAsync(coverageProject)
+            //).ReturnsAsync(coverageProjectSettingsElement);
 
-            var mockSettingsMerger = new Mock<ISettingsMerger>();
-            var mergedSettings = new Mock<IAppOptions>().Object;
-            mockSettingsMerger.Setup(settingsMerger =>
-                settingsMerger.MergeAsync(It.IsAny<IAppOptions>(), It.IsAny<List<XElement>>(), coverageProjectSettingsElement)
-            ).ReturnsAsync(mergedSettings);
+            //var mockSettingsMerger = new Mock<ISettingsMerger>();
+            //var mergedSettings = new Mock<IAppOptions>().Object;
+            //mockSettingsMerger.Setup(settingsMerger =>
+            //    settingsMerger.MergeAsync(It.IsAny<IAppOptions>(), It.IsAny<List<XElement>>(), coverageProjectSettingsElement)
+            //).ReturnsAsync(mergedSettings);
 
-            var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
-                new Mock<IAppOptionsProvider>().Object,
-                mockCoverageProjectSettingsProvider.Object,
-                new Mock<IFCCSettingsFilesProvider>().Object,
-                mockSettingsMerger.Object
-            );
+            //var coverageProjectSettingsManager = new CoverageProjectSettingsManager(
+            //    new Mock<IAppOptionsProvider>().Object,
+            //    mockCoverageProjectSettingsProvider.Object,
+            //    new Mock<IFCCSettingsFilesProvider>().Object,
+            //    mockSettingsMerger.Object
+            //);
 
 
-            
-            var coverageProjectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
-            Assert.AreSame(mergedSettings, coverageProjectSettings);
+
+            //var coverageProjectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
+            //Assert.AreSame(mergedSettings, coverageProjectSettings);
         }
 
         [Test]
         public async Task Should_Add_Common_Assembly_Excludes_Includes_Ignoring_Whitespace_Async()
         {
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupAllProperties();
-            var appOptions = mockAppOptions.Object;
-            appOptions.Exclude = new string[] { "oldexclude" };
-            appOptions.Include = new string[] { "oldinclude" };
-            appOptions.ModulePathsExclude = new string[] { "msexclude" };
-            appOptions.ModulePathsInclude = new string[] { "msinclude" };
-            appOptions.ExcludeAssemblies = new string[] { "excludeassembly", " "};
-            appOptions.IncludeAssemblies = new string[] { "includeassembly", " "};
+            throw new NotImplementedException();
+            //var mockAppOptions = new Mock<IAppOptions>();
+            //mockAppOptions.SetupAllProperties();
+            //var appOptions = mockAppOptions.Object;
+            //appOptions.Exclude = new string[] { "oldexclude" };
+            //appOptions.Include = new string[] { "oldinclude" };
+            //appOptions.ModulePathsExclude = new string[] { "msexclude" };
+            //appOptions.ModulePathsInclude = new string[] { "msinclude" };
+            //appOptions.ExcludeAssemblies = new string[] { "excludeassembly", " "};
+            //appOptions.IncludeAssemblies = new string[] { "includeassembly", " "};
 
-            var autoMoqer = new AutoMoqer();
-            var coverageProjectSettingsManager = autoMoqer.Create<CoverageProjectSettingsManager>();
-            autoMoqer.GetMock<ISettingsMerger>().Setup(settingsMerger => settingsMerger.MergeAsync(
-                It.IsAny<IAppOptions>(),
-                It.IsAny<List<XElement>>(),
-                It.IsAny<XElement>()
-                )).ReturnsAsync(appOptions);
+            //var autoMoqer = new AutoMoqer();
+            //var coverageProjectSettingsManager = autoMoqer.Create<CoverageProjectSettingsManager>();
+            //autoMoqer.GetMock<ISettingsMerger>().Setup(settingsMerger => settingsMerger.MergeAsync(
+            //    It.IsAny<IAppOptions>(),
+            //    It.IsAny<List<XElement>>(),
+            //    It.IsAny<XElement>()
+            //    )).ReturnsAsync(appOptions);
 
-            var settings = await coverageProjectSettingsManager.GetSettingsAsync(new Mock<ICoverageProject>().Object);
-            
-            Assert.That(settings.Exclude, Is.EquivalentTo(new string[] { "oldexclude", "[excludeassembly]*" }));
-            Assert.That(settings.Include, Is.EquivalentTo(new string[] { "oldinclude", "[includeassembly]*" }));
-            Assert.That(settings.ModulePathsExclude, Is.EquivalentTo(new string[] { "msexclude", ".*\\excludeassembly.dll$" }));
-            Assert.That(settings.ModulePathsInclude, Is.EquivalentTo(new string[] { "msinclude", ".*\\includeassembly.dll$" }));
+            //var settings = await coverageProjectSettingsManager.GetSettingsAsync(new Mock<ICoverageProject>().Object);
+
+            //Assert.That(settings.Exclude, Is.EquivalentTo(new string[] { "oldexclude", "[excludeassembly]*" }));
+            //Assert.That(settings.Include, Is.EquivalentTo(new string[] { "oldinclude", "[includeassembly]*" }));
+            //Assert.That(settings.ModulePathsExclude, Is.EquivalentTo(new string[] { "msexclude", ".*\\excludeassembly.dll$" }));
+            //Assert.That(settings.ModulePathsInclude, Is.EquivalentTo(new string[] { "msinclude", ".*\\includeassembly.dll$" }));
         }
     }
 }

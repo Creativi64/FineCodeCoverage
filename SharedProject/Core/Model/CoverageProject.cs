@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Engine.Model
         private readonly ICoverageProjectSettingsManager settingsManager;
         private readonly IReferencedProjectsHelper referencedProjectsHelper;
         private XElement projectFileXElement;
-        private IAppOptions settings;
+        private ICoverageSettings settings;
         private string targetFramework;
         private readonly string fccFolderName = "fine-code-coverage";
         private readonly string buildOutputFolderName = "build-output";
@@ -122,7 +122,7 @@ namespace FineCodeCoverage.Engine.Model
         public string ProjectName { get; set; }
         public string CoverageOutputFile => Path.Combine(CoverageOutputFolder, $"{ProjectName}.coverage.xml");
 
-        public IAppOptions Settings
+        public ICoverageSettings Settings
         {
             get
             {

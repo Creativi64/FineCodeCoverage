@@ -28,20 +28,21 @@ namespace Test
         [SetUp]
         public void SetUp()
         {
-            mocker = new AutoMoqer();
-            mockDataCollectorSettingsBuilder = new Mock<IDataCollectorSettingsBuilder>();
-            mocker.GetMock<IDataCollectorSettingsBuilderFactory>().Setup(f => f.Create()).Returns(mockDataCollectorSettingsBuilder.Object);
+            throw new NotImplementedException();
+            //mocker = new AutoMoqer();
+            //mockDataCollectorSettingsBuilder = new Mock<IDataCollectorSettingsBuilder>();
+            //mocker.GetMock<IDataCollectorSettingsBuilderFactory>().Setup(f => f.Create()).Returns(mockDataCollectorSettingsBuilder.Object);
 
-            coverletDataCollectorUtil = mocker.Create<CoverletDataCollectorUtil>();
+            //coverletDataCollectorUtil = mocker.Create<CoverletDataCollectorUtil>();
 
-            mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.Settings).Returns(new Mock<IAppOptions>().Object);
-            mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns("");
-            mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockRunSettingsCoverletConfiguration = new Mock<IRunSettingsCoverletConfiguration>();
-            coverletDataCollectorUtil.runSettingsCoverletConfiguration = mockRunSettingsCoverletConfiguration.Object;
-            coverletDataCollectorUtil.coverageProject = mockCoverageProject.Object;
+            //mockCoverageProject = new Mock<ICoverageProject>();
+            //mockCoverageProject.Setup(cp => cp.Settings).Returns(new Mock<IAppOptions>().Object);
+            //mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns("");
+            //mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockRunSettingsCoverletConfiguration = new Mock<IRunSettingsCoverletConfiguration>();
+            //coverletDataCollectorUtil.runSettingsCoverletConfiguration = mockRunSettingsCoverletConfiguration.Object;
+            //coverletDataCollectorUtil.coverageProject = mockCoverageProject.Object;
         }
 
         [TearDown]
@@ -184,17 +185,18 @@ namespace Test
         [TestCase(false)]
         public async Task Should_Initialize_With_Options_And_Run_Settings_First_Async(bool runSettingsOnly)
         {
-            mockCoverageProject.Setup(cp => cp.RunSettingsFile).Returns(".runsettings");
-            mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns("output");
-            var mockSettings = new Mock<IAppOptions>();
-            mockSettings.SetupGet(appOptions => appOptions.RunSettingsOnly).Returns(runSettingsOnly);
-            mockCoverageProject.Setup(cp => cp.Settings).Returns(mockSettings.Object);
-            
-            await coverletDataCollectorUtil.RunAsync(CancellationToken.None);
-            mockDataCollectorSettingsBuilder.Verify(b => b.Initialize(runSettingsOnly, ".runsettings",Path.Combine("output","FCC.runsettings")));
-            
-            var invocations = mockDataCollectorSettingsBuilder.Invocations.GetEnumerator().ToIEnumerable().ToList();
-            Assert.AreEqual(invocations.First().Method.Name, nameof(IDataCollectorSettingsBuilder.Initialize));
+            throw new NotImplementedException();
+            //mockCoverageProject.Setup(cp => cp.RunSettingsFile).Returns(".runsettings");
+            //mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns("output");
+            //var mockSettings = new Mock<IAppOptions>();
+            //mockSettings.SetupGet(appOptions => appOptions.RunSettingsOnly).Returns(runSettingsOnly);
+            //mockCoverageProject.Setup(cp => cp.Settings).Returns(mockSettings.Object);
+
+            //await coverletDataCollectorUtil.RunAsync(CancellationToken.None);
+            //mockDataCollectorSettingsBuilder.Verify(b => b.Initialize(runSettingsOnly, ".runsettings",Path.Combine("output","FCC.runsettings")));
+
+            //var invocations = mockDataCollectorSettingsBuilder.Invocations.GetEnumerator().ToIEnumerable().ToList();
+            //Assert.AreEqual(invocations.First().Method.Name, nameof(IDataCollectorSettingsBuilder.Initialize));
         }
 
         [Test]

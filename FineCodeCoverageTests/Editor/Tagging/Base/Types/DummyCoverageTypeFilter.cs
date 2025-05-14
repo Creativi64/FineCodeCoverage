@@ -33,8 +33,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base.Types
         {
             return ChangedFunc(other as DummyCoverageTypeFilter);
         }
-        public IAppOptions AppOptions { get; private set; }
-        public void Initialize(IAppOptions appOptions)
+        public AppOptions AppOptions { get; private set; }
+        public void Initialize(AppOptions appOptions)
         {
             AppOptions = appOptions;
             Initialized?.Invoke(this, new DummyCoverageTypeFilterInitializedEventArgs(this));

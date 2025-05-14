@@ -283,19 +283,20 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void SetUserRunSettingsProjectDetails()
         {
-            userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
-            foreach (var coverageProjectWithRunSettings in coverageProjectsByType.RunSettings)
-            {
-                var userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
-                {
-                    Settings = coverageProjectWithRunSettings.Settings,
-                    CoverageOutputFolder = coverageProjectWithRunSettings.CoverageOutputFolder,
-                    TestDllFile = coverageProjectWithRunSettings.TestDllFile,
-                    ExcludedReferencedProjects = coverageProjectWithRunSettings.ExcludedReferencedProjects,
-                    IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects
-                };
-                userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
-            }
+            throw new NotImplementedException();
+            //userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
+            //foreach (var coverageProjectWithRunSettings in coverageProjectsByType.RunSettings)
+            //{
+            //    var userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
+            //    {
+            //        Settings = coverageProjectWithRunSettings.Settings,
+            //        CoverageOutputFolder = coverageProjectWithRunSettings.CoverageOutputFolder,
+            //        TestDllFile = coverageProjectWithRunSettings.TestDllFile,
+            //        ExcludedReferencedProjects = coverageProjectWithRunSettings.ExcludedReferencedProjects,
+            //        IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects
+            //    };
+            //    userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
+            //}
         }
 
         #endregion

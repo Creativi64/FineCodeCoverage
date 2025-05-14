@@ -50,7 +50,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             ).Returns(new UserRunSettingsAnalysisResult());
 
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new Mock<IAppOptions>().Object);
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions());
 
             // is collecting
             var mockTestOperation = new Mock<ITestOperation>();
@@ -59,10 +59,10 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             {
                 runSettingsCoverageProject,
                 CreateCoverageProject(null)
-                
+
             };
             mockTestOperation.Setup(testOperation => testOperation.GetCoverageProjectsAsync()).ReturnsAsync(coverageProjects);
-            
+
             await msCodeCoverageRunSettingsService.IsCollectingAsync(mockTestOperation.Object);
 
             await msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(mockTestOperation.Object);
@@ -149,20 +149,20 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             autoMocker = new AutoMoqer();
             var mockToolUnzipper = autoMocker.GetMock<IToolUnzipper>();
             mockToolUnzipper.Setup(tf => tf.EnsureUnzipped(
-                It.IsAny<string>(), 
-                It.IsAny<string>(), 
-                It.IsAny<string>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
             )).Returns("ZipDestination");
-            
+
             msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
             msCodeCoverageRunSettingsService.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
 
-            await msCodeCoverageRunSettingsService.InitializeAsync("",CancellationToken.None);
+            await msCodeCoverageRunSettingsService.InitializeAsync("", CancellationToken.None);
 
             var mockOperation = new Mock<IOperation>();
             mockOperation.Setup(operation => operation.GetRunSettingsDataCollectorResultUri(new Uri(RunSettingsHelper.MsDataCollectorUri))).Returns(resultsUris);
-            
+
 
             // IsCollecting
             var mockTestOperation = new Mock<ITestOperation>();
@@ -174,15 +174,15 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             };
             mockTestOperation.Setup(testOperation => testOperation.GetCoverageProjectsAsync()).ReturnsAsync(coverageProjects);
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new Mock<IAppOptions>().Object);
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions());
             await msCodeCoverageRunSettingsService.IsCollectingAsync(mockTestOperation.Object);
 
             await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);
 
 
             autoMocker.Verify<IFCCEngine>(engine => engine.RunAndProcessReport(
-                    It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()), 
-                    coverageProjects,null
+                    It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()),
+                    coverageProjects, null
                 )
             );
         }

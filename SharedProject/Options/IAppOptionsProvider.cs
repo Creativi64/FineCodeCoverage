@@ -4,7 +4,9 @@ namespace FineCodeCoverage.Options
 {
     internal interface IAppOptionsProvider
     {
-        event Action<IAppOptions> OptionsChanged;
-        IAppOptions Get();
+        // The argument is the same AppOptions from Get
+        event Action<AppOptions> OptionsChanged;
+        // returns the same instance each time
+        AppOptions Get();
     }
 }

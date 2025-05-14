@@ -8,18 +8,18 @@ namespace FineCodeCoverageTests.Editor.Tagging.Classification
 {
     internal class CoverageClassificationFilter_Tests : CoverageTypeFilter_Tests_Base<CoverageClassificationFilter>
     {
-        protected override Expression<Func<IAppOptions, bool>> ShowCoverageExpression { get; } = appOptions => appOptions.ShowLineCoverageHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowCoverageExpression { get; } = appOptions => appOptions.ShowLineCoverageHighlighting;
 
-        protected override Expression<Func<IAppOptions, bool>> ShowCoveredExpression { get; } = appOptions => appOptions.ShowLineCoveredHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowCoveredExpression { get; } = appOptions => appOptions.ShowLineCoveredHighlighting;
 
-        protected override Expression<Func<IAppOptions, bool>> ShowUncoveredExpression { get; } = appOptions => appOptions.ShowLineUncoveredHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowUncoveredExpression { get; } = appOptions => appOptions.ShowLineUncoveredHighlighting;
 
-        protected override Expression<Func<IAppOptions, bool>> ShowPartiallyCoveredExpression { get; } = appOptions => appOptions.ShowLinePartiallyCoveredHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowPartiallyCoveredExpression { get; } = appOptions => appOptions.ShowLinePartiallyCoveredHighlighting;
 
-        protected override Expression<Func<IAppOptions, bool>> ShowDirtyExpression => appOptions => appOptions.ShowLineDirtyHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowDirtyExpression => appOptions => appOptions.ShowLineDirtyHighlighting;
 
-        protected override Expression<Func<IAppOptions, bool>> ShowNewExpression => appOptions => appOptions.ShowLineNewHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowNewExpression => appOptions => appOptions.ShowLineNewHighlighting;
 
-        protected override Expression<Func<IAppOptions, bool>> ShowNotIncludedExpression => appOptions => appOptions.ShowLineNotIncludedHighlighting;
+        protected override Expression<Func<AppOptions, bool>> ShowNotIncludedExpression => appOptions => appOptions.ShowLineNotIncludedHighlighting;
     }
 }

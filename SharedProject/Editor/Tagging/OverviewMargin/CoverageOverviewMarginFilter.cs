@@ -9,9 +9,9 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
     {
         public override string TypeIdentifier => "OverviewMargin";
 
-        protected override bool Enabled(IAppOptions appOptions) => appOptions.ShowCoverageInOverviewMargin;
+        protected override bool Enabled(AppOptions appOptions) => appOptions.ShowCoverageInOverviewMargin;
 
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(IAppOptions appOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions)
             => new Dictionary<DynamicCoverageType, bool>
             {
                 { DynamicCoverageType.Covered, appOptions.ShowCoveredInOverviewMargin },

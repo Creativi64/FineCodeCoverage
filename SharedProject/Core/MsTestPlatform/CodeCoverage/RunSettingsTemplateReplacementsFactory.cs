@@ -208,20 +208,21 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public IRunSettingsTemplateReplacements Create(ICoverageProject coverageProject, string testAdapter)
         {
-            var projectSettings = coverageProject.Settings;
-            var additionalModulePathsExclude = GetAdditionalModulePathsExclude(
-                coverageProject.ExcludedReferencedProjects,
-                coverageProject.TestDllFile,
-                projectSettings.IncludeTestAssembly);
+            throw new NotImplementedException();
+            //var projectSettings = coverageProject.Settings;
+            //var additionalModulePathsExclude = GetAdditionalModulePathsExclude(
+            //    coverageProject.ExcludedReferencedProjects,
+            //    coverageProject.TestDllFile,
+            //    projectSettings.IncludeTestAssembly);
 
-            var additionalModulePathsInclude = GetAdditionalModulePathsInclude(
-                HasIncludes(coverageProject.Settings.ModulePathsInclude, coverageProject.IncludedReferencedProjects),
-                coverageProject.IncludedReferencedProjects,
-                coverageProject.TestDllFile,
-                projectSettings.IncludeTestAssembly);
+            //var additionalModulePathsInclude = GetAdditionalModulePathsInclude(
+            //    HasIncludes(coverageProject.Settings.ModulePathsInclude, coverageProject.IncludedReferencedProjects),
+            //    coverageProject.IncludedReferencedProjects,
+            //    coverageProject.TestDllFile,
+            //    projectSettings.IncludeTestAssembly);
 
-            var settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
-            return new RunSettingsTemplateReplacements(settings, coverageProject.CoverageOutputFolder, projectSettings.Enabled.ToString(), testAdapter);
+            //var settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
+            //return new RunSettingsTemplateReplacements(settings, coverageProject.CoverageOutputFolder, projectSettings.Enabled.ToString(), testAdapter);
         }
     }
 

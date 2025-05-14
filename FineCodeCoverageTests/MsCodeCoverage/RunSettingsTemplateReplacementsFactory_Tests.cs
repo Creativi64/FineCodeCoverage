@@ -601,15 +601,16 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
         private ICoverageProject CreateCoverageProject(Action<Mock<ICoverageProject>> furtherSetup = null, bool includeTestAssembly = true)
         {
-            var mockSettings = new Mock<IAppOptions>();
-            mockSettings.Setup(settings => settings.IncludeTestAssembly).Returns(includeTestAssembly);
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.Setup(cp => cp.TestDllFile).Returns("");
-            mockCoverageProject.Setup(cp => cp.Settings).Returns(mockSettings.Object);
-            furtherSetup?.Invoke(mockCoverageProject);
-            return mockCoverageProject.Object;
+            throw new NotImplementedException();
+            //var mockSettings = new Mock<IAppOptions>();
+            //mockSettings.Setup(settings => settings.IncludeTestAssembly).Returns(includeTestAssembly);
+            //var mockCoverageProject = new Mock<ICoverageProject>();
+            //mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.Setup(cp => cp.TestDllFile).Returns("");
+            //mockCoverageProject.Setup(cp => cp.Settings).Returns(mockSettings.Object);
+            //furtherSetup?.Invoke(mockCoverageProject);
+            //return mockCoverageProject.Object;
         }
 
         [TestCase(true)]
@@ -632,196 +633,203 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         [Test]
         public void Should_Create_Element_Replacements_From_Settings()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                FunctionsExclude = new[] { "FunctionExclude1", "FunctionExclude2" },
-                FunctionsInclude = new[] { "FunctionInclude1", "FunctionInclude2" },
-                CompanyNamesExclude = new[] { "CompanyNameExclude1", "CompanyNameExclude2" },
-                CompanyNamesInclude = new[] { "CompanyNameInclude1", "CompanyNameInclude2" },
-                AttributesExclude = new[] { "AttributeExclude1", "AttributeExclude2" },
-                AttributesInclude = new[] { "AttributeInclude1", "AttributeInclude2" },
-                PublicKeyTokensExclude = new[] { "PublicKeyTokenExclude1", "PublicKeyTokenExclude2" },
-                PublicKeyTokensInclude = new[] { "PublicKeyTokenInclude1", "PublicKeyTokenInclude2" },
-                SourcesExclude = new[] { "SourceExclude1", "SourceExclude2" },
-                SourcesInclude = new[] { "SourceInclude1", "SourceInclude2" },
-                IncludeTestAssembly = true,
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    FunctionsExclude = new[] { "FunctionExclude1", "FunctionExclude2" },
+            //    FunctionsInclude = new[] { "FunctionInclude1", "FunctionInclude2" },
+            //    CompanyNamesExclude = new[] { "CompanyNameExclude1", "CompanyNameExclude2" },
+            //    CompanyNamesInclude = new[] { "CompanyNameInclude1", "CompanyNameInclude2" },
+            //    AttributesExclude = new[] { "AttributeExclude1", "AttributeExclude2" },
+            //    AttributesInclude = new[] { "AttributeInclude1", "AttributeInclude2" },
+            //    PublicKeyTokensExclude = new[] { "PublicKeyTokenExclude1", "PublicKeyTokenExclude2" },
+            //    PublicKeyTokensInclude = new[] { "PublicKeyTokenInclude1", "PublicKeyTokenInclude2" },
+            //    SourcesExclude = new[] { "SourceExclude1", "SourceExclude2" },
+            //    SourcesInclude = new[] { "SourceInclude1", "SourceInclude2" },
+            //    IncludeTestAssembly = true,
+            //};
 
-            var coverageProject = CreateCoverageProject(mock => mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions));
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //var coverageProject = CreateCoverageProject(mock => mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions));
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
 
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.FunctionsExclude, "Function", msCodeCoverageOptions.FunctionsExclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.FunctionsInclude, "Function", msCodeCoverageOptions.FunctionsInclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.CompanyNamesExclude, "CompanyName", msCodeCoverageOptions.CompanyNamesExclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.CompanyNamesInclude, "CompanyName", msCodeCoverageOptions.CompanyNamesInclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.AttributesExclude, "Attribute", msCodeCoverageOptions.AttributesExclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.AttributesInclude, "Attribute", msCodeCoverageOptions.AttributesInclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.PublicKeyTokensExclude, "PublicKeyToken", msCodeCoverageOptions.PublicKeyTokensExclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.PublicKeyTokensInclude, "PublicKeyToken", msCodeCoverageOptions.PublicKeyTokensInclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.SourcesExclude, "Source", msCodeCoverageOptions.SourcesExclude);
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.SourcesInclude, "Source", msCodeCoverageOptions.SourcesInclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.FunctionsExclude, "Function", msCodeCoverageOptions.FunctionsExclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.FunctionsInclude, "Function", msCodeCoverageOptions.FunctionsInclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.CompanyNamesExclude, "CompanyName", msCodeCoverageOptions.CompanyNamesExclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.CompanyNamesInclude, "CompanyName", msCodeCoverageOptions.CompanyNamesInclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.AttributesExclude, "Attribute", msCodeCoverageOptions.AttributesExclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.AttributesInclude, "Attribute", msCodeCoverageOptions.AttributesInclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.PublicKeyTokensExclude, "PublicKeyToken", msCodeCoverageOptions.PublicKeyTokensExclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.PublicKeyTokensInclude, "PublicKeyToken", msCodeCoverageOptions.PublicKeyTokensInclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.SourcesExclude, "Source", msCodeCoverageOptions.SourcesExclude);
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(replacements.SourcesInclude, "Source", msCodeCoverageOptions.SourcesInclude);
         }
 
         [Test]
         public void Should_Create_Distinct_Element_Replacements()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                FunctionsExclude = new[] { "FunctionExclude1", "FunctionExclude1" },
-                FunctionsInclude = new[] { "FunctionInclude1", "FunctionInclude1" },
-                CompanyNamesExclude = new[] { "CompanyNameExclude1", "CompanyNameExclude1" },
-                CompanyNamesInclude = new[] { "CompanyNameInclude1", "CompanyNameInclude1" },
-                AttributesExclude = new[] { "AttributeExclude1", "AttributeExclude1" },
-                AttributesInclude = new[] { "AttributeInclude1", "AttributeInclude1" },
-                PublicKeyTokensExclude = new[] { "PublicKeyTokenExclude1", "PublicKeyTokenExclude1" },
-                PublicKeyTokensInclude = new[] { "PublicKeyTokenInclude1", "PublicKeyTokenInclude1" },
-                SourcesExclude = new[] { "SourceExclude1", "SourceExclude1" },
-                SourcesInclude = new[] { "SourceInclude1", "SourceInclude1" },
-                ModulePathsExclude = new[] { "ModulePathExclude1", "ModulePathExclude1" },
-                ModulePathsInclude = new[] { "ModulePathInclude1", "ModulePathInclude1" },
-                IncludeTestAssembly = true
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    FunctionsExclude = new[] { "FunctionExclude1", "FunctionExclude1" },
+            //    FunctionsInclude = new[] { "FunctionInclude1", "FunctionInclude1" },
+            //    CompanyNamesExclude = new[] { "CompanyNameExclude1", "CompanyNameExclude1" },
+            //    CompanyNamesInclude = new[] { "CompanyNameInclude1", "CompanyNameInclude1" },
+            //    AttributesExclude = new[] { "AttributeExclude1", "AttributeExclude1" },
+            //    AttributesInclude = new[] { "AttributeInclude1", "AttributeInclude1" },
+            //    PublicKeyTokensExclude = new[] { "PublicKeyTokenExclude1", "PublicKeyTokenExclude1" },
+            //    PublicKeyTokensInclude = new[] { "PublicKeyTokenInclude1", "PublicKeyTokenInclude1" },
+            //    SourcesExclude = new[] { "SourceExclude1", "SourceExclude1" },
+            //    SourcesInclude = new[] { "SourceInclude1", "SourceInclude1" },
+            //    ModulePathsExclude = new[] { "ModulePathExclude1", "ModulePathExclude1" },
+            //    ModulePathsInclude = new[] { "ModulePathInclude1", "ModulePathInclude1" },
+            //    IncludeTestAssembly = true
+            //};
 
-            var coverageProject = CreateCoverageProject(mock => mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions));
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //var coverageProject = CreateCoverageProject(mock => mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions));
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
 
-            void AssertReplacement(string replacement, string replacementProperty, bool isInclude)
-            {
-                var ie = isInclude ? "Include" : "Exclude";
-                Assert.AreEqual($"<{replacementProperty}>{replacementProperty}{ie}1</{replacementProperty}>", replacement);
-            }
+            //void AssertReplacement(string replacement, string replacementProperty, bool isInclude)
+            //{
+            //    var ie = isInclude ? "Include" : "Exclude";
+            //    Assert.AreEqual($"<{replacementProperty}>{replacementProperty}{ie}1</{replacementProperty}>", replacement);
+            //}
 
-            AssertReplacement(replacements.ModulePathsExclude, "ModulePath", false);
+            //AssertReplacement(replacements.ModulePathsExclude, "ModulePath", false);
 
-            AssertReplacement(replacements.FunctionsExclude, "Function", false);
-            AssertReplacement(replacements.FunctionsInclude, "Function", true);
-            AssertReplacement(replacements.CompanyNamesExclude, "CompanyName", false);
-            AssertReplacement(replacements.CompanyNamesInclude, "CompanyName", true);
-            AssertReplacement(replacements.AttributesExclude, "Attribute", false);
-            AssertReplacement(replacements.AttributesInclude, "Attribute", true);
-            AssertReplacement(replacements.PublicKeyTokensExclude, "PublicKeyToken", false);
-            AssertReplacement(replacements.PublicKeyTokensInclude, "PublicKeyToken", true);
-            AssertReplacement(replacements.SourcesExclude, "Source", false);
-            AssertReplacement(replacements.SourcesInclude, "Source", true);
+            //AssertReplacement(replacements.FunctionsExclude, "Function", false);
+            //AssertReplacement(replacements.FunctionsInclude, "Function", true);
+            //AssertReplacement(replacements.CompanyNamesExclude, "CompanyName", false);
+            //AssertReplacement(replacements.CompanyNamesInclude, "CompanyName", true);
+            //AssertReplacement(replacements.AttributesExclude, "Attribute", false);
+            //AssertReplacement(replacements.AttributesInclude, "Attribute", true);
+            //AssertReplacement(replacements.PublicKeyTokensExclude, "PublicKeyToken", false);
+            //AssertReplacement(replacements.PublicKeyTokensInclude, "PublicKeyToken", true);
+            //AssertReplacement(replacements.SourcesExclude, "Source", false);
+            //AssertReplacement(replacements.SourcesInclude, "Source", true);
         }
 
         [Test]
         public void Should_Be_Null_TestAdapter_Replacement_When_Null()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                IncludeTestAssembly = true
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    IncludeTestAssembly = true
+            //};
 
-            var coverageProject = CreateCoverageProject(mock => mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions));
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
-            Assert.That(replacements.TestAdapter, Is.Null);
+            //var coverageProject = CreateCoverageProject(mock => mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions));
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //Assert.That(replacements.TestAdapter, Is.Null);
         }
 
         [Test]
         public void Should_Have_ModulePathsExclude_Replacements_From_ExcludedReferencedProjects_Settings_And_Excluded_Test_Assembly()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                ModulePathsExclude = new[] { "FromSettings" },
-                IncludeTestAssembly = false
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    ModulePathsExclude = new[] { "FromSettings" },
+            //    IncludeTestAssembly = false
+            //};
 
-            var coverageProject = CreateCoverageProject(mock =>
-            {
-                mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
-                mock.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>
-                {
-                    new ReferencedProject("","ModuleName",true)
-                });
-                mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
-            });
+            //var coverageProject = CreateCoverageProject(mock =>
+            //{
+            //    mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
+            //    mock.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>
+            //    {
+            //        new ReferencedProject("","ModuleName",true)
+            //    });
+            //    mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
+            //});
 
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
 
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(
-                replacements.ModulePathsExclude, 
-                "ModulePath",
-                new[] { MsCodeCoverageRegex.RegexModuleName("ModuleName", true), 
-                    MsCodeCoverageRegex.RegexEscapePath(@"Path\To\Test.dll"), 
-                    "FromSettings" });
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(
+            //    replacements.ModulePathsExclude, 
+            //    "ModulePath",
+            //    new[] { MsCodeCoverageRegex.RegexModuleName("ModuleName", true), 
+            //        MsCodeCoverageRegex.RegexEscapePath(@"Path\To\Test.dll"), 
+            //        "FromSettings" });
         }
 
 
         [Test]
         public void Should_Have_ModulePathsInclude_Replacements_From_IncludedReferencedProjects_Settings_IncludedTestAssembly_False()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                ModulePathsInclude = new[] { "FromSettings" },
-                IncludeTestAssembly = false
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    ModulePathsInclude = new[] { "FromSettings" },
+            //    IncludeTestAssembly = false
+            //};
 
-            var coverageProject = CreateCoverageProject(mock =>
-            {
-                mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
-                mock.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>
-                {
-                    new ReferencedProject("", "ModuleNameDll", true),
-                    new ReferencedProject("", "ModuleNameExe", false)
-                });
-                mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
-            });
+            //var coverageProject = CreateCoverageProject(mock =>
+            //{
+            //    mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
+            //    mock.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>
+            //    {
+            //        new ReferencedProject("", "ModuleNameDll", true),
+            //        new ReferencedProject("", "ModuleNameExe", false)
+            //    });
+            //    mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
+            //});
 
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
 
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(
-                replacements.ModulePathsInclude,
-                "ModulePath",
-                new[] {
-                    MsCodeCoverageRegex.RegexModuleName("ModuleNameDll", true),
-                    MsCodeCoverageRegex.RegexModuleName("ModuleNameExe", false),
-                    "FromSettings" });
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(
+            //    replacements.ModulePathsInclude,
+            //    "ModulePath",
+            //    new[] {
+            //        MsCodeCoverageRegex.RegexModuleName("ModuleNameDll", true),
+            //        MsCodeCoverageRegex.RegexModuleName("ModuleNameExe", false),
+            //        "FromSettings" });
         }
 
         [Test]
         public void Should_Not_Have_ModulePathsInclude_Replacements_When_IncludeTestAssembly_True_And_No_Other_Includes()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                IncludeTestAssembly = true
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    IncludeTestAssembly = true
+            //};
 
-            var coverageProject = CreateCoverageProject(mock =>
-            {
-                mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
-                mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
-            });
+            //var coverageProject = CreateCoverageProject(mock =>
+            //{
+            //    mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
+            //    mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
+            //});
 
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
 
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(
-                replacements.ModulePathsInclude,
-                "ModulePath",
-                Enumerable.Empty<string>());
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(
+            //    replacements.ModulePathsInclude,
+            //    "ModulePath",
+            //    Enumerable.Empty<string>());
         }
 
         [Test]
         public void Should_Have_ModulePathsInclude_Replacements_With_Test_Assembly_When_IncludeTestAssembly_True_And_Other_Includes()
         {
-            var msCodeCoverageOptions = new TestCoverageProjectOptions
-            {
-                ModulePathsInclude = new[] { "SettingsInclude" },
-                IncludeTestAssembly = true
-            };
+            throw new NotImplementedException();
+            //var msCodeCoverageOptions = new TestCoverageProjectOptions
+            //{
+            //    ModulePathsInclude = new[] { "SettingsInclude" },
+            //    IncludeTestAssembly = true
+            //};
 
-            var coverageProject = CreateCoverageProject(mock =>
-            {
-                mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
-                mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
-            });
+            //var coverageProject = CreateCoverageProject(mock =>
+            //{
+            //    mock.Setup(cp => cp.Settings).Returns(msCodeCoverageOptions);
+            //    mock.Setup(cp => cp.TestDllFile).Returns(@"Path\To\Test.dll");
+            //});
 
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
+            //var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, null);
 
-            IncludeExcludeXmlELementsStringAssertionHelper.Assert(
-                replacements.ModulePathsInclude,
-                "ModulePath",
-                new[] { "SettingsInclude", MsCodeCoverageRegex.RegexEscapePath(@"Path\To\Test.dll") });
+            //IncludeExcludeXmlELementsStringAssertionHelper.Assert(
+            //    replacements.ModulePathsInclude,
+            //    "ModulePath",
+            //    new[] { "SettingsInclude", MsCodeCoverageRegex.RegexEscapePath(@"Path\To\Test.dll") });
         }
     }
 

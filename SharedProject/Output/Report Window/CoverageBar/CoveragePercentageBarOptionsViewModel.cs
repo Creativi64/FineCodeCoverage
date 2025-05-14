@@ -49,19 +49,19 @@ namespace FineCodeCoverage.Output
             SetOptions(appOptions);
         }
 
-        private void SetOptions(ICoveragePercentageBarOptions coveragePercentageBarOptions)
+        private void SetOptions(AppOptions appOptions)
         {
-            this.DisplayParts = coveragePercentageBarOptions.CoveragePercentageDisplayParts;
-            this.CoveredPercentageIsLeft = coveragePercentageBarOptions.CoveragePercentageCoveredIsLeft;
-            this.IsThemed = coveragePercentageBarOptions.CoveragePercentageIsThemed;
-            this.UseSolidBrush = coveragePercentageBarOptions.CoveragePercentageUseSolidBrush;
-            this.UseContrastedThemeWhenSingularDisplay = coveragePercentageBarOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
-            this.HeightOrMultiplier = coveragePercentageBarOptions.CoveragePercentageHeightOrMultiplier;
-            this.ShowToolTip = coveragePercentageBarOptions.CoveragePercentageShowTooltip;
-            if (coveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
+            this.DisplayParts = appOptions.CoveragePercentageDisplayParts;
+            this.CoveredPercentageIsLeft = appOptions.CoveragePercentageCoveredIsLeft;
+            this.IsThemed = appOptions.CoveragePercentageIsThemed;
+            this.UseSolidBrush = appOptions.CoveragePercentageUseSolidBrush;
+            this.UseContrastedThemeWhenSingularDisplay = appOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
+            this.HeightOrMultiplier = appOptions.CoveragePercentageHeightOrMultiplier;
+            this.ShowToolTip = appOptions.CoveragePercentageShowTooltip;
+            if (appOptions.CoveragePercentageUseColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
             {
-                SetCoverageColours(coveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors);
-                lastCoveragePercentageBarColorsFromFontsAndColors = coveragePercentageBarOptions.CoveragePercentageUseColorsFromFontsAndColors;
+                SetCoverageColours(appOptions.CoveragePercentageUseColorsFromFontsAndColors);
+                lastCoveragePercentageBarColorsFromFontsAndColors = appOptions.CoveragePercentageUseColorsFromFontsAndColors;
             }
         }
 

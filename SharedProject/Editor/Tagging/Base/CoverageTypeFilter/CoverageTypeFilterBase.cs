@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         };
         private Dictionary<DynamicCoverageType, bool> showLookup = doNotShowLookup;
 
-        public void Initialize(IAppOptions appOptions)
+        public void Initialize(AppOptions appOptions)
         {
             if (this.ShouldGetShowLookup(appOptions))
             {
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        private bool ShouldGetShowLookup(IAppOptions appOptions) => appOptions.ShowEditorCoverage && this.EnabledPrivate(appOptions);
+        private bool ShouldGetShowLookup(AppOptions appOptions) => appOptions.ShowEditorCoverage && this.EnabledPrivate(appOptions);
 
         private void ThrowIfInvalidShowLookup()
         {
@@ -38,15 +38,15 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        private bool EnabledPrivate(IAppOptions appOptions)
+        private bool EnabledPrivate(AppOptions appOptions)
         {
             bool enabled = this.Enabled(appOptions);
             this.Disabled = !enabled;
             return enabled;
         }
 
-        protected abstract bool Enabled(IAppOptions appOptions);
-        protected abstract Dictionary<DynamicCoverageType, bool> GetShowLookup(IAppOptions appOptions);
+        protected abstract bool Enabled(AppOptions appOptions);
+        protected abstract Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions);
 
         public abstract string TypeIdentifier { get; }
 

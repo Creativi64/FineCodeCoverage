@@ -22,43 +22,44 @@ namespace FineCodeCoverageTests.Editor.Management
         [Test]
         public void Should_Use_MEF_Category_And_FCCEditorFormatDefinitionNames_When_Vs_Does_Have_Coverage_Markers_But_Not_UseEnterpriseFontsAndColors()
         {
-            var autoMoqer = new AutoMoqer();
-            autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(new Mock<IAppOptions>().Object);
+            throw new NotImplementedException();
+            //var autoMoqer = new AutoMoqer();
+            //autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
+            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions { UseEnterpriseFontsAndColors = false});
             
-            Verify_Use_MEF_Category_And_FCCEditorFormatDefinitionNames(autoMoqer);
+            //Verify_Use_MEF_Category_And_FCCEditorFormatDefinitionNames(autoMoqer);
         }
 
         [Test]
         public void Should_Use_MEF_Category_For_Non_Markers_When_UseEnterpriseFontsAndColors()
         {
-            var autoMoqer = new AutoMoqer();
-            autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupGet(appOptions => appOptions.UseEnterpriseFontsAndColors).Returns(true);
-            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(mockAppOptions.Object);
+            throw new NotImplementedException();
+            //var autoMoqer = new AutoMoqer();
+            //autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
+            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+            //    .Returns(new AppOptions { UseEnterpriseFontsAndColors  = true});
 
-            var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
+            //var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
 
-            var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
+            //var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
 
-            AssertNonMarkers(categoryItemNames);
+            //AssertNonMarkers(categoryItemNames);
         }
 
         [Test]
         public void Should_Use_VS_For_Markers_When_UseEnterpriseFontsAndColors()
         {
-            var autoMoqer = new AutoMoqer();
-            autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupGet(appOptions => appOptions.UseEnterpriseFontsAndColors).Returns(true);
-            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(mockAppOptions.Object);
+            throw new NotImplementedException();
+            //var autoMoqer = new AutoMoqer();
+            //autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
+            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+            //    .Returns(new AppOptions { UseEnterpriseFontsAndColors = true });
 
-            var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
+            //var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
 
-            var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
+            //var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
 
-            AssertVSMarkers(categoryItemNames);
+            //AssertVSMarkers(categoryItemNames);
         }
 
         [TestCase(false,true, false, true)]
@@ -69,12 +70,9 @@ namespace FineCodeCoverageTests.Editor.Management
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(hasCoverageMarkers);
-            var mockAppOptions = new Mock<IAppOptions>();
-            mockAppOptions.SetupGet(appOptions => appOptions.UseEnterpriseFontsAndColors).Returns(useEnterpriseFontsAndColors);
-            var mockChangedAppOptions = new Mock<IAppOptions>();
-            mockChangedAppOptions.SetupGet(appOptions => appOptions.UseEnterpriseFontsAndColors).Returns(!useEnterpriseFontsAndColors);
+            var appOptions = new AppOptions { UseEnterpriseFontsAndColors = useEnterpriseFontsAndColors };
             var mockAppOptionsProvider = autoMoqer.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(mockAppOptions.Object);
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(appOptions);
 
             var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
 
@@ -85,15 +83,15 @@ namespace FineCodeCoverageTests.Editor.Management
             };
 
             var _ = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
-
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, mockChangedAppOptions.Object);
+            appOptions.UseEnterpriseFontsAndColors = !appOptions.UseEnterpriseFontsAndColors;
+            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, appOptions);
 
             var changed = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
             var changedCovered = changed.Covered;
             var changedNotCovered = changed.NotCovered;
             var changedPartiallyCovered = changed.PartiallyCovered;
 
-            
+
             AssertNonMarkers(changed);
             Assert.That(changedRaised, Is.EqualTo(expectedChangedRaised));
             if (expectedMEF)

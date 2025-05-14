@@ -22,6 +22,7 @@ using Microsoft;
 
 namespace FineCodeCoverage.Output
 {
+
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -51,8 +52,8 @@ namespace FineCodeCoverage.Output
 	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
     [ProvideToolWindow(typeof(ReadmeToolWindow), Orientation = ToolWindowOrientation.Right, Style = VsDockStyle.Tabbed, Width = 600, Height = 700)]
     [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption,  typeof(FCCPackage), Arguments = "0")]
-    public sealed class FCCPackage : AsyncPackage
-	{
+    public sealed class FCCPackage : AsyncPackage, IDialogPageInstantiator
+    {
         private ISolutionOptions solutionOptions;
 
         /// <summary>
@@ -87,10 +88,20 @@ namespace FineCodeCoverage.Output
             var componentModel = GetComponentModel();
             await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
+            foreach (var requireDialogPageInstantiator in componentModel.GetExtensions<IRequireDialogPageInstantiator>())
+            {
+                requireDialogPageInstantiator.DialogPageInstantiator = this;
+            }
             await InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
+        }
+
+        void IDialogPageInstantiator.Instantiate<TOptions>()
+        {
+            var optionPageType = OptionsPageTypeLookup.GetOptionPageType<TOptions>();
+            GetDialogPage(optionPageType);
         }
 
         private IComponentModel GetComponentModel()

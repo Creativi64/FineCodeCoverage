@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Impl
         private bool cancelling;
         private MsCodeCoverageCollectionStatus msCodeCoverageCollectionStatus;
         private bool runningInParallel;
-        private IAppOptions settings;
+        private AppOptions settings;
         private int coverageRunNumber = 1;
 
         internal Task initializeTask;
@@ -92,7 +92,7 @@ namespace FineCodeCoverage.Impl
 
         internal Action<Func<Task>> RunAsync = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
 
-        private bool CoverageDisabled(IAppOptions settings)
+        private bool CoverageDisabled(AppOptions settings)
         {
             return !settings.Enabled  && settings.DisabledNoCoverage;
         }

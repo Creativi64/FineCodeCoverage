@@ -128,7 +128,7 @@ namespace FineCodeCoverage.ReportGeneration
                         .Select(mm => new RiskHotspot(assembly.ShortName, cls.DisplayName, mm)
                     )));
 
-        private RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds(IAppOptions appOptions) => new RiskHotspotsAnalysisThresholds
+        private RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds(AppOptions appOptions) => new RiskHotspotsAnalysisThresholds
         {
             MetricThresholdForCyclomaticComplexity = appOptions.ThresholdForCyclomaticComplexity,
             MetricThresholdForCrapScore = appOptions.ThresholdForCrapScore,

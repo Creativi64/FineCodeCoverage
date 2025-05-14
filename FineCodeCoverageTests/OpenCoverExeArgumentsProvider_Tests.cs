@@ -295,11 +295,12 @@ namespace FineCodeCoverageTests
 
         private Mock<ICoverageProject> SafeMockCoverageProject()
         {
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings).Returns(new Mock<IAppOptions>().Object);
-            return mockCoverageProject;
+            throw new NotImplementedException();
+            //var mockCoverageProject = new Mock<ICoverageProject>();
+            //mockCoverageProject.SetupGet(coverageProject => coverageProject.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.SetupGet(coverageProject => coverageProject.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings).Returns(new Mock<IAppOptions>().Object);
+            //return mockCoverageProject;
         }
 
         private void AssertDoesNotHaveSetting(List<string> openCoverSettings, string setting)

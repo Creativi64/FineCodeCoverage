@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Engine.Model
         string ProjectName { get; set; }
         string ProjectOutputFolder { get; }
         string RunSettingsFile { get; set; }
-        IAppOptions Settings { get; }
+        ICoverageSettings Settings { get; }
         string TestDllFile { get; set; }
         Guid Id { get; set; }
         bool IsDotNetFramework { get; }

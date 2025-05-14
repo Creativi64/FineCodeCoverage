@@ -132,12 +132,13 @@ namespace Test
 
         private Mock<ICoverageProject> SafeMockCoverageProject()
         {
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings).Returns(new Mock<IAppOptions>().Object);
-            mockCoverageProject.Setup(coverageProject => coverageProject.ProjectName).Returns(testProjectName);
-            return mockCoverageProject;
+            throw new NotImplementedException();
+            //var mockCoverageProject = new Mock<ICoverageProject>();
+            //mockCoverageProject.SetupGet(coverageProject => coverageProject.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.SetupGet(coverageProject => coverageProject.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
+            //mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings).Returns(new Mock<IAppOptions>().Object);
+            //mockCoverageProject.Setup(coverageProject => coverageProject.ProjectName).Returns(testProjectName);
+            //return mockCoverageProject;
         }
 
         private void AssertHasSetting(List<string> coverletSettings, string setting)

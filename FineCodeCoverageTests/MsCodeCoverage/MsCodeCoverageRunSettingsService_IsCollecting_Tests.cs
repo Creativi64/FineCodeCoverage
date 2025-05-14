@@ -483,9 +483,8 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         private void SetupAppOptionsProvider(RunMsCodeCoverage runMsCodeCoverage)
         {
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            var mockOptions = new Mock<IAppOptions>();
-            mockOptions.Setup(options => options.RunMsCodeCoverage).Returns(runMsCodeCoverage);
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(mockOptions.Object);
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get())
+                .Returns(new AppOptions { RunMsCodeCoverage = runMsCodeCoverage});
         }
 
         private void VerifyLogException(string reason, Exception exception)
@@ -524,15 +523,16 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             string projectFile = ""
         )
         {
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.RunSettingsFile).Returns(runSettingsFile);
-            mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns(coverageOutputFolder);
-            mockCoverageProject.Setup(cp => cp.TestDllFile).Returns(testDllFile);
-            mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(excludedReferencedProjects);
-            mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(includedReferencedProjects);
-            mockCoverageProject.Setup(cp => cp.Settings).Returns(settings);
-            mockCoverageProject.Setup(cp => cp.ProjectFile).Returns(projectFile);
-            return mockCoverageProject.Object;
+            throw new NotImplementedException();
+            //var mockCoverageProject = new Mock<ICoverageProject>();
+            //mockCoverageProject.Setup(cp => cp.RunSettingsFile).Returns(runSettingsFile);
+            //mockCoverageProject.Setup(cp => cp.CoverageOutputFolder).Returns(coverageOutputFolder);
+            //mockCoverageProject.Setup(cp => cp.TestDllFile).Returns(testDllFile);
+            //mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(excludedReferencedProjects);
+            //mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(includedReferencedProjects);
+            //mockCoverageProject.Setup(cp => cp.Settings).Returns(settings);
+            //mockCoverageProject.Setup(cp => cp.ProjectFile).Returns(projectFile);
+            //return mockCoverageProject.Object;
         }
 
         private Mock<ICoverageProject> CreateMinimalMockRunSettingsCoverageProject()

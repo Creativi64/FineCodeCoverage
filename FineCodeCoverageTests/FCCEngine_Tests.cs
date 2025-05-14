@@ -54,10 +54,8 @@ namespace Test
             mockDisposeAwareTaskRunner.Setup(disposeAwareTaskRunner => disposeAwareTaskRunner.CreateLinkedTokenSource()).Returns(mockCancellationTokenSource.Object);
             fccEngine = mocker.Create<FCCEngine>();
 
-            var mockedAppOptions = mocker.GetMock<IAppOptions>();
-            mockedAppOptions.Setup(x => x.RunMsCodeCoverage).Returns(RunMsCodeCoverage.No);
             var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(x => x.Get()).Returns(mockedAppOptions.Object);
+            mockAppOptionsProvider.Setup(x => x.Get()).Returns(new AppOptions { RunMsCodeCoverage = RunMsCodeCoverage.No});
         }
 
         [Test]
