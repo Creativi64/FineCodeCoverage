@@ -336,6 +336,30 @@ namespace FineCodeCoverageTests
             Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.Exclude);
         }
 
+        [Test]
+        public async Task Should_Allow_Setting_All_CoverageSettings_Properties_From_XML_Async()
+        {
+            var coverageSettings = new CoverageSettings() { };
+
+            var element = XElement.Parse($@"
+<root>
+    {CreateElementString(nameof(CoverageSettings.AttributesExclude),new string[] { " AttributesExclude1 ", " AttributesExclude2 " })}
+    {CreateElementString(nameof(CoverageSettings.Enabled), true)}
+    {CreateElementString(nameof(CoverageSettings.IncludeTestAssembly), true)}
+</root>
+");
+            await settingsMerger.MergeAsync(
+                coverageSettings,
+                CoverageSettingsPropertyInfos,
+                new List<XElement> { },
+                element);
+
+            Assert.That(coverageSettings.AttributesExclude, Is.EqualTo(new string[] { "AttributesExclude1", "AttributesExclude2" }));
+            Assert.That(coverageSettings.Enabled, Is.True);
+            Assert.That(coverageSettings.IncludeTestAssembly, Is.True);
+        }
+
+
         [TestCaseSource(nameof(XmlConversionCases))]
         public void Should_Convert_Xml_Value_Correctly(XElement propertyElement, Type propertyType, object expectedConversion)
         {
@@ -352,19 +376,37 @@ namespace FineCodeCoverageTests
             Assert.Throws<Exception>(() => settingsMerger.GetValueFromXml(settingsElement, typeof(Type), "TheName"), expectedMessage);
         }
 
+        // add to if add additional types.
         static object[] XmlConversionCases()
         {
-            XElement CreateElement(string elementName, string value)
-            {
-                return XElement.Parse($"<{elementName}>{value}</{elementName}>");
-            }
             var cases = new object[]
             {
                 
-                
+                new object[]
+                {
+                    new XElement("Element","1.1"),
+                    typeof(float),
+                    1.1f
+                }
             };
 
             return cases;
+        }
+
+        private XElement CreateElement(string elementName, string value)
+        {
+            return XElement.Parse(CreateElementString(elementName, value));
+        }
+
+        private string CreateElementString(string elementName, object value)
+        {
+            return $"<{elementName}>{value}</{elementName}>";
+        }
+
+        private string CreateElementString(string elementName, string[] array)
+        {
+            var value = string.Join(Environment.NewLine, array);
+            return $"<{elementName}>{value}</{elementName}>";
         }
 
 
@@ -372,7 +414,7 @@ namespace FineCodeCoverageTests
         {
             return XElement.Parse($@"
 <Root>
-    <IncludeReferencedProjects>{include}</IncludeReferencedProjects>
+    {CreateElementString(nameof(CoverageSettings.IncludeReferencedProjects),include)}
 </Root>
 ");
         }
