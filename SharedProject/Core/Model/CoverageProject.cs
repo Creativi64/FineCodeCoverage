@@ -117,7 +117,7 @@ namespace FineCodeCoverage.Engine.Model
         public string FailureDescription { get; set; }
         public string FailureStage { get; set; }
         public bool HasFailed => !string.IsNullOrWhiteSpace(FailureStage) || !string.IsNullOrWhiteSpace(FailureDescription);
-        public string ProjectFile { get; set; }
+        public string ProjectFilePath { get; set; }
         public Guid Id { get; set; }
         public string ProjectName { get; set; }
         public string CoverageOutputFile => Path.Combine(CoverageOutputFolder, $"{ProjectName}.coverage.xml");
@@ -142,7 +142,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             get
             {
-                return projectFileXElement ?? (projectFileXElement = LinqToXmlUtil.Load(ProjectFile, true));
+                return projectFileXElement ?? (projectFileXElement = LinqToXmlUtil.Load(ProjectFilePath, true));
 
             }
         }
@@ -216,7 +216,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private async Task SetIncludedExcludedReferencedProjectsAsync()
         {
-            var referencedProjects = await referencedProjectsHelper.GetReferencedProjectsAsync(ProjectFile, () => ProjectFileXElement);
+            var referencedProjects = await referencedProjectsHelper.GetReferencedProjectsAsync(ProjectFilePath, () => ProjectFileXElement);
             SetExcludedReferencedProjects(referencedProjects);
             SetIncludedReferencedProjects(referencedProjects);
         }

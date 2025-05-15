@@ -5,10 +5,14 @@ namespace FineCodeCoverage.Options
     /*
         Note that option properties must not be renamed
     */
-    internal interface IFCCCommonOptions
+    interface IEnabledOption
     {
         bool Enabled { get; set; }
-        bool DisabledNoCoverage { get; set; }
+    }
+
+    internal interface IFCCCommonIncludesExcludes
+    {
+
         bool IncludeTestAssembly { get; set; }
         bool IncludeReferencedProjects { get; set; }
 
@@ -31,7 +35,7 @@ namespace FineCodeCoverage.Options
         string[] FunctionsInclude { get; set; }
         string[] FunctionsExclude { get; set; }
     }
-    internal interface IMsCodeCoverageOptions : IMsCodeCoverageIncludesExcludesOptions, IFCCCommonOptions { }
+    internal interface IMsCodeCoverageOptions : IMsCodeCoverageIncludesExcludesOptions, IFCCCommonIncludesExcludes, IEnabledOption { }
     internal enum RunMsCodeCoverage { No, IfInRunSettings, Yes }
 
     internal interface IOpenCoverCoverletExcludeIncludeOptions
@@ -141,57 +145,71 @@ namespace FineCodeCoverage.Options
         SourceFileStructure SourceFileStructure { get; set; }
     }
 
-    internal interface IAppOptions :
-        IMsCodeCoverageOptions,
-        IOpenCoverCoverletExcludeIncludeOptions,
-        IFCCCommonOptions,
-        IOpenCoverOptions,
-        IEditorCoverageColouringOptions,
-        IReportDisplayOptions
+    internal interface ICoverletOptions
     {
-        bool RunInParallel { get; set; }
-        int RunWhenTestsExceed { get; set; }
-        string ToolsDirectory { get; set; }
-        bool RunWhenTestsFail { get; set; }
-        bool RunSettingsOnly { get; set; }
         bool CoverletConsoleGlobal { get; set; }
         string CoverletConsoleCustomPath { get; set; }
         bool CoverletConsoleLocal { get; set; }
         string CoverletCollectorDirectoryPath { get; set; }
+        bool RunSettingsOnly { get; set; }
+    }
 
-        string FCCSolutionOutputDirectoryName { get; set; }
+    interface IHotspotThresholds
+    {
         int ThresholdForCyclomaticComplexity { get; set; }
         int ThresholdForNPathComplexity { get; set; }
         int ThresholdForCrapScore { get; set; }
-        bool HideFullyCovered { get; set; }
-        bool Hide0Coverable { get; set; }
-        bool Hide0Coverage { get; set; }
-        bool AdjacentBuildOutput { get; set; }
-        RunMsCodeCoverage RunMsCodeCoverage { get; set; }
+    }
+
+    interface IBlazorOptions
+    {
         bool BlazorCoverageLinesFromGeneratedSource { get; set; }
     }
 
-    internal interface ICoverageSettings
-    {
-        bool IncludeReferencedProjects { get; }
-        string CoverletConsoleCustomPath { get; }
-        bool CoverletConsoleGlobal { get; }
-        bool CoverletConsoleLocal { get; }
-        string[] Exclude { get; }
-        string[] Include { get; }
-        bool IncludeTestAssembly { get; set; }
-        string[] ExcludeByFile { get; set; }
-        string[] ExcludeByAttribute { get; }
-        bool RunSettingsOnly { get; }
-        string CoverletCollectorDirectoryPath { get; }
-        bool Enabled { get; }
-        string OpenCoverTarget { get; }
-        string OpenCoverTargetArgs { get; }
-        OpenCoverRegister OpenCoverRegister { get; }
-        string[] ModulePathsInclude { get; }
-        string OpenCoverCustomPath { get; }
-        string[] ModulePathsExclude { get; }
-        string[] ExcludeAssemblies { get; }
-        string[] IncludeAssemblies { get; }
+    interface IReportFilters {
+        bool HideFullyCovered { get; set; }
+        bool Hide0Coverable { get; set; }
+        bool Hide0Coverage { get; set; }
     }
+
+
+    interface IRunOptions : IEnabledOption
+    {
+        bool DisabledNoCoverage { get; set; }
+        bool RunInParallel { get; set; }
+        int RunWhenTestsExceed { get; set; }
+        bool RunWhenTestsFail { get; set; }
+        RunMsCodeCoverage RunMsCodeCoverage { get; set; }
+    }
+    internal interface IInstallationOptions
+    {
+        string ToolsDirectory { get; set; }
+    }
+    internal interface IOpenCoverCoverletBuildOutputOptions
+    {
+        bool AdjacentBuildOutput { get; set; }
+    }
+
+    internal interface ICommonOutputOptions
+    {
+        string FCCSolutionOutputDirectoryName { get; set; }
+    }
+
+    internal interface IOutputOptions : IOpenCoverCoverletBuildOutputOptions, ICommonOutputOptions { }
+
+    internal interface IAppOptions :
+        IMsCodeCoverageIncludesExcludesOptions,
+        IOpenCoverCoverletExcludeIncludeOptions,
+        IFCCCommonIncludesExcludes,
+        IOpenCoverOptions,
+        ICoverletOptions,
+        IEditorCoverageColouringOptions,
+        IReportDisplayOptions,
+        IHotspotThresholds,
+        IBlazorOptions,
+        IReportFilters,
+        IRunOptions,
+        IInstallationOptions,
+        IOutputOptions
+    { }
 }

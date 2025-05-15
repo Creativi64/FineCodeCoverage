@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine
             {
                 if(!provided)
                 {
-                    providedDirectory = solutionFolderProvider.Provide(coverageProjects[0].ProjectFile);
+                    providedDirectory = solutionFolderProvider.Provide(coverageProjects[0].ProjectFilePath);
                     provided = true;
                 }
                 return providedDirectory;

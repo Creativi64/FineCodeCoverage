@@ -62,7 +62,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             var runSettingsTemplateReplacements = SetupReplacements();
 
             var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.ProjectFile).Returns(@"C:\SomeProject\SomeProject.csproj");
+            mockCoverageProject.Setup(cp => cp.ProjectFilePath).Returns(@"C:\SomeProject\SomeProject.csproj");
             var coverageProject = mockCoverageProject.Object;
             var coverageProjects = new List<ICoverageProject> { coverageProject };
 
@@ -83,7 +83,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public async Task Should_Return_ExceptionReason_Result_If_Throws_Creating_RunSettings_Async()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.ProjectFile).Returns(@"C:\SomeProject\SomeProject.csproj");
+            mockCoverageProject.Setup(cp => cp.ProjectFilePath).Returns(@"C:\SomeProject\SomeProject.csproj");
             var coverageProject = mockCoverageProject.Object;
             var coverageProjects = new List<ICoverageProject> { coverageProject };
 
@@ -132,9 +132,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public async Task Should_Return_A_Result_With_No_ExceptionReason_When_No_Exception_Async()
         {
             var mockCoverageProject1 = new Mock<ICoverageProject>();
-            mockCoverageProject1.Setup(cp => cp.ProjectFile).Returns(@"C:\SomeProject\SomeProject.csproj");
+            mockCoverageProject1.Setup(cp => cp.ProjectFilePath).Returns(@"C:\SomeProject\SomeProject.csproj");
             var mockCoverageProject2 = new Mock<ICoverageProject>();
-            mockCoverageProject2.Setup(cp => cp.ProjectFile).Returns(@"C:\SomeProject2\SomeProject2.csproj");
+            mockCoverageProject2.Setup(cp => cp.ProjectFilePath).Returns(@"C:\SomeProject2\SomeProject2.csproj");
             var coverageProjects = new List<ICoverageProject>
             {
                 mockCoverageProject1.Object,
@@ -196,7 +196,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         private List<ICoverageProject> CreateCoverageProjectsSingle()
         {
             var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.Setup(cp => cp.ProjectFile).Returns(@"C:\SomeProject\SomeProject.csproj");
+            mockCoverageProject.Setup(cp => cp.ProjectFilePath).Returns(@"C:\SomeProject\SomeProject.csproj");
             var coverageProject = mockCoverageProject.Object;
             return new List<ICoverageProject> { coverageProject };
         }

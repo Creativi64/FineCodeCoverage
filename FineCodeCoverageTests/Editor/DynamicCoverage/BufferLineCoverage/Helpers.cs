@@ -96,9 +96,8 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
             EditorCoverageColouringMode editorCoverageColouringMode = EditorCoverageColouringMode.UseRoslynWhenTextChanges
         )
         {
-            throw new NotImplementedException();
-            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
-            //    .Returns(new AppOptions { EditorCoverageColouringMode = editorCoverageColouringMode});
+            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+                .Returns(new AppOptions { EditorCoverageColouringMode = editorCoverageColouringMode });
         }
 
         public static SimpleSetupInfo Setup(

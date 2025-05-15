@@ -21,10 +21,10 @@ namespace FineCodeCoverage.Engine.Model
             this.fileUtil = fileUtil;
         }
 
-        public List<XElement> Provide(string projectPath)
+        public List<XElement> Provide(string projectDirectoryPath)
         {
             var fccOptionsElements = new List<XElement>();
-            var directoryPath = projectPath;
+            var directoryPath = projectDirectoryPath;
             var ascend = true;
             while (ascend)
             {

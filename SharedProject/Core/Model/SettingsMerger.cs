@@ -1,6 +1,4 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options;
-using FineCodeCoverage.Output;
+﻿using FineCodeCoverage.Output;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -80,7 +78,7 @@ namespace FineCodeCoverage.Engine.Model
             public bool FromProjectSettings { get; internal set; }
         }
 
-        private readonly PropertyInfo[] settingsPropertyInfos;
+        private List<PropertyInfo> settingsPropertyInfos;
 
 
         [ImportingConstructor]
@@ -88,56 +86,53 @@ namespace FineCodeCoverage.Engine.Model
             ILogger logger
         )
         {
-            settingsPropertyInfos = typeof(IAppOptions).GetPublicProperties();
             this.logger = logger;
-
         }
 
-        private AppOptions Clone(AppOptions appOptions)
-        {
-            var clone = new AppOptions();
-            foreach(var settingsPropertyInfo in settingsPropertyInfos)
-            {
-                settingsPropertyInfo.SetValue(clone, settingsPropertyInfo.GetValue(appOptions));
-            }
-            return clone;
-        }
-
-        public async Task<AppOptions> MergeAsync(
-            AppOptions globalOptions,
+        public async Task MergeAsync(
+            CoverageSettings coverageSettings,
+            List<PropertyInfo> coverageSettingsPropertyInfos,
             List<XElement> settingsFileElements,
             XElement projectSettingsElement)
         {
-            throw new NotImplementedException();
-            //globalOptions = Clone(globalOptions);
-            //var settingsElementsWithDefaultMergeStrategy =
-            //    settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge {
-            //        SettingsElement = e,
-            //        DefaultMerge = settingsFileDefaultMerge,
-            //        FromProjectSettings = false
-            //    });
+            settingsPropertyInfos = coverageSettingsPropertyInfos;
+            await MergeAsync(coverageSettings, GetElementDefaultMergeStrategies(settingsFileElements,projectSettingsElement));
+        }
 
-            //if (projectSettingsElement != null)
-            //{
-            //    settingsElementsWithDefaultMergeStrategy.Add(
-            //        new SettingsElementDefaultMerge {
-            //            SettingsElement = projectSettingsElement,
-            //            DefaultMerge = projectSettingsDefaultMerge,
-            //            FromProjectSettings = true
-            //        }
-            //    );
-            //}
+        private List<SettingsElementDefaultMerge> GetElementDefaultMergeStrategies(List<XElement> settingsFileElements, XElement projectSettingsElement)
+        {
+            var settingsElementsWithDefaultMergeStrategy =
+                settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge
+                {
+                    SettingsElement = e,
+                    DefaultMerge = settingsFileDefaultMerge,
+                    FromProjectSettings = false
+                });
 
-            //if (settingsElementsWithDefaultMergeStrategy.Count != 0)
-            //{
-            //    await MergeAsync(globalOptions, settingsElementsWithDefaultMergeStrategy);
-            //}
+            if (projectSettingsElement != null)
+            {
+                settingsElementsWithDefaultMergeStrategy.Add(
+                    new SettingsElementDefaultMerge
+                    {
+                        SettingsElement = projectSettingsElement,
+                        DefaultMerge = projectSettingsDefaultMerge,
+                        FromProjectSettings = true
+                    }
+                );
+            }
+            return settingsElementsWithDefaultMergeStrategy;
+        }
 
-            //return globalOptions;
+        private async Task MergeAsync(CoverageSettings coverageSettings, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
+        {
+            foreach (var settingsProperty in settingsPropertyInfos)
+            {
+                await MergeAsync(coverageSettings, settingsProperty, settingsElementsWithDefaultMergeStrategy);
+            }
         }
 
         private async Task MergeAsync(
-            IAppOptions globalOptions,
+            CoverageSettings coverageSettings,
             PropertyInfo settingPropertyInfo,
             List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
         )
@@ -145,39 +140,62 @@ namespace FineCodeCoverage.Engine.Model
             var canMerge = settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
             if (canMerge)
             {
-                foreach (var settingsElementWithDefaultMerge in settingsElementsWithDefaultMergeStrategy)
-                {
-                    var settingsElement = settingsElementWithDefaultMerge.SettingsElement;
-                    var defaultMerge = GetDefaultMerge(settingsElementWithDefaultMerge.DefaultMerge, settingsElement);
-                    var propertyElement = GetPropertyElement(settingsElement, settingPropertyInfo.Name);
-                    if (propertyElement != null)
-                    {
-                        var fromProjectSettings = settingsElementWithDefaultMerge.FromProjectSettings;
-                        var merge = GetMerge(defaultMerge, propertyElement);
-                        if (merge)
-                        {
-                            await MergeAsync(globalOptions, settingPropertyInfo, settingsElement,fromProjectSettings);
-                        }
-                        else
-                        {
-                            await OverwriteAsync(globalOptions, settingPropertyInfo, settingsElement,fromProjectSettings);
-                        }
-                    }
-
-                }
+                await MergeOrOverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
             }
             else
             {
-                await OverwriteAsync(globalOptions, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
+                await OverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
             }
         }
 
-        private async Task MergeAsync(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, XElement settingsElement,bool fromProjectSettings)
+        private async Task MergeOrOverwriteAsync(
+            CoverageSettings coverageSettings,
+            PropertyInfo settingPropertyInfo,
+            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
+        )
         {
-            var value = await TryGetValueFromXmlAsync(settingsElement, settingPropertyInfo,fromProjectSettings);
+            foreach (var settingsElementWithDefaultMerge in settingsElementsWithDefaultMergeStrategy)
+            {
+                var settingsElement = settingsElementWithDefaultMerge.SettingsElement;
+                var defaultMerge = GetDefaultMerge(settingsElementWithDefaultMerge.DefaultMerge, settingsElement);
+                var propertyElement = GetPropertyElement(settingsElement, settingPropertyInfo.Name);
+                if (propertyElement != null)
+                {
+                    await ApplyPropertyElementAsync(
+                        coverageSettings,
+                        propertyElement,
+                        settingPropertyInfo,
+                        defaultMerge,
+                        settingsElementWithDefaultMerge.FromProjectSettings
+                    );
+                }
+            }
+        }
+
+        private async Task ApplyPropertyElementAsync(
+            CoverageSettings coverageSettings,
+            XElement propertyElement,
+            PropertyInfo settingPropertyInfo,
+            bool defaultMerge,
+            bool fromProjectSettings)
+        {
+            var merge = GetMerge(defaultMerge, propertyElement);
+            if (merge)
+            {
+                await MergeAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
+            }
+            else
+            {
+                await OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
+            }
+        }
+
+        private async Task MergeAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement,bool fromProjectSettings)
+        {
+            var value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo,fromProjectSettings);
             if (value != null)
             {
-                var currentValue = settingPropertyInfo.GetValue(globalOptions);
+                var currentValue = settingPropertyInfo.GetValue(coverageSettings);
                 object merged;
                 if (currentValue == null)
                 {
@@ -188,7 +206,7 @@ namespace FineCodeCoverage.Engine.Model
                     merged = settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
                 }
 
-                settingPropertyInfo.SetValue(globalOptions, merged);
+                settingPropertyInfo.SetValue(coverageSettings, merged);
             }
         }
 
@@ -212,20 +230,24 @@ namespace FineCodeCoverage.Engine.Model
             return string.Equals(defaultMergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
         }
 
-        private async Task OverwriteAsync(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, IEnumerable<SettingsElementDefaultMerge> settingsElementsDefaultMerge)
+        private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, IEnumerable<SettingsElementDefaultMerge> settingsElementsDefaultMerge)
         {
             foreach (var settingsElementDefaultMerge in settingsElementsDefaultMerge)
             {
-                await OverwriteAsync(globalOptions, settingPropertyInfo, settingsElementDefaultMerge.SettingsElement,settingsElementDefaultMerge.FromProjectSettings);
+                var propertyElement = GetPropertyElement(settingsElementDefaultMerge.SettingsElement, settingPropertyInfo.Name);
+                if (propertyElement != null)
+                {
+                    await OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, settingsElementDefaultMerge.FromProjectSettings);
+                }
             }
         }
 
-        private async Task OverwriteAsync(IAppOptions globalOptions, PropertyInfo settingPropertyInfo, XElement settingsElement,bool fromProjectSettings)
+        private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement,bool fromProjectSettings)
         {
-            var value = await TryGetValueFromXmlAsync(settingsElement, settingPropertyInfo,fromProjectSettings);
+            var value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo,fromProjectSettings);
             if (value != null)
             {
-                settingPropertyInfo.SetValue(globalOptions, value);
+                settingPropertyInfo.SetValue(coverageSettings, value);
             }
         }
 
@@ -238,7 +260,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             try
             {
-                return GetValueFromXml(settingsElement, property);
+                return GetValueFromXml(settingsElement, property.PropertyType, property.Name);
             }
             catch (Exception exception)
             {
@@ -248,9 +270,8 @@ namespace FineCodeCoverage.Engine.Model
             return null;
         }
 
-        internal object GetValueFromXml(XElement settingsElement, PropertyInfo property)
+        internal object GetValueFromXml(XElement xproperty, Type type, string name)
         {
-            var xproperty = GetPropertyElement(settingsElement, property.Name);
 
             if (xproperty == null)
             {
@@ -261,24 +282,24 @@ namespace FineCodeCoverage.Engine.Model
 
             var strValueArr = strValue.Split('\n', '\r').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
 
-            if (TypeMatch(property.PropertyType, typeof(string)))
+            if (TypeMatch(type, typeof(string)))
             {
                 var value = strValueArr.FirstOrDefault();
                 return value ?? "";
             }
-            else if (TypeMatch(property.PropertyType, typeof(string[])))
+            else if (TypeMatch(type, typeof(string[])))
             {
                 return strValueArr;
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(bool), typeof(bool?)))
+            else if (TypeMatch(type, typeof(bool), typeof(bool?)))
             {
                 if (bool.TryParse(strValueArr.FirstOrDefault(), out bool value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(bool[]), typeof(bool?[])))
+            else if (TypeMatch(type, typeof(bool[]), typeof(bool?[])))
             {
                 var arr = strValueArr.Where(x => bool.TryParse(x, out var _)).Select(x => bool.Parse(x));
                 if (arr.Any())
@@ -287,14 +308,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(int), typeof(int?)))
+            else if (TypeMatch(type, typeof(int), typeof(int?)))
             {
                 if (int.TryParse(strValueArr.FirstOrDefault(), out var value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(int[]), typeof(int?[])))
+            else if (TypeMatch(type, typeof(int[]), typeof(int?[])))
             {
                 var arr = strValueArr.Where(x => int.TryParse(x, out var _)).Select(x => int.Parse(x));
                 if (arr.Any())
@@ -303,14 +324,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(short), typeof(short?)))
+            else if (TypeMatch(type, typeof(short), typeof(short?)))
             {
                 if (short.TryParse(strValueArr.FirstOrDefault(), out var vaue))
                 {
                     return vaue;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(short[]), typeof(short?[])))
+            else if (TypeMatch(type, typeof(short[]), typeof(short?[])))
             {
                 var arr = strValueArr.Where(x => short.TryParse(x, out var _)).Select(x => short.Parse(x));
                 if (arr.Any())
@@ -319,14 +340,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(long), typeof(long?)))
+            else if (TypeMatch(type, typeof(long), typeof(long?)))
             {
                 if (long.TryParse(strValueArr.FirstOrDefault(), out var value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(long[]), typeof(long?[])))
+            else if (TypeMatch(type, typeof(long[]), typeof(long?[])))
             {
                 var arr = strValueArr.Where(x => long.TryParse(x, out var _)).Select(x => long.Parse(x));
                 if (arr.Any())
@@ -335,14 +356,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(decimal), typeof(decimal?)))
+            else if (TypeMatch(type, typeof(decimal), typeof(decimal?)))
             {
                 if (decimal.TryParse(strValueArr.FirstOrDefault(), out var value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(decimal[]), typeof(decimal?[])))
+            else if (TypeMatch(type, typeof(decimal[]), typeof(decimal?[])))
             {
                 var arr = strValueArr.Where(x => decimal.TryParse(x, out var _)).Select(x => decimal.Parse(x));
                 if (arr.Any())
@@ -351,14 +372,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(double), typeof(double?)))
+            else if (TypeMatch(type, typeof(double), typeof(double?)))
             {
                 if (double.TryParse(strValueArr.FirstOrDefault(), out var value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(double[]), typeof(double?[])))
+            else if (TypeMatch(type, typeof(double[]), typeof(double?[])))
             {
                 var arr = strValueArr.Where(x => double.TryParse(x, out var _)).Select(x => double.Parse(x));
                 if (arr.Any())
@@ -367,14 +388,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(float), typeof(float?)))
+            else if (TypeMatch(type, typeof(float), typeof(float?)))
             {
                 if (float.TryParse(strValueArr.FirstOrDefault(), out var value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(float[]), typeof(float?[])))
+            else if (TypeMatch(type, typeof(float[]), typeof(float?[])))
             {
                 var arr = strValueArr.Where(x => float.TryParse(x, out var _)).Select(x => float.Parse(x));
                 if (arr.Any())
@@ -383,14 +404,14 @@ namespace FineCodeCoverage.Engine.Model
                 }
             }
 
-            else if (TypeMatch(property.PropertyType, typeof(char), typeof(char?)))
+            else if (TypeMatch(type, typeof(char), typeof(char?)))
             {
                 if (char.TryParse(strValueArr.FirstOrDefault(), out var value))
                 {
                     return value;
                 }
             }
-            else if (TypeMatch(property.PropertyType, typeof(char[]), typeof(char?[])))
+            else if (TypeMatch(type, typeof(char[]), typeof(char?[])))
             {
                 var arr = strValueArr.Where(x => char.TryParse(x, out var _)).Select(x => char.Parse(x));
                 if (arr.Any())
@@ -398,26 +419,18 @@ namespace FineCodeCoverage.Engine.Model
                     return arr;
                 }
             }
-            else if (property.PropertyType.IsEnum)
+            else if (type.IsEnum)
             {
-                return Enum.Parse(property.PropertyType, strValueArr.FirstOrDefault(), true);
+                return Enum.Parse(type, strValueArr.FirstOrDefault(), true);
 
             }
 
             else
             {
-                throw new Exception($"Unexpected settings type '{property.PropertyType.Name}' for setting {property.Name} in settings merger GetValueFromXml");
+                throw new Exception($"Unexpected settings type '{type.Name}' for setting {name} in settings merger GetValueFromXml");
             }
             return null;
 
-        }
-
-        private async Task MergeAsync(IAppOptions globalOptions, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
-        {
-            foreach (var settingsProperty in settingsPropertyInfos)
-            {
-                await MergeAsync(globalOptions, settingsProperty, settingsElementsWithDefaultMergeStrategy);
-            }
         }
 
         private bool TypeMatch(Type type, params Type[] otherTypes)
@@ -425,5 +438,4 @@ namespace FineCodeCoverage.Engine.Model
             return (otherTypes ?? new Type[0]).Any(ot => type == ot);
         }
     }
-
 }

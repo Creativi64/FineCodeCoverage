@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Impl
                 project.Is64Bit = container.TargetPlatform.ToString().Equals("x64", System.StringComparison.OrdinalIgnoreCase);
                 project.TargetFramework = container.TargetFramework.ToString();
                 var containerData = container.ProjectData;
-                project.ProjectFile = container.ProjectData.ProjectFilePath;
+                project.ProjectFilePath = container.ProjectData.ProjectFilePath;
                 project.Id = containerData.Id;
                 project.RunSettingsFile = await runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
 

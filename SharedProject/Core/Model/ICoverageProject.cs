@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Engine.Model
         string FailureStage { get; set; }
         bool HasFailed { get; }
         bool Is64Bit { get; set; }
-        string ProjectFile { get; set; }
+        string ProjectFilePath { get; set; }
         XElement ProjectFileXElement { get; }
         string ProjectName { get; set; }
         string ProjectOutputFolder { get; }

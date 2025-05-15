@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private class UserRunSettingsProjectDetails : IUserRunSettingsProjectDetails
         {
-            public IMsCodeCoverageOptions Settings { get; set; }
+            public ICoverageSettings Settings { get; set; }
             public string CoverageOutputFolder { get; set; }
             public string TestDllFile { get; set; }
             public List<IReferencedProject> ExcludedReferencedProjects { get; set; }
@@ -283,20 +283,19 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void SetUserRunSettingsProjectDetails()
         {
-            throw new NotImplementedException();
-            //userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
-            //foreach (var coverageProjectWithRunSettings in coverageProjectsByType.RunSettings)
-            //{
-            //    var userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
-            //    {
-            //        Settings = coverageProjectWithRunSettings.Settings,
-            //        CoverageOutputFolder = coverageProjectWithRunSettings.CoverageOutputFolder,
-            //        TestDllFile = coverageProjectWithRunSettings.TestDllFile,
-            //        ExcludedReferencedProjects = coverageProjectWithRunSettings.ExcludedReferencedProjects,
-            //        IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects
-            //    };
-            //    userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
-            //}
+            userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
+            foreach (var coverageProjectWithRunSettings in coverageProjectsByType.RunSettings)
+            {
+                var userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
+                {
+                    Settings = coverageProjectWithRunSettings.Settings,
+                    CoverageOutputFolder = coverageProjectWithRunSettings.CoverageOutputFolder,
+                    TestDllFile = coverageProjectWithRunSettings.TestDllFile,
+                    ExcludedReferencedProjects = coverageProjectWithRunSettings.ExcludedReferencedProjects,
+                    IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects
+                };
+                userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
+            }
         }
 
         #endregion

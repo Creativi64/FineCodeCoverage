@@ -95,7 +95,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 int hr = vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out var projectFilePath);
                 ErrorHandler.ThrowOnFailure(hr);
-                coverageProject.ProjectFile = projectFilePath;
+                coverageProject.ProjectFilePath = projectFilePath;
             }//todo throw if not
 
             return coverageProject;

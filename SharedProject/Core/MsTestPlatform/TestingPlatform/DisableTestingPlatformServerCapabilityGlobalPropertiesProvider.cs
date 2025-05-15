@@ -116,7 +116,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             return new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
             {
                 Id = projectGuid,
-                ProjectFile = unconfiguredProject.FullPath
+                ProjectFilePath = unconfiguredProject.FullPath
             };
         }
 

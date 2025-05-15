@@ -142,7 +142,7 @@ namespace FineCodeCoverage.Engine
         {
             foreach (var project in coverageProjects)
             {
-                if (string.IsNullOrWhiteSpace(project.ProjectFile))
+                if (string.IsNullOrWhiteSpace(project.ProjectFilePath))
                 {
                     project.FailureDescription = $"Unsupported project type for DLL '{project.TestDllFile}'";
                     continue;

@@ -120,7 +120,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             return coverageProjects.Select(coverageProject =>
             {
-                var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFile);
+                var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
                 var (replaceableTemplate, customTemplatePath) = GetRunSettingsTemplate(projectDirectory, solutionDirectory);
                 var templateReplaceResult = ReplaceTemplate(coverageProject, replaceableTemplate, fccMsTestAdapterPath);
 

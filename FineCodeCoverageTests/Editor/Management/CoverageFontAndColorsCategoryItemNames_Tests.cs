@@ -1,7 +1,6 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Options;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -22,44 +21,41 @@ namespace FineCodeCoverageTests.Editor.Management
         [Test]
         public void Should_Use_MEF_Category_And_FCCEditorFormatDefinitionNames_When_Vs_Does_Have_Coverage_Markers_But_Not_UseEnterpriseFontsAndColors()
         {
-            throw new NotImplementedException();
-            //var autoMoqer = new AutoMoqer();
-            //autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions { UseEnterpriseFontsAndColors = false});
-            
-            //Verify_Use_MEF_Category_And_FCCEditorFormatDefinitionNames(autoMoqer);
+            var autoMoqer = new AutoMoqer();
+            autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
+            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions { UseEnterpriseFontsAndColors = false });
+
+            Verify_Use_MEF_Category_And_FCCEditorFormatDefinitionNames(autoMoqer);
         }
 
         [Test]
         public void Should_Use_MEF_Category_For_Non_Markers_When_UseEnterpriseFontsAndColors()
         {
-            throw new NotImplementedException();
-            //var autoMoqer = new AutoMoqer();
-            //autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
-            //    .Returns(new AppOptions { UseEnterpriseFontsAndColors  = true});
+            var autoMoqer = new AutoMoqer();
+            autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
+            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+                .Returns(new AppOptions { UseEnterpriseFontsAndColors = true });
 
-            //var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
+            var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
 
-            //var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
+            var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
 
-            //AssertNonMarkers(categoryItemNames);
+            AssertNonMarkers(categoryItemNames);
         }
 
         [Test]
         public void Should_Use_VS_For_Markers_When_UseEnterpriseFontsAndColors()
         {
-            throw new NotImplementedException();
-            //var autoMoqer = new AutoMoqer();
-            //autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            //autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
-            //    .Returns(new AppOptions { UseEnterpriseFontsAndColors = true });
+            var autoMoqer = new AutoMoqer();
+            autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
+            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+                .Returns(new AppOptions { UseEnterpriseFontsAndColors = true });
 
-            //var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
+            var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
 
-            //var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
+            var categoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
 
-            //AssertVSMarkers(categoryItemNames);
+            AssertVSMarkers(categoryItemNames);
         }
 
         [TestCase(false,true, false, true)]

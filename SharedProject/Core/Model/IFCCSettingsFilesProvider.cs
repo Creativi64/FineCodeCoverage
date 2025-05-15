@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal interface IFCCSettingsFilesProvider
     {
-        List<XElement> Provide(string projectPath);
+        List<XElement> Provide(string projectDirectoryPath);
     }
 
 }

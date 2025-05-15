@@ -77,11 +77,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectFileSynchronizationDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectSettingsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectSettingsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageSettingsReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\FCCSettingsFilesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectSettingsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectSettingsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageSettingsReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IFCCSettingsFilesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsMerger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IVsBuildFCCSettingsProvider.cs" />

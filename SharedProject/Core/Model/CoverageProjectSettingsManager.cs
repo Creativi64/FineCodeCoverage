@@ -4,34 +4,10 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace FineCodeCoverage.Engine.Model
 {
-
-    internal class CoverageSettings : ICoverageSettings
-    {
-        public bool IncludeReferencedProjects { get; }
-        public string CoverletConsoleCustomPath { get; }
-        public bool CoverletConsoleGlobal { get; }
-        public bool CoverletConsoleLocal { get; }
-        public string[] Exclude { get; set; }
-        public string[] Include { get; set; }
-        public bool IncludeTestAssembly { get; set; }
-        public string[] ExcludeByFile { get; set; }
-        public string[] ExcludeByAttribute { get; }
-        public bool RunSettingsOnly { get; }
-        public string CoverletCollectorDirectoryPath { get; }
-        public bool Enabled { get; }
-        public string OpenCoverTarget { get; }
-        public string OpenCoverTargetArgs { get; }
-        public OpenCoverRegister OpenCoverRegister { get; }
-        public string[] ModulePathsInclude { get; set; }
-        public string OpenCoverCustomPath { get; }
-        public string[] ModulePathsExclude { get; set; }
-        public string[] ExcludeAssemblies { get; }
-        public string[] IncludeAssemblies { get; }
-    }
-
     [Export(typeof(ICoverageProjectSettingsManager))]
     internal class CoverageProjectSettingsManager : ICoverageProjectSettingsManager
     {
@@ -39,40 +15,62 @@ namespace FineCodeCoverage.Engine.Model
         private readonly ICoverageProjectSettingsProvider coverageProjectSettingsProvider;
         private readonly IFCCSettingsFilesProvider fccSettingsFilesProvider;
         private readonly ISettingsMerger settingsMerger;
+        private readonly ICoverageSettingsReflectionService coverageSettingsReflectionService;
 
         [ImportingConstructor]
         public CoverageProjectSettingsManager(
             IAppOptionsProvider appOptionsProvider,
             ICoverageProjectSettingsProvider coverageProjectSettingsProvider,
             IFCCSettingsFilesProvider fccSettingsFilesProvider,
-            ISettingsMerger settingsMerger
+            ISettingsMerger settingsMerger,
+            ICoverageSettingsReflectionService coverageSettingsReflectionService
         )
         {
             this.appOptionsProvider = appOptionsProvider;
             this.coverageProjectSettingsProvider = coverageProjectSettingsProvider;
             this.fccSettingsFilesProvider = fccSettingsFilesProvider;
             this.settingsMerger = settingsMerger;
+            this.coverageSettingsReflectionService = coverageSettingsReflectionService;
+        }
+
+        private CoverageSettings GetSettingsFromAppOptions()
+        {
+            var appOptions = this.appOptionsProvider.Get();
+            return this.coverageSettingsReflectionService.CreateCoverageSettingsFromAppOptions(appOptions);
         }
 
         public async Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject)
         {
-            throw new System.NotImplementedException();
-            //var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFile);
-            //var settingsFilesElements = fccSettingsFilesProvider.Provide(projectDirectory);
-            //var projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
-            //var merged = await settingsMerger.MergeAsync(appOptionsProvider.Get(), settingsFilesElements, projectSettingsElement);
-            //AddCommonAssemblyExcludesIncludes(merged);
-            //return merged;
+            var settingsFilesElements = GetSettingsFilesElements(coverageProject);
+            var projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
+            var coverageSettings = GetSettingsFromAppOptions();
+            if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
+            {
+                await settingsMerger.MergeAsync(
+                    coverageSettings, coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
+                );
+            }
+
+            AddCommonAssemblyExcludesIncludes(coverageSettings);
+            return coverageSettings;
         }
 
-        private void AddCommonAssemblyExcludesIncludes(CoverageSettings appOptions)
+        private List<XElement> GetSettingsFilesElements(ICoverageProject coverageProject)
         {
-            var (newOldStyleExclude,newMsExclude) = AddCommon(appOptions.Exclude, appOptions.ModulePathsExclude, appOptions.ExcludeAssemblies);
-            var (newOldStyleInclude,newMsInclude) = AddCommon(appOptions.Include, appOptions.ModulePathsInclude, appOptions.IncludeAssemblies);
-            appOptions.Exclude = newOldStyleExclude;
-            appOptions.Include = newOldStyleInclude;
-            appOptions.ModulePathsExclude = newMsExclude;
-            appOptions.ModulePathsInclude = newMsInclude;
+            var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
+            return fccSettingsFilesProvider.Provide(projectDirectory);
+        }
+
+        private void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
+        {
+            var (newOldStyleExclude,newMsExclude) = AddCommon(
+                coverageSettings.Exclude, coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
+            var (newOldStyleInclude,newMsInclude) = AddCommon(
+                coverageSettings.Include, coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
+            coverageSettings.Exclude = newOldStyleExclude;
+            coverageSettings.Include = newOldStyleInclude;
+            coverageSettings.ModulePathsExclude = newMsExclude;
+            coverageSettings.ModulePathsInclude = newMsInclude;
         }
 
         private (string[] newOldStyle,string[] newMs) AddCommon(string[] oldStyle,string[] ms, string[] common )
@@ -101,5 +99,4 @@ namespace FineCodeCoverage.Engine.Model
             return new List<string>(existing ?? new string[0]);
         }
     }
-
 }

@@ -14,7 +14,7 @@ namespace Test
         {
             coverageProject = new CoverageProject(null, null, null, null);
             tempProjectFilePath = Path.Combine(Path.GetTempPath(), "testproject.csproj");
-            coverageProject.ProjectFile = tempProjectFilePath;
+            coverageProject.ProjectFilePath = tempProjectFilePath;
         }
 
         [Test]

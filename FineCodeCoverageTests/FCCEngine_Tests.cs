@@ -73,10 +73,10 @@ namespace Test
             var mockNullProjectFileProject = new Mock<ICoverageProject>();
             mockNullProjectFileProject.Setup(p => p.TestDllFile).Returns("Null_Project_File.dll");
             var mockWhitespaceProjectFileProject = new Mock<ICoverageProject>();
-            mockWhitespaceProjectFileProject.Setup(p => p.ProjectFile).Returns("  ");
+            mockWhitespaceProjectFileProject.Setup(p => p.ProjectFilePath).Returns("  ");
             mockWhitespaceProjectFileProject.Setup(p => p.TestDllFile).Returns("Whitespace_Project_File.dll");
             var mockDisabledProject = new Mock<ICoverageProject>();
-            mockDisabledProject.Setup(p => p.ProjectFile).Returns("proj.csproj");
+            mockDisabledProject.Setup(p => p.ProjectFilePath).Returns("proj.csproj");
             mockDisabledProject.Setup(p => p.Settings.Enabled).Returns(false);
             
             ReloadInitializedCoverage(mockNullProjectFileProject.Object, mockWhitespaceProjectFileProject.Object, mockDisabledProject.Object);
@@ -355,7 +355,7 @@ namespace Test
         private Mock<ICoverageProject> CreateSuitableProject()
         {
             var mockSuitableCoverageProject = new Mock<ICoverageProject>();
-            mockSuitableCoverageProject.Setup(p => p.ProjectFile).Returns("Defined.csproj");
+            mockSuitableCoverageProject.Setup(p => p.ProjectFilePath).Returns("Defined.csproj");
             mockSuitableCoverageProject.Setup(p => p.Settings.Enabled).Returns(true);
             mockSuitableCoverageProject.Setup(p => p.PrepareForCoverageAsync(It.IsAny<CancellationToken>(), true)).Returns(Task.FromResult(new CoverageProjectFileSynchronizationDetails()));
             mockSuitableCoverageProject.Setup(p => p.StepAsync("Run Coverage Tool", It.IsAny<Func<ICoverageProject, Task>>())).Returns(Task.CompletedTask);

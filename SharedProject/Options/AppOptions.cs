@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {
-    internal class AppOptions// : IAppOptions
+    internal class AppOptions: IAppOptions
     {
         private const string oldRunCategory = "Run ( Coverlet / OpenCover )";
         private const string commonRunCategory = "Run ( Common )";
