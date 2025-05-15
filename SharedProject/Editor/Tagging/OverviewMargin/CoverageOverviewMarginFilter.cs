@@ -9,17 +9,17 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
     {
         public override string TypeIdentifier => "OverviewMargin";
 
-        protected override bool Enabled(AppOptions appOptions) => appOptions.ShowCoverageInOverviewMargin;
+        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowCoverageInOverviewMargin;
 
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions)
             => new Dictionary<DynamicCoverageType, bool>
             {
-                { DynamicCoverageType.Covered, appOptions.ShowCoveredInOverviewMargin },
-                { DynamicCoverageType.NotCovered, appOptions.ShowUncoveredInOverviewMargin },
-                { DynamicCoverageType.Partial, appOptions.ShowPartiallyCoveredInOverviewMargin },
-                { DynamicCoverageType.Dirty, appOptions.ShowDirtyInOverviewMargin},
-                { DynamicCoverageType.NewLine, appOptions.ShowNewInOverviewMargin},
-                { DynamicCoverageType.NotIncluded, appOptions.ShowNotIncludedInOverviewMargin},
+                { DynamicCoverageType.Covered, editorCoverageColouringOptions.ShowCoveredInOverviewMargin },
+                { DynamicCoverageType.NotCovered, editorCoverageColouringOptions.ShowUncoveredInOverviewMargin },
+                { DynamicCoverageType.Partial, editorCoverageColouringOptions.ShowPartiallyCoveredInOverviewMargin },
+                { DynamicCoverageType.Dirty, editorCoverageColouringOptions.ShowDirtyInOverviewMargin},
+                { DynamicCoverageType.NewLine, editorCoverageColouringOptions.ShowNewInOverviewMargin},
+                { DynamicCoverageType.NotIncluded, editorCoverageColouringOptions.ShowNotIncludedInOverviewMargin},
             };
     }
 }

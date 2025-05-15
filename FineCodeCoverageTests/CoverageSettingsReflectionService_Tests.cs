@@ -11,7 +11,7 @@ namespace FineCodeCoverageTests
         {
             var coverageSettingsReflectionService = new CoverageSettingsReflectionService();
  
-            var appOptions = new AppOptions
+            var appOptions = new EditorCoverageColouringOptions
             {
                 CoverletConsoleCustomPath = "CoverletConsoleCustomPath", // ICoverletOptions
 

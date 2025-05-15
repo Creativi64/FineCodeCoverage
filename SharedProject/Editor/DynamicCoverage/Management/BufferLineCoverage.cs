@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ITextInfo textInfo;
         private readonly IEventAggregator eventAggregator;
         private readonly ITrackedLinesFactory trackedLinesFactory;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
         private readonly ICoverageContentTypes coverageContentTypes;
         private readonly ILogger logger;
         private readonly ITextBuffer2 textBuffer;
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITextInfo textInfo,
             IEventAggregator eventAggregator,
             ITrackedLinesFactory trackedLinesFactory,
-            IAppOptionsProvider appOptionsProvider,
+            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
             ICoverageContentTypes coverageContentTypes,
             ILogger logger
         )
@@ -46,12 +46,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.textInfo = textInfo;
             this.eventAggregator = eventAggregator;
             this.trackedLinesFactory = trackedLinesFactory;
-            this.appOptionsProvider = appOptionsProvider;
+            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
             this.coverageContentTypes = coverageContentTypes;
             this.logger = logger;
-            void AppOptionsChanged(AppOptions appOptions)
+            void EditorCoverageColouringOptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
             {
-                bool newEditorCoverageModeOff = appOptions.EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
+                bool newEditorCoverageModeOff = editorCoverageColouringOptions.EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
                 this.editorCoverageModeOff = newEditorCoverageModeOff;
                 if (this.trackedLines != null && newEditorCoverageModeOff)
                 {
@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 }
             }
 
-            appOptionsProvider.OptionsChanged += AppOptionsChanged;
+            editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsChanged;
             _ = eventAggregator.AddListener(this);
             this.textBuffer.ChangedOnBackground += this.TextBuffer_ChangedOnBackground;
             void textViewClosedHandler(object s, EventArgs e)
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 this.textBuffer.ChangedOnBackground -= this.TextBuffer_ChangedOnBackground;
                 this.textBuffer.ContentTypeChanged -= this.ContentTypeChanged;
                 textInfo.TextView.Closed -= textViewClosedHandler;
-                appOptionsProvider.OptionsChanged -= AppOptionsChanged;
+                editorCoverageColouringOptionsProvider.OptionsChanged -= EditorCoverageColouringOptionsChanged;
                 _ = eventAggregator.RemoveListener(this);
             }
 
@@ -226,7 +226,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 return this.editorCoverageModeOff.Value;
             }
 
-            this.editorCoverageModeOff = this.appOptionsProvider.Get().EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
+            this.editorCoverageModeOff = this.editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
             return this.editorCoverageModeOff.Value;
         }
 
@@ -254,7 +254,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void UpdateTrackedLines(TextContentChangedEventArgs textContentChangedEventArgs)
         {
             IEnumerable<int> changedLineNumbers = this.trackedLines.GetChangedLineNumbers(
-                textContentChangedEventArgs.After, 
+                textContentChangedEventArgs.After,
                 textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList()
             ).Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
             this.SendCoverageChangedMessageIfChanged(changedLineNumbers);

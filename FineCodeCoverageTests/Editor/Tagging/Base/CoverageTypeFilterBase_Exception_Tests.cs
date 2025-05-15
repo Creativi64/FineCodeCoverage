@@ -2,7 +2,6 @@
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Editor.Tagging.Classification;
 using FineCodeCoverage.Options;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,12 +12,12 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
     {
         public override string TypeIdentifier => "";
 
-        protected override bool Enabled(AppOptions appOptions)
+        protected override bool Enabled(EditorCoverageColouringOptions appOptions)
         {
             return true;
         }
         public Func<Dictionary<DynamicCoverageType, bool>> ShowLookup;
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions appOptions)
         {
             return ShowLookup?.Invoke();
         }
@@ -31,7 +30,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
         {
             var coverageTypeFilterExceptions = new CoverageTypeFilterExceptions();
 
-            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(new AppOptions { ShowEditorCoverage = true}));
+            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(new EditorCoverageColouringOptions { ShowEditorCoverage = true}));
 
         }
 
@@ -45,7 +44,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 { DynamicCoverageType.NotCovered, true }
             };
 
-            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(new AppOptions { ShowEditorCoverage = true}));
+            Assert.Throws<InvalidOperationException>(() => coverageTypeFilterExceptions.Initialize(new EditorCoverageColouringOptions { ShowEditorCoverage = true}));
 
         }
 
@@ -62,8 +61,6 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 { DynamicCoverageType.NewLine,true },
                 { DynamicCoverageType.NotIncluded,true },
             };
-            var appOptions = new Mock<IAppOptions>().SetupAllProperties().Object;
-            appOptions.ShowEditorCoverage = true;
 
             var other = new CoverageClassificationFilter();
             Assert.Throws<ArgumentException>(() => coverageTypeFilterExceptions.Changed(other));

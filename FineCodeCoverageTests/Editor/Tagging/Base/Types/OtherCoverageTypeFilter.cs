@@ -16,7 +16,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base.Types
             throw new NotImplementedException();
         }
 
-        public void Initialize(AppOptions appOptions)
+        public void Initialize(EditorCoverageColouringOptions appOptions)
         {
             throw new NotImplementedException();
         }

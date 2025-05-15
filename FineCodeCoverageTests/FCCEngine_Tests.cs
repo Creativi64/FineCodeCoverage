@@ -55,7 +55,7 @@ namespace Test
             fccEngine = mocker.Create<FCCEngine>();
 
             var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(x => x.Get()).Returns(new AppOptions { RunMsCodeCoverage = RunMsCodeCoverage.No});
+            mockAppOptionsProvider.Setup(x => x.Get()).Returns(new EditorCoverageColouringOptions { RunMsCodeCoverage = RunMsCodeCoverage.No});
         }
 
         [Test]

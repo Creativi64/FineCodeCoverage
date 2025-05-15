@@ -54,7 +54,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
         public void Should_CoverageFromFileCodeSpanRangeService_From_AppOptions(bool blazorCoverageLinesFromGeneratedSource)
         {
             var mockAppOptionsProvider = new Mock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(a => a.Get()).Returns(new AppOptions { BlazorCoverageLinesFromGeneratedSource = blazorCoverageLinesFromGeneratedSource });
+            mockAppOptionsProvider.Setup(a => a.Get()).Returns(new EditorCoverageColouringOptions { BlazorCoverageLinesFromGeneratedSource = blazorCoverageLinesFromGeneratedSource });
             Assert.That(new BlazorCoverageContentType(null, mockAppOptionsProvider.Object).CoverageOnlyFromFileCodeSpanRangeService, Is.EqualTo(blazorCoverageLinesFromGeneratedSource));
         }
 

@@ -212,6 +212,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDefaultOptionsSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageInstantiator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IEditorCoverageColouringOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IProfileOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IRequireDialogPageInstantiator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsPageTypeLookup.cs" />

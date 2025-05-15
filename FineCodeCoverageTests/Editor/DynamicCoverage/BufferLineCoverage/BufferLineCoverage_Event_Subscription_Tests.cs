@@ -31,7 +31,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
             mockTextView.VerifyRemove(textView => textView.Closed -= It.IsAny<EventHandler>(), Times.Once);
             textInfoMocks.TextBuffer.VerifyRemove(textBuffer => textBuffer.ChangedOnBackground -= It.IsAny<EventHandler<TextContentChangedEventArgs>>(), Times.Once);
             var mockAppOptionsProvider = autoMoqer.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.VerifyRemove(appOptionsProvider => appOptionsProvider.OptionsChanged -= It.IsAny<Action<AppOptions>>(), Times.Once);
+            mockAppOptionsProvider.VerifyRemove(appOptionsProvider => appOptionsProvider.OptionsChanged -= It.IsAny<Action<EditorCoverageColouringOptions>>(), Times.Once);
         }
     }
 }

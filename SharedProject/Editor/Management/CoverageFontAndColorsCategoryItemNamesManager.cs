@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Editor.Management
         private readonly Guid EditorTextMarkerFontAndColorCategory = new Guid("FF349800-EA43-46C1-8C98-878E78F46501");
         private readonly Guid EditorMEFCategory = new Guid("75A05685-00A8-4DED-BAE5-E7A50BFA929A");
         private readonly bool hasCoverageMarkers;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
         private FCCEditorFormatDefinitionNames fCCEditorFormatDefinitionNames;
         private bool usingEnterprise = false;
         private bool initialized = false;
@@ -21,26 +21,26 @@ namespace FineCodeCoverage.Editor.Management
         [ImportingConstructor]
         public CoverageFontAndColorsCategoryItemNamesManager(
            IVsHasCoverageMarkersLogic vsHasCoverageMarkersLogic,
-            IAppOptionsProvider appOptionsProvider
+            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider
         )
         {
-            appOptionsProvider.OptionsChanged += this.AppOptionsProvider_OptionsChanged;
+            editorCoverageColouringOptionsProvider.OptionsChanged += this.AppOptionsProvider_OptionsChanged;
             this.hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();
-            this.appOptionsProvider = appOptionsProvider;
+            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
         }
 
-        private void AppOptionsProvider_OptionsChanged(AppOptions appOptions)
+        private void AppOptionsProvider_OptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
             if (this.initialized)
             {
-                this.ReactToAppOptionsChanging(appOptions);
+                this.ReactToAppOptionsChanging(editorCoverageColouringOptions);
             }
         }
 
-        private void ReactToAppOptionsChanging(AppOptions appOptions)
+        private void ReactToAppOptionsChanging(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
             bool preUsingEnterprise = this.usingEnterprise;
-            this.Set(() => appOptions.UseEnterpriseFontsAndColors);
+            this.Set(() => editorCoverageColouringOptions.UseEnterpriseFontsAndColors);
             if (this.usingEnterprise != preUsingEnterprise)
             {
                 Changed?.Invoke(this, EventArgs.Empty);
@@ -54,7 +54,7 @@ namespace FineCodeCoverage.Editor.Management
             this.initialized = true;
         }
 
-        private void Set() => this.Set(() => this.appOptionsProvider.Get().UseEnterpriseFontsAndColors);
+        private void Set() => this.Set(() => this.editorCoverageColouringOptionsProvider.Get().UseEnterpriseFontsAndColors);
 
         private void Set(Func<bool> getUseEnterprise)
         {

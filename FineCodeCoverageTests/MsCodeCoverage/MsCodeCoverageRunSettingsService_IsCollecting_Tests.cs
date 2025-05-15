@@ -484,7 +484,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         {
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
             mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get())
-                .Returns(new AppOptions { RunMsCodeCoverage = runMsCodeCoverage});
+                .Returns(new EditorCoverageColouringOptions { RunMsCodeCoverage = runMsCodeCoverage});
         }
 
         private void VerifyLogException(string reason, Exception exception)

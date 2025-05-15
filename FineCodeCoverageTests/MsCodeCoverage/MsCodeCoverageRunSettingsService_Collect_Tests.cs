@@ -50,7 +50,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             ).Returns(new UserRunSettingsAnalysisResult());
 
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions());
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new EditorCoverageColouringOptions());
 
             // is collecting
             var mockTestOperation = new Mock<ITestOperation>();
@@ -174,7 +174,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             };
             mockTestOperation.Setup(testOperation => testOperation.GetCoverageProjectsAsync()).ReturnsAsync(coverageProjects);
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions());
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new EditorCoverageColouringOptions());
             await msCodeCoverageRunSettingsService.IsCollectingAsync(mockTestOperation.Object);
 
             await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);

@@ -12,19 +12,19 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
     internal class RoslynFileCodeSpanRangeService : IFileCodeSpanRangeService, IRoslynFileCodeSpanRangeService
     {
         private readonly IRoslynService roslynService;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
         private readonly IThreadHelper threadHelper;
 
         [ImportingConstructor]
         public RoslynFileCodeSpanRangeService(
             IRoslynService roslynService,
-            IAppOptionsProvider appOptionsProvider,
+            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
             IThreadHelper threadHelper
             )
         {
 
             this.roslynService = roslynService;
-            this.appOptionsProvider = appOptionsProvider;
+            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
             this.threadHelper = threadHelper;
         }
 
@@ -47,6 +47,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
         public IFileCodeSpanRangeService FileCodeSpanRangeService => this;
 
         public bool UseFileCodeSpanRangeServiceForChanges
-            => this.appOptionsProvider.Get().EditorCoverageColouringMode != EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges;
+            => this.editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode != EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges;
     }
 }

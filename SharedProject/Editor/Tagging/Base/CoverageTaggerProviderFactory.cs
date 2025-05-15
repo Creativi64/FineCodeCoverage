@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     internal class CoverageTaggerProviderFactory : ICoverageTaggerProviderFactory
     {
         private readonly IEventAggregator eventAggregator;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
         private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
         private readonly IDynamicCoverageManager dynamicCoverageManager;
         private readonly ITextInfoFactory textInfoFactory;
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         [ImportingConstructor]
         public CoverageTaggerProviderFactory(
             IEventAggregator eventAggregator,
-            IAppOptionsProvider appOptionsProvider,
+            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
             IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             IDynamicCoverageManager dynamicCoverageManager,
             ITextInfoFactory textInfoFactory,
@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         )
         {
             this.eventAggregator = eventAggregator;
-            this.appOptionsProvider = appOptionsProvider;
+            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
             this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.dynamicCoverageManager = dynamicCoverageManager;
             this.textInfoFactory = textInfoFactory;
@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             where TCoverageTypeFilter : ICoverageTypeFilter, new()
                 => new CoverageTaggerProvider<TCoverageTypeFilter, TTag>(
                     this.eventAggregator,
-                    this.appOptionsProvider,
+                    this.editorCoverageColouringOptionsProvider,
                     this.dynamicLineAndSnapshotSpansLogic,
                     tagger,
                     this.dynamicCoverageManager,

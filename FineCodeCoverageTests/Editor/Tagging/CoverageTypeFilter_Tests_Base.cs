@@ -1,7 +1,6 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Options;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq.Expressions;
@@ -10,29 +9,29 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
 {
     internal abstract class CoverageTypeFilter_Tests_Base<TCoverageTypeFilter> where TCoverageTypeFilter : ICoverageTypeFilter, new()
     {
-        public static Action<AppOptions, bool> GetSetter(Expression<Func<AppOptions, bool>> propertyGetExpression)
+        public static Action<EditorCoverageColouringOptions, bool> GetSetter(Expression<Func<EditorCoverageColouringOptions, bool>> propertyGetExpression)
         {
             var entityParameterExpression =
             (ParameterExpression)((MemberExpression)propertyGetExpression.Body).Expression;
             var valueParameterExpression = Expression.Parameter(typeof(bool));
 
-            return Expression.Lambda<Action<AppOptions, bool>>(
+            return Expression.Lambda<Action<EditorCoverageColouringOptions, bool>>(
                 Expression.Assign(propertyGetExpression.Body, valueParameterExpression),
                 entityParameterExpression,
                 valueParameterExpression).Compile();
         }
         #region expressions / actions
-        protected abstract Expression<Func<AppOptions, bool>> ShowCoverageExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowCoverageExpression { get; }
 
-        protected abstract Expression<Func<AppOptions, bool>> ShowCoveredExpression { get; }
-        protected abstract Expression<Func<AppOptions, bool>> ShowUncoveredExpression { get; }
-        protected abstract Expression<Func<AppOptions, bool>> ShowPartiallyCoveredExpression { get; }
-        protected abstract Expression<Func<AppOptions, bool>> ShowDirtyExpression { get; }
-        protected abstract Expression<Func<AppOptions, bool>> ShowNewExpression { get; }
-        protected abstract Expression<Func<AppOptions, bool>> ShowNotIncludedExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowCoveredExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowUncoveredExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowPartiallyCoveredExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowDirtyExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowNewExpression { get; }
+        protected abstract Expression<Func<EditorCoverageColouringOptions, bool>> ShowNotIncludedExpression { get; }
 
-        private Action<AppOptions, bool> showCoverage;
-        private Action<AppOptions, bool> ShowCoverage
+        private Action<EditorCoverageColouringOptions, bool> showCoverage;
+        private Action<EditorCoverageColouringOptions, bool> ShowCoverage
         {
             get
             {
@@ -43,8 +42,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
                 return showCoverage;
             }
         }
-        private Action<AppOptions, bool> showCovered;
-        private Action<AppOptions, bool> ShowCovered
+        private Action<EditorCoverageColouringOptions, bool> showCovered;
+        private Action<EditorCoverageColouringOptions, bool> ShowCovered
         {
             get
             {
@@ -55,8 +54,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
                 return showCovered;
             }
         }
-        private Action<AppOptions, bool> showUncovered;
-        private Action<AppOptions, bool> ShowUncovered
+        private Action<EditorCoverageColouringOptions, bool> showUncovered;
+        private Action<EditorCoverageColouringOptions, bool> ShowUncovered
         {
             get
             {
@@ -67,8 +66,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
                 return showUncovered;
             }
         }
-        private Action<AppOptions, bool> showPartiallyCovered;
-        private Action<AppOptions, bool> ShowPartiallyCovered
+        private Action<EditorCoverageColouringOptions, bool> showPartiallyCovered;
+        private Action<EditorCoverageColouringOptions, bool> ShowPartiallyCovered
         {
             get
             {
@@ -79,8 +78,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
                 return showPartiallyCovered;
             }
         }
-        private Action<AppOptions, bool> showDirty;
-        private Action<AppOptions, bool> ShowDirty
+        private Action<EditorCoverageColouringOptions, bool> showDirty;
+        private Action<EditorCoverageColouringOptions, bool> ShowDirty
         {
             get
             {
@@ -91,8 +90,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
                 return showDirty;
             }
         }
-        private Action<AppOptions, bool> showNew;
-        private Action<AppOptions, bool> ShowNew
+        private Action<EditorCoverageColouringOptions, bool> showNew;
+        private Action<EditorCoverageColouringOptions, bool> ShowNew
         {
             get
             {
@@ -104,8 +103,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
             }
         }
        
-        private Action<AppOptions, bool> showNotIncluded;
-        private Action<AppOptions, bool> ShowNotIncluded
+        private Action<EditorCoverageColouringOptions, bool> showNotIncluded;
+        private Action<EditorCoverageColouringOptions, bool> ShowNotIncluded
         {
             get
             {
@@ -123,7 +122,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
         {
             var coverageTypeFilter = new TCoverageTypeFilter();
 
-            coverageTypeFilter.Initialize(new AppOptions { ShowEditorCoverage = false});
+            coverageTypeFilter.Initialize(new EditorCoverageColouringOptions { ShowEditorCoverage = false});
 
             Assert.True(coverageTypeFilter.Disabled);
         }
@@ -132,7 +131,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
         public void Should_Be_Disabled_When_Show_Coverage_False()
         {
             var coverageTypeFilter = new TCoverageTypeFilter();
-            var appOptions = new AppOptions { ShowEditorCoverage = true };
+            var appOptions = new EditorCoverageColouringOptions { ShowEditorCoverage = true };
             ShowCoverage(appOptions, false);
 
             coverageTypeFilter.Initialize(appOptions);
@@ -151,7 +150,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
             )
         {
             var coverageTypeFilter = new TCoverageTypeFilter();
-            var appOptions = new AppOptions { ShowEditorCoverage = true };
+            var appOptions = new EditorCoverageColouringOptions { ShowEditorCoverage = true };
             ShowCoverage(appOptions, true);
 
             ShowCovered(appOptions, showCovered);
@@ -182,9 +181,9 @@ namespace FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter
             Assert.That(newCoverageTypeFilter.Changed(coverageTypeFilter), Is.EqualTo(changedTestArguments.ExpectedChanged));
         }
 
-        private AppOptions SetAppOptions(CoverageAppOptions coverageAppOptions)
+        private EditorCoverageColouringOptions SetAppOptions(CoverageAppOptions coverageAppOptions)
         {
-            var appOptions = new AppOptions();
+            var appOptions = new EditorCoverageColouringOptions();
             appOptions.ShowEditorCoverage = coverageAppOptions.ShowEditorCoverage;
             ShowCoverage(appOptions, coverageAppOptions.ShowCoverage);
             ShowCovered(appOptions, coverageAppOptions.ShowCovered);

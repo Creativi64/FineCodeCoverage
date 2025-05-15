@@ -97,7 +97,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
         )
         {
             autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
-                .Returns(new AppOptions { EditorCoverageColouringMode = editorCoverageColouringMode });
+                .Returns(new EditorCoverageColouringOptions { EditorCoverageColouringMode = editorCoverageColouringMode });
         }
 
         public static SimpleSetupInfo Setup(

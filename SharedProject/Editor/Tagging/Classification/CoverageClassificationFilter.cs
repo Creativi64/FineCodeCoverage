@@ -9,17 +9,17 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
     {
         public override string TypeIdentifier => "Classification";
 
-        protected override bool Enabled(AppOptions appOptions) => appOptions.ShowLineCoverageHighlighting;
+        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowLineCoverageHighlighting;
 
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions)
             => new Dictionary<DynamicCoverageType, bool>()
             {
-                { DynamicCoverageType.Covered, appOptions.ShowLineCoveredHighlighting },
-                { DynamicCoverageType.Partial, appOptions.ShowLinePartiallyCoveredHighlighting },
-                { DynamicCoverageType.NotCovered, appOptions.ShowLineUncoveredHighlighting },
-                { DynamicCoverageType.Dirty, appOptions.ShowLineDirtyHighlighting },
-                { DynamicCoverageType.NewLine, appOptions.ShowLineNewHighlighting },
-                { DynamicCoverageType.NotIncluded, appOptions.ShowLineNotIncludedHighlighting },
+                { DynamicCoverageType.Covered, editorCoverageColouringOptions.ShowLineCoveredHighlighting },
+                { DynamicCoverageType.Partial, editorCoverageColouringOptions.ShowLinePartiallyCoveredHighlighting },
+                { DynamicCoverageType.NotCovered, editorCoverageColouringOptions.ShowLineUncoveredHighlighting },
+                { DynamicCoverageType.Dirty, editorCoverageColouringOptions.ShowLineDirtyHighlighting },
+                { DynamicCoverageType.NewLine, editorCoverageColouringOptions.ShowLineNewHighlighting },
+                { DynamicCoverageType.NotIncluded, editorCoverageColouringOptions.ShowLineNotIncludedHighlighting },
             };
     }
 }

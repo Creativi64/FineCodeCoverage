@@ -24,7 +24,7 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         public void Should_Return_Null_Without_Getting_Solution_Folder_When_AppOption_FCCSolutionOutputDirectoryName_NotSet(string optionValue)
         {
             var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new AppOptions { FCCSolutionOutputDirectoryName  = optionValue});
+            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new EditorCoverageColouringOptions { FCCSolutionOutputDirectoryName  = optionValue});
 
             var provider = mocker.Create<AppOptionsCoverageToolOutputFolderSolutionProvider>();
             var providedSolutionFolder = false;
@@ -41,7 +41,7 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         public void Should_Return_Null_If_No_Solution_Folder_Provided_To_It()
         {
             var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new AppOptions { FCCSolutionOutputDirectoryName = "Value"});
+            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new EditorCoverageColouringOptions { FCCSolutionOutputDirectoryName = "Value"});
             var provider = mocker.Create<AppOptionsCoverageToolOutputFolderSolutionProvider>();
             Assert.Null(provider.Provide(() => null));
         }
@@ -50,7 +50,7 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         public void Should_Combine_The_Solution_Folder_With_FCCSolutionOutputDirectoryName()
         {
             var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new AppOptions { FCCSolutionOutputDirectoryName = "FCCOutput" });
+            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new EditorCoverageColouringOptions { FCCSolutionOutputDirectoryName = "FCCOutput" });
             var provider = mocker.Create<AppOptionsCoverageToolOutputFolderSolutionProvider>();
             Assert.AreEqual(provider.Provide(() => "SolutionFolder"), Path.Combine("SolutionFolder", "FCCOutput"));
         }

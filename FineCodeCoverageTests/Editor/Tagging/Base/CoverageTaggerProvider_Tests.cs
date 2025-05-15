@@ -18,8 +18,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
         [TestCase(true)]
         public void Should_Send_CoverageTypeFilterChangedMessage_With_The_New_Filter_When_AppOptions_Change_For_the_Filter(bool filterChanged)
         {
-            var firstOptions = new AppOptions();
-            var changedOptions = new AppOptions();
+            var firstOptions = new EditorCoverageColouringOptions();
+            var changedOptions = new EditorCoverageColouringOptions();
             var isFirst = true;
             DummyCoverageTypeFilter firstFilter = null;
             DummyCoverageTypeFilter secondFilter = null;
@@ -82,8 +82,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
             var coverageTaggerProvider = autoMocker.Create<CoverageTaggerProvider<DummyCoverageTypeFilter, DummyTag>>();
 
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new AppOptions());
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new AppOptions());
+            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new EditorCoverageColouringOptions());
+            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new EditorCoverageColouringOptions());
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
             var coverageTaggerProvider = autoMocker.Create<CoverageTaggerProvider<DummyCoverageTypeFilter, DummyTag>>();
 
             var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new AppOptions());
+            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new EditorCoverageColouringOptions());
 
             var tagger = coverageTaggerProvider.CreateTagger(textView, textBuffer);
 

@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Output
 	[ProvideMenuResource("Menus.ctmenu", 1)]
 	[InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]
 	[ProvideOptionPage(typeof(AppOptionsPage), Vsix.Name, "General", 0, 0, true)]
-    //[ProvideProfile(typeof(AppOptionsPage), Vsix.Name, Vsix.Name, 101, 102, true)]
+    [ProvideOptionPage(typeof(EditorCoverageColouringOptionsPage), Vsix.Name, "Editor colouring", 0, 0, true)]
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]

@@ -19,16 +19,16 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         };
         private Dictionary<DynamicCoverageType, bool> showLookup = doNotShowLookup;
 
-        public void Initialize(AppOptions appOptions)
+        public void Initialize(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            if (this.ShouldGetShowLookup(appOptions))
+            if (this.ShouldGetShowLookup(editorCoverageColouringOptions))
             {
-                this.showLookup = this.GetShowLookup(appOptions);
+                this.showLookup = this.GetShowLookup(editorCoverageColouringOptions);
                 this.ThrowIfInvalidShowLookup();
             }
         }
 
-        private bool ShouldGetShowLookup(AppOptions appOptions) => appOptions.ShowEditorCoverage && this.EnabledPrivate(appOptions);
+        private bool ShouldGetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowEditorCoverage && this.EnabledPrivate(editorCoverageColouringOptions);
 
         private void ThrowIfInvalidShowLookup()
         {
@@ -38,15 +38,15 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        private bool EnabledPrivate(AppOptions appOptions)
+        private bool EnabledPrivate(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            bool enabled = this.Enabled(appOptions);
+            bool enabled = this.Enabled(editorCoverageColouringOptions);
             this.Disabled = !enabled;
             return enabled;
         }
 
-        protected abstract bool Enabled(AppOptions appOptions);
-        protected abstract Dictionary<DynamicCoverageType, bool> GetShowLookup(AppOptions appOptions);
+        protected abstract bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions);
+        protected abstract Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions);
 
         public abstract string TypeIdentifier { get; }
 

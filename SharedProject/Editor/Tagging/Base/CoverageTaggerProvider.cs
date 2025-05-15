@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public CoverageTaggerProvider(
             IEventAggregator eventAggregator,
-            IAppOptionsProvider appOptionsProvider,
+            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
             IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             ILineSpanTagger<TTag> coverageTagger,
             IDynamicCoverageManager dynamicCoverageManager,
@@ -40,22 +40,22 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             this.fileExcluders = fileExcluders;
             this.fileIndicatorVisibility = fileIndicatorVisibility;
             this.dynamicLineFilter = dynamicLineFilter;
-            AppOptions appOptions = appOptionsProvider.Get();
+            EditorCoverageColouringOptions appOptions = editorCoverageColouringOptionsProvider.Get();
             this.coverageTypeFilter = CreateFilter(appOptions);
-            appOptionsProvider.OptionsChanged += this.AppOptionsProvider_OptionsChanged;
+            editorCoverageColouringOptionsProvider.OptionsChanged += this.EditorCoverageColouringOptionsProvider_OptionsChanged;
             this.eventAggregator = eventAggregator;
             this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.coverageTagger = coverageTagger;
         }
 
-        private static TCoverageTypeFilter CreateFilter(AppOptions appOptions)
+        private static TCoverageTypeFilter CreateFilter(EditorCoverageColouringOptions appOptions)
         {
             var newCoverageTypeFilter = new TCoverageTypeFilter();
             newCoverageTypeFilter.Initialize(appOptions);
             return newCoverageTypeFilter;
         }
 
-        private void AppOptionsProvider_OptionsChanged(AppOptions appOptions)
+        private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions appOptions)
         {
             TCoverageTypeFilter newCoverageTypeFilter = CreateFilter(appOptions);
             if (newCoverageTypeFilter.Changed(this.coverageTypeFilter))

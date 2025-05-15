@@ -28,8 +28,8 @@ namespace FineCodeCoverageTests
         private async Task ActAsync(CoverageSettings coverageSettingsFromAppOptions,bool noXmlSettings = false)
         {
             autoMoqer = new AutoMoqer();
-            var appOptions = new AppOptions();
-            autoMoqer.Setup<IAppOptionsProvider, AppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(appOptions);
+            var appOptions = new EditorCoverageColouringOptions();
+            autoMoqer.Setup<IAppOptionsProvider, EditorCoverageColouringOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(appOptions);
             autoMoqer.Setup<ICoverageSettingsReflectionService, CoverageSettings>(coverageSettingsReflectionService => coverageSettingsReflectionService.CreateCoverageSettingsFromAppOptions(appOptions))
                 .Returns(coverageSettingsFromAppOptions);
             autoMoqer.Setup<ICoverageSettingsReflectionService,List<PropertyInfo>>(coverageSettingsReflectionService => coverageSettingsReflectionService.CoverageSettingsPropertyInfos)

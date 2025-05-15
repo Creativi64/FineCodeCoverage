@@ -15,22 +15,22 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
         [ImportingConstructor]
         public BlazorCoverageContentType(
             IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService,
-            IAppOptionsProvider appOptionsProvider
+            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider
         )
         {
             this.blazorFileCodeSpanRangeService = blazorFileCodeSpanRangeService;
-            this.appOptionsProvider = appOptionsProvider;
+            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
         }
 
         public const string ContentType = "Razor";
         private readonly IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
 
         public string ContentTypeName => ContentType;
 
         public IFileCodeSpanRangeService FileCodeSpanRangeService => this.blazorFileCodeSpanRangeService;
 
-        public bool CoverageOnlyFromFileCodeSpanRangeService => this.appOptionsProvider.Get().BlazorCoverageLinesFromGeneratedSource;
+        public bool CoverageOnlyFromFileCodeSpanRangeService => this.editorCoverageColouringOptionsProvider.Get().BlazorCoverageLinesFromGeneratedSource;
 
         // Unfortunately, the generated docuent from the workspace is not up to date
         public bool UseFileCodeSpanRangeServiceForChanges => false;

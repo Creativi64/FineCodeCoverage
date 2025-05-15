@@ -25,7 +25,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage
             var autoMoqer = new AutoMoqer();
             autoMoqer.SetInstance(new TestThreadHelper());
             var mockAppOptionsProvider = autoMoqer.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new AppOptions { EditorCoverageColouringMode = editorCoverageColouringMode });
+            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(new EditorCoverageColouringOptions { EditorCoverageColouringMode = editorCoverageColouringMode });
 
             var roslynFileCodeSpanRangeService = autoMoqer.Create<RoslynFileCodeSpanRangeService>();
 
