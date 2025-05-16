@@ -20,6 +20,7 @@ namespace FineCodeCoverage.Core.Model
             optionsGetters.Add(runOptionsProvider);
             optionsGetters.Add(coverletOptionsProvider);
         }
+
         public IEnumerable<object> Get() => this.optionsGetters.Select(g => g.GetOptionsAsObject());
     }
 }
