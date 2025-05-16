@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
@@ -54,8 +53,6 @@ namespace Test
             mockDisposeAwareTaskRunner.Setup(disposeAwareTaskRunner => disposeAwareTaskRunner.CreateLinkedTokenSource()).Returns(mockCancellationTokenSource.Object);
             fccEngine = mocker.Create<FCCEngine>();
 
-            var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(x => x.Get()).Returns(new EditorCoverageColouringOptions { RunMsCodeCoverage = RunMsCodeCoverage.No});
         }
 
         [Test]

@@ -14,15 +14,15 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public UIClearer(
             ISolutionEvents solutionEvents,
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<RunOptions> runOptionsProvider,
             IEventAggregator eventAggregator
             )
         {
             eventAggregator.AddListener(this);
             solutionEvents.AfterClosing += (s, args) => ClearUI();
-            appOptionsProvider.OptionsChanged += (appOptions) =>
+            runOptionsProvider.OptionsChanged += (runOptions) =>
             {
-                if (!appOptions.Enabled)
+                if (!runOptions.Enabled)
                 {
                     ClearUI();
                 }

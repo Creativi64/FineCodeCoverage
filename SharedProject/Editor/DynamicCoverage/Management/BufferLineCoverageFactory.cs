@@ -12,14 +12,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     internal class BufferLineCoverageFactory : IBufferLineCoverageFactory
     {
         private readonly ICoverageContentTypes coverageContentTypes;
-        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
         private readonly ILogger logger;
 
         [ImportingConstructor]
         public BufferLineCoverageFactory(
             [ImportMany]
             ICoverageContentType[] coverageContentTypes,
-            EditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
             ILogger logger
         )
         {

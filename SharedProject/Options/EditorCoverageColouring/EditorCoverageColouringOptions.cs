@@ -1,184 +1,155 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Output;
-using System;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {
-    internal class EditorCoverageColouringOptions : IEditorCoverageColouringOptions
+    internal enum EditorCoverageColouringMode
     {
-        private const string editorColouringControlCategory = "Editor Colouring Control";
-        private const string overviewMarginCategory = "Editor Colouring Overview Margin";
-        private const string glyphMarginCategory = "Editor Colouring Glyph Margin";
-        private const string lineHighlightingCategory = "Editor Colouring Line Highlighting";
+        UseRoslynWhenTextChanges,
+        DoNotUseRoslynWhenTextChanges,
+        Off
+    }
 
-        #region editorColouringControlCategory
-        [Category(editorColouringControlCategory)]
+    /*
+        Note that option properties must not be renamed
+    */
+    internal class EditorCoverageColouringOptions
+    {
+        private const string controlCategory = "Control";
+        private const string overviewMarginCategory = "Overview Margin";
+        private const string glyphMarginCategory = "Glyph Margin";
+        private const string lineHighlightingCategory = "Line Highlighting";
+
+        #region Control Category
+        [Category(controlCategory)]
         [Description("Set to true to limit coverage lines in .razor file to those in generated source ( when available)")]
+        [DisplayName("Blazor Coverage Lines From Generated Source")]
         public bool BlazorCoverageLinesFromGeneratedSource { get; set; }
 
-        [Category(editorColouringControlCategory)]
+        [Category(controlCategory)]
         [Description("Set to false to disable all editor coverage indicators")]
-        //[DisplayName("Show Editor Coverage")]
+        [DisplayName("Show Editor Coverage")]
         public bool ShowEditorCoverage { get; set; }
 
-        [Category(editorColouringControlCategory)]
+        [Category(controlCategory)]
         [Description("Set to false to use FCC Fonts And Colors items")]
+        [DisplayName("Use Enterprise Fonts And Colors")]
         public bool UseEnterpriseFontsAndColors { get; set; }
 
-        [Category(editorColouringControlCategory)]
+        [Category(controlCategory)]
         [Description("Set to Off, or Set to DoNotUseRoslynWhenTextChanges if there is a performance issue")]
+        [DisplayName("Mode")]
         public EditorCoverageColouringMode EditorCoverageColouringMode { get; set; }
         #endregion
 
-        #region overview margin
+        #region Overview Margin
         [Category(overviewMarginCategory)]
         [Description("Set to false to prevent coverage marks in the overview margin")]
-        //[DisplayName("Show Overview Margin Coverage")]
+        [DisplayName("Show")]
         public bool ShowCoverageInOverviewMargin { get; set; }
 
         [Category(overviewMarginCategory)]
         [Description("Set to false to prevent covered marks in the overview margin")]
-        //[DisplayName("Show Overview Margin Covered")]
+        [DisplayName("Show Covered")]
         public bool ShowCoveredInOverviewMargin { get; set; }
 
         [Category(overviewMarginCategory)]
         [Description("Set to false to prevent uncovered marks in the overview margin")]
-        //[DisplayName("Show Overview Margin Uncovered")]
+        [DisplayName("Show Uncovered")]
         public bool ShowUncoveredInOverviewMargin { get; set; }
 
         [Category(overviewMarginCategory)]
         [Description("Set to false to prevent partially covered marks in the overview margin")]
-        //[DisplayName("Show Overview Margin Partially Covered")]
+        [DisplayName("Show Partially Covered")]
         public bool ShowPartiallyCoveredInOverviewMargin { get; set; }
 
         [Category(overviewMarginCategory)]
         [Description("Set to true to show dirty marks in the overview margin")]
+        [DisplayName("Show Dirty")]
         public bool ShowDirtyInOverviewMargin { get; set; }
 
         [Category(overviewMarginCategory)]
         [Description("Set to true to show new line marks in the overview margin")]
+        [DisplayName("Show New")]
         public bool ShowNewInOverviewMargin { get; set; }
 
         [Category(overviewMarginCategory)]
         [Description("Set to true to show not included marks in the overview margin")]
+        [DisplayName("Show Not Included")]
         public bool ShowNotIncludedInOverviewMargin { get; set; }
         #endregion
-        #region glyph margin
+
+        #region Glyph Margin
         [Category(glyphMarginCategory)]
         [Description("Set to false to prevent coverage marks in the glyph margin")]
-        //[DisplayName("Show Glyph Margin Coverage")]
+        [DisplayName("Show")]
         public bool ShowCoverageInGlyphMargin { get; set; }
 
         [Category(glyphMarginCategory)]
         [Description("Set to false to prevent covered marks in the glyph margin")]
-        //[DisplayName("Show Glyph Margin Covered")]
+        [DisplayName("Show Covered")]
         public bool ShowCoveredInGlyphMargin { get; set; }
 
         [Category(glyphMarginCategory)]
         [Description("Set to false to prevent uncovered marks in the glyph margin")]
-        //[DisplayName("Show Glyph Margin Uncovered")]
+        [DisplayName("Show Uncovered")]
         public bool ShowUncoveredInGlyphMargin { get; set; }
 
         [Category(glyphMarginCategory)]
         [Description("Set to false to prevent partially covered marks in the glyph margin")]
-        //[DisplayName("Show Glyph Margin Partially Covered")]
+        [DisplayName("Show Partially Covered")]
         public bool ShowPartiallyCoveredInGlyphMargin { get; set; }
 
         [Category(glyphMarginCategory)]
         [Description("Set to true to show dirty marks in the glyph margin")]
+        [DisplayName("Show Dirty")]
         public bool ShowDirtyInGlyphMargin { get; set; }
 
         [Category(glyphMarginCategory)]
         [Description("Set to true to show new line marks in the glyph margin")]
+        [DisplayName("Show New")]
         public bool ShowNewInGlyphMargin { get; set; }
 
         [Category(glyphMarginCategory)]
         [Description("Set to true to show not included marks in the glyph margin")]
+        [DisplayName("Show Not Included")]
         public bool ShowNotIncludedInGlyphMargin { get; set; }
         #endregion
-        #region line highlighting
+
+        #region Line Highlighting
         [Category(lineHighlightingCategory)]
         [Description("Set to true to allow coverage line highlighting")]
-        //[DisplayName("Show Line Highlighting Coverage")]
+        [DisplayName("Show")]
         public bool ShowLineCoverageHighlighting { get; set; }
 
         [Category(lineHighlightingCategory)]
         [Description("Set to false to prevent covered line highlighting")]
-        //[DisplayName("Show Line Highlighting Covered")]
+        [DisplayName("Show Covered")]
         public bool ShowLineCoveredHighlighting { get; set; }
 
         [Category(lineHighlightingCategory)]
         [Description("Set to false to prevent uncovered line highlighting")]
-        //[DisplayName("Show Line Highlighting Uncovered")]
+        [DisplayName("Show Uncovered")]
         public bool ShowLineUncoveredHighlighting { get; set; }
 
         [Category(lineHighlightingCategory)]
         [Description("Set to false to prevent partially covered line highlighting")]
-        //[DisplayName("Show Line Highlighting Partially Covered")]
+        [DisplayName("Show Partially Covered")]
         public bool ShowLinePartiallyCoveredHighlighting { get; set; }
 
         [Category(lineHighlightingCategory)]
         [Description("Set to true to show dirty line highlighting")]
+        [DisplayName("Show Dirty")]
         public bool ShowLineDirtyHighlighting { get; set; }
+
         [Category(lineHighlightingCategory)]
         [Description("Set to true to show new line highlighting")]
+        [DisplayName("Show New")]
         public bool ShowLineNewHighlighting { get; set; }
 
         [Category(lineHighlightingCategory)]
         [Description("Set to true to show not included highlighting")]
+        [DisplayName("Show Not Included")]
         public bool ShowLineNotIncludedHighlighting { get; set; }
-
         #endregion
-    }
-
-    internal class EditorCoverageColouringOptionsPage : DialogPageBase<EditorCoverageColouringOptions> { }
-
-    [Export(typeof(IDefaultOptionsSetter<EditorCoverageColouringOptions>))]
-    internal class EditorCoverageColouringOptionsDefaults : IDefaultOptionsSetter<EditorCoverageColouringOptions>
-    {
-        public void Set(EditorCoverageColouringOptions options)
-        {
-            options.ShowEditorCoverage = true;
-            options.ShowCoverageInOverviewMargin = true;
-            options.ShowCoveredInOverviewMargin = true;
-            options.ShowPartiallyCoveredInOverviewMargin = true;
-            options.ShowUncoveredInOverviewMargin = true;
-
-            options.ShowCoverageInGlyphMargin = true;
-            options.ShowCoveredInGlyphMargin = true;
-            options.ShowPartiallyCoveredInGlyphMargin = true;
-            options.ShowUncoveredInGlyphMargin = true;
-
-            options.ShowLineCoveredHighlighting = true;
-            options.ShowLinePartiallyCoveredHighlighting = true;
-            options.ShowLineUncoveredHighlighting = true;
-
-            options.UseEnterpriseFontsAndColors = true;
-        }
-    }
-
-    internal interface IEditorCoverageColouringOptionsProvider
-    {
-        // The argument is the same from Get
-        event Action<EditorCoverageColouringOptions> OptionsChanged;
-        // returns the same instance each time
-        EditorCoverageColouringOptions Get();
-    }
-
-    [Export(typeof(IEditorCoverageColouringOptionsProvider))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
-    [Export(typeof(IDialogPageOptionsProvider<EditorCoverageColouringOptions>))]
-    [Export(typeof(IProfileOptionsProvider))]
-    internal class EditorCoverageColouringOptionsProvider : OptionsProviderBase<EditorCoverageColouringOptions>, IEditorCoverageColouringOptionsProvider
-    {
-        [ImportingConstructor]
-        public EditorCoverageColouringOptionsProvider(
-            ILogger logger,
-            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
-            IJsonConvertService jsonConvertService,
-            IDefaultOptionsSetter<EditorCoverageColouringOptions> defaultOptionsSetter
-        ) : base(logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter) { }
     }
 }

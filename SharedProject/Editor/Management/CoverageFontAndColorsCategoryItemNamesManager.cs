@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Editor.Management
         private readonly Guid EditorTextMarkerFontAndColorCategory = new Guid("FF349800-EA43-46C1-8C98-878E78F46501");
         private readonly Guid EditorMEFCategory = new Guid("75A05685-00A8-4DED-BAE5-E7A50BFA929A");
         private readonly bool hasCoverageMarkers;
-        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
         private FCCEditorFormatDefinitionNames fCCEditorFormatDefinitionNames;
         private bool usingEnterprise = false;
         private bool initialized = false;
@@ -20,16 +20,16 @@ namespace FineCodeCoverage.Editor.Management
 
         [ImportingConstructor]
         public CoverageFontAndColorsCategoryItemNamesManager(
-           IVsHasCoverageMarkersLogic vsHasCoverageMarkersLogic,
-            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider
+            IVsHasCoverageMarkersLogic vsHasCoverageMarkersLogic,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider
         )
         {
-            editorCoverageColouringOptionsProvider.OptionsChanged += this.AppOptionsProvider_OptionsChanged;
+            editorCoverageColouringOptionsProvider.OptionsChanged += this.EditorCoverageColouringOptionsProvider_OptionsChanged;
             this.hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();
             this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
         }
 
-        private void AppOptionsProvider_OptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
+        private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
             if (this.initialized)
             {

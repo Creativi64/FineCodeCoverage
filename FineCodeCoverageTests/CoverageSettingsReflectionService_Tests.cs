@@ -11,7 +11,7 @@ namespace FineCodeCoverageTests
         {
             var coverageSettingsReflectionService = new CoverageSettingsReflectionService();
  
-            var appOptions = new EditorCoverageColouringOptions
+            var appOptions = new AppOptions
             {
                 CoverletConsoleCustomPath = "CoverletConsoleCustomPath", // ICoverletOptions
 
@@ -19,19 +19,22 @@ namespace FineCodeCoverageTests
 
                 IncludeTestAssembly = true, // IFCCCommonIncludesExcludes
 
-                Enabled = true, // IEnabledOption
-
                 ModulePathsInclude = new string[] { "include1", "include2" }, // IMsCodeCoverageIncludesExcludesOptions
 
                 Exclude = new string[] { "exclude1", "exclude2" }, // IOpenCoverCoverletExcludeIncludeOptions
             };
 
-            var coverageSettings = coverageSettingsReflectionService.CreateCoverageSettingsFromAppOptions(appOptions);
+            var runOptions = new RunOptions
+            {
+                Enabled = true, // IEnabledOption
+            };
+
+            var coverageSettings = coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(new object[] { appOptions, runOptions });
 
             Assert.That(coverageSettings.CoverletConsoleCustomPath, Is.SameAs(appOptions.CoverletConsoleCustomPath));
             Assert.That(coverageSettings.OpenCoverTarget, Is.SameAs(appOptions.OpenCoverTarget));
             Assert.That(coverageSettings.IncludeTestAssembly, Is.EqualTo(appOptions.IncludeTestAssembly));
-            Assert.That(coverageSettings.Enabled, Is.EqualTo(appOptions.Enabled));
+            Assert.That(coverageSettings.Enabled, Is.EqualTo(runOptions.Enabled));
             // arrays are cloned
             Assert.That(coverageSettings.ModulePathsInclude, Is.Not.SameAs(appOptions.ModulePathsInclude));
             Assert.That(coverageSettings.ModulePathsInclude, Is.EqualTo(appOptions.ModulePathsInclude));

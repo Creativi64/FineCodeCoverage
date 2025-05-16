@@ -30,8 +30,10 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
             autoMoqer.Verify<IEventAggregator>(eventAggregator => eventAggregator.RemoveListener(setup.BufferLineCoverage));
             mockTextView.VerifyRemove(textView => textView.Closed -= It.IsAny<EventHandler>(), Times.Once);
             textInfoMocks.TextBuffer.VerifyRemove(textBuffer => textBuffer.ChangedOnBackground -= It.IsAny<EventHandler<TextContentChangedEventArgs>>(), Times.Once);
-            var mockAppOptionsProvider = autoMoqer.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.VerifyRemove(appOptionsProvider => appOptionsProvider.OptionsChanged -= It.IsAny<Action<EditorCoverageColouringOptions>>(), Times.Once);
+            var mockEditorCoverageColouringOptionsProvider = autoMoqer.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>();
+            mockEditorCoverageColouringOptionsProvider.VerifyRemove(
+                optionsProvider => optionsProvider.OptionsChanged -= It.IsAny<Action<EditorCoverageColouringOptions>>(), 
+                Times.Once);
         }
     }
 }

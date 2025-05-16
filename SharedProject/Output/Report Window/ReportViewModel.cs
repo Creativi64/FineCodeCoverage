@@ -44,14 +44,14 @@ namespace FineCodeCoverage.Output
             IReportColumnManager reportColumnManager,
             IReportViews reportViews,
             IIconsOptions iconsOptions,
-            IAppOptionsProvider appOptionsProvider
+            IOptionsProvider<ReportOptions> reportOptionsProvider
         )
         {
-            var appOptions = appOptionsProvider.Get();
-            this.sourceFileStructure = appOptions.SourceFileStructure;
-            this.reportTotalRow = appOptions.ReportTotalRow;
-            this.rootDirectoryNameFromPath = appOptions.RootDirectoryNameFromPath;
-            appOptionsProvider.OptionsChanged += (newOptions) =>
+            var reportOptions = reportOptionsProvider.Get();
+            this.sourceFileStructure = reportOptions.SourceFileStructure;
+            this.reportTotalRow = reportOptions.ReportTotalRow;
+            this.rootDirectoryNameFromPath = reportOptions.RootDirectoryNameFromPath;
+            reportOptionsProvider.OptionsChanged += (newOptions) =>
             {
                 if (newOptions.ReportTotalRow != this.reportTotalRow)
                 {

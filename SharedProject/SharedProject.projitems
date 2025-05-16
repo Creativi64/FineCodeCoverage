@@ -209,12 +209,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\DialogPageBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\HotspotsThresholdsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDefaultOptionsSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageInstantiator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IEditorCoverageColouringOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IProfileOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IRequireDialogPageInstantiator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OutputOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\RunOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\ReportOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\ToolsOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsPageTypeLookup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ProfileManager.cs" />
@@ -544,7 +553,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IJsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyConfigSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IWritableUserSettingsStoreProvider.cs" />

@@ -14,15 +14,22 @@ namespace FineCodeCoverage.Engine
     {
         private readonly ILogger logger;
         private readonly IEnvironmentVariable environmentVariable;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
+        private readonly IOptionsProvider<ToolsOptions> toolsOptionsProvider;
         internal const string fccDebugCleanInstallEnvironmentVariable = "FCCDebugCleanInstall";
 
         [ImportingConstructor]
-        public AppDataFolder(ILogger logger,IEnvironmentVariable environmentVariable, IAppOptionsProvider appOptionsProvider)
+        public AppDataFolder(
+            ILogger logger,
+            IEnvironmentVariable environmentVariable,
+            IOptionsProvider<OutputOptions> outputOptionsProvider,
+            IOptionsProvider<ToolsOptions> toolsOptionsProvider
+        )
         {
             this.logger = logger;
             this.environmentVariable = environmentVariable;
-            this.appOptionsProvider = appOptionsProvider;
+            this.outputOptionsProvider = outputOptionsProvider;
+            this.toolsOptionsProvider = toolsOptionsProvider;
         }
         public string DirectoryPath { get; private set; }
 
@@ -68,7 +75,7 @@ namespace FineCodeCoverage.Engine
 
         private string GetAppDataFolder()
         {
-            var dir = appOptionsProvider.Get().ToolsDirectory;
+            var dir = toolsOptionsProvider.Get().ToolsDirectory;
 
             return Directory.Exists(dir) ? dir : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }

@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Impl
         private readonly ITestOperationStateInvocationManager testOperationStateInvocationManager;
         private readonly ITestOperationFactory testOperationFactory;
         private readonly ILogger logger;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<RunOptions> runOptionsProvider;
         private readonly IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService;
         private readonly IEventAggregator eventAggregator;
         private readonly ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer;
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Impl
         private bool cancelling;
         private MsCodeCoverageCollectionStatus msCodeCoverageCollectionStatus;
         private bool runningInParallel;
-        private AppOptions settings;
+        private RunOptions runOptions;
         private int coverageRunNumber = 1;
 
         internal Task initializeTask;
@@ -64,13 +64,13 @@ namespace FineCodeCoverage.Impl
             IPackageLoader packageLoader,
             ITestOperationFactory testOperationFactory,
             ILogger logger,
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<RunOptions> runOptionsProvider,
             IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
             IEventAggregator eventAggregator,
             ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer
         )
         {
-            this.appOptionsProvider = appOptionsProvider;
+            this.runOptionsProvider = runOptionsProvider;
             this.msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
             this.eventAggregator = eventAggregator;
             this.coverageCollectableFromTestExplorer = coverageCollectableFromTestExplorer;
@@ -92,9 +92,9 @@ namespace FineCodeCoverage.Impl
 
         internal Action<Func<Task>> RunAsync = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
 
-        private bool CoverageDisabled(AppOptions settings)
+        private bool CoverageDisabled(RunOptions runOptions)
         {
-            return !settings.Enabled  && settings.DisabledNoCoverage;
+            return !runOptions.Enabled  && runOptions.DisabledNoCoverage;
         }
 
         private Task LogCoverageStartingAsync()
@@ -109,7 +109,7 @@ namespace FineCodeCoverage.Impl
             runningInParallel = false;
             StopCoverage();
 
-            var settings = appOptionsProvider.Get();
+            var settings = runOptionsProvider.Get();
             if (CoverageDisabled(settings))
             {
                 await logger.LogAsync("Coverage not collected as FCC disabled.");
@@ -176,8 +176,8 @@ namespace FineCodeCoverage.Impl
 
         private bool ShouldNotCollectWhenTestExecutionFinished()
         {
-            settings = appOptionsProvider.Get();
-            return CoverageDisabled(settings) || runningInParallel || MsCodeCoverageErrored;
+            runOptions = runOptionsProvider.Get();
+            return CoverageDisabled(runOptions) || runningInParallel || MsCodeCoverageErrored;
 
         }
 
@@ -195,20 +195,20 @@ namespace FineCodeCoverage.Impl
 
         private async Task<bool> CoverageConditionsMetAsync(ITestOperation testOperation)
         {
-            if (!settings.RunWhenTestsFail && testOperation.FailedTests > 0)
+            if (!runOptions.RunWhenTestsFail && testOperation.FailedTests > 0)
             {
-                await logger.LogAsync($"Skipping coverage due to failed tests.  Option {nameof(AppOptions.RunWhenTestsFail)} is false");
+                await logger.LogAsync($"Skipping coverage due to failed tests.  Option {nameof(RunOptions.RunWhenTestsFail)} is false");
                 RaiseCoverageEnded();
                 return false;
             }
 
             var totalTests = testOperation.TotalTests;
-            var runWhenTestsExceed = settings.RunWhenTestsExceed;
+            var runWhenTestsExceed = runOptions.RunWhenTestsExceed;
             if (totalTests > 0) // in case this changes to not reporting total tests
             {
                 if (totalTests <= runWhenTestsExceed)
                 {
-                    await logger.LogAsync($"Skipping coverage as total tests ({totalTests}) <= {nameof(AppOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
+                    await logger.LogAsync($"Skipping coverage as total tests ({totalTests}) <= {nameof(RunOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
                     RaiseCoverageEnded();
                     return false;
                 }

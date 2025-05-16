@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ITextInfo textInfo;
         private readonly IEventAggregator eventAggregator;
         private readonly ITrackedLinesFactory trackedLinesFactory;
-        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
         private readonly ICoverageContentTypes coverageContentTypes;
         private readonly ILogger logger;
         private readonly ITextBuffer2 textBuffer;
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITextInfo textInfo,
             IEventAggregator eventAggregator,
             ITrackedLinesFactory trackedLinesFactory,
-            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
             ICoverageContentTypes coverageContentTypes,
             ILogger logger
         )

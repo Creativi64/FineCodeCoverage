@@ -23,7 +23,8 @@ namespace FineCodeCoverageTests.Editor.Management
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get()).Returns(new EditorCoverageColouringOptions { UseEnterpriseFontsAndColors = false });
+            autoMoqer.Setup<IOptionsProvider<EditorCoverageColouringOptions>, EditorCoverageColouringOptions>(p => p.Get())
+                .Returns(new EditorCoverageColouringOptions { UseEnterpriseFontsAndColors = false });
 
             Verify_Use_MEF_Category_And_FCCEditorFormatDefinitionNames(autoMoqer);
         }
@@ -33,7 +34,7 @@ namespace FineCodeCoverageTests.Editor.Management
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+            autoMoqer.Setup<IOptionsProvider<EditorCoverageColouringOptions>, EditorCoverageColouringOptions>(p => p.Get())
                 .Returns(new EditorCoverageColouringOptions { UseEnterpriseFontsAndColors = true });
 
             var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
@@ -48,7 +49,7 @@ namespace FineCodeCoverageTests.Editor.Management
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(true);
-            autoMoqer.Setup<IAppOptionsProvider, IAppOptions>(appOptionsProvider => appOptionsProvider.Get())
+            autoMoqer.Setup<IOptionsProvider<EditorCoverageColouringOptions>, EditorCoverageColouringOptions>(p => p.Get())
                 .Returns(new EditorCoverageColouringOptions { UseEnterpriseFontsAndColors = true });
 
             var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
@@ -66,9 +67,10 @@ namespace FineCodeCoverageTests.Editor.Management
         {
             var autoMoqer = new AutoMoqer();
             autoMoqer.Setup<IVsHasCoverageMarkersLogic, bool>(x => x.HasCoverageMarkers()).Returns(hasCoverageMarkers);
-            var appOptions = new EditorCoverageColouringOptions { UseEnterpriseFontsAndColors = useEnterpriseFontsAndColors };
-            var mockAppOptionsProvider = autoMoqer.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(appOptions);
+            var editorCoverageColouringOptions = new EditorCoverageColouringOptions { 
+                UseEnterpriseFontsAndColors = useEnterpriseFontsAndColors };
+            var mockEditorCoverageColouringOptionsProvider = autoMoqer.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>();
+            mockEditorCoverageColouringOptionsProvider.Setup(p => p.Get()).Returns(editorCoverageColouringOptions);
 
             var coverageFontAndColorsCategoryItemNamesManager = CreateAndInitialize(autoMoqer);
 
@@ -79,8 +81,8 @@ namespace FineCodeCoverageTests.Editor.Management
             };
 
             var _ = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
-            appOptions.UseEnterpriseFontsAndColors = !appOptions.UseEnterpriseFontsAndColors;
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, appOptions);
+            editorCoverageColouringOptions.UseEnterpriseFontsAndColors = !editorCoverageColouringOptions.UseEnterpriseFontsAndColors;
+            mockEditorCoverageColouringOptionsProvider.Raise(p => p.OptionsChanged += null, editorCoverageColouringOptions);
 
             var changed = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
             var changedCovered = changed.Covered;

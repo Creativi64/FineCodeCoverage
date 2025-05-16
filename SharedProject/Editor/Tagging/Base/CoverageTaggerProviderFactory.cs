@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     internal class CoverageTaggerProviderFactory : ICoverageTaggerProviderFactory
     {
         private readonly IEventAggregator eventAggregator;
-        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
         private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
         private readonly IDynamicCoverageManager dynamicCoverageManager;
         private readonly ITextInfoFactory textInfoFactory;
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         [ImportingConstructor]
         public CoverageTaggerProviderFactory(
             IEventAggregator eventAggregator,
-            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
             IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             IDynamicCoverageManager dynamicCoverageManager,
             ITextInfoFactory textInfoFactory,

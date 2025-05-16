@@ -1,60 +1,19 @@
-﻿using FineCodeCoverage.Output;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {
+    /*
+        Note that option properties must not be renamed
+        Interfaces to be retained for reflection - AppOptions => CoverageSettings
+    */
     internal class AppOptions: IAppOptions
     {
-        private const string oldRunCategory = "Run ( Coverlet / OpenCover )";
-        private const string commonRunCategory = "Run ( Common )";
-        private const string commonEnvironmentCategory = "Environment ( Common )";
         private const string coverletExcludeIncludeCategory = "Exclude / Include ( Coverlet )";
         private const string oldExcludeIncludeCategory = "Exclude / Include ( Coverlet / OpenCover )";
         private const string commonExcludeIncludeCategory = "Exclude / Include ( Common )";
         private const string msExcludeIncludeCategory = "Exclude / Include ( Microsoft )";
         private const string coverletToolCategory = "Tool ( Coverlet )";
         private const string openCoverToolCategory = "Tool ( OpenCover )";
-        private const string oldOutputCategory = "Output ( Coverlet / OpenCover )";
-        private const string commonOutputCategory = "Output ( Common )";
-        private const string commonReportCategory = "Report ( Common )";
-        private const string openCoverReportCategory = "Report ( OpenCover )";
-        private const string reportDisplayCategory = "Report Display";
-
-        #region run
-        #region common run category
-        [Category(commonRunCategory)]
-        [Description("Specifies whether or not coverage output is enabled")]
-        //[DisplayName("Enabled")]
-        public bool Enabled { get; set; }
-
-        [Category(commonRunCategory)]
-        [Description("Set to false for VS Option Enabled=false to not disable coverage")]
-        //[DisplayName("Disabled No Coverage")]
-        public bool DisabledNoCoverage { get; set; }
-
-        [Category(commonRunCategory)]
-        [Description("Specifies whether or not the ms code coverage is used.  No, IfInRunSettings, Yes ( default )")]
-        //[DisplayName("Run Ms Code Coverage)")]
-        public RunMsCodeCoverage RunMsCodeCoverage { get; set; }
-
-        [Description("Specify false to prevent coverage when tests fail.  Cannot be used in conjunction with RunInParallel")]
-        [Category(commonRunCategory)]
-        //[DisplayName("Run When Tests Fail")]
-        public bool RunWhenTestsFail { get; set; }
-
-        [Description("Specify a value to only run coverage based upon the number of executing tests.  Cannot be used in conjunction with RunInParallel")]
-        [Category(commonRunCategory)]
-        //[DisplayName("Run When Tests Exceed")]
-        public int RunWhenTestsExceed { get; set; }
-        #endregion
-
-        #region old run
-        [Description("Specify true to not wait for tests to finish before running OpenCover / Coverlet coverage")]
-        [Category(oldRunCategory)]
-        //[DisplayName("Run In Parallel")]
-        public bool RunInParallel { get; set; }
-        #endregion
-        #endregion
 
         #region exclude / include
         #region common exclude include
@@ -213,63 +172,6 @@ namespace FineCodeCoverage.Options
         #endregion
         #endregion
 
-        #region output
-        #region common output
-        [Description("To have fcc output visible in a sub folder of your solution provide this name")]
-        [Category(commonOutputCategory)]
-        //[DisplayName("FCC Solution Output Directory Name")]
-        public string FCCSolutionOutputDirectoryName { get; set; }
-        #endregion
-
-        #region old output
-        [Description("If your tests are dependent upon their path set this to true. OpenCover / Coverlet")]
-        [Category(oldOutputCategory)]
-        //[DisplayName("Adjacent Build Output")]
-        public bool AdjacentBuildOutput { get; set; }
-        #endregion
-        #endregion
-
-        #region common environment
-        [Description("Folder to which copy tools subfolder. Must alredy exist. Requires restart of VS.")]
-        [Category(commonEnvironmentCategory)]
-        //[DisplayName("Tools Directory")]
-        public string ToolsDirectory { get; set; }
-        #endregion
-
-        #region common report category
-        [Category(commonReportCategory)]
-        [Description("When cyclomatic complexity exceeds this value for a method then the method will be present in the risk hotspots tab.")]
-        //[DisplayName("Threshold For Cyclomatic Complexity")]
-        public int ThresholdForCyclomaticComplexity { get; set; }
-
-        [Category(commonReportCategory)]
-        [Description("Set to true to hide classes, namespaces and assemblies that are fully covered.")]
-        //[DisplayName("Hide Fully Covered")]
-        public bool HideFullyCovered { get; set; }
-
-        [Category(commonReportCategory)]
-        [Description("Set to false to show classes, namespaces and assemblies that are not coverable.")]
-        //[DisplayName("Hide Not Coverable")]
-        public bool Hide0Coverable { get; set; }
-
-        [Category(commonReportCategory)]
-        [Description("Set to true to hide classes, namespaces and assemblies that have 0% coverage.")]
-        //[DisplayName("Hide 0% Coverage")]
-        public bool Hide0Coverage { get; set; }
-        #endregion
-
-        #region OpenCover report category
-        [Category(openCoverReportCategory)]
-        [Description("When npath complexity exceeds this value for a method then the method will be present in the risk hotspots tab. OpenCover only")]
-        //[DisplayName("Threshold For NPath Complexity")]
-        public int ThresholdForNPathComplexity { get; set; }
-
-        [Category(openCoverReportCategory)]
-        [Description("When crap score exceeds this value for a method then the method will be present in the risk hotspots tab. OpenCover only")]
-        //[DisplayName("Threshold For Crap Score")]
-        public int ThresholdForCrapScore { get; set; }
-        #endregion
-
         #region coverlet tool only
         [Description("Specify true to use your own dotnet tools global install of coverlet console.")]
         [Category(coverletToolCategory)]
@@ -312,68 +214,6 @@ namespace FineCodeCoverage.Options
         [Description("If supplying your own target you can also supply additional arguments.  FCC supplies the test dll path.")]
         //[DisplayName("OpenCover Target Args")]
         public string OpenCoverTargetArgs { get; set; }
-        #endregion
-
-        #region IReportDisplayOptions
-        [Category(reportDisplayCategory)]
-        [Description("Covered on the left or the right")]
-        public bool CoveragePercentageCoveredIsLeft { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Display covered and uncovered percentages ( Both ), Covered or UnCovered")]
-        public CoveragePercentageBarDisplayParts CoveragePercentageDisplayParts { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Theme colours against the background.")]
-        public bool CoveragePercentageIsThemed { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Use colours from Environment / Fonts and Colors - e.g Coverage Touched Area FCC")]
-        public bool CoveragePercentageUseColorsFromFontsAndColors { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Set to false for dashed line brush")]
-        public bool CoveragePercentageUseSolidBrush { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Use contrast color when singular display")]
-        public bool CoveragePercentageUseContrastedThemeWhenSingularDisplay { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Set to between 0 and 1 as percentage of environment font size or a specific height.")]
-        public double? CoveragePercentageHeightOrMultiplier { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Set to false to hide tooltip showing contributing amounts.")]
-        public bool CoveragePercentageShowTooltip { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Set to false to use HeaderColors resource keys")]
-        public bool HeaderUseTabularSharedColors { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Set to false to not display tree item icons")]
-        public bool ShowIcons { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Set the icon size")]
-        public int IconSize { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Themed icon style")]
-        public ThemedIconStyle ThemedIconStyle { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("When to show the report total row")]
-        public ReportTotalRow ReportTotalRow { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Use the full path for the name or just the directory name.")]
-        public bool RootDirectoryNameFromPath { get; set; }
-
-        [Category(reportDisplayCategory)]
-        [Description("Controls the tree item nesting of a file when source view.")]
-        public SourceFileStructure SourceFileStructure { get; set; }
         #endregion
     }
 }

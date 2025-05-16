@@ -46,12 +46,12 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
 
             var autoMocker = new AutoMoqer();
             autoMocker.SetInstance(new IFileExcluder[0]);
-            var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get()).Returns(firstOptions);
+            var mockEditorCoverageColouringOptionsProvider = autoMocker.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>();
+            mockEditorCoverageColouringOptionsProvider.Setup(p => p.Get()).Returns(firstOptions);
 
             var coverageLineTaggerProviderBase = autoMocker.Create<CoverageTaggerProvider<DummyCoverageTypeFilter, DummyTag>>();
 
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, changedOptions);
+            mockEditorCoverageColouringOptionsProvider.Raise(p => p.OptionsChanged += null, changedOptions);
 
             autoMocker.Verify<IEventAggregator>(eventAggregator => eventAggregator.SendMessage(
                     It.Is<CoverageTypeFilterChangedMessage>(coverageTypeFilterChangedMessage => coverageTypeFilterChangedMessage.Filter == secondFilter),
@@ -79,11 +79,11 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
 
             var autoMocker = new AutoMoqer();
             autoMocker.SetInstance(new IFileExcluder[0]);
-            var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
+            var mockEditorCoverageColouringOptionsProvider = autoMocker.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>();
             var coverageTaggerProvider = autoMocker.Create<CoverageTaggerProvider<DummyCoverageTypeFilter, DummyTag>>();
 
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new EditorCoverageColouringOptions());
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new EditorCoverageColouringOptions());
+            mockEditorCoverageColouringOptionsProvider.Raise(p => p.OptionsChanged += null, new EditorCoverageColouringOptions());
+            mockEditorCoverageColouringOptionsProvider.Raise(p => p.OptionsChanged += null, new EditorCoverageColouringOptions());
         }
 
         [Test]
@@ -154,8 +154,8 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
                 .Setup(dynamicCoverageManager => dynamicCoverageManager.Manage(mockTextInfo.Object)).Returns(bufferLineCoverage);
             var coverageTaggerProvider = autoMocker.Create<CoverageTaggerProvider<DummyCoverageTypeFilter, DummyTag>>();
 
-            var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, new EditorCoverageColouringOptions());
+            var mockEditorCoverageColouringOptionsProvider = autoMocker.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>();
+            mockEditorCoverageColouringOptionsProvider.Raise(p => p.OptionsChanged += null, new EditorCoverageColouringOptions());
 
             var tagger = coverageTaggerProvider.CreateTagger(textView, textBuffer);
 

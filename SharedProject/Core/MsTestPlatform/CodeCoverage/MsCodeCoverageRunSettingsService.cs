@@ -32,6 +32,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public List<IReferencedProject> ExcludedReferencedProjects { get; set; }
             public List<IReferencedProject> IncludedReferencedProjects { get; set; }
         }
+
         private class CoverageProjectsByType
         {
             public List<ICoverageProject> All { get; private set; }
@@ -58,7 +59,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private readonly IToolUnzipper toolUnzipper;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<RunOptions> runOptionsProvider;
         private readonly ICoverageToolOutputManager coverageOutputManager;
         private readonly IShimCopier shimCopier;
         private readonly ILogger logger;
@@ -86,7 +87,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         [ImportingConstructor]
         public MsCodeCoverageRunSettingsService(
             IToolUnzipper toolUnzipper,
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<RunOptions> runOptionsProvider,
             ICoverageToolOutputManager coverageOutputManager,
             IUserRunSettingsService userRunSettingsService,
             ITemplatedRunSettingsService templatedRunSettingsService,
@@ -96,7 +97,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             )
         {
             this.toolUnzipper = toolUnzipper;
-            this.appOptionsProvider = appOptionsProvider;
+            this.runOptionsProvider = runOptionsProvider;
             this.coverageOutputManager = coverageOutputManager;
             this.shimCopier = shimCopier;
             this.logger = logger;
@@ -158,7 +159,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private Task InitializeIsCollectingAsync(ITestOperation testOperation)
         {
-            runMsCodeCoverage = appOptionsProvider.Get().RunMsCodeCoverage;
+            runMsCodeCoverage = runOptionsProvider.Get().RunMsCodeCoverage;
             useMsCodeCoverage = runMsCodeCoverage == RunMsCodeCoverage.Yes;
             userRunSettingsProjectDetailsLookup = null;
             return CleanUpAsync(testOperation);

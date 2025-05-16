@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Options
     internal abstract class OptionsProviderBase<TOptions> :
         IRequireDialogPageInstantiator,
         IProfileOptionsProvider,
+        IOptionsProvider<TOptions>,
         IDialogPageOptionsProvider<TOptions> where TOptions: class, new()
     {
         private readonly ILogger logger;
@@ -130,5 +131,7 @@ namespace FineCodeCoverage.Options
             }
             RaiseOptionsChanged(options);
         }
+
+        public object GetOptionsAsObject() => Get();
     }
 }

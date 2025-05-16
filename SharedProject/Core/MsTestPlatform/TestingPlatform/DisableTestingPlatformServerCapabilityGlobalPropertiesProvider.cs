@@ -30,26 +30,29 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
     internal class DisableTestingPlatformServerCapabilityGlobalPropertiesProvider : StaticGlobalPropertiesProviderBase
     {
         private readonly UnconfiguredProject unconfiguredProject;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<RunOptions> runOptionsProvider;
+        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
         private readonly ICoverageProjectSettingsManager coverageProjectSettingsManager;
 
         [ImportingConstructor]
         public DisableTestingPlatformServerCapabilityGlobalPropertiesProvider(
             IProjectService projectService,
             UnconfiguredProject unconfiguredProject,
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<RunOptions> runOptionsProvider,
+            IOptionsProvider<OutputOptions> outputOptionsProvider,
             ICoverageProjectSettingsManager coverageProjectSettingsManager
         )
           : base(projectService.Services)
         {
             this.unconfiguredProject = unconfiguredProject;
-            this.appOptionsProvider = appOptionsProvider;
+            this.runOptionsProvider = runOptionsProvider;
+            this.outputOptionsProvider = outputOptionsProvider;
             this.coverageProjectSettingsManager = coverageProjectSettingsManager;
         }
 
         private bool AllProjectsDisabled()
         {
-            var appOptions = appOptionsProvider.Get();
+            var appOptions = runOptionsProvider.Get();
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
@@ -113,7 +116,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 
         private CoverageProject GetCoverageProject(Guid projectGuid)
         {
-            return new CoverageProject(appOptionsProvider, null, coverageProjectSettingsManager, null)
+            return new CoverageProject(outputOptionsProvider, null, coverageProjectSettingsManager, null)
             {
                 Id = projectGuid,
                 ProjectFilePath = unconfiguredProject.FullPath

@@ -56,8 +56,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         private AutoMoqer autoMocker;
         private MsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService;
         private const string solutionDirectory = "SolutionDirectory";
-        
-        
 
         private class ExceptionReason : IExceptionReason
         {
@@ -65,6 +63,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
             public string Reason { get; set; }
         }
+
         private class ProjectRunSettingsFromTemplateResult : IProjectRunSettingsFromTemplateResult
         {
             public IExceptionReason ExceptionReason { get; set; }
@@ -79,13 +78,13 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         {
             autoMocker = new AutoMoqer();
             msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
-            SetupAppOptionsProvider(RunMsCodeCoverage.Yes);
+            SetupRunOptionsProvider(RunMsCodeCoverage.Yes);
         }
 
         [Test]
         public async Task Should_Not_Be_Collecting_If_RunMsCodeCoverage_No_Async()
         {
-            SetupAppOptionsProvider(RunMsCodeCoverage.No);
+            SetupRunOptionsProvider(RunMsCodeCoverage.No);
             var testOperation = SetUpTestOperation(new List<ICoverageProject> {  });
             var collectionStatus = await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
 
@@ -97,7 +96,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public async Task Should_Try_Analyse_Projects_With_Runsettings_Async(bool useMsCodeCoverageOption)
         {
             var runMsCodeCoverage = useMsCodeCoverageOption ? RunMsCodeCoverage.Yes : RunMsCodeCoverage.IfInRunSettings;
-            SetupAppOptionsProvider(runMsCodeCoverage);
+            SetupRunOptionsProvider(runMsCodeCoverage);
 
             var fccMsTestAdapterPath = await InitializeFCCMsTestAdapterPathAsync();
 
@@ -175,7 +174,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         [Test]
         public async Task Should_Prepare_Coverage_Projects_When_Suitable_Async()
         {
-            SetupAppOptionsProvider(RunMsCodeCoverage.IfInRunSettings);
+            SetupRunOptionsProvider(RunMsCodeCoverage.IfInRunSettings);
 
             var mockTemplatedCoverageProject = new Mock<ICoverageProject>();
             var mockCoverageProjects = new List<Mock<ICoverageProject>>
@@ -202,7 +201,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         [Test]
         public async Task Should_Set_UserRunSettingsProjectDetailsLookup_For_IRunSettingsService_When_Suitable_Async()
         {
-            SetupAppOptionsProvider(RunMsCodeCoverage.IfInRunSettings);
+            SetupRunOptionsProvider(RunMsCodeCoverage.IfInRunSettings);
 
             var projectSettings = new Mock<ICoverageSettings>().Object;
             var excludedReferencedProjects = new List<IReferencedProject>();
@@ -283,7 +282,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public async Task GenerateRunSettingsFromTemplate_Async(bool msCodeCoverageOptions, bool runSettingsSpecifiedMsCodeCoverage)
         {
             var runMsCodeCoverage = msCodeCoverageOptions ? RunMsCodeCoverage.Yes : RunMsCodeCoverage.IfInRunSettings;
-            SetupAppOptionsProvider(runMsCodeCoverage);
+            SetupRunOptionsProvider(runMsCodeCoverage);
             SetupIUserRunSettingsServiceAnalyseAny().Returns(new UserRunSettingsAnalysisResult(true, runSettingsSpecifiedMsCodeCoverage));
 
             var fccMsTestAdapterPath = await InitializeFCCMsTestAdapterPathAsync();
@@ -395,7 +394,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         [Test]
         public async Task Should_Not_Be_Collecting_When_Template_Projects_And_Do_Not_Ms_Collect_Async()
         {
-            SetupAppOptionsProvider(RunMsCodeCoverage.IfInRunSettings);
+            SetupRunOptionsProvider(RunMsCodeCoverage.IfInRunSettings);
             SetupIUserRunSettingsServiceAnalyseAny().Returns(new UserRunSettingsAnalysisResult(true, false));
 
             var coverageProjects = new List<ICoverageProject>
@@ -480,11 +479,11 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             return mockTestOperation.Object;
         }
 
-        private void SetupAppOptionsProvider(RunMsCodeCoverage runMsCodeCoverage)
+        private void SetupRunOptionsProvider(RunMsCodeCoverage runMsCodeCoverage)
         {
-            var mockAppOptionsProvider = autoMocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(appOptionsProvider => appOptionsProvider.Get())
-                .Returns(new EditorCoverageColouringOptions { RunMsCodeCoverage = runMsCodeCoverage});
+            var mockRunOptionsProvider = autoMocker.GetMock<IOptionsProvider<RunOptions>>();
+            mockRunOptionsProvider.Setup(p => p.Get())
+                .Returns(new RunOptions { RunMsCodeCoverage = runMsCodeCoverage});
         }
 
         private void VerifyLogException(string reason, Exception exception)

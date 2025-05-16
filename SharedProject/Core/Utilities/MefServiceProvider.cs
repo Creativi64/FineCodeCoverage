@@ -27,23 +27,19 @@ namespace FineCodeCoverage.Core.Utilities
             }
         }
 
-        public static T Get<T>() where T : class
+        private static IComponentModel ComponentModel
         {
-            // If a test-specific component model is set, use it
-            var componentModel = TestComponentModel ?? VsComponentModel;
-            return componentModel == null
-                ? throw new InvalidOperationException("IComponentModel service not available.")
-                : componentModel.GetService<T>();
+            get
+            {
+                var componentModel = TestComponentModel ?? VsComponentModel;
+                return componentModel ?? throw new InvalidOperationException("IComponentModel service not available.");
+            }
         }
 
-        public static IEnumerable<T> GetAll<T>() where T : class
-        {
-            // If a test-specific component model is set, use it
-            var componentModel = TestComponentModel ?? VsComponentModel;
-            return componentModel == null
-                ? throw new InvalidOperationException("IComponentModel service not available.")
-                : componentModel.GetExtensions<T>();
-        }
+
+        public static T Get<T>() where T : class => ComponentModel.GetService<T>();
+
+        public static IEnumerable<T> GetAll<T>() where T : class => ComponentModel.GetExtensions<T>();
 
     }
 

@@ -7,19 +7,19 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ICoverageProjectFactory))]
     internal class CoverageProjectFactory : ICoverageProjectFactory
     {
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
         private readonly IFileSynchronizationUtil fileSynchronizationUtil;
         private readonly ICoverageProjectSettingsManager coverageProjectSettingsManager;
         private readonly IReferencedProjectsHelper referencedProjectsHelper;
 
         [ImportingConstructor]
 		public CoverageProjectFactory(
-			IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<OutputOptions> outputOptionsProvider,
 			IFileSynchronizationUtil fileSynchronizationUtil,
             ICoverageProjectSettingsManager coverageProjectSettingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
-            this.appOptionsProvider = appOptionsProvider;
+            this.outputOptionsProvider = outputOptionsProvider;
             this.fileSynchronizationUtil = fileSynchronizationUtil;
             this.coverageProjectSettingsManager = coverageProjectSettingsManager;
             this.referencedProjectsHelper = referencedProjectsHelper;
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.Model
         public ICoverageProject Create()
         {
             return new CoverageProject(
-                appOptionsProvider,
+                outputOptionsProvider,
                 fileSynchronizationUtil,
                 coverageProjectSettingsManager,
                 referencedProjectsHelper);

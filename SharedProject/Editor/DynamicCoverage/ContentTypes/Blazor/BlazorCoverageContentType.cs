@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
         [ImportingConstructor]
         public BlazorCoverageContentType(
             IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService,
-            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider
         )
         {
             this.blazorFileCodeSpanRangeService = blazorFileCodeSpanRangeService;
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 
         public const string ContentType = "Razor";
         private readonly IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService;
-        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
 
         public string ContentTypeName => ContentType;
 

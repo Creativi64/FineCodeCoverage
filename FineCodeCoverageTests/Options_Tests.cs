@@ -68,6 +68,7 @@ namespace FineCodeCoverageTests
         {
             var allDerivationAndOptionTypes = ReflectionHelper.GetDerivedOptionsProviders().ToList();
             var allOptionPropertyNames = allDerivationAndOptionTypes.Select(d => d.OptionType).SelectMany(optionType => TypeDescriptor.GetProperties(optionType).Cast<PropertyDescriptor>().Select(p => p.Name));
+            var grs = allOptionPropertyNames.GroupBy(n => n).Where(g => g.Count() > 1);
             Assert.That(allOptionPropertyNames.Count, Is.EqualTo(allOptionPropertyNames.Distinct().Count()));
         }
     }

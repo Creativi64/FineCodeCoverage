@@ -34,9 +34,9 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Send_Clear_Messages_When_AppOptions_Changes_To_Disabled()
         {
-            var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            var appOptions = new EditorCoverageColouringOptions { Enabled = false };
-            mockAppOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, appOptions);
+            var runOptionsProvider = mocker.GetMock<IOptionsProvider<RunOptions>>();
+            runOptionsProvider.Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, 
+                new RunOptions { Enabled = false });
 
             AssertSendsClearMessages();
         }

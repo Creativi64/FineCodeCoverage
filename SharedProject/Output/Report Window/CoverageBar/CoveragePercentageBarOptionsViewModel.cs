@@ -36,32 +36,32 @@ namespace FineCodeCoverage.Output
         private bool lastCoveragePercentageBarColorsFromFontsAndColors;
         [ImportingConstructor]
         public CoveragePercentageBarOptionsViewModel(
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<ReportOptions> reportOptionsProvider,
             IEventAggregator eventAggregator,
             ICoverageColoursProvider coverageColoursProvider
         )
         {
             this.coverageColoursProvider = coverageColoursProvider;
             eventAggregator.AddListener(this);
-            appOptionsProvider.OptionsChanged += this.SetOptions;
-            var appOptions = appOptionsProvider.Get();
-            lastCoveragePercentageBarColorsFromFontsAndColors = !appOptions.CoveragePercentageUseColorsFromFontsAndColors;
-            SetOptions(appOptions);
+            reportOptionsProvider.OptionsChanged += this.SetOptions;
+            var reportOptions = reportOptionsProvider.Get();
+            lastCoveragePercentageBarColorsFromFontsAndColors = !reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
+            SetOptions(reportOptions);
         }
 
-        private void SetOptions(AppOptions appOptions)
+        private void SetOptions(ReportOptions reportOptions)
         {
-            this.DisplayParts = appOptions.CoveragePercentageDisplayParts;
-            this.CoveredPercentageIsLeft = appOptions.CoveragePercentageCoveredIsLeft;
-            this.IsThemed = appOptions.CoveragePercentageIsThemed;
-            this.UseSolidBrush = appOptions.CoveragePercentageUseSolidBrush;
-            this.UseContrastedThemeWhenSingularDisplay = appOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
-            this.HeightOrMultiplier = appOptions.CoveragePercentageHeightOrMultiplier;
-            this.ShowToolTip = appOptions.CoveragePercentageShowTooltip;
-            if (appOptions.CoveragePercentageUseColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
+            this.DisplayParts = reportOptions.CoveragePercentageDisplayParts;
+            this.CoveredPercentageIsLeft = reportOptions.CoveragePercentageCoveredIsLeft;
+            this.IsThemed = reportOptions.CoveragePercentageIsThemed;
+            this.UseSolidBrush = reportOptions.CoveragePercentageUseSolidBrush;
+            this.UseContrastedThemeWhenSingularDisplay = reportOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
+            this.HeightOrMultiplier = reportOptions.CoveragePercentageHeightOrMultiplier;
+            this.ShowToolTip = reportOptions.CoveragePercentageShowTooltip;
+            if (reportOptions.CoveragePercentageUseColorsFromFontsAndColors != lastCoveragePercentageBarColorsFromFontsAndColors)
             {
-                SetCoverageColours(appOptions.CoveragePercentageUseColorsFromFontsAndColors);
-                lastCoveragePercentageBarColorsFromFontsAndColors = appOptions.CoveragePercentageUseColorsFromFontsAndColors;
+                SetCoverageColours(reportOptions.CoveragePercentageUseColorsFromFontsAndColors);
+                lastCoveragePercentageBarColorsFromFontsAndColors = reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
             }
         }
 

@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ICoverageProjectSettingsManager))]
     internal class CoverageProjectSettingsManager : ICoverageProjectSettingsManager
     {
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly ICoverageSettingsOptionsProvider coveragSettingsOptionsProvider;
         private readonly ICoverageProjectSettingsProvider coverageProjectSettingsProvider;
         private readonly IFCCSettingsFilesProvider fccSettingsFilesProvider;
         private readonly ISettingsMerger settingsMerger;
@@ -19,14 +19,14 @@ namespace FineCodeCoverage.Engine.Model
 
         [ImportingConstructor]
         public CoverageProjectSettingsManager(
-            IAppOptionsProvider appOptionsProvider,
+            ICoverageSettingsOptionsProvider coveragSettingsOptionsProvider,
             ICoverageProjectSettingsProvider coverageProjectSettingsProvider,
             IFCCSettingsFilesProvider fccSettingsFilesProvider,
             ISettingsMerger settingsMerger,
             ICoverageSettingsReflectionService coverageSettingsReflectionService
         )
         {
-            this.appOptionsProvider = appOptionsProvider;
+            this.coveragSettingsOptionsProvider = coveragSettingsOptionsProvider;
             this.coverageProjectSettingsProvider = coverageProjectSettingsProvider;
             this.fccSettingsFilesProvider = fccSettingsFilesProvider;
             this.settingsMerger = settingsMerger;
@@ -34,10 +34,8 @@ namespace FineCodeCoverage.Engine.Model
         }
 
         private CoverageSettings GetSettingsFromAppOptions()
-        {
-            var appOptions = this.appOptionsProvider.Get();
-            return this.coverageSettingsReflectionService.CreateCoverageSettingsFromAppOptions(appOptions);
-        }
+            => this.coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
+                this.coveragSettingsOptionsProvider.Get());
 
         public async Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject)
         {

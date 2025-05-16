@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Output
 
         [ImportingConstructor]
         public ReportHeaderBrushesViewModel(
-            IAppOptionsProvider appOptionsProvider
+            IOptionsProvider<ReportOptions> reportOptionsProvider
         )
         {
             VSColorTheme.ThemeChanged += VsColorTheme_ThemeChanged;
@@ -29,9 +29,9 @@ namespace FineCodeCoverage.Output
             BackgroundBrushKey = HeaderColors.DefaultBrushKey;
             BackgroundIsMouseOverBrushKey = HeaderColors.MouseOverBrushKey;
             BackgroundIsPressedBrushKey = HeaderColors.MouseDownBrushKey;
-            
-            headerUseTabularSharedColors = appOptionsProvider.Get().HeaderUseTabularSharedColors;
-            appOptionsProvider.OptionsChanged += (newOptions) =>
+
+            headerUseTabularSharedColors = reportOptionsProvider.Get().HeaderUseTabularSharedColors;
+            reportOptionsProvider.OptionsChanged += (newOptions) =>
             {
                 var newHeaderUseTabularSharedColors = newOptions.HeaderUseTabularSharedColors;
                 if (headerUseTabularSharedColors != newHeaderUseTabularSharedColors)

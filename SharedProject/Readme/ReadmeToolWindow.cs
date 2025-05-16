@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using FineCodeCoverage.Output;
-using FineCodeCoverage.Readme;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage
+namespace FineCodeCoverage.Readme
 {
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.

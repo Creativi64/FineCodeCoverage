@@ -62,7 +62,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
             mockEventAggregator.Setup(eventAggregator => eventAggregator.SendMessage(new CoverageChangedMessage(FilePath.Value, null), null))
                 .Callback(() => Assert.That(bufferLineCoverage.HasCoverage, Is.False));
 
-            autoMoqer.GetMock<IAppOptionsProvider>().Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, 
+            autoMoqer.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>().Raise(p => p.OptionsChanged += null, 
                 new EditorCoverageColouringOptions { EditorCoverageColouringMode = EditorCoverageColouringMode.Off});
 
             mockEventAggregator.VerifyAll();
@@ -86,7 +86,7 @@ namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
             setup.BufferLineCoverage.Handle(setup.NewCoverageLinesMessage);
             AssertSingleCoverageChangedMessage();
 
-            autoMoqer.GetMock<IAppOptionsProvider>().Raise(appOptionsProvider => appOptionsProvider.OptionsChanged += null, 
+            autoMoqer.GetMock<IOptionsProvider<EditorCoverageColouringOptions>>().Raise(p => p.OptionsChanged += null, 
                 new EditorCoverageColouringOptions { EditorCoverageColouringMode  = EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges });
 
 

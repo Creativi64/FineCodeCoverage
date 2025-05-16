@@ -1,7 +1,6 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.PlatformUI;
-using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
@@ -14,13 +13,12 @@ namespace FineCodeCoverage.Output
     {
         private bool showIcons;
         private int iconSize;
-       
         public event EventHandler ShowIconsChanged;
         public event EventHandler IconSizeChanged;
         private ThemedIconStyle themedIconStyle;
 
         [ImportingConstructor]
-        public IconsViewModel(IAppOptionsProvider appOptionsProvider)
+        public IconsViewModel(IOptionsProvider<ReportOptions> reportOptionsProvider)
         {
             VSColorTheme.ThemeChanged += (_) =>
             {
@@ -29,7 +27,7 @@ namespace FineCodeCoverage.Output
                     SetIconStyles();
                 }
             };
-            appOptionsProvider.OptionsChanged += (newAppOptions) =>
+            reportOptionsProvider.OptionsChanged += (newAppOptions) =>
             {
                 if (newAppOptions.ShowIcons != this.ShowIcons)
                 {
@@ -47,7 +45,7 @@ namespace FineCodeCoverage.Output
                     SetIconStyles();
                 }
             };
-            var appOptions = appOptionsProvider.Get();
+            var appOptions = reportOptionsProvider.Get();
             this.ShowIcons = appOptions.ShowIcons;
             this.IconSize = appOptions.IconSize;
             this.themedIconStyle = appOptions.ThemedIconStyle;
@@ -60,7 +58,7 @@ namespace FineCodeCoverage.Output
             {
                 case ThemedIconStyle.MonochromeGlyph:
                     this.Monochrome = true;
-                    this.MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.GlyphColorKey).ToMediaColor(); ;
+                    this.MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.GlyphColorKey).ToMediaColor();
                     break;
                 case ThemedIconStyle.MonochromeText:
                     this.Monochrome = true;

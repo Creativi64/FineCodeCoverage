@@ -3,7 +3,6 @@ using AutoMoq;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Options;
 using FineCodeCoverageTests.TestHelpers;
-using Moq;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests.CoverageToolOutput_Tests
@@ -23,8 +22,8 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         [TestCase("")]
         public void Should_Return_Null_Without_Getting_Solution_Folder_When_AppOption_FCCSolutionOutputDirectoryName_NotSet(string optionValue)
         {
-            var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new EditorCoverageColouringOptions { FCCSolutionOutputDirectoryName  = optionValue});
+            var mockOutputOptionsProvider = mocker.GetMock<IOptionsProvider<OutputOptions>>();
+            mockOutputOptionsProvider.Setup(aop => aop.Get()).Returns(new OutputOptions { FCCSolutionOutputDirectoryName  = optionValue});
 
             var provider = mocker.Create<AppOptionsCoverageToolOutputFolderSolutionProvider>();
             var providedSolutionFolder = false;
@@ -40,8 +39,8 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         [Test]
         public void Should_Return_Null_If_No_Solution_Folder_Provided_To_It()
         {
-            var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new EditorCoverageColouringOptions { FCCSolutionOutputDirectoryName = "Value"});
+            var mockOutputOptionsProvider = mocker.GetMock<IOptionsProvider<OutputOptions>>();
+            mockOutputOptionsProvider.Setup(aop => aop.Get()).Returns(new OutputOptions { FCCSolutionOutputDirectoryName = "Value"});
             var provider = mocker.Create<AppOptionsCoverageToolOutputFolderSolutionProvider>();
             Assert.Null(provider.Provide(() => null));
         }
@@ -49,8 +48,8 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         [Test]
         public void Should_Combine_The_Solution_Folder_With_FCCSolutionOutputDirectoryName()
         {
-            var mockAppOptionsProvider = mocker.GetMock<IAppOptionsProvider>();
-            mockAppOptionsProvider.Setup(aop => aop.Get()).Returns(new EditorCoverageColouringOptions { FCCSolutionOutputDirectoryName = "FCCOutput" });
+            var mockOutputOptionsProvider = mocker.GetMock<IOptionsProvider<OutputOptions>>();
+            mockOutputOptionsProvider.Setup(aop => aop.Get()).Returns(new OutputOptions { FCCSolutionOutputDirectoryName = "FCCOutput" });
             var provider = mocker.Create<AppOptionsCoverageToolOutputFolderSolutionProvider>();
             Assert.AreEqual(provider.Provide(() => "SolutionFolder"), Path.Combine("SolutionFolder", "FCCOutput"));
         }

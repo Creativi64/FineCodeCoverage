@@ -46,20 +46,20 @@ namespace FineCodeCoverage.ReportGeneration
                 public decimal Value { get; }
             }
 
-            public MethodMetric(ICodeElement codeElement, RiskHotspotsAnalysisThresholds riskHotspotsAnalysisThresholds)
+            public MethodMetric(ICodeElement codeElement, HotspotThresholdsOptions riskHotspotsAnalysisThresholds)
             {
                 FullName = codeElement.Name;
                 Line = codeElement.StartLine;
                 List<Metric> metrics = new List<Metric>();
-                if(codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.MetricThresholdForCyclomaticComplexity)
+                if(codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.ThresholdForCyclomaticComplexity)
                 {
                     metrics.Add(new Metric("CyclomaticComplexity", codeElement.CyclomaticComplexity));
                 }
-                if (codeElement.CrapScore > riskHotspotsAnalysisThresholds.MetricThresholdForCrapScore)
+                if (codeElement.CrapScore > riskHotspotsAnalysisThresholds.ThresholdForCrapScore)
                 {
                     metrics.Add(new Metric("CrapScore", codeElement.CrapScore));
                 }
-                if (codeElement.NPathComplexity > riskHotspotsAnalysisThresholds.MetricThresholdForNPathComplexity)
+                if (codeElement.NPathComplexity > riskHotspotsAnalysisThresholds.ThresholdForNPathComplexity)
                 {
                     metrics.Add(new Metric("NPathComplexity", codeElement.NPathComplexity));
                 }
@@ -80,14 +80,12 @@ namespace FineCodeCoverage.ReportGeneration
             decimal Value { get; }
         }
 
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<HotspotThresholdsOptions> hotspotThresholdsOptionsProvider;
 
         [ImportingConstructor]
         public HotspotsService(
-            IAppOptionsProvider appOptionsProvider
-        ) => this.appOptionsProvider = appOptionsProvider;
-
-        public RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds() => this.GetRiskHotspotsAnalysisThresholds(this.appOptionsProvider.Get());
+            IOptionsProvider<HotspotThresholdsOptions> hotspotThresholdsOptionsProvider
+        ) => this.hotspotThresholdsOptionsProvider = hotspotThresholdsOptionsProvider;
 
         private void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
@@ -115,24 +113,16 @@ namespace FineCodeCoverage.ReportGeneration
 
         public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
         {
-            var riskHotspotsAnalysisThresholds = GetRiskHotspotsAnalysisThresholds();
-            var riskHotspots = GetRiskhotspots(reportAssemblies, riskHotspotsAnalysisThresholds);
+            var riskHotspots = GetRiskhotspots(reportAssemblies, hotspotThresholdsOptionsProvider.Get());
             WriteHotspotsToXml(riskHotspots, hotspotsPath);
         }
 
-        private IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, RiskHotspotsAnalysisThresholds riskHotspotsAnalysisThresholds)
+        private IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, HotspotThresholdsOptions hotspotThresholdsOptions)
             => reportAssemblies.SelectMany(assembly =>
                 assembly.Classes.SelectMany(cls =>
-                    cls.CodeElements.Select(ce => new MethodMetric(ce, riskHotspotsAnalysisThresholds))
+                    cls.CodeElements.Select(ce => new MethodMetric(ce, hotspotThresholdsOptions))
                         .Where(mm => mm.IsHotspot)
                         .Select(mm => new RiskHotspot(assembly.ShortName, cls.DisplayName, mm)
                     )));
-
-        private RiskHotspotsAnalysisThresholds GetRiskHotspotsAnalysisThresholds(AppOptions appOptions) => new RiskHotspotsAnalysisThresholds
-        {
-            MetricThresholdForCyclomaticComplexity = appOptions.ThresholdForCyclomaticComplexity,
-            MetricThresholdForCrapScore = appOptions.ThresholdForCrapScore,
-            MetricThresholdForNPathComplexity = appOptions.ThresholdForNPathComplexity
-        };
     }
 }

@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public CoverageTaggerProvider(
             IEventAggregator eventAggregator,
-            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
             IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             ILineSpanTagger<TTag> coverageTagger,
             IDynamicCoverageManager dynamicCoverageManager,

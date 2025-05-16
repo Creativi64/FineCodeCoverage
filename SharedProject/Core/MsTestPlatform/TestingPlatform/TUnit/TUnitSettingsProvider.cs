@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly IFileUtil fileUtil;
         private readonly IXmlUtils xmlUtils;
         private readonly IRunSettingsToConfiguration runSettingsToConfiguration;
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<RunOptions> appOptionsProvider;
         private readonly IEnvironment environment;
         private int fccRunWhenTestsExceed;
         private bool fccRunWhenTestsFail;
@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IFileUtil fileUtil,
             IXmlUtils xmlUtils,
             IRunSettingsToConfiguration runSettingsToConfiguration,
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<RunOptions> appOptionsProvider,
             IEnvironment environment
         )
         {
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.appOptionsProvider.OptionsChanged += TakeFCCOptions;
         }
 
-        private void TakeFCCOptions(AppOptions appOptions)
+        private void TakeFCCOptions(RunOptions appOptions)
         {
             this.fccRunWhenTestsExceed = appOptions.RunWhenTestsExceed;
             this.fccRunWhenTestsFail = appOptions.RunWhenTestsFail;

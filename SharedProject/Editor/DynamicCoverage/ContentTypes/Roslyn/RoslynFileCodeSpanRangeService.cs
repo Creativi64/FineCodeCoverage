@@ -12,13 +12,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
     internal class RoslynFileCodeSpanRangeService : IFileCodeSpanRangeService, IRoslynFileCodeSpanRangeService
     {
         private readonly IRoslynService roslynService;
-        private readonly IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
         private readonly IThreadHelper threadHelper;
 
         [ImportingConstructor]
         public RoslynFileCodeSpanRangeService(
             IRoslynService roslynService,
-            IEditorCoverageColouringOptionsProvider editorCoverageColouringOptionsProvider,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
             IThreadHelper threadHelper
             )
         {

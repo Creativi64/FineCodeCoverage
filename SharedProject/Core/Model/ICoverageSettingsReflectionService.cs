@@ -7,6 +7,6 @@ namespace FineCodeCoverage.Engine.Model
     interface ICoverageSettingsReflectionService
     {
         List<PropertyInfo> CoverageSettingsPropertyInfos { get; }
-        CoverageSettings CreateCoverageSettingsFromAppOptions(AppOptions appOptions);
+        CoverageSettings CreateCoverageSettingsFromOptions(IEnumerable<object> coverageSettingsOptions);
     }
 }

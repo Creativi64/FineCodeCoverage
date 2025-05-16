@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    [Export(typeof(ILineExcluder))]
     internal class LineExcluder : ILineExcluder
     {
         private readonly string[] startsWithExclusions;

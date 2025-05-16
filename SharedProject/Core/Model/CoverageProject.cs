@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal class CoverageProject : ICoverageProject
     {
-        private readonly IAppOptionsProvider appOptionsProvider;
+        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
         private readonly IFileSynchronizationUtil fileSynchronizationUtil;
         private readonly ICoverageProjectSettingsManager settingsManager;
         private readonly IReferencedProjectsHelper referencedProjectsHelper;
@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 if(buildOutputPath == null)
                 {
-                    var adjacentBuildOutput = appOptionsProvider.Get().AdjacentBuildOutput;
+                    var adjacentBuildOutput = outputOptionsProvider.Get().AdjacentBuildOutput;
                     if (adjacentBuildOutput)
                     {
                         // Net framework - Debug | Debug-NET45
@@ -54,12 +54,12 @@ namespace FineCodeCoverage.Engine.Model
         private bool? isDotNetSdkStyle;
 
         public CoverageProject(
-            IAppOptionsProvider appOptionsProvider,
+            IOptionsProvider<OutputOptions> outputOptionsProvider,
             IFileSynchronizationUtil fileSynchronizationUtil,
             ICoverageProjectSettingsManager settingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
-            this.appOptionsProvider = appOptionsProvider;
+            this.outputOptionsProvider = outputOptionsProvider;
             this.fileSynchronizationUtil = fileSynchronizationUtil;
             this.settingsManager = settingsManager;
             this.referencedProjectsHelper = referencedProjectsHelper;

@@ -4,11 +4,11 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Options
 {
-    [Export(typeof(IAppOptionsProvider))]
+    [Export(typeof(IOptionsProvider<AppOptions>))]
     [Export(typeof(IRequireDialogPageInstantiator))]
     [Export(typeof(IDialogPageOptionsProvider<AppOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
-    internal class AppOptionsProvider : OptionsProviderBase<AppOptions>, IAppOptionsProvider
+    internal class AppOptionsProvider : OptionsProviderBase<AppOptions>
     {
         [ImportingConstructor]
         public AppOptionsProvider(

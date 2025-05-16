@@ -148,6 +148,7 @@
     <Compile Include="FCCSettingsFilesProvider_Tests.cs" />
     <Compile Include="FileLineCoverage_Tests.cs" />
     <Compile Include="FirstTimeToolWindowOpener_Tests.cs" />
+    <Compile Include="MEFTests.cs" />
     <Compile Include="Options_Tests.cs" />
     <Compile Include="PalmediaReportResult_Tests.cs" />
     <Compile Include="TreeExpander_Tests.cs" />

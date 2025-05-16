@@ -19,6 +19,7 @@ using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 using System.IO;
 using FineCodeCoverage.Core.Utilities.Solution;
 using Microsoft;
+using System.Linq;
 
 namespace FineCodeCoverage.Output
 {
@@ -46,7 +47,12 @@ namespace FineCodeCoverage.Output
 	[ProvideMenuResource("Menus.ctmenu", 1)]
 	[InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]
 	[ProvideOptionPage(typeof(AppOptionsPage), Vsix.Name, "General", 0, 0, true)]
-    [ProvideOptionPage(typeof(EditorCoverageColouringOptionsPage), Vsix.Name, "Editor colouring", 0, 0, true)]
+    [ProvideOptionPage(typeof(EditorCoverageColouringOptionsPage), Vsix.Name, "Editor Colouring", 0, 0, true)]
+    [ProvideOptionPage(typeof(HotspotThresholdsOptionsPage), Vsix.Name, "Hotspot Thresholds", 0, 0, true)]
+    [ProvideOptionPage(typeof(ToolsOptionsPage), Vsix.Name, "Tools", 0, 0, true)]
+    [ProvideOptionPage(typeof(OutputOptionsPage), Vsix.Name, "Output", 0, 0, true)]
+    [ProvideOptionPage(typeof(ReportOptionsPage), Vsix.Name, "Report", 0, 0, true)]
+    [ProvideOptionPage(typeof(RunOptionsPage), Vsix.Name, "Run", 0, 0, true)]
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
@@ -88,7 +94,8 @@ namespace FineCodeCoverage.Output
             var componentModel = GetComponentModel();
             await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
-            foreach (var requireDialogPageInstantiator in componentModel.GetExtensions<IRequireDialogPageInstantiator>())
+            var requireDialogPageInstantiators = componentModel.GetExtensions<IRequireDialogPageInstantiator>().ToList();
+            foreach (var requireDialogPageInstantiator in requireDialogPageInstantiators)
             {
                 requireDialogPageInstantiator.DialogPageInstantiator = this;
             }
