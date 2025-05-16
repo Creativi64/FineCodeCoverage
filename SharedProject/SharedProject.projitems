@@ -78,6 +78,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectSettingsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageSettingsOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageSettingsReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\FCCSettingsFilesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProject.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectSettingsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageSettingsOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageSettingsReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IFCCSettingsFilesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsMerger.cs" />
@@ -209,6 +211,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\DialogPageBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IOptionsGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Coverlet\CoverletOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Coverlet\CoverletOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Coverlet\CoverletOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Coverlet\CoverletOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsPage.cs" />
@@ -820,7 +827,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
     <Folder Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\" />
     <Folder Include="$(MSBuildThisFileDirectory)Options\App\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Options\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Options\SettingsStore\" />
   </ItemGroup>
   <ItemGroup>

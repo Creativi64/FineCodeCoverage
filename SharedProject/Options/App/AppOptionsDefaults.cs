@@ -7,7 +7,6 @@ namespace FineCodeCoverage.Options
     {
         public void Set(AppOptions options)
         {
-            options.RunSettingsOnly = true;
             options.ExcludeByAttribute = new[] { "GeneratedCode" };
             options.IncludeTestAssembly = true;
             options.ExcludeByFile = new[] { "**/Migrations/*" };

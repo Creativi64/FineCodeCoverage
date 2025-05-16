@@ -53,6 +53,7 @@ namespace FineCodeCoverage.Output
     [ProvideOptionPage(typeof(OutputOptionsPage), Vsix.Name, "Output", 0, 0, true)]
     [ProvideOptionPage(typeof(ReportOptionsPage), Vsix.Name, "Report", 0, 0, true)]
     [ProvideOptionPage(typeof(RunOptionsPage), Vsix.Name, "Run", 0, 0, true)]
+    [ProvideOptionPage(typeof(CoverletOptionsPage), Vsix.Name, "Coverlet", 0, 0, true)]
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]

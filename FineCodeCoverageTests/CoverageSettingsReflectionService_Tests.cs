@@ -7,13 +7,12 @@ namespace FineCodeCoverageTests
     internal class CoverageSettingsReflectionService_Tests
     {
         [Test]
-        public void Should_Copy_From_AppOptions_To_CoverageSettings()
+        public void Should_Copy_From_Options_To_CoverageSettings()
         {
             var coverageSettingsReflectionService = new CoverageSettingsReflectionService();
  
             var appOptions = new AppOptions
             {
-                CoverletConsoleCustomPath = "CoverletConsoleCustomPath", // ICoverletOptions
 
                 OpenCoverTarget = "OpenCoverTarget", // IOpenCoverOptions
 
@@ -29,9 +28,13 @@ namespace FineCodeCoverageTests
                 Enabled = true, // IEnabledOption
             };
 
-            var coverageSettings = coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(new object[] { appOptions, runOptions });
+            var coverletOptions = new CoverletOptions
+            {
+                CoverletConsoleGlobal = true
+            };
 
-            Assert.That(coverageSettings.CoverletConsoleCustomPath, Is.SameAs(appOptions.CoverletConsoleCustomPath));
+            var coverageSettings = coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(new object[] { appOptions, runOptions, coverletOptions });
+
             Assert.That(coverageSettings.OpenCoverTarget, Is.SameAs(appOptions.OpenCoverTarget));
             Assert.That(coverageSettings.IncludeTestAssembly, Is.EqualTo(appOptions.IncludeTestAssembly));
             Assert.That(coverageSettings.Enabled, Is.EqualTo(runOptions.Enabled));
@@ -39,6 +42,7 @@ namespace FineCodeCoverageTests
             Assert.That(coverageSettings.ModulePathsInclude, Is.Not.SameAs(appOptions.ModulePathsInclude));
             Assert.That(coverageSettings.ModulePathsInclude, Is.EqualTo(appOptions.ModulePathsInclude));
             Assert.That(coverageSettings.Exclude, Is.EqualTo(appOptions.Exclude));
+            Assert.That(coverageSettings.CoverletConsoleGlobal, Is.EqualTo(coverletOptions.CoverletConsoleGlobal));
         }
     }
 }

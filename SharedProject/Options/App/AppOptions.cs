@@ -8,11 +8,9 @@ namespace FineCodeCoverage.Options
     */
     internal class AppOptions: IAppOptions
     {
-        private const string coverletExcludeIncludeCategory = "Exclude / Include ( Coverlet )";
         private const string oldExcludeIncludeCategory = "Exclude / Include ( Coverlet / OpenCover )";
         private const string commonExcludeIncludeCategory = "Exclude / Include ( Common )";
         private const string msExcludeIncludeCategory = "Exclude / Include ( Microsoft )";
-        private const string coverletToolCategory = "Tool ( Coverlet )";
         private const string openCoverToolCategory = "Tool ( OpenCover )";
 
         #region exclude / include
@@ -163,35 +161,6 @@ namespace FineCodeCoverage.Options
         //[DisplayName("Functions Include")]
         public string[] FunctionsInclude { get; set; }
         #endregion
-
-        #region coverlet only 
-        [Description("Specify false for global and project options to be used for coverlet data collector configuration elements when not specified in runsettings")]
-        [Category(coverletExcludeIncludeCategory)]
-        //[DisplayName("Run Settings Only")]
-        public bool RunSettingsOnly { get; set; }
-        #endregion
-        #endregion
-
-        #region coverlet tool only
-        [Description("Specify true to use your own dotnet tools global install of coverlet console.")]
-        [Category(coverletToolCategory)]
-        //[DisplayName("Coverlet Console Global")]
-        public bool CoverletConsoleGlobal { get; set; }
-
-        [Description("Specify true to use your own dotnet tools local install of coverlet console.")]
-        [Category(coverletToolCategory)]
-        //[DisplayName("Coverlet Console Local")]
-        public bool CoverletConsoleLocal { get; set; }
-
-        [Description("Specify path to coverlet console exe if you need functionality that the FCC version does not provide.")]
-        [Category(coverletToolCategory)]
-        //[DisplayName("Coverlet Console Custom Path")]
-        public string CoverletConsoleCustomPath { get; set; }
-
-        [Description("Specify path to directory containing coverlet collector files if you need functionality that the FCC version does not provide.")]
-        [Category(coverletToolCategory)]
-        //[DisplayName("Coverlet Collector Directory Path")]
-        public string CoverletCollectorDirectoryPath { get; set; }
         #endregion
 
         #region open cover tool only
