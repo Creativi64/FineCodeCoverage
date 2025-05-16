@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Options
 {
-    [Export(typeof(IDefaultOptionsSetter<RunOptions>))]
+    [Export(typeof(IDefaultOptionsSetter<AppOptions>))]
     internal class AppOptionsDefaults : IDefaultOptionsSetter<AppOptions>
     {
         public void Set(AppOptions options)

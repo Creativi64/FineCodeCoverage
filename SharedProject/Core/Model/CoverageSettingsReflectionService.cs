@@ -48,16 +48,18 @@ namespace FineCodeCoverage.Engine.Model
                 foreach(var optionInfo in optionInfos)
                 {
                     var optionPropertyInfos = new List<PropertyInfo>();
-                    var optionType = optionInfo.GetType();
+                    var optionType = optionInfo.Option.GetType();
                     foreach(var optionInterface in optionType.GetInterfaces())
                     {
-                        var optionInterfacePropertyInfos = coverageSettingsPropertyInfosLookup[optionInterface];
-                        optionPropertyInfos.AddRange(optionInterfacePropertyInfos);
+                        if (coverageSettingsPropertyInfosLookup.TryGetValue(optionInterface, out var optionInterfacePropertyInfos))
+                        {
+                            optionPropertyInfos.AddRange(optionInterfacePropertyInfos);
+                        }
                     }
                     optionsPropertyLookup[optionType] = optionPropertyInfos;
                 }
             }
-            return optionInfos.Select(o => new OptionPropertyInfos(o, optionsPropertyLookup[o.GetType()]));
+            return optionInfos.Select(o => new OptionPropertyInfos(o.Option, optionsPropertyLookup[o.Option.GetType()]));
         }
 
         public List<PropertyInfo> CoverageSettingsPropertyInfos { get; }

@@ -15,12 +15,12 @@ namespace FineCodeCoverage.Options
     {
         private readonly List<IOptionsGetter> optionsGetters = new List<IOptionsGetter>();
         public CoverageSettingsOptionsProvider(
-            //IOptionsProvider<AppOptions> appOptionsProvider,
-            //IOptionsProvider<RunOptions> runOptionsProvider
+            IOptionsProvider<AppOptions> appOptionsProvider,
+            IOptionsProvider<RunOptions> runOptionsProvider
         )
         {
-            //optionsGetters.Add(appOptionsProvider);
-            //optionsGetters.Add(runOptionsProvider);
+            optionsGetters.Add(appOptionsProvider);
+            optionsGetters.Add(runOptionsProvider);
         }
         public IEnumerable<object> Get() => this.optionsGetters.Select(g => g.GetOptionsAsObject());
     }
