@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.VisualStudio.PlatformUI;
 using FineCodeCoverage.Wpf;
+using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Output
 {

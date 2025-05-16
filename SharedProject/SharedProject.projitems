@@ -206,27 +206,42 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsThreading\MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\WeakCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsDefaults.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\DialogPageBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptionsDefaults.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\HotspotsThresholdsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IDefaultOptionsSetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\DialogPageBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IDefaultOptionsSetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageInstantiator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouringOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IProfileOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IRequireDialogPageInstantiator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\OutputOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\RunOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\ReportOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\ToolsOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IDialogPageOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProfileOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IRequireDialogPageInstantiator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Report\ReportOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Report\ReportOptionsOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Report\ReportOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Run\RunOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Run\RunOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Run\RunOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Report\ReportOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Run\RunOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsPageTypeLookup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsProviderBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ProfileManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\BrushToSolidColorBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBar.xaml.cs">
@@ -234,7 +249,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBarDisplayParts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Report\CoveragePercentageBarDisplayParts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoverageTooltipTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoverageTooltipViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\DefaultLineBrushCreator.cs" />
@@ -518,8 +533,8 @@
       <DependentUpon>NewIssueDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ICoverageCollectableFromTestExplorer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyUserSettingsStoreProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\IReadOnlyUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\ReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ClearReportMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ShowReportViewCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CancelCollectTUnitCommand.cs" />
@@ -548,17 +563,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestOperationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestRunResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\Vsix.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsPage.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\App\IAppOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IJsonConvertService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IReadOnlyConfigSettingsStoreProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IWritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\IReadOnlyConfigSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\IWritableUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\JsonConvertService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\ReadOnlyConfigSettingsStoreProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\WritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\ReadOnlyConfigSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\WritableUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\NewIssueCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenFCCGithubCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\OpenFCCOutputPaneCommand.cs" />
@@ -803,6 +818,10 @@
     <Folder Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Options\App\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Options\Base\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Options\SettingsStore\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
