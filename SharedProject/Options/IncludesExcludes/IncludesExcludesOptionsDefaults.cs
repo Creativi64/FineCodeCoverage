@@ -2,10 +2,10 @@
 
 namespace FineCodeCoverage.Options
 {
-    [Export(typeof(IDefaultOptionsSetter<AppOptions>))]
-    internal class AppOptionsDefaults : IDefaultOptionsSetter<AppOptions>
+    [Export(typeof(IDefaultOptionsSetter<IncludesExcludesOptions>))]
+    internal class IncludesExcludesOptionsDefaults : IDefaultOptionsSetter<IncludesExcludesOptions>
     {
-        public void Set(AppOptions options)
+        public void Set(IncludesExcludesOptions options)
         {
             options.ExcludeByAttribute = new[] { "GeneratedCode" };
             options.IncludeTestAssembly = true;

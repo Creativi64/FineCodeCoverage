@@ -20,6 +20,7 @@ using System.IO;
 using FineCodeCoverage.Core.Utilities.Solution;
 using Microsoft;
 using System.Linq;
+using System.Reflection;
 
 namespace FineCodeCoverage.Output
 {
@@ -46,7 +47,7 @@ namespace FineCodeCoverage.Output
 	[Guid(PackageGuids.guidFCCPackageString)]
 	[ProvideMenuResource("Menus.ctmenu", 1)]
 	[InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]
-	[ProvideOptionPage(typeof(AppOptionsPage), Vsix.Name, "General", 0, 0, true)]
+	[ProvideOptionPage(typeof(IncludesExcludesOptionsPage), Vsix.Name, "Includes Excludes", 0, 0, true)]
     [ProvideOptionPage(typeof(EditorCoverageColouringOptionsPage), Vsix.Name, "Editor Colouring", 0, 0, true)]
     [ProvideOptionPage(typeof(HotspotThresholdsOptionsPage), Vsix.Name, "Hotspot Thresholds", 0, 0, true)]
     [ProvideOptionPage(typeof(ToolsOptionsPage), Vsix.Name, "Tools", 0, 0, true)]
@@ -54,12 +55,13 @@ namespace FineCodeCoverage.Output
     [ProvideOptionPage(typeof(ReportOptionsPage), Vsix.Name, "Report", 0, 0, true)]
     [ProvideOptionPage(typeof(RunOptionsPage), Vsix.Name, "Run", 0, 0, true)]
     [ProvideOptionPage(typeof(CoverletOptionsPage), Vsix.Name, "Coverlet", 0, 0, true)]
+    [ProvideOptionPage(typeof(OpenCoverOptionsPage), Vsix.Name, "OpenCover", 0, 0, true)]
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
     [ProvideToolWindow(typeof(ReadmeToolWindow), Orientation = ToolWindowOrientation.Right, Style = VsDockStyle.Tabbed, Width = 600, Height = 700)]
     [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption,  typeof(FCCPackage), Arguments = "0")]
-    public sealed class FCCPackage : AsyncPackage, IDialogPageInstantiator
+    public sealed class FCCPackage : AsyncPackage
     {
         private ISolutionOptions solutionOptions;
 
@@ -93,24 +95,18 @@ namespace FineCodeCoverage.Output
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var componentModel = GetComponentModel();
+            InstantiateAllDialogPages();
             await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
-            var requireDialogPageInstantiators = componentModel.GetExtensions<IRequireDialogPageInstantiator>().ToList();
-            foreach (var requireDialogPageInstantiator in requireDialogPageInstantiators)
-            {
-                requireDialogPageInstantiator.DialogPageInstantiator = this;
-            }
             await InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
         }
 
-        void IDialogPageInstantiator.Instantiate<TOptions>()
-        {
-            var optionPageType = OptionsPageTypeLookup.GetOptionPageType<TOptions>();
-            GetDialogPage(optionPageType);
-        }
+        private void InstantiateAllDialogPages()
+            => typeof(FCCPackage).GetCustomAttributes<ProvideOptionPageAttribute>()
+            .Select(a => a.PageType).ToList().ForEach(t => _ = this.GetDialogPage(t));
 
         private IComponentModel GetComponentModel()
         {

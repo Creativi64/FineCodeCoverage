@@ -11,10 +11,8 @@ namespace FineCodeCoverageTests
         {
             var coverageSettingsReflectionService = new CoverageSettingsReflectionService();
  
-            var appOptions = new AppOptions
+            var appOptions = new IncludesExcludesOptions
             {
-
-                OpenCoverTarget = "OpenCoverTarget", // IOpenCoverOptions
 
                 IncludeTestAssembly = true, // IFCCCommonIncludesExcludes
 
@@ -33,9 +31,15 @@ namespace FineCodeCoverageTests
                 CoverletConsoleGlobal = true
             };
 
-            var coverageSettings = coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(new object[] { appOptions, runOptions, coverletOptions });
+            var openCoverOptions = new OpenCoverOptions
+            {
+                OpenCoverTarget = "OpenCoverTarget"
+            };
 
-            Assert.That(coverageSettings.OpenCoverTarget, Is.SameAs(appOptions.OpenCoverTarget));
+            var coverageSettings = coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
+                new object[] { appOptions, runOptions, coverletOptions, openCoverOptions });
+
+            Assert.That(coverageSettings.OpenCoverTarget, Is.SameAs(openCoverOptions.OpenCoverTarget));
             Assert.That(coverageSettings.IncludeTestAssembly, Is.EqualTo(appOptions.IncludeTestAssembly));
             Assert.That(coverageSettings.Enabled, Is.EqualTo(runOptions.Enabled));
             // arrays are cloned

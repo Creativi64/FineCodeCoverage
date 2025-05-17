@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IOptionsProvider<ReportOptions>))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
     [Export(typeof(IDialogPageOptionsProvider<ReportOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     internal class ReportOptionsProvider : OptionsProviderBase<ReportOptions>

@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿using FineCodeCoverage.Options.Base;
+using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {
+    internal enum RunMsCodeCoverage { No, IfInRunSettings, Yes }
+
     interface IEnabledOption
     {
         bool Enabled { get; set; }
@@ -16,7 +19,6 @@ namespace FineCodeCoverage.Options
         private const string enablementCategory = "Enablement";
         private const string useMsCodeCoverageCategory = "Use Microsoft Code Coverage";
         private const string testsCategory = "Tests";
-        private const string coverletOpenCoverCategory = "Coverlet / OpenCover";
         #region enablement category
         [Category(enablementCategory)]
         [Description("Specifies whether or not coverage output is enabled")]
@@ -49,7 +51,7 @@ namespace FineCodeCoverage.Options
 
         #region coverlet / opencover category
         [Description("Specify true to not wait for tests to finish before running OpenCover / Coverlet coverage")]
-        [Category(coverletOpenCoverCategory)]
+        [Category(CoverletOpenCoverCategory.Name)]
         [DisplayName("Run In Parallel")]
         public bool RunInParallel { get; set; }
         #endregion

@@ -4,21 +4,20 @@ using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Options
 {
-    [Export(typeof(IOptionsProvider<OutputOptions>))]
-    [Export(typeof(IDialogPageOptionsProvider<OutputOptions>))]
+    [Export(typeof(IOptionsProvider<OpenCoverOptions>))]
+    [Export(typeof(IDialogPageOptionsProvider<OpenCoverOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
-    internal class OutputOptionsProvider : OptionsProviderBase<OutputOptions>
+    internal class OpenCoverOptionsProvider : OptionsProviderBase<OpenCoverOptions>
     {
         [ImportingConstructor]
-        public OutputOptionsProvider(
+        public OpenCoverOptionsProvider(
                 ILogger logger,
                 IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
                 IJsonConvertService jsonConvertService,
-                IDefaultOptionsSetter<OutputOptions> defaultOptionsSetter
+                IDefaultOptionsSetter<OpenCoverOptions> defaultOptionsSetter
             ) : base(
                 logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter
-            )
-        { }
+            ) { }
 
     }
 }

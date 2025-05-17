@@ -28,8 +28,6 @@
         string[] FunctionsInclude { get; set; }
         string[] FunctionsExclude { get; set; }
     }
-    internal interface IMsCodeCoverageOptions : IMsCodeCoverageIncludesExcludesOptions, IFCCCommonIncludesExcludes, IEnabledOption { }
-    internal enum RunMsCodeCoverage { No, IfInRunSettings, Yes }
 
     internal interface IOpenCoverCoverletExcludeIncludeOptions
     {
@@ -39,20 +37,11 @@
         string[] Include { get; set; }
     }
 
-    internal enum OpenCoverRegister { Default,NoArg, User, Path32, Path64}
 
-    internal interface IOpenCoverOptions
-    {
-        string OpenCoverCustomPath { get; set; }
-        OpenCoverRegister OpenCoverRegister { get; set; }
-        string OpenCoverTarget { get; set; }
-        string OpenCoverTargetArgs { get; set; }
-    }
 
-    internal interface IAppOptions :
+    internal interface IIncludesExcludesOptions :
         IMsCodeCoverageIncludesExcludesOptions,
         IOpenCoverCoverletExcludeIncludeOptions,
-        IFCCCommonIncludesExcludes,
-        IOpenCoverOptions
+        IFCCCommonIncludesExcludes
     { }
 }

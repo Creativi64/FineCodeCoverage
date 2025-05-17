@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Output
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
-            => this.package.ShowOptionPage(typeof(AppOptionsPage));
+            => this.package.ShowOptionPage(typeof(IncludesExcludesOptionsPage));
     }
 }
 

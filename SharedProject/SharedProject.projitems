@@ -208,8 +208,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsThreading\MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\WeakCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\CoverletOpenCoverCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\DialogPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IOptionsGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Coverlet\CoverletOptions.cs" />
@@ -224,12 +225,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Hotspots\HotspotThresholdsOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IDialogPageInstantiator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IDialogPageOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProfileOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IRequireDialogPageInstantiator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Output\OutputOptionsPage.cs" />
@@ -245,7 +248,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsPageTypeLookup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ProfileManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsProvider.cs" />
@@ -570,11 +572,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestOperationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestRunResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\Vsix.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsPage.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Options\App\AppOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\App\IAppOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IIncludesExcludesOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IJsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\IReadOnlyConfigSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\SettingsStore\IWritableUserSettingsStoreProvider.cs" />
@@ -826,7 +828,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
     <Folder Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Options\App\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\" />
     <Folder Include="$(MSBuildThisFileDirectory)Options\SettingsStore\" />
   </ItemGroup>
   <ItemGroup>

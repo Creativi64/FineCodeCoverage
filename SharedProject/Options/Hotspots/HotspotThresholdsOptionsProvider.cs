@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IOptionsProvider<HotspotThresholdsOptions>))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
     [Export(typeof(IDialogPageOptionsProvider<HotspotThresholdsOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     internal class HotspotThresholdsOptionsProvider : OptionsProviderBase<HotspotThresholdsOptions>

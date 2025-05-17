@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IOptionsProvider<EditorCoverageColouringOptions>))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
     [Export(typeof(IDialogPageOptionsProvider<EditorCoverageColouringOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     internal class EditorCoverageColouringOptionsProvider : OptionsProviderBase<EditorCoverageColouringOptions>

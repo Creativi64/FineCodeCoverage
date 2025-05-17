@@ -1,0 +1,39 @@
+﻿using System.ComponentModel;
+
+namespace FineCodeCoverage.Options
+{
+    internal enum OpenCoverRegister { Default, NoArg, User, Path32, Path64 }
+
+    internal interface IOpenCoverOptions
+    {
+        string OpenCoverCustomPath { get; set; }
+        OpenCoverRegister OpenCoverRegister { get; set; }
+        string OpenCoverTarget { get; set; }
+        string OpenCoverTargetArgs { get; set; }
+    }
+    /*
+        Note that option properties must not be renamed
+        Interfaces to be retained for reflection - AppOptions => CoverageSettings
+    */
+    internal class OpenCoverOptions : IOpenCoverOptions
+    {
+        private const string customTargetCategory = "Custom target";
+        [Description("Specify path to open cover exe if you need functionality that the FCC version does not provide.")]
+        [DisplayName("Custom Path")]
+        public string OpenCoverCustomPath { get; set; }
+
+        [Description("Change from Default if FCC determination of path32 or path64 is incorrect.")]
+        [DisplayName("Register")]
+        public OpenCoverRegister OpenCoverRegister { get; set; }
+
+        [Category(customTargetCategory)]
+        [Description("Supply your own target if required.")]
+        [DisplayName("Target")]
+        public string OpenCoverTarget { get; set; }
+
+        [Category(customTargetCategory)]
+        [Description("If supplying your own target you can also supply additional arguments.  FCC supplies the test dll path.")]
+        [DisplayName("Target Args")]
+        public string OpenCoverTargetArgs { get; set; }
+    }
+}

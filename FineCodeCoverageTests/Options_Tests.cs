@@ -118,7 +118,6 @@ namespace FineCodeCoverageTests
         private Mock<WritableSettingsStore> mockWritableSettingsStore;
         private AutoMoqer autoMocker;
         private TestOptionsProvider testOptionsProvider;
-        private Mock<IDialogPageInstantiator> mockDialogPageInstantiator;
 
         [SetUp]
         public void Setup()
@@ -132,12 +131,6 @@ namespace FineCodeCoverageTests
             mockWritableUserSettingsStoreProvider.Setup(
                 writableSettingsStoreProvider => writableSettingsStoreProvider.LazySettingsStore
             ).Returns(lazyMockWritableSettingsStore);
-            mockDialogPageInstantiator = new Mock<IDialogPageInstantiator>();
-            mockDialogPageInstantiator.Setup(instantiator => instantiator.Instantiate<TestOptions>()).Callback(() =>
-            {
-                (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).LoadSettingsFromStorage();
-            });
-            testOptionsProvider.DialogPageInstantiator = mockDialogPageInstantiator.Object;
             autoMocker.Setup<IJsonConvertService, object>(jsonConvertService => jsonConvertService.DeserializeObject("Serialized", typeof(bool))).Returns(true);
         }
 
@@ -147,11 +140,13 @@ namespace FineCodeCoverageTests
             mockWritableSettingsStore.Setup(store => store.GetString("FineCodeCoverage", nameof(TestOptions.DefaultFalse))).Returns(value);
         }
 
-        [Test]
-        public void Should_Instantiate_The_Dialog_When_Get()
+        private void DialogPageBase_LoadSettingsFromStorage()
+            => (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).LoadSettingsFromStorage();
+
+        private TestOptions DialogPageBase_LoadSettingsFromStorage_Then_Get()
         {
-            testOptionsProvider.Get();
-            mockDialogPageInstantiator.Verify(dialogpageInstantiator => dialogpageInstantiator.Instantiate<TestOptions>());
+            DialogPageBase_LoadSettingsFromStorage();
+            return testOptionsProvider.Get();
         }
 
         [Test]
@@ -159,15 +154,18 @@ namespace FineCodeCoverageTests
         {
             SetUpPropertyInStore("Serialized");
 
-            var testOptions = testOptionsProvider.Get();
+            var testOptions = DialogPageBase_LoadSettingsFromStorage_Then_Get();
+            
             Assert.That(testOptions.DefaultFalse, Is.True);
             Assert.That(testOptions.DefaultTrueNotInStore, Is.True);
         }
 
         [Test]
-        public void Should_Get_When_IProfileOptionsProvider_LoadSettingsFromStorage()
+        public void Should_Return_Options_When_IProfileOptionsProvider_LoadSettingsFromStorage()
         {
             SetUpPropertyInStore("Serialized");
+
+            DialogPageBase_LoadSettingsFromStorage();
 
             var testOptions = (testOptionsProvider as IProfileOptionsProvider).LoadSettingsFromStorage() as TestOptions;
             Assert.That(testOptions.DefaultFalse, Is.True);
@@ -180,7 +178,7 @@ namespace FineCodeCoverageTests
         {
             SetUpPropertyInStore(storePropertyValue);
 
-            var testOptions = testOptionsProvider.Get();
+            var testOptions = DialogPageBase_LoadSettingsFromStorage_Then_Get();
 
             autoMocker.Verify<IJsonConvertService>(jsonConvertService => jsonConvertService.DeserializeObject(It.IsAny<string>(), typeof(bool)), Times.Never());
             
@@ -188,13 +186,11 @@ namespace FineCodeCoverageTests
             Assert.That(testOptions.DefaultTrueNotInStore, Is.True);
         }
 
-        
-        // instantiator results in call to LoadSettingsFromStorage
-
         [Test]
         public void Should_Ensure_Store_When_LoadSettingsFromStorage()
         {
-            (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).LoadSettingsFromStorage();
+            DialogPageBase_LoadSettingsFromStorage();
+
             mockWritableSettingsStore.Verify(writableSettingsStore => writableSettingsStore.CreateCollection("FineCodeCoverage"));
         }
 
@@ -202,7 +198,9 @@ namespace FineCodeCoverageTests
         public void Should_Not_Create_Settings_Collection_If_Already_Exists()
         {
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.CollectionExists("FineCodeCoverage")).Returns(true);
-            (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).LoadSettingsFromStorage();
+
+            DialogPageBase_LoadSettingsFromStorage();
+
             mockWritableSettingsStore.Verify(writableSettingsStore => writableSettingsStore.CreateCollection("FineCodeCoverage"), Times.Never());
         }
 
@@ -213,7 +211,7 @@ namespace FineCodeCoverageTests
             autoMocker.Setup<IJsonConvertService, object>(jsonConvertService => jsonConvertService.DeserializeObject("...", typeof(bool)))
                 .Throws(new FakeException("oh no"));
 
-            (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).LoadSettingsFromStorage();
+            DialogPageBase_LoadSettingsFromStorage();
 
             autoMocker.Verify<ILogger>(logger => logger.LogFileAndForget($"Failed to load '{nameof(TestOptions.DefaultFalse)}' setting", "oh no"));
         }
@@ -227,7 +225,7 @@ namespace FineCodeCoverageTests
                 .Callback(() => initializing = testOptionsProvider.Initializing);
 
             Assert.That(testOptionsProvider.Initializing, Is.False);
-            (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).LoadSettingsFromStorage();
+            DialogPageBase_LoadSettingsFromStorage();
 
             Assert.That(initializing, Is.True);
             Assert.That(testOptionsProvider.Initializing, Is.False);
@@ -242,7 +240,6 @@ namespace FineCodeCoverageTests
             (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).SaveSettingsToStorage();
 
             autoMocker.Verify<IJsonConvertService>(jsonConvertService => jsonConvertService.SerializeObject(It.IsAny<object>()), Times.Never());
-
             Assert.True(testOptionsProvider.Initializing);
         }
 
@@ -250,6 +247,7 @@ namespace FineCodeCoverageTests
         public void Should_Ensure_Store_When_SaveSettingsToStorage()
         {
             (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).SaveSettingsToStorage();
+            
             mockWritableSettingsStore.Verify(writableSettingsStore => writableSettingsStore.CreateCollection("FineCodeCoverage"));
         }
 
@@ -257,7 +255,9 @@ namespace FineCodeCoverageTests
         public void Should_Not_Create_Settings_Collection_If_Already_Exists_When_SaveSettingsToStorage()
         {
             mockWritableSettingsStore.Setup(writableSettingsStore => writableSettingsStore.CollectionExists("FineCodeCoverage")).Returns(true);
+            
             (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).SaveSettingsToStorage();
+            
             mockWritableSettingsStore.Verify(writableSettingsStore => writableSettingsStore.CreateCollection("FineCodeCoverage"), Times.Never());
         }
 

@@ -10,15 +10,18 @@ namespace FineCodeCoverage.Core.Model
     internal class CoverageSettingsOptionsProvider : ICoverageSettingsOptionsProvider
     {
         private readonly List<IOptionsGetter> optionsGetters = new List<IOptionsGetter>();
+        [ImportingConstructor]
         public CoverageSettingsOptionsProvider(
-            IOptionsProvider<AppOptions> appOptionsProvider,
+            IOptionsProvider<IncludesExcludesOptions> includesExcludesOptionsProvider,
             IOptionsProvider<RunOptions> runOptionsProvider,
-            IOptionsProvider<CoverletOptions> coverletOptionsProvider
+            IOptionsProvider<CoverletOptions> coverletOptionsProvider,
+            IOptionsProvider<OpenCoverOptions> openCoverOptionsProvider
         )
         {
-            optionsGetters.Add(appOptionsProvider);
+            optionsGetters.Add(includesExcludesOptionsProvider);
             optionsGetters.Add(runOptionsProvider);
             optionsGetters.Add(coverletOptionsProvider);
+            optionsGetters.Add(openCoverOptionsProvider);
         }
 
         public IEnumerable<object> Get() => this.optionsGetters.Select(g => g.GetOptionsAsObject());

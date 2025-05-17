@@ -4,18 +4,17 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Options
 {
-    [Export(typeof(IOptionsProvider<AppOptions>))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
-    [Export(typeof(IDialogPageOptionsProvider<AppOptions>))]
+    [Export(typeof(IOptionsProvider<IncludesExcludesOptions>))]
+    [Export(typeof(IDialogPageOptionsProvider<IncludesExcludesOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
-    internal class AppOptionsProvider : OptionsProviderBase<AppOptions>
+    internal class IncludesExcludesOptionsProvider : OptionsProviderBase<IncludesExcludesOptions>
     {
         [ImportingConstructor]
-        public AppOptionsProvider(
+        public IncludesExcludesOptionsProvider(
             ILogger logger,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
             IJsonConvertService jsonConvertService,
-            IDefaultOptionsSetter<AppOptions> defaultOptionsSetter
+            IDefaultOptionsSetter<IncludesExcludesOptions> defaultOptionsSetter
         ) : base(logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter) { }
     }
 }

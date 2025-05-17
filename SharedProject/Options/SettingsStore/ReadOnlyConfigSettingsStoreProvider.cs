@@ -16,6 +16,5 @@ namespace FineCodeCoverage.Options
             var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
                 return settingsManager.GetReadOnlySettingsStore(SettingsScope.Configuration);
             },ThreadHelper.JoinableTaskFactory);
-
     }
 }

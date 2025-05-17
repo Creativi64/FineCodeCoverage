@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Options.Tools
 {
     [Export(typeof(IOptionsProvider<ToolsOptions>))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
     [Export(typeof(IDialogPageOptionsProvider<ToolsOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     internal class ToolsOptionsProvider : OptionsProviderBase<ToolsOptions>

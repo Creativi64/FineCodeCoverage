@@ -28,7 +28,7 @@ namespace FineCodeCoverageTests
         private async Task ActAsync(CoverageSettings coverageSettingsFromAppOptions,bool noXmlSettings = false)
         {
             autoMoqer = new AutoMoqer();
-            var appOptions = new AppOptions();
+            var appOptions = new IncludesExcludesOptions();
             var runOptions = new RunOptions();
             object[] options = new object[] { "AnOptionObject" };
             autoMoqer.Setup<ICoverageSettingsOptionsProvider, IEnumerable<object>>(p => p.Get()).Returns(options);

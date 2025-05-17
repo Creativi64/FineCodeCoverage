@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IOptionsProvider<CoverletOptions>))]
-    [Export(typeof(IRequireDialogPageInstantiator))]
     [Export(typeof(IDialogPageOptionsProvider<CoverletOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     internal class CoverletOptionsProvider : OptionsProviderBase<CoverletOptions>

@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Options
         {
             get
             {
+                var t = typeof(TOptions);
                 return optionsProvider ?? (optionsProvider = MefServiceProvider.Get<IDialogPageOptionsProvider<TOptions>>());
             }
         }

@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.Settings;
 namespace FineCodeCoverage.Options
 {
     internal abstract class OptionsProviderBase<TOptions> :
-        IRequireDialogPageInstantiator,
         IProfileOptionsProvider,
         IOptionsProvider<TOptions>,
         IDialogPageOptionsProvider<TOptions> where TOptions: class, new()
@@ -20,7 +19,6 @@ namespace FineCodeCoverage.Options
 
         public event Action<TOptions> OptionsChanged;
 
-        public IDialogPageInstantiator DialogPageInstantiator { get; set; }
         public bool Initializing { get; set; }
 
         protected OptionsProviderBase(
@@ -42,16 +40,7 @@ namespace FineCodeCoverage.Options
             OptionsChanged?.Invoke(options);
         }
 
-        private bool loadedDialog;
-        public TOptions Get()
-        {
-            if (!loadedDialog)
-            {
-                DialogPageInstantiator.Instantiate<TOptions>();
-                loadedDialog = true;
-            }
-            return options;
-        }
+        public TOptions Get() => options;
 
         private WritableSettingsStore EnsureStore()
         {
