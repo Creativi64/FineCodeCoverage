@@ -31,6 +31,11 @@ namespace FineCodeCoverage
         public const int MyMenuGroup = 0x1020;
         public const int ReportToolWindowToolbar = 0x1021;
         public const int ReportToolWindowToolbarGroup = 0x1022;
+        public const int SplitButtonMenuGroup = 0x1023;
+        public const int SplitButtonMenu = 0x1024;
+        public const int FeedbackGroup = 0x1025;
+        public const int ReportGroup = 0x1026;
+        public const int ConfigurationGroup = 0x1026;
         public const int cmdidOpenReportWindowCommand = 0x00FF;
         public const int cmdidClearUICommand = 0x0100;
         public const int cmdidOpenCoberturaCommand = 0x0101;
@@ -47,6 +52,7 @@ namespace FineCodeCoverage
         public const int cmdidCollectTUnitCommand = 0x010C;
         public const int cmdidCancelCollectTUnitCommand = 0x010D;
         public const int cmdidShowReportViewCommand = 0x010E;
+        public const int cmdidResetSettingsCommand = 0x010F;
         public const int openReportWindowCommandImageIndex = 0x0001;
         public const int clearUICommandImageIndex = 0x0006;
     }

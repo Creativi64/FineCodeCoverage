@@ -106,7 +106,7 @@
 		</Strings>
 	  </Button>
 	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenSettingsCommand" priority="0x0100" type="Button">
-		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
 		<Icon guid="ImageCatalogGuid" id="Settings" />
 		<CommandFlag>IconIsMoniker</CommandFlag>
 		<Strings>
@@ -116,6 +116,17 @@
 		  <LocCanonicalName>FCC.OpenSettings</LocCanonicalName>
 		</Strings>
 	  </Button>
+	  <Button guid="guidFCCPackageCmdSet" id="cmdidResetSettingsCommand" priority="0x0100" type="Button">
+		<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
+	    <Icon guid="ImageCatalogGuid" id="CDDrive" />
+		<CommandFlag>IconIsMoniker</CommandFlag>
+		<Strings>
+			<ButtonText>Reset Settings</ButtonText>
+			<CommandName>FCC Reset Settings</CommandName>
+			<CanonicalName>FCC.ResetSettings</CanonicalName>
+			<LocCanonicalName>FCC.ResetSettings</LocCanonicalName>
+		</Strings>
+	</Button>
 	  <Button guid="guidFCCPackageCmdSet" id="cmdidMarketplaceRateAndReviewCommand" priority="0x0100" type="Button">
 		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
 		<Icon guid="ImageCatalogGuid" id="VisualStudioFeedback" />
@@ -194,7 +205,7 @@
 				<LocCanonicalName>FCC.CollectTUnit</LocCanonicalName>
 			</Strings>
 		</Button>
-			<Button guid="guidFCCPackageCmdSet" id="cmdidCancelCollectTUnitCommand" priority="0x0100" type="Button">
+		<Button guid="guidFCCPackageCmdSet" id="cmdidCancelCollectTUnitCommand" priority="0x0100" type="Button">
 			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
 	        <Icon guid="ImageCatalogGuid" id="CancelTest" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
@@ -225,15 +236,34 @@
           <ButtonText>Open FCC Files</ButtonText>
         </Strings>
       </Menu>
-    </Menus>
+		<Menu guid="guidFCCPackageCmdSet" id="SplitButtonMenu" type="MenuController" priority="0x0100">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup"/>
+			<Strings>
+				<ButtonText>Settings split button menu</ButtonText>
+			</Strings>
+		</Menu>
+	</Menus>
 
     <Groups>
-      <Group guid="guidFCCPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
-      </Group>
-      <Group guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" priority="0x0000">
-        <Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
-      </Group>
+		<Group guid="guidFCCPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+			<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+		</Group>
+		<Group guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
+		</Group>
+		<Group guid="guidFCCPackageCmdSet" id="ReportGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		</Group>
+		<Group guid="guidFCCPackageCmdSet" id="ConfigurationGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		</Group>
+		<Group guid="guidFCCPackageCmdSet" id="FeedbackGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		</Group>
+		<Group guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenu" />
+		</Group>
+			
     </Groups>
   </Commands>
 
@@ -245,7 +275,12 @@
       <IDSymbol value="4128" name="MyMenuGroup" />
       <IDSymbol value="4129" name="ReportToolWindowToolbar" />
       <IDSymbol value="4130" name="ReportToolWindowToolbarGroup" />
-      <IDSymbol value="255" name="cmdidOpenReportWindowCommand" />
+      <IDSymbol value="4131" name="SplitButtonMenuGroup" />
+	  <IDSymbol value="4132" name="SplitButtonMenu" />
+	  <IDSymbol value="4133" name="FeedbackGroup" />
+	  <IDSymbol value="4134" name="ReportGroup" />
+	  <IDSymbol value="4134" name="ConfigurationGroup" />
+	  <IDSymbol value="255" name="cmdidOpenReportWindowCommand" />
       <IDSymbol value="256" name="cmdidClearUICommand" />
       <IDSymbol value="257" name="cmdidOpenCoberturaCommand" />
       <IDSymbol value="258" name="cmdidOpenHotspotsCommand" />
@@ -261,6 +296,7 @@
 	  <IDSymbol value="268" name="cmdidCollectTUnitCommand" />
 	  <IDSymbol value="269" name="cmdidCancelCollectTUnitCommand" />
 	  <IDSymbol value="270" name="cmdidShowReportViewCommand" />
+	  <IDSymbol value="271" name="cmdidResetSettingsCommand" />
     </GuidSymbol>
 
     <!-- from Monikers.imagemanifest -->
