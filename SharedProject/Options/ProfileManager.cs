@@ -17,10 +17,7 @@ namespace FineCodeCoverage.Options
         {
             get
             {
-                if (allSettings == null)
-                {
-                    LoadSettingsFromStorage();
-                }
+                LoadSettingsFromStorage();
                 return allSettings;
             }
             set
@@ -39,7 +36,10 @@ namespace FineCodeCoverage.Options
         // may be called by VS prior to LoadSettingsFromXML and SaveSettingsToStorage
         public void LoadSettingsFromStorage()
         {
-            this.allSettings = this.optionsProviders.ConvertAll(optionsProvider => optionsProvider.LoadSettingsFromStorage());
+            if (allSettings == null)
+            {
+                this.allSettings = this.optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
+            }
         }
 
         private object DeserializeStringArray(string value,PropertyDescriptor _)
@@ -87,12 +87,12 @@ namespace FineCodeCoverage.Options
                 optionProvider.Initializing = false;
                 index++;
             }
-            AllSettings = null;
         }
 
         public void ResetSettings()
         {
-
+            // https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.shell.interop.__usersettingsflags
+            // https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.shell.interop.ivsusersettings.importsettings
         }
 
         public void SaveSettingsToStorage()
@@ -136,7 +136,6 @@ namespace FineCodeCoverage.Options
                 }
                 index++;
             }
-            AllSettings = null;
         }
     }
 

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Settings;
 
 namespace FineCodeCoverage.Options
 {
     internal abstract class OptionsProviderBase<TOptions> :
+        IResetOptions,
         IProfileOptionsProvider,
         IOptionsProvider<TOptions>,
         IDialogPageOptionsProvider<TOptions> where TOptions: class, new()
@@ -14,6 +17,7 @@ namespace FineCodeCoverage.Options
         private readonly ILogger logger;
         private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
         private readonly IJsonConvertService jsonConvertService;
+        private readonly IDefaultOptionsSetter<TOptions> defaultOptionsSetter;
         private readonly TOptions options;
         public Lazy<PropertyDescriptorCollection> LazyOptionsPropertyDescriptorCollection { get; }
 
@@ -30,6 +34,7 @@ namespace FineCodeCoverage.Options
             this.logger = logger;
             this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
             this.jsonConvertService = jsonConvertService;
+            this.defaultOptionsSetter = defaultOptionsSetter;
             options = new TOptions();
             defaultOptionsSetter.Set(options);
             LazyOptionsPropertyDescriptorCollection = new Lazy<PropertyDescriptorCollection>(() => TypeDescriptor.GetProperties(typeof(TOptions)));
@@ -90,7 +95,7 @@ namespace FineCodeCoverage.Options
 
         void IProfileOptionsProvider.SaveSettingsToStorage() => SaveSettingsToStorage();
 
-        object IProfileOptionsProvider.LoadSettingsFromStorage() => Get();
+        public object Options => options;
 
         private void SaveSettingsToStorage()
         {
@@ -121,6 +126,20 @@ namespace FineCodeCoverage.Options
             RaiseOptionsChanged(options);
         }
 
-        public object GetOptionsAsObject() => Get();
+        public void Reset()
+        {
+            this.Initializing = true;
+            foreach (PropertyDescriptor property in LazyOptionsPropertyDescriptorCollection.Value)
+            {
+                object defaultValue = property.PropertyType.IsValueType
+                    ? Activator.CreateInstance(property.PropertyType)
+                    : null;
+
+                property.SetValue(options, defaultValue);
+            }
+            defaultOptionsSetter.Set(options);
+            SaveSettingsToStorage();
+            this.Initializing = false;
+        }
     }
 }

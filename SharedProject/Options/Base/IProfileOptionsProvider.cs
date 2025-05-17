@@ -3,11 +3,12 @@ using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {
-    interface IProfileOptionsProvider
+    interface IProfileOptionsProvider : IProvideOptions
     {
-        object LoadSettingsFromStorage();
         void SaveSettingsToStorage();
+
         Lazy<PropertyDescriptorCollection> LazyOptionsPropertyDescriptorCollection { get; }
+
         bool Initializing { get; set; }
     }
 }

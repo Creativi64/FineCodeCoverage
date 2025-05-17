@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Options
 {
-    internal interface IOptionsProvider<TOptions> : IOptionsGetter
+    internal interface IOptionsProvider<TOptions> : IProvideOptions
     {
         event Action<TOptions> OptionsChanged;
         TOptions Get();

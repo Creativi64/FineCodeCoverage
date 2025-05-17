@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Output;
 using System.ComponentModel.Composition;
 
@@ -7,6 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IOptionsProvider<HotspotThresholdsOptions>))]
     [Export(typeof(IDialogPageOptionsProvider<HotspotThresholdsOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
+    [Export(typeof(IResetOptions))]
     internal class HotspotThresholdsOptionsProvider : OptionsProviderBase<HotspotThresholdsOptions>
     {
         [ImportingConstructor]

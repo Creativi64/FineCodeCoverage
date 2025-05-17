@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Options
@@ -7,6 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IOptionsProvider<IncludesExcludesOptions>))]
     [Export(typeof(IDialogPageOptionsProvider<IncludesExcludesOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
+    [Export(typeof(IResetOptions))]
     internal class IncludesExcludesOptionsProvider : OptionsProviderBase<IncludesExcludesOptions>
     {
         [ImportingConstructor]

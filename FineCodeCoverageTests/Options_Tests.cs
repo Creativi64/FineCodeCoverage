@@ -167,7 +167,7 @@ namespace FineCodeCoverageTests
 
             DialogPageBase_LoadSettingsFromStorage();
 
-            var testOptions = (testOptionsProvider as IProfileOptionsProvider).LoadSettingsFromStorage() as TestOptions;
+            var testOptions = (testOptionsProvider as IProfileOptionsProvider).Options as TestOptions;
             Assert.That(testOptions.DefaultFalse, Is.True);
             Assert.That(testOptions.DefaultTrueNotInStore, Is.True);
         }
