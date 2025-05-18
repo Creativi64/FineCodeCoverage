@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -59,8 +58,8 @@ namespace FineCodeCoverage.Output
             this.reportColumnsManager = reportColumnsManager;
             this.messageBox = messageBox;
         }
-        public ICommand OkCommand { get; }
-        public ICommand CancelCommand { get; }
+        public System.Windows.Input.ICommand OkCommand { get; }
+        public System.Windows.Input.ICommand CancelCommand { get; }
         public RelayCommand UpCommand { get; }
         public RelayCommand DownCommand { get; }
 

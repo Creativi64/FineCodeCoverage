@@ -253,6 +253,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ProfileManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ResetSettingsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\BrushToSolidColorBrushConverter.cs" />

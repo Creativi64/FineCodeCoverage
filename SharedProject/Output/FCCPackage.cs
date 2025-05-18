@@ -9,11 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Initialization;
-using FineCodeCoverage.ReportGeneration;
-using FineCodeCoverage.Funding;
-using FineCodeCoverage.Github;
 using FineCodeCoverage.Readme;
-using FineCodeCoverage.Output.Pane;
 using Microsoft.VisualStudio.ComponentModelHost;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 using System.IO;
@@ -21,6 +17,7 @@ using FineCodeCoverage.Core.Utilities.Solution;
 using Microsoft;
 using System.Linq;
 using System.Reflection;
+using System.ComponentModel.Design;
 
 namespace FineCodeCoverage.Output
 {
@@ -144,26 +141,30 @@ namespace FineCodeCoverage.Output
         private async Task InitializeCommandsAsync (IComponentModel componentModel)
 		{
             var fccEngine = componentModel.GetService<IFCCEngine>();
-            var eventAggregator = componentModel.GetService<IEventAggregator>();
-			var hotspotService = componentModel.GetService<IHotspotsService>();
-            await OpenCoberturaCommand.InitializeAsync(this, eventAggregator);
-            await OpenHotspotsCommand.InitializeAsync(this, eventAggregator, hotspotService);
-            await ClearUICommand.InitializeAsync(this, componentModel.GetService<IUIClearer>());
-            await ToggleCoverageIndicatorsCommand.InitializeAsync(this, eventAggregator);
+            //var eventAggregator = componentModel.GetService<IEventAggregator>();
+			// var hotspotService = componentModel.GetService<IHotspotsService>();
+            // await OpenCoberturaCommand.InitializeAsync(this, eventAggregator);
+            // await OpenHotspotsCommand.InitializeAsync(this, eventAggregator, hotspotService);
+            //await ClearUICommand.InitializeAsync(this, componentModel.GetService<IUIClearer>());
+            //await ToggleCoverageIndicatorsCommand.InitializeAsync(this, eventAggregator);
             await OpenReportWindowCommand.InitializeAsync(
                 this,
                 componentModel.GetService<ILogger>(),
                 componentModel.GetService<IShownToolWindowHistory>()
             );
-            await OpenFCCOutputPaneCommand.InitializeAsync(this, componentModel.GetService<IShowFCCOutputPane>());
+            //await OpenFCCOutputPaneCommand.InitializeAsync(this, componentModel.GetService<IShowFCCOutputPane>());
             await OpenSettingsCommand.InitializeAsync(this);
             await ResetSettingsCommand.InitializeAsync(this, componentModel.GetService<ResetOptionsService>());
-            await OpenMarketplaceRateAndReviewCommand.InitializeAsync(this, componentModel.GetService<IOpenFCCVsMarketplace>());
-            await OpenFCCGithubCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
-            await NewIssueCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
-            await OpenReadMeCommand.InitializeAsync(this, componentModel.GetService<IReadMeService>());
-            await OpenFundingCommand.InitializeAsync(this, componentModel.GetService<IFundingService>());
-            await EditColumnsCommand.InitializeAsync(this, componentModel.GetService<IReportColumnsService>());
+            //await OpenMarketplaceRateAndReviewCommand.InitializeAsync(this, componentModel.GetService<IOpenFCCVsMarketplace>());
+            //await OpenFCCGithubCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
+            //await NewIssueCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
+            //await OpenReadMeCommand.InitializeAsync(this, componentModel.GetService<IReadMeService>());
+            var menuCommandService = await this.GetServiceAsync(typeof(IMenuCommandService)) as IMenuCommandService;
+            var commands = componentModel.GetExtensions<ICommand>();
+            foreach(var command in commands)
+            {
+                 await command.InitializeAsync(this.DisposalToken, menuCommandService);
+            }
             await CollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
             await CancelCollectTUnitCommand.InitializeAsync(this, componentModel.GetService<ITUnitCoverage>());
             await ShowReportViewCommand.InitializeAsync(this, componentModel.GetService<IReportViewService>());

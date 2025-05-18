@@ -1,64 +1,24 @@
 ﻿using System;
-using System.ComponentModel.Design;
+using System.ComponentModel.Composition;
 using FineCodeCoverage.Funding;
-using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
-    internal sealed class OpenFundingCommand
+    [Export(typeof(ICommand))]
+    internal sealed class OpenFundingCommand : CommandBase
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
-        public const int CommandId = PackageIds.cmdidOpenFundingCommand;
-
-        /// <summary>
-        /// Command menu group (command set GUID).
-        /// </summary>
-        public static readonly Guid CommandSet = PackageGuids.guidFCCPackageCmdSet;
-
-        private readonly MenuCommand command;
         private readonly IFundingService fundingService;
 
-        public static OpenFundingCommand Instance
+        protected override int CommandId { get; } = PackageIds.cmdidOpenFundingCommand;
+        protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
+
+        [ImportingConstructor]
+        public OpenFundingCommand(IFundingService fundingService)
         {
-            get;
-            private set;
-        }
-
-        public static async Task InitializeAsync(AsyncPackage package, IFundingService fundingService)
-        {
-            // Switch to the main thread - the call to AddCommand in OpenFundingCommand's constructor requires
-            // the UI thread.
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
-
-            var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new OpenFundingCommand(commandService, fundingService);
-        }
-
-        private OpenFundingCommand(OleMenuCommandService commandService, IFundingService fundingService)
-        {
-            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
-
-            var menuCommandID = new CommandID(CommandSet, CommandId);
-            this.command = new MenuCommand(this.Execute, menuCommandID);
-            commandService.AddCommand(this.command);
             this.fundingService = fundingService;
         }
 
-        /// <summary>
-        /// This function is the callback used to execute the command when the menu item is clicked.
-        /// See the constructor to see how the menu item is associated with this function using
-        /// OleMenuCommandService service and MenuCommand class.
-        /// </summary>
-        /// <param name="sender">Event sender.</param>
-        /// <param name="e">Event args.</param>
-        private void Execute(object sender, EventArgs e)
-            => this.fundingService.Execute();
+        protected override void Execute(object sender, EventArgs e) => this.fundingService.Execute();
     }
 }
 

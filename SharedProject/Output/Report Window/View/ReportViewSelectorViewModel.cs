@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -203,11 +202,11 @@ namespace FineCodeCoverage.Output
         public string NoRepositoriesMessage { get; }
         public bool ShowNoRepositoriesMessage { get; }
 
-        public ICommand CancelCommand { get; }
+        public System.Windows.Input.ICommand CancelCommand { get; }
 
         private readonly IReportViewState initialReportViewState;
 
-        public ICommand OkCommand { get; }
+        public System.Windows.Input.ICommand OkCommand { get; }
 
         public bool GitCombosEnabled => hasRepositories && SelectedReportContentType.ReportContentType == ReportContentType.Changeset;
         public bool ShowReportContentTypeCombo { get; }
