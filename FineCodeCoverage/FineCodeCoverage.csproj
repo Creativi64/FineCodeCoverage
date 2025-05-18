@@ -82,8 +82,8 @@
     <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
       <Link>FCCPackage.vsct</Link>
       <Generator>VsctGenerator</Generator>
-      <LastGenOutput>FCCPackage.cs</LastGenOutput>
       <ResourceName>Menus.ctmenu</ResourceName>
+      <LastGenOutput>FCCPackage.cs</LastGenOutput>
     </VSCTCompile>
     <Resource Include="..\Shared Files\Resources\buymeacoffee.png">
       <Link>Resources\buymeacoffee.png</Link>

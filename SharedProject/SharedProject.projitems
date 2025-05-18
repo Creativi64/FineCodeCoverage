@@ -211,6 +211,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\CoverletOpenCoverCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProvideOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IResetOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Base\ResetOptionsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\DialogPageBase.cs" />

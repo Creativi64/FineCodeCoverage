@@ -1,5 +1,4 @@
-﻿using FineCodeCoverage.Options.Base;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {

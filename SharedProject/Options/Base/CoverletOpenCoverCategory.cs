@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options.Base
+﻿namespace FineCodeCoverage.Options
 {
     internal abstract class CoverletOpenCoverCategory
     {

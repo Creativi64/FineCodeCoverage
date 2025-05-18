@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Output
         public static readonly Guid CommandSet = PackageGuids.guidFCCPackageCmdSet;
 
         private readonly MenuCommand command;
-        private readonly AsyncPackage package;
+        private readonly ResetOptionsService resetOptionsService;
 
         public static ResetSettingsCommand Instance
         {
@@ -30,30 +30,31 @@ namespace FineCodeCoverage.Output
             private set;
         }
 
-        public static async Task InitializeAsync(AsyncPackage package)
+        public static async Task InitializeAsync(
+            AsyncPackage package, ResetOptionsService resetOptionsService)
         {
-            // Switch to the main thread - the call to AddCommand in OpenSettingsCommand's constructor requires
+            // Switch to the main thread - the call to AddCommand in ResetSettingsCommand's constructor requires
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new ResetSettingsCommand(commandService,package);
+            Instance = new ResetSettingsCommand(commandService, resetOptionsService);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OpenSettingsCommand"/> class.
+        /// Initializes a new instance of the <see cref="ResetSettingsCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        /// <param name="package">Owner package, not null.</param>
-        private ResetSettingsCommand(OleMenuCommandService commandService, AsyncPackage package)
+        /// <param name="resetOptionsService">Service that resets the options</param>
+        private ResetSettingsCommand(OleMenuCommandService commandService, ResetOptionsService resetOptionsService)
         {
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             this.command = new MenuCommand(this.Execute, menuCommandID);
             commandService.AddCommand(this.command);
-            this.package = package;
+            this.resetOptionsService = resetOptionsService;
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace FineCodeCoverage.Output
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
-            => this.package.ShowOptionPage(typeof(CoverletOptionsPage));
+            => this.resetOptionsService.Reset();
     }
 }
 

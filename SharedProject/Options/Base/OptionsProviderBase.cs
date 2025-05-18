@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Settings;
 

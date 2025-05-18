@@ -157,7 +157,7 @@ namespace FineCodeCoverage.Output
             );
             await OpenFCCOutputPaneCommand.InitializeAsync(this, componentModel.GetService<IShowFCCOutputPane>());
             await OpenSettingsCommand.InitializeAsync(this);
-            await ResetSettingsCommand.InitializeAsync(this);
+            await ResetSettingsCommand.InitializeAsync(this, componentModel.GetService<ResetOptionsService>());
             await OpenMarketplaceRateAndReviewCommand.InitializeAsync(this, componentModel.GetService<IOpenFCCVsMarketplace>());
             await OpenFCCGithubCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());
             await NewIssueCommand.InitializeAsync(this, componentModel.GetService<IFCCGithubService>());

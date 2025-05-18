@@ -44,24 +44,28 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenReportWindowCommand" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
-        <Icon guid="guidMonikers" id="openReportWindowCommandImageIndex" />
-		<CommandFlag>IconIsMoniker</CommandFlag>
-        <Strings>
-          <ButtonText>Fine Code Coverage</ButtonText>
-        </Strings>
-      </Button>
-      <Button guid="guidFCCPackageCmdSet" id="cmdidClearUICommand" priority="0x0100" type="Button">
-        <Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidMonikers" id="clearUICommandImageIndex" />
-		<CommandFlag>IconIsMoniker</CommandFlag>
-        <Strings>
-          <ButtonText>FCC Clear UI</ButtonText>
-          <CanonicalName>FCC.ClearUI</CanonicalName>
-          <LocCanonicalName>FCC.ClearUI</LocCanonicalName>
-        </Strings>
-      </Button>
+
+		<!-- Menu ***-->
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenReportWindowCommand" priority="0x0100" type="Button">
+			<Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
+			<Icon guid="guidMonikers" id="openReportWindowCommandImageIndex" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Fine Code Coverage</ButtonText>
+			</Strings>
+		</Button>
+		
+			
+		<Button guid="guidFCCPackageCmdSet" id="cmdidClearUICommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
+			<Icon guid="guidMonikers" id="clearUICommandImageIndex" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>FCC Clear UI</ButtonText>
+				<CanonicalName>FCC.ClearUI</CanonicalName>
+				<LocCanonicalName>FCC.ClearUI</LocCanonicalName>
+			</Strings>
+		</Button>
 		<Button guid="guidFCCPackageCmdSet" id="cmdidToggleCoverageIndicatorsCommand" priority="0x0100" type="Button">
 			<Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
 			<Strings>
@@ -71,97 +75,12 @@
 				<LocCanonicalName>FCC.ToggleIndicators</LocCanonicalName>
 			</Strings>
 		</Button>
-		
-      <Button guid="guidFCCPackageCmdSet" id="cmdidOpenCoberturaCommand" priority="0x0100" type="Button">
-        <Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-        <Icon guid="ImageCatalogGuid" id="CodeCoverage" />
-        <CommandFlag>IconIsMoniker</CommandFlag>
-        <Strings>
-          <ButtonText>Open Cobertura</ButtonText>
-          <CommandName>FCC Open Cobertura</CommandName>
-          <CanonicalName>FCC.OpenCobertura</CanonicalName>
-          <LocCanonicalName>FCC.OpenCobertura</LocCanonicalName>
-        </Strings>
-      </Button>
-      <Button guid="guidFCCPackageCmdSet" id="cmdidOpenHotspotsCommand" priority="0x0100" type="Button">
-        <Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-        <Icon guid="ImageCatalogGuid" id="HotSpot" />
-        <CommandFlag>IconIsMoniker</CommandFlag>
-        <Strings>
-          <ButtonText>Open Hotspots</ButtonText>
-          <CommandName>FCC Open Hotspots</CommandName>
-          <CanonicalName>FCC.OpenHotspots</CanonicalName>
-          <LocCanonicalName>FCC.OpenHotspots</LocCanonicalName>
-        </Strings>
-      </Button>
-	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCOutputPaneCommand" priority="0x0100" type="Button">
-		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-		<Icon guid="ImageCatalogGuid" id="Output" />
-		<CommandFlag>IconIsMoniker</CommandFlag>
-		<Strings>
-		  <ButtonText>Open Log</ButtonText>
-		  <CommandName>FCC Open Log</CommandName>
-	      <CanonicalName>FCC.OpenLog</CanonicalName>
-		  <LocCanonicalName>FCC.OpenLog</LocCanonicalName>
-		</Strings>
-	  </Button>
-	  <Button guid="guidFCCPackageCmdSet" id="cmdidOpenSettingsCommand" priority="0x0100" type="Button">
-		<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
-		<Icon guid="ImageCatalogGuid" id="Settings" />
-		<CommandFlag>IconIsMoniker</CommandFlag>
-		<Strings>
-		  <ButtonText>Open Settings</ButtonText>
-		  <CommandName>FCC Open Settings</CommandName>
-		  <CanonicalName>FCC.OpenSettings</CanonicalName>
-		  <LocCanonicalName>FCC.OpenSettings</LocCanonicalName>
-		</Strings>
-	  </Button>
-	  <Button guid="guidFCCPackageCmdSet" id="cmdidResetSettingsCommand" priority="0x0100" type="Button">
-		<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
-	    <Icon guid="ImageCatalogGuid" id="CDDrive" />
-		<CommandFlag>IconIsMoniker</CommandFlag>
-		<Strings>
-			<ButtonText>Reset Settings</ButtonText>
-			<CommandName>FCC Reset Settings</CommandName>
-			<CanonicalName>FCC.ResetSettings</CanonicalName>
-			<LocCanonicalName>FCC.ResetSettings</LocCanonicalName>
-		</Strings>
-	</Button>
-	  <Button guid="guidFCCPackageCmdSet" id="cmdidMarketplaceRateAndReviewCommand" priority="0x0100" type="Button">
-		<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-		<Icon guid="ImageCatalogGuid" id="VisualStudioFeedback" />
-		<CommandFlag>IconIsMoniker</CommandFlag>
-		<Strings>
-		  <ButtonText>Rate and Review</ButtonText>
-		  <CommandName>FCC Rate and Review</CommandName>
-		  <CanonicalName>FCC.RateAndReview</CanonicalName>
-		  <LocCanonicalName>FCC.RateAndReview</LocCanonicalName>
-		</Strings>
-	  </Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCGithubCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-			<Icon guid="ImageCatalogGuid" id="3809" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>Open FCC Github</ButtonText>
-				<CommandName>FCC Open Github</CommandName>
-				<CanonicalName>FCC.OpenGithub</CanonicalName>
-				<LocCanonicalName>FCC.OpenGithub</LocCanonicalName>
-			</Strings>
-		</Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidNewIssueCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-				<Icon guid="ImageCatalogGuid" id="NewBug" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>New Issue</ButtonText>
-				<CommandName>FCC New Issue</CommandName>
-				<CanonicalName>FCC.NewIssue</CanonicalName>
-				<LocCanonicalName>FCC.NewIssue</LocCanonicalName>
-			</Strings>
-		</Button>
+
+		<!-- Toolwindow toolbar ***-->
+	
+		<!-- Read group	-->
 		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenReadMeCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="ReadGroup" />
 			<Icon guid="ImageCatalogGuid" id="WelcomeUserGuide" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<Strings>
@@ -171,8 +90,78 @@
 				<LocCanonicalName>FCC.Readme</LocCanonicalName>
 			</Strings>
 		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCGithubCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReadGroup" />
+			<Icon guid="ImageCatalogGuid" id="3809" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open FCC Github</ButtonText>
+				<CommandName>FCC Open Github</CommandName>
+				<CanonicalName>FCC.OpenGithub</CanonicalName>
+				<LocCanonicalName>FCC.OpenGithub</LocCanonicalName>
+			</Strings>
+		</Button>
+	
+		<!-- Report details group-->
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCOutputPaneCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportDetailsGroup" />
+			<Icon guid="ImageCatalogGuid" id="Output" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open Log</ButtonText>
+				<CommandName>FCC Open Log</CommandName>
+				<CanonicalName>FCC.OpenLog</CanonicalName>
+				<LocCanonicalName>FCC.OpenLog</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenCoberturaCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportDetailsGroup" />
+			<Icon guid="ImageCatalogGuid" id="CodeCoverage" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open Cobertura</ButtonText>
+				<CommandName>FCC Open Cobertura</CommandName>
+				<CanonicalName>FCC.OpenCobertura</CanonicalName>
+				<LocCanonicalName>FCC.OpenCobertura</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenHotspotsCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportDetailsGroup" />
+			<Icon guid="ImageCatalogGuid" id="HotSpot" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open Hotspots</ButtonText>
+				<CommandName>FCC Open Hotspots</CommandName>
+				<CanonicalName>FCC.OpenHotspots</CanonicalName>
+				<LocCanonicalName>FCC.OpenHotspots</LocCanonicalName>
+			</Strings>
+		</Button>
+	  
+		<!-- Feedback group -->
+		<Button guid="guidFCCPackageCmdSet" id="cmdidNewIssueCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="FeedbackGroup" />
+			<Icon guid="ImageCatalogGuid" id="NewBug" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>New Issue</ButtonText>
+				<CommandName>FCC New Issue</CommandName>
+				<CanonicalName>FCC.NewIssue</CanonicalName>
+				<LocCanonicalName>FCC.NewIssue</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidMarketplaceRateAndReviewCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="FeedbackGroup" />
+			<Icon guid="ImageCatalogGuid" id="VisualStudioFeedback" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+			  <ButtonText>Rate and Review</ButtonText>
+			  <CommandName>FCC Rate and Review</CommandName>
+			  <CanonicalName>FCC.RateAndReview</CanonicalName>
+			  <LocCanonicalName>FCC.RateAndReview</LocCanonicalName>
+			</Strings>
+	    </Button>
 		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFundingCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="FeedbackGroup" />
 			<Icon guid="ImageCatalogGuid" id="3994" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<Strings>
@@ -182,8 +171,10 @@
 				<LocCanonicalName>FCC.Funding</LocCanonicalName>
 			</Strings>
 		</Button>
+		
+		<!-- Configuration group-->
 		<Button guid="guidFCCPackageCmdSet" id="cmdidEditColumnsCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="ConfigurationGroup" />
 			<Icon guid="ImageCatalogGuid" id="EditColumn" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<Strings>
@@ -193,9 +184,44 @@
 				<LocCanonicalName>FCC.EditColumns</LocCanonicalName>
 			</Strings>
 		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidShowReportViewCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="ConfigurationGroup" />
+			<Icon guid="ImageCatalogGuid" id="Choose" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Show Report View Chooser</ButtonText>
+				<CommandName>Show Report View Chooser</CommandName>
+				<CanonicalName>FCC.ShowReportViewChooser</CanonicalName>
+				<LocCanonicalName>FCC.ShowReportViewChooser</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenSettingsCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
+			<Icon guid="ImageCatalogGuid" id="Settings" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open Settings</ButtonText>
+				<CommandName>FCC Open Settings</CommandName>
+				<CanonicalName>FCC.OpenSettings</CanonicalName>
+				<LocCanonicalName>FCC.OpenSettings</LocCanonicalName>
+			</Strings>
+		</Button>
+		<Button guid="guidFCCPackageCmdSet" id="cmdidResetSettingsCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
+			<Icon guid="ImageCatalogGuid" id="Undo" />
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Reset Settings</ButtonText>
+				<CommandName>FCC Reset Settings</CommandName>
+				<CanonicalName>FCC.ResetSettings</CanonicalName>
+				<LocCanonicalName>FCC.ResetSettings</LocCanonicalName>
+			</Strings>
+		</Button>
+		
+		<!-- Run group -->
 		<Button guid="guidFCCPackageCmdSet" id="cmdidCollectTUnitCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-		     <Icon guid="ImageCatalogGuid" id="RunTest" />
+			<Parent guid="guidFCCPackageCmdSet" id="RunGroup" />
+				<Icon guid="ImageCatalogGuid" id="RunTest" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<CommandFlag>DynamicVisibility</CommandFlag>
 			<Strings>
@@ -206,7 +232,7 @@
 			</Strings>
 		</Button>
 		<Button guid="guidFCCPackageCmdSet" id="cmdidCancelCollectTUnitCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="RunGroup" />
 	        <Icon guid="ImageCatalogGuid" id="CancelTest" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<CommandFlag>DynamicVisibility</CommandFlag>
@@ -215,17 +241,6 @@
 				<CommandName>Cancel Collect TUnit</CommandName>
 				<CanonicalName>FCC.CancelCollectTUnit</CanonicalName>
 				<LocCanonicalName>FCC.CancelCollectTUnit</LocCanonicalName>
-			</Strings>
-		</Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidShowReportViewCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
-			<Icon guid="ImageCatalogGuid" id="Choose" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>Show Report View Chooser</ButtonText>
-				<CommandName>Show Report View Chooser</CommandName>
-				<CanonicalName>FCC.ShowReportViewChooser</CanonicalName>
-				<LocCanonicalName>FCC.ShowReportViewChooser</LocCanonicalName>
 			</Strings>
 		</Button>
     </Buttons>
@@ -237,7 +252,7 @@
         </Strings>
       </Menu>
 		<Menu guid="guidFCCPackageCmdSet" id="SplitButtonMenu" type="MenuController" priority="0x0100">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup"/>
+			<Parent guid="guidFCCPackageCmdSet" id="ConfigurationGroup"/>
 			<Strings>
 				<ButtonText>Settings split button menu</ButtonText>
 			</Strings>
@@ -248,61 +263,70 @@
 		<Group guid="guidFCCPackageCmdSet" id="MyMenuGroup" priority="0x0600">
 			<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
 		</Group>
-		<Group guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" priority="0x0000">
+		<Group guid="guidFCCPackageCmdSet" id="ReadGroup" priority="0x0000">
 			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
 		</Group>
-		<Group guid="guidFCCPackageCmdSet" id="ReportGroup" priority="0x0000">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		<Group guid="guidFCCPackageCmdSet" id="FeedbackGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
+		</Group>
+		<Group guid="guidFCCPackageCmdSet" id="ReportDetailsGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
 		</Group>
 		<Group guid="guidFCCPackageCmdSet" id="ConfigurationGroup" priority="0x0000">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
 		</Group>
-		<Group guid="guidFCCPackageCmdSet" id="FeedbackGroup" priority="0x0000">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbarGroup" />
+		<Group guid="guidFCCPackageCmdSet" id="RunGroup" priority="0x0000">
+			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
 		</Group>
 		<Group guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" priority="0x0000">
 			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenu" />
 		</Group>
-			
     </Groups>
   </Commands>
 
   <Symbols>
-    <!-- This is the package guid. -->
-    <GuidSymbol name="guidFCCPackage" value="{4e91ba47-cd42-42bc-b92e-3c4355d2eb5f}" />
+	<!-- This is the package guid. -->
+	<GuidSymbol name="guidFCCPackage" value="{4e91ba47-cd42-42bc-b92e-3c4355d2eb5f}" />
 
-    <GuidSymbol value="{d58a999f-4a1b-42df-839a-cb31a0a4fed7}" name="guidFCCPackageCmdSet">
-      <IDSymbol value="4128" name="MyMenuGroup" />
-      <IDSymbol value="4129" name="ReportToolWindowToolbar" />
-      <IDSymbol value="4130" name="ReportToolWindowToolbarGroup" />
-      <IDSymbol value="4131" name="SplitButtonMenuGroup" />
-	  <IDSymbol value="4132" name="SplitButtonMenu" />
-	  <IDSymbol value="4133" name="FeedbackGroup" />
-	  <IDSymbol value="4134" name="ReportGroup" />
-	  <IDSymbol value="4134" name="ConfigurationGroup" />
-	  <IDSymbol value="255" name="cmdidOpenReportWindowCommand" />
-      <IDSymbol value="256" name="cmdidClearUICommand" />
-      <IDSymbol value="257" name="cmdidOpenCoberturaCommand" />
-      <IDSymbol value="258" name="cmdidOpenHotspotsCommand" />
-	  <IDSymbol value="259" name="cmdidOpenFCCOutputPaneCommand" />
-	  <IDSymbol value="260" name="cmdidOpenSettingsCommand" />
-	  <IDSymbol value="261" name="cmdidMarketplaceRateAndReviewCommand" />
-	  <IDSymbol value="262" name="cmdidOpenFCCGithubCommand" />
-	  <IDSymbol value="263" name="cmdidNewIssueCommand" />
-	  <IDSymbol value="264" name="cmdidOpenReadMeCommand" />
-	  <IDSymbol value="265" name="cmdidOpenFundingCommand" />
-	  <IDSymbol value="266" name="cmdidToggleCoverageIndicatorsCommand" />
-	  <IDSymbol value="267" name="cmdidEditColumnsCommand" />
-	  <IDSymbol value="268" name="cmdidCollectTUnitCommand" />
-	  <IDSymbol value="269" name="cmdidCancelCollectTUnitCommand" />
-	  <IDSymbol value="270" name="cmdidShowReportViewCommand" />
-	  <IDSymbol value="271" name="cmdidResetSettingsCommand" />
-    </GuidSymbol>
+	<GuidSymbol value="{d58a999f-4a1b-42df-839a-cb31a0a4fed7}" name="guidFCCPackageCmdSet">
+		<IDSymbol value="4128" name="MyMenuGroup" />
+		<IDSymbol value="4129" name="ReportToolWindowToolbar" />
+		<IDSymbol value="4130" name="ReadGroup" />
+		<IDSymbol value="4131" name="FeedbackGroup" />
+		<IDSymbol value="4132" name="ReportDetailsGroup" />
+		<IDSymbol value="4133" name="ConfigurationGroup" />
+		<IDSymbol value="4134" name="SplitButtonMenuGroup" />
+		<IDSymbol value="4135" name="SplitButtonMenu" />
+		<IDSymbol value="4136" name="RunGroup" />
+		
+		<IDSymbol value="1" name="cmdidOpenReportWindowCommand" />
+		<IDSymbol value="2" name="cmdidToggleCoverageIndicatorsCommand" />
+		<IDSymbol value="3" name="cmdidClearUICommand" />
+	
+		<IDSymbol value="4" name="cmdidOpenReadMeCommand" />
+		<IDSymbol value="5" name="cmdidOpenFCCGithubCommand" />
+	
+		<IDSymbol value="6" name="cmdidNewIssueCommand" />
+		<IDSymbol value="7" name="cmdidMarketplaceRateAndReviewCommand" />
+		<IDSymbol value="8" name="cmdidOpenFundingCommand" />
+		
+		<IDSymbol value="9" name="cmdidOpenFCCOutputPaneCommand" />
+		<IDSymbol value="10" name="cmdidOpenCoberturaCommand" />
+		<IDSymbol value="11" name="cmdidOpenHotspotsCommand" />
+	
+		<IDSymbol value="12" name="cmdidEditColumnsCommand" />
+		<IDSymbol value="13" name="cmdidShowReportViewCommand" />
+		<IDSymbol value="14" name="cmdidOpenSettingsCommand" />
+		<IDSymbol value="15" name="cmdidResetSettingsCommand" />
+	
+		<IDSymbol value="16" name="cmdidCollectTUnitCommand" />
+		<IDSymbol value="17" name="cmdidCancelCollectTUnitCommand" />
+	</GuidSymbol>
 
-    <!-- from Monikers.imagemanifest -->
-    <GuidSymbol name="guidMonikers" value="{c07b27ae-9756-4632-a6e6-1578f6dfbedf}">
-      <IDSymbol name="openReportWindowCommandImageIndex" value="1" />
-	  <IDSymbol name="clearUICommandImageIndex" value="6" />
-    </GuidSymbol>
-  </Symbols>
+	<!-- from Monikers.imagemanifest -->
+	<GuidSymbol name="guidMonikers" value="{c07b27ae-9756-4632-a6e6-1578f6dfbedf}">
+		<IDSymbol name="openReportWindowCommandImageIndex" value="1" />
+		<IDSymbol name="clearUICommandImageIndex" value="6" />
+	</GuidSymbol>
+	</Symbols>
 </CommandTable>
