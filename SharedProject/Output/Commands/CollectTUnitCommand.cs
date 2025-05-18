@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using EnvDTE80;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
@@ -40,7 +38,6 @@ namespace FineCodeCoverage.Output
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            var dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
             Instance = new CollectTUnitCommand(commandService, tUnitCoverage);
         }
 
@@ -57,10 +54,7 @@ namespace FineCodeCoverage.Output
             this.command = new MenuCommand(this.Execute, menuCommandID);
             this.command.Enabled = tUnitCoverage.Ready;
             tUnitCoverage.CollectingChangedEvent += (_, collecting) => this.command.Visible = !collecting;
-            tUnitCoverage.ReadyEvent += (_, __) =>
-            {
-                this.command.Enabled = tUnitCoverage.Ready;
-            };
+            tUnitCoverage.ReadyEvent += (_, __) => this.command.Enabled = tUnitCoverage.Ready;
             commandService.AddCommand(command);
             this.tUnitCoverage = tUnitCoverage;
         }
