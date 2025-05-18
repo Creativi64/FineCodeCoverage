@@ -57,7 +57,7 @@
 		
 			
 		<Button guid="guidFCCPackageCmdSet" id="cmdidClearUICommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="FCCToolsMenuGroup" />
 			<Icon guid="guidMonikers" id="clearUICommandImageIndex" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<Strings>
@@ -67,7 +67,7 @@
 			</Strings>
 		</Button>
 		<Button guid="guidFCCPackageCmdSet" id="cmdidToggleCoverageIndicatorsCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="MyMenuGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="FCCToolsMenuGroup" />
 			<Strings>
 				<ButtonText>FCC Toggle Indicators</ButtonText>
 				<CommandName>FCC Toggle Indicators</CommandName>
@@ -75,7 +75,15 @@
 				<LocCanonicalName>FCC.ToggleIndicators</LocCanonicalName>
 			</Strings>
 		</Button>
-
+		<Button guid="guidFCCPackageCmdSet" id="cmdidResetSettingsCommand" priority="0x0100" type="Button">
+			<Parent guid="guidFCCPackageCmdSet" id="FCCToolsMenuGroup" />
+			<Strings>
+				<ButtonText>FCC Reset Settings</ButtonText>
+				<CommandName>FCC Reset Settings</CommandName>
+				<CanonicalName>FCC.ResetSettings</CanonicalName>
+				<LocCanonicalName>FCC.ResetSettings</LocCanonicalName>
+			</Strings>
+		</Button>
 		<!-- Toolwindow toolbar ***-->
 	
 		<!-- Read group	-->
@@ -196,7 +204,7 @@
 			</Strings>
 		</Button>
 		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenSettingsCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
+			<Parent guid="guidFCCPackageCmdSet" id="ConfigurationGroup" />
 			<Icon guid="ImageCatalogGuid" id="Settings" />
 			<CommandFlag>IconIsMoniker</CommandFlag>
 			<Strings>
@@ -206,17 +214,7 @@
 				<LocCanonicalName>FCC.OpenSettings</LocCanonicalName>
 			</Strings>
 		</Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidResetSettingsCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" />
-			<Icon guid="ImageCatalogGuid" id="Undo" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>Reset Settings</ButtonText>
-				<CommandName>FCC Reset Settings</CommandName>
-				<CanonicalName>FCC.ResetSettings</CanonicalName>
-				<LocCanonicalName>FCC.ResetSettings</LocCanonicalName>
-			</Strings>
-		</Button>
+
 		
 		<!-- Run group -->
 		<Button guid="guidFCCPackageCmdSet" id="cmdidCollectTUnitCommand" priority="0x0100" type="Button">
@@ -251,16 +249,10 @@
           <ButtonText>Open FCC Files</ButtonText>
         </Strings>
       </Menu>
-		<Menu guid="guidFCCPackageCmdSet" id="SplitButtonMenu" type="MenuController" priority="0x0100">
-			<Parent guid="guidFCCPackageCmdSet" id="ConfigurationGroup"/>
-			<Strings>
-				<ButtonText>Settings split button menu</ButtonText>
-			</Strings>
-		</Menu>
 	</Menus>
 
     <Groups>
-		<Group guid="guidFCCPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+		<Group guid="guidFCCPackageCmdSet" id="FCCToolsMenuGroup" priority="0x0600">
 			<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
 		</Group>
 		<Group guid="guidFCCPackageCmdSet" id="ReadGroup" priority="0x0000">
@@ -278,9 +270,6 @@
 		<Group guid="guidFCCPackageCmdSet" id="RunGroup" priority="0x0000">
 			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
 		</Group>
-		<Group guid="guidFCCPackageCmdSet" id="SplitButtonMenuGroup" priority="0x0000">
-			<Parent guid="guidFCCPackageCmdSet" id="SplitButtonMenu" />
-		</Group>
     </Groups>
   </Commands>
 
@@ -289,14 +278,12 @@
 	<GuidSymbol name="guidFCCPackage" value="{4e91ba47-cd42-42bc-b92e-3c4355d2eb5f}" />
 
 	<GuidSymbol value="{d58a999f-4a1b-42df-839a-cb31a0a4fed7}" name="guidFCCPackageCmdSet">
-		<IDSymbol value="4128" name="MyMenuGroup" />
+		<IDSymbol value="4128" name="FCCToolsMenuGroup" />
 		<IDSymbol value="4129" name="ReportToolWindowToolbar" />
 		<IDSymbol value="4130" name="ReadGroup" />
 		<IDSymbol value="4131" name="FeedbackGroup" />
 		<IDSymbol value="4132" name="ReportDetailsGroup" />
 		<IDSymbol value="4133" name="ConfigurationGroup" />
-		<IDSymbol value="4134" name="SplitButtonMenuGroup" />
-		<IDSymbol value="4135" name="SplitButtonMenu" />
 		<IDSymbol value="4136" name="RunGroup" />
 		
 		<IDSymbol value="1" name="cmdidOpenReportWindowCommand" />
