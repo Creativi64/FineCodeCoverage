@@ -17,17 +17,4 @@ namespace FineCodeCoverage.Options
         [DisplayName("Option page to open from button on toolbar")]
         public OpenOptionPage OpenOptionPage { get; set; }
     }
-
-    internal enum OpenOptionPage
-    {
-        IncludesExcludes,
-        Run,
-        Report,
-        Output,
-        Coverlet,
-        OpenCover,
-        EditorCoverageColouring,
-        HotspotThresholds,
-        Misc
-    }
 }

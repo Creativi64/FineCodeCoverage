@@ -233,8 +233,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProfileOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\DialogPageTypeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\IDialogPageTypeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\OpenOptionPageTypeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\IOpenOptionPageTypeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\OpenOptionPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsPage.cs" />

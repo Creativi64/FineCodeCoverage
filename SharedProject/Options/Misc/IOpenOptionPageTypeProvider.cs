@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Options
 {
-    internal interface IDialogPageTypeProvider
+    internal interface IOpenOptionPageTypeProvider
     {
         Type Get();
     }

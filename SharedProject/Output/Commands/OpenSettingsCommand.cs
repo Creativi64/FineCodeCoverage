@@ -7,18 +7,16 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenSettingsCommand : CommandInitializerBase
     {
-        private readonly IDialogPageTypeProvider dialogPageTypeProvider;
+        private readonly IOpenOptionPageTypeProvider openOptionPageTypeProvider;
 
         [ImportingConstructor]
-        public OpenSettingsCommand(IDialogPageTypeProvider dialogPageTypeProvider)
-        {
-            this.dialogPageTypeProvider = dialogPageTypeProvider;
-        }
+        public OpenSettingsCommand(IOpenOptionPageTypeProvider openOptionPageTypeProvider) 
+            => this.openOptionPageTypeProvider = openOptionPageTypeProvider;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenSettingsCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         protected override void Execute(object sender, EventArgs e)
-            => this.PackageServices.ShowOptionPage(dialogPageTypeProvider.Get());
+            => this.PackageServices.ShowOptionPage(openOptionPageTypeProvider.Get());
     }
 }

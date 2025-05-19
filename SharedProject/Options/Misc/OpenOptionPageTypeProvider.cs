@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Options
 {
-    [Export(typeof(IDialogPageTypeProvider))]
-    internal class DialogPageTypeProvider : IDialogPageTypeProvider
+    [Export(typeof(IOpenOptionPageTypeProvider))]
+    internal class OpenOptionPageTypeProvider : IOpenOptionPageTypeProvider
     {
         private readonly Dictionary<OpenOptionPage, Type> lookup = new Dictionary<OpenOptionPage, Type>
         {
@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Options
         private readonly IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider;
 
         [ImportingConstructor]
-        public DialogPageTypeProvider(IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider) => this.miscOptionsProvider = miscOptionsProvider;
+        public OpenOptionPageTypeProvider(IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider) => this.miscOptionsProvider = miscOptionsProvider;
 
         public Type Get() => this.lookup[this.miscOptionsProvider.Options.OpenOptionPage];
     }
