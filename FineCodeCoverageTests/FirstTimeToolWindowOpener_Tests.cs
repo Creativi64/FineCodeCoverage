@@ -36,7 +36,7 @@ namespace FineCodeCoverageTests
 
             var expectedTimes = expectedShown ? Times.Once() : Times.Never();
 #pragma warning disable VSTHRD110 // Observe result of async calls
-            mocker.Verify<IToolWindowOpener>(toolWindowOpener => toolWindowOpener.OpenToolWindowAsync(), expectedTimes);
+            mocker.Verify<IReportToolWindowOpener>(toolWindowOpener => toolWindowOpener.TryOpenAsync(), expectedTimes);
 #pragma warning restore VSTHRD110 // Observe result of async calls
 
         }

@@ -3,8 +3,8 @@ using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ICommand))]
-    internal sealed class EditColumnsCommand : CommandBase
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class EditColumnsCommand : CommandInitializerBase
     {
         private readonly IReportColumnsService reportColumnsService;
 
@@ -12,14 +12,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public EditColumnsCommand(IReportColumnsService reportColumnsService)
-        {
-            this.reportColumnsService = reportColumnsService;
-        }
+        public EditColumnsCommand(IReportColumnsService reportColumnsService) => this.reportColumnsService = reportColumnsService;
 
-        protected override void Execute(object sender, EventArgs e)
-        {
-            this.reportColumnsService.ManageColumns();
-        }
+        protected override void Execute(object sender, EventArgs e) => this.reportColumnsService.ManageColumns();
     }
 }

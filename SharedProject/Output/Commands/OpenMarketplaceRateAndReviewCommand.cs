@@ -4,8 +4,8 @@ using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ICommand))]
-    internal sealed class OpenMarketplaceRateAndReviewCommand : CommandBase
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class OpenMarketplaceRateAndReviewCommand : CommandInitializerBase
     {
         private readonly IOpenFCCVsMarketplace openFCCVsMarketplace;
 
@@ -13,15 +13,9 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenMarketplaceRateAndReviewCommand(IOpenFCCVsMarketplace openFCCVsMarketplace)
-        {
-            this.openFCCVsMarketplace = openFCCVsMarketplace;
-        }
+        public OpenMarketplaceRateAndReviewCommand(IOpenFCCVsMarketplace openFCCVsMarketplace) => this.openFCCVsMarketplace = openFCCVsMarketplace;
 
-        protected override void Execute(object sender, EventArgs e)
-        {
-            this.openFCCVsMarketplace.OpenRatingAndReview();
-        }
+        protected override void Execute(object sender, EventArgs e) => this.openFCCVsMarketplace.OpenRatingAndReview();
     }
 }
 

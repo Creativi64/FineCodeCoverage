@@ -1,74 +1,28 @@
 ﻿using System;
-using System.ComponentModel.Design;
+using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
-using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
-    internal sealed class CollectTUnitCommand
+    [Export(typeof(ICollectTUnitCommand))]
+    internal sealed class CollectTUnitCommand : CommandInitializerBase, ICollectTUnitCommand
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
-        public const int CommandId = PackageIds.cmdidCollectTUnitCommand;
-
-        /// <summary>
-        /// Command menu group (command set GUID).
-        /// </summary>
-        public static readonly Guid CommandSet = PackageGuids.guidFCCPackageCmdSet;
-
-        private readonly MenuCommand command;
         private readonly ITUnitCoverage tUnitCoverage;
 
-        public static CollectTUnitCommand Instance
+        protected override int CommandId { get; } = PackageIds.cmdidCollectTUnitCommand;
+        protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
+
+        [ImportingConstructor]
+        public CollectTUnitCommand(ITUnitCoverage tUnitCoverage) => this.tUnitCoverage = tUnitCoverage;
+
+        protected override void Initialized()
         {
-            get;
-            private set;
+            this.Command.Enabled = tUnitCoverage.Ready;
+            tUnitCoverage.ReadyEvent += (_, __) => this.Command.Enabled = this.tUnitCoverage.Ready;
         }
 
+        protected override void Execute(object sender, EventArgs e) => this.tUnitCoverage.CollectCoverage();
 
-        public static async Task InitializeAsync(AsyncPackage package, ITUnitCoverage tUnitCoverage)
-        {
-            // Switch to the main thread - the call to AddCommand in the constructor requires
-            // the UI thread.
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
-
-            OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new CollectTUnitCommand(commandService, tUnitCoverage);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CollectTUnitCommand"/> class.
-        /// Adds our command handlers for menu (commands must exist in the command table file)
-        /// </summary>
-        /// <param name="commandService">Command service to add command to, not null.</param>
-        private CollectTUnitCommand(OleMenuCommandService commandService, ITUnitCoverage tUnitCoverage)
-        {
-            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
-
-            var menuCommandID = new CommandID(CommandSet, CommandId);
-            this.command = new MenuCommand(this.Execute, menuCommandID);
-            this.command.Enabled = tUnitCoverage.Ready;
-            tUnitCoverage.CollectingChangedEvent += (_, collecting) => this.command.Visible = !collecting;
-            tUnitCoverage.ReadyEvent += (_, __) => this.command.Enabled = tUnitCoverage.Ready;
-            commandService.AddCommand(command);
-            this.tUnitCoverage = tUnitCoverage;
-        }
-
-        /// <summary>
-        /// This function is the callback used to execute the command when the menu item is clicked.
-        /// See the constructor to see how the menu item is associated with this function using
-        /// OleMenuCommandService service and MenuCommand class.
-        /// </summary>
-        /// <param name="sender">Event sender.</param>
-        /// <param name="e">Event args.</param>
-        private void Execute(object sender, EventArgs e)
-        {
-            tUnitCoverage.CollectCoverage();
-        }
+        public void SetVisible(bool isVisible) => Command.Visible = isVisible;
     }
 }

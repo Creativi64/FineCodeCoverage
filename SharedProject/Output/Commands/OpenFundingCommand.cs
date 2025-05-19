@@ -4,8 +4,8 @@ using FineCodeCoverage.Funding;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ICommand))]
-    internal sealed class OpenFundingCommand : CommandBase
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class OpenFundingCommand : CommandInitializerBase
     {
         private readonly IFundingService fundingService;
 
@@ -13,10 +13,7 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFundingCommand(IFundingService fundingService)
-        {
-            this.fundingService = fundingService;
-        }
+        public OpenFundingCommand(IFundingService fundingService) => this.fundingService = fundingService;
 
         protected override void Execute(object sender, EventArgs e) => this.fundingService.Execute();
     }

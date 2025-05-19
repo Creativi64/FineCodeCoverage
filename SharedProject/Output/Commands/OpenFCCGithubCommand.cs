@@ -4,8 +4,8 @@ using FineCodeCoverage.Github;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ICommand))]
-    internal sealed class OpenFCCGithubCommand : CommandBase
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class OpenFCCGithubCommand : CommandInitializerBase
     {
         private readonly IFCCGithubService fccGithubService;
 
@@ -13,10 +13,7 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFCCGithubCommand(IFCCGithubService fccGithubService)
-        {
-            this.fccGithubService = fccGithubService;
-        }
+        public OpenFCCGithubCommand(IFCCGithubService fccGithubService) => this.fccGithubService = fccGithubService;
 
         protected override void Execute(object sender, EventArgs e) => this.fccGithubService.Navigate();
     }

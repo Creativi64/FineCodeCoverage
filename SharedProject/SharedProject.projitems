@@ -253,7 +253,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ProfileManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CollectOrCancelTUnitCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CommandInitializerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICancelCollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICommandInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ITUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ResetSettingsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\BrushToSolidColorBrushConverter.cs" />
@@ -334,7 +339,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SVsColorThemeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\SystemEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ThrowIf.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\IToolFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\IToolUnzipper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\IToolZipProvider.cs" />

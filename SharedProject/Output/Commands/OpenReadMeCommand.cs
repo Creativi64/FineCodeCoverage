@@ -4,8 +4,8 @@ using FineCodeCoverage.Readme;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ICommand))]
-    internal sealed class OpenReadMeCommand : CommandBase
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class OpenReadMeCommand : CommandInitializerBase
     {
         private readonly IReadMeService readMeService;
 
@@ -13,15 +13,9 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenReadMeCommand(IReadMeService readMeService)
-        {
-            this.readMeService = readMeService;
-        }
+        public OpenReadMeCommand(IReadMeService readMeService) => this.readMeService = readMeService;
 
-        protected override void Execute(object sender, EventArgs e)
-        {
-            this.readMeService.ShowReadMe();
-        }
+        protected override void Execute(object sender, EventArgs e) => this.readMeService.ShowReadMe();
     }
 }
 

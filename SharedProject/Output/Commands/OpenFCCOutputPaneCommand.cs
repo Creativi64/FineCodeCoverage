@@ -4,8 +4,8 @@ using FineCodeCoverage.Output.Pane;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(ICommand))]
-    internal sealed class OpenFCCOutputPaneCommand : CommandBase
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class OpenFCCOutputPaneCommand : CommandInitializerBase
     {
         private readonly IShowFCCOutputPane showFCCOutputPane;
 
@@ -13,10 +13,7 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFCCOutputPaneCommand(IShowFCCOutputPane showFCCOutputPane)
-        {
-            this.showFCCOutputPane = showFCCOutputPane;
-        }
+        public OpenFCCOutputPaneCommand(IShowFCCOutputPane showFCCOutputPane) => this.showFCCOutputPane = showFCCOutputPane;
 
         protected override void Execute(object sender, EventArgs e) => _ = this.showFCCOutputPane.ShowAsync();
     }

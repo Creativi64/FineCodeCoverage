@@ -2,8 +2,8 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal interface IToolWindowOpener
+    internal interface IReportToolWindowOpener
     {
-        Task OpenToolWindowAsync();
+        Task TryOpenAsync();
     }
 }

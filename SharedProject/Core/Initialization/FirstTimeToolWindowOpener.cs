@@ -10,13 +10,13 @@ namespace FineCodeCoverage.Core.Initialization
     {
         private readonly IInitializedFromTestContainerDiscoverer initializedFromTestContainerDiscoverer;
         private readonly IShownToolWindowHistory shownToolWindowHistory;
-        private readonly IToolWindowOpener toolWindowOpener;
+        private readonly IReportToolWindowOpener toolWindowOpener;
 
         [ImportingConstructor]
         public FirstTimeToolWindowOpener(
             IInitializedFromTestContainerDiscoverer initializedFromTestContainerDiscoverer,
             IShownToolWindowHistory shownToolWindowHistory,
-            IToolWindowOpener toolWindowOpener
+            IReportToolWindowOpener toolWindowOpener
         )
         {
             this.initializedFromTestContainerDiscoverer = initializedFromTestContainerDiscoverer;
@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Core.Initialization
                 !shownToolWindowHistory.HasShownToolWindow
             )
             {
-                await toolWindowOpener.OpenToolWindowAsync();
+                await toolWindowOpener.TryOpenAsync();
             }
         }
     }

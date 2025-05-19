@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Editor.IndicatorVisibility
 {
