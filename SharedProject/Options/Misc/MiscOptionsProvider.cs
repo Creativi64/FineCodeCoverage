@@ -4,18 +4,18 @@ using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Options.Tools
 {
-    [Export(typeof(IOptionsProvider<ToolsOptions>))]
-    [Export(typeof(IDialogPageOptionsProvider<ToolsOptions>))]
+    [Export(typeof(IOptionsProvider<MiscOptions>))]
+    [Export(typeof(IDialogPageOptionsProvider<MiscOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class ToolsOptionsProvider : OptionsProviderBase<ToolsOptions>
+    internal class MiscOptionsProvider : OptionsProviderBase<MiscOptions>
     {
         [ImportingConstructor]
-        public ToolsOptionsProvider(
+        public MiscOptionsProvider(
                 ILogger logger,
                 IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
                 IJsonConvertService jsonConvertService,
-                IDefaultOptionsSetter<ToolsOptions> defaultOptionsSetter
+                IDefaultOptionsSetter<MiscOptions> defaultOptionsSetter
             ) : base(
                 logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter
             )

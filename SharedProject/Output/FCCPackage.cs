@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
 	[ProvideOptionPage(typeof(IncludesExcludesOptionsPage), Vsix.Name, "Includes Excludes", 0, 0, true)]
     [ProvideOptionPage(typeof(EditorCoverageColouringOptionsPage), Vsix.Name, "Editor Colouring", 0, 0, true)]
     [ProvideOptionPage(typeof(HotspotThresholdsOptionsPage), Vsix.Name, "Hotspot Thresholds", 0, 0, true)]
-    [ProvideOptionPage(typeof(ToolsOptionsPage), Vsix.Name, "Tools", 0, 0, true)]
+    [ProvideOptionPage(typeof(MiscOptionsPage), Vsix.Name, "Misc", 0, 0, true)]
     [ProvideOptionPage(typeof(OutputOptionsPage), Vsix.Name, "Output", 0, 0, true)]
     [ProvideOptionPage(typeof(ReportOptionsPage), Vsix.Name, "Report", 0, 0, true)]
     [ProvideOptionPage(typeof(RunOptionsPage), Vsix.Name, "Run", 0, 0, true)]

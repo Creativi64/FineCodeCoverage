@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine
         private readonly ILogger logger;
         private readonly IEnvironmentVariable environmentVariable;
         private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
-        private readonly IOptionsProvider<ToolsOptions> toolsOptionsProvider;
+        private readonly IOptionsProvider<MiscOptions> toolsOptionsProvider;
         internal const string fccDebugCleanInstallEnvironmentVariable = "FCCDebugCleanInstall";
 
         [ImportingConstructor]
@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Engine
             ILogger logger,
             IEnvironmentVariable environmentVariable,
             IOptionsProvider<OutputOptions> outputOptionsProvider,
-            IOptionsProvider<ToolsOptions> toolsOptionsProvider
+            IOptionsProvider<MiscOptions> toolsOptionsProvider
         )
         {
             this.logger = logger;

@@ -196,6 +196,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRenameExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ITypeDescriptorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IVsOpenFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LoggerSingleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\MefServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ReflectionService.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ThemeChangedWeakEventManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ThemeResourceKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\TypeDescriptorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsOpenFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsThemeLifetimeCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\VsThreading\MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
@@ -231,6 +233,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\EditorCoverageColouring\EditorCoverageColouringOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProfileOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\DialogPageTypeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\IDialogPageTypeProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OpenCover\OpenCoverOptionsPage.cs" />
@@ -247,12 +251,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Options\Run\RunOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Report\ReportOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Run\RunOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsDefaults.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\MiscOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\MiscOptionsDefaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\MiscOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\OptionsProviderBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\ProfileManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\Tools\ToolsOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\Misc\MiscOptionsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\CommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CollectOrCancelTUnitCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CommandInitializerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICancelCollectTUnitCommand.cs" />
@@ -260,6 +265,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ICommandInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ITUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ResetSettingsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\ICommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\BrushToSolidColorBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\CoverageBar\CoveragePercentageBar.xaml.cs">
@@ -315,7 +321,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IProjectFilePropertyWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ISolutionEvents.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IToolWindowOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IReportToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IUrlEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IVsShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IXmlUtils.cs" />
@@ -717,7 +723,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\ReadyForReportMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IShownToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ShownToolWindowHistory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\ToggleCoverageIndicatorsMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\IndicatorVisibility\ToggleCoverageIndicatorsMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\TreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ToolWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\TraceImageLibraryRegistrationAttribute.cs" />
