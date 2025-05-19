@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly IOpenOptionPageTypeProvider openOptionPageTypeProvider;
 
         [ImportingConstructor]
-        public OpenSettingsCommand(IOpenOptionPageTypeProvider openOptionPageTypeProvider) 
+        public OpenSettingsCommand(IOpenOptionPageTypeProvider openOptionPageTypeProvider)
             => this.openOptionPageTypeProvider = openOptionPageTypeProvider;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenSettingsCommand;
