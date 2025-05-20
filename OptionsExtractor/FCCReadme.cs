@@ -8,6 +8,26 @@ namespace OptionsExtractor
     {
         public static string ReplaceReadMeMarkerWithOptionsTable(string markedReadme, string marker)
         {
+            /*
+                was going to use MarkDig ast to replace but
+                https://github.com/xoofx/markdig/issues/744 - PipeTable invalid rendering
+
+                var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+
+                var markdownDocument = Markdown.Parse(mdString, pipeline);
+                var markerBlock = markdownDocument.FindBlockAtPosition(markerStartIndex);
+
+                var replacement = Markdown.Parse(GenerateReadme(), pipeline);
+                var table = replacement.Descendants<Table>().First();
+
+                var markerBlockParent = markerBlock.Parent;
+                var markerBlockIndex = markerBlockParent.IndexOf(markerBlock);
+                table.Parent.Remove(table);
+                markerBlockParent.Insert(markerBlockIndex, table);
+                markerBlockParent.Remove(markerBlock);
+
+            */
+
             return Replace(markedReadme, marker, GenerateReadme());
         }
 
