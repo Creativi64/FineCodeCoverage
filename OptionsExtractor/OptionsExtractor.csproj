@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.14.40264" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage2022\FineCodeCoverage2022.csproj" />
+  </ItemGroup>
+</Project>

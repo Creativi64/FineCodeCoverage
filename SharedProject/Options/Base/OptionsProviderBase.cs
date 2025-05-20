@@ -136,8 +136,8 @@ namespace FineCodeCoverage.Options
                 property.SetValue(options, defaultValue);
             }
             defaultOptionsSetter.Set(options);
-            SaveSettingsToStorage();
             this.Initializing = false;
+            SaveSettingsToStorage();
         }
     }
 }

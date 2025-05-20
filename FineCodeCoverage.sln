@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeGrid", "TreeGrid\TreeGr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfHelpers", "WpfHelpers\WpfHelpers.csproj", "{2BCB9C3E-FFCF-4609-846B-B1562DAB39A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptionsExtractor", "OptionsExtractor\OptionsExtractor.csproj", "{667F9931-7C47-46B8-9D96-4F29DA1E53F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{2BCB9C3E-FFCF-4609-846B-B1562DAB39A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BCB9C3E-FFCF-4609-846B-B1562DAB39A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BCB9C3E-FFCF-4609-846B-B1562DAB39A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667F9931-7C47-46B8-9D96-4F29DA1E53F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667F9931-7C47-46B8-9D96-4F29DA1E53F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667F9931-7C47-46B8-9D96-4F29DA1E53F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667F9931-7C47-46B8-9D96-4F29DA1E53F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

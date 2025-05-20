@@ -73,10 +73,17 @@ namespace FineCodeCoverageTests
         }
     }
 
+    enum AnEnum { One, Two}
+
     class TestOptions
     {
         public bool DefaultFalse { get; set; }
         public bool DefaultTrueNotInStore { get; set; }
+        public string[] ArrayProperty { get; set; }
+        public AnEnum EnumProperty { get; set; }
+        public int IntProperty { get; set; }
+        public double? NullableDoubleProperty { get; set; }
+        public string StringProperty { get; set; }
     }
 
     class TestOptionsProvider : OptionsProviderBase<TestOptions>
@@ -158,6 +165,7 @@ namespace FineCodeCoverageTests
             
             Assert.That(testOptions.DefaultFalse, Is.True);
             Assert.That(testOptions.DefaultTrueNotInStore, Is.True);
+            Assert.That(testOptions.ArrayProperty, Is.Null);
         }
 
         [Test]
@@ -172,7 +180,7 @@ namespace FineCodeCoverageTests
             Assert.That(testOptions.DefaultTrueNotInStore, Is.True);
         }
 
-        [TestCase((string)null)] // is there a property descriptor attribute for validation ?
+        [TestCase((string)null)]
         [TestCase("  ")]
         public void Should_Not_Deserialize_Null_Or_Whitespace_Store_Values(string storePropertyValue)
         {
@@ -313,6 +321,38 @@ namespace FineCodeCoverageTests
             (testOptionsProvider as IDialogPageOptionsProvider<TestOptions>).SaveSettingsToStorage();
 
             autoMocker.Verify<ILogger>(logger => logger.LogFileAndForget($"Failed to save '{nameof(TestOptions.DefaultFalse)}' setting", "oh no"));
+        }
+
+        [Test]
+        public void Should_Set_Each_Option_Property_To_Default_For_Property_Type_Apply_Defaults_And_SaveSettingsToStorage_When_Reset()
+        {
+            var mockJsonConvertService = autoMocker.GetMock<IJsonConvertService>();
+            mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.SerializeObject(true)).Returns("true");
+            mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.SerializeObject(false)).Returns("false");
+            mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.SerializeObject(null)).Returns("null");
+
+            var options = testOptionsProvider.Get();
+            options.DefaultFalse = true;
+            options.DefaultTrueNotInStore = false;
+            options.ArrayProperty = new[] { "1", "2" };
+            options.StringProperty = "set";
+            options.EnumProperty = AnEnum.Two;
+            options.IntProperty = 1;
+            options.NullableDoubleProperty = 1.0;
+
+            testOptionsProvider.Reset();
+
+            Assert.That(options.DefaultFalse, Is.False);
+            Assert.That(options.DefaultTrueNotInStore, Is.True);
+            Assert.That(options.ArrayProperty, Is.Null);
+            Assert.That(options.StringProperty, Is.Null);
+            Assert.That(options.EnumProperty, Is.EqualTo(AnEnum.One));
+            Assert.That(options.IntProperty, Is.EqualTo(0));
+            Assert.That(options.NullableDoubleProperty, Is.Null);
+
+            mockWritableSettingsStore.Verify(store => store.SetString("FineCodeCoverage", nameof(TestOptions.DefaultTrueNotInStore), "true"));
+            mockWritableSettingsStore.Verify(store => store.SetString("FineCodeCoverage", nameof(TestOptions.DefaultFalse), "false"));
+            mockWritableSettingsStore.Verify(store => store.SetString("FineCodeCoverage", nameof(TestOptions.ArrayProperty), "null"));
         }
     }
 }
