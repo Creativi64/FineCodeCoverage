@@ -1,5 +1,4 @@
-﻿using FineCodeCoverage.Options;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.Model
 {

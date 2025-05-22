@@ -11,18 +11,20 @@ namespace FineCodeCoverage.Engine.Model
     {
         private class OptionInfo
         {
-            public OptionInfo(object option, Type type)
+            public OptionInfo(object option)
             {
                 Option = option;
-                Type = type;
+                Type = option.GetType();
+                InterfaceTypes = Type.GetInterfaces();
             }
             public object Option { get; }
-            Type Type { get; }
+            public Type Type { get; }
+            public Type[] InterfaceTypes { get; }
         }
 
-        private class OptionPropertyInfos
+        private class OptionCoverageSettingsInterfacesPropertyInfos
         {
-            public OptionPropertyInfos(object option, List<PropertyInfo> propertyInfos)
+            public OptionCoverageSettingsInterfacesPropertyInfos(object option, List<PropertyInfo> propertyInfos)
             {
                 Option = option;
                 PropertyInfos = propertyInfos;
@@ -31,73 +33,92 @@ namespace FineCodeCoverage.Engine.Model
             public List<PropertyInfo> PropertyInfos { get; }
         }
 
-        private readonly Dictionary<Type, PropertyInfo[]> coverageSettingsPropertyInfosLookup;
-        private Dictionary<Type, List<PropertyInfo>> optionsPropertyLookup;
+        private readonly Dictionary<Type, PropertyInfo[]> coverageSettingsInterfacesPropertyInfosLookup;
+        private Dictionary<Type, List<PropertyInfo>> optionsTypeCoverageSettingsInterfacesPropertyLookup;
         public CoverageSettingsReflectionService()
         {
             var interfaces = typeof(CoverageSettings).FindInterfaces((type, _) => type != typeof(ICoverageSettings), null);
-            coverageSettingsPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace,iFace => iFace.GetProperties());
-            CoverageSettingsPropertyInfos = coverageSettingsPropertyInfosLookup.Values.SelectMany(v => v).ToList();
+            coverageSettingsInterfacesPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace,iFace => iFace.GetProperties());
+            CoverageSettingsPropertyInfos = coverageSettingsInterfacesPropertyInfosLookup.Values.SelectMany(v => v).ToList();
         }
 
-        private IEnumerable<OptionPropertyInfos> GetOptionPropertyInfos(IEnumerable<OptionInfo> optionInfos)
+        private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
+           IEnumerable<object> coverageSettingsOptions
+        )
         {
-            if (optionsPropertyLookup == null)
+            var optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option));
+            return GetOptionCoverageSettingsInterfacesPropertyInfos(optionInfos);
+        }
+
+        private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
+            IEnumerable<OptionInfo> optionInfos
+        )
+        {
+            if (optionsTypeCoverageSettingsInterfacesPropertyLookup == null)
             {
-                this.optionsPropertyLookup = new Dictionary<Type, List<PropertyInfo>>();
-                foreach(var optionInfo in optionInfos)
-                {
-                    var optionPropertyInfos = new List<PropertyInfo>();
-                    var optionType = optionInfo.Option.GetType();
-                    foreach(var optionInterface in optionType.GetInterfaces())
-                    {
-                        if (coverageSettingsPropertyInfosLookup.TryGetValue(optionInterface, out var optionInterfacePropertyInfos))
-                        {
-                            optionPropertyInfos.AddRange(optionInterfacePropertyInfos);
-                        }
-                    }
-                    optionsPropertyLookup[optionType] = optionPropertyInfos;
-                }
+                CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(optionInfos);
             }
-            return optionInfos.Select(o => new OptionPropertyInfos(o.Option, optionsPropertyLookup[o.Option.GetType()]));
+            return optionInfos.Select(o => new OptionCoverageSettingsInterfacesPropertyInfos(
+                o.Option, optionsTypeCoverageSettingsInterfacesPropertyLookup[o.Type]));
+        }
+
+        private void CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(IEnumerable<OptionInfo> optionInfos)
+        {
+            this.optionsTypeCoverageSettingsInterfacesPropertyLookup = new Dictionary<Type, List<PropertyInfo>>();
+            foreach (var optionInfo in optionInfos)
+            {
+                var optionInterfacesPropertyInfos = new List<PropertyInfo>();
+                foreach (var optionInterfaceType in optionInfo.InterfaceTypes)
+                {
+                    if (coverageSettingsInterfacesPropertyInfosLookup.TryGetValue(optionInterfaceType, out var optionInterfacePropertyInfos))
+                    {
+                        optionInterfacesPropertyInfos.AddRange(optionInterfacePropertyInfos);
+                    }
+                }
+                optionsTypeCoverageSettingsInterfacesPropertyLookup[optionInfo.Type] = optionInterfacesPropertyInfos;
+            }
         }
 
         public List<PropertyInfo> CoverageSettingsPropertyInfos { get; }
 
         public CoverageSettings CreateCoverageSettingsFromOptions(IEnumerable<object> coverageSettingsOptions)
         {
-            var optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option, option.GetType()));
-            var optionsPropertyInfos = GetOptionPropertyInfos(optionInfos);
-
             var coverageSettings = new CoverageSettings();
-            foreach(var optionPropertyInfos in optionsPropertyInfos)
+
+            foreach(var optionCoverageSettingsInterfacesPropertyInfos in GetOptionCoverageSettingsInterfacesPropertyInfos(coverageSettingsOptions))
             {
-                SetFromOptions(coverageSettings, optionPropertyInfos);
+                SetCovergeSettingsFromOptions(coverageSettings, optionCoverageSettingsInterfacesPropertyInfos);
             }
             return coverageSettings;
         }
 
-        private void SetFromOptions(CoverageSettings coverageSettings, OptionPropertyInfos optionPropertyInfos)
+        private void SetCovergeSettingsFromOptions(CoverageSettings coverageSettings, OptionCoverageSettingsInterfacesPropertyInfos optionPropertyInfos)
         {
             foreach (var property in optionPropertyInfos.PropertyInfos)
             {
-                var value = property.GetValue(optionPropertyInfos.Option);
-                if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))
-                {
-                    if (property.PropertyType == typeof(string[]))
-                    {
-                        if (value is string[] valueArray)
-                        {
-                            value = valueArray.Clone();
-                        }
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException($"nameof(CoverageSettings) has property {property.Name} with unsupported type {property.PropertyType}");
-                    }
-                }
+                var value = GetOptionValueCloneArrays(optionPropertyInfos.Option, property);
                 property.SetValue(coverageSettings, value);
             }
+        }
+
+        private object GetOptionValueCloneArrays(object option,PropertyInfo property)
+        {
+            var value = property.GetValue(option);
+            if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))
+            {
+                if (property.PropertyType == typeof(string[]))
+                {
+                    if (value is string[] valueArray)
+                    {
+                        value = valueArray.Clone();
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException($"nameof(CoverageSettings) has property {property.Name} with unsupported type {property.PropertyType}");
+                }
+            }
+            return value;
         }
     }
 }

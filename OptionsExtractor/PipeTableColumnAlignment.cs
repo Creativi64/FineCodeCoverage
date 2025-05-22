@@ -1,4 +1,4 @@
 ﻿namespace OptionsExtractor
 {
-    enum PipeTableColumnAlignment { None, Left, Center, Right }
+    public enum PipeTableColumnAlignment { None, Left, Center, Right }
 }

@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Engine.Model
             this.coverageSettingsReflectionService = coverageSettingsReflectionService;
         }
 
-        private CoverageSettings GetSettingsFromAppOptions()
+        private CoverageSettings GetSettingsFromOptions()
             => this.coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
                 this.coveragSettingsOptionsProvider.Get());
 
@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             var settingsFilesElements = GetSettingsFilesElements(coverageProject);
             var projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
-            var coverageSettings = GetSettingsFromAppOptions();
+            var coverageSettings = GetSettingsFromOptions();
             if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
             {
                 await settingsMerger.MergeAsync(

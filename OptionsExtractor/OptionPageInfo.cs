@@ -22,12 +22,12 @@ namespace OptionsExtractor
 
                 var categoryAttribute = p.GetCustomAttribute<CategoryAttribute>();
                 var category = categoryAttribute == null ? "Misc" : categoryAttribute.Category;
-                return new PropertyCategoryDisplayNameDescription(displayName, description, category);
+                return new PropertyCategoryNamesDescription(displayName, description, category, p.Name);
             }).GroupBy(PropertyCategoryDisplayNameDescription => PropertyCategoryDisplayNameDescription.Category)
-            .Select(g => new CategorizedPropertyDisplayNameDescriptions(g.Key,g));
+            .Select(g => new CategorizedPropertyNamesDescriptions(g.Key,g));
         }
         public string TypeName { get; }
         public string PageName { get; }
-        public IEnumerable<CategorizedPropertyDisplayNameDescriptions> PropertyCategories { get; }
+        public IEnumerable<CategorizedPropertyNamesDescriptions> PropertyCategories { get; }
     }
 }

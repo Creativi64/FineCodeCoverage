@@ -216,6 +216,10 @@
       <Project>{59a22196-a750-4ba4-b30e-be1422e68b8e}</Project>
       <Name>FineCodeCoverage2022</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OptionsExtractor\OptionsExtractor.csproj">
+      <Project>{667f9931-7c47-46b8-9d96-4f29da1e53f8}</Project>
+      <Name>OptionsExtractor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{B1F5830C-2ACB-4ECC-AD8C-8EAADCA586DA}</Project>
       <Name>TreeGrid</Name>

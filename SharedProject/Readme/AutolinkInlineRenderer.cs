@@ -1,0 +1,41 @@
+﻿using Markdig.Renderers;
+using Markdig.Syntax.Inlines;
+using System;
+using System.Windows.Documents;
+using Markdig.Wpf;
+
+namespace FineCodeCoverage.Readme
+{
+    public class AutolinkInlineRenderer : NotifyingObjectRenderer<AutolinkInline>
+    {
+        protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, AutolinkInline link)
+        {
+            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
+            if (link == null) throw new ArgumentNullException(nameof(link));
+
+            var url = link.Url;
+            if (link.IsEmail)
+            {
+                url = "mailto:" + url;
+            }
+
+            if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
+            {
+                url = "#";
+            }
+
+            var hyperlink = new Hyperlink
+            {
+                Command = Commands.Hyperlink,
+                CommandParameter = url,
+                NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
+                ToolTip = link.Url,
+            };
+
+            renderer.Push(hyperlink);
+            renderer.WriteText(link.Url);
+            renderer.Pop();
+            return new ElementAndMarker(hyperlink, MarkdownTypeMarker.AutolinkInline);
+        }
+    }
+}

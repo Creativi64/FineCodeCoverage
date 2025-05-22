@@ -1,6 +1,6 @@
 ﻿namespace OptionsExtractor
 {
-    internal class PipeTableHeader
+    public class PipeTableHeader
     {
         public PipeTableHeader(string contents, PipeTableColumnAlignment alignment = default)
         {

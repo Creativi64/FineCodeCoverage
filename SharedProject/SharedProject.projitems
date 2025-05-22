@@ -653,6 +653,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSolutionOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ZeroToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\UIClearer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\AutolinkInlineRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\CodeBlockRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\CodeInlineRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\EmphasisInlineRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\HeadingRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\LinkInlineRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdownTypeMarker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\NotifyingObjectRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ParagraphRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\QuoteBlockRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\TableRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\TaskListRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ThematicBreakRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\UnstyledWpfRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
       <DependentUpon>BaseDialogControl.xaml</DependentUpon>
@@ -847,8 +861,8 @@
     <Folder Include="$(MSBuildThisFileDirectory)Options\SettingsStore\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)..\README.md">
-      <Link>ReadMeAndAssets\README.md</Link>
+    <Content Include="$(MSBuildThisFileDirectory)..\README-Template.md">
+      <Link>ReadMeAndAssets\README-Template.md</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\Art\*.png">

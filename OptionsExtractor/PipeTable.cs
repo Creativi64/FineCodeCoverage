@@ -5,9 +5,9 @@ using System.Text;
 
 namespace OptionsExtractor
 {
-    internal static class PipeTable
+    internal class PipeTable : IPipeTable
     {
-        public static string GetString(IEnumerable<PipeTableHeader> headers, IEnumerable<IEnumerable<string>> rows, int numHeaderHyphens = 3, bool pipesOnEnd = true)
+        public string GetString(IEnumerable<PipeTableHeader> headers, IEnumerable<IEnumerable<string>> rows, int numHeaderHyphens = 3, bool pipesOnEnd = true)
         {
             if (numHeaderHyphens < 3)
             {
@@ -24,6 +24,7 @@ namespace OptionsExtractor
             }
             return stringBuilder.ToString();
         }
+        
         private static void AddHeaders(StringBuilder sb, IEnumerable<PipeTableHeader> headers, string hyphens, bool pipesOnEnd, int numHeaders)
         {
             AddRow(sb, headers.Select(h => h.Contents), pipesOnEnd, numHeaders);

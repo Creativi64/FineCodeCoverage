@@ -12,6 +12,8 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Settings;
+using OptionsExtractor;
+using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Readme
 {
@@ -22,6 +24,7 @@ namespace FineCodeCoverage.Readme
         private readonly WritableSettingsStore writableUserSettingsStore;
         private readonly IProcess process;
         private readonly IToolWindowService toolWindowService;
+        private readonly IReadmeOptionsReplacer readmeOptionsReplacer;
         private string markdown;
         private const string readMeShowCollection = "FCCReadmeShowCollection";
         private const string readMeShownProperty = "FCCReadmeShown";
@@ -32,13 +35,15 @@ namespace FineCodeCoverage.Readme
         public ReadMeService(
             IProcess process,
             IToolWindowService toolWindowService,
-            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider
+            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
+            IReadmeOptionsReplacer readmeOptionsReplacer
         )
         {
             this.writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
             this.HasShownReadMe = this.writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
             this.process = process;
             this.toolWindowService = toolWindowService;
+            this.readmeOptionsReplacer = readmeOptionsReplacer;
         }
 
         // alternative is html
@@ -49,7 +54,7 @@ namespace FineCodeCoverage.Readme
             {
                 if(this.markdown == null)
                 {
-                    FileInfo readmeFile = GetReadMeFile();
+                    FileInfo readmeFile = GetReadMeTemplateFile();
                     MarkdownDocument markdownDocument = GetMarkdownDocument(readmeFile);
                     FixPaths(markdownDocument, readmeFile.Directory);
 
@@ -57,7 +62,12 @@ namespace FineCodeCoverage.Readme
                     // and instead construct the FlowDocument manually
                     // https://github.com/Kryptos-FR/markdig.wpf/blob/3dced7721c9245b618ce62732d4e078b38d22a89/src/Markdig.Wpf/MarkdownViewer.cs#L84
 
-                    this.markdown = MardownDocumentToString(markdownDocument);
+                    this.markdown = this.readmeOptionsReplacer.ReplaceReadMeMarkerWithOptionsTable(
+                        MardownDocumentToString(markdownDocument),
+                        "{{FCCOptionsTable}}",
+                        typeof(FCCPackage),
+                        typeof(CoverageSettings)
+                        );
                 }
 
                 return this.markdown;
@@ -130,10 +140,10 @@ namespace FineCodeCoverage.Readme
             }
         }
 
-        private static FileInfo GetReadMeFile()
+        private static FileInfo GetReadMeTemplateFile()
         {
             DirectoryInfo dir = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
-            return dir.EnumerateFiles("README.md", SearchOption.AllDirectories).FirstOrDefault();
+            return dir.EnumerateFiles("README-Template.md", SearchOption.AllDirectories).FirstOrDefault();
         }
 
         private static MarkdownDocument GetMarkdownDocument(FileInfo readmeFile)
