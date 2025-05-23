@@ -2,8 +2,6 @@
 
 [![Highlights video](https://img.youtube.com/vi/CvrySUcTi7I/0.jpg)](https://youtu.be/CvrySUcTi7I)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/yq8s0ridnphpx4ig?svg=true)](https://ci.appveyor.com/project/FortuneN/finecodecoverage)
-
 Download this extension from the [Visual Studio Market Place ( vs 2019 )](https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage), [Visual Studio Market Place ( vs 2022 )](https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage2022)
 or download from [releases](https://github.com/FortuneN/FineCodeCoverage/releases). Older versions can be obtained from [here](https://ci.appveyor.com/project/FortuneN/finecodecoverage/history).
 

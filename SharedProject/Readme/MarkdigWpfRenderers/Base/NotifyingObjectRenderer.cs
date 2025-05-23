@@ -6,22 +6,6 @@ using System.Collections.Generic;
 
 namespace FineCodeCoverage.Readme
 {
-    public class ElementAndMarker
-    {
-        public ElementAndMarker(object element, MarkdownTypeMarker marker)
-        {
-            this.Element = element;
-            this.Marker = marker;
-        }
-
-        public object Element { get; }
-        public MarkdownTypeMarker Marker { get; }
-    }
-    public interface INotifiyingObjectRenderer : IMarkdownObjectRenderer
-    {
-        event EventHandler<List<ElementAndMarker>> CreatedEvent;
-    }
-
     public class NotifyingObjectRenderer<TObject> :  WpfObjectRenderer<TObject>, INotifiyingObjectRenderer where TObject : MarkdownObject
     {
         public event EventHandler<List<ElementAndMarker>> CreatedEvent;

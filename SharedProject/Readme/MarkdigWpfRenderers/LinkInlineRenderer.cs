@@ -1,11 +1,9 @@
-﻿using Markdig.Renderers.Wpf;
-using Markdig.Renderers;
+﻿using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
 using System;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
-using System.Windows;
 using Markdig.Wpf;
 
 namespace FineCodeCoverage.Readme
@@ -27,14 +25,13 @@ namespace FineCodeCoverage.Readme
 
             if (link.IsImage)
             {
-                var template = new ControlTemplate();
-                var image = new FrameworkElementFactory(typeof(Image));
-                image.SetValue(Image.SourceProperty, new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)));
-                template.VisualTree = image;
-
+                var image = new Image
+                {
+                    Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)),
+                };
                 var btn = new Button()
                 {
-                    Template = template,
+                    Content = image,
                     Command = Commands.Image,
                     CommandParameter = url
                 };

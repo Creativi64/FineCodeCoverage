@@ -22,29 +22,22 @@ namespace FineCodeCoverage.Readme
 
         private MarkdownTypeMarker GetMarker(int level)
         {
-            MarkdownTypeMarker markdownTypeMarker = MarkdownTypeMarker.HeadingBlock1;
             switch (level)
             {
                 case 1:
-                    markdownTypeMarker = MarkdownTypeMarker.HeadingBlock1;
-                    break;
+                    return MarkdownTypeMarker.HeadingBlock1;
                 case 2:
-                    markdownTypeMarker = MarkdownTypeMarker.HeadingBlock2;
-                    break;
+                    return MarkdownTypeMarker.HeadingBlock2;
                 case 3:
-                    markdownTypeMarker = MarkdownTypeMarker.HeadingBlock3;
-                    break;
+                    return MarkdownTypeMarker.HeadingBlock3;
                 case 4:
-                    markdownTypeMarker = MarkdownTypeMarker.HeadingBlock4;
-                    break;
+                    return MarkdownTypeMarker.HeadingBlock4;
                 case 5:
-                    markdownTypeMarker = MarkdownTypeMarker.HeadingBlock5;
-                    break;
+                    return MarkdownTypeMarker.HeadingBlock5;
                 case 6:
-                    markdownTypeMarker = MarkdownTypeMarker.HeadingBlock6;
-                    break;
+                    return MarkdownTypeMarker.HeadingBlock6;
             }
-            return markdownTypeMarker;
+            return MarkdownTypeMarker.HeadingBlock1;
         }
     }
 

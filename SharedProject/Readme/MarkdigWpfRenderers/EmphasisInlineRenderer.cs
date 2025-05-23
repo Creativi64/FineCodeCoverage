@@ -12,7 +12,6 @@ namespace FineCodeCoverage.Readme
             if (renderer == null) throw new ArgumentNullException(nameof(renderer));
             if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-            
             Span span = null;
             MarkdownTypeMarker? markdownTypeMarker = null;
             if (obj.DelimiterChar == '*' || obj.DelimiterChar == '_')
@@ -21,7 +20,6 @@ namespace FineCodeCoverage.Readme
             }
             else
             {
-                
                 switch (obj.DelimiterChar)
                 {
                     case '~':

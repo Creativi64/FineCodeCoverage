@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,8 +6,24 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 namespace FineCodeCoverage.Readme
 {
+    internal static class EnumStyleResourceHelper {
+        public static Dictionary<TEnum,Style> GetEnumKeyedStyles<TEnum>(this FrameworkElement frameworkElement) where TEnum : Enum
+        {
+            var styleDictionary = new Dictionary<TEnum, Style>();
+            Enum.GetValues(typeof(TEnum)).OfType<TEnum>().ToList().ForEach(enumValue =>
+            {
+                if (frameworkElement.TryFindResource(enumValue) is Style style)
+                {
+                    styleDictionary.Add(enumValue, style);
+                }
+            });
+            return styleDictionary;
+        }
+    }
+
     public partial class ReadmeControl : UserControl
     {
+        private readonly Dictionary<MarkdownTypeMarker, Style> styleDictionary;
         private readonly IReadMeMarkdownViewModel readMeMarkdownViewModel;
 
         /// <summary>
@@ -16,9 +31,25 @@ namespace FineCodeCoverage.Readme
         /// </summary>
         public ReadmeControl(IReadMeMarkdownViewModel readMeMarkdownViewModel)
         {
-            this.InitializeComponent();
-            this.Loaded += ReadmeControl_Loaded;
             this.readMeMarkdownViewModel = readMeMarkdownViewModel;
+            this.InitializeComponent();
+            this.styleDictionary = this.GetEnumKeyedStyles<MarkdownTypeMarker>();
+            if(readMeMarkdownViewModel.FlowDocumentElementMarkers != null)
+            {
+                SetFlowDocument();
+            }
+            else
+            {
+                readMeMarkdownViewModel.ReadyEvent += (s, e) => SetFlowDocument();
+            }
+        }
+
+        private void SetFlowDocument()
+        {
+            SetStyles(this.readMeMarkdownViewModel.FlowDocumentElementMarkers.ElementAndMarkers);
+            var flowDocument = this.readMeMarkdownViewModel.FlowDocumentElementMarkers.FlowDocument;
+            SetStyle(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
+            FlowDocument = flowDocument;
         }
 
         public FlowDocument FlowDocument
@@ -29,57 +60,22 @@ namespace FineCodeCoverage.Readme
 
         public static readonly DependencyProperty FlowDocumentProperty =
             DependencyProperty.Register(nameof(FlowDocument), typeof(FlowDocument), typeof(ReadmeControl), new PropertyMetadata(null));
-        private Dictionary<MarkdownTypeMarker, Style> styleDictionary;
 
-        private void ReadmeControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                SetStyleDictionary();
-                var (flowDocument, elementAndMarkers) = FCCMarkdownToFlowDocumentConverter.MarkdownToFlowDocument(readMeMarkdownViewModel.MarkdownString);
-                SetStyles(elementAndMarkers);
-                FlowDocument = flowDocument;
-            }).FileAndForget("OOPS");
-        }
+        private void SetStyles(List<ElementAndMarker> elementAndMarkers) => elementAndMarkers.ForEach(SetStyle);
 
-        private void SetStyleDictionary()
+        private void SetStyle(ElementAndMarker elementAndMarker)
         {
-            styleDictionary = new Dictionary<MarkdownTypeMarker, Style>();
-            Enum.GetValues(typeof(MarkdownTypeMarker)).OfType<MarkdownTypeMarker>().ToList().ForEach(marker =>
+            if (this.styleDictionary.TryGetValue(elementAndMarker.Marker, out var style))
             {
-                if (TryFindResource(marker) is Style style)
+                var element = elementAndMarker.Element;
+                if (element is FrameworkContentElement fce)
                 {
-                    styleDictionary.Add(marker, style);
+                    fce.Style = style;
                 }
-            });
-        }
-
-        private void SetStyles(List<ElementAndMarker> elementAndMarkers)
-        {
-            foreach (var elementAndMarker in elementAndMarkers)
-            {
-                // special consideration for images....
-                var marker = elementAndMarker.Marker;
-                if (marker == MarkdownTypeMarker.LinkInlineImage)
+                else if(element is FrameworkElement fe)
                 {
-
+                    fe.Style = style;
                 }
-                else
-                {
-                    if (elementAndMarker.Element is DependencyObject dependencyObject)
-                    {
-                        SetStyle(marker, dependencyObject);
-                    }
-                }
-            }
-        }
-
-        private void SetStyle(MarkdownTypeMarker marker, DependencyObject dependencyObject)
-        {
-            if (this.styleDictionary.TryGetValue(marker, out var style))
-            {
-                dependencyObject.SetValue(FrameworkElement.StyleProperty, style);
             }
         }
 

@@ -29,7 +29,7 @@
         LinkInlineHyperlink, // Hyperlink
         LinkInlineImage,// Image factory
 
-        TaskList,
+        TaskList, // Checkbox
 
         Table, // Table
         TableHeader, // TableRow

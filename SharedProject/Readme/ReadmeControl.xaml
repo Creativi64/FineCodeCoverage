@@ -3,131 +3,225 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+             xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
              xmlns:platformui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" 
              xmlns:local="clr-namespace:FineCodeCoverage.Readme"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Name="MyToolWindow">
-    
+             Name="MyToolWindow"
+             Background="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
+             Foreground="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"
+             >
     <FrameworkElement.CommandBindings>
         <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenHyperlink" />
         <CommandBinding Command="{x:Static markdig:Commands.Image}" Executed="ClickOnImage" />
     </FrameworkElement.CommandBindings>
     <UserControl.Resources>
-        <Style x:Key="{x:Static local:MarkdownTypeMarker.CodeBlock}" TargetType="{x:Type Paragraph}">
-            <Setter Property="Foreground" Value="Green"/>
-            <Setter Property="Background" Value="Red"/>
-        </Style> 
-        <!-- https://github.com/Kryptos-FR/markdig.wpf/blob/main/src/Markdig.Wpf/Styles.cs -->
-        <!-- https://github.com/Kryptos-FR/markdig.wpf/blob/main/src/Markdig.Wpf/Themes/generic.xaml -->
-        <Style x:Key="{x:Static markdig:Styles.DocumentStyleKey}" TargetType="{x:Type FlowDocument}">
-            <Setter Property="FlowDocument.FontFamily" Value="Segoe UI"/>
-            <Setter Property="FlowDocument.FontSize" Value="20"/>
+         <!-- visual studio 2022 has a resource dictionary Source="/Microsoft.VisualStudio.Shell.UI.Internal;component/Common/Markdown/ThemedMarkdig.xaml" -->
+        <!-- although the What's New Page overrides the style of the flow document to use Environment111PercentFontSizeKey-->
+        <local:HyperlinkContainsImageConverter x:Key="HyperlinkContainsImageConverter"/>
+        <Style x:Key="HyperlinkFocusVisualStyle">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="-2,-1" SnapsToDevicePixels="true"
+                     Stroke="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"
+                     StrokeDashArray="1 2" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="FlowDocumentReaderFocusVisualStyle">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="0" SnapsToDevicePixels="true"
+                     Stroke="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"
+                     StrokeDashArray="1 2" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.FlowDocument}"
+         TargetType="{x:Type FlowDocument}">
+            <Setter Property="FlowDocument.FontFamily"
+            Value="{DynamicResource {x:Static vsShell:VsFonts.EnvironmentFontFamilyKey}}"/>
+            <Setter Property="FlowDocument.FontSize"
+            Value="{DynamicResource {x:Static vsShell:VsFonts.EnvironmentFontSizeKey}}"/>
             <Setter Property="FlowDocument.TextAlignment" Value="Left"/>
-            <Setter Property="FlowDocument.PagePadding" Value="10"/>
-            <Setter Property="FlowDocument.Background" Value="Pink"/>
-        </Style>
-        <Style x:Key="{x:Static markdig:Styles.ParagraphStyleKey}"  TargetType="{x:Type Paragraph}">
-            <Setter Property="FontSize" Value="50"/>
-            <Setter Property="Foreground" Value="Green"/>
-            <Setter Property="Background" Value="Red"/>
-        </Style>
-
-        <Style x:Key="{x:Static markdig:Styles.HyperlinkStyleKey}" TargetType="{x:Type Hyperlink}">
-            <!--<Setter Property="Inline.TextDecorations">
-    <Setter.Value>
-        <TextDecorationCollection></TextDecorationCollection>
-    </Setter.Value>
-</Setter>-->
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformui:EnvironmentColors.PanelHyperlinkBrushKey}}"/>
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Inline.TextDecorations" Value="Underline"/>
-                    <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformui:EnvironmentColors.PanelHyperlinkHoverBrushKey}}"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
+            <Setter Property="FlowDocument.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+            <Setter Property="FlowDocument.Foreground"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="ContentElement.Focusable" Value="False"/>
+            <!-- FCC -->
+            <Setter Property="IsOptimalParagraphEnabled" Value="true"/>
+            <Setter Property="IsHyphenationEnabled" Value="true"/>
         </Style>
         <Style TargetType="{x:Type List}">
-            <Setter Property="Block.Margin" Value="0"/>
-            <Setter Property="Block.Padding" Value="15,0,0,0"/>
-        </Style>
-        <Style x:Key="{x:Static markdig:Styles.ThematicBreakStyleKey}" TargetType="{x:Type Line}">
-            <Setter Property="Stretch" Value="Fill"/>
-            <Setter Property="Stroke" Value="Orange"/>
-        </Style>
-
-
-        <Style x:Key="{x:Static markdig:Styles.Heading1StyleKey}" TargetType="{x:Type Paragraph}">
-            <Setter Property="TextElement.FontSize" Value="19"/>
+            <Setter Property="Block.Margin" Value="40,0,0,0"/>
+            <Setter Property="Block.Padding" Value="0,0,0,0"/>
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
             <Setter Property="TextElement.Foreground"
-            Value="Yellow"/>
-            <Setter Property="TextElement.FontWeight" Value="Light"/>
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         </Style>
-        <Style x:Key="{x:Static markdig:Styles.Heading2StyleKey}" TargetType="{x:Type Paragraph}">
-            <Setter Property="TextElement.FontSize" Value="17"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.CodeBlock}" TargetType="{x:Type Paragraph}">
+            <Setter Property="Block.Padding" Value="10"/>
+            <Setter Property="Block.BorderThickness" Value="1"/>
+            <Setter Property="Block.BorderBrush"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBorderBrushKey}}"/>
+            <!-- why not use ToolWindowCodeBlockBackgroundBrushKey as per code inline ?-->
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowContentGridBrushKey}}"/>
             <Setter Property="TextElement.Foreground"
-            Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"/>
-            <Setter Property="TextElement.FontWeight" Value="Light"/>
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="TextElement.FontFamily"
+            Value="Consolas, Lucida Sans Typewriter, Courier New"/>
         </Style>
-        <Style x:Key="{x:Static markdig:Styles.Heading3StyleKey}" TargetType="{x:Type Paragraph}">
-            <Setter Property="TextElement.FontSize" Value="16"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.CodeInline}" TargetType="{x:Type Run}">
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowContentGridBrushKey}}"/>
+            <!-- not available in 2019 -->
+            <!--<Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowCodeBlockBackgroundBrushKey}}"/>-->
             <Setter Property="TextElement.Foreground"
-            Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"/>
-            <Setter Property="TextElement.FontWeight" Value="Light"/>
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="TextElement.FontFamily"
+            Value="Consolas, Lucida Sans Typewriter, Courier New"/>
         </Style>
-        <Style x:Key="{x:Static markdig:Styles.Heading4StyleKey}" TargetType="{x:Type Paragraph}">
-            <Setter Property="TextElement.FontSize" Value="15"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock1}" TargetType="{x:Type Paragraph}">
+            <Setter Property="TextElement.FontSize"
+            Value="{DynamicResource {x:Static vsShell:VsFonts.Environment283PercentFontSizeKey}}"/>
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
             <Setter Property="TextElement.Foreground"
-            Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"/>
-            <Setter Property="TextElement.FontWeight" Value="Light"/>
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="TextElement.FontWeight" Value="Bold"/>
         </Style>
-        <Style x:Key="{x:Static markdig:Styles.Heading5StyleKey}" TargetType="{x:Type Paragraph}">
-            <Setter Property="TextElement.FontSize" Value="14"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock2}" TargetType="{x:Type Paragraph}">
+            <Setter Property="TextElement.FontSize"
+            Value="{DynamicResource {x:Static vsShell:VsFonts.Environment200PercentFontSizeKey}}"/>
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
             <Setter Property="TextElement.Foreground"
-            Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"/>
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="TextElement.FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock3}" TargetType="{x:Type Paragraph}">
+            <Setter Property="TextElement.FontSize"
+            Value="{DynamicResource {x:Static vsShell:VsFonts.Environment133PercentFontSizeKey}}"/>
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+            <Setter Property="TextElement.Foreground"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="TextElement.FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock4}" TargetType="{x:Type Paragraph}">
+            <Setter Property="TextElement.FontSize"
+            Value="{DynamicResource {x:Static vsShell:VsFonts.Environment133PercentFontSizeKey}}"/>
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+            <Setter Property="TextElement.Foreground"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
             <Setter Property="TextElement.FontWeight" Value="Light"/>
             <Setter Property="Paragraph.TextDecorations" Value="Underline"/>
         </Style>
-
-        <Style x:Key="{x:Static markdig:Styles.TableStyleKey}" TargetType="{x:Type Table}">
-            <Setter Property="Block.BorderBrush" Value="{DynamicResource {x:Static vsshell:VsBrushes.GridLineKey}}"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock5}" TargetType="{x:Type Paragraph}"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock6}" TargetType="{x:Type Paragraph}"/>
+        
+        <Style 
+         TargetType="{x:Type Hyperlink}">
+            <Setter Property="TextElement.Foreground"
+            Value="{DynamicResource {x:Static platformui:CommonDocumentColors.HyperlinkBrushKey}}"/>
+            <Setter Property="FrameworkContentElement.FocusVisualStyle"
+            Value="{StaticResource HyperlinkFocusVisualStyle}"/>
+            <Style.Triggers>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <Binding Path="Inlines" RelativeSource="{RelativeSource Self}"
+                   Converter="{StaticResource HyperlinkContainsImageConverter}"/>
+                    </DataTrigger.Binding>
+                    <Setter Property="Inline.TextDecorations" Value="None"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.LinkInlineImage}" TargetType="{x:Type Image}">
+            <Setter Property="FrameworkElement.MaxHeight">
+                <Setter.Value>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="Source.(BitmapSource.PixelHeight)"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FrameworkElement.MaxWidth">
+                <Setter.Value>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="Source.(BitmapSource.PixelWidth)"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.Paragraph}"
+         TargetType="{x:Type Paragraph}">
+            <Setter Property="Block.Margin" Value="0,8,0,8"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.QuoteBlock}" TargetType="{x:Type Section}">
+            <Setter Property="Block.BorderBrush"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBorderBrushKey}}"/>
+            <Setter Property="Block.BorderThickness" Value="4,0,0,0"/>
+            <Setter Property="TextElement.Foreground"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolboxContentTextBrushKey}}"/>
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolboxContentBrushKey}}"/>
+            <Setter Property="Block.Padding" Value="16,0,0,0"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.Table}" TargetType="{x:Type Table}">
+            <Setter Property="Block.BorderBrush"
+            Value="{DynamicResource {x:Static platformui:CommonControlsColors.TextBoxBorderBrushKey}}"/>
             <Setter Property="Block.BorderThickness" Value="0,0,1,1"/>
             <Setter Property="Table.CellSpacing" Value="0"/>
         </Style>
-        <Style x:Key="{x:Static markdig:Styles.TableCellStyleKey}" TargetType="{x:Type TableCell}">
-            <Setter Property="TableCell.BorderBrush" Value="{DynamicResource {x:Static vsshell:VsBrushes.GridLineKey}}"/>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.TableCell}"
+         TargetType="{x:Type TableCell}">
+            <Setter Property="TableCell.BorderBrush"
+            Value="{DynamicResource {x:Static platformui:CommonControlsColors.TextBoxBorderBrushKey}}"/>
             <Setter Property="TableCell.BorderThickness" Value="1,1,0,0"/>
-            <Setter Property="TableCell.Padding" Value="4"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.TableHeader}"
+         TargetType="{x:Type TableRow}">
+            <Setter Property="TextElement.FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.TaskList}" TargetType="{x:Type CheckBox}">
+            <Setter Property="FrameworkElement.Margin" Value="0,0,0,-2"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.ThematicBreakBlock}" TargetType="{x:Type Line}">
+            <Setter Property="Shape.Stretch" Value="Fill"/>
+            <Setter Property="Shape.Stroke"
+            Value="{DynamicResource {x:Static platformui:CommonControlsColors.ComboBoxGlyphBrushKey}}"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.EmphasisInlineSubscript}" TargetType="{x:Type Span}">
+            <Setter Property="Typography.Variants" Value="Subscript"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.EmphasisInlineSuperscript}" TargetType="{x:Type Span}">
+            <Setter Property="Typography.Variants" Value="Superscript"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.EmphasisInlineStrikeThrough}" TargetType="{x:Type Span}">
+            <Setter Property="TextBlock.TextDecorations" Value="Strikethrough"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.EmphasisInlineInserted}" TargetType="{x:Type Span}">
+            <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
+        </Style>
+        <Style x:Key="{x:Static local:MarkdownTypeMarker.EmphasisInlineMarked}" TargetType="{x:Type Span}">
+            <Setter Property="TextElement.Background"
+            Value="{DynamicResource {x:Static platformui:EnvironmentColors.SystemHighlightBrushKey}}"/>
         </Style>
 
-        <Style x:Key="{x:Static markdig:Styles.CodeBlockStyleKey}" TargetType="{x:Type Paragraph}">
-            <Setter Property="TextElement.Foreground"
-            Value="{DynamicResource {x:Static vsshell:VsBrushes.InfoTextKey}}"/>
-            <Setter Property="TextElement.Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.InfoBackgroundKey}}"/>
-            <Setter Property="Block.Padding" Value="2"/>
-            <Setter Property="TextElement.FontFamily" Value="Consolas, Lucida Sans Typewriter, Courier New"/>
+ 
+        <Style TargetType="{x:Type FlowDocumentReader}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FlowDocumentReaderFocusVisualStyle}"/>
         </Style>
-        <Style x:Key="{x:Static markdig:Styles.CodeStyleKey}" TargetType="{x:Type Run}">
-            <Setter Property="TextElement.Foreground"
-            Value="{DynamicResource {x:Static vsshell:VsBrushes.InfoTextKey}}"/>
-            <Setter Property="TextElement.Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.InfoBackgroundKey}}"/>
-            <Setter Property="TextElement.FontFamily" Value="Consolas, Lucida Sans Typewriter, Courier New"/>
-        </Style>
-
-        <Style TargetType="{x:Type FlowDocumentScrollViewer}">
-            <Setter Property="FlowDocumentScrollViewer.SelectionOpacity" Value="0.4"/>
-        </Style>
-
     </UserControl.Resources>
 
-    <!--<markdig:MarkdownViewer Name="Viewer"></markdig:MarkdownViewer>-->
-    <FlowDocumentScrollViewer Document="{Binding ElementName=MyToolWindow, Path=FlowDocument}"
+    <FlowDocumentReader  ViewingMode="Scroll" Document="{Binding ElementName=MyToolWindow, Path=FlowDocument}"
                           ScrollViewer.VerticalScrollBarVisibility="Auto">
     
-    </FlowDocumentScrollViewer>
+    </FlowDocumentReader>
 </UserControl>
