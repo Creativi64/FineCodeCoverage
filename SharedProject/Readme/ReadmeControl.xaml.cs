@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -34,20 +36,17 @@ namespace FineCodeCoverage.Readme
             this.readMeMarkdownViewModel = readMeMarkdownViewModel;
             this.InitializeComponent();
             this.styleDictionary = this.GetEnumKeyedStyles<MarkdownTypeMarker>();
-            if(readMeMarkdownViewModel.FlowDocumentElementMarkers != null)
-            {
-                SetFlowDocument();
-            }
-            else
-            {
-                readMeMarkdownViewModel.ReadyEvent += (s, e) => SetFlowDocument();
-            }
+            SetFlowDocument();
+            
         }
 
         private void SetFlowDocument()
         {
-            SetStyles(this.readMeMarkdownViewModel.FlowDocumentElementMarkers.ElementAndMarkers);
-            var flowDocument = this.readMeMarkdownViewModel.FlowDocumentElementMarkers.FlowDocument;
+            var flowDocumentElementMarkers = this.readMeMarkdownViewModel.ReadmeToFlowDocumentService.MarkdownToFlowDocument(
+                    readMeMarkdownViewModel.ReadmeString
+                );
+            SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
+            var flowDocument = flowDocumentElementMarkers.FlowDocument;
             SetStyle(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
             FlowDocument = flowDocument;
         }

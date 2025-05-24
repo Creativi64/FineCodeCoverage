@@ -30,9 +30,9 @@ namespace FineCodeCoverage.Readme
             FileInfo readmeFile = GetReadMeTemplateFile();
             MarkdownDocument markdownDocument = GetMarkdownDocument(readmeFile);
             FixPaths(markdownDocument, readmeFile.Directory);
-
+            var mdString = MardownDocumentToString(markdownDocument);
             return this.readmeOptionsReplacer.ReplaceReadMeMarkerWithOptionsTable(
-                MardownDocumentToString(markdownDocument),
+                mdString,
                 "{{FCCOptionsTable}}",
                 typeof(FCCPackage),
                 typeof(CoverageSettings)

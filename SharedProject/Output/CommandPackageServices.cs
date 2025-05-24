@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Output
                 {
                     await logger.LogAsync(exception.ToString());
                 }
-            }).FileAndForget("");
+            }).FileAndForget("RunAsyncWithExceptionLogging");
         }
     }
 }

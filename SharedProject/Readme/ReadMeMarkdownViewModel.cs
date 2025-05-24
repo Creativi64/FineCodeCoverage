@@ -23,21 +23,17 @@ namespace FineCodeCoverage.Readme
         {
             this.process = process;
             this.readmeProvider = readmeProvider;
-            this.readmeToFlowDocumentService = readmeToFlowDocumentService;
-            _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
-            {
-                // get off the main thread
-                await TaskScheduler.Default;
-                var readmeString = this.readmeProvider.GetReadme();
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                FlowDocumentElementMarkers = readmeToFlowDocumentService.MarkdownToFlowDocument(readmeString);
-                ReadyEvent?.Invoke(this, EventArgs.Empty);
-            });
+            ReadmeToFlowDocumentService = readmeToFlowDocumentService;
+            ReadmeString = this.readmeProvider.GetReadme();
+            ReadyEvent?.Invoke(this, EventArgs.Empty);
         }
 
 
-        public FlowDocumentElementMarkers FlowDocumentElementMarkers { get; set; }
+        public IReadmeToFlowDocumentService ReadmeToFlowDocumentService { get; }
+        public string ReadmeString { get; }
 
+        #region clicks
+        #region link clicked
         private static bool IsRelativePath(string url) => Uri.IsWellFormedUriString(url, UriKind.Relative);
 
         public void LinkClicked(string url)
@@ -49,7 +45,9 @@ namespace FineCodeCoverage.Readme
 
             this.process.Start(url);
         }
+        #endregion
 
+        #region image clicked
         private static bool IsYoutubeImage(string url) => url.StartsWith("https://img.youtube.com");
 
         public void ImageClicked(string url)
@@ -66,6 +64,7 @@ namespace FineCodeCoverage.Readme
             string videoId = segments[segments.Length - 2];
             return $"https://youtu.be/{videoId}";
         }
+        #endregion
+        #endregion
     }
-
 }

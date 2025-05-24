@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Readme
         void ImageClicked(string url);
 
         void LinkClicked(string url);
-        FlowDocumentElementMarkers FlowDocumentElementMarkers { get;}
+        IReadmeToFlowDocumentService ReadmeToFlowDocumentService { get; }
+        string ReadmeString { get; }
     }
 }

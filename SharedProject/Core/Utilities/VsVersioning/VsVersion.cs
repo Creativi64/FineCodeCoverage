@@ -20,10 +20,7 @@ namespace FineCodeCoverage.Core.Utilities
             IServiceProvider serviceProvider
         )
         {
-#if VS2022
-            this.Is2022 = true;
-
-#endif
+            this.Is2022 = IsVs2022.Value;
             this.serviceProvider = serviceProvider;
         }
 

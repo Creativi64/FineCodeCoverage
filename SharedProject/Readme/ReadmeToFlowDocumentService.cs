@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(IReadmeToFlowDocumentService))]
     internal class ReadmeToFlowDocumentService : IReadmeToFlowDocumentService
     {
-        public  FlowDocumentElementMarkers MarkdownToFlowDocument(string markdown)
+        public FlowDocumentElementMarkers MarkdownToFlowDocument(string markdown)
         {
             var pipeline = new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()

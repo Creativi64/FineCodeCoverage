@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Readme
 {
-    internal interface IReadmeToFlowDocumentService
+    public interface IReadmeToFlowDocumentService
     {
         FlowDocumentElementMarkers MarkdownToFlowDocument(string markdown);
     }

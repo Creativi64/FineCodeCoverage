@@ -7,6 +7,7 @@
              xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
              xmlns:platformui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" 
              xmlns:local="clr-namespace:FineCodeCoverage.Readme"
+             xmlns:fccUtils="clr-namespace:FineCodeCoverage.Core.Utilities"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Name="MyToolWindow"
@@ -81,8 +82,6 @@
             Value="Consolas, Lucida Sans Typewriter, Courier New"/>
         </Style>
         <Style x:Key="{x:Static local:MarkdownTypeMarker.CodeInline}" TargetType="{x:Type Run}">
-            <Setter Property="TextElement.Background"
-            Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowContentGridBrushKey}}"/>
             <!-- not available in 2019 -->
             <!--<Setter Property="TextElement.Background"
             Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowCodeBlockBackgroundBrushKey}}"/>-->
@@ -90,6 +89,16 @@
             Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
             <Setter Property="TextElement.FontFamily"
             Value="Consolas, Lucida Sans Typewriter, Courier New"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source={x:Static fccUtils:IsVs2022.Value}}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowCodeBlockBackgroundBrushKey}}" />
+                </DataTrigger>
+
+                <!-- For Visual Studio 2019 -->
+                <DataTrigger Binding="{Binding Source={x:Static fccUtils:IsVs2022.Value}}" Value="False">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowContentGridBrushKey}}" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock1}" TargetType="{x:Type Paragraph}">
             <Setter Property="TextElement.FontSize"
