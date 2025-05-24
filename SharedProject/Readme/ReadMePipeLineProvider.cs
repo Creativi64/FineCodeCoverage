@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Readme
             var marker = GetMarker(text);
             if (marker != null)
             {
-                var block = new MarkerBlock(marker);
+                var block = new MarkerBlock(marker, this);
                 processor.NewBlocks.Push(block);
                 return BlockState.BreakDiscard;
             }
@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Readme
     }
     public class MarkerBlock : LeafBlock
     {
-        public MarkerBlock(string marker) : base(null) {
+        public MarkerBlock(string marker, MarkerBlockParser parser) : base(parser) {
             Marker = marker;
         }
         public string Marker { get; }
