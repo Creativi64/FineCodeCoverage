@@ -12,7 +12,6 @@ namespace FineCodeCoverage.Readme
     {
         private readonly IProcess process;
         private readonly IReadmeProvider readmeProvider;
-        private readonly IReadmeToFlowDocumentService readmeToFlowDocumentService;
 
         public event EventHandler ReadyEvent;
 

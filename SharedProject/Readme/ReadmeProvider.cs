@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ComponentModel.Composition;
+using System.Linq;
+using FineCodeCoverage.Output;
+using System.Reflection;
+using Markdig;
 
 namespace FineCodeCoverage.Readme
 {
