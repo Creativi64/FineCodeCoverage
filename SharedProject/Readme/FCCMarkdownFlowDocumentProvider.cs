@@ -2,6 +2,7 @@
 using System.Windows.Documents;
 using System.ComponentModel.Composition;
 using Markdig;
+using System.Linq;
 
 namespace FineCodeCoverage.Readme
 {
@@ -18,18 +19,20 @@ namespace FineCodeCoverage.Readme
             this.optionPageTableCreator = optionPageTableCreator;
             this.readMePipeLineProvider = readMePipeLineProvider;
         }
-        public Func<FlowDocumentElementMarkers> Provide(string readmeTemplate, string optionTableReplacementMarker)
+
+        public Func<FlowDocumentElementMarkers> Provide(TemplatedReadmeInfo templatedReadMeInfo, string optionTableReplacementMarker)
         {
             var pipeline = readMePipeLineProvider.Provide(optionTableReplacementMarker, optionPageTableCreator.Create);
-            var markdownDocument = Markdown.Parse(readmeTemplate, pipeline);
+            var markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);
             return () =>
             {
-                var fccWpfRenderer = new FCCMarkdigWpfRenderer();
+                var fccWpfRenderer = new FCCMarkdigWpfRenderer(templatedReadMeInfo.Directory);
                 var flowDocument = new FlowDocument();
                 fccWpfRenderer.LoadDocument(flowDocument);
                 pipeline.Setup(fccWpfRenderer);
                 fccWpfRenderer.Render(markdownDocument);
-                return new FlowDocumentElementMarkers(flowDocument, fccWpfRenderer.ElementAndMarkers);
+                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(optionPageTableCreator.ElementAndMarkers).ToList();
+                return new FlowDocumentElementMarkers(flowDocument, elementAndMarkers);
             };
         }
     }

@@ -10,13 +10,13 @@ namespace FineCodeCoverage.Readme
     internal class ReadMeMarkdownViewModel : IReadMeMarkdownViewModel
     {
         private readonly IProcess process;
-        private readonly IReadmeProvider readmeProvider;
+        private readonly ITemplatedReadmeProvider readmeProvider;
         private readonly IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider;
 
         [ImportingConstructor]
         public ReadMeMarkdownViewModel(
             IProcess process,
-            IReadmeProvider readmeProvider,
+            ITemplatedReadmeProvider readmeProvider,
             IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider
             )
         {
@@ -27,9 +27,10 @@ namespace FineCodeCoverage.Readme
 
         private FlowDocument GetFlowDocument()
         {
-            var templatedReadme = this.readmeProvider.GetReadme();
+            var templatedReadmeInfo = this.readmeProvider.GetTemplatedReadme();
             var flowDocumentElementMarkers = fccMarkdownFlowDocumentProvider.Provide(
-                templatedReadme, "FCCOptionsTable"
+                templatedReadmeInfo,
+                "FCCOptionsTable"
                 )();
             this.ElementAndMarkers = flowDocumentElementMarkers.ElementAndMarkers;
             return flowDocumentElementMarkers.FlowDocument;
@@ -40,7 +41,7 @@ namespace FineCodeCoverage.Readme
             get => GetFlowDocument();
         }
 
-        public List<ElementAndMarker> ElementAndMarkers { get; private set; }
+        public IReadOnlyList<ElementAndMarker> ElementAndMarkers { get; private set; }
 
         #region clicks
         #region link clicked

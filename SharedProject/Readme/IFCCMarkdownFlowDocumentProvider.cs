@@ -4,6 +4,6 @@ namespace FineCodeCoverage.Readme
 {
     interface IFCCMarkdownFlowDocumentProvider
     {
-        Func<FlowDocumentElementMarkers> Provide(string readmeTemplate, string optionTableReplacementMarker);
+        Func<FlowDocumentElementMarkers> Provide(TemplatedReadmeInfo templatedReadMeInfo, string optionTableReplacementMarker);
     }
 }

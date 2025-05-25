@@ -6,32 +6,32 @@ using Microsoft.VisualStudio.Settings;
 
 namespace FineCodeCoverage.Readme
 {
-    [Export(typeof(IReadMeService))]
-    internal class ReadMeService : IReadMeService
+    [Export(typeof(IShowReadMeService))]
+    internal class ShowReadMeService : IShowReadMeService
     {
         private readonly WritableSettingsStore writableUserSettingsStore;
         private readonly IToolWindowService toolWindowService;
         private const string readMeShowCollection = "FCCReadmeShowCollection";
         private const string readMeShownProperty = "FCCReadmeShown";
 
-        public event EventHandler ReadMeShown;
+        public event EventHandler Shown;
 
         [ImportingConstructor]
-        public ReadMeService(
+        public ShowReadMeService(
             IToolWindowService toolWindowService,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider
         )
         {
             this.writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
-            this.HasShownReadMe = this.writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
+            this.HasShown = this.writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
             this.toolWindowService = toolWindowService;
         }
 
-        public bool HasShownReadMe { get; private set; }
+        public bool HasShown { get; private set; }
 
-        public void ShowReadMe()
+        public void Show()
         {
-            if (!this.HasShownReadMe)
+            if (!this.HasShown)
             {
                 if(!this.writableUserSettingsStore.CollectionExists(readMeShowCollection))
                 {
@@ -39,8 +39,8 @@ namespace FineCodeCoverage.Readme
                 }
                 this.writableUserSettingsStore.SetBoolean(readMeShowCollection, readMeShownProperty, true);
             }
-            this.HasShownReadMe = true;
-            ReadMeShown?.Invoke(this, EventArgs.Empty);
+            this.HasShown = true;
+            Shown?.Invoke(this, EventArgs.Empty);
 
             _ = this.toolWindowService.ShowToolWindowAsync(typeof(ReadmeToolWindow), 0, true);
         }

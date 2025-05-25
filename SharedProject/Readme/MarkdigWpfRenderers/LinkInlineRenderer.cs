@@ -5,11 +5,28 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using Markdig.Wpf;
+using System.IO;
 
 namespace FineCodeCoverage.Readme
 {
     public class LinkInlineRenderer : NotifyingObjectRenderer<LinkInline>
     {
+        private readonly string relativeRoot;
+
+        public LinkInlineRenderer(string relativeRoot)
+        {
+            this.relativeRoot = relativeRoot;
+        }
+
+        private string EnsureAbsolute(string url)
+        {
+            if (Uri.IsWellFormedUriString(url, UriKind.Relative))
+            {
+                return Path.Combine(this.relativeRoot, url);
+            }
+            return url;
+        }
+
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, LinkInline link)
         {
             ElementAndMarker elementAndMarker = null;
@@ -21,6 +38,9 @@ namespace FineCodeCoverage.Readme
             if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
                 url = "#";
+            }else
+            {
+                url = EnsureAbsolute(url);
             }
 
             if (link.IsImage)

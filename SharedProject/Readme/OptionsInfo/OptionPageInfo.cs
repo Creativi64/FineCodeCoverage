@@ -25,11 +25,11 @@ namespace FineCodeCoverage.Readme
                 var isCoverageSetting = coverageSettingsPropertyNames.Contains(p.Name);
                 return new OptionPropertyInfoWithCategory(displayName, description, category, p.Name, isCoverageSetting);
             }).GroupBy(PropertyCategoryDisplayNameDescription => PropertyCategoryDisplayNameDescription.Category)
-            .Select(g => new CategorizedPropertyNamesDescriptions(g.Key, g));
+            .Select(g => new CategorizedOptionPropertyInfos(g.Key, g));
         }
         public string TypeName { get; }
         public string PageName { get; }
-        public IEnumerable<CategorizedPropertyNamesDescriptions> PropertyCategories { get; }
+        public IEnumerable<CategorizedOptionPropertyInfos> PropertyCategories { get; }
     }
 
 }

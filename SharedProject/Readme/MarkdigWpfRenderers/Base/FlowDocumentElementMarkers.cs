@@ -12,6 +12,6 @@ namespace FineCodeCoverage.Readme
         }
 
         public FlowDocument FlowDocument { get; }
-        public List<ElementAndMarker> ElementAndMarkers { get; }
+        public IReadOnlyList<ElementAndMarker> ElementAndMarkers { get; }
     }
 }

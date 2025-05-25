@@ -9,6 +9,6 @@ namespace FineCodeCoverage.Readme
 
         void LinkClicked(string url);
         FlowDocument FlowDocument { get; }
-        List<ElementAndMarker> ElementAndMarkers { get; }
+        IReadOnlyList<ElementAndMarker> ElementAndMarkers { get; }
     }
 }

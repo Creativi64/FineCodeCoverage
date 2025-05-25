@@ -6,6 +6,12 @@ namespace FineCodeCoverage.Readme
 {
     internal class FCCMarkdigWpfRenderer : NotifyingWpfRenderer
     {
+        private readonly string readMeDirectory;
+
+        public FCCMarkdigWpfRenderer(string readMeDirectory)
+        {
+            this.readMeDirectory = readMeDirectory;
+        }
         protected override List<INotifiyingObjectRenderer> LoadNotifyingObjectRenderers()
             => new List<INotifiyingObjectRenderer>
             {
@@ -19,6 +25,7 @@ namespace FineCodeCoverage.Readme
 
                 new CodeInlineRenderer(),
                 new EmphasisInlineRenderer(),
+                new LinkInlineRenderer(readMeDirectory),
                 new AutolinkInlineRenderer()
             };
 
@@ -26,7 +33,6 @@ namespace FineCodeCoverage.Readme
         {
             ObjectRenderers.Add(new ListRenderer());//markdig
 
-            ObjectRenderers.Add(new LinkInlineRenderer());
             ObjectRenderers.Add(new LiteralInlineRenderer()); // markdig
             ObjectRenderers.Add(new DelimiterInlineRenderer()); // markdig
             ObjectRenderers.Add(new HtmlEntityInlineRenderer());// markdig

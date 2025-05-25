@@ -194,6 +194,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRename.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRenameExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IReadOnlyListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ITypeDescriptorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IVsOpenFile.cs" />
@@ -661,7 +662,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IOptionPageTableCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMePipelineProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadmeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadmeToFlowDocumentService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigExtensions\MarkerBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigExtensions\MarkerBlockParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigExtensions\MarkerBlockRenderer.cs" />
@@ -686,7 +686,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigWpfRenderers\TaskListRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigWpfRenderers\ThematicBreakRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionPageTableCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\CategorizedPropertyNamesDescriptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\CategorizedOptionPropertyInfos.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\FCCOptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\IFCCOptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\IOptionPageInfoProvider.cs" />
@@ -697,7 +697,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeMarkdownViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMePipeLineProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToFlowDocumentService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
       <DependentUpon>BaseDialogControl.xaml</DependentUpon>

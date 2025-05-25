@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using FineCodeCoverage.Core.Utilities;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace FineCodeCoverage.Readme
 {
+
     public partial class ReadmeControl : UserControl
     {
         private readonly Dictionary<MarkdownTypeMarker, Style> styleDictionary;
@@ -24,7 +26,7 @@ namespace FineCodeCoverage.Readme
         private void SetFlowDocumentAndStyle()
         {
             var flowDocument = this.readMeMarkdownViewModel.FlowDocument;
-            SetStyles(readMeMarkdownViewModel.ElementAndMarkers);
+            SetStyles();
             SetStyle(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
             FlowDocument = flowDocument;
         }
@@ -38,7 +40,7 @@ namespace FineCodeCoverage.Readme
         public static readonly DependencyProperty FlowDocumentProperty =
             DependencyProperty.Register(nameof(FlowDocument), typeof(FlowDocument), typeof(ReadmeControl), new PropertyMetadata(null));
 
-        private void SetStyles(List<ElementAndMarker> elementAndMarkers) => elementAndMarkers.ForEach(SetStyle);
+        private void SetStyles() => this.readMeMarkdownViewModel.ElementAndMarkers.ForEach(SetStyle);
 
         private void SetStyle(ElementAndMarker elementAndMarker)
         {

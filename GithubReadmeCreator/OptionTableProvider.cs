@@ -46,7 +46,7 @@ namespace GithubReadmeCreator
                 foreach (var c in optionPageInfo.PropertyCategories)
                 {
                     rows.Add(new string[] { $"**{optionPageInfo.PageName} - {c.Category}**", "", "" });
-                    foreach (var p in c.PropertyNamesDescriptions)
+                    foreach (var p in c.OptionPropertyInfos)
                     {
                         var isCoverageProjectSetting = p.IsCoverageSetting ? "Yes" : "No";
                         rows.Add(new string[] { p.DisplayName, p.Description, isCoverageProjectSetting });
