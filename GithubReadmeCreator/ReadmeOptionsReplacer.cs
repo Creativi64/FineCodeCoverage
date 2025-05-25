@@ -1,16 +1,11 @@
-﻿using System;
-using System.ComponentModel.Composition;
-
-namespace OptionsExtractor
+﻿namespace GithubReadmeCreator
 {
-    [Export(typeof(IReadmeOptionsReplacer))]
-    public class ReadmeOptionsReplacer : IReadmeOptionsReplacer
+    public class ReadmeOptionsReplacer
     {
         private readonly IOptionTableProvider optionTableProvider;
         private readonly IStringReplacer stringReplacer;
 
-        [ImportingConstructor]
-        public ReadmeOptionsReplacer():this(new OptionTableProvider(), new StringReplacer())
+        public ReadmeOptionsReplacer() : this(new OptionTableProvider(), new StringReplacer())
         {
         }
 
@@ -21,11 +16,11 @@ namespace OptionsExtractor
         }
 
         public string ReplaceReadMeMarkerWithOptionsTable(
-            string markedReadme, string marker, Type packageType, Type coverageSettingsType
+            string markedReadme, string marker
         ) => this.stringReplacer.Replace(
                 markedReadme,
                 marker,
-                optionTableProvider.GetTableString(packageType, coverageSettingsType)
+                optionTableProvider.GetTableString()
             );
     }
 }

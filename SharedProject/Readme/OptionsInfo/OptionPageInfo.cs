@@ -4,11 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace OptionsExtractor
+namespace FineCodeCoverage.Readme
 {
     public class OptionPageInfo
     {
-        public OptionPageInfo(Type optionType, string pageName)
+        public OptionPageInfo(Type optionType, string pageName, List<string> coverageSettingsPropertyNames)
         {
             TypeName = optionType.Name;
             PageName = pageName;
@@ -22,12 +22,14 @@ namespace OptionsExtractor
 
                 var categoryAttribute = p.GetCustomAttribute<CategoryAttribute>();
                 var category = categoryAttribute == null ? "Misc" : categoryAttribute.Category;
-                return new PropertyCategoryNamesDescription(displayName, description, category, p.Name);
+                var isCoverageSetting = coverageSettingsPropertyNames.Contains(p.Name);
+                return new OptionPropertyInfoWithCategory(displayName, description, category, p.Name, isCoverageSetting);
             }).GroupBy(PropertyCategoryDisplayNameDescription => PropertyCategoryDisplayNameDescription.Category)
-            .Select(g => new CategorizedPropertyNamesDescriptions(g.Key,g));
+            .Select(g => new CategorizedPropertyNamesDescriptions(g.Key, g));
         }
         public string TypeName { get; }
         public string PageName { get; }
         public IEnumerable<CategorizedPropertyNamesDescriptions> PropertyCategories { get; }
     }
+
 }

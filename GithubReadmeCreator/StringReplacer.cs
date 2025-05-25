@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OptionsExtractor
+namespace GithubReadmeCreator
 {
     internal class StringReplacer : IStringReplacer
     {

@@ -1,4 +1,4 @@
-﻿namespace OptionsExtractor
+﻿namespace GithubReadmeCreator
 {
     internal interface IStringReplacer
     {

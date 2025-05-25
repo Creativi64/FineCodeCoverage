@@ -1,28 +1,10 @@
-﻿using Microsoft.VisualStudio.Shell;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+
 namespace FineCodeCoverage.Readme
 {
-    internal static class EnumStyleResourceHelper {
-        public static Dictionary<TEnum,Style> GetEnumKeyedStyles<TEnum>(this FrameworkElement frameworkElement) where TEnum : Enum
-        {
-            var styleDictionary = new Dictionary<TEnum, Style>();
-            Enum.GetValues(typeof(TEnum)).OfType<TEnum>().ToList().ForEach(enumValue =>
-            {
-                if (frameworkElement.TryFindResource(enumValue) is Style style)
-                {
-                    styleDictionary.Add(enumValue, style);
-                }
-            });
-            return styleDictionary;
-        }
-    }
-
     public partial class ReadmeControl : UserControl
     {
         private readonly Dictionary<MarkdownTypeMarker, Style> styleDictionary;
@@ -36,17 +18,13 @@ namespace FineCodeCoverage.Readme
             this.readMeMarkdownViewModel = readMeMarkdownViewModel;
             this.InitializeComponent();
             this.styleDictionary = this.GetEnumKeyedStyles<MarkdownTypeMarker>();
-            SetFlowDocument();
-            
+            SetFlowDocumentAndStyle();
         }
 
-        private void SetFlowDocument()
+        private void SetFlowDocumentAndStyle()
         {
-            var flowDocumentElementMarkers = this.readMeMarkdownViewModel.ReadmeToFlowDocumentService.MarkdownToFlowDocument(
-                    readMeMarkdownViewModel.ReadmeString
-                );
-            SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
-            var flowDocument = flowDocumentElementMarkers.FlowDocument;
+            var flowDocument = this.readMeMarkdownViewModel.FlowDocument;
+            SetStyles(readMeMarkdownViewModel.ElementAndMarkers);
             SetStyle(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
             FlowDocument = flowDocument;
         }

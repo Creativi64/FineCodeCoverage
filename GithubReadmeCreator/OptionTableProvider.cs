@@ -1,25 +1,25 @@
-﻿using System;
+﻿using FineCodeCoverage.Readme;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace OptionsExtractor
+namespace GithubReadmeCreator
 {
     internal class OptionTableProvider : IOptionTableProvider
     {
-        private readonly IOptionPageInfoProvider optionPageInfoProvider;
+        private readonly IFCCOptionPageInfoProvider optionPageInfoProvider;
         private readonly IPipeTable pipeTable;
 
-        public OptionTableProvider() : this(new OptionPageInfoProvider(), new PipeTable())
+        public OptionTableProvider() : this(new FCCOptionPageInfoProvider(), new PipeTable())
         {
         }
 
-        internal OptionTableProvider(IOptionPageInfoProvider optionPageInfoProvider, IPipeTable pipeTable)
+        internal OptionTableProvider(IFCCOptionPageInfoProvider optionPageInfoProvider, IPipeTable pipeTable)
         {
             this.optionPageInfoProvider = optionPageInfoProvider;
             this.pipeTable = pipeTable;
         }
 
-        public string GetTableString(Type packageType, Type coverageSettingsType)
+        public string GetTableString()
         {
             /*
                 was going to use MarkDig ast to replace but
@@ -40,16 +40,15 @@ namespace OptionsExtractor
                 markerBlockParent.Remove(markerBlock);
 
             */
-            var coverageSettingsPropertyNames = coverageSettingsType.GetProperties().Select(p => p.Name).ToList();
             List<IEnumerable<string>> rows = new List<IEnumerable<string>>();
-            foreach (var optionPageInfo in optionPageInfoProvider.Provide(packageType))
+            foreach (var optionPageInfo in optionPageInfoProvider.Provide())
             {
                 foreach (var c in optionPageInfo.PropertyCategories)
                 {
-                    rows.Add(new string[] { $"**{optionPageInfo.PageName} - {c.Category}**","","" });
+                    rows.Add(new string[] { $"**{optionPageInfo.PageName} - {c.Category}**", "", "" });
                     foreach (var p in c.PropertyNamesDescriptions)
                     {
-                        var isCoverageProjectSetting = coverageSettingsPropertyNames.Contains(p.Name) ? "Yes" : "No";
+                        var isCoverageProjectSetting = p.IsCoverageSetting ? "Yes" : "No";
                         rows.Add(new string[] { p.DisplayName, p.Description, isCoverageProjectSetting });
                     }
                     rows.Add(new string[] { "<br>", "" });

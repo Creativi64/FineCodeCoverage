@@ -10,7 +10,7 @@
              xmlns:fccUtils="clr-namespace:FineCodeCoverage.Core.Utilities"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Name="MyToolWindow"
+             Name="readmeControl"
              Background="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
              Foreground="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"
              >
@@ -229,7 +229,7 @@
         </Style>
     </UserControl.Resources>
 
-    <FlowDocumentReader  ViewingMode="Scroll" Document="{Binding ElementName=MyToolWindow, Path=FlowDocument}"
+    <FlowDocumentReader  ViewingMode="Scroll" Document="{Binding ElementName=readmeControl, Path=FlowDocument}"
                           ScrollViewer.VerticalScrollBarVisibility="Auto">
     
     </FlowDocumentReader>

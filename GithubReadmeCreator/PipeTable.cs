@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OptionsExtractor
+namespace GithubReadmeCreator
 {
     internal class PipeTable : IPipeTable
     {
@@ -24,7 +24,7 @@ namespace OptionsExtractor
             }
             return stringBuilder.ToString();
         }
-        
+
         private static void AddHeaders(StringBuilder sb, IEnumerable<PipeTableHeader> headers, string hyphens, bool pipesOnEnd, int numHeaders)
         {
             AddRow(sb, headers.Select(h => h.Contents), pipesOnEnd, numHeaders);

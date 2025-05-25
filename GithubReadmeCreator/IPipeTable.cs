@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OptionsExtractor
+namespace GithubReadmeCreator
 {
     internal interface IPipeTable
     {

@@ -1,9 +1,8 @@
 ﻿using FineCodeCoverage.Core.Utilities;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace FineCodeCoverage.Readme
 {
@@ -12,25 +11,36 @@ namespace FineCodeCoverage.Readme
     {
         private readonly IProcess process;
         private readonly IReadmeProvider readmeProvider;
-
-        public event EventHandler ReadyEvent;
+        private readonly IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider;
 
         [ImportingConstructor]
         public ReadMeMarkdownViewModel(
             IProcess process,
             IReadmeProvider readmeProvider,
-            IReadmeToFlowDocumentService readmeToFlowDocumentService)
+            IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider
+            )
         {
             this.process = process;
             this.readmeProvider = readmeProvider;
-            ReadmeToFlowDocumentService = readmeToFlowDocumentService;
-            ReadmeString = this.readmeProvider.GetReadme();
-            ReadyEvent?.Invoke(this, EventArgs.Empty);
+            this.fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
         }
 
+        private FlowDocument GetFlowDocument()
+        {
+            var templatedReadme = this.readmeProvider.GetReadme();
+            var flowDocumentElementMarkers = fccMarkdownFlowDocumentProvider.Provide(
+                templatedReadme, "FCCOptionsTable"
+                )();
+            this.ElementAndMarkers = flowDocumentElementMarkers.ElementAndMarkers;
+            return flowDocumentElementMarkers.FlowDocument;
+        }
 
-        public IReadmeToFlowDocumentService ReadmeToFlowDocumentService { get; }
-        public string ReadmeString { get; }
+        public FlowDocument FlowDocument
+        {
+            get => GetFlowDocument();
+        }
+
+        public List<ElementAndMarker> ElementAndMarkers { get; private set; }
 
         #region clicks
         #region link clicked
