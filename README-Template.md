@@ -1,6 +1,6 @@
 # Fine Code Coverage
 
-[![Highlights video](https://img.youtube.com/vi/CvrySUcTi7I/0.jpg)](https://youtu.be/CvrySUcTi7I)
+[![YouTube Highlights video](https://img.youtube.com/vi/CvrySUcTi7I/0.jpg)](https://youtu.be/CvrySUcTi7I)
 
 Download this extension from the [Visual Studio Market Place ( vs 2019 )](https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage), [Visual Studio Market Place ( vs 2022 )](https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage2022)
 or download from [releases](https://github.com/FortuneN/FineCodeCoverage/releases). Older versions can be obtained from [here](https://ci.appveyor.com/project/FortuneN/finecodecoverage/history).
@@ -193,6 +193,8 @@ Run a(some) unit test(s) and ...
 The hierarchy is as follows :
 
 a) Visual Studio options
+
+![Toolbar Open FCC Options](Art/Options-Toolbar.png)
 
 ![Global Options](Art/Options-Global.png)
 
@@ -397,5 +399,5 @@ used by this project.
 
 | Provider  |   Type    |                                                        Link                                                         |
 | :-------- | :-------: | :-----------------------------------------------------------------------------------------------------------------: |
-| Paypal    |   Once    | [<img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png">](https://paypal.me/FortuneNgwenya) |
-| Liberapay | Recurring |         [<img alt="Donate using Liberapay" src="Art/librepay.png">](https://liberapay.com/FortuneN/donate)          |
+| Paypal    |   Once    | [![Paypal donate](https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png)](https://paypal.me/FortuneNgwenya)  |
+| Liberapay | Recurring | [![Liberapay donate](Art/librepay.png)](https://liberapay.com/FortuneN/donate)                                             |

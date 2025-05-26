@@ -43,39 +43,10 @@ namespace FineCodeCoverage.Readme
 
         public IReadOnlyList<ElementAndMarker> ElementAndMarkers { get; private set; }
 
-        #region clicks
-        #region link clicked
-        private static bool IsRelativePath(string url) => Uri.IsWellFormedUriString(url, UriKind.Relative);
 
         public void LinkClicked(string url)
         {
-            if (IsRelativePath(url))
-            {
-                url = "https://github.com/FortuneN/FineCodeCoverage/blob/master/" + url;
-            }
-
             this.process.Start(url);
         }
-        #endregion
-
-        #region image clicked
-        private static bool IsYoutubeImage(string url) => url.StartsWith("https://img.youtube.com");
-
-        public void ImageClicked(string url)
-        {
-            if (IsYoutubeImage(url))
-            {
-                this.process.Start(YoutubeImageToYoutubeVideo(url));
-            }
-        }
-
-        private static string YoutubeImageToYoutubeVideo(string url)
-        {
-            string[] segments = url.Split('/');
-            string videoId = segments[segments.Length - 2];
-            return $"https://youtu.be/{videoId}";
-        }
-        #endregion
-        #endregion
     }
 }

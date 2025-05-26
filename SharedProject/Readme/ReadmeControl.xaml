@@ -16,7 +16,6 @@
              >
     <FrameworkElement.CommandBindings>
         <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenHyperlink" />
-        <CommandBinding Command="{x:Static markdig:Commands.Image}" Executed="ClickOnImage" />
     </FrameworkElement.CommandBindings>
     <UserControl.Resources>
          <!-- visual studio 2022 has a resource dictionary Source="/Microsoft.VisualStudio.Shell.UI.Internal;component/Common/Markdown/ThemedMarkdig.xaml" -->
@@ -167,6 +166,8 @@
                     <Binding RelativeSource="{RelativeSource Self}" Path="Source.(BitmapSource.PixelWidth)"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="ToolTip" 
+            Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" />
         </Style>
         <Style x:Key="{x:Static local:MarkdownTypeMarker.Paragraph}"
          TargetType="{x:Type Paragraph}">

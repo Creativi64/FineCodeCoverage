@@ -60,8 +60,5 @@ namespace FineCodeCoverage.Readme
 
         private void OpenHyperlink(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
             => this.readMeMarkdownViewModel.LinkClicked(e.Parameter.ToString());
-
-        private void ClickOnImage(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-            => this.readMeMarkdownViewModel.ImageClicked(e.Parameter.ToString());
     }
 }
