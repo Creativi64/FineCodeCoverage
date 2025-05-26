@@ -1,4 +1,5 @@
-﻿using Markdig.Renderers.Wpf;
+﻿using FineCodeCoverage.Core.Utilities;
+using Markdig.Renderers.Wpf;
 using Markdig.Renderers.Wpf.Inlines;
 using System.Collections.Generic;
 
@@ -25,7 +26,7 @@ namespace FineCodeCoverage.Readme
 
                 new CodeInlineRenderer(),
                 new EmphasisInlineRenderer(),
-                new LinkInlineRenderer(readMeDirectory),
+                new LinkInlineRenderer(readMeDirectory, FCCGithub.MasterBlob),
                 new AutolinkInlineRenderer()
             };
 

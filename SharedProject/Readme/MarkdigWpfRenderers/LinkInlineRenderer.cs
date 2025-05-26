@@ -12,17 +12,24 @@ namespace FineCodeCoverage.Readme
     public class LinkInlineRenderer : NotifyingObjectRenderer<LinkInline>
     {
         private readonly string relativeRoot;
+        private readonly string githubRoot;
 
-        public LinkInlineRenderer(string relativeRoot)
+        public LinkInlineRenderer(string relativeRoot,string githubRoot)
         {
             this.relativeRoot = relativeRoot;
+            this.githubRoot = githubRoot;
         }
 
         private string EnsureAbsolute(string url)
         {
             if (Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
-                return Path.Combine(this.relativeRoot, url);
+                var localPath = Path.Combine(this.relativeRoot, url);
+                if (File.Exists(localPath))
+                {
+                    return localPath;
+                }
+                return new Uri(Path.Combine(this.githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
             }
             return url;
         }
