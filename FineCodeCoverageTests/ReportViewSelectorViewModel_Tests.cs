@@ -9,7 +9,7 @@ namespace FineCodeCoverageTests
 {
     internal class ReportViewSelectorViewModel_Tests
     {
-        private class ReportViewState : IReportViewState
+        private class ReportViewState
         {
             public ReportViewState(
                 ReportStyle reportStyle, 

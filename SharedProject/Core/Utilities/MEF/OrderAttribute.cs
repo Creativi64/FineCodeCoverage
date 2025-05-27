@@ -3,11 +3,6 @@ using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal interface IOrderMetadata
-    {
-        int Order { get; }
-    }
-
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class OrderAttribute : ExportAttribute, IOrderMetadata

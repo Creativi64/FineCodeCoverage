@@ -2,11 +2,6 @@
 
 namespace FineCodeCoverage.Core.Utilities.Telemetry
 {
-    internal interface IBuildFaultEventNameFromFeatureHierarchy
-    {
-        FaultEventName BuildFromFeatureNameHierarchy(params string[] hierarchy);
-    }
-
     internal sealed class ProductFaultEventNameBuilder
     {
         private readonly string product;
@@ -68,5 +63,4 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
             return new ProductFaultEventNameBuilder(productName);
         }
     }
-
 }

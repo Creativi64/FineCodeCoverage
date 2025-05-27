@@ -4,12 +4,6 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    internal class ReportGeneratorResult
-    {
-        public IReportResult ReportResult { get; set; }
-        public string UnifiedXmlFile { get; set; }
-    }
-
     internal interface IReportGeneratorUtil
     {
         Task<ReportGeneratorResult> GenerateAsync(

@@ -2,30 +2,6 @@
 
 namespace FineCodeCoverage.Options
 {
-    internal enum ThemedIconStyle { MonochromeGlyph, MonochromeText, Moniker }
-
-    interface IIconOptions
-    {
-        bool ShowIcons { get; set; }
-        int IconSize { get; set; }
-        ThemedIconStyle ThemedIconStyle { get; set; }
-    }
-
-    internal enum ReportTotalRow
-    {
-        WhenRequired,
-        Always,
-        Never
-    }
-
-    internal enum SourceFileStructure
-    {
-        Method,
-        Class,
-        NamespaceAndClass,
-        AsRequired
-    }
-
     /*
         Note that option properties must not be renamed
     */

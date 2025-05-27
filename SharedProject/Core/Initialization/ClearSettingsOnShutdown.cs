@@ -7,16 +7,10 @@ using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Core.Initialization
 {
-    interface IClearSettingsOnShutdown
-    {
-        AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
-    }
-
     [Export(typeof(IClearSettingsOnShutdown))]
     internal class ClearSettingsOnShutdown : IClearSettingsOnShutdown
     {
         public const string ClearSettingsOnShutdownOption = "FCCClearSettingsOnShutdown";
-
 
         [ImportingConstructor]
         public ClearSettingsOnShutdown(

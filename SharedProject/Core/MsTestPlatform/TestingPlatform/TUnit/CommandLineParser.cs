@@ -5,11 +5,6 @@ using System.Linq;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal interface ICommandLineParser
-    {
-        CommandLineParseResult Parse(string argumentsString);
-    }
-
     /*
         Adjusted from
         https://github.com/microsoft/testfx/blob/main/src/Platform/Microsoft.Testing.Platform/CommandLine/Parser.cs

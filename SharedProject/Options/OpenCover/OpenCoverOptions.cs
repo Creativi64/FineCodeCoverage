@@ -2,15 +2,6 @@
 
 namespace FineCodeCoverage.Options
 {
-    internal enum OpenCoverRegister { Default, NoArg, User, Path32, Path64 }
-
-    internal interface IOpenCoverOptions
-    {
-        string OpenCoverCustomPath { get; set; }
-        OpenCoverRegister OpenCoverRegister { get; set; }
-        string OpenCoverTarget { get; set; }
-        string OpenCoverTargetArgs { get; set; }
-    }
     /*
         Note that option properties must not be renamed
         Interfaces to be retained for reflection - AppOptions => CoverageSettings

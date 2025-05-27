@@ -2,13 +2,6 @@
 
 namespace FineCodeCoverage.Options
 {
-    internal enum RunMsCodeCoverage { No, IfInRunSettings, Yes }
-
-    interface IEnabledOption
-    {
-        bool Enabled { get; set; }
-    }
-
     /*
         Note that option properties must not be renamed
         Interface required for reflection - options => CoverageSettings

@@ -7,11 +7,6 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
 {
-    interface IProjectSaver
-    {
-        System.Threading.Tasks.Task SaveProjectAsync(IVsHierarchy projectHierarchy);
-    }
-
     [Export(typeof(IProjectSaver))]
     internal class ProjectSaver : IProjectSaver
     {

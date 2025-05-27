@@ -1,69 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    [ComImport]
-    [Guid("0D915B59-2ED7-472A-9DE8-9161737EA1C5")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [TypeIdentifier]
-#pragma warning disable IDE1006 // Naming Styles
-    public interface SVsColorThemeService
-#pragma warning restore IDE1006 // Naming Styles
-    {
-    }
-
-    public interface IVsColorTheme
-    {
-        event EventHandler ThemeChanged;
-        VsColorEntry GetColorEntry(ColorName colorName);
-        string CurrentThemeName { get; }
-    }
-
-    public class ColorName
-    {
-        public ColorName(Guid category, string name)
-        {
-            Category = category;
-            Name = name;
-        }
-        public Guid Category { get; }
-
-        public string Name { get; }
-    }
-
-    public class VsColorEntry
-    {
-        public VsColorEntry(object iVsColorEntry, ColorName colorName)
-        {
-            var d = iVsColorEntry as dynamic;
-            BackgroundType = d.BackgroundType;
-            ForegroundType = d.ForegroundType;
-            Background = d.Background;
-            Foreground = d.Foreground;
-            BackgroundSource = d.BackgroundSource;
-            ForegroundSource = d.ForegroundSource;
-            ColorName = colorName;
-        }
-
-        ColorName ColorName { get; }
-
-        byte BackgroundType { get; }
-
-        byte ForegroundType { get; }
-
-        uint Background { get; }
-
-        uint Foreground { get; }
-
-        uint BackgroundSource { get; }
-
-        uint ForegroundSource { get; }
-    }
-
     [Export(typeof(IVsColorTheme))]
     public class VsColorTheme : IVsColorTheme
     {

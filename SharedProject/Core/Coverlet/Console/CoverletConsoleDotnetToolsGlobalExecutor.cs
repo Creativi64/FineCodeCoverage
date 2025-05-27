@@ -6,10 +6,6 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-    internal interface ICoverletConsoleDotnetToolsGlobalExecutor : ICoverletConsoleExecutor
-    {
-    }
-
     [Export(typeof(ICoverletConsoleDotnetToolsGlobalExecutor))]
     internal class CoverletConsoleDotnetToolsGlobalExecutor : ICoverletConsoleDotnetToolsGlobalExecutor
     {

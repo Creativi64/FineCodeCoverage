@@ -7,11 +7,6 @@ using System.Windows.Controls;
 
 namespace FineCodeCoverage.Wpf
 {
-    public interface ISelectionHandler<T>
-    {
-        void SelectionChanged(List<T> selectedItems);
-    }
-
     public static class DataGridSelectionHelper
     {
         public static readonly DependencyProperty HandleSelectionProperty =

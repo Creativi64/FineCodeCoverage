@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Output
             DisposeSelectedGitRepo();
         }
 
-        public IReportViewState GetState()
+        public ReportViewState GetState()
         {
             Initialize();
             return new ReportViewState(reportViewSolutionOption.Value, repositoryPaths, gitService.CanUseChangeset);

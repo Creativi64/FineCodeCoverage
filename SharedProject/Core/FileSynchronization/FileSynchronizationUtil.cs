@@ -7,11 +7,6 @@ using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Engine.FileSynchronization
 {
-    internal interface IFileSynchronizationUtil
-    {
-        List<string> Synchronize(string sourceFolder, string destinationFolder, string fineCodeCoverageFolderName);
-    }
-
     [Export(typeof(IFileSynchronizationUtil))]
     internal class FileSynchronizationUtil : IFileSynchronizationUtil
     {

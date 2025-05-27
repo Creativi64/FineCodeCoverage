@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -64,39 +63,5 @@ namespace FineCodeCoverage.Core.Utilities
                 Output = output
             };
         }
-
-    }
-
-    internal static class ProcessExtensions
-    {
-        public static string GetOutput(this Process process)
-        {
-            return string.Join(
-                Environment.NewLine,
-                new[]
-                {
-                    process.StandardOutput?.ReadToEnd(),
-                    process.StandardError?.ReadToEnd()
-                }
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-            );
-        }
-
-    }
-
-    internal class ExecuteRequest
-    {
-        public string FilePath { get; set; }
-        public string Arguments { get; set; }
-        public string WorkingDirectory { get; set; }
-    }
-
-    internal class ExecuteResponse
-    {
-        public int ExitCode { get; set; }
-        public DateTimeOffset ExitTime { get; set; }
-        public TimeSpan RunTime { get; set; }
-        public DateTimeOffset StartTime { get; set; }
-        public string Output { get; set; }
     }
 }

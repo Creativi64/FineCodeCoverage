@@ -7,82 +7,6 @@ using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    internal interface IReportViewState
-    {
-        bool CanUseRepositories { get; }
-        ReportContentType ReportContentType { get; }
-        ReportStyle ReportStyle { get; }
-        IReadOnlyList<string> RepositoryPaths { get; }
-        string SelectedBranchName { get; }
-        string SelectedRepositoryPath { get; }
-    }
-
-    internal class ReportViewState : IReportViewState
-    {
-        public ReportViewState(
-            ReportViewSolutionOptionValue optionValue,
-            IReadOnlyList<string> repositories,
-            bool canUseRepositories
-        )
-        {
-            ReportStyle = optionValue.ReportStyle;
-            ReportContentType = optionValue.ReportContent;
-            SelectedRepositoryPath = optionValue.SelectedRepository;
-            SelectedBranchName = optionValue.SelectedBranchName;
-            RepositoryPaths = repositories;
-            CanUseRepositories = canUseRepositories;
-        }
-
-        public ReportStyle ReportStyle { get; }
-        public ReportContentType ReportContentType { get; }
-        public string SelectedRepositoryPath { get; }
-        public string SelectedBranchName { get; }
-        public IReadOnlyList<string> RepositoryPaths { get; }
-        public bool CanUseRepositories { get; }
-    }
-
-    internal class ReportStyleViewModel
-    {
-        public ReportStyleViewModel(ReportStyle reportStyle, string display)
-        {
-            ReportStyle = reportStyle;
-            Display = display;
-        }
-
-        public ReportStyle ReportStyle { get; }
-        public string Display { get; }
-        public override string ToString()
-        {
-            return Display;
-        }
-    }
-
-    internal class ReportContentTypeViewModel
-    {
-        public ReportContentTypeViewModel(ReportContentType reportContentType, string display)
-        {
-            ReportContentType = reportContentType;
-            Display = display;
-        }
-
-        public ReportContentType ReportContentType { get; }
-        public string Display { get; }
-        public override string ToString()
-        {
-            return Display;
-        }
-    }
-
-    internal interface IReportViewSelectorModel
-    {
-        IReportViewState GetState();
-        void Update(ReportStyle reportStyle,
-            ReportContentType reportContentType,
-            string selectedBranchName,
-            string selectedRepositoryPath);
-        IEnumerable<string> GetBranches(string selectedRepositoryPath);
-    }
-
     internal class ReportViewSelectorViewModel : ObservableBase, IDialogViewModel
     {
         public ObservableCollection<string> Branches { get; } = new ObservableCollection<string>();
@@ -204,7 +128,7 @@ namespace FineCodeCoverage.Output
 
         public System.Windows.Input.ICommand CancelCommand { get; }
 
-        private readonly IReportViewState initialReportViewState;
+        private readonly ReportViewState initialReportViewState;
 
         public System.Windows.Input.ICommand OkCommand { get; }
 

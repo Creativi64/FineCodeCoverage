@@ -8,19 +8,6 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-    public interface ICoverletConsoleExeFinder
-    {
-        string FindInFolder(string folder, SearchOption searchOption);
-    }
-    public class CoverletConsoleExeFinder
-    {
-        public string FindInFolder(string folder, SearchOption searchOption)
-        {
-            return Directory.GetFiles(folder, "coverlet.exe", searchOption).FirstOrDefault()
-                           ?? Directory.GetFiles(folder, "*coverlet*.exe", searchOption).FirstOrDefault();
-        }
-    }
-
     [Export(typeof(IFCCCoverletConsoleExecutor))]
     internal class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor
     {

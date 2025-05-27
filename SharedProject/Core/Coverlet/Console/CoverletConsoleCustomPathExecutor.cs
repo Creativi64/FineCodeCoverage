@@ -6,8 +6,6 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-    internal interface ICoverletConsoleCustomPathExecutor : ICoverletConsoleExecutor { }
-
     [Export(typeof(ICoverletConsoleCustomPathExecutor))]
     internal class CoverletConsoleCustomPathExecutor : ICoverletConsoleCustomPathExecutor
     {

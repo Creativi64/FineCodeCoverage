@@ -7,45 +7,6 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal interface ICancellationTokenSource : IDisposable
-    {
-        CancellationToken Token { get; }
-        bool IsCancellationRequested { get; }
-
-        void Cancel();
-    }
-
-    internal class CancellationTokenSourceWrapper : ICancellationTokenSource
-    {
-        private readonly CancellationTokenSource cancellationTokenSource;
-
-        public CancellationTokenSourceWrapper(CancellationTokenSource cancellationTokenSource)
-        {
-            this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        public CancellationToken Token => cancellationTokenSource.Token;
-
-        public bool IsCancellationRequested => cancellationTokenSource.IsCancellationRequested;
-
-        public void Cancel()
-        {
-            cancellationTokenSource.Cancel();
-        }
-
-        public void Dispose()
-        {
-            cancellationTokenSource.Dispose();
-        }
-    }
-
-    internal interface IDisposeAwareTaskRunner
-    {
-        void RunAsyncFunc(Func<Task> taskProvider);
-        ICancellationTokenSource CreateLinkedTokenSource();
-        bool IsVsShutdown { get; }
-    }
-
     [Export(typeof(IDisposeAwareTaskRunner))]
     internal class DisposeAwareTaskRunner : IDisposable, IDisposeAwareTaskRunner
     {

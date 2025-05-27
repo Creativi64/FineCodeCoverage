@@ -358,7 +358,7 @@ namespace Test
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(true);
             var dotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync((CoverletToolDetails)null);
+            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync((CoverletDotNetToolDetails)null);
 
             Assert.IsNull(await globalExeProvider.GetRequestAsync(mockCoverageProject.Object, null));
             dotNetToolListCoverlet.VerifyAll();
@@ -370,7 +370,7 @@ namespace Test
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(true);
             var dotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync((CoverletToolDetails)null);
+            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync((CoverletDotNetToolDetails)null);
 
             await globalExeProvider.GetRequestAsync(mockCoverageProject.Object, null);
 #pragma warning disable VSTHRD110 // Observe result of async calls
@@ -385,7 +385,7 @@ namespace Test
             mockCoverageProject.Setup(cp => cp.Settings.CoverletConsoleGlobal).Returns(true);
             mockCoverageProject.Setup(cp => cp.ProjectOutputFolder).Returns("TheOutputFolder");
             var dotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync(new CoverletToolDetails { Command = "TheCommand" });
+            dotNetToolListCoverlet.Setup(dotnet => dotnet.GlobalAsync()).ReturnsAsync(new CoverletDotNetToolDetails { Command = "TheCommand" });
 
             return globalExeProvider.GetRequestAsync(mockCoverageProject.Object, "coverlet settings");
         }
@@ -544,8 +544,8 @@ namespace Test
             mockDotNetConfigFinder.Setup(f => f.GetConfigDirectories(projectOutputFolder)).Returns(new List<string> { "ConfigDirectory1", "ConfigDirectory2" });
 
             var mockDotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync((CoverletToolDetails)null);
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync((CoverletToolDetails)null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync((CoverletDotNetToolDetails)null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync((CoverletDotNetToolDetails)null);
             Assert.IsNull(await localExecutor.GetRequestAsync(mockCoverageProject.Object, null));
             mockDotNetToolListCoverlet.VerifyAll();
 
@@ -564,8 +564,8 @@ namespace Test
             mockDotNetConfigFinder.Setup(f => f.GetConfigDirectories(projectOutputFolder)).Returns(new List<string> { "ConfigDirectory1", "ConfigDirectory2" });
 
             var mockDotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync((CoverletToolDetails)null);
-            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync((CoverletToolDetails)null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync((CoverletDotNetToolDetails)null);
+            mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync((CoverletDotNetToolDetails)null);
             await localExecutor.GetRequestAsync(mockCoverageProject.Object, null);
 #pragma warning disable VSTHRD110 // Observe result of async calls
             mocker.Verify<ILogger>(l => l.LogAsync("Unable to use Coverlet console local tool"));
@@ -583,7 +583,7 @@ namespace Test
             mockDotNetConfigFinder.Setup(f => f.GetConfigDirectories(projectOutputFolder)).Returns(new List<string> { "ConfigDirectory1", "ConfigDirectory2" });
 
             var mockDotNetToolListCoverlet = mocker.GetMock<IDotNetToolListCoverlet>();
-            var coverletToolDetails = new CoverletToolDetails { Command = "TheCommand" };
+            var coverletToolDetails = new CoverletDotNetToolDetails { Command = "TheCommand" };
             mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory1")).ReturnsAsync(firstConfigDirectoryLocalInstall?coverletToolDetails:null);
             mockDotNetToolListCoverlet.Setup(dotnet => dotnet.LocalAsync("ConfigDirectory2")).ReturnsAsync(secondConfigDirectoryLocalInstall ? coverletToolDetails : null);
             return localExecutor.GetRequestAsync(mockCoverageProject.Object, "coverlet settings");

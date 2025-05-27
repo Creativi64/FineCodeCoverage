@@ -361,27 +361,4 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             collectionStatus = MsCodeCoverageCollectionStatus.NotCollecting;
         }
     }
-
-    public static class IRunSettingsConfigurationInfoExtensions
-    {
-        public static bool IsTestExecution(this IRunSettingsConfigurationInfo configurationInfo)
-        {
-            return configurationInfo.RequestState == RunSettingConfigurationInfoState.Execution;
-        }
-
-    }
-
-    internal static class UserRunSettingsAnalysisResultExtensions
-    {
-        public static bool Ok(this IUserRunSettingsAnalysisResult userRunSettingsAnalysisResult)
-        {
-            if (userRunSettingsAnalysisResult == null)
-            {
-                return false;
-            }
-            return userRunSettingsAnalysisResult.Suitable;
-
-        }
-    }
-
 }

@@ -6,19 +6,20 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    class LineComparer : IEqualityComparer<ICoberturaLine>
-    {
-        public bool Equals(ICoberturaLine x, ICoberturaLine y) => x.Number == y.Number;
-
-        public int GetHashCode(ICoberturaLine obj) => obj.Number;
-    }
-
     internal class ReportFileLineCoverage : IFileLineCoverage
     {
         private Dictionary<string, List<ICodeElement>> fileLookup;
         private readonly Dictionary<string, FileLines> fileLinesLookup = new Dictionary<string, FileLines>();
         private readonly IReadOnlyList<IAssembly> assemblies;
         private readonly IDateTimeService dateTimeService;
+
+        class LineComparer : IEqualityComparer<ICoberturaLine>
+        {
+            public bool Equals(ICoberturaLine x, ICoberturaLine y) => x.Number == y.Number;
+
+            public int GetHashCode(ICoberturaLine obj) => obj.Number;
+        }
+
         private readonly LineComparer lineComparer = new LineComparer();
 
         public ReportFileLineCoverage(IReadOnlyList<IAssembly> assemblies, IDateTimeService dateTimeService)

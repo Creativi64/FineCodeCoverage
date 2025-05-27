@@ -1,43 +1,9 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Threading;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Initialization
 {
-    internal interface IShellPackageLoader
-    {
-        Task LoadPackageAsync();
-    }
-
-    [Export(typeof(IShellPackageLoader))]
-    internal class ShellPackageLoader : IShellPackageLoader
-    {
-        private readonly IServiceProvider serviceProvider;
-
-        [ImportingConstructor]
-        public ShellPackageLoader(
-            [Import(typeof(SVsServiceProvider))]
-             IServiceProvider serviceProvider
-        )
-        {
-            this.serviceProvider = serviceProvider;
-        }
-        public async Task LoadPackageAsync()
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-            if (serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell)
-            {
-                var packageToBeLoadedGuid = PackageGuids.guidFCCPackage;
-                shell.LoadPackage(ref packageToBeLoadedGuid, out var _);
-            }
-        }
-
-    }
-
     [Export(typeof(IPackageLoader))]
     [Export(typeof(IInitializedFromTestContainerDiscoverer))]
     internal class PackageLoader : IPackageLoader, IInitializedFromTestContainerDiscoverer
@@ -63,6 +29,3 @@ namespace FineCodeCoverage.Core.Initialization
         }
     }
 }
-
-
-

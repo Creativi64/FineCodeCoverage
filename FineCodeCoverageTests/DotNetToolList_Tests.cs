@@ -69,7 +69,7 @@ namespace FineCodeCoverageTests
             var globalOutput = "global";
             mockExecutor.Setup(executor => executor.Global()).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = globalOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
-            mockParser.Setup(parser => parser.Parse(globalOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
+            mockParser.Setup(parser => parser.Parse(globalOutput)).Returns(new List<DotNetToolInfo> { new DotNetToolInfo { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
             var coverletToolDetails = await dotNetToolListCoverlet.GlobalAsync();
             Assert.AreEqual("theCommand", coverletToolDetails.Command);
             Assert.AreEqual("theVersion", coverletToolDetails.Version);
@@ -82,7 +82,7 @@ namespace FineCodeCoverageTests
             var globalOutput = "global";
             mockExecutor.Setup(executor => executor.Global()).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = globalOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
-            mockParser.Setup(parser => parser.Parse(globalOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "not.coverlet.console", Commands = "theCommand", Version = "theVersion" } });
+            mockParser.Setup(parser => parser.Parse(globalOutput)).Returns(new List<DotNetToolInfo> { new DotNetToolInfo { PackageId = "not.coverlet.console", Commands = "theCommand", Version = "theVersion" } });
             var coverletToolDetails = await dotNetToolListCoverlet.GlobalAsync();
             Assert.IsNull(coverletToolDetails);
         }
@@ -123,7 +123,7 @@ namespace FineCodeCoverageTests
             var localOutput = "local";
             mockExecutor.Setup(executor => executor.Local(localDirectory)).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = localOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
-            mockParser.Setup(parser => parser.Parse(localOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
+            mockParser.Setup(parser => parser.Parse(localOutput)).Returns(new List<DotNetToolInfo> { new DotNetToolInfo { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
             var coverletToolDetails = await dotNetToolListCoverlet.LocalAsync(localDirectory);
             Assert.AreEqual("theCommand", coverletToolDetails.Command);
             Assert.AreEqual("theVersion", coverletToolDetails.Version);
@@ -137,7 +137,7 @@ namespace FineCodeCoverageTests
             var globalToolsOutput = "local";
             mockExecutor.Setup(executor => executor.GlobalToolsPath(globalToolsDirectory)).Returns(new DotNetToolListExecutionResult { ExitCode = 0, Output = globalToolsOutput });
             var mockParser = mocker.GetMock<IDotNetToolListParser>();
-            mockParser.Setup(parser => parser.Parse(globalToolsOutput)).Returns(new List<DotNetTool> { new DotNetTool { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
+            mockParser.Setup(parser => parser.Parse(globalToolsOutput)).Returns(new List<DotNetToolInfo> { new DotNetToolInfo { PackageId = "coverlet.console", Commands = "theCommand", Version = "theVersion" } });
             var coverletToolDetails = await dotNetToolListCoverlet.GlobalToolsPathAsync(globalToolsDirectory);
             Assert.AreEqual("theCommand", coverletToolDetails.Command);
             Assert.AreEqual("theVersion", coverletToolDetails.Version);
