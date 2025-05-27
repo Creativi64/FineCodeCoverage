@@ -84,7 +84,6 @@ namespace FineCodeCoverage.Readme
                     Command = navigateCommand,
                     CommandParameter = url,
                     NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
-                    ToolTip = !string.IsNullOrEmpty(link.Title) ? link.Title : null,
                 };
                 elementAndMarker = new ElementAndMarker(hyperlink, MarkdownTypeMarker.LinkInlineHyperlink);
 

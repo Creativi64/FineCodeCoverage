@@ -19,9 +19,12 @@ namespace FineCodeCoverage.Readme
             this.applicationResourcesLoader = applicationResourcesLoader;
         }
 
+        public static object ReadMeCodeInlineBasedOnStyleKey { get; } = new object();
+
         public void SetStyles(IReadOnlyList<ElementAndMarker> elementAndMarkers)
         {
             applicationResourcesLoader.AddFromExecutingAssembly("Readme/ReadMeResourceDictionary.xaml");
+            applicationResourcesLoader.AddFromExecutingAssembly("Readme/VersionedReadMeResourceDictionary.xaml");
             elementAndMarkers.ForEach(SetStyle);
         }
 

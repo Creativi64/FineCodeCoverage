@@ -1,30 +1,45 @@
 ﻿using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options;
 using FineCodeCoverage.Wpf;
 using System.ComponentModel.Composition;
 using System.Windows.Documents;
+using WpfHelpers;
 
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(ReadMeMarkdownViewModel))]
-    internal class ReadMeMarkdownViewModel
+    internal class ReadMeMarkdownViewModel : ObservableBase
     {
         private readonly ITemplatedReadmeProvider readmeProvider;
         private readonly IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider;
         private readonly IReadMeFlowDocumentStylesSetter readMeFlowDocumentStyleSetter;
         private readonly ProcessStartCommand processStartCommand;
+        private bool showHyperlinkUrlHover;
 
         [ImportingConstructor]
         public ReadMeMarkdownViewModel(
             IProcess process,
             ITemplatedReadmeProvider readmeProvider,
             IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider,
-            IReadMeFlowDocumentStylesSetter readMeFlowDocumentStyleSetter
+            IReadMeFlowDocumentStylesSetter readMeFlowDocumentStyleSetter,
+            IOptionsProvider<MiscOptions> miscOptionsProvider
             )
         {
             this.readmeProvider = readmeProvider;
             this.fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
             this.readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
             this.processStartCommand = new ProcessStartCommand(process);
+            ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
+            miscOptionsProvider.OptionsChanged += (newOptions) =>
+            {
+                ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
+            };
+        }
+
+        public bool ShowHyperlinkUrlHover
+        {
+            get => showHyperlinkUrlHover;
+            set => this.Set(ref this.showHyperlinkUrlHover, value);
         }
 
         public FlowDocument FlowDocument

@@ -67,24 +67,12 @@
         <Setter Property="TextElement.FontFamily"
      Value="Consolas, Lucida Sans Typewriter, Courier New"/>
     </Style>
-    <Style x:Key="{x:Static local:MarkdownTypeMarker.CodeInline}" TargetType="{x:Type Run}">
-        <!-- not available in 2019 -->
-        <!--<Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowCodeBlockBackgroundBrushKey}}"/>-->
+    <Style x:Key="{x:Static local:ReadMeFlowDocumentStyleSetter.ReadMeCodeInlineBasedOnStyleKey}" TargetType="{x:Type Run}">
+     <!-- separate versions 2019 and 2022-->
         <Setter Property="TextElement.Foreground"
      Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontFamily"
      Value="Consolas, Lucida Sans Typewriter, Courier New"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Source={x:Static fccUtils:IsVs2022.Value}}" Value="True">
-                <Setter Property="Background" Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowCodeBlockBackgroundBrushKey}}" />
-            </DataTrigger>
-
-            <!-- For Visual Studio 2019 -->
-            <DataTrigger Binding="{Binding Source={x:Static fccUtils:IsVs2022.Value}}" Value="False">
-                <Setter Property="Background" Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowContentGridBrushKey}}" />
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
     <Style x:Key="{x:Static local:MarkdownTypeMarker.HeadingBlock1}" TargetType="{x:Type Paragraph}">
         <Setter Property="TextElement.FontSize"
@@ -132,6 +120,7 @@
      Value="{DynamicResource {x:Static platformui:CommonDocumentColors.HyperlinkBrushKey}}"/>
         <Setter Property="FrameworkContentElement.FocusVisualStyle"
      Value="{StaticResource HyperlinkFocusVisualStyle}"/>
+        
         <Style.Triggers>
             <DataTrigger Value="True">
                 <DataTrigger.Binding>
@@ -140,7 +129,14 @@
                 </DataTrigger.Binding>
                 <Setter Property="Inline.TextDecorations" Value="None"/>
             </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding Path="ShowHyperlinkUrlHover" />
+                </DataTrigger.Binding>
+                <Setter Property="ToolTip" Value="{Binding NavigateUri,RelativeSource={RelativeSource Self}}"/>
+            </DataTrigger>
         </Style.Triggers>
+
     </Style>
     <Style x:Key="{x:Static local:MarkdownTypeMarker.LinkInlineImage}" TargetType="{x:Type Image}">
         <Setter Property="FrameworkElement.MaxHeight">
