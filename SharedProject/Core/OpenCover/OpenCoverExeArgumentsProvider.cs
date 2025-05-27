@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Engine.OpenCover
 {
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Engine.OpenCover
     [Export(typeof(IOpenCoverExeArgumentsProvider))]
     internal class OpenCoverExeArgumentsProvider : IOpenCoverExeArgumentsProvider
     {
-        private enum Delimiter { Semicolon, Space}
+        private enum Delimiter { Semicolon, Space }
 
         private void AddFilter(ICoverageProject project, List<string> opencoverSettings)
         {
@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             }
 
             List<string> GetExcludesOrIncludes(
-                IEnumerable<string> excludesOrIncludes,IEnumerable<string> moduleExcludesOrIncludes, bool isInclude)
+                IEnumerable<string> excludesOrIncludes, IEnumerable<string> moduleExcludesOrIncludes, bool isInclude)
             {
                 var excludeOrIncludeFilters = new List<string>();
                 var includeExcludeSymbol = isInclude ? "+" : "-";
@@ -114,7 +114,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
             string WildCardIfShortName(string exclude)
             {
-                if(exclude.IndexOf(".") == -1)
+                if (exclude.IndexOf(".") == -1)
                 {
                     return $"*.{exclude}";
                 }
@@ -159,14 +159,14 @@ namespace FineCodeCoverage.Engine.OpenCover
             {
                 return $":path{(project.Is64Bit ? "64" : "32")}";
             }
-            if(openCoverRegister == OpenCoverRegister.NoArg)
+            if (openCoverRegister == OpenCoverRegister.NoArg)
             {
                 return "";
             }
             return $":{project.Settings.OpenCoverRegister.ToString().ToLower()}";
         }
 
-        public List<string> Provide(ICoverageProject project,string msTestPlatformExePath)
+        public List<string> Provide(ICoverageProject project, string msTestPlatformExePath)
         {
             var opencoverSettings = new List<string>();
             AddTargetAndTargetArgs(project, opencoverSettings, msTestPlatformExePath);

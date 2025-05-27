@@ -1,12 +1,12 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using FineCodeCoverage.Options;
-using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -81,7 +81,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         var minExpectedTestsArg = option.Arguments.FirstOrDefault();
                         if (minExpectedTestsArg != null)
                         {
-                            if(int.TryParse(minExpectedTestsArg, out var result))
+                            if (int.TryParse(minExpectedTestsArg, out var result))
                             {
                                 minimumExpectedTests = result;
                             }
@@ -128,7 +128,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             var ignoreExitCodeString = GetIgnoreExitCodeString(ignoreExitCodeArg);
             var ignoredExitCodes = GetIgnoredExitCodes(ignoreExitCodeString);
-            if(!ignoredExitCodes.Contains(2) && fccRunWhenTestsFail)
+            if (!ignoredExitCodes.Contains(2) && fccRunWhenTestsFail)
             {
                 ignoredExitCodes.Add(2);
             }

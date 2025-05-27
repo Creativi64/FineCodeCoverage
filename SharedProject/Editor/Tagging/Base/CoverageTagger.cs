@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     {
         event EventHandler FilterChanged;
 
-        Func<IDynamicLine,bool> GetFileFilter(string filePath);
+        Func<IDynamicLine, bool> GetFileFilter(string filePath);
     }
 
     [Export(typeof(IDynamicLineFilter))]
@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         public Func<IDynamicLine, bool> GetFileFilter(string filePath)
         {
             IChangeset changeset = this.GetChangeset();
-            if(changeset == null)
+            if (changeset == null)
             {
                 return (_) => true;
             }
@@ -116,7 +116,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             this.lineSpanTagger = lineSpanTagger;
             this.fileIndicatorVisibility = fileIndicatorVisibility;
-            dynamicLineFilter.FilterChanged += (_,__) => this.RaiseTagsChanged();
+            dynamicLineFilter.FilterChanged += (_, __) => this.RaiseTagsChanged();
             this.dynamicLineFilter = dynamicLineFilter;
             this.isDisplayingIndicators = fileIndicatorVisibility.IsVisible(textInfo.FilePath);
             fileIndicatorVisibility.VisibilityChanged += this.FileIndicatorVisibility_VisibilityChanged;
@@ -187,7 +187,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             ).Select(dynamicLineAndSnapshot => this.lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             _ = this.eventAggregator.RemoveListener(this);
             this.fileIndicatorVisibility.VisibilityChanged -= this.FileIndicatorVisibility_VisibilityChanged;
         }

@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell.Settings;
+﻿using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
-using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Shell.Settings;
 
 namespace FineCodeCoverage.Options
 {

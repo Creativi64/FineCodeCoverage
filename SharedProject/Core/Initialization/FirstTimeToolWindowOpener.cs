@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Core.Initialization
 {

@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.VCProjectEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.VCProjectEngine;
 
 namespace FineCodeCoverage.Engine.Model
 {
@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Engine.Model
                     var referencedProject = GetReferencedVCProject(reference);
 
                     var isDll = IsDll(referencedProject);
-                    return isDll.HasValue ?(IExcludableReferencedProject) new ReferencedProject(
+                    return isDll.HasValue ? (IExcludableReferencedProject)new ReferencedProject(
                             GetCPPProjectReferenceProjectFilePath(reference),
                             Path.GetFileNameWithoutExtension(reference.FullPath),
                             isDll.Value

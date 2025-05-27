@@ -1,5 +1,5 @@
-﻿using FineCodeCoverage.Engine.ReportGenerator;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {

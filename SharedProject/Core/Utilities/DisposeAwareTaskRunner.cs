@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Threading;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Threading;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Utilities
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.Utilities
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public CancellationToken Token  => cancellationTokenSource.Token;
+        public CancellationToken Token => cancellationTokenSource.Token;
 
         public bool IsCancellationRequested => cancellationTokenSource.IsCancellationRequested;
 

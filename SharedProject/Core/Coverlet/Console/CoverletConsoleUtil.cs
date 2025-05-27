@@ -10,12 +10,12 @@ using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-	internal interface ICoverletExeArgumentsProvider
-	{
-		   List<string> GetArguments(ICoverageProject project);
-	}
+    internal interface ICoverletExeArgumentsProvider
+    {
+        List<string> GetArguments(ICoverageProject project);
+    }
 
-	[Export(typeof(ICoverletExeArgumentsProvider))]
+    [Export(typeof(ICoverletExeArgumentsProvider))]
     internal class CoverletExeArgumentsProvider : ICoverletExeArgumentsProvider
     {
         private IEnumerable<string> SanitizeExcludesByAttribute(string[] excludes)
@@ -165,45 +165,45 @@ namespace FineCodeCoverage.Engine.Coverlet
     }
 
     [Export(typeof(ICoverletConsoleUtil))]
-	internal class CoverletConsoleUtil : ICoverletConsoleUtil
-	{
-		private readonly IProcessUtil processUtil;
-		private readonly ILogger logger;
+    internal class CoverletConsoleUtil : ICoverletConsoleUtil
+    {
+        private readonly IProcessUtil processUtil;
+        private readonly ILogger logger;
         private readonly ICoverletConsoleExecuteRequestProvider coverletConsoleExecuteRequestProvider;
         private readonly IFCCCoverletConsoleExecutor fccExecutor;
         private readonly ICoverletExeArgumentsProvider coverletExeArgumentsProvider;
 
-		[ImportingConstructor]
-		public CoverletConsoleUtil(
-			IProcessUtil processUtil,
-			ILogger logger,
+        [ImportingConstructor]
+        public CoverletConsoleUtil(
+            IProcessUtil processUtil,
+            ILogger logger,
             ICoverletConsoleExecuteRequestProvider coverletConsoleExecuteRequestProvider,
             IFCCCoverletConsoleExecutor fccExecutor,
             ICoverletExeArgumentsProvider coverletExeArgumentsProvider
             )
-		{
-			this.processUtil = processUtil;
-			this.logger = logger;
+        {
+            this.processUtil = processUtil;
+            this.logger = logger;
             this.coverletConsoleExecuteRequestProvider = coverletConsoleExecuteRequestProvider;
             this.fccExecutor = fccExecutor;
             this.coverletExeArgumentsProvider = coverletExeArgumentsProvider;
         }
-		public void Initialize(string appDataFolder, CancellationToken cancellationToken)
-		{
-			fccExecutor.Initialize(appDataFolder, cancellationToken);
-		}
+        public void Initialize(string appDataFolder, CancellationToken cancellationToken)
+        {
+            fccExecutor.Initialize(appDataFolder, cancellationToken);
+        }
 
-		public async Task RunAsync(ICoverageProject project, CancellationToken cancellationToken)
-		{
-			var title = $"Coverlet Run ({project.ProjectName})";
+        public async Task RunAsync(ICoverageProject project, CancellationToken cancellationToken)
+        {
+            var title = $"Coverlet Run ({project.ProjectName})";
 
-			var coverletSettings = coverletExeArgumentsProvider.GetArguments(project);
+            var coverletSettings = coverletExeArgumentsProvider.GetArguments(project);
 
             var executingLogLines = new List<string> { $"{title} - Arguments" };
             executingLogLines.AddRange(coverletSettings);
             await logger.LogAsync(executingLogLines);
 
-			var result = await processUtil.ExecuteAsync(
+            var result = await processUtil.ExecuteAsync(
                 await coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
                 cancellationToken
             );
@@ -214,15 +214,15 @@ namespace FineCodeCoverage.Engine.Coverlet
 			2 - Coverage percentage is below threshold.
 			3 - Test fails and also coverage percentage is below threshold.
 			*/
-			if (result.ExitCode > 3)
-			{
+            if (result.ExitCode > 3)
+            {
                 var errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
-				await logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
+                await logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
 
-				throw new Exception(errorExitCodeMessage);
-			}
+                throw new Exception(errorExitCodeMessage);
+            }
 
-			await logger.LogAsync($"{title} - Output", result.Output);
-		}
-	}
+            await logger.LogAsync($"{title} - Output", result.Output);
+        }
+    }
 }

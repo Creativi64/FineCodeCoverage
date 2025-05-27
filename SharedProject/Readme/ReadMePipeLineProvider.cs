@@ -1,5 +1,4 @@
-﻿using Markdig;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Documents;
 
@@ -9,7 +8,7 @@ namespace FineCodeCoverage.Readme
     internal class ReadMePipeLineProvider : IReadMePipelineProvider
     {
         // still need the fixup links
-        public MarkdownPipeline Provide(string marker,Func<Table> tableCreator)
+        public MarkdownPipeline Provide(string marker, Func<Table> tableCreator)
         {
             // do I need advanced now that replacing with a Table ?
             var readmeMarkerTableReplacerMarkdownExtension =

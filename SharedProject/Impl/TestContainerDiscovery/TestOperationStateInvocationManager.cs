@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Core.Initialization;
-using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Initialization;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace FineCodeCoverage.Impl

@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         private void SolutionEvents_AfterClosing(object sender, System.EventArgs e)
         {
-            foreach(var option in options)
+            foreach (var option in options)
             {
                 option.Unloaded();
             }

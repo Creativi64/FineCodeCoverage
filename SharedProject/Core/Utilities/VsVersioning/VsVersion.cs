@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public string GetSemanticVersion()
         {
-            if(this.semanticVersion == null)
+            if (this.semanticVersion == null)
             {
                 this.semanticVersion = this.GetAppIdStringProperty(-8642);
             }
@@ -58,7 +58,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public string GetEditionName()
         {
-            if(this.editionName == null)
+            if (this.editionName == null)
             {
                 this.editionName = this.GetAppIdStringProperty(-8620);
             }

@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Engine.ReportGenerator;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
@@ -17,9 +17,11 @@ namespace FineCodeCoverage.Output
             HasNewCode = hasNewCode;
         }
 
-        public string Path {
+        public string Path
+        {
             get => path;
-            set {
+            set
+            {
                 path = value;
                 PathChanged?.Invoke(this, EventArgs.Empty);
             }

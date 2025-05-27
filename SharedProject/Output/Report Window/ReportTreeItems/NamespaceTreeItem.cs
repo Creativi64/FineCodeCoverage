@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
 {

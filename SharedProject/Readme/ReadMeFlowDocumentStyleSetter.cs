@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Wpf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Wpf;
 
 namespace FineCodeCoverage.Readme
 {

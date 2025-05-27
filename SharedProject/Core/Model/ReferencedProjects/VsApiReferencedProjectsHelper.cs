@@ -1,13 +1,13 @@
-﻿using EnvDTE;
-using EnvDTE80;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
-using Microsoft.VisualStudio.VCProjectEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Threading;
+using Microsoft.VisualStudio.VCProjectEngine;
 using VSLangProj;
 
 namespace FineCodeCoverage.Engine.Model

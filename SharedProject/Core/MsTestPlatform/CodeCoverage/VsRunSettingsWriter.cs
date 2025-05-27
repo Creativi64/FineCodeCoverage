@@ -1,12 +1,12 @@
-﻿using Microsoft;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Core.Utilities;
+using Microsoft;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities.Telemetry;
+﻿using System;
+using FineCodeCoverage.Core.Utilities.Telemetry;
 using Microsoft.VisualStudio.Shell;
-using System;
 
 namespace FineCodeCoverage.Core.Utilities
 {
@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Core.Utilities
 #pragma warning restore VSSDK007
         }
 
-        private static void SwitchAndLogException(FaultEventName faultEventName, Action action, bool rethrow,string faultDescription = null)
+        private static void SwitchAndLogException(FaultEventName faultEventName, Action action, bool rethrow, string faultDescription = null)
         {
             SwitchAndFileAndForget(faultEventName, () =>
             {
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Core.Utilities
                         throw;
                     }
                 }
-            },faultDescription);
+            }, faultDescription);
         }
 
         // given that catches and does not rethrow should be unnecessary

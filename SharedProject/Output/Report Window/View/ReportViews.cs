@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Output
 
         private class SelectedGitRepo : IDisposable
         {
-            public SelectedGitRepo(IGitRepo gitRepo,string repositoryPath, string selectedBranchName)
+            public SelectedGitRepo(IGitRepo gitRepo, string repositoryPath, string selectedBranchName)
             {
                 GitRepo = gitRepo;
                 RepositoryPath = repositoryPath;
@@ -169,7 +169,7 @@ namespace FineCodeCoverage.Output
 
         private void EnsureSelectedGitRepo(string selectedRepositoryPath)
         {
-            if(selectedGitRepo?.Deleted() == true)
+            if (selectedGitRepo?.Deleted() == true)
             {
                 DisposeSelectedGitRepo();
                 return;
@@ -188,7 +188,7 @@ namespace FineCodeCoverage.Output
         public IEnumerable<string> GetBranches(string selectedRepositoryPath)
         {
             EnsureSelectedGitRepo(selectedRepositoryPath);
-            if(selectedGitRepo != null)
+            if (selectedGitRepo != null)
             {
                 return selectedGitRepo.GitRepo.GetBranches();
             }

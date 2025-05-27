@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.ProjectSystem.Properties;
-using Microsoft.VisualStudio.ProjectSystem;
 using EnvDTE;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.Properties;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     return context.UnconfiguredProject;
                 }
             }
-             
+
             return null;
         }
 

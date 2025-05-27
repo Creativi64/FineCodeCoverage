@@ -1,24 +1,24 @@
-﻿using System.IO;
+﻿using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
-using System.ComponentModel.Composition;
-using FineCodeCoverage.Core.Utilities;
 using System.Threading;
-using FineCodeCoverage.Core.Initialization;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform
 {
     [Export(typeof(IMsTestPlatformUtil))]
-	[Export(typeof(IAppDataFolderPathDependent))]
-	internal class MsTestPlatformUtil:IMsTestPlatformUtil, IAppDataFolderPathDependent
-	{
-		public string MsTestPlatformExePath { get; private set; }
+    [Export(typeof(IAppDataFolderPathDependent))]
+    internal class MsTestPlatformUtil : IMsTestPlatformUtil, IAppDataFolderPathDependent
+    {
+        public string MsTestPlatformExePath { get; private set; }
         private readonly IToolUnzipper toolUnzipper;
         private const string zipPrefix = "microsoft.testplatform";
-		private const string zipDirectoryName = "msTestPlatform";
+        private const string zipDirectoryName = "msTestPlatform";
 
-		[ImportingConstructor]
-		public MsTestPlatformUtil(IToolUnzipper toolUnzipper)
+        [ImportingConstructor]
+        public MsTestPlatformUtil(IToolUnzipper toolUnzipper)
         {
             this.toolUnzipper = toolUnzipper;
         }

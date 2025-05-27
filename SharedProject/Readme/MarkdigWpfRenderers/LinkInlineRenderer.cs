@@ -1,11 +1,9 @@
-﻿using Markdig.Renderers;
-using Markdig.Syntax.Inlines;
-using System;
+﻿using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media.Imaging;
-using System.IO;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace FineCodeCoverage.Readme
 {
@@ -15,7 +13,7 @@ namespace FineCodeCoverage.Readme
         private readonly string githubRoot;
         private readonly ICommand navigateCommand;
 
-        public LinkInlineRenderer(string relativeRoot,string githubRoot,ICommand navigateCommand)
+        public LinkInlineRenderer(string relativeRoot, string githubRoot, ICommand navigateCommand)
         {
             this.relativeRoot = relativeRoot;
             this.githubRoot = githubRoot;

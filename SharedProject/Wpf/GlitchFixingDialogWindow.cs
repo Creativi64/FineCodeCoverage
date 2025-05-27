@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using System;
+﻿using System;
 using System.Windows;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Wpf
 {

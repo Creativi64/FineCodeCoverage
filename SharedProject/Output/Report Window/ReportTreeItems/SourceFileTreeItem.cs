@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.Imaging.Interop;
-using Microsoft.VisualStudio.Imaging;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Telemetry;
 using FineCodeCoverage.Options;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
 {
@@ -16,23 +16,25 @@ namespace FineCodeCoverage.Output
         {
             this.sourceFile = sourceFile;
             this.Name = Path.GetFileName(sourceFile.Path);
-            sourceFile.HasNewCodeChanged += (_, __) => {
+            sourceFile.HasNewCodeChanged += (_, __) =>
+            {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
                     () => HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
             };
-            sourceFile.PathChanged += (_, __) => {
+            sourceFile.PathChanged += (_, __) =>
+            {
                 MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
                     () => this.Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
             };
 
             this.ImageMoniker = KnownMonikers.TextFile;
-            if(sourceFileStructure == SourceFileStructure.AsRequired )
+            if (sourceFileStructure == SourceFileStructure.AsRequired)
             {
                 sourceFileStructure = sourceFile.Classes.Count > 1 ?
                     sourceFile.Classes.Select(c => c.DisplayName).Distinct().Count() > 1 ?
-                    SourceFileStructure.NamespaceAndClass:
+                    SourceFileStructure.NamespaceAndClass :
                     SourceFileStructure.Class : SourceFileStructure.Method;
             }
             IEnumerable<ReportTreeItemBase> children = null;
@@ -55,7 +57,7 @@ namespace FineCodeCoverage.Output
                     ));
                     break;
             }
-            foreach(var child in children)
+            foreach (var child in children)
             {
                 child.Parent = this;
                 this.observableChildren.Add(child);

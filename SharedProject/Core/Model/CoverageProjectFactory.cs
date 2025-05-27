@@ -13,9 +13,9 @@ namespace FineCodeCoverage.Engine.Model
         private readonly IReferencedProjectsHelper referencedProjectsHelper;
 
         [ImportingConstructor]
-		public CoverageProjectFactory(
+        public CoverageProjectFactory(
             IOptionsProvider<OutputOptions> outputOptionsProvider,
-			IFileSynchronizationUtil fileSynchronizationUtil,
+            IFileSynchronizationUtil fileSynchronizationUtil,
             ICoverageProjectSettingsManager coverageProjectSettingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {

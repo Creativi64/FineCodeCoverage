@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using Microsoft.VisualStudio.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Utilities;
 
 namespace FineCodeCoverage.Wpf
 {

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

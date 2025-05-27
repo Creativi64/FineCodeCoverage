@@ -1,10 +1,10 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             public string Replaced { get; set; }
 
-            public bool ReplacedTestAdapter { get; set;}
+            public bool ReplacedTestAdapter { get; set; }
         }
 
 
@@ -178,7 +178,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return new TemplateReplaceResult
             {
                 ReplacedTestAdapter = replacedTestAdapter,
-                Replaced = AddRecommendedYouDoNotChangeElementsIfNotProvided(replacedRunSettingsTemplate,isNetFramework)
+                Replaced = AddRecommendedYouDoNotChangeElementsIfNotProvided(replacedRunSettingsTemplate, isNetFramework)
             };
         }
 
@@ -188,7 +188,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             try
             {
                 templateDocument = XDocument.Parse(replacedRunSettingsTemplate);
-            }catch(XmlException exc)
+            }
+            catch (XmlException exc)
             {
                 throw new MsTemplateReplacementException(exc, replacedRunSettingsTemplate);
             }
@@ -251,21 +252,21 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         #region custom
         private void EnsureRunConfigurationEssentials(XElement runConfiguration)
         {
-            AddIfNotPresent(runConfiguration, "ResultsDirectory", ResultsDirectoryElement,null,true);
+            AddIfNotPresent(runConfiguration, "ResultsDirectory", ResultsDirectoryElement, null, true);
             AddIfNotPresent(runConfiguration, "TestAdaptersPaths", TestAdaptersPathElement, null, false);
         }
 
         private void EnsureRunConfiguration(XElement runSettingsElement)
         {
-            AddIfNotPresent(runSettingsElement, "RunConfiguration", RunConfigurationElement, EnsureRunConfigurationEssentials,true);
+            AddIfNotPresent(runSettingsElement, "RunConfiguration", RunConfigurationElement, EnsureRunConfigurationEssentials, true);
         }
 
-        private void AddIfNotPresent(XElement parent,string elementName,string elementAsString,Action<XElement> presentPath = null,bool addFirst = true)
+        private void AddIfNotPresent(XElement parent, string elementName, string elementAsString, Action<XElement> presentPath = null, bool addFirst = true)
         {
             AddIfNotPresent(parent, p => p.Element(elementName), elementAsString, presentPath, addFirst);
         }
 
-        private void AddIfNotPresent(XElement parent, Func<XElement,XElement> find,string elementAsString, Action<XElement> presentPath = null,bool addFirst = true)
+        private void AddIfNotPresent(XElement parent, Func<XElement, XElement> find, string elementAsString, Action<XElement> presentPath = null, bool addFirst = true)
         {
             var child = find(parent);
             if (child == null)
@@ -299,7 +300,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private XElement GetOrAddConfigurationElement(XElement msDataCollector)
         {
-            AddIfNotPresent(msDataCollector, "Configuration", msDataCollectorConfigurationElement, AddCodeCoverageIfNotPresent,false);
+            AddIfNotPresent(msDataCollector, "Configuration", msDataCollectorConfigurationElement, AddCodeCoverageIfNotPresent, false);
             return msDataCollector.Element("Configuration");
         }
 
@@ -311,7 +312,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private void AddEnabledReplacementAttributeIfNotPresent(XElement msDataCollector)
         {
             var enabledAttribute = msDataCollector.Attribute("enabled");
-            if(enabledAttribute == null)
+            if (enabledAttribute == null)
             {
                 msDataCollector.Add(new XAttribute("enabled", replacementLookups.Enabled));
             }

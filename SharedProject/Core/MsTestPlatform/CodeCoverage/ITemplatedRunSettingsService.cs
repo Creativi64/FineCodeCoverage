@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Engine.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

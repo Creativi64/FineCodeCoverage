@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
-using Palmmedia.ReportGenerator.Core.Logging;
-using Palmmedia.ReportGenerator.Core.Parser.Filtering;
-using Palmmedia.ReportGenerator.Core.Parser;
-using Palmmedia.ReportGenerator.Core;
 using System.Text.RegularExpressions;
 using PalmmediaVerbosityLevel = Palmmedia.ReportGenerator.Core.Logging.VerbosityLevel;
-
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {

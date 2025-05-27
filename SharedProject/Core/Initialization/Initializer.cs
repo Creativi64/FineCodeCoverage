@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Core.Initialization
 
                 cancellationToken.ThrowIfCancellationRequested();
                 await appDataFolder.InitializeAsync(cancellationToken);
-                foreach(var appDataPathDependent in appDataFolderPathDependents)
+                foreach (var appDataPathDependent in appDataFolderPathDependents)
                 {
                     await appDataPathDependent.InitializeAsync(appDataFolder.DirectoryPath, cancellationToken);
                 }
@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Core.Initialization
                 }
             }
 
-            if(InitializeStatus != InitializeStatus.Error)
+            if (InitializeStatus != InitializeStatus.Error)
             {
                 InitializeStatus = InitializeStatus.Initialized;
             }

@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Engine
         [ImportingConstructor]
         public CoverageToolOutputManager(
             IFileUtil fileUtil,
-            ILogger logger,[ImportMany] IEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders,
+            ILogger logger, [ImportMany] IEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders,
             IEventAggregator eventAggregator
             )
         {
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine
             await DetermineOutputFolderForAllProjectsAsync();
             if (outputFolderForAllProjects == null)
             {
-                foreach(var coverageProject in coverageProjects)
+                foreach (var coverageProject in coverageProjects)
                 {
                     coverageProject.CoverageOutputFolder = coverageProject.DefaultCoverageOutputFolder;
                 }
@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Engine
         private async Task DetermineOutputFolderForAllProjectsAsync()
         {
             outputFolderForAllProjects = outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(coverageProjects));
-            if(outputFolderForAllProjects != null)
+            if (outputFolderForAllProjects != null)
             {
                 await logger.LogAsync($"FCC output in {outputFolderForAllProjects}");
             }

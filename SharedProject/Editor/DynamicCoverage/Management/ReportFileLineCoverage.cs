@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly IDateTimeService dateTimeService;
         private readonly LineComparer lineComparer = new LineComparer();
 
-        public ReportFileLineCoverage(IReadOnlyList<IAssembly> assemblies,IDateTimeService dateTimeService)
+        public ReportFileLineCoverage(IReadOnlyList<IAssembly> assemblies, IDateTimeService dateTimeService)
         {
             this.assemblies = assemblies;
             this.dateTimeService = dateTimeService;

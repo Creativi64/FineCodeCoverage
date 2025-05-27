@@ -50,15 +50,15 @@ namespace FineCodeCoverage.Output
         public ReportColumnData PartialLines { get; } = new ReportColumnData(ReportColumnData.PartialLinesColumnType, "Partial Lines", 4, true, 71, 20, HorizontalAlignment.Right);
         public ReportColumnData LineCoveragePercent { get; } = new ReportColumnData(ReportColumnData.LineCoveragePercentColumnType, "Line Coverage %", 5, true, 100, 20, HorizontalAlignment.Right);
         public ReportColumnData LineCoveragePercentBar { get; } = new ReportColumnData(ReportColumnData.LineCoveragePercentBarColumnType, "Line Coverage %", 6, true, HorizontalAlignment.Center, HorizontalAlignment.Stretch, 100, 20) { CanEditCellAlignment = false };
-        public ReportColumnData TotalBranches { get; } = new MetricColumnData(MetricType.Branches,ReportColumnData.TotalBranchesColumnType, "Total Branches", 7, true, 88, 20, HorizontalAlignment.Right);
-        public ReportColumnData CoveredBranches { get; } = new MetricColumnData(MetricType.Branches,ReportColumnData.CoveredBranchesColumnType, "Covered Branches", 8, true, 109, 20, HorizontalAlignment.Right);
+        public ReportColumnData TotalBranches { get; } = new MetricColumnData(MetricType.Branches, ReportColumnData.TotalBranchesColumnType, "Total Branches", 7, true, 88, 20, HorizontalAlignment.Right);
+        public ReportColumnData CoveredBranches { get; } = new MetricColumnData(MetricType.Branches, ReportColumnData.CoveredBranchesColumnType, "Covered Branches", 8, true, 109, 20, HorizontalAlignment.Right);
         public ReportColumnData NotCoveredBranches { get; } = new MetricColumnData(MetricType.Branches, ReportColumnData.NotCoveredBranchesColumnType, "Uncovered Branches", 9, true, 120, 20, HorizontalAlignment.Right);
         public ReportColumnData BranchCoveragePercent { get; } = new MetricColumnData(MetricType.Branches, ReportColumnData.BranchCoveragePercentColumnType, "Branch Coverage %", 10, true, 112, 20, HorizontalAlignment.Right);
         public ReportColumnData BranchCoveragePercentBar { get; } = new MetricColumnData(MetricType.Branches, ReportColumnData.BranchCoveragePercentBarColumnType, "Branch Coverage %", 11, true, HorizontalAlignment.Center, HorizontalAlignment.Stretch, 112, 20) { CanEditCellAlignment = false };
         public ReportColumnData NPathComplexity { get; } = new MetricColumnData(MetricType.NPath, ReportColumnData.NPathComplexityColumnType, "NPath Complexity", 12, true, 115, 20);
         public ReportColumnData CyclomaticComplexity { get; } = new MetricColumnData(MetricType.CyclomaticComplexity, ReportColumnData.CyclomaticComplexityColumnType, "Cyclomatic Complexity", 13, true, 134, 20);
         public ReportColumnData CrapScore { get; } = new MetricColumnData(MetricType.Crap, ReportColumnData.CrapScoreColumnType, "Crap Score", 14, true, 68, 20);
-        
+
         #endregion
 
         private void VsShutdown_Shutdown(object sender, System.EventArgs e)
@@ -111,7 +111,7 @@ namespace FineCodeCoverage.Output
 
             reportColumnStates.ForEach(columnState =>
             {
-                if(columnsLookup.TryGetValue(columnState.ColumnType, out var column))
+                if (columnsLookup.TryGetValue(columnState.ColumnType, out var column))
                 {
                     column.IsVisible = columnState.IsVisible;
                     column.DisplayIndex = columnState.DisplayIndex;
@@ -133,7 +133,7 @@ namespace FineCodeCoverage.Output
 
         public void ShowRelevantColumns(IReadOnlyList<MetricType> metricTypes)
         {
-            foreach(var column in this.Columns)
+            foreach (var column in this.Columns)
             {
                 if (column is MetricColumnData metricColumnData)
                 {

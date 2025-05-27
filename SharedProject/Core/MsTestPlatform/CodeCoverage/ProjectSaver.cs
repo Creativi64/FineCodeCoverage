@@ -1,9 +1,9 @@
-﻿using Microsoft;
+﻿using System;
+using System.ComponentModel.Composition;
+using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System;
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
 {
@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
             IServiceProvider serviceProvider
         )
         {
-            this.serviceProvider  = serviceProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         public async System.Threading.Tasks.Task SaveProjectAsync(IVsHierarchy projectHierarchy)

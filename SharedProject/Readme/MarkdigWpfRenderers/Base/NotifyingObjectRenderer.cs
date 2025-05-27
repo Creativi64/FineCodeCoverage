@@ -1,12 +1,9 @@
-﻿using Markdig.Renderers.Wpf;
-using Markdig.Renderers;
-using Markdig.Syntax;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace FineCodeCoverage.Readme
 {
-    public class NotifyingObjectRenderer<TObject> :  WpfObjectRenderer<TObject>, INotifiyingObjectRenderer where TObject : MarkdownObject
+    public class NotifyingObjectRenderer<TObject> : WpfObjectRenderer<TObject>, INotifiyingObjectRenderer where TObject : MarkdownObject
     {
         public event EventHandler<List<ElementAndMarker>> CreatedEvent;
         protected sealed override void Write(WpfRenderer renderer, TObject obj)

@@ -1,11 +1,10 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using System;
+using System.ComponentModel.Composition;
 using Microsoft.ServiceHub.Framework;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.ServiceBroker;
 using Microsoft.VisualStudio.Threading;
 using NuGet.VisualStudio.Contracts;
-using System;
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

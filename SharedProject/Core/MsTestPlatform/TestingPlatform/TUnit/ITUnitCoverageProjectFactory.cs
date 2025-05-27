@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Engine.Model;
-using Microsoft.VisualStudio.Shell.Interop;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Engine.Model;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -17,6 +17,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal interface ITUnitCoverageProjectFactory
     {
         Task<ITUnitCoverageProject> CreateTUnitCoverageProjectAsync(
-            ITUnitProject tUnitProject,CancellationToken cancellationToken);
+            ITUnitProject tUnitProject, CancellationToken cancellationToken);
     }
 }

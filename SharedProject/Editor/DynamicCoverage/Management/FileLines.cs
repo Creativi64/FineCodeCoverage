@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             private readonly IDateTimeService dateTimeService;
             private DateTime lastTracked;
-            public TrackedLinesState(ITrackedLines trackedLines,IDateTimeService dateTimeService)
+            public TrackedLinesState(ITrackedLines trackedLines, IDateTimeService dateTimeService)
             {
                 this.TrackedLines = trackedLines;
                 this.dateTimeService = dateTimeService;

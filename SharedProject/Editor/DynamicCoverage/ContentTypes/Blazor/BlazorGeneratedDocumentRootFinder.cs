@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
                     foreach (Document document in project.Documents)
                     {
                         string docFilePath = document.FilePath;
-                        if (blazorGeneratedFilePathMatcher.IsBlazorGeneratedFilePath(filePath,docFilePath))
+                        if (blazorGeneratedFilePathMatcher.IsBlazorGeneratedFilePath(filePath, docFilePath))
                         {
                             return await document.GetSyntaxRootAsync();
                         }

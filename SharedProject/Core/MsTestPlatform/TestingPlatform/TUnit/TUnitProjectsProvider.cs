@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System;
 using System.Threading;
-using Microsoft.VisualStudio.Shell.Interop;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.ProjectSystem;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -85,7 +85,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 else
                 {
                     var removed = addedProjects.Remove(project);
-                    if(!removed)
+                    if (!removed)
                     {
                         tUnitProjectCache.Remove(e.Project);
                     }
@@ -93,7 +93,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
         }
 
-        private class CpsProjectAndHierarchy {
+        private class CpsProjectAndHierarchy
+        {
             public CpsProjectAndHierarchy(ConfiguredProject cpsProject, IVsHierarchy hierarchy)
             {
                 CpsProject = cpsProject;
@@ -107,7 +108,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<List<CpsProjectAndHierarchy>> GetCpsTestProjectsAndHierarchysAsync(IEnumerable<IVsHierarchy> projects)
         {
             List<CpsProjectAndHierarchy> cpsTestProjectsAndHierarchys = new List<CpsProjectAndHierarchy>();
-            foreach(var project in projects)
+            foreach (var project in projects)
             {
                 var cpsTestProject = await cpsTestProjectService.GetProjectAsync(project);
                 if (cpsTestProject != null)
@@ -142,7 +143,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             else
             {
                 var newTUnitProjects = await GetTUnitProjectsAsync(addedProjects);
-                foreach(var newTUnitProject in newTUnitProjects)
+                foreach (var newTUnitProject in newTUnitProjects)
                 {
                     tUnitProjectCache.Add(newTUnitProject);
                 }

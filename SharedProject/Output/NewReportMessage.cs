@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Engine.Model;
+﻿using System.Collections.Generic;
+using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
-using System.Collections.Generic;
 namespace FineCodeCoverage.Output
 {
     internal class NewReportMessage

@@ -1,9 +1,9 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options;
-using Microsoft.VisualStudio.PlatformUI;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options;
+using Microsoft.VisualStudio.PlatformUI;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Output
                     this.IconSize = newAppOptions.IconSize;
                     IconSizeChanged?.Invoke(this, EventArgs.Empty);
                 }
-                if(newAppOptions.ThemedIconStyle != themedIconStyle)
+                if (newAppOptions.ThemedIconStyle != themedIconStyle)
                 {
                     this.themedIconStyle = newAppOptions.ThemedIconStyle;
                     SetIconStyles();

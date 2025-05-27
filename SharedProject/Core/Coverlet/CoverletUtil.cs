@@ -6,30 +6,30 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletUtil))]
-    internal class CoverletUtil:ICoverletUtil
-	{
+    internal class CoverletUtil : ICoverletUtil
+    {
         private readonly ICoverletDataCollectorUtil coverletDataCollectorUtil;
         private readonly ICoverletConsoleUtil coverletGlobalUtil;
 
         [ImportingConstructor]
-		public CoverletUtil(ICoverletDataCollectorUtil coverletDataCollectorUtil, ICoverletConsoleUtil coverletGlobalUtil)
+        public CoverletUtil(ICoverletDataCollectorUtil coverletDataCollectorUtil, ICoverletConsoleUtil coverletGlobalUtil)
         {
             this.coverletDataCollectorUtil = coverletDataCollectorUtil;
             this.coverletGlobalUtil = coverletGlobalUtil;
         }
-		public void Initialize(string appDataFolder,CancellationToken cancellationToken)
-		{
-			coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);
-			coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
-		}
+        public void Initialize(string appDataFolder, CancellationToken cancellationToken)
+        {
+            coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);
+            coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
+        }
 
-		public async Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
-		{
+        public async Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
+        {
             if (await coverletDataCollectorUtil.CanUseDataCollectorAsync(project))
             {
-				await coverletDataCollectorUtil.RunAsync(cancellationToken);
+                await coverletDataCollectorUtil.RunAsync(cancellationToken);
             }
-			await coverletGlobalUtil.RunAsync(project, cancellationToken);
-		}
-	}
+            await coverletGlobalUtil.RunAsync(project, cancellationToken);
+        }
+    }
 }

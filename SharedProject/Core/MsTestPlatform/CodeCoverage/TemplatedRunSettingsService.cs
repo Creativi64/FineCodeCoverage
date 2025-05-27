@@ -1,11 +1,11 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

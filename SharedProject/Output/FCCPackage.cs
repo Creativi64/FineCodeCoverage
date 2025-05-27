@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Threading;
-using FineCodeCoverage.Options;
-using Microsoft.VisualStudio.Shell;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Task = System.Threading.Tasks.Task;
-using Microsoft.VisualStudio.Shell.Interop;
-using FineCodeCoverage.Core.Initialization;
-using FineCodeCoverage.Readme;
-using Microsoft.VisualStudio.ComponentModelHost;
 using System.IO;
-using FineCodeCoverage.Core.Utilities.Solution;
-using Microsoft;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities.Solution;
+using FineCodeCoverage.Options;
+using FineCodeCoverage.Readme;
+using Microsoft;
+using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
 {
@@ -37,10 +37,10 @@ namespace FineCodeCoverage.Output
     /// </remarks>
     [ProvideBindingPath]
     [TraceImageLibraryRegistration()]
-	[Guid(PackageGuids.guidFCCPackageString)]
-	[ProvideMenuResource("Menus.ctmenu", 1)]
-	[InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]
-	[ProvideOptionPage(typeof(IncludesExcludesOptionsPage), Vsix.Name, "Includes Excludes", 0, 0, true)]
+    [Guid(PackageGuids.guidFCCPackageString)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]
+    [ProvideOptionPage(typeof(IncludesExcludesOptionsPage), Vsix.Name, "Includes Excludes", 0, 0, true)]
     [ProvideOptionPage(typeof(EditorCoverageColouringOptionsPage), Vsix.Name, "Editor Colouring", 0, 0, true)]
     [ProvideOptionPage(typeof(HotspotThresholdsOptionsPage), Vsix.Name, "Hotspot Thresholds", 0, 0, true)]
     [ProvideOptionPage(typeof(MiscOptionsPage), Vsix.Name, "Misc", 0, 0, true)]
@@ -51,9 +51,9 @@ namespace FineCodeCoverage.Output
     [ProvideOptionPage(typeof(OpenCoverOptionsPage), Vsix.Name, "OpenCover", 0, 0, true)]
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-	[ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
+    [ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
     [ProvideToolWindow(typeof(ReadmeToolWindow), Orientation = ToolWindowOrientation.Right, Style = VsDockStyle.Tabbed, Width = 600, Height = 700)]
-    [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption,  typeof(FCCPackage), Arguments = "0")]
+    [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption, typeof(FCCPackage), Arguments = "0")]
     public sealed class FCCPackage : AsyncPackage
     {
         private ISolutionOptions solutionOptions;
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Output
         /// Initializes a new instance of the <see cref="FCCPackage"/> class.
         /// </summary>
         public FCCPackage()
-		{
+        {
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
@@ -134,8 +134,8 @@ namespace FineCodeCoverage.Output
         }
 
 
-        private async Task InitializeCommandsAsync (IComponentModel componentModel)
-		{
+        private async Task InitializeCommandsAsync(IComponentModel componentModel)
+        {
             var commandPackageServices = await CommandPackageServices.CreateAsync(this, componentModel.GetService<ILogger>());
             foreach (var command in componentModel.GetExtensions<ICommandInitializer>())
             {
@@ -145,22 +145,22 @@ namespace FineCodeCoverage.Output
 
         protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)
         {
-			return Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
-		}
+            return Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
+        }
         public override IVsAsyncToolWindowFactory GetAsyncToolWindowFactory(Guid toolWindowType)
-		{
+        {
             var isToolWindowWithContext = ReflectionMEFToolWindowContextProvider.IsToolWindowWithContext(this.GetType(), toolWindowType);
             return isToolWindowWithContext ? this : null;
-		}
+        }
 
-		protected override string GetToolWindowTitle(Type toolWindowType, int id)
-		{
-			if (toolWindowType == typeof(ReportToolWindow))
-			{
-				return $"{Vsix.Name} loading";
-			}
+        protected override string GetToolWindowTitle(Type toolWindowType, int id)
+        {
+            if (toolWindowType == typeof(ReportToolWindow))
+            {
+                return $"{Vsix.Name} loading";
+            }
 
-			return base.GetToolWindowTitle(toolWindowType, id);
-		}
-	}
+            return base.GetToolWindowTitle(toolWindowType, id);
+        }
+    }
 }

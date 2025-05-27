@@ -16,6 +16,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         ) => this.trackingLineFactory = lineTracker;
 
         public ITrackingLine Create(ITrackingSpan startTrackingSpan, ITextSnapshot currentSnapshot)
-            => this.trackingLineFactory.Create(startTrackingSpan, currentSnapshot,  DynamicCoverageType.NotIncluded);
+            => this.trackingLineFactory.Create(startTrackingSpan, currentSnapshot, DynamicCoverageType.NotIncluded);
     }
 }

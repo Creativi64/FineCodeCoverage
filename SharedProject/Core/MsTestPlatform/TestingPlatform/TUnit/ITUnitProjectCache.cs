@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

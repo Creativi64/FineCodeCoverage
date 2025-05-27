@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Core.Utilities
 {

@@ -1,9 +1,9 @@
-﻿using FineCodeCoverage.Engine;
-using FineCodeCoverage.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FineCodeCoverage.Engine;
+using FineCodeCoverage.Wpf;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output

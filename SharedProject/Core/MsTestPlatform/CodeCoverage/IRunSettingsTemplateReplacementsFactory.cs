@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Engine.Model;
+﻿using System.Collections.Generic;
+using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System.Collections.Generic;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

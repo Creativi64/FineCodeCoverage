@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Options
         Note that option properties must not be renamed
         Interfaces to be retained for reflection - IIncludesExcludesOptions => CoverageSettings
     */
-    internal class IncludesExcludesOptions: IIncludesExcludesOptions
+    internal class IncludesExcludesOptions : IIncludesExcludesOptions
     {
         private const string commonCategory = "Common";
         private const string msExcludeIncludeCategory = "Microsoft";
@@ -36,8 +36,8 @@ namespace FineCodeCoverage.Options
         #region coverlet opencover category
         [Category(CoverletOpenCoverCategory.Name)]
         [Description("Filter expressions to exclude specific modules and types (multiple)")]
-  //      [Description(
-  //      @"Filter expressions to exclude specific modules and types (multiple)
+        //      [Description(
+        //      @"Filter expressions to exclude specific modules and types (multiple)
 
         //Wildcards
         //* => matches zero or more characters
@@ -81,14 +81,14 @@ namespace FineCodeCoverage.Options
 
         [Category(CoverletOpenCoverCategory.Name)]
         [Description("Attributes to exclude from code coverage (multiple)")]
-  //      [Description(
-  //      @"Attributes to exclude from code coverage (multiple)
+        //      [Description(
+        //      @"Attributes to exclude from code coverage (multiple)
 
-		//You can ignore a method or an entire class from code coverage by creating and applying the [ExcludeFromCodeCoverage] attribute present in the System.Diagnostics.CodeAnalysis namespace.
-		//You can also ignore additional attributes by adding to this list (short name or full name supported) e.g. :
-		//[GeneratedCode] => Present in the System.CodeDom.Compiler namespace
-		//[MyCustomExcludeFromCodeCoverage] => Any custom attribute that you may define
-		//")]
+        //You can ignore a method or an entire class from code coverage by creating and applying the [ExcludeFromCodeCoverage] attribute present in the System.Diagnostics.CodeAnalysis namespace.
+        //You can also ignore additional attributes by adding to this list (short name or full name supported) e.g. :
+        //[GeneratedCode] => Present in the System.CodeDom.Compiler namespace
+        //[MyCustomExcludeFromCodeCoverage] => Any custom attribute that you may define
+        //")]
         [DisplayName("Exclude By Attribute")]
         public string[] ExcludeByAttribute { get; set; }
         #endregion

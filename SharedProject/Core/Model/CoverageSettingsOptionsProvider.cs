@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Core.Model
 {

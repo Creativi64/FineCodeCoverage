@@ -1,6 +1,6 @@
-﻿using Microsoft.Internal.VisualStudio.PlatformUI;
-using System;
+﻿using System;
 using System.Windows.Media;
+using Microsoft.Internal.VisualStudio.PlatformUI;
 
 // taken from https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.platformui.colorutilities?view=visualstudiosdk-2022
 // not available in 2019

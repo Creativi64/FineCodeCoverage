@@ -1,9 +1,9 @@
-﻿using FineCodeCoverage.Output;
-using System;
+﻿using System;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Core.Utilities
 {
- internal static class LoggerSingleton
+    internal static class LoggerSingleton
     {
         private static readonly Lazy<ILogger> _logger = new Lazy<ILogger>(() =>
         {

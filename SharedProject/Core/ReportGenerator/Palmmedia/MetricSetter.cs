@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         };
 
         public static List<MetricType> SetMetricProperties(
-            this PalmmediaCodeElement palmmediaCodeElement, 
+            this PalmmediaCodeElement palmmediaCodeElement,
             IEnumerable<PalmmediaMetric> metrics)
         {
             var metricTypes = new List<MetricType>();

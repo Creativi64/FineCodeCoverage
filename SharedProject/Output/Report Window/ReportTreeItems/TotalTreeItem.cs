@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.Imaging;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
-using System.Collections.Generic;
 
 namespace FineCodeCoverage.Output.Report_Window.ReportTreeItems
 {

@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.Imaging.Interop;
-using Microsoft.VisualStudio.Imaging;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
 using FineCodeCoverage.Engine.ReportGenerator;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
 {
@@ -21,9 +21,9 @@ namespace FineCodeCoverage.Output
                 namespaceGroup.Key,
                 namespaceGroup.Select(clss => new ClassTreeItem(clss))
                 )
-                {
-                    Parent = this
-                }
+            {
+                Parent = this
+            }
             );
 
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)

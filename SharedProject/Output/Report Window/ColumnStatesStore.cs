@@ -1,9 +1,9 @@
-﻿using FineCodeCoverage.Core.Initialization;
+﻿using System.ComponentModel.Composition;
+using System.Threading.Tasks;
+using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Threading;
-using System.ComponentModel.Composition;
-using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Output
 {

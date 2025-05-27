@@ -1,5 +1,4 @@
-﻿using Markdig.Renderers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace FineCodeCoverage.Readme

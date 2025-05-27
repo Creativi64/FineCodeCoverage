@@ -1,13 +1,11 @@
-﻿using Markdig.Extensions.Tables;
-using Markdig.Renderers;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using WpfTable = System.Windows.Documents.Table;
 using WpfTableCell = System.Windows.Documents.TableCell;
 using WpfTableColumn = System.Windows.Documents.TableColumn;
 using WpfTableRow = System.Windows.Documents.TableRow;
 using WpfTableRowGroup = System.Windows.Documents.TableRowGroup;
-using System.Collections.Generic;
 
 namespace FineCodeCoverage.Readme
 {

@@ -95,7 +95,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             else
             {
                 var dataCollectors = dataCollectionRunSettings.Element("DataCollectors");
-                if(dataCollectors == null)
+                if (dataCollectors == null)
                 {
                     dataCollectionRunSettings.Add(DataCollectors());
                 }
@@ -196,14 +196,14 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             string DelimitProject()
             {
-                if(project == null)
+                if (project == null)
                 {
                     return null;
                 }
                 return string.Join(",", project);
             }
 
-            if(existingRunSettings == null)
+            if (existingRunSettings == null)
             {
                 return DelimitProject();
             }
@@ -227,7 +227,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public void WithExcludeByAttribute(string[] projectExcludeByAttribute, string runSettingsExcludeByAttribute)
         {
-            if(runSettingsExcludeByAttribute != null)
+            if (runSettingsExcludeByAttribute != null)
             {
                 runSettingsExcludeByAttribute = string.Join(",", runSettingsExcludeByAttribute.Split(',').Select(Unqualify));
             }

@@ -26,10 +26,10 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             if (coverageProject.Settings.CoverletConsoleLocal)
             {
-				foreach(var configContainingDirectory in dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
+                foreach (var configContainingDirectory in dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
                 {
                     var coverletToolDetails = await dotnetToolListCoverlet.LocalAsync(configContainingDirectory);
-                    if(coverletToolDetails != null)
+                    if (coverletToolDetails != null)
                     {
                         return new ExecuteRequest
                         {
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
                 await this.logger.LogAsync("Unable to use Coverlet console local tool");
             }
-			return null;
+            return null;
         }
     }
 }

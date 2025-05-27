@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.Imaging;
+﻿using System.Windows.Media;
+using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.PlatformUI;
-using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {

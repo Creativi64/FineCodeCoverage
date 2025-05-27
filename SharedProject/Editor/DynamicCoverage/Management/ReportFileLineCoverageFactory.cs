@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public IFileLineCoverage Create(IReadOnlyList<IAssembly> assemblies)
         {
-            this.reportFileLineCoverage =  new ReportFileLineCoverage(assemblies, this.dateTimeService);
+            this.reportFileLineCoverage = new ReportFileLineCoverage(assemblies, this.dateTimeService);
             return this.reportFileLineCoverage;
         }
     }

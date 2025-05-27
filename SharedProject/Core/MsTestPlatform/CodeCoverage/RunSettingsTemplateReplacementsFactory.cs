@@ -1,10 +1,10 @@
-﻿using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Options;
-using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Options;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
@@ -200,7 +200,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             var additionalReferenced = referencedProjects.Select(
                 rp => MsCodeCoverageRegex.RegexModuleName(rp.AssemblyName, rp.IsDll));
-            if(includeTestAssembly == isInclude)
+            if (includeTestAssembly == isInclude)
             {
                 additionalReferenced = additionalReferenced.Append(MsCodeCoverageRegex.RegexEscapePath(testDllFile));
             }

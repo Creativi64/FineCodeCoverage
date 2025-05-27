@@ -108,7 +108,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             TrackedNewCodeLineUpdate trackedNewCodeLineUpdate = trackedNewCodeLine.Update(currentSnapshot);
             this.RemoveIfTracked(ranges, trackedNewCodeLineUpdate.NewLineNumber);
-            return this.ApplyUpdate(trackedNewCodeLineUpdate, trackedNewCodeLine,removals);
+            return this.ApplyUpdate(trackedNewCodeLineUpdate, trackedNewCodeLine, removals);
         }
 
         private IEnumerable<int> ApplyUpdate(

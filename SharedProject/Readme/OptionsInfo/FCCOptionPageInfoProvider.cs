@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Output;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Readme
 {

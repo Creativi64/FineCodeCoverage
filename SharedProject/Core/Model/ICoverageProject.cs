@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Engine.Model
 {

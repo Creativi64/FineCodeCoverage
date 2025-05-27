@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using System;
+﻿using System;
 using System.Windows.Input;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Wpf
 {

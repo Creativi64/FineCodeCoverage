@@ -5,7 +5,6 @@ using System.Linq;
 using System.Xml.Linq;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Options;
-using Palmmedia.ReportGenerator.Core.CodeAnalysis;
 
 namespace FineCodeCoverage.ReportGeneration
 {
@@ -51,7 +50,7 @@ namespace FineCodeCoverage.ReportGeneration
                 FullName = codeElement.Name;
                 Line = codeElement.StartLine;
                 List<Metric> metrics = new List<Metric>();
-                if(codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.ThresholdForCyclomaticComplexity)
+                if (codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.ThresholdForCyclomaticComplexity)
                 {
                     metrics.Add(new Metric("CyclomaticComplexity", codeElement.CyclomaticComplexity));
                 }

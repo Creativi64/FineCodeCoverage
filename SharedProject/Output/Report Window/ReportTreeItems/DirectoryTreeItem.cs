@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Output
         private readonly string name;
         private readonly string path;
 
-        public RootDirectoryTreeItem(IDirectory directory, string path,bool nameIsPath, SourceFileStructure sourceFileStructure) : base(directory, sourceFileStructure)
+        public RootDirectoryTreeItem(IDirectory directory, string path, bool nameIsPath, SourceFileStructure sourceFileStructure) : base(directory, sourceFileStructure)
         {
             this.name = Name;
             this.path = path;

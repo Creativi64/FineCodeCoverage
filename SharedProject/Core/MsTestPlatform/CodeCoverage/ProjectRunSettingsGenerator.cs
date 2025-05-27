@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using Task = System.Threading.Tasks.Task;
-using FineCodeCoverage.Engine.Model;
 using System.Linq;
-using FineCodeCoverage.Core.Utilities;
 using System.Xml.Linq;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

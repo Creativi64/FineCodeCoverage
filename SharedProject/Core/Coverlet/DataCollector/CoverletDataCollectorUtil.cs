@@ -128,7 +128,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             runSettingsCoverletConfiguration = runSettingsCoverletConfigurationFactory.Create();
             this.coverageProject = coverageProject;
 
-            if(coverageProject.RunSettingsFile != null)
+            if (coverageProject.RunSettingsFile != null)
             {
                 var runSettingsXml = fileUtil.ReadAllText(coverageProject.RunSettingsFile);
 
@@ -151,7 +151,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             var dataCollectorSettingsBuilder = dataCollectorSettingsBuilderFactory.Create();
             dataCollectorSettingsBuilder
-                .Initialize(coverageProject.Settings.RunSettingsOnly, coverageProject.RunSettingsFile, Path.Combine(coverageProject.CoverageOutputFolder,"FCC.runsettings"));
+                .Initialize(coverageProject.Settings.RunSettingsOnly, coverageProject.RunSettingsFile, Path.Combine(coverageProject.CoverageOutputFolder, "FCC.runsettings"));
 
             // command arguments
             dataCollectorSettingsBuilder
@@ -167,7 +167,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 .WithResultsDirectory(coverageProject.CoverageOutputFolder);
 
             string[] projectExcludes = coverageProject.ExcludedReferencedProjects.Select(erp => $"[{erp.AssemblyName}]*").ToArray();
-            if(coverageProject.Settings.Exclude != null)
+            if (coverageProject.Settings.Exclude != null)
             {
                 projectExcludes = projectExcludes.Concat(SanitizeExcludesOrIncludes(coverageProject.Settings.Exclude)).ToArray();
             }
@@ -185,7 +185,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     runSettingsCoverletConfiguration.ExcludeByAttribute);
 
             var projectIncludes = coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*");
-            if(coverageProject.Settings.Include != null)
+            if (coverageProject.Settings.Include != null)
             {
                 projectIncludes = projectIncludes.Concat(SanitizeExcludesOrIncludes(coverageProject.Settings.Include));
             }
@@ -223,7 +223,8 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         private async Task<string> GetTestAdapterPathArgAsync()
         {
-            if (!String.IsNullOrWhiteSpace(coverageProject.Settings.CoverletCollectorDirectoryPath)) {
+            if (!String.IsNullOrWhiteSpace(coverageProject.Settings.CoverletCollectorDirectoryPath))
+            {
                 var directoryPath = coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
                 if (Directory.Exists(directoryPath))
                 {
@@ -280,7 +281,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             return logger.LogAsync(LogRunMessage(coverletSettings));
         }
 
-        public void Initialize(string appDataFolder,CancellationToken cancellationToken)
+        public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
             var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
             var testAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");

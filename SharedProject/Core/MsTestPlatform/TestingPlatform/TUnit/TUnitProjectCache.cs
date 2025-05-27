@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public void Clear()
         {
-            foreach(var tUnitproject in projectLookup.Values)
+            foreach (var tUnitproject in projectLookup.Values)
             {
                 tUnitproject.Dispose();
             }

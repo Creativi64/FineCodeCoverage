@@ -1,10 +1,10 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using VSLangProj;
 using VSLangProj80;
 

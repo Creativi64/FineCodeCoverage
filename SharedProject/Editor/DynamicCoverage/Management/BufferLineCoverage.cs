@@ -93,7 +93,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.fileLineCoverage = lastCoverage.FileLineCoverage;
             this.lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
             this.fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
-            if(this.fileLines != null)
+            if (this.fileLines != null)
             {
                 this.UseLastCoverage();
             }
@@ -200,7 +200,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void CreateTrackedLines()
         {
             this.fileLines = this.fileLineCoverage.GetLines(this.textInfo.FilePath);
-            if(this.fileLines == null)
+            if (this.fileLines == null)
             {
                 this.trackedLines = null;
             }

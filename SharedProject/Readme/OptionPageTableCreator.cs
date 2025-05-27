@@ -31,13 +31,13 @@ namespace FineCodeCoverage.Readme
         public Table Create()
         {
             InitializeTable();
-            foreach(var optionPageInfo in fccOptionPageInfoProvider.Provide())
+            foreach (var optionPageInfo in fccOptionPageInfoProvider.Provide())
             {
-                foreach ( var propertyCategory in optionPageInfo.PropertyCategories)
+                foreach (var propertyCategory in optionPageInfo.PropertyCategories)
                 {
                     var rowHeader = optionPageInfo.PageName + " - " + propertyCategory.Category;
-                    AddRow(rowHeader,"","");
-                    foreach(var optionPropertyInfo in propertyCategory.OptionPropertyInfos)
+                    AddRow(rowHeader, "", "");
+                    foreach (var optionPropertyInfo in propertyCategory.OptionPropertyInfos)
                     {
                         var isCoverageSettingDisplay = optionPropertyInfo.IsCoverageSetting ? "Yes" : "";
                         AddRow(optionPropertyInfo.DisplayName, optionPropertyInfo.Description, isCoverageSettingDisplay);

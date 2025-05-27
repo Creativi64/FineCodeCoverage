@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using System.ComponentModel.Composition;
+using System.Windows.Media;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Options;
-using System.ComponentModel.Composition;
-using System.Windows.Media;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -10,7 +10,8 @@ namespace FineCodeCoverage.Output
     [Export(typeof(CoveragePercentageBarOptionsViewModel))]
     internal class CoveragePercentageBarOptionsViewModel : ObservableBase, IListener<CoverageColoursChangedMessage>
     {
-        class FontsAndColorsCoverageBarColours {
+        class FontsAndColorsCoverageBarColours
+        {
             public FontsAndColorsCoverageBarColours(Color coveredColor, Color notCoveredColor)
             {
                 CoveredColor = coveredColor;

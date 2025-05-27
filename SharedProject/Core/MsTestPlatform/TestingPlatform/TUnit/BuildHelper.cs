@@ -1,16 +1,17 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class BuildStartEnd : IVsUpdateSolutionEvents {
+    internal class BuildStartEnd : IVsUpdateSolutionEvents
+    {
         public event EventHandler<BuildStartEndArgs> BuildEvent;
 
         public int UpdateSolution_Begin(ref int pfCancelUpdate)
@@ -117,7 +118,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
         }
 
-        public async Task<bool> BuildAsync(List<IVsHierarchy> projects,CancellationToken cancellationToken)
+        public async Task<bool> BuildAsync(List<IVsHierarchy> projects, CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             if (await this.RequiresBuildAsync(cancellationToken))
@@ -155,7 +156,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
             return succeeded;
         }
-    
+
         private async Task<bool> RequiresBuildAsync(CancellationToken cancellationToken)
         {
             var respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;

@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.ProjectSystem;
-using Microsoft.VisualStudio.ProjectSystem.Properties;
-using Microsoft.VisualStudio.Shell.Interop;
-using NuGet.VisualStudio.Contracts;
-using System;
+﻿using System;
 using System.Collections.Immutable;
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.Properties;
+using Microsoft.VisualStudio.Shell.Interop;
+using NuGet.VisualStudio.Contracts;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -59,11 +59,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 var hasTestingPlatformCommandLineArgumentsPropertyName = false;
                 foreach (var propertyName in propertyNames)
                 {
-                    if(propertyName == FCCTestingPlatformCommandLineArgumentsPropertyName)
+                    if (propertyName == FCCTestingPlatformCommandLineArgumentsPropertyName)
                     {
                         return true;
                     }
-                    if(propertyName == TestingPlatformCommandLineArgumentsPropertyName)
+                    if (propertyName == TestingPlatformCommandLineArgumentsPropertyName)
                     {
                         hasTestingPlatformCommandLineArgumentsPropertyName = true;
                     }
@@ -207,7 +207,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
             this.commandLineParser = commandLineParser;
         }
-        public ITUnitProject Create(IVsHierarchy hierarchy,ConfiguredProject configuredProject)
+        public ITUnitProject Create(IVsHierarchy hierarchy, ConfiguredProject configuredProject)
         {
             return new TUnitProject(tUnitInstalledPackagesService, commandLineParser, configuredProject, hierarchy);
         }

@@ -1,8 +1,8 @@
-﻿using System.Windows.Media;
-using System.Windows;
-using Microsoft.VisualStudio.PlatformUI;
-using FineCodeCoverage.Wpf;
+﻿using System.Windows;
+using System.Windows.Media;
 using FineCodeCoverage.Options;
+using FineCodeCoverage.Wpf;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Output
 {
@@ -92,7 +92,7 @@ namespace FineCodeCoverage.Output
 
         public SolidColorBrush SingularPartBrush
         {
-            get {   return (SolidColorBrush)GetValue(SingularPartBrushProperty); }
+            get { return (SolidColorBrush)GetValue(SingularPartBrushProperty); }
             set { SetValue(SingularPartBrushProperty, value); }
         }
 
@@ -195,11 +195,12 @@ namespace FineCodeCoverage.Output
 
         private Brush GetStyleBrush(CoveragePercentageBarDisplayParts otherStyle, SolidColorBrush solidColorBrush)
         {
-            if (DisplayParts == otherStyle) {
+            if (DisplayParts == otherStyle)
+            {
                 return Brushes.Transparent;
             }
 
-            if(DisplayParts != CoveragePercentageBarDisplayParts.Both && SingularPartBrush.Color != Colors.Transparent)
+            if (DisplayParts != CoveragePercentageBarDisplayParts.Both && SingularPartBrush.Color != Colors.Transparent)
             {
                 solidColorBrush = SingularPartBrush;
             }
@@ -245,7 +246,8 @@ namespace FineCodeCoverage.Output
         );
     }
 
-    public partial class CoveragePercentageBar : CoveragePercentageBarBase {
+    public partial class CoveragePercentageBar : CoveragePercentageBarBase
+    {
         public CoveragePercentageBar()
         {
             InitializeComponent();

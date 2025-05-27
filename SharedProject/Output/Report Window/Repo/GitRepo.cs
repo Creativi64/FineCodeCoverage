@@ -1,14 +1,14 @@
 ﻿#if VS2022
-using LibGit2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LibGit2Sharp;
 #endif
 
 namespace FineCodeCoverage.Output
 {
-    #if VS2022
+#if VS2022
     internal class GitRepo : IGitRepo
     {
         private readonly Repository _repository;
@@ -89,7 +89,7 @@ namespace FineCodeCoverage.Output
                     case ChangeKind.Modified:
                     case ChangeKind.Renamed:
                         string key = patchEntryChanges.Path.Replace("/", "\\");
-                        if(workingDirectory != null)
+                        if (workingDirectory != null)
                         {
                             key = Path.Combine(workingDirectory, key);
                         }

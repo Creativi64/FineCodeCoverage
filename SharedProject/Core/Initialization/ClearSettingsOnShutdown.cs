@@ -1,9 +1,9 @@
-﻿using Microsoft;
+﻿using System.ComponentModel.Composition;
+using System.Diagnostics;
+using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
-using System.ComponentModel.Composition;
-using System.Diagnostics;
 
 namespace FineCodeCoverage.Core.Initialization
 {

@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace FineCodeCoverage.Core.Utilities
 {

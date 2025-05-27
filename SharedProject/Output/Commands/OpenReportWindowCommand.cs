@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.Shell;
+using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
-using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(ICommandInitializer))]
-	[Export(typeof(IReportToolWindowOpener))]
+    [Export(typeof(IReportToolWindowOpener))]
     internal sealed class OpenReportWindowCommand : CommandInitializerBase, IReportToolWindowOpener
     {
         private readonly IShownToolWindowHistory shownToolWindowHistory;

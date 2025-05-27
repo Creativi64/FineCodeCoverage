@@ -36,13 +36,15 @@ namespace FineCodeCoverage.Output
             try
             {
                 return new GitRepo(selectedRepositoryPath);
-            }catch(LibGit2Sharp.RepositoryNotFoundException)
+            }
+            catch (LibGit2Sharp.RepositoryNotFoundException)
             {
                 return null;
             }
         }
 
-        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup) {
+        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup)
+        {
             return new Changeset(changeLookup);
         }
 

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.Linq;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

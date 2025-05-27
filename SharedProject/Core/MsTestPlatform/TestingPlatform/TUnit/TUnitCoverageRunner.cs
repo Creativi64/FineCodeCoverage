@@ -1,8 +1,4 @@
-﻿using FineCodeCoverage.Core.Initialization;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Output;
-using Microsoft.VisualStudio.Threading;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -10,6 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Output;
+using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.toolUnzipper = toolUnzipper;
         }
 
-        private (string,string) GetExeAndArgs(
+        private (string, string) GetExeAndArgs(
             TUnitSettings tUnitSettings,
             bool hasCoverageExtension
         )
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             CancellationToken cancellationToken = default(CancellationToken))
         {
             this.cancellationToken = cancellationToken;
-            var (path,args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
+            var (path, args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
             // could have FCC option - hide-test-output or just allow them to supply their own
             await logger.LogAsync("Executing TUnit", path, "Arguments", args);
             using (var process = new Process())
@@ -112,10 +112,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task LogNonSuccessExitCodeAsync(int exitCode)
         {
-            if(exitCode != successExitCode)
+            if (exitCode != successExitCode)
             {
                 string message = $"Non success exit code : {exitCode}.";
-                if(nonSuccessExitCodeMessages.TryGetValue(exitCode, out var msg))
+                if (nonSuccessExitCodeMessages.TryGetValue(exitCode, out var msg))
                 {
                     message = $"{message}  {msg}";
                 }

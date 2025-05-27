@@ -1,8 +1,8 @@
-﻿using NuGet.VisualStudio.Contracts;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
+﻿using System;
 using System.Collections.Immutable;
+using System.Threading;
+using System.Threading.Tasks;
+using NuGet.VisualStudio.Contracts;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

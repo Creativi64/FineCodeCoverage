@@ -1,15 +1,16 @@
-﻿using Microsoft.VisualStudio.Settings;
+﻿using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.VisualStudio.Threading;
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IWritableUserSettingsStoreProvider))]
     internal class WritableUserSettingsStoreProvider : IWritableUserSettingsStoreProvider
     {
-        public AsyncLazy<WritableSettingsStore> LazySettingsStore { get; } = new AsyncLazy<WritableSettingsStore>(async () => {
+        public AsyncLazy<WritableSettingsStore> LazySettingsStore { get; } = new AsyncLazy<WritableSettingsStore>(async () =>
+        {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
             return settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);

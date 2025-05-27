@@ -2,6 +2,6 @@
 {
     internal interface ICoverageProjectFactory
     {
-		ICoverageProject Create();
+        ICoverageProject Create();
     }
 }

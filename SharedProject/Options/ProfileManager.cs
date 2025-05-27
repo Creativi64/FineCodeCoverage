@@ -1,14 +1,14 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System;
+using FineCodeCoverage.Core.Utilities;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Options
 {
-   internal class ProfileManager : Component, IProfileManager
+    internal class ProfileManager : Component, IProfileManager
     {
         private readonly List<IProfileOptionsProvider> optionsProviders;
         private readonly IJsonConvertService jsonConvertService;
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Options
             }
         }
 
-        private object DeserializeStringArray(string value,PropertyDescriptor _)
+        private object DeserializeStringArray(string value, PropertyDescriptor _)
         {
             return this.jsonConvertService.DeserializeObject<string[]>(value);
         }
@@ -100,7 +100,7 @@ namespace FineCodeCoverage.Options
             optionsProviders.ForEach(optionProvider => optionProvider.SaveSettingsToStorage());
         }
 
-        private string SerializeStringArray(object value,PropertyDescriptor _)
+        private string SerializeStringArray(object value, PropertyDescriptor _)
         {
             return this.jsonConvertService.SerializeObject(value);
         }

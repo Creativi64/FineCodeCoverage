@@ -1,6 +1,4 @@
-﻿using Markdig.Renderers.Wpf;
-using Markdig.Renderers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
 

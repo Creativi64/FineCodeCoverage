@@ -1,19 +1,19 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Impl;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Task = System.Threading.Tasks.Task;
-using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System.Xml.XPath;
-using FineCodeCoverage.Options;
 using System.Threading.Tasks;
-using ILogger = FineCodeCoverage.Output.ILogger;
+using System.Xml.XPath;
 using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Impl;
+using FineCodeCoverage.Options;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
+using ILogger = FineCodeCoverage.Output.ILogger;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
@@ -106,9 +106,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             this.fccEngine = fccEngine;
         }
 
-        public Task InitializeAsync(string appDataFolderPath,CancellationToken cancellationToken)
+        public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName,zipPrefix, cancellationToken);
+            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
             fccMsTestAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             shimPath = Path.Combine(zipDestination, "build", "netstandard2.0", "CodeCoverage", "coreclr", "Microsoft.VisualStudio.CodeCoverage.Shim.dll");
             return Task.CompletedTask;
@@ -119,7 +119,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public async Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(ITestOperation testOperation)
         {
             await InitializeIsCollectingAsync(testOperation);
-            if( runMsCodeCoverage != RunMsCodeCoverage.No)
+            if (runMsCodeCoverage != RunMsCodeCoverage.No)
             {
                 await TrySetUpForCollectionAsync(testOperation.SolutionDirectory);
             }
@@ -362,7 +362,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
     }
 
-    public static class IRunSettingsConfigurationInfoExtensions {
+    public static class IRunSettingsConfigurationInfoExtensions
+    {
         public static bool IsTestExecution(this IRunSettingsConfigurationInfo configurationInfo)
         {
             return configurationInfo.RequestState == RunSettingConfigurationInfoState.Execution;

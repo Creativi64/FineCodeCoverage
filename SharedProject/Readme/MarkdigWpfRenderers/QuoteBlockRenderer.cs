@@ -1,6 +1,4 @@
-﻿using Markdig.Renderers;
-using Markdig.Syntax;
-using System;
+﻿using System;
 using System.Windows.Documents;
 
 namespace FineCodeCoverage.Readme

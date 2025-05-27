@@ -1,10 +1,10 @@
-﻿using FineCodeCoverage.Output;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.Model
 {

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Impl
 {

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.Settings;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.Settings;
 
 namespace FineCodeCoverage.Options
 {

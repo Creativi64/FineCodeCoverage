@@ -7,7 +7,8 @@ namespace FineCodeCoverage.Output
 
     internal class ReportViewChangedEventArgs
     {
-        public ReportViewChangedEventArgs(bool changeSetChanged) {
+        public ReportViewChangedEventArgs(bool changeSetChanged)
+        {
             ChangesetChanged = changeSetChanged;
         }
 

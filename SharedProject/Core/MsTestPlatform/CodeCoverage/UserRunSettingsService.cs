@@ -1,10 +1,10 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Linq;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
@@ -65,14 +65,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 }
             }
 
-            return new UserRunSettingsAnalysisResult { Suitable = true,SpecifiedMsCodeCoverage = specifiedMsCodeCoverage, ProjectsWithFCCMsTestAdapter = projectsWithFCCMsTestAdapter };
+            return new UserRunSettingsAnalysisResult { Suitable = true, SpecifiedMsCodeCoverage = specifiedMsCodeCoverage, ProjectsWithFCCMsTestAdapter = projectsWithFCCMsTestAdapter };
         }
 
         private bool ProjectHasFCCMsTestAdapter()
         {
             var testAdaptersPathElement = runSettingsDoc.GetStrictDescendant("RunSettings/RunConfiguration/TestAdaptersPaths");
             // given that add a replaceable
-            if ( testAdaptersPathElement == null)
+            if (testAdaptersPathElement == null)
             {
                 return true;
             }
@@ -137,7 +137,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             if (!runSettingsTemplate.FCCGenerated(inputRunSettingDocument))
             {
-                return AddFCCRunSettingsActual(inputRunSettingDocument,configurationInfo,userRunSettingsProjectDetailsLookup,fccMsTestAdapterPath);
+                return AddFCCRunSettingsActual(inputRunSettingDocument, configurationInfo, userRunSettingsProjectDetailsLookup, fccMsTestAdapterPath);
             }
             return null;
         }
@@ -145,7 +145,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private IXPathNavigable AddFCCRunSettingsActual(IXPathNavigable inputRunSettingDocument, IRunSettingsConfigurationInfo configurationInfo, Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup, string fccMsTestAdapterPath)
         {
             var navigator = inputRunSettingDocument.CreateNavigator();
-            navigator.MoveToChild("RunSettings","");
+            navigator.MoveToChild("RunSettings", "");
             var clonedNavigator = navigator.Clone();
             var replacements = runSettingsTemplateReplacementsFactory.Create(
                 configurationInfo.TestContainers,

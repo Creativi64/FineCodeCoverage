@@ -1,12 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using FineCodeCoverage.Engine;
-using Microsoft.VisualStudio.Shell;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
+using FineCodeCoverage.Engine;
 using Microsoft.VisualStudio.Imaging.Interop;
+using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Output
 {
@@ -22,24 +22,24 @@ namespace FineCodeCoverage.Output
     /// </para>
     /// </remarks>
     [Guid("320fd13f-632f-4b16-9527-a1adfe555f6c")]
-	internal class ReportToolWindow : ToolWindowPane
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
-		/// </summary>
-		public ReportToolWindow(ReportToolWindowContext context) : base(null)
-		{
+    internal class ReportToolWindow : ToolWindowPane
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
+        /// </summary>
+        public ReportToolWindow(ReportToolWindowContext context) : base(null)
+        {
             Initialize(context);
         }
 
-		public ReportToolWindow()
+        public ReportToolWindow()
         {
-            Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow,ReportToolWindowContext>());
-		}
+            Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>());
+        }
 
-		private void Initialize(ReportToolWindowContext context)
+        private void Initialize(ReportToolWindowContext context)
         {
-			this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
+            this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
 
             Caption = Vsix.Name;
             this.BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };
@@ -49,62 +49,62 @@ namespace FineCodeCoverage.Output
             // the object returned by the Content property.
 
             try
-			{
-				AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            {
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
                 this.Content = new ReportToolWindowControl(context.ReportViewModel);
             }
-			finally
-			{
-				AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
-			}
-		}
+            finally
+            {
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+            }
+        }
 
-		private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-		{
-			var assemblyName = new AssemblyName(args.Name);
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var assemblyName = new AssemblyName(args.Name);
 
-			try
-			{
-				AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+            try
+            {
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
 
-				// try resolve by name
+                // try resolve by name
 
-				try
-				{
-					var assembly = Assembly.Load(assemblyName.Name);
-					if (assembly != null) return assembly;
-				}
-				catch
-				{
-					// ignore
-				}
+                try
+                {
+                    var assembly = Assembly.Load(assemblyName.Name);
+                    if (assembly != null) return assembly;
+                }
+                catch
+                {
+                    // ignore
+                }
 
-				// try resolve by path
+                // try resolve by path
 
-				try
-				{
-					var dllName = $"{assemblyName.Name}.dll";
-					var projectDllPath = Path.GetDirectoryName(typeof(FCCEngine).Assembly.Location);
-					var dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
+                try
+                {
+                    var dllName = $"{assemblyName.Name}.dll";
+                    var projectDllPath = Path.GetDirectoryName(typeof(FCCEngine).Assembly.Location);
+                    var dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
 
-					if (!string.IsNullOrWhiteSpace(dllPath))
-					{
-						var assembly = Assembly.LoadFile(dllPath);
-						if (assembly != null) return assembly;
-					}
-				}
-				catch
-				{
-					// ignore
-				}
-			}
-			finally
-			{
-				AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-			}
+                    if (!string.IsNullOrWhiteSpace(dllPath))
+                    {
+                        var assembly = Assembly.LoadFile(dllPath);
+                        if (assembly != null) return assembly;
+                    }
+                }
+                catch
+                {
+                    // ignore
+                }
+            }
+            finally
+            {
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            }
 
-			return null;
-		}
+            return null;
+        }
 
 
     }

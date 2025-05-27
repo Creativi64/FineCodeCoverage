@@ -40,7 +40,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.trackedLinesFactory = trackedLinesFactory;
         }
 
-        public void Handle(NewReportMessage message) {
+        public void Handle(NewReportMessage message)
+        {
             IFileLineCoverage fileLineCoverage = this.reportFileLineCoverageFactory.Create(message.Report.Assemblies);
             this.lastCoverage = new LastCoverage(fileLineCoverage, this.lastTestExecutionStartingDate);
             this.eventAggregator.SendMessage(new NewCoverageLinesMessage(fileLineCoverage));
@@ -53,7 +54,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 () =>
                 {
                     IBufferLineCoverage bufferLineCoverage = this.bufferLineCoverageFactory.Create(textInfo, this.eventAggregator, this.trackedLinesFactory);
-                    if(this.lastCoverage != null)
+                    if (this.lastCoverage != null)
                     {
                         bufferLineCoverage.SetLastCoverage(this.lastCoverage);
                     }

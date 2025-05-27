@@ -1,17 +1,17 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Output;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    internal enum DynamicCodeElementState {  Original, Dirty, Deleted}
+    internal enum DynamicCodeElementState { Original, Dirty, Deleted }
     interface IDynamicReportResult : IReportResult
     {
         event EventHandler<IReadOnlyList<FileRename>> FileRenamedEvent;
@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public DynamicClass(IClass clss)
             {
                 this.DisplayName = clss.DisplayName;
-                this.fileCodeElements = clss.FileCodeElements.ToDictionary(kvp => kvp.Key, kvp => ( IReadOnlyList<DynamicCodeElement>) kvp.Value.Select(ce => new DynamicCodeElement(ce)).ToList());
+                this.fileCodeElements = clss.FileCodeElements.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyList<DynamicCodeElement>)kvp.Value.Select(ce => new DynamicCodeElement(ce)).ToList());
                 this.SetFileCodeElements();
                 this.CodeElements = fileCodeElements.Values.SelectMany(ces => ces).ToList();
             }
@@ -98,14 +98,14 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             internal void FileRenamed(IReadOnlyList<FileRename> fileRenames)
             {
                 fileRenames = fileRenames.TryUpdateDictionary(fileCodeElements);
-                if(fileRenames.Count > 0)
+                if (fileRenames.Count > 0)
                 {
                     SetFileCodeElements();
                 }
-                foreach(var fileRename in fileRenames)
+                foreach (var fileRename in fileRenames)
                 {
                     IReadOnlyList<DynamicCodeElement> codeElements = fileCodeElements[fileRename.NewFilePath];
-                    foreach(var dynamicCodeElement in codeElements)
+                    foreach (var dynamicCodeElement in codeElements)
                     {
                         dynamicCodeElement.Path = fileRename.NewFilePath;
                     }
@@ -122,7 +122,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
             public void FileRenamed(IReadOnlyList<FileRename> fileRenames)
             {
-                foreach(var cls in Classes)
+                foreach (var cls in Classes)
                 {
                     (cls as DynamicClass).FileRenamed(fileRenames);
                 }

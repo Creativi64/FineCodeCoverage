@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.Imaging;
-using Microsoft.VisualStudio.Threading;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Wpf
 {

@@ -1,9 +1,9 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Wpf
 {

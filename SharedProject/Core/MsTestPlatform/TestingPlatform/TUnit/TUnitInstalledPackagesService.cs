@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.Threading;
-using NuGet.VisualStudio.Contracts;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
-using System.ComponentModel.Composition;
+﻿using System;
 using System.Collections.Immutable;
+using System.ComponentModel.Composition;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.Threading;
+using NuGet.VisualStudio.Contracts;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public TUnitInstalledPackageResult GetTUnitInstalledPackages(IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems)
         {
-            if(packageReferenceItems == null)
+            if (packageReferenceItems == null)
             {
                 return new TUnitInstalledPackageResult(InstalledPackageResultStatus.Unknown, false, false);
             }

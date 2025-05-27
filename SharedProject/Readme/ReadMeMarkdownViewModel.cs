@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using System.ComponentModel.Composition;
+using System.Windows.Documents;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Wpf;
-using System.ComponentModel.Composition;
-using System.Windows.Documents;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Readme

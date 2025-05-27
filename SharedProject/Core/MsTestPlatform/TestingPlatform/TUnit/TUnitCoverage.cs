@@ -1,16 +1,16 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
@@ -101,7 +101,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             try
             {
-                if(cancellationTokenSource?.IsCancellationRequested == false)
+                if (cancellationTokenSource?.IsCancellationRequested == false)
                 {
                     cancellationTokenSource.Cancel();
                 }
@@ -155,7 +155,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 await logger.LogAsync("Coverage collection cancelled");
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 await logger.LogAsync(exc.ToString());
             }
@@ -222,7 +222,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
-            var tunitProjects =  await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
+            var tunitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
             return !tunitProjects.Any();
         }
     }

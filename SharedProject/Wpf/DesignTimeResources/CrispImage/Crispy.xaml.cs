@@ -1,15 +1,15 @@
-﻿using Microsoft.VisualStudio.Imaging;
-using Microsoft.VisualStudio.Imaging.Interop;
-using Microsoft.VisualStudio.PlatformUI;
-using Microsoft.VisualStudio.Utilities;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using Image = System.Windows.Controls.Image;
-using Color = System.Windows.Media.Color;
 using System.Windows.Data;
+using System.Windows.Media;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
+using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Utilities;
+using Color = System.Windows.Media.Color;
+using Image = System.Windows.Controls.Image;
 
 namespace FineCodeCoverage.Wpf
 {

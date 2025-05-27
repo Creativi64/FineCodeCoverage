@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.ComponentModel.Design;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Output
 {

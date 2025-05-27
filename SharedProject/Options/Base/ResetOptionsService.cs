@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Engine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using FineCodeCoverage.Engine;
 
 namespace FineCodeCoverage.Options
 {

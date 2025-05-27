@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Core.Utilities
 {

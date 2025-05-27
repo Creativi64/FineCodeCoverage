@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.VCProjectEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.VCProjectEngine;
 
 namespace FineCodeCoverage.Engine.Model
 {

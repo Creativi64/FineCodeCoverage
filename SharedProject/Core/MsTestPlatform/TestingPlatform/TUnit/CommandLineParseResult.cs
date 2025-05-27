@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             Errors = errors;
         }
 
-        public static CommandLineParseResult Empty { get; } = new CommandLineParseResult(Enumerable.Empty<CommandLineParseOption>().ToList(),Enumerable.Empty<string>().ToList());
+        public static CommandLineParseResult Empty { get; } = new CommandLineParseResult(Enumerable.Empty<CommandLineParseOption>().ToList(), Enumerable.Empty<string>().ToList());
 
         public const char OptionPrefix = '-';
 

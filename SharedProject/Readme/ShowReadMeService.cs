@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Options;
+using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Settings;
 
 namespace FineCodeCoverage.Readme
@@ -33,7 +33,7 @@ namespace FineCodeCoverage.Readme
         {
             if (!this.HasShown)
             {
-                if(!this.writableUserSettingsStore.CollectionExists(readMeShowCollection))
+                if (!this.writableUserSettingsStore.CollectionExists(readMeShowCollection))
                 {
                     this.writableUserSettingsStore.CreateCollection(readMeShowCollection);
                 }

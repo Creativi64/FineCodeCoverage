@@ -1,5 +1,4 @@
-﻿using FineCodeCoverage.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 

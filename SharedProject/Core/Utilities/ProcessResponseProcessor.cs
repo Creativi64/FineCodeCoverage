@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Output;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Core.Utilities
 {
@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             this.logger = logger;
         }
-        public async Task<bool> ProcessAsync(ExecuteResponse result, Func<int, bool> exitCodeSuccessPredicate, bool throwError, string title,Action successCallback = null)
+        public async Task<bool> ProcessAsync(ExecuteResponse result, Func<int, bool> exitCodeSuccessPredicate, bool throwError, string title, Action successCallback = null)
         {
             if (!exitCodeSuccessPredicate(result.ExitCode))
             {

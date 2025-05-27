@@ -60,9 +60,9 @@ namespace FineCodeCoverage.Engine.Model
 
         private void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
         {
-            var (newOldStyleExclude,newMsExclude) = AddCommon(
+            var (newOldStyleExclude, newMsExclude) = AddCommon(
                 coverageSettings.Exclude, coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
-            var (newOldStyleInclude,newMsInclude) = AddCommon(
+            var (newOldStyleInclude, newMsInclude) = AddCommon(
                 coverageSettings.Include, coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
             coverageSettings.Exclude = newOldStyleExclude;
             coverageSettings.Include = newOldStyleInclude;
@@ -70,17 +70,17 @@ namespace FineCodeCoverage.Engine.Model
             coverageSettings.ModulePathsInclude = newMsInclude;
         }
 
-        private (string[] newOldStyle,string[] newMs) AddCommon(string[] oldStyle,string[] ms, string[] common )
+        private (string[] newOldStyle, string[] newMs) AddCommon(string[] oldStyle, string[] ms, string[] common)
         {
-            if(common == null)
+            if (common == null)
             {
-                return(oldStyle,ms);
+                return (oldStyle, ms);
             }
             var newMs = ListFromExisting(ms);
             var newOldStyle = ListFromExisting(oldStyle);
 
             var nonWhitespaceCommon = common.Where(c => !string.IsNullOrWhiteSpace(c));
-            foreach(var assemblyFileName in nonWhitespaceCommon)
+            foreach (var assemblyFileName in nonWhitespaceCommon)
             {
                 var msModulePath = $".*\\{assemblyFileName}.dll$";
                 newMs.Add(msModulePath);

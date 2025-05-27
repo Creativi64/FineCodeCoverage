@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Options
         IResetOptions,
         IProfileOptionsProvider,
         IOptionsProvider<TOptions>,
-        IDialogPageOptionsProvider<TOptions> where TOptions: class, new()
+        IDialogPageOptionsProvider<TOptions> where TOptions : class, new()
     {
         private readonly ILogger logger;
         private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;

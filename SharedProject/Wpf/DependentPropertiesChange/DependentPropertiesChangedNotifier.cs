@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Wpf
             RemoveStale();
         }
 
-       private void RemoveStale()
+        private void RemoveStale()
         {
             var removals = handlers.Keys.Where(k => k.DataContext != null && k.DataContext == BindingOperations.DisconnectedSource).ToList();
             removals.ForEach(removal => handlers.Remove(removal));

@@ -66,10 +66,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private INewCodeTracker GetNewCodeTrackerIfProvidesLineExcluder(ILineExcluder lineExcluder)
         {
-            if(lineExcluder == null) return null;
+            if (lineExcluder == null) return null;
             INewCodeTracker newCodeTracker = this.newCodeTrackerFactory.Create(lineExcluder);
             newCodeTracker.HasNewCodeChanged += (_, args)
-                => this.eventAggregator.SendMessage(new NewCodeChangedMessage(args.FilePath, args.HasNewCode),null);
+                => this.eventAggregator.SendMessage(new NewCodeChangedMessage(args.FilePath, args.HasNewCode), null);
 
             return newCodeTracker;
         }
@@ -84,9 +84,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
             ICoverageContentType coverageContentType = this.GetCoverageContentType(textSnapshot);
             IFileCodeSpanRangeService fileCodeSpanRangeService = coverageContentType.FileCodeSpanRangeService;
-            List<IContainingCodeTracker> containingCodeTrackers  = this.CreateContainingCodeTrackers(
+            List<IContainingCodeTracker> containingCodeTrackers = this.CreateContainingCodeTrackers(
                 coberturaLines, textSnapshot, fileCodeSpanRangeService, coverageContentType.CoverageOnlyFromFileCodeSpanRangeService);
-            return  this.containingCodeTrackedLinesFactory.Create(
+            return this.containingCodeTrackedLinesFactory.Create(
                 containingCodeTrackers,
                 this.GetNewCodeTrackerIfProvidesLineExcluder(coverageContentType.LineExcluder),
                 this.GetFileCodeSpanRangeServiceForChanges(coverageContentType));
@@ -181,9 +181,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             for (int lineNumber = 0; lineNumber < textSnapshot.LineCount; lineNumber++)
             {
                 bool inCodeSpanRange = InCodeSpanRange(lineNumber);
-                if(LineAtLineNumber(lineNumber))
+                if (LineAtLineNumber(lineNumber))
                 {
-                    if(inCodeSpanRange)
+                    if (inCodeSpanRange)
                     {
                         containedCoberturaLines.Add(coberturaLine);
                     }

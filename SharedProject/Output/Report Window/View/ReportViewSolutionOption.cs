@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Core.Utilities.Solution;
-using FineCodeCoverage.Core.Utilities;
+﻿using System;
 using System.ComponentModel.Composition;
-using System;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.Solution;
 
 namespace FineCodeCoverage.Output
 {

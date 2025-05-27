@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITextInfo textInfo,
             IEventAggregator eventAggregator,
             ITrackedLinesFactory trackedLinesFactory
-        ) =>  new BufferLineCoverage(
+        ) => new BufferLineCoverage(
                 textInfo,
                 eventAggregator,
                 trackedLinesFactory,

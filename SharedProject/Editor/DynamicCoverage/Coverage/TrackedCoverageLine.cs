@@ -22,7 +22,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.line = DynamicLine.FromCoberturaLine(coberturaLine);
             this.trackingSpan = trackingSpan;
             this.lineTracker = lineTracker;
-            if (coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine) {
+            if (coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine)
+            {
                 this.DynamicCoberturaLine = dynamicCoberturaLine;
                 this.updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
             }

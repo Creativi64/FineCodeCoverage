@@ -1,7 +1,6 @@
-﻿using FineCodeCoverage.Impl;
+﻿using System.Threading.Tasks;
+using FineCodeCoverage.Impl;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

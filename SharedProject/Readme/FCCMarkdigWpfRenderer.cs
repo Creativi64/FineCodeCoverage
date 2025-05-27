@@ -1,8 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using Markdig.Renderers.Wpf;
-using Markdig.Renderers.Wpf.Inlines;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Readme
 {

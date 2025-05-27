@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.ComponentModelHost;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Output
@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Output
         {
             toolWindowsWithContext = new Dictionary<Guid, bool>();
             var provideToolWindowAttributes = packageType.GetCustomAttributes<ProvideToolWindowAttribute>();
-            foreach(var provideToolWindowAttribute in provideToolWindowAttributes)
+            foreach (var provideToolWindowAttribute in provideToolWindowAttributes)
             {
                 var toolWindowType = provideToolWindowAttribute.ToolType;
                 toolWindowsWithContext.Add(toolWindowType.GUID, toolWindowType.GetConstructors().Any(c => c.GetParameters().Length == 1));
@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Output
 
         public static bool IsToolWindowWithContext(Type packageType, Guid toolWindowType)
         {
-            if(toolWindowsWithContext == null)
+            if (toolWindowsWithContext == null)
             {
                 SetToolWindowsWithContext(packageType);
             }

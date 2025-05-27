@@ -4,6 +4,6 @@ namespace FineCodeCoverage.Core.Utilities
 {
     internal interface IToolFolder
     {
-        string EnsureUnzipped(string appDataFolder,string ownFolderName, ZipDetails zipDetails, CancellationToken cancellationToken);
+        string EnsureUnzipped(string appDataFolder, string ownFolderName, ZipDetails zipDetails, CancellationToken cancellationToken);
     }
 }

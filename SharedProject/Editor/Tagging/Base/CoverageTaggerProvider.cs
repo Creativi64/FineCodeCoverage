@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        private bool ExcludeContentTypeFile(string contentType,string filePath)
+        private bool ExcludeContentTypeFile(string contentType, string filePath)
         {
             IFileExcluder contentTypeExcluder = this.fileExcluders.FirstOrDefault(fileExcluder => fileExcluder.ContentTypeName == contentType);
             return contentTypeExcluder?.Exclude(filePath) == true;

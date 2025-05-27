@@ -1,6 +1,4 @@
-﻿using Markdig.Renderers;
-using Markdig.Syntax.Inlines;
-using System;
+﻿using System;
 using System.Windows.Documents;
 
 namespace FineCodeCoverage.Readme
@@ -49,7 +47,7 @@ namespace FineCodeCoverage.Readme
             {
                 renderer.WriteChildren(obj);
             }
-            if(markdownTypeMarker.HasValue)
+            if (markdownTypeMarker.HasValue)
             {
                 return new ElementAndMarker(span, markdownTypeMarker.Value);
             }

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Options;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.TestWindow.Extensibility;
-using Task = System.Threading.Tasks.Task;
-using Microsoft.VisualStudio.Utilities;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.Threading;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
-using ILogger = FineCodeCoverage.Output.ILogger;
-using FineCodeCoverage.Output;
-using System.Threading.Tasks;
+using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
+using FineCodeCoverage.Options;
+using FineCodeCoverage.Output;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
+using Microsoft.VisualStudio.Utilities;
+using ILogger = FineCodeCoverage.Output.ILogger;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Impl
 {
@@ -94,7 +94,7 @@ namespace FineCodeCoverage.Impl
 
         private bool CoverageDisabled(RunOptions runOptions)
         {
-            return !runOptions.Enabled  && runOptions.DisabledNoCoverage;
+            return !runOptions.Enabled && runOptions.DisabledNoCoverage;
         }
 
         private Task LogCoverageStartingAsync()
@@ -267,7 +267,8 @@ namespace FineCodeCoverage.Impl
 
         private async Task OperationState_StateChangedAsync(OperationStateChangedEventArgs e)
         {
-            if (testOperationStateChangeHandlers.TryGetValue(e.State, out var handler)) {
+            if (testOperationStateChangeHandlers.TryGetValue(e.State, out var handler))
+            {
                 if (await coverageCollectableFromTestExplorer.IsCollectableAsync() && await testOperationStateInvocationManager.CanInvokeAsync(e.State))
                 {
                     await handler(e.Operation);

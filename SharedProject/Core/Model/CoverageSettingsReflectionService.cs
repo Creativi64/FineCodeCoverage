@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Engine.Model
         public CoverageSettingsReflectionService()
         {
             var interfaces = typeof(CoverageSettings).FindInterfaces((type, _) => type != typeof(ICoverageSettings), null);
-            coverageSettingsInterfacesPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace,iFace => iFace.GetProperties());
+            coverageSettingsInterfacesPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace, iFace => iFace.GetProperties());
             CoverageSettingsPropertyInfos = coverageSettingsInterfacesPropertyInfosLookup.Values.SelectMany(v => v).ToList();
         }
 
@@ -85,7 +85,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             var coverageSettings = new CoverageSettings();
 
-            foreach(var optionCoverageSettingsInterfacesPropertyInfos in GetOptionCoverageSettingsInterfacesPropertyInfos(coverageSettingsOptions))
+            foreach (var optionCoverageSettingsInterfacesPropertyInfos in GetOptionCoverageSettingsInterfacesPropertyInfos(coverageSettingsOptions))
             {
                 SetCovergeSettingsFromOptions(coverageSettings, optionCoverageSettingsInterfacesPropertyInfos);
             }
@@ -101,7 +101,7 @@ namespace FineCodeCoverage.Engine.Model
             }
         }
 
-        private object GetOptionValueCloneArrays(object option,PropertyInfo property)
+        private object GetOptionValueCloneArrays(object option, PropertyInfo property)
         {
             var value = property.GetValue(option);
             if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))

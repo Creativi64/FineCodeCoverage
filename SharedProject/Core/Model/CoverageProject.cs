@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Task = System.Threading.Tasks.Task;
 using System.Xml.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.FileSynchronization;
 using FineCodeCoverage.Options;
 using Microsoft.VisualStudio.Shell;
-using System.Threading;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.Model
 {
@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             get
             {
-                if(buildOutputPath == null)
+                if (buildOutputPath == null)
                 {
                     var adjacentBuildOutput = outputOptionsProvider.Get().AdjacentBuildOutput;
                     if (adjacentBuildOutput)
@@ -69,7 +69,7 @@ namespace FineCodeCoverage.Engine.Model
 
         public bool IsDotNetSdkStyle()
         {
-            if(isDotNetSdkStyle.HasValue)
+            if (isDotNetSdkStyle.HasValue)
             {
                 return isDotNetSdkStyle.Value;
             }
@@ -151,12 +151,14 @@ namespace FineCodeCoverage.Engine.Model
         public bool Is64Bit { get; set; }
         public string RunSettingsFile { get; set; }
         public bool IsDotNetFramework { get; private set; }
-        public string TargetFramework {
+        public string TargetFramework
+        {
             get => targetFramework;
             set
             {
                 targetFramework = value;
-                switch (targetFramework) {
+                switch (targetFramework)
+                {
                     case "Framework35":
                     case "Framework40":
                     case "Framework45":
@@ -193,7 +195,7 @@ namespace FineCodeCoverage.Engine.Model
             }
         }
 
-        public async Task<CoverageProjectFileSynchronizationDetails> PrepareForCoverageAsync(CancellationToken cancellationToken,bool synchronizeBuildOuput = true)
+        public async Task<CoverageProjectFileSynchronizationDetails> PrepareForCoverageAsync(CancellationToken cancellationToken, bool synchronizeBuildOuput = true)
         {
             cancellationToken.ThrowIfCancellationRequested();
             EnsureDirectories();

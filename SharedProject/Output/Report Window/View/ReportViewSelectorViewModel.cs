@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FineCodeCoverage.Wpf;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output
@@ -128,7 +128,7 @@ namespace FineCodeCoverage.Output
         private void RaiseOkChangedIfChanged()
         {
             var changedFromInitial = ChangedFromInitial();
-            if(changed != changedFromInitial)
+            if (changed != changedFromInitial)
             {
                 changed = changedFromInitial;
                 notifyOkCommandCanExecuteChanged();

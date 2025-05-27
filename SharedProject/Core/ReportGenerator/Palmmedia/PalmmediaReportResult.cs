@@ -1,5 +1,4 @@
-﻿using Palmmedia.ReportGenerator.Core.Parser;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace FineCodeCoverage.Engine.ReportGenerator

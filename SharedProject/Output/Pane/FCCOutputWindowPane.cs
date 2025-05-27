@@ -1,6 +1,6 @@
 ﻿using EnvDTE;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Output.Pane
 {

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using System.Globalization;
+﻿using System.Globalization;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Output
 {
@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Output
     {
         protected override string Convert(int total, int percentValue, object parameter, CultureInfo culture)
         {
-            if(total == 0)
+            if (total == 0)
             {
                 return "---";
             }

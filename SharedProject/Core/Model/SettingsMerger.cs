@@ -1,18 +1,18 @@
-﻿using FineCodeCoverage.Output;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine.Model
 {
     internal interface ISettingsMergeLogic
     {
         bool CanMerge(Type type);
-        object Merge(Type type,object first, object second);
+        object Merge(Type type, object first, object second);
     }
 
     public class SettingsMergeLogic : ISettingsMergeLogic
@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Engine.Model
             return typeMergers.ContainsKey(type);
         }
 
-        public object Merge(Type type,object first, object second)
+        public object Merge(Type type, object first, object second)
         {
             return typeMergers[type].Merge(first, second);
         }
@@ -96,7 +96,7 @@ namespace FineCodeCoverage.Engine.Model
             XElement projectSettingsElement)
         {
             settingsPropertyInfos = coverageSettingsPropertyInfos;
-            await MergeAsync(coverageSettings, GetElementDefaultMergeStrategies(settingsFileElements,projectSettingsElement));
+            await MergeAsync(coverageSettings, GetElementDefaultMergeStrategies(settingsFileElements, projectSettingsElement));
         }
 
         private List<SettingsElementDefaultMerge> GetElementDefaultMergeStrategies(List<XElement> settingsFileElements, XElement projectSettingsElement)
@@ -190,9 +190,9 @@ namespace FineCodeCoverage.Engine.Model
             }
         }
 
-        private async Task MergeAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement,bool fromProjectSettings)
+        private async Task MergeAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
         {
-            var value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo,fromProjectSettings);
+            var value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
             if (value != null)
             {
                 var currentValue = settingPropertyInfo.GetValue(coverageSettings);
@@ -242,9 +242,9 @@ namespace FineCodeCoverage.Engine.Model
             }
         }
 
-        private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement,bool fromProjectSettings)
+        private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
         {
-            var value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo,fromProjectSettings);
+            var value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
             if (value != null)
             {
                 settingPropertyInfo.SetValue(coverageSettings, value);
@@ -256,7 +256,7 @@ namespace FineCodeCoverage.Engine.Model
             return settingsElement.Descendants().FirstOrDefault(x => x.Name.LocalName.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
         }
 
-        private async Task<object> TryGetValueFromXmlAsync(XElement settingsElement, PropertyInfo property,bool fromProjectSettings)
+        private async Task<object> TryGetValueFromXmlAsync(XElement settingsElement, PropertyInfo property, bool fromProjectSettings)
         {
             try
             {

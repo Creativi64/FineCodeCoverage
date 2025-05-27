@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿using System.Windows.Media;
+using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
-using System.Windows.Media;
 
 namespace FineCodeCoverage.Core.Utilities
 {

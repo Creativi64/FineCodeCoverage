@@ -1,10 +1,10 @@
-﻿using Microsoft;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Core.Utilities
 {
@@ -91,7 +91,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public int OnAfterRenameFiles(int cProjects, int cFiles, IVsProject[] rgpProjects, int[] rgFirstIndices, string[] rgszMkOldNames, string[] rgszMkNewNames, VSRENAMEFILEFLAGS[] rgFlags)
         {
-            if(FileRenamedEvent != null)
+            if (FileRenamedEvent != null)
             {
                 List<FileRename> fileRenames = new List<FileRename>();
                 for (var i = 0; i < cFiles; i++)

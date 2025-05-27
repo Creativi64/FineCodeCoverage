@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             if (!Path.IsPathRooted(directory))
             {
-                directory =  Path.GetFullPath(Path.Combine(possiblyRelativeTo, directory));
+                directory = Path.GetFullPath(Path.Combine(possiblyRelativeTo, directory));
             }
             return directory;
         }
@@ -79,7 +79,7 @@ namespace FineCodeCoverage.Core.Utilities
         public string DirectoryParentPath(string directoryPath)
         {
             var parentDirectory = new DirectoryInfo(directoryPath).Parent;
-            if(parentDirectory == null)
+            if (parentDirectory == null)
             {
                 return null;
             }

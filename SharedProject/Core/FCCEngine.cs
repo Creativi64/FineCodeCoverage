@@ -5,12 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
-using LibGit2Sharp;
 using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Engine
@@ -79,7 +77,7 @@ namespace FineCodeCoverage.Engine
             cancellationTokenSource = disposeAwareTaskRunner.CreateLinkedTokenSource();
         }
 
-        private async Task<string[]> RunCoverageAsync(List<ICoverageProject> coverageProjects,CancellationToken vsShutdownLinkedCancellationToken)
+        private async Task<string[]> RunCoverageAsync(List<ICoverageProject> coverageProjects, CancellationToken vsShutdownLinkedCancellationToken)
         {
             // process pipeline
 
@@ -123,7 +121,7 @@ namespace FineCodeCoverage.Engine
         {
             var reportOutputFolder = coverageOutputManager.GetReportOutputFolder();
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
-            var result =  await reportGeneratorUtil.GenerateAsync(coverOutputFiles,reportOutputFolder,vsShutdownLinkedCancellationToken);
+            var result = await reportGeneratorUtil.GenerateAsync(coverOutputFiles, reportOutputFolder, vsShutdownLinkedCancellationToken);
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
             await logger.LogAsync("Processing cobertura");
@@ -247,11 +245,11 @@ namespace FineCodeCoverage.Engine
                 var coverOutputFiles = await RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
                 if (coverOutputFiles.Any())
                 {
-                   reportResult = await RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
+                    reportResult = await RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
                 }
 
                 return reportResult;
-            },null);
+            }, null);
         }
     }
 

@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Engine
             MessageBox.Show(error, caption, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public bool ShowWarning(string messageBoxText,string caption)
+        public bool ShowWarning(string messageBoxText, string caption)
         {
             MessageBoxResult result = MessageBox.Show(
                 messageBoxText,

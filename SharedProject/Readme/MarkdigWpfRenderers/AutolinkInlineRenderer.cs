@@ -1,6 +1,4 @@
-﻿using Markdig.Renderers;
-using Markdig.Syntax.Inlines;
-using System;
+﻿using System;
 using System.Windows.Documents;
 using System.Windows.Input;
 

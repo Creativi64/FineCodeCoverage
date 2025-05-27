@@ -10,8 +10,8 @@ namespace FineCodeCoverage.Engine.Coverlet
 
     internal interface IDotNetToolListCoverlet
     {
-		Task<CoverletToolDetails> LocalAsync(string directory);
-		Task<CoverletToolDetails> GlobalAsync();
-		Task<CoverletToolDetails> GlobalToolsPathAsync(string directory);
+        Task<CoverletToolDetails> LocalAsync(string directory);
+        Task<CoverletToolDetails> GlobalAsync();
+        Task<CoverletToolDetails> GlobalToolsPathAsync(string directory);
     }
 }

@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.Imaging.Interop;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Wpf
 {
@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Wpf
             InitializeComponent();
         }
 
-        public ICommand  Command
+        public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }

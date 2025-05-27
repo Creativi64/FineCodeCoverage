@@ -1,11 +1,12 @@
-﻿using FineCodeCoverage.Engine.Model;
-using Microsoft.VisualStudio.TestWindow.Extensibility;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.XPath;
+using FineCodeCoverage.Engine.Model;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
-    internal interface IUserRunSettingsAnalysisResult {
+    internal interface IUserRunSettingsAnalysisResult
+    {
         bool Suitable { get; }
         bool SpecifiedMsCodeCoverage { get; }
         List<ICoverageProject> ProjectsWithFCCMsTestAdapter { get; }

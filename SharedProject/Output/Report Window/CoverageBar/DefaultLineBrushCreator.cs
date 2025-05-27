@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
+using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Output
 {

@@ -1,16 +1,16 @@
-﻿using FineCodeCoverage.Core.Utilities.FCCVersioning;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Output.Pane;
-using System.ComponentModel.Composition;
-using FineCodeCoverage.Wpf;
-using System.Windows.Input;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
-using System;
-using FineCodeCoverage.Readme;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.FCCVersioning;
+using FineCodeCoverage.Output.Pane;
+using FineCodeCoverage.Readme;
+using FineCodeCoverage.Wpf;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Github
@@ -32,7 +32,8 @@ namespace FineCodeCoverage.Github
         public string VsVersionString { get; private set; }
         public string FccVersionString { get; private set; }
         private string fccOutput;
-        public string FccOutput {
+        public string FccOutput
+        {
             get => this.fccOutput;
             set
             {

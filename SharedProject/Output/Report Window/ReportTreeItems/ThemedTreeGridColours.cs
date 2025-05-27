@@ -1,8 +1,8 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using System.ComponentModel;
+using System.Windows.Media;
+using FineCodeCoverage.Core.Utilities;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
-using System.ComponentModel;
-using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Output
         private void SetImageBackgroundColor()
         {
             this.ImageBackgroundColor = ImageBackgroundThemeResourceKey.ToColor();
-            if(this.ImageBackgroundColor == Colors.Transparent)
+            if (this.ImageBackgroundColor == Colors.Transparent)
             {
                 this.ImageBackgroundColor = ImageBackgroundFallbackThemeResourceKey.ToColor();
             }
@@ -58,6 +58,6 @@ namespace FineCodeCoverage.Output
             this.SelectedItemInactiveForeColor = TreeViewColors.SelectedItemInactiveTextColorKey.ToBrush();
             this.ForegroundColor = TreeViewColors.BackgroundTextColorKey.ToBrush();
         }
-   }
+    }
 }
 

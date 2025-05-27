@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Linq;
-using System.Diagnostics;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.Shell;
 using System.ComponentModel.Composition;
-using Task = System.Threading.Tasks.Task;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using FineCodeCoverage.Core.Utilities.Telemetry;
+using Microsoft.VisualStudio.Shell;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output.Pane
 {
@@ -72,7 +72,8 @@ namespace FineCodeCoverage.Output.Pane
         }
 
         private readonly FaultEventName logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
-        public void LogFileAndForget(params string[] message){
+        public void LogFileAndForget(params string[] message)
+        {
             LogAsync(message).FileAndForget(logFaultEventName.ToString());
         }
     }

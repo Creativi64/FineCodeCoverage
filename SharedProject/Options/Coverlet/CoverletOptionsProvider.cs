@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Options
 {
@@ -18,7 +18,8 @@ namespace FineCodeCoverage.Options
                 IDefaultOptionsSetter<CoverletOptions> defaultOptionsSetter
             ) : base(
                 logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter
-            ) { }
+            )
+        { }
 
     }
 }

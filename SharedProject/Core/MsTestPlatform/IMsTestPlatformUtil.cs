@@ -2,6 +2,6 @@
 {
     interface IMsTestPlatformUtil
     {
-		string MsTestPlatformExePath { get; }
-	}
+        string MsTestPlatformExePath { get; }
+    }
 }

@@ -1,6 +1,4 @@
-﻿using FineCodeCoverage.Options;
-
-namespace FineCodeCoverage.Output
+﻿namespace FineCodeCoverage.Output
 {
     internal class ReportToolWindowContext
     {

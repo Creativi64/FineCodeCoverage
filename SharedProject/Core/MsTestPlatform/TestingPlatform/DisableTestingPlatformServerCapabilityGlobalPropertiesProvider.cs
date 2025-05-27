@@ -1,17 +1,17 @@
-﻿using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Options;
-using Microsoft.VisualStudio.ProjectSystem.Build;
-using Microsoft.VisualStudio.ProjectSystem;
-using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.Collections.Immutable;
-using System.Threading;
 using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
+using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Options;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.Build;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 {

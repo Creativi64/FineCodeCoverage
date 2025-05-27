@@ -24,7 +24,8 @@ namespace FineCodeCoverage.Core.Utilities.Solution
             using (var sr = new StreamReader(stream))
             {
                 var optionAsString = sr.ReadToEnd();
-                if (typeof(T) == typeof(string)) {
+                if (typeof(T) == typeof(string))
+                {
                     Value = (T)(object)optionAsString;
                 }
                 Value = (T)jsonConvertService.DeserializeObject(optionAsString, typeof(T));
@@ -41,7 +42,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         public void Save(Stream stream)
         {
-            using (var sw = new StreamWriter(stream, Encoding.UTF8,1024, leaveOpen:true))
+            using (var sw = new StreamWriter(stream, Encoding.UTF8, 1024, leaveOpen: true))
             {
                 sw.Write(jsonConvertService.SerializeObject(Value));
                 sw.Flush();
@@ -54,7 +55,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         public void Unloaded()
         {
             this.Value = this.GetDefaultValue();
-            UnloadedEvent?.Invoke(this,EventArgs.Empty);
+            UnloadedEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 }

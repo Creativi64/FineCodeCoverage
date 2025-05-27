@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Wpf
 {

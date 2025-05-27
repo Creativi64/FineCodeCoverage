@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Documents;
 using System.ComponentModel.Composition;
-using Markdig;
 using System.Linq;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace FineCodeCoverage.Readme
@@ -22,7 +21,7 @@ namespace FineCodeCoverage.Readme
         }
 
         public Func<FlowDocumentElementMarkers> Provide(
-            TemplatedReadmeInfo templatedReadMeInfo, 
+            TemplatedReadmeInfo templatedReadMeInfo,
             string optionTableReplacementMarker,
             ICommand navigateCommand
             )
