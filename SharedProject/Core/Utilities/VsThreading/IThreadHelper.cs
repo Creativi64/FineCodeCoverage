@@ -1,49 +1,7 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
-
-namespace FineCodeCoverage.Core.Utilities.VsThreading
+﻿namespace FineCodeCoverage.Core.Utilities.VsThreading
 {
     internal interface IThreadHelper
     {
         IJoinableTaskFactory JoinableTaskFactory { get; }
-    }
-
-    internal interface IJoinableTaskFactory
-    {
-        T Run<T>(Func<Task<T>> asyncMethod);
-        void Run(Func<Task> asyncMethod);
-        Task SwitchToMainThreadAsync(CancellationToken cancellationToken = default);
-    }
-
-    internal class VsJoinableTaskFactory : IJoinableTaskFactory
-    {
-        public T Run<T>(Func<Task<T>> asyncMethod)
-        {
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-            return ThreadHelper.JoinableTaskFactory.Run(asyncMethod);
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-        }
-
-        public void Run(Func<Task> asyncMethod)
-        {
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-            ThreadHelper.JoinableTaskFactory.Run(asyncMethod);
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-        }
-
-        public async Task SwitchToMainThreadAsync(CancellationToken cancellationToken = default)
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-        }
-    }
-
-    [Export(typeof(IThreadHelper))]
-    internal class VsThreadHelper : IThreadHelper
-    {
-        public IJoinableTaskFactory JoinableTaskFactory { get; } = new VsJoinableTaskFactory();
     }
 }

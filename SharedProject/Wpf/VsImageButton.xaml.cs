@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Wpf
 {
@@ -31,28 +29,5 @@ namespace FineCodeCoverage.Wpf
         public static readonly DependencyProperty ImageProperty =
             DependencyProperty.Register(nameof(Image), typeof(object), typeof(VsImageButton), new PropertyMetadata(null));
 
-    }
-
-    public class VsCrispImageButton : VsImageButton
-    {
-        public static readonly DependencyProperty MonikerProperty =
-DependencyProperty.Register(
-nameof(Moniker),
-typeof(ImageMoniker),
-typeof(VsCrispImageButton));
-
-        public ImageMoniker Moniker
-        {
-            get => (ImageMoniker)GetValue(MonikerProperty);
-            set => SetValue(MonikerProperty, value);
-        }
-
-
-        public VsCrispImageButton()
-        {
-            var crispy = new Crispy();
-            crispy.SetBinding(Crispy.MonikerProperty, new Binding(nameof(Moniker)) { Source = this });
-            base.Image = crispy;
-        }
     }
 }

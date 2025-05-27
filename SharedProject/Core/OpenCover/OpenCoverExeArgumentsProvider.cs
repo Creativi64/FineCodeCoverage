@@ -6,18 +6,6 @@ using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Engine.OpenCover
 {
-    internal static class CommandLineArguments
-    {
-        public static string AddQuotes(string value)
-        {
-            return $@"""{value}""";
-        }
-
-        public static string AddEscapeQuotes(string arg)
-        {
-            return $@"\""{arg}\""";
-        }
-    }
     [Export(typeof(IOpenCoverExeArgumentsProvider))]
     internal class OpenCoverExeArgumentsProvider : IOpenCoverExeArgumentsProvider
     {
@@ -139,16 +127,16 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         private string GetTargetArgs(ICoverageProject project)
         {
-            var runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $" /Settings:{CommandLineArguments.AddEscapeQuotes(project.RunSettingsFile)}" : default;
+            var runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $" /Settings:{CommandLineArgumentsHelper.AddEscapeQuotes(project.RunSettingsFile)}" : default;
             var openCoverTargetArgs = project.Settings.OpenCoverTargetArgs;
             var additionalTargetArgs = !string.IsNullOrWhiteSpace(openCoverTargetArgs) ? $" {openCoverTargetArgs}" : default;
-            return $@"""-targetargs:{CommandLineArguments.AddEscapeQuotes(project.TestDllFile)}{runSettings}{additionalTargetArgs}""";
+            return $@"""-targetargs:{CommandLineArgumentsHelper.AddEscapeQuotes(project.TestDllFile)}{runSettings}{additionalTargetArgs}""";
         }
 
         private void AddTargetAndTargetArgs(ICoverageProject project, List<string> opencoverSettings, string msTestPlatformExePath)
         {
             var target = !string.IsNullOrWhiteSpace(project.Settings.OpenCoverTarget) ? project.Settings.OpenCoverTarget : msTestPlatformExePath;
-            opencoverSettings.Add(CommandLineArguments.AddQuotes($"-target:{target}"));
+            opencoverSettings.Add(CommandLineArgumentsHelper.AddQuotes($"-target:{target}"));
             opencoverSettings.Add(GetTargetArgs(project));
         }
 
@@ -171,7 +159,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             var opencoverSettings = new List<string>();
             AddTargetAndTargetArgs(project, opencoverSettings, msTestPlatformExePath);
 
-            opencoverSettings.Add(CommandLineArguments.AddQuotes($"-output:{project.CoverageOutputFile}"));
+            opencoverSettings.Add(CommandLineArgumentsHelper.AddQuotes($"-output:{project.CoverageOutputFile}"));
 
             AddFilter(project, opencoverSettings);
             AddExcludeByFile(project, opencoverSettings);
