@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
+using Markdig.Renderers;
+using Markdig.Renderers.Wpf;
 
 namespace FineCodeCoverage.Readme
 {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using Markdig.Extensions.Tables;
+using Markdig.Renderers;
 using WpfTable = System.Windows.Documents.Table;
 using WpfTableCell = System.Windows.Documents.TableCell;
 using WpfTableColumn = System.Windows.Documents.TableColumn;

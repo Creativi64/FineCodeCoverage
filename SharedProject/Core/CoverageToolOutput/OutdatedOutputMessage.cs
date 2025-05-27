@@ -1,4 +1,4 @@
-﻿namespace SharedProject.Core.CoverageToolOutput
+﻿namespace FineCodeCoverage.Engine
 {
     internal class OutdatedOutputMessage
     {

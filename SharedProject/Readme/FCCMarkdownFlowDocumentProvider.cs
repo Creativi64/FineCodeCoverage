@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Documents;
 using System.Windows.Input;
+using Markdig;
 
 namespace FineCodeCoverage.Readme
 {

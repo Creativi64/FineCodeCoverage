@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
-using SharedProject.Core.CoverageToolOutput;
 
 namespace FineCodeCoverage.Output
 {

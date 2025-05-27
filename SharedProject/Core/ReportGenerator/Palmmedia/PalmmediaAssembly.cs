@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {

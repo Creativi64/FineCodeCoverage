@@ -5,7 +5,6 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.ReportGeneration;
-using SharedProject.Core.CoverageToolOutput;
 
 namespace FineCodeCoverage.Output
 {

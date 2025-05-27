@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Readme
+﻿using Markdig;
+
+namespace FineCodeCoverage.Readme
 {
     public static class NotifyingMarkkdownToFlowDocumentService
     {

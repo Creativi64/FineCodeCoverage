@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Documents;
+using Markdig;
 
 namespace FineCodeCoverage.Readme
 {

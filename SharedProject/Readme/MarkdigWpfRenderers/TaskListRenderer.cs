@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using Markdig.Extensions.TaskLists;
+using Markdig.Renderers;
 
 namespace FineCodeCoverage.Readme
 {

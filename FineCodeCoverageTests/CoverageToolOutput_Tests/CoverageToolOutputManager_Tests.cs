@@ -9,7 +9,6 @@ using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
 using Moq;
 using NUnit.Framework;
-using SharedProject.Core.CoverageToolOutput;
 
 namespace FineCodeCoverageTests
 {

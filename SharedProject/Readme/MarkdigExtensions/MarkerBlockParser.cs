@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Readme
+﻿using Markdig.Parsers;
+
+namespace FineCodeCoverage.Readme
 {
     public class MarkerBlockParser : BlockParser
     {
