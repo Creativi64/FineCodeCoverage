@@ -5,16 +5,24 @@ using NUnit.Framework;
 
 namespace FineCodeCoverageTests.CoverageToolOutput_Tests
 {
+    [TestFixture(".sln")]
+    [TestFixture(".slnx")]
     class SolutionFolderProvider_Tests
     {
         private string tempDirectory;
         private readonly FileUtil fileUtil = new FileUtil();
+        private readonly string solutionFileExtension;
+
+        public SolutionFolderProvider_Tests(string solutionFileExtension)
+        {
+            this.solutionFileExtension = solutionFileExtension;
+        }
 
         [SetUp]
         public void Create_Temp_Directory()
         {
             tempDirectory = fileUtil.CreateTempDirectory();
-            File.WriteAllText(Path.Combine(tempDirectory, "my.sln"), "");
+            File.WriteAllText(Path.Combine(tempDirectory, $"my{solutionFileExtension}"), "");
         }
 
         [TearDown]
