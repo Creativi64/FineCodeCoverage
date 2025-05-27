@@ -695,7 +695,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\OptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\OptionPropertyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\OptionPropertyInfoWithCategory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeFLowDocumentStyleSetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeFlowDocumentStyleSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeMarkdownViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMePipeLineProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\TemplatedReadmeInfo.cs" />

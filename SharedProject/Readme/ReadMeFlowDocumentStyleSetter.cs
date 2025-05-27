@@ -7,12 +7,12 @@ using System.Windows;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IReadMeFlowDocumentStylesSetter))]
-    internal class ReadMeFLowDocumentStyleSetter : IReadMeFlowDocumentStylesSetter
+    internal class ReadMeFlowDocumentStyleSetter : IReadMeFlowDocumentStylesSetter
     {
         private readonly IApplicationResourcesLoader applicationResourcesLoader;
 
         [ImportingConstructor]
-        public ReadMeFLowDocumentStyleSetter(
+        public ReadMeFlowDocumentStyleSetter(
             IApplicationResourcesLoader applicationResourcesLoader
         )
         {
