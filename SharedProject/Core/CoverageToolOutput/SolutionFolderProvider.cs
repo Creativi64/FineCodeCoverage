@@ -5,7 +5,7 @@ using System.Linq;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(ISolutionFolderProvider))]
-    class SolutionFolderProvider : ISolutionFolderProvider
+    internal class SolutionFolderProvider : ISolutionFolderProvider
     {
         public string Provide(string projectFile)
         {
@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Engine
             var directory = new FileInfo(projectFile).Directory;
             while(directory != null)
             {
-                var isSolutionDirectory = directory.EnumerateFiles().Any(f => f.Name.EndsWith(".sln"));
+                var isSolutionDirectory = directory.EnumerateFiles().Any(IsSolutionFile);
                 if (isSolutionDirectory)
                 {
                     provided = directory.FullName;
@@ -23,5 +23,7 @@ namespace FineCodeCoverage.Engine
             }
             return provided;
         }
+
+        private bool IsSolutionFile(FileInfo fileInfo) => fileInfo.Name.EndsWith(".sln") || fileInfo.Name.EndsWith(".slnx");
     }
 }
