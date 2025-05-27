@@ -2,12 +2,19 @@
 using Markdig.Syntax.Inlines;
 using System;
 using System.Windows.Documents;
-using Markdig.Wpf;
+using System.Windows.Input;
 
 namespace FineCodeCoverage.Readme
 {
     public class AutolinkInlineRenderer : NotifyingObjectRenderer<AutolinkInline>
     {
+        private readonly ICommand navigateCommand;
+
+        public AutolinkInlineRenderer(ICommand navigateCommand)
+        {
+            this.navigateCommand = navigateCommand;
+        }
+
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, AutolinkInline link)
         {
             if (renderer == null) throw new ArgumentNullException(nameof(renderer));
@@ -26,7 +33,7 @@ namespace FineCodeCoverage.Readme
 
             var hyperlink = new Hyperlink
             {
-                Command = Commands.Hyperlink,
+                Command = navigateCommand,
                 CommandParameter = url,
                 NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 ToolTip = link.Url,

@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Readme
     /// </para>
     /// </remarks>
     [Guid("1ee4211e-a350-4092-9d51-d5f15997354c")]
-    public class ReadmeToolWindow
+    internal class ReadmeToolWindow
         : ToolWindowPane
     {
         /// <summary>
@@ -46,7 +46,10 @@ namespace FineCodeCoverage.Readme
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
-            this.Content = new ReadmeControl(context.ReadMeMarkdownViewModel);
+
+            this.Content = new ReadmeControl() {
+                DataContext = context.ReadMeMarkdownViewModel
+            };
         }
     }
 }

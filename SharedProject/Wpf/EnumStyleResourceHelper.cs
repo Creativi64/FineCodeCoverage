@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace FineCodeCoverage.Readme
+namespace FineCodeCoverage.Wpf
 {
     internal static class EnumStyleResourceHelper
     {

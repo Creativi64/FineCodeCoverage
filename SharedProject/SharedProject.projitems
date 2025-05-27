@@ -551,7 +551,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Funding\FundingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Funding\IFundingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Funding\IFundingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Funding\ProcessStartCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Github\FCCGithubService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Github\IFCCGithubService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Github\INewIssueViewModel.cs" />
@@ -655,11 +654,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewSolutionOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ZeroToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\UIClearer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\EnumStyleResourceHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ApplicationResourcesLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\EnumStyleResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\FCCMarkdownFlowDocumentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\HyperlinkContainsImageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IFCCMarkdownFlowDocumentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IOptionPageTableCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMeFlowDocumentStylesSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMePipelineProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ITemplatedReadmeProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigExtensions\MarkerBlock.cs" />
@@ -694,6 +695,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\OptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\OptionPropertyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionsInfo\OptionPropertyInfoWithCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeFLowDocumentStyleSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeMarkdownViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMePipeLineProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\TemplatedReadmeInfo.cs" />
@@ -730,7 +732,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\VsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ProcessStartCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
@@ -773,7 +777,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\TreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ToolWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\TraceImageLibraryRegistrationAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMeMarkdownViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
@@ -831,6 +834,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Readme\ReadMeResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

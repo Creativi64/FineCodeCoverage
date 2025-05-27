@@ -2,16 +2,19 @@
 using Markdig.Renderers.Wpf;
 using Markdig.Renderers.Wpf.Inlines;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace FineCodeCoverage.Readme
 {
     internal class FCCMarkdigWpfRenderer : NotifyingWpfRenderer
     {
         private readonly string readMeDirectory;
+        private readonly ICommand navigateCommand;
 
-        public FCCMarkdigWpfRenderer(string readMeDirectory)
+        public FCCMarkdigWpfRenderer(string readMeDirectory, ICommand navigateCommand)
         {
             this.readMeDirectory = readMeDirectory;
+            this.navigateCommand = navigateCommand;
         }
         protected override List<INotifiyingObjectRenderer> LoadNotifyingObjectRenderers()
             => new List<INotifiyingObjectRenderer>
@@ -26,8 +29,8 @@ namespace FineCodeCoverage.Readme
 
                 new CodeInlineRenderer(),
                 new EmphasisInlineRenderer(),
-                new LinkInlineRenderer(readMeDirectory, FCCGithub.MasterBlob),
-                new AutolinkInlineRenderer()
+                new LinkInlineRenderer(this.readMeDirectory, FCCGithub.MasterBlob,this.navigateCommand),
+                new AutolinkInlineRenderer(this.navigateCommand)
             };
 
         protected override void LoadNonNotifyingObjectRenderers()

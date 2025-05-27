@@ -4,7 +4,6 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
-using Markdig.Wpf;
 using System.IO;
 using System.Windows.Input;
 
@@ -14,11 +13,13 @@ namespace FineCodeCoverage.Readme
     {
         private readonly string relativeRoot;
         private readonly string githubRoot;
+        private readonly ICommand navigateCommand;
 
-        public LinkInlineRenderer(string relativeRoot,string githubRoot)
+        public LinkInlineRenderer(string relativeRoot,string githubRoot,ICommand navigateCommand)
         {
             this.relativeRoot = relativeRoot;
             this.githubRoot = githubRoot;
+            this.navigateCommand = navigateCommand;
         }
 
         private string EnsureAbsolute(string url)
@@ -59,10 +60,10 @@ namespace FineCodeCoverage.Readme
                     Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)),
                     Tag = altText
                 };
-                ICommand command = Commands.Image;
+                ICommand command = null;
                 if (link.Parent is LinkInline urlLinkInline)
                 {
-                    command = Commands.Hyperlink;
+                    command = this.navigateCommand;
                     url = GetUrl(urlLinkInline);
                 }
 
@@ -80,7 +81,7 @@ namespace FineCodeCoverage.Readme
             {
                 var hyperlink = new Hyperlink
                 {
-                    Command = Commands.Hyperlink,
+                    Command = navigateCommand,
                     CommandParameter = url,
                     NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                     ToolTip = !string.IsNullOrEmpty(link.Title) ? link.Title : null,

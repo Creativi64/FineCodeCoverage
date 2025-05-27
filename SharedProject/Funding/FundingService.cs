@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Input;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Wpf;
 
 namespace FineCodeCoverage.Funding
 {
