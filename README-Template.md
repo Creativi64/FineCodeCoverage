@@ -400,4 +400,4 @@ used by this project.
 | Provider  |   Type    |                                                        Link                                                         |
 | :-------- | :-------: | :-----------------------------------------------------------------------------------------------------------------: |
 | Paypal    |   Once    | [![Paypal donate](https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png)](https://paypal.me/FortuneNgwenya)  |
-| Liberapay | Recurring | [![Liberapay donate](Art/librepay.png)](https://liberapay.com/FortuneN/donate)                                             |
+| Liberapay | Recurring | [![Liberapay donate](Art/liberapay.png)](https://liberapay.com/FortuneN/donate)                                             |
