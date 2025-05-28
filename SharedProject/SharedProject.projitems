@@ -242,6 +242,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileRenameExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ICancellationTokenSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IDisposeAwareTaskRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ImageLibrary\TraceLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IReadOnlyListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ITypeDescriptorService.cs" />
@@ -875,7 +876,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\IndicatorVisibility\ToggleCoverageIndicatorsMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\TreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\ToolWindowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\TraceImageLibraryRegistrationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ImageLibrary\TraceImageLibraryRegistrationAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>

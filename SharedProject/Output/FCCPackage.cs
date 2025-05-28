@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Readme;
@@ -36,7 +37,7 @@ namespace FineCodeCoverage.Output
     /// </para>
     /// </remarks>
     [ProvideBindingPath]
-    [TraceImageLibraryRegistration()]
+    [TraceImageLibraryRegistration(TraceLevel.Off)]
     [Guid(PackageGuids.guidFCCPackageString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Id)]

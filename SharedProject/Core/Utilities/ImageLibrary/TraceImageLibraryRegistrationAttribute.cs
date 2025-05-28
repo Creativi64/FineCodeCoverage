@@ -1,15 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Core.Utilities
 {
-    internal enum TraceLevel
-    {
-        Off,
-        Error,
-        Warning,
-        Info,
-        Verbose
-    }
 
     /*
         If there are issues with .imagemanifest files - for use with CrispImage and when referenced in vsct
