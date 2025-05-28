@@ -8,29 +8,32 @@ namespace FineCodeCoverage.Readme
 {
     public class MarkerBlockRenderer : WpfObjectRenderer<MarkerBlock>
     {
-        private readonly IDictionary<string, Func<Block>> blockCreators;
+        private readonly IDictionary<string, Func<IEnumerable<Block>>> blockCreators;
 
-        public MarkerBlockRenderer(IDictionary<string, Func<Block>> blockCreators)
+        public MarkerBlockRenderer(IDictionary<string, Func<IEnumerable<Block>>> blockCreators)
         {
             this.blockCreators = blockCreators;
         }
-        public MarkerBlockRenderer(string marker, Func<Block> creator) :
+        public MarkerBlockRenderer(string marker, Func<IEnumerable<Block>> creator) :
             this(
-                new Dictionary<string, Func<Block>> {
+                new Dictionary<string, Func<IEnumerable<Block>>> {
                     { marker, creator }
                 }
             )
         {
         }
 
-        protected override void Write(WpfRenderer renderer, MarkerBlock block)
+        protected override void Write(WpfRenderer renderer, MarkerBlock markerBlock)
         {
-            if (blockCreators.TryGetValue(block.Marker, out var creator))
+            if (blockCreators.TryGetValue(markerBlock.Marker, out var creator))
             {
-                var flowBlock = creator();
-                if (flowBlock != null)
+                var blocks = creator();
+                if (blocks != null)
                 {
-                    renderer.WriteBlock(flowBlock);
+                    foreach (var block in blocks)
+                    {
+                        renderer.WriteBlock(block);
+                    }
                 }
             }
         }

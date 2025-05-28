@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Imaging.Interop;
 using System.Windows;
+using System.Windows.Data;
 
 namespace FineCodeCoverage.Wpf
 {

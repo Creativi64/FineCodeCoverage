@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using FineCodeCoverage.Core.Utilities;
 using Markdig.Renderers.Wpf;
 using Markdig.Renderers.Wpf.Inlines;
@@ -16,31 +15,28 @@ namespace FineCodeCoverage.Readme
             this.readMeDirectory = readMeDirectory;
             this.navigateCommand = navigateCommand;
         }
-        protected override List<INotifiyingObjectRenderer> LoadNotifyingObjectRenderers()
-            => new List<INotifiyingObjectRenderer>
-            {
-                new CodeBlockRenderer(),
-                new HeadingRenderer(),
-                new ParagraphRenderer(),
-                new QuoteBlockRenderer(),
-                new ThematicBreakRenderer(),
-                new TableRenderer(),
-                new TaskListRenderer(),
 
-                new CodeInlineRenderer(),
-                new EmphasisInlineRenderer(),
-                new LinkInlineRenderer(this.readMeDirectory, FCCGithub.MasterBlob,this.navigateCommand),
-                new AutolinkInlineRenderer(this.navigateCommand)
-            };
-
-        protected override void LoadNonNotifyingObjectRenderers()
+        protected override void LoadRenderers()
         {
-            ObjectRenderers.Add(new ListRenderer());//markdig
+            // Notifying object renderers
+            ObjectRenderers.Add(new CodeBlockRenderer());
+            ObjectRenderers.Add(new HeadingRenderer());
+            ObjectRenderers.Add(new ParagraphRenderer());
+            ObjectRenderers.Add(new QuoteBlockRenderer());
+            ObjectRenderers.Add(new ThematicBreakRenderer());
+            ObjectRenderers.Add(new TableRenderer());
+            ObjectRenderers.Add(new TaskListRenderer());
+            ObjectRenderers.Add(new CodeInlineRenderer());
+            ObjectRenderers.Add(new EmphasisInlineRenderer());
+            ObjectRenderers.Add(new LinkInlineRenderer(this.readMeDirectory, FCCGithub.MasterBlob, this.navigateCommand));
+            ObjectRenderers.Add(new AutolinkInlineRenderer(this.navigateCommand));
 
-            ObjectRenderers.Add(new LiteralInlineRenderer()); // markdig
-            ObjectRenderers.Add(new DelimiterInlineRenderer()); // markdig
-            ObjectRenderers.Add(new HtmlEntityInlineRenderer());// markdig
-            ObjectRenderers.Add(new LineBreakInlineRenderer()); // markdig
+            //markdig
+            ObjectRenderers.Add(new ListRenderer());
+            ObjectRenderers.Add(new LiteralInlineRenderer());
+            ObjectRenderers.Add(new DelimiterInlineRenderer());
+            ObjectRenderers.Add(new HtmlEntityInlineRenderer());
+            ObjectRenderers.Add(new LineBreakInlineRenderer());
         }
     }
 }
