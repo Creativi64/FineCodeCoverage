@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Readme
 {
-    public interface IFCCOptionPageInfoProvider
+    internal interface IFCCOptionPageInfoProvider
     {
         IEnumerable<OptionPageInfo> Provide();
     }

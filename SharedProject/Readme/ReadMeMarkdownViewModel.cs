@@ -30,10 +30,7 @@ namespace FineCodeCoverage.Readme
             this.readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
             this.processStartCommand = new ProcessStartCommand(process);
             ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
-            miscOptionsProvider.OptionsChanged += (newOptions) =>
-            {
-                ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
-            };
+            miscOptionsProvider.OptionsChanged += (newOptions) => ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
         }
 
         public bool ShowHyperlinkUrlHover

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace FineCodeCoverage.Readme
 {
-    public class OptionPageInfo
+    internal class OptionPageInfo
     {
         public OptionPageInfo(Type optionType, string pageName, List<string> coverageSettingsPropertyNames)
         {

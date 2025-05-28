@@ -1,10 +1,7 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GithubReadmeCreator
 {
-    
     internal class Program
     {
         static void Main(string[] args)

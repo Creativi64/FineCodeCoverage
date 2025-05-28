@@ -7,7 +7,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IFCCOptionPageInfoProvider))]
-    public class FCCOptionPageInfoProvider : IFCCOptionPageInfoProvider
+    internal class FCCOptionPageInfoProvider : IFCCOptionPageInfoProvider
     {
         public IEnumerable<OptionPageInfo> Provide()
         {
