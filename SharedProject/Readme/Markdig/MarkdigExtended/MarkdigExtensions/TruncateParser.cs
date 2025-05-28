@@ -1,0 +1,37 @@
+﻿using Markdig.Parsers;
+using Markdig.Syntax;
+
+namespace FineCodeCoverage.Readme
+{
+    public class TruncateParser : BlockParser
+    {
+        private readonly string matchText;
+
+        public TruncateParser(string matchText)
+        {
+            this.matchText = matchText;
+            OpeningCharacters = new[] { matchText.TrimStart()[0] };
+        }
+
+        public override BlockState TryOpen(BlockProcessor processor)
+        {
+            var line = processor.Line.ToString().Trim();
+
+            if (line == matchText)
+            {
+                var block = new TruncateBlock(this)
+                {
+                    Line = processor.LineIndex,
+                    Column = processor.Column,
+                    Span = new SourceSpan(processor.Start, processor.Line.End)
+                };
+                processor.NewBlocks.Push(block);
+                processor.NoFurtherProcessing();
+
+                return BlockState.BreakDiscard;
+            }
+
+            return BlockState.None;
+        }
+    }
+}

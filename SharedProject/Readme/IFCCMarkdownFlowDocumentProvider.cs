@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Readme
         Func<FlowDocumentElementMarkers> Provide(
             TemplatedReadmeInfo templatedReadMeInfo,
             string optionTableReplacementMarker,
+            string truncateMarker,
             ICommand navigateCommand
             );
     }

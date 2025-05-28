@@ -6,6 +6,6 @@ namespace FineCodeCoverage.Readme
 {
     internal interface IReadMePipelineProvider
     {
-        MarkdownPipeline Provide(string marker, Func<Table> tableCreator);
+        MarkdownPipeline Provide(string marker, string truncateMatch, Func<Table> tableCreator);
     }
 }

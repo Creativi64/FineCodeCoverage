@@ -24,10 +24,11 @@ namespace FineCodeCoverage.Readme
         public Func<FlowDocumentElementMarkers> Provide(
             TemplatedReadmeInfo templatedReadMeInfo,
             string optionTableReplacementMarker,
+            string truncateMarker,
             ICommand navigateCommand
             )
         {
-            var pipeline = readMePipeLineProvider.Provide(optionTableReplacementMarker, optionPageTableCreator.Create);
+            var pipeline = readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, optionPageTableCreator.Create);
             var markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);
             return () =>
             {

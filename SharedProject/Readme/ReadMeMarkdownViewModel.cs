@@ -15,6 +15,9 @@ namespace FineCodeCoverage.Readme
         private readonly IReadMeFlowDocumentStylesSetter readMeFlowDocumentStyleSetter;
         private readonly ProcessStartCommand processStartCommand;
         private bool showHyperlinkUrlHover;
+        private FlowDocument flowDocument;
+        public const string OptionsTableReplacementMarker = "FCCOptionsTable";
+        public const string TruncateMarker = "## Please support the project";
 
         [ImportingConstructor]
         public ReadMeMarkdownViewModel(
@@ -39,19 +42,19 @@ namespace FineCodeCoverage.Readme
             set => this.Set(ref this.showHyperlinkUrlHover, value);
         }
 
-        public FlowDocument FlowDocument
+        private FlowDocument GetFlowDocument()
         {
-            get
-            {
-                var templatedReadmeInfo = this.readmeProvider.GetTemplatedReadme();
-                var flowDocumentElementMarkers = fccMarkdownFlowDocumentProvider.Provide(
-                    templatedReadmeInfo,
-                    "FCCOptionsTable",
-                    this.processStartCommand
-                    )();
-                this.readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
-                return flowDocumentElementMarkers.FlowDocument;
-            }
+            var templatedReadmeInfo = this.readmeProvider.GetTemplatedReadme();
+            var flowDocumentElementMarkers = fccMarkdownFlowDocumentProvider.Provide(
+                templatedReadmeInfo,
+                ReadMeMarkdownViewModel.OptionsTableReplacementMarker,
+                ReadMeMarkdownViewModel.TruncateMarker,
+                this.processStartCommand
+                )();
+            this.readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
+            return flowDocumentElementMarkers.FlowDocument;
         }
+
+        public FlowDocument FlowDocument => flowDocument ?? (flowDocument = GetFlowDocument());
     }
 }
