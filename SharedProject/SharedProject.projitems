@@ -749,6 +749,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\View\ReportViewState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Report Window\ZeroToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\UIClearer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionPageTableCellAlignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\OptionPageTableDisplayInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\EnumStyleResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\FCCMarkdownFlowDocumentProvider.cs" />

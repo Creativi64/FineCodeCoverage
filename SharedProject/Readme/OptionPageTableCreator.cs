@@ -35,11 +35,15 @@ namespace FineCodeCoverage.Readme
             {
                 foreach (var propertyCategory in optionPageInfo.PropertyCategories)
                 {
-                    var rowHeader = optionPageInfo.PageName + " - " + propertyCategory.Category;
-                    AddRow(rowHeader, "", "");
+                    AddRow(
+                        OptionPageTableDisplayInfo.PageNameCategoryDisplay(optionPageInfo.PageName,propertyCategory.Category),
+                        "",
+                        ""
+                    );
                     foreach (var optionPropertyInfo in propertyCategory.OptionPropertyInfos)
                     {
-                        var isCoverageSettingDisplay = optionPropertyInfo.IsCoverageSetting ? "Yes" : "";
+                        var isCoverageSettingDisplay = optionPropertyInfo.IsCoverageSetting
+                            ? OptionPageTableDisplayInfo.IsCoverageSettingYes : OptionPageTableDisplayInfo.IsCoverageSettingNo;
                         AddRow(optionPropertyInfo.DisplayName, optionPropertyInfo.Description, isCoverageSettingDisplay);
                     }
                 }
@@ -57,7 +61,11 @@ namespace FineCodeCoverage.Readme
             table.Columns.Add(new TableColumn());
             this.tableRowGroup = (new TableRowGroup());
             table.RowGroups.Add(tableRowGroup);
-            AddRow("Option", "Description", "Is Coverage Setting", true);
+            AddRow(
+                OptionPageTableDisplayInfo.OptionHeader,
+                OptionPageTableDisplayInfo.DescriptionHeader,
+                OptionPageTableDisplayInfo.IsCoverageSettingHeader,
+            true);
         }
 
         private void AddRow(string cell1, string cell2, string cell3, bool isHeaderRow = false)
@@ -70,21 +78,33 @@ namespace FineCodeCoverage.Readme
 
             tableRowGroup.Rows.Add(row);
 
-            AddCell(row, cell1);
-            AddCell(row, cell2);
-            AddCell(row, cell3, isHeaderRow ? TextAlignment.Left : TextAlignment.Center);
+            AddCell(row, cell1,isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.OptionCellAlignment);
+            AddCell(row, cell2, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.DescriptionCellAlignment);
+            AddCell(row, cell3, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.IsCoverageSettingCellAlignment);
         }
 
-        private void AddCell(TableRow row, string cellStr, TextAlignment textAlignment = TextAlignment.Left)
+        private void AddCell(TableRow row, string cellStr, OptionPageTableCellAlignment alignment)
         {
             if (cellStr == null) return;
-            var cell = new TableCell() { TextAlignment = textAlignment };
+            var cell = new TableCell() { TextAlignment = GetTextAlignment(alignment) };
             var cellParagraph = new Paragraph(new Run(cellStr));
             cell.Blocks.Add(cellParagraph);
             AddElementAndMarker(cellParagraph, MarkdownTypeMarker.Paragraph);
             AddElementAndMarker(cell, MarkdownTypeMarker.TableCell);
 
             row.Cells.Add(cell);
+        }
+
+        private TextAlignment GetTextAlignment(OptionPageTableCellAlignment alignment)
+        {
+            switch (alignment)
+            {
+                case OptionPageTableCellAlignment.Right:
+                    return TextAlignment.Right;
+                case OptionPageTableCellAlignment.Center:
+                    return TextAlignment.Center;
+            }
+            return TextAlignment.Left;
         }
     }
 

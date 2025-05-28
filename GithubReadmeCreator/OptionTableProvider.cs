@@ -45,10 +45,11 @@ namespace GithubReadmeCreator
             {
                 foreach (var c in optionPageInfo.PropertyCategories)
                 {
-                    rows.Add(new string[] { $"**{optionPageInfo.PageName} - {c.Category}**", "", "" });
+                    rows.Add(new string[] { $"**{OptionPageTableDisplayInfo.PageNameCategoryDisplay(optionPageInfo.PageName,c.Category)}**", "", "" });
                     foreach (var p in c.OptionPropertyInfos)
                     {
-                        var isCoverageProjectSetting = p.IsCoverageSetting ? "Yes" : "No";
+                        var isCoverageProjectSetting = p.IsCoverageSetting ?
+                            OptionPageTableDisplayInfo.IsCoverageSettingYes : OptionPageTableDisplayInfo.IsCoverageSettingNo;
                         rows.Add(new string[] { p.DisplayName, p.Description, isCoverageProjectSetting });
                     }
                     rows.Add(new string[] { "<br>", "" });
@@ -57,11 +58,30 @@ namespace GithubReadmeCreator
 
             var optionsTableString = this.pipeTable.GetString(
                 new PipeTableHeader[] {
-                    new PipeTableHeader("Property"),
-                    new PipeTableHeader("Description"),
-                    new PipeTableHeader("Is project setting", PipeTableColumnAlignment.Center)
+                    new PipeTableHeader(
+                        OptionPageTableDisplayInfo.OptionHeader,
+                        GetColumnAlignment(OptionPageTableDisplayInfo.OptionCellAlignment)),
+                    new PipeTableHeader(OptionPageTableDisplayInfo.DescriptionHeader,
+                         GetColumnAlignment(OptionPageTableDisplayInfo.DescriptionCellAlignment)
+                    ),
+                    new PipeTableHeader(
+                        OptionPageTableDisplayInfo.IsCoverageSettingHeader,
+                        GetColumnAlignment(OptionPageTableDisplayInfo.IsCoverageSettingCellAlignment)
+                    )
                 }, rows);
             return Environment.NewLine + optionsTableString;
+        }
+
+        private PipeTableColumnAlignment GetColumnAlignment(OptionPageTableCellAlignment optionPageTableColumnAlignment)
+        {
+            switch (optionPageTableColumnAlignment)
+            {
+                case OptionPageTableCellAlignment.Center:
+                    return PipeTableColumnAlignment.Center;
+                case OptionPageTableCellAlignment.Right:
+                    return PipeTableColumnAlignment.Right;
+            }
+            return PipeTableColumnAlignment.Left;
         }
     }
 }

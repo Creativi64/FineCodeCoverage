@@ -34,3 +34,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("FineCodeCoverageTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("GithubReadmeCreator")]
