@@ -7,12 +7,6 @@ using Microsoft.Internal.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    public enum ContrastComparisonResult
-    {
-        ContrastHigherWithBlack,
-        ContrastHigherWithWhite,
-        Equal,
-    }
     public static class ColorUtilities
     {
         private static readonly double WhiteLuminance = Colors.White.GetLuminance();
@@ -44,7 +38,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 double num1 = (double)fg / (double)byte.MaxValue;
                 double num2 = (double)bg / (double)byte.MaxValue;
-                return Math.Max((byte)0, Math.Min(byte.MaxValue, (byte)((num1 * unitScaledForegroundAlpha + num2 * (1.0 - unitScaledForegroundAlpha)) * (double)byte.MaxValue)));
+                return Math.Max((byte)0, Math.Min(byte.MaxValue, (byte)(((num1 * unitScaledForegroundAlpha) + (num2 * (1.0 - unitScaledForegroundAlpha))) * (double)byte.MaxValue)));
             }
         }
 
@@ -54,7 +48,7 @@ namespace FineCodeCoverage.Core.Utilities
             return num < 1.0 ? 1.0 / num : num;
         }
 
-        public static double GetLuminance(this Color color) => 0.2126 * ColorUtilities.ScaleComponentForLuminance((int)color.R) + 447.0 / 625.0 * ColorUtilities.ScaleComponentForLuminance((int)color.G) + 0.0722 * ColorUtilities.ScaleComponentForLuminance((int)color.B);
+        public static double GetLuminance(this Color color) => (0.2126 * ColorUtilities.ScaleComponentForLuminance((int)color.R)) + (447.0 / 625.0 * ColorUtilities.ScaleComponentForLuminance((int)color.G)) + (0.0722 * ColorUtilities.ScaleComponentForLuminance((int)color.B));
 
         private static double ScaleComponentForLuminance(int component)
         {
@@ -64,8 +58,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static SolidColorBrush GetBrushFromCache(Color color)
         {
-            SolidColorBrush brushFromCache1;
-            if (ColorUtilities.BrushCache.TryGetValue(color, out brushFromCache1))
+            if (ColorUtilities.BrushCache.TryGetValue(color, out SolidColorBrush brushFromCache1))
                 return brushFromCache1;
             SolidColorBrush brushFromCache2 = new SolidColorBrush(color);
             brushFromCache2.Freeze();

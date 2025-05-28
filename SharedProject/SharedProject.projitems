@@ -233,7 +233,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\VerbosityLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\CancellationTokenSourceWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ColorConversionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ColourUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Colours\ColourUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Colours\ContrastComparisonResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\DotNetToolInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\DotNetToolListExecutionResult.cs" />
