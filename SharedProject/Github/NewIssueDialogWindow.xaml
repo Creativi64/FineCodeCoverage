@@ -6,11 +6,10 @@
                         xmlns:platform="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
                         xmlns:fccwpf="clr-namespace:FineCodeCoverage.Wpf"
                         mc:Ignorable="d"
-                        Width="600"
-                        d:DesignHeight="600"
-                        d:DesignWidth="400"
+                        d:DesignWidth="600"
 						fccwpf:Themes.UseVsTheme="True"
                         Title="New Issue"
+                        Width="600"
                         SizeToContent="Height"
 						>
     <StackPanel Margin="8,8,8,0">
@@ -29,9 +28,16 @@
         <Separator Margin="0,8,0,8"/>
 
         <TextBlock Margin="0,0,0,10">FCC Log</TextBlock>
-        <TextBlock>If empty please run coverage again. <Hyperlink Command="{Binding RefreshFCCOutputCommand}">Refresh</Hyperlink></TextBlock>
+        <TextBlock>
+            <Run Text="If empty please run coverage again."/>
+            <Hyperlink Command="{Binding RefreshFCCOutputCommand}">Refresh</Hyperlink>
+        </TextBlock>
         <TextBlock>The log, below, will be copied to clipboard on submit.  Please paste into the issue in the browser.</TextBlock>
-        <TextBlock>Alternatively, <Hyperlink Command="{Binding MailToCommand}">mail privately</Hyperlink> after creating an issue.  Please add the issue number in the title</TextBlock>
+        <TextBlock>
+            <Run Text="Alternatively,"/>
+            <Hyperlink Command="{Binding MailToCommand}">mail privately</Hyperlink>
+            <Run Text="after creating an issue.  Please add the issue number in the title"/>
+        </TextBlock>
         <TextBox
             Margin="0,8,0,0"
             Height="340"
@@ -42,8 +48,8 @@
         />
         <CheckBox Margin="0,8,0,0" IsChecked="{Binding HaveCheckedFCCIssues}">
             <TextBlock>
-                    <Run Text="Have checked"/>
-                    <Hyperlink Command="{Binding SearchIssuesCommand}">existing issues</Hyperlink>
+                <Run Text="Have checked"/>
+                <Hyperlink Command="{Binding SearchIssuesCommand}">existing issues</Hyperlink>
             </TextBlock>
         </CheckBox>
         <CheckBox Margin="0,8,0,0" IsChecked="{Binding HaveReadReadme}">
