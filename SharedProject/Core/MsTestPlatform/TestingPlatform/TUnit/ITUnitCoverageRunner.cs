@@ -11,6 +11,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             TUnitSettings tUnitSettings,
             bool hasCoverageExtension,
             bool showWindow = false,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
     }
 }

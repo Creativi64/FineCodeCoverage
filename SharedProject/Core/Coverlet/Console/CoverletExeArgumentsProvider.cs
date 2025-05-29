@@ -8,21 +8,14 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(ICoverletExeArgumentsProvider))]
     internal class CoverletExeArgumentsProvider : ICoverletExeArgumentsProvider
     {
-        private IEnumerable<string> SanitizeExcludesByAttribute(string[] excludes)
-        {
-            return (excludes ?? new string[0])
+        private IEnumerable<string> SanitizeExcludesByAttribute(string[] excludes) => (excludes ?? new string[0])
                 .Where(x => x != null)
                 .Select(x => x.Trim(' ', '\'', '\"'))
                 .Where(x => !string.IsNullOrWhiteSpace(x));
-        }
 
         private static IEnumerable<string> SantitizeExcludeInclude(string[] excludesOrIncludes)
-        {
-            return (excludesOrIncludes ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x)).Select(value =>
-            {
-                return value.Replace("\"", "\\\"").Trim(' ', '\'');
-            });
-        }
+            => (excludesOrIncludes ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(value => value.Replace("\"", "\\\"").Trim(' ', '\''));
 
         private static void AddExcludesOrIncludes(List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude)
         {
@@ -38,18 +31,12 @@ namespace FineCodeCoverage.Engine.Coverlet
             string projectName)
         {
             bool hasIncludes = projectIncludes.Any() || includes.Any();
-            if (!hasIncludes)
-            {
-                return projectIncludes;
-            }
-            return projectIncludes.Concat(new string[] { projectName });
+            return !hasIncludes ? projectIncludes : projectIncludes.Concat(new string[] { projectName });
         }
 
-
-        private static void AddProjectExcludesOrIncludes(List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude)
-        {
-            AddExcludesOrIncludes(coverletSettings, excludesOrIncludes.Select(excludeOrInclude => $"[{excludeOrInclude}]*"), isInclude);
-        }
+        private static void AddProjectExcludesOrIncludes(
+            List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude
+        ) => AddExcludesOrIncludes(coverletSettings, excludesOrIncludes.Select(excludeOrInclude => $"[{excludeOrInclude}]*"), isInclude);
 
         private static void AddExcludesIncludes(List<string> coverletSettings, ICoverageProject project)
         {
@@ -62,16 +49,17 @@ namespace FineCodeCoverage.Engine.Coverlet
             {
                 projectIncludes = AddTestAssemblyIfNecessary(projectIncludes, includes, project.ProjectName);
             }
+
             AddProjectExcludesOrIncludes(coverletSettings, projectIncludes, true);
         }
 
         public List<string> GetArguments(ICoverageProject project)
         {
-            List<string> coverletSettings = new List<string>();
-
-            coverletSettings.Add($@"""{project.TestDllFile}""");
-
-            coverletSettings.Add(@"--format ""cobertura""");
+            var coverletSettings = new List<string>
+            {
+                $@"""{project.TestDllFile}""",
+                @"--format ""cobertura"""
+            };
 
             AddExcludesIncludes(coverletSettings, project);
 
@@ -80,7 +68,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 coverletSettings.Add($@"--exclude-by-file ""{value.Replace("\"", "\\\"").Trim(' ', '\'')}""");
             }
 
-            foreach (string value in SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(EnsureAttributeTypeUnqualified))
+            foreach (string value in this.SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(this.EnsureAttributeTypeUnqualified))
             {
                 string withoutAttributeBrackets = value.Trim('[', ']');
                 coverletSettings.Add($"--exclude-by-attribute {value}");
@@ -109,5 +97,4 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private string EnsureAttributeTypeUnqualified(string attributeType) => attributeType.Split('.').Last();
     }
-
 }

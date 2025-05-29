@@ -16,6 +16,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 return IsFriendlyMsCodeCoverage(friendlyNameAttribute.Value);
             }
+
             XAttribute uriAttribute = dataCollectorElement.Attribute(UriAttributeName);
             return uriAttribute != null && IsMsCodeCoverageUri(uriAttribute.Value);
         }

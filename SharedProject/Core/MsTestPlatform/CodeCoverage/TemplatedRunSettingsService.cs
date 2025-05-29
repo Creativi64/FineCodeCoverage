@@ -23,8 +23,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 public ExceptionReasonImpl(Exception exc, string reason)
                 {
-                    Exception = exc;
-                    Reason = reason;
+                    this.Exception = exc;
+                    this.Reason = reason;
                 }
 
                 public Exception Exception { get; }
@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IEnumerable<TemplatedCoverageProjectRunSettingsResult> projectsRunSettings;
             try
             {
-                projectsRunSettings = CreateProjectsRunSettings(
+                projectsRunSettings = this.CreateProjectsRunSettings(
                     coverageProjectsWithoutRunSettings, solutionDirectory, fccMsTestAdapterPath);
             }
             catch (Exception exc)
@@ -75,30 +75,31 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             try
             {
-                await projectRunSettingsGenerator.WriteProjectsRunSettingsAsync(projectsRunSettings);
+                await this.projectRunSettingsGenerator.WriteProjectsRunSettingsAsync(projectsRunSettings);
             }
             catch (Exception exc)
             {
                 await Tryer.TryAsync(
-                    () => projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings)
+                    () => this.projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings)
                 );
 
                 return ProjectRunSettingsFromTemplateResult.FromException(exc, "Exception writing templated runsettings");
             }
 
-            return CreateSuccessResult(projectsRunSettings);
+            return this.CreateSuccessResult(projectsRunSettings);
         }
 
         private IProjectRunSettingsFromTemplateResult CreateSuccessResult(IEnumerable<TemplatedCoverageProjectRunSettingsResult> templatedCoverageProjectsRunSettingsResult)
         {
-            List<string> customTemplatePaths = new List<string>();
-            List<ICoverageProject> coverageProjectsWithFCCMsTestAdapter = new List<ICoverageProject>();
+            var customTemplatePaths = new List<string>();
+            var coverageProjectsWithFCCMsTestAdapter = new List<ICoverageProject>();
             foreach (TemplatedCoverageProjectRunSettingsResult templatedCoverageProjectRunSettingsResult in templatedCoverageProjectsRunSettingsResult)
             {
                 if (templatedCoverageProjectRunSettingsResult.ReplacedTestAdapter)
                 {
                     coverageProjectsWithFCCMsTestAdapter.Add(templatedCoverageProjectRunSettingsResult.CoverageProject);
                 }
+
                 if (templatedCoverageProjectRunSettingsResult.CustomTemplatePath != null)
                 {
                     customTemplatePaths.Add(templatedCoverageProjectRunSettingsResult.CustomTemplatePath);
@@ -121,8 +122,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return coverageProjects.Select(coverageProject =>
             {
                 string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
-                (string replaceableTemplate, string customTemplatePath) = GetRunSettingsTemplate(projectDirectory, solutionDirectory);
-                ITemplateReplacementResult templateReplaceResult = ReplaceTemplate(coverageProject, replaceableTemplate, fccMsTestAdapterPath);
+                (string replaceableTemplate, string customTemplatePath) = this.GetRunSettingsTemplate(projectDirectory, solutionDirectory);
+                ITemplateReplacementResult templateReplaceResult = this.ReplaceTemplate(coverageProject, replaceableTemplate, fccMsTestAdapterPath);
 
                 return new TemplatedCoverageProjectRunSettingsResult
                 {
@@ -139,29 +140,30 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             string customPath = null;
             string replaceableTemplate;
-            CustomRunSettingsTemplateDetails customRunSettingsTemplateDetails = customRunSettingsTemplateProvider.Provide(projectDirectory, solutionDirectory);
+            CustomRunSettingsTemplateDetails customRunSettingsTemplateDetails = this.customRunSettingsTemplateProvider.Provide(projectDirectory, solutionDirectory);
             if (customRunSettingsTemplateDetails != null)
             {
                 customPath = customRunSettingsTemplateDetails.Path;
-                replaceableTemplate = runSettingsTemplate.ConfigureCustom(customRunSettingsTemplateDetails.Template);
+                replaceableTemplate = this.runSettingsTemplate.ConfigureCustom(customRunSettingsTemplateDetails.Template);
             }
             else
             {
-                replaceableTemplate = runSettingsTemplate.Get();
+                replaceableTemplate = this.runSettingsTemplate.Get();
             }
+
             return (replaceableTemplate, customPath);
         }
 
         private ITemplateReplacementResult ReplaceTemplate(ICoverageProject coverageProject, string replaceableTemplate, string fccMsTestAdapterPath)
         {
-            IRunSettingsTemplateReplacements replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, fccMsTestAdapterPath);
+            IRunSettingsTemplateReplacements replacements = this.runSettingsTemplateReplacementsFactory.Create(coverageProject, fccMsTestAdapterPath);
 
             return this.runSettingsTemplate.ReplaceTemplate(replaceableTemplate, replacements, coverageProject.IsDotNetFramework);
         }
 
         public Task CleanUpAsync(List<ICoverageProject> coverageProjects)
         {
-            return projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects);
+            return this.projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects);
         }
     }
 

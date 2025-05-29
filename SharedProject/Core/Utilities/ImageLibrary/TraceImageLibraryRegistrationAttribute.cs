@@ -25,8 +25,8 @@ namespace FineCodeCoverage.Core.Utilities
         public override void Register(RegistrationContext context)
         {
             Key key = context.CreateKey("ImageLibrary");
-            key.SetValue("TraceLevel", traceLevel.ToString());
-            key.SetValue("TraceFilename", traceFileName);
+            key.SetValue("TraceLevel", this.traceLevel.ToString());
+            key.SetValue("TraceFilename", this.traceFileName);
         }
 
         public override void Unregister(RegistrationContext context)

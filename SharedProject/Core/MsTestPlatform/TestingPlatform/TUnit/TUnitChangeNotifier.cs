@@ -19,18 +19,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
         )
-        {
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-                Assumes.Present(vsSolution);
-                vsSolution.AdviseSolutionEvents(this, out uint _);
-            });
+        => ThreadHelper.JoinableTaskFactory.Run(async () =>
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            Assumes.Present(vsSolution);
+            _ = vsSolution.AdviseSolutionEvents(this, out _);
+        });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-        }
-
 
         #region solution events
         public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded)
@@ -39,6 +36,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 ProjectAddedRemovedEvent?.Invoke(this, new ProjectAddedRemoved(true, pHierarchy));
             }
+
             return VSConstants.S_OK;
         }
 
@@ -48,28 +46,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 ProjectAddedRemovedEvent?.Invoke(this, new ProjectAddedRemoved(false, pHierarchy));
             }
+
             return VSConstants.S_OK;
         }
 
-        public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy) => VSConstants.S_OK;
 
-        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy) => VSConstants.S_OK;
 
-        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel) => VSConstants.S_OK;
 
-        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel) => VSConstants.S_OK;
 
         public int OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
@@ -77,10 +64,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return VSConstants.S_OK;
         }
 
-        public int OnQueryCloseSolution(object pUnkReserved, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnQueryCloseSolution(object pUnkReserved, ref int pfCancel) => VSConstants.S_OK;
 
         public int OnBeforeCloseSolution(object pUnkReserved)
         {
@@ -88,13 +72,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return VSConstants.S_OK;
         }
 
-        public int OnAfterCloseSolution(object pUnkReserved)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnAfterCloseSolution(object pUnkReserved) => VSConstants.S_OK;
         #endregion
-
-
     }
-
 }

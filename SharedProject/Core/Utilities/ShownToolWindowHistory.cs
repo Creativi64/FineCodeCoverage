@@ -21,27 +21,28 @@ namespace FineCodeCoverage.Core.Utilities
             this.fileUtil = fileUtil;
         }
 
-        private string ShownToolWindowFilePath => Path.Combine(appDataFolderPath, "outputWindowInitialized");
+        private string ShownToolWindowFilePath => Path.Combine(this.appDataFolderPath, "outputWindowInitialized");
 
         public bool HasShownToolWindow
         {
             get
             {
-                if (!hasShownToolWindow && !checkedFileExists)
+                if (!this.hasShownToolWindow && !this.checkedFileExists)
                 {
-                    hasShownToolWindow = fileUtil.Exists(ShownToolWindowFilePath);
-                    checkedFileExists = true;
+                    this.hasShownToolWindow = this.fileUtil.Exists(this.ShownToolWindowFilePath);
+                    this.checkedFileExists = true;
                 }
-                return hasShownToolWindow;
+
+                return this.hasShownToolWindow;
             }
         }
 
         public void ShowedToolWindow()
         {
-            if (!hasShownToolWindow)
+            if (!this.hasShownToolWindow)
             {
-                hasShownToolWindow = true;
-                fileUtil.WriteAllText(ShownToolWindowFilePath, string.Empty);
+                this.hasShownToolWindow = true;
+                this.fileUtil.WriteAllText(this.ShownToolWindowFilePath, string.Empty);
             }
         }
 

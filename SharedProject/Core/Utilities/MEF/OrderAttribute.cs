@@ -10,19 +10,19 @@ namespace FineCodeCoverage.Core.Utilities
         public OrderAttribute(int order, Type contractType)
             : base(contractType)
         {
-            Order = order;
+            this.Order = order;
         }
 
         public OrderAttribute(int order, string contractName)
             : base(contractName)
         {
-            Order = order;
+            this.Order = order;
         }
 
         public OrderAttribute(int order, string contractName, Type contractType)
             : base(contractName, contractType)
         {
-            Order = order;
+            this.Order = order;
         }
 
         public int Order { get; }

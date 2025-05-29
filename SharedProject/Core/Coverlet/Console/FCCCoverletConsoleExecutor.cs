@@ -12,10 +12,7 @@ namespace FineCodeCoverage.Engine.Coverlet
     internal class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor
     {
         [ImportingConstructor]
-        public FCCCoverletConsoleExecutor(IToolUnzipper toolUnzipper)
-        {
-            this.toolUnzipper = toolUnzipper;
-        }
+        public FCCCoverletConsoleExecutor(IToolUnzipper toolUnzipper) => this.toolUnzipper = toolUnzipper;
 
         private string coverletExePath;
         private const string zipPrefix = "coverlet.console";
@@ -23,21 +20,19 @@ namespace FineCodeCoverage.Engine.Coverlet
         private readonly IToolUnzipper toolUnzipper;
 
         public Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
-        {
-            return Task.FromResult(
+            => Task.FromResult(
                 new ExecuteRequest
                 {
-                    FilePath = coverletExePath,
+                    FilePath = this.coverletExePath,
                     Arguments = coverletSettings,
                     WorkingDirectory = coverageProject.ProjectOutputFolder
                 }
             );
-        }
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
-            coverletExePath = Directory.GetFiles(zipDestination, "coverlet.exe", SearchOption.AllDirectories).FirstOrDefault()
+            string zipDestination = this.toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            this.coverletExePath = Directory.GetFiles(zipDestination, "coverlet.exe", SearchOption.AllDirectories).FirstOrDefault()
                            ?? Directory.GetFiles(zipDestination, "*coverlet*.exe", SearchOption.AllDirectories).FirstOrDefault();
         }
     }

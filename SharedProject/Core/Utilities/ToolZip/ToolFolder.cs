@@ -42,8 +42,8 @@ namespace FineCodeCoverage.Core.Utilities
                     unzippedDirectory.TryDelete();
                 }
 
-                Directory.CreateDirectory(zipDestination);
-                zipFile.ExtractToDirectory(zipDetails.Path, zipDestination);
+                _ = Directory.CreateDirectory(zipDestination);
+                this.zipFile.ExtractToDirectory(zipDetails.Path, zipDestination);
             }
 
             return zipDestination;

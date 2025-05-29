@@ -12,22 +12,18 @@ namespace FineCodeCoverage.Engine.Coverlet
         public Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
             string coverletConsoleCustomPath = coverageProject.Settings.CoverletConsoleCustomPath;
-            if (string.IsNullOrWhiteSpace(coverletConsoleCustomPath))
-            {
-                return Task.FromResult<ExecuteRequest>(null);
-            }
-            if (File.Exists(coverletConsoleCustomPath) && Path.GetExtension(coverletConsoleCustomPath) == ".exe")
-            {
-                return Task.FromResult(
-                    new ExecuteRequest
-                    {
-                        FilePath = coverletConsoleCustomPath,
-                        Arguments = coverletSettings,
-                        WorkingDirectory = coverageProject.ProjectOutputFolder
-                    }
-                );
-            }
-            return Task.FromResult<ExecuteRequest>(null);
+            return string.IsNullOrWhiteSpace(coverletConsoleCustomPath)
+                ? Task.FromResult<ExecuteRequest>(null)
+                : File.Exists(coverletConsoleCustomPath) && Path.GetExtension(coverletConsoleCustomPath) == ".exe"
+                    ? Task.FromResult(
+                        new ExecuteRequest
+                        {
+                            FilePath = coverletConsoleCustomPath,
+                            Arguments = coverletSettings,
+                            WorkingDirectory = coverageProject.ProjectOutputFolder
+                        }
+                    )
+                    : Task.FromResult<ExecuteRequest>(null);
         }
     }
 }

@@ -20,13 +20,13 @@ namespace FineCodeCoverage.Core.Utilities
         public void OpenFileInCodeEditor(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            this.dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindCode);
+            _ = this.dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindCode);
         }
 
         public void OpenFileInDefaultViewer(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            this.dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindPrimary);
+            _ = this.dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindPrimary);
         }
     }
 }

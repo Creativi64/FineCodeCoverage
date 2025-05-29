@@ -16,8 +16,6 @@ namespace FineCodeCoverage.Engine.Coverlet
         internal string ProjectDll { get; set; }
         internal string Blame { get; set; }
         internal string NoLogo { get; set; }
-
-
         internal string Diagnostics { get; set; }
         internal string RunSettings { get; set; }
         internal string ResultsDirectory { get; set; }
@@ -47,15 +45,15 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public string Build()
         {
-            GenerateRunSettings();
+            this.GenerateRunSettings();
             IEnumerable<string> args = new List<string>
             {
-                ProjectDll,
-                Blame,
-                NoLogo,
-                Diagnostics,
-                RunSettings,
-                ResultsDirectory
+                this.ProjectDll,
+                this.Blame,
+                this.NoLogo,
+                this.Diagnostics,
+                this.RunSettings,
+                this.ResultsDirectory
             }.Where(a => !string.IsNullOrEmpty(a));
             return string.Join(" ", args);
         }
@@ -63,54 +61,45 @@ namespace FineCodeCoverage.Engine.Coverlet
         #region run settings xml generation
         private void GenerateRunSettings()
         {
-            XDocument runSettingsDocument = existingRunSettings == null ? GenerateFullRunSettings() : GenerateRunSettingsFromExisting();
-            runSettingsDocument.Save(generatedRunSettingsPath);
+            XDocument runSettingsDocument = this.existingRunSettings == null ? this.GenerateFullRunSettings() : this.GenerateRunSettingsFromExisting();
+            runSettingsDocument.Save(this.generatedRunSettingsPath);
         }
 
-        private XDocument GenerateFullRunSettings()
-        {
-            return new XDocument(new XElement("RunSettings",
-                DataCollectionRunSettings()));
+        private XDocument GenerateFullRunSettings() => new XDocument(
+            new XElement("RunSettings",this.DataCollectionRunSettings())
+        );
 
-        }
-        private XElement DataCollectionRunSettings()
-        {
-            return new XElement("DataCollectionRunSettings",
-                    DataCollectors());
-        }
-        private XElement DataCollectors()
-        {
-            return new XElement("DataCollectors", GenerateDataCollectorElement());
-        }
+        private XElement DataCollectionRunSettings() => new XElement("DataCollectionRunSettings", this.DataCollectors());
+
+        private XElement DataCollectors() => new XElement("DataCollectors", this.GenerateDataCollectorElement());
 
         private XDocument GenerateRunSettingsFromExisting()
         {
-            XDocument existingRunSettingsDocument = XDocument.Load(existingRunSettings);
+            var existingRunSettingsDocument = XDocument.Load(this.existingRunSettings);
             XElement existingRunSettingsElement = existingRunSettingsDocument.Root;
             XElement dataCollectionRunSettings = existingRunSettingsElement.Element("DataCollectionRunSettings");
             if (dataCollectionRunSettings == null)
             {
-                existingRunSettingsElement.Add(DataCollectionRunSettings());
+                existingRunSettingsElement.Add(this.DataCollectionRunSettings());
             }
             else
             {
                 XElement dataCollectors = dataCollectionRunSettings.Element("DataCollectors");
                 if (dataCollectors == null)
                 {
-                    dataCollectionRunSettings.Add(DataCollectors());
+                    dataCollectionRunSettings.Add(this.DataCollectors());
                 }
                 else
                 {
                     XElement coverletCollectorElement = dataCollectors.Elements("DataCollector").FirstOrDefault(e =>
                     {
                         XAttribute friendlyNameAttribute = e.Attribute("friendlyName");
-                        if (friendlyNameAttribute != null)
-                        {
-                            return string.Equals(friendlyNameAttribute.Value, "xplat code coverage", System.StringComparison.OrdinalIgnoreCase);
-                        }
-                        return false;
+                        return friendlyNameAttribute != null && string.Equals(
+                            friendlyNameAttribute.Value,
+                            "xplat code coverage",
+                            System.StringComparison.OrdinalIgnoreCase);
                     });
-                    XElement newCoverletCollector = GenerateDataCollectorElement();
+                    XElement newCoverletCollector = this.GenerateDataCollectorElement();
                     if (coverletCollectorElement != null)
                     {
                         coverletCollectorElement.ReplaceWith(newCoverletCollector);
@@ -121,27 +110,26 @@ namespace FineCodeCoverage.Engine.Coverlet
                     }
                 }
             }
-            return existingRunSettingsDocument;
 
+            return existingRunSettingsDocument;
         }
 
         private string GetElementIfNotNull(string elementName, string value)
-        {
-            return value == null ? "" : $"<{elementName}>{value}</{elementName}>";
-        }
+            => value == null ? "" : $"<{elementName}>{value}</{elementName}>";
+
         private XElement GenerateDataCollectorElement()
         {
             string configurationElement = $@"<Configuration>
-                {GetElementIfNotNull("Format", Format)}
-                {GetElementIfNotNull("Exclude", Exclude)}
-                {GetElementIfNotNull("Include", Include)}
-                {GetElementIfNotNull("ExcludeByAttribute", ExcludeByAttribute)}
-                {GetElementIfNotNull("ExcludeByFile", ExcludeByFile)}
-                {GetElementIfNotNull("IncludeDirectory", IncludeDirectory)}
-                {GetElementIfNotNull("SingleHit", SingleHit)}
-                {GetElementIfNotNull("UseSourceLink", UseSourceLink)}
-                {GetElementIfNotNull("IncludeTestAssembly", IncludeTestAssembly)}
-                {GetElementIfNotNull("SkipAutoProps", SkipAutoProps)}
+                {this.GetElementIfNotNull("Format", this.Format)}
+                {this.GetElementIfNotNull("Exclude", this.Exclude)}
+                {this.GetElementIfNotNull("Include", this.Include)}
+                {this.GetElementIfNotNull("ExcludeByAttribute", this.ExcludeByAttribute)}
+                {this.GetElementIfNotNull("ExcludeByFile", this.ExcludeByFile)}
+                {this.GetElementIfNotNull("IncludeDirectory", this.IncludeDirectory)}
+                {this.GetElementIfNotNull("SingleHit", this.SingleHit)}
+                {this.GetElementIfNotNull("UseSourceLink", this.UseSourceLink)}
+                {this.GetElementIfNotNull("IncludeTestAssembly", this.IncludeTestAssembly)}
+                {this.GetElementIfNotNull("SkipAutoProps", this.SkipAutoProps)}
 </Configuration>
 ";
 
@@ -151,79 +139,41 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         #endregion
 
-        internal string Quote(string settings)
-        {
-            return $@"""{settings}""";
-        }
+        internal string Quote(string settings) => $@"""{settings}""";
 
         #region With args
-        public void WithBlame()
-        {
-            Blame = "--blame";
-        }
+        public void WithBlame() => this.Blame = "--blame";
 
-        public void WithDiagnostics(string logPath)
-        {
-            Diagnostics = $"--diag {Quote(logPath)}";
-        }
+        public void WithDiagnostics(string logPath) => this.Diagnostics = $"--diag {this.Quote(logPath)}";
 
-        public void WithNoLogo()
-        {
-            NoLogo = "--nologo";
-        }
+        public void WithNoLogo() => this.NoLogo = "--nologo";
 
-        public void WithProjectDll(string projectDll)
-        {
-            ProjectDll = Quote(projectDll);
-        }
+        public void WithProjectDll(string projectDll) => this.ProjectDll = this.Quote(projectDll);
 
         public void WithResultsDirectory(string resultsDirectory)
-        {
-            ResultsDirectory = $"--results-directory {Quote(resultsDirectory)}";
-        }
+            => this.ResultsDirectory = $"--results-directory {this.Quote(resultsDirectory)}";
 
         public void Initialize(bool runSettingsOnly, string runSettingsPath, string generatedRunSettingsPath)
         {
             this.runSettingsOnly = runSettingsOnly;
             this.generatedRunSettingsPath = generatedRunSettingsPath;
-            existingRunSettings = runSettingsPath;
-            RunSettings = $"--settings {Quote(generatedRunSettingsPath)}";
+            this.existingRunSettings = runSettingsPath;
+            this.RunSettings = $"--settings {this.Quote(generatedRunSettingsPath)}";
         }
         #endregion
 
         #region existing run settings or options
         private string RunSettingsOrProject(string[] project, string runSettings)
         {
-            string DelimitProject()
-            {
-                if (project == null)
-                {
-                    return null;
-                }
-                return string.Join(",", project);
-            }
+            string DelimitProject() => project == null ? null : string.Join(",", project);
 
-            if (existingRunSettings == null)
-            {
-                return DelimitProject();
-            }
-
-            if (runSettings != null)
-            {
-                return runSettings;
-            }
-
-            if (!runSettingsOnly) // default true
-            {
-                return DelimitProject();
-            }
-            return null;
+            return this.existingRunSettings == null ?
+                DelimitProject() :
+                runSettings ?? (!this.runSettingsOnly ? DelimitProject() : null);
         }
 
         public void WithExclude(string[] projectExclude, string runSettingsExclude)
-        {
-            Exclude = RunSettingsOrProject(projectExclude, runSettingsExclude);
-        }
+            => this.Exclude = this.RunSettingsOrProject(projectExclude, runSettingsExclude);
 
         public void WithExcludeByAttribute(string[] projectExcludeByAttribute, string runSettingsExcludeByAttribute)
         {
@@ -231,35 +181,26 @@ namespace FineCodeCoverage.Engine.Coverlet
             {
                 runSettingsExcludeByAttribute = string.Join(",", runSettingsExcludeByAttribute.Split(',').Select(Unqualify));
             }
-            ExcludeByAttribute = RunSettingsOrProject(
+
+            this.ExcludeByAttribute = this.RunSettingsOrProject(
                 projectExcludeByAttribute?.Select(Unqualify).ToArray(),
                 runSettingsExcludeByAttribute);
 
-            string Unqualify(string excludeByAttribute)
-            {
-                return excludeByAttribute.Split('.').Last();
-            }
+            string Unqualify(string excludeByAttribute) => excludeByAttribute.Split('.').Last();
         }
 
         public void WithExcludeByFile(string[] projectExcludeByFile, string runSettingsExcludeByFile)
-        {
-            ExcludeByFile = RunSettingsOrProject(projectExcludeByFile, runSettingsExcludeByFile);
-        }
+            => this.ExcludeByFile = this.RunSettingsOrProject(projectExcludeByFile, runSettingsExcludeByFile);
 
         public void WithInclude(string[] projectInclude, string runSettingsInclude)
-        {
-            Include = RunSettingsOrProject(projectInclude, runSettingsInclude);
-        }
+            => this.Include = this.RunSettingsOrProject(projectInclude, runSettingsInclude);
 
         public void WithIncludeTestAssembly(bool projectIncludeTestAssembly, string runSettingsIncludeTestAssembly)
         {
-            string ProjectInclude()
-            {
-                return projectIncludeTestAssembly.ToString().ToLower();
-            }
+            string ProjectInclude() => projectIncludeTestAssembly.ToString().ToLower();
 
             string includeTestAssembly = null;
-            if (existingRunSettings == null)
+            if (this.existingRunSettings == null)
             {
                 includeTestAssembly = ProjectInclude();
             }
@@ -271,38 +212,25 @@ namespace FineCodeCoverage.Engine.Coverlet
                 }
                 else
                 {
-                    if (!runSettingsOnly) // default true
+                    if (!this.runSettingsOnly) // default true
                     {
                         includeTestAssembly = ProjectInclude();
                     }
                 }
             }
 
-            IncludeTestAssembly = includeTestAssembly;
+            this.IncludeTestAssembly = includeTestAssembly;
         }
         #endregion
 
         #region Coverlet Collector specific
-        public void WithIncludeDirectory(string includeDirectory)
-        {
-            IncludeDirectory = includeDirectory;
-        }
+        public void WithIncludeDirectory(string includeDirectory) => this.IncludeDirectory = includeDirectory;
 
-        public void WithSingleHit(string singleHit)
-        {
-            SingleHit = singleHit;
-        }
+        public void WithSingleHit(string singleHit) => this.SingleHit = singleHit;
 
-        public void WithUseSourceLink(string useSourceLink)
-        {
-            UseSourceLink = useSourceLink;
-        }
+        public void WithUseSourceLink(string useSourceLink) => this.UseSourceLink = useSourceLink;
 
-        public void WithSkipAutoProps(string skipAutoProps)
-        {
-            SkipAutoProps = skipAutoProps;
-
-        }
+        public void WithSkipAutoProps(string skipAutoProps) => this.SkipAutoProps = skipAutoProps;
         #endregion
     }
 }

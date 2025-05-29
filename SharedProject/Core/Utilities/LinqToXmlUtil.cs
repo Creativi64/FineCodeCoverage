@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static string FormatXml(this XDocument xDocument, bool utf8 = true)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             StringWriter writer = utf8 ? new Utf8StringWriter(builder) : new StringWriter(builder);
 
             xDocument.Save(writer, SaveOptions.None);
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static XElement Load(string path, bool removeNamespaces)
         {
-            XElement xelement = XElement.Parse(File.ReadAllText(path));
+            var xelement = XElement.Parse(File.ReadAllText(path));
 
             if (removeNamespaces)
             {
@@ -63,6 +63,7 @@ namespace FineCodeCoverage.Core.Utilities
                     return null;
                 }
             }
+
             return (XElement)result;
         }
     }

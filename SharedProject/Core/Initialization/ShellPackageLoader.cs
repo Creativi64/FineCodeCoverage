@@ -15,19 +15,16 @@ namespace FineCodeCoverage.Core.Initialization
         public ShellPackageLoader(
             [Import(typeof(SVsServiceProvider))]
              IServiceProvider serviceProvider
-        )
-        {
-            this.serviceProvider = serviceProvider;
-        }
+        ) => this.serviceProvider = serviceProvider;
 
         public async Task LoadPackageAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            if (serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell)
+            if (this.serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell)
             {
                 Guid packageToBeLoadedGuid = PackageGuids.guidFCCPackage;
-                shell.LoadPackage(ref packageToBeLoadedGuid, out IVsPackage _);
+                _ = shell.LoadPackage(ref packageToBeLoadedGuid, out _);
             }
         }
     }

@@ -29,7 +29,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
             private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
 
-
             /*
                 in VS2022 there is also
                 https://learn.microsoft.com/en-us/visualstudio/extensibility/visualstudio.extensibility/project/project?view=vs-2022
@@ -43,7 +42,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 IVsHierarchy hierarchy
             )
             {
-                commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
+                this.commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
                 this.Hierarchy = hierarchy;
                 this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
                 this.commandLineParser = commandLineParser;
@@ -55,7 +54,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             */
             private async Task<bool?> UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync()
             {
-                System.Collections.Generic.IEnumerable<string> propertyNames = await commonProperties.GetPropertyNamesAsync();
+                System.Collections.Generic.IEnumerable<string> propertyNames = await this.commonProperties.GetPropertyNamesAsync();
                 bool hasTestingPlatformCommandLineArgumentsPropertyName = false;
                 foreach (string propertyName in propertyNames)
                 {
@@ -63,31 +62,29 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     {
                         return true;
                     }
+
                     if (propertyName == TestingPlatformCommandLineArgumentsPropertyName)
                     {
                         hasTestingPlatformCommandLineArgumentsPropertyName = true;
                     }
                 }
-                if (hasTestingPlatformCommandLineArgumentsPropertyName)
-                {
-                    return false;
-                }
-                return null;
+
+                return hasTestingPlatformCommandLineArgumentsPropertyName ? false : (bool?)null;
             }
 
             private async Task ParseTestingPlatformCommandLineArgumentsAsync()
             {
-                bool? useFCCTestingPlatformCommandLineArgumentsPropertyName = await UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
+                bool? useFCCTestingPlatformCommandLineArgumentsPropertyName = await this.UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
                 if (!useFCCTestingPlatformCommandLineArgumentsPropertyName.HasValue)
                 {
-                    CommandLineParseResult = CommandLineParseResult.Empty;
+                    this.CommandLineParseResult = CommandLineParseResult.Empty;
                 }
                 else
                 {
                     string propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
-                    string testingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
+                    string testingPlatformCommandLineArguments = await this.commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
 
-                    CommandLineParseResult = commandLineParser.Parse(testingPlatformCommandLineArguments);
+                    this.CommandLineParseResult = this.commandLineParser.Parse(testingPlatformCommandLineArguments);
                 }
             }
 
@@ -95,7 +92,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 // there is ActiveConfiguredProjectSubscription but not available in 2019
                 IProjectSubscriptionService subscriptionService = configuredProject.Services.ProjectSubscription;
-                ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>> receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(ProjectUpdateAsync);
+                var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(this.ProjectUpdateAsync);
                 return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: new string[] { "PackageReference" });
             }
 
@@ -123,8 +120,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 // if need to switch to the main thread will need CPS IThreadHandling 
                 // This runs on a background thread. 
-                packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
-                requiresUpdate = true;
+                this.packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
+                this.requiresUpdate = true;
                 return Task.CompletedTask;
             }
             public bool IsTUnit { get; private set; }
@@ -134,23 +131,23 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             public CommandLineParseResult CommandLineParseResult { get; private set; } = CommandLineParseResult.Empty;
             public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {
-                if (requiresUpdate)
+                if (this.requiresUpdate)
                 {
-                    TUnitInstalledPackageResult installedPackagesResult = await tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), cancellationToken);
+                    TUnitInstalledPackageResult installedPackagesResult = await this.tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await this.Hierarchy.GetGuidAsync(), cancellationToken);
                     if (installedPackagesResult.Status != InstalledPackageResultStatus.Successful)
                     {
                         // fallback but not transitive
                         // the data flow block should get data immediately
-                        installedPackagesResult = tUnitInstalledPackagesService.GetTUnitInstalledPackages(packageReferenceItems);
+                        installedPackagesResult = this.tUnitInstalledPackagesService.GetTUnitInstalledPackages(this.packageReferenceItems);
                     }
 
-                    IsTUnit = installedPackagesResult.HasTUnit;
-                    HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
+                    this.IsTUnit = installedPackagesResult.HasTUnit;
+                    this.HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
 
-                    requiresUpdate = false;
+                    this.requiresUpdate = false;
                 }
 
-                if (IsTUnit)
+                if (this.IsTUnit)
                 {
                     /*
                         alternative is 
@@ -172,31 +169,30 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         return projectSnapshotService.SourceBlock.LinkTo(receivingBlock);
 
                     */
-                    await ParseTestingPlatformCommandLineArgumentsAsync();
+                    await this.ParseTestingPlatformCommandLineArgumentsAsync();
                 }
             }
 
             protected virtual void Dispose(bool disposing)
             {
-                if (!disposedValue)
+                if (!this.disposedValue)
                 {
                     if (disposing)
                     {
-                        packageChangeSubscription.Dispose();
+                        this.packageChangeSubscription.Dispose();
                     }
 
-                    disposedValue = true;
+                    this.disposedValue = true;
                 }
             }
 
             public void Dispose()
             {
                 // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-                Dispose(disposing: true);
+                this.Dispose(disposing: true);
                 GC.SuppressFinalize(this);
             }
         }
-
 
         [ImportingConstructor]
         public TUnitProjectFactory(
@@ -208,8 +204,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.commandLineParser = commandLineParser;
         }
         public ITUnitProject Create(IVsHierarchy hierarchy, ConfiguredProject configuredProject)
-        {
-            return new TUnitProject(tUnitInstalledPackagesService, commandLineParser, configuredProject, hierarchy);
-        }
+            => new TUnitProject(this.tUnitInstalledPackagesService, this.commandLineParser, configuredProject, hierarchy);
     }
 }

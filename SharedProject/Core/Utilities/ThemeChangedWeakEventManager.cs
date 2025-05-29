@@ -21,12 +21,13 @@ namespace FineCodeCoverage.Core.Utilities
             get
             {
                 Type managerType = typeof(ThemeChangedWeakEventManager);
-                ThemeChangedWeakEventManager manager = (ThemeChangedWeakEventManager)GetCurrentManager(managerType);
+                var manager = (ThemeChangedWeakEventManager)GetCurrentManager(managerType);
                 if (manager == null)
                 {
                     manager = new ThemeChangedWeakEventManager();
                     SetCurrentManager(managerType, manager);
                 }
+
                 return manager;
             }
         }

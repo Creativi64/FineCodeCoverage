@@ -16,6 +16,7 @@ namespace FineCodeCoverage.Readme
             {
                 return text.Substring(2, text.Length - 4).Trim();
             }
+
             return null;
         }
 

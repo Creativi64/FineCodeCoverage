@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.Model
             IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper
         )
         {
-            lazyDTE2 = new AsyncLazy<DTE2>(async () =>
+            this.lazyDTE2 = new AsyncLazy<DTE2>(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 return (DTE2)serviceProvider.GetService(typeof(DTE));
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Engine.Model
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            Project project = await GetProjectAsync(projectFile);
+            Project project = await this.GetProjectAsync(projectFile);
 
             if (project == null)
             {
@@ -48,12 +48,12 @@ namespace FineCodeCoverage.Engine.Model
 
             if (project.Object is VCProject cppProject)
             {
-                return await cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject);
+                return await this.cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject);
             }
 
             if (project.Object is VSProject vsProject)
             {
-                return await dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject);
+                return await this.dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject);
             }
 
             return null;
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Engine.Model
         private async Task<Project> GetProjectAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            DTE2 dte2 = await lazyDTE2.GetValueAsync();
+            DTE2 dte2 = await this.lazyDTE2.GetValueAsync();
             // note that cannot do dte.Solution.Projects.Item(ProjectFile) - fails when dots in path
             return dte2.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
             {
@@ -74,6 +74,7 @@ namespace FineCodeCoverage.Engine.Model
                     projectFullName = p.FullName;
                 }
                 catch { }
+
                 return projectFullName == projectFile;
             });
         }

@@ -45,18 +45,12 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
-            openCoverExePath = fileUtil.GetFiles(zipDestination, "OpenCover.Console.exe", SearchOption.AllDirectories).First();
+            string zipDestination = this.toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            this.openCoverExePath = this.fileUtil.GetFiles(zipDestination, "OpenCover.Console.exe", SearchOption.AllDirectories).First();
         }
 
         private string GetOpenCoverExePath(string customExePath)
-        {
-            if (!String.IsNullOrWhiteSpace(customExePath))
-            {
-                return customExePath;
-            }
-            return openCoverExePath;
-        }
+            => !string.IsNullOrWhiteSpace(customExePath) ? customExePath : this.openCoverExePath;
 
         private void DeleteTestPdbIfDoNotIncludeTestAssembly(ICoverageProject project)
         {
@@ -65,7 +59,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                 // deleting the pdb of the test assembly seems to work; this is a VERY VERY shameful hack :(
 
                 string testDllPdbFile = Path.Combine(project.ProjectOutputFolder, Path.GetFileNameWithoutExtension(project.TestDllFile)) + ".pdb";
-                fileUtil.DeleteFile(testDllPdbFile);
+                this.fileUtil.DeleteFile(testDllPdbFile);
 
                 // filtering out the test-assembly blows up the entire process and nothing gets instrumented or analysed
 
@@ -76,18 +70,18 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         public async Task RunOpenCoverAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
-            DeleteTestPdbIfDoNotIncludeTestAssembly(project);
+            this.DeleteTestPdbIfDoNotIncludeTestAssembly(project);
 
-            System.Collections.Generic.List<string> openCoverSettings = openCoverExeArgumentsProvider.Provide(project, msTestPlatformUtil.MsTestPlatformExePath);
+            System.Collections.Generic.List<string> openCoverSettings = this.openCoverExeArgumentsProvider.Provide(project, this.msTestPlatformUtil.MsTestPlatformExePath);
 
             string title = $"OpenCover Run ({project.ProjectName})";
 
-            await logger.LogAsync($"{title} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", openCoverSettings)}");
+            await this.logger.LogAsync($"{title} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", openCoverSettings)}");
 
-            ExecuteResponse result = await processUtil
+            ExecuteResponse result = await this.processUtil
             .ExecuteAsync(new ExecuteRequest
             {
-                FilePath = GetOpenCoverExePath(project.Settings.OpenCoverCustomPath),
+                FilePath = this.GetOpenCoverExePath(project.Settings.OpenCoverCustomPath),
                 Arguments = string.Join(" ", openCoverSettings),
                 WorkingDirectory = project.ProjectOutputFolder
             }, cancellationToken);
@@ -97,7 +91,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                 throw new Exception(result.Output);
             }
 
-            await logger.LogAsync($"{title} - Output", result.Output);
+            await this.logger.LogAsync($"{title} - Output", result.Output);
         }
     }
 }

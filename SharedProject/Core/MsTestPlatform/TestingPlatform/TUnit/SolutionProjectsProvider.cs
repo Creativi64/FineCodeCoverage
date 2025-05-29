@@ -20,39 +20,35 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public SolutionProjectsProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        )
-        {
-            this.serviceProvider = serviceProvider;
-        }
+        ) => this.serviceProvider = serviceProvider;
 
         public async Task<List<IVsHierarchy>> GetLoadedProjectsAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-            return GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
+            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            return this.GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
         }
 
         public async Task<bool> IsSolutionOpenAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object isSolutionOpen);
+            _ = vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object isSolutionOpen);
             return (bool)isSolutionOpen;
         }
 
         private List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            List<IVsHierarchy> projects = new List<IVsHierarchy>();
+            var projects = new List<IVsHierarchy>();
             int result = vsSolution.GetProjectEnum((uint)flags, Guid.Empty, out IEnumHierarchies enumHierarchies);
             if (result == VSConstants.S_OK)
             {
-                IVsHierarchy[] rgelt = new IVsHierarchy[1];
-                uint fetched = 0;
-                while (enumHierarchies.Next(1, rgelt, out fetched) == VSConstants.S_OK && fetched > 0)
+                var rgelt = new IVsHierarchy[1];
+                while (enumHierarchies.Next(1, rgelt, out uint fetched) == VSConstants.S_OK && fetched > 0)
                 {
-                    int hr = rgelt[0].GetGuidProperty(
+                    _ = rgelt[0].GetGuidProperty(
                         VSConstants.VSITEMID_ROOT,
                         (int)__VSHPROPID.VSHPROPID_TypeGuid,
                         out Guid typeGuid
@@ -64,8 +60,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     }
                 }
             }
+
             return projects;
         }
     }
-
 }

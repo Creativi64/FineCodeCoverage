@@ -27,49 +27,40 @@ namespace FineCodeCoverage.Engine.Coverlet
         private async Task<CoverletDotNetToolDetails> ExecuteAndParseAsync(Func<IDotNetToolListExecutor, DotNetToolListExecutionResult> execution)
         {
             const string title = "Dotnet tool list Coverlet";
-            DotNetToolListExecutionResult result = execution(executor);
+            DotNetToolListExecutionResult result = execution(this.executor);
             if (result.ExitCode != 0)
             {
-                await logger.LogAsync($"{title} Error", result.Output);
+                await this.logger.LogAsync($"{title} Error", result.Output);
                 return null;
             }
+
             List<DotNetToolInfo> tools = null;
             try
             {
-                tools = parser.Parse(result.Output);
+                tools = this.parser.Parse(result.Output);
             }
             catch (Exception)
             {
-                await logger.LogAsync($"{title} Error parsing", result.Output);
+                await this.logger.LogAsync($"{title} Error parsing", result.Output);
                 return null;
             }
 
             DotNetToolInfo coverletConsoleTool = tools.FirstOrDefault(tool => tool.PackageId == CoverletPackageId);
-            if (coverletConsoleTool == null)
-            {
-                return null;
-            }
-
-            return new CoverletDotNetToolDetails
-            {
-                Version = coverletConsoleTool.Version,
-                Command = coverletConsoleTool.Commands
-            };
+            return coverletConsoleTool == null
+                ? null
+                : new CoverletDotNetToolDetails
+                {
+                    Version = coverletConsoleTool.Version,
+                    Command = coverletConsoleTool.Commands
+                };
         }
 
-        public Task<CoverletDotNetToolDetails> GlobalAsync()
-        {
-            return ExecuteAndParseAsync(executor => executor.Global());
-        }
+        public Task<CoverletDotNetToolDetails> GlobalAsync() => this.ExecuteAndParseAsync(executor => executor.Global());
 
         public Task<CoverletDotNetToolDetails> LocalAsync(string directory)
-        {
-            return ExecuteAndParseAsync(executor => executor.Local(directory));
-        }
+            => this.ExecuteAndParseAsync(executor => executor.Local(directory));
 
         public Task<CoverletDotNetToolDetails> GlobalToolsPathAsync(string directory)
-        {
-            return ExecuteAndParseAsync(executor => executor.GlobalToolsPath(directory));
-        }
+            => this.ExecuteAndParseAsync(executor => executor.GlobalToolsPath(directory));
     }
 }

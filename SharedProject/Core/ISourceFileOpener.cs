@@ -6,5 +6,4 @@ namespace FineCodeCoverage.Engine
     {
         Task OpenAsync(string filePath, int fileLine);
     }
-
 }

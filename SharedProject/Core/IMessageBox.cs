@@ -6,5 +6,4 @@
         void ShowError(string error, string caption);
         bool ShowWarning(string messageBoxText, string caption);
     }
-
 }

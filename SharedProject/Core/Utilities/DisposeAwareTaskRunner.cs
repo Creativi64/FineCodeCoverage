@@ -26,11 +26,11 @@ namespace FineCodeCoverage.Core.Utilities
         /// </summary>
         private CancellationToken DisposalToken => this.disposeCancellationTokenSource.Token;
 
-        public bool IsVsShutdown => DisposalToken.IsCancellationRequested;
+        public bool IsVsShutdown => this.DisposalToken.IsCancellationRequested;
 
         public ICancellationTokenSource CreateLinkedTokenSource()
         {
-            return new CancellationTokenSourceWrapper(CancellationTokenSource.CreateLinkedTokenSource(DisposalToken));
+            return new CancellationTokenSourceWrapper(CancellationTokenSource.CreateLinkedTokenSource(this.DisposalToken));
         }
 
         public void Dispose()
@@ -70,7 +70,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public void RunAsyncFunc(Func<Task> taskProvider)
         {
-            _ = JoinableTaskFactory.RunAsync(taskProvider);
+            _ = this.JoinableTaskFactory.RunAsync(taskProvider);
         }
     }
 }

@@ -8,10 +8,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public event EventHandler<BuildStartEndArgs> BuildEvent;
 
-        public int UpdateSolution_Begin(ref int pfCancelUpdate)
-        {
-            return VSConstants.S_OK;
-        }
+        public int UpdateSolution_Begin(ref int pfCancelUpdate) => VSConstants.S_OK;
 
         public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
@@ -25,15 +22,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return VSConstants.S_OK;
         }
 
-        public int UpdateSolution_Cancel()
-        {
-            return VSConstants.S_OK;
-        }
+        public int UpdateSolution_Cancel() => VSConstants.S_OK;
 
-        public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy) => VSConstants.S_OK;
     }
-
 }

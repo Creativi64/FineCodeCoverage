@@ -42,36 +42,35 @@ namespace FineCodeCoverage.Core.Initialization
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await logger.LogAsync("Initializing");
+                await this.logger.LogAsync("Initializing");
 
                 cancellationToken.ThrowIfCancellationRequested();
-                await appDataFolder.InitializeAsync(cancellationToken);
-                foreach (IAppDataFolderPathDependent appDataPathDependent in appDataFolderPathDependents)
+                await this.appDataFolder.InitializeAsync(cancellationToken);
+                foreach (IAppDataFolderPathDependent appDataPathDependent in this.appDataFolderPathDependents)
                 {
-                    await appDataPathDependent.InitializeAsync(appDataFolder.DirectoryPath, cancellationToken);
+                    await appDataPathDependent.InitializeAsync(this.appDataFolder.DirectoryPath, cancellationToken);
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
-                await logger.LogAsync("Initialized");
+                await this.logger.LogAsync("Initialized");
 
-                await firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
+                await this.firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
             }
             catch (Exception exception)
             {
-                InitializeStatus = InitializeStatus.Error;
-                InitializeExceptionMessage = exception.Message;
+                this.InitializeStatus = InitializeStatus.Error;
+                this.InitializeExceptionMessage = exception.Message;
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    await logger.LogAsync("Failed Initialization", exception.ToString());
+                    await this.logger.LogAsync("Failed Initialization", exception.ToString());
                 }
             }
 
-            if (InitializeStatus != InitializeStatus.Error)
+            if (this.InitializeStatus != InitializeStatus.Error)
             {
-                InitializeStatus = InitializeStatus.Initialized;
+                this.InitializeStatus = InitializeStatus.Initialized;
             }
         }
     }
-
 }
 

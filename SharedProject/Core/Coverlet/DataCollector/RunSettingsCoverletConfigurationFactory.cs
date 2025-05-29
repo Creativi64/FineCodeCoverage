@@ -6,9 +6,6 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(IRunSettingsCoverletConfigurationFactory))]
     internal class RunSettingsCoverletConfigurationFactory : IRunSettingsCoverletConfigurationFactory
     {
-        public IRunSettingsCoverletConfiguration Create()
-        {
-            return new RunSettingsCoverletConfiguration();
-        }
+        public IRunSettingsCoverletConfiguration Create() => new RunSettingsCoverletConfiguration();
     }
 }

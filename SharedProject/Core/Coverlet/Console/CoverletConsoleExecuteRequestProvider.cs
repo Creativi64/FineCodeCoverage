@@ -20,20 +20,18 @@ namespace FineCodeCoverage.Engine.Coverlet
             [Import(typeof(ICoverletConsoleDotnetToolsLocalExecutor))]
             ICoverletConsoleExecutor localExecutor,
             IFCCCoverletConsoleExecutor fccExecutor
-        )
-        {
-            executors = new List<ICoverletConsoleExecutor>
+        ) => this.executors = new List<ICoverletConsoleExecutor>
             {
                 localExecutor,
                 customPathExecutor,
                 globalExecutor,
                 fccExecutor
             };
-        }
+
         // for now FCCCoverletConsoleExeProvider can return null for exe path
         public async Task<ExecuteRequest> GetExecuteRequestAsync(ICoverageProject project, string coverletSettings)
         {
-            foreach (ICoverletConsoleExecutor exeProvider in executors)
+            foreach (ICoverletConsoleExecutor exeProvider in this.executors)
             {
                 ExecuteRequest executeRequest = await exeProvider.GetRequestAsync(project, coverletSettings);
                 if (executeRequest != null)
@@ -41,8 +39,8 @@ namespace FineCodeCoverage.Engine.Coverlet
                     return executeRequest;
                 }
             }
+
             return null;//todo change to throw when using zip file
         }
     }
-
 }

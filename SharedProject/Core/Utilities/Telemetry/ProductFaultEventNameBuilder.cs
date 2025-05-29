@@ -24,12 +24,13 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
                 {
                     throw new ArgumentException("Empty hierarchy", nameof(hierarchy));
                 }
+
                 return String.Join("/", hierarchy);
             }
 
             public FaultEventName BuildFromFeatureNameHierarchy(params string[] hierarchy)
             {
-                return new FaultEventName(product, GetFeatureName(hierarchy), this.entityName);
+                return new FaultEventName(this.product, GetFeatureName(hierarchy), this.entityName);
             }
         }
 
@@ -40,22 +41,22 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
 
         public FaultEventName Build(string featureName, string entityName)
         {
-            return new FaultEventName(product, featureName, entityName);
+            return new FaultEventName(this.product, featureName, entityName);
         }
 
         public FaultEventName Build<TEntity>(string featureName)
         {
-            return new FaultEventName(product, featureName, EntityName<TEntity>());
+            return new FaultEventName(this.product, featureName, EntityName<TEntity>());
         }
 
         public IBuildFaultEventNameFromFeatureHierarchy WithEntityName(string entityName)
         {
-            return new BuildFaultEventNameFromFeatureHierarchy(product, entityName);
+            return new BuildFaultEventNameFromFeatureHierarchy(this.product, entityName);
         }
 
         public IBuildFaultEventNameFromFeatureHierarchy WithEntityName<TEntity>()
         {
-            return WithEntityName(EntityName<TEntity>());
+            return this.WithEntityName(EntityName<TEntity>());
         }
 
         public static ProductFaultEventNameBuilder Create(string productName)

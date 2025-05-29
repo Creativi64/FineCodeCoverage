@@ -4,5 +4,4 @@
     {
         string Get(string variable);
     }
-
 }

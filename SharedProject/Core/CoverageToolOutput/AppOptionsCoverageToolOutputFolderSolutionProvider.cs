@@ -14,15 +14,12 @@ namespace FineCodeCoverage.Engine
         [ImportingConstructor]
         public AppOptionsCoverageToolOutputFolderSolutionProvider(
             IOptionsProvider<OutputOptions> outputOptionsProvider
-        )
-        {
-            this.outputOptionsProvider = outputOptionsProvider;
-        }
+        ) => this.outputOptionsProvider = outputOptionsProvider;
 
         public string Provide(Func<string> solutionFolderProvider)
         {
-            OutputOptions appOptions = outputOptionsProvider.Get();
-            if (!String.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
+            OutputOptions appOptions = this.outputOptionsProvider.Get();
+            if (!string.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
             {
                 string solutionFolder = solutionFolderProvider();
                 if (solutionFolder != null)
@@ -30,6 +27,7 @@ namespace FineCodeCoverage.Engine
                     return Path.Combine(solutionFolder, appOptions.FCCSolutionOutputDirectoryName);
                 }
             }
+
             return null;
         }
     }

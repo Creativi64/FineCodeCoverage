@@ -75,6 +75,7 @@ namespace FineCodeCoverage.Output
             {
                 message = $"Column {columnsInError[0].Column} has no Display Name";
             }
+
             this.messageBox.ShowError(message, caption);
         }
 
@@ -97,6 +98,7 @@ namespace FineCodeCoverage.Output
 
                 displayIndex++;
             }
+
             if (displayIndicesChanged)
             {
                 this.reportColumnsManager.SortColumnsArray();

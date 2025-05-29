@@ -15,6 +15,7 @@ namespace FineCodeCoverage.Core.Utilities
                 value = factory();
                 dict.Add(key, value);
             }
+
             return value;
         }
     }

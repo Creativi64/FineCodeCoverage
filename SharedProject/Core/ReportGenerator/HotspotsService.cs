@@ -23,9 +23,9 @@ namespace FineCodeCoverage.ReportGeneration
         {
             public RiskHotspot(string assembly, string @class, IMethodMetric methodMetric)
             {
-                Assembly = assembly;
-                Class = @class;
-                MethodMetric = methodMetric;
+                this.Assembly = assembly;
+                this.Class = @class;
+                this.MethodMetric = methodMetric;
             }
             public string Assembly { get; }
             public string Class { get; }
@@ -38,8 +38,8 @@ namespace FineCodeCoverage.ReportGeneration
             {
                 public Metric(string name, decimal value)
                 {
-                    Name = name;
-                    Value = value;
+                    this.Name = name;
+                    this.Value = value;
                 }
                 public string Name { get; }
                 public decimal Value { get; }
@@ -47,23 +47,26 @@ namespace FineCodeCoverage.ReportGeneration
 
             public MethodMetric(ICodeElement codeElement, HotspotThresholdsOptions riskHotspotsAnalysisThresholds)
             {
-                FullName = codeElement.Name;
-                Line = codeElement.StartLine;
-                List<Metric> metrics = new List<Metric>();
+                this.FullName = codeElement.Name;
+                this.Line = codeElement.StartLine;
+                var metrics = new List<Metric>();
                 if (codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.ThresholdForCyclomaticComplexity)
                 {
                     metrics.Add(new Metric("CyclomaticComplexity", codeElement.CyclomaticComplexity));
                 }
+
                 if (codeElement.CrapScore > riskHotspotsAnalysisThresholds.ThresholdForCrapScore)
                 {
                     metrics.Add(new Metric("CrapScore", codeElement.CrapScore));
                 }
+
                 if (codeElement.NPathComplexity > riskHotspotsAnalysisThresholds.ThresholdForNPathComplexity)
                 {
                     metrics.Add(new Metric("NPathComplexity", codeElement.NPathComplexity));
                 }
-                IsHotspot = metrics.Any();
-                Metrics = metrics;
+
+                this.IsHotspot = metrics.Any();
+                this.Metrics = metrics;
 
             }
             public bool IsHotspot { get; }
@@ -71,8 +74,6 @@ namespace FineCodeCoverage.ReportGeneration
             public int Line { get; }
             public IEnumerable<IMetric> Metrics { get; }
         }
-
-
         internal interface IMetric
         {
             string Name { get; }
@@ -88,32 +89,26 @@ namespace FineCodeCoverage.ReportGeneration
 
         private void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
-            XElement rootElement = new XElement("Hotspots", hotspots.Select(hotspot =>
-            {
-                return new XElement("Hotspot",
+            var rootElement = new XElement("Hotspots", hotspots.Select(hotspot => new XElement("Hotspot",
                     new XElement("Assembly", hotspot.Assembly),
                     new XElement("Class", hotspot.Class),
                     new XElement("Method", hotspot.MethodMetric.FullName),
                     new XElement("Line", hotspot.MethodMetric.Line),
                     new XElement("Metrics",
-                        hotspot.MethodMetric.Metrics.Select(metric =>
-                        {
-                            return new XElement("Metric",
+                        hotspot.MethodMetric.Metrics.Select(metric => new XElement("Metric",
                                 new XElement("Name", metric.Name),
                                 new XElement("Value", metric.Value)
-                            );
-                        })
+                            ))
                     )
-                );
-            }));
+                )));
 
             rootElement.Save(path);
         }
 
         public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
         {
-            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, hotspotThresholdsOptionsProvider.Get());
-            WriteHotspotsToXml(riskHotspots, hotspotsPath);
+            IEnumerable<RiskHotspot> riskHotspots = this.GetRiskhotspots(reportAssemblies, this.hotspotThresholdsOptionsProvider.Get());
+            this.WriteHotspotsToXml(riskHotspots, hotspotsPath);
         }
 
         private IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, HotspotThresholdsOptions hotspotThresholdsOptions)

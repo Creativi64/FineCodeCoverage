@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
         {
             try
             {
-                await this.ShowToolWindowAsync();
+                _ = await this.ShowToolWindowAsync();
             }
             catch { }
         }

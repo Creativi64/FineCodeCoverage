@@ -18,8 +18,10 @@ namespace FineCodeCoverage.Core.Utilities
                 {
                     return true;
                 }
+
                 return vsBuildPropertyStorage.SetPropertyValue(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE, value) == VSConstants.S_OK;
             }
+
             return false;
         }
 
@@ -30,6 +32,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 return vsBuildPropertyStorage.RemoveProperty(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE) == VSConstants.S_OK;
             }
+
             return false;
         }
     }

@@ -38,31 +38,31 @@ namespace FineCodeCoverage.Engine.Model
 
         public async Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject)
         {
-            List<XElement> settingsFilesElements = GetSettingsFilesElements(coverageProject);
-            XElement projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
-            CoverageSettings coverageSettings = GetSettingsFromOptions();
+            List<XElement> settingsFilesElements = this.GetSettingsFilesElements(coverageProject);
+            XElement projectSettingsElement = await this.coverageProjectSettingsProvider.ProvideAsync(coverageProject);
+            CoverageSettings coverageSettings = this.GetSettingsFromOptions();
             if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
             {
-                await settingsMerger.MergeAsync(
-                    coverageSettings, coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
+                await this.settingsMerger.MergeAsync(
+                    coverageSettings, this.coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
                 );
             }
 
-            AddCommonAssemblyExcludesIncludes(coverageSettings);
+            this.AddCommonAssemblyExcludesIncludes(coverageSettings);
             return coverageSettings;
         }
 
         private List<XElement> GetSettingsFilesElements(ICoverageProject coverageProject)
         {
             string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
-            return fccSettingsFilesProvider.Provide(projectDirectory);
+            return this.fccSettingsFilesProvider.Provide(projectDirectory);
         }
 
         private void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
         {
-            (string[] newOldStyleExclude, string[] newMsExclude) = AddCommon(
+            (string[] newOldStyleExclude, string[] newMsExclude) = this.AddCommon(
                 coverageSettings.Exclude, coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
-            (string[] newOldStyleInclude, string[] newMsInclude) = AddCommon(
+            (string[] newOldStyleInclude, string[] newMsInclude) = this.AddCommon(
                 coverageSettings.Include, coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
             coverageSettings.Exclude = newOldStyleExclude;
             coverageSettings.Include = newOldStyleInclude;
@@ -76,8 +76,9 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return (oldStyle, ms);
             }
-            List<string> newMs = ListFromExisting(ms);
-            List<string> newOldStyle = ListFromExisting(oldStyle);
+
+            List<string> newMs = this.ListFromExisting(ms);
+            List<string> newOldStyle = this.ListFromExisting(oldStyle);
 
             IEnumerable<string> nonWhitespaceCommon = common.Where(c => !string.IsNullOrWhiteSpace(c));
             foreach (string assemblyFileName in nonWhitespaceCommon)
@@ -91,9 +92,6 @@ namespace FineCodeCoverage.Engine.Model
             return (newOldStyle.ToArray(), newMs.ToArray());
         }
 
-        private List<string> ListFromExisting(string[] existing)
-        {
-            return new List<string>(existing ?? new string[0]);
-        }
+        private List<string> ListFromExisting(string[] existing) => new List<string>(existing ?? new string[0]);
     }
 }

@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         private static void Collate(string reportOutputFolder, string directoryName)
         {
-            DirectoryInfo directory = new DirectoryInfo(reportOutputFolder);
+            var directory = new DirectoryInfo(reportOutputFolder);
             DirectoryInfo htmlReportDirectory = directory.CreateSubdirectory(directoryName);
 
             foreach (FileInfo htmlFile in directory.EnumerateFiles("*.html"))

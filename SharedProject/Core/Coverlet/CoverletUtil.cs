@@ -19,17 +19,18 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);
-            coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
+            this.coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);
+            this.coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
         }
 
         public async Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
-            if (await coverletDataCollectorUtil.CanUseDataCollectorAsync(project))
+            if (await this.coverletDataCollectorUtil.CanUseDataCollectorAsync(project))
             {
-                await coverletDataCollectorUtil.RunAsync(cancellationToken);
+                await this.coverletDataCollectorUtil.RunAsync(cancellationToken);
             }
-            await coverletGlobalUtil.RunAsync(project, cancellationToken);
+
+            await this.coverletGlobalUtil.RunAsync(project, cancellationToken);
         }
     }
 }

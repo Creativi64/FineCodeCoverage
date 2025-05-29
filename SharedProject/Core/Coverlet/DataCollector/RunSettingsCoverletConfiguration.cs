@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Core.Coverlet
     {
         public bool Read(string runSettingsXml)
         {
-            XDocument document = XDocument.Parse(runSettingsXml);
+            var document = XDocument.Parse(runSettingsXml);
             //<DataCollector friendlyName=""XPlat code coverage"">
             XElement coverletDataCollectorElement = document.Descendants("DataCollector").FirstOrDefault(dataCollector =>
             {
@@ -18,14 +18,11 @@ namespace FineCodeCoverage.Core.Coverlet
             if (coverletDataCollectorElement != null)
             {
                 XAttribute enabledAttribute = coverletDataCollectorElement.Attribute("enabled");
-                if (enabledAttribute == null)
-                {
-                    CoverletDataCollectorState = CoverletDataCollectorState.Enabled;
-                }
-                else
-                {
-                    CoverletDataCollectorState = string.Equals(enabledAttribute.Value, "true", System.StringComparison.OrdinalIgnoreCase) ? CoverletDataCollectorState.Enabled : CoverletDataCollectorState.Disabled;
-                }
+                this.CoverletDataCollectorState = enabledAttribute == null
+                    ? CoverletDataCollectorState.Enabled
+                    : string.Equals(enabledAttribute.Value, "true", System.StringComparison.OrdinalIgnoreCase) ?
+                        CoverletDataCollectorState.Enabled :
+                        CoverletDataCollectorState.Disabled;
             }
             else
             {
@@ -37,7 +34,8 @@ namespace FineCodeCoverage.Core.Coverlet
             {
                 return false;
             }
-            System.Collections.Generic.List<XElement> configurationElements = configurationElement.Elements().ToList();
+
+            var configurationElements = configurationElement.Elements().ToList();
             if (configurationElements.Count == 0)
             {
                 return false;

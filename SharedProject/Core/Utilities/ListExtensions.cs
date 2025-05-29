@@ -24,6 +24,7 @@ namespace FineCodeCoverage.Core.Utilities
                 list.Add(item);
                 return true;
             }
+
             return false;
         }
 

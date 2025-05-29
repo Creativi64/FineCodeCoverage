@@ -23,9 +23,9 @@ namespace FineCodeCoverage.Core.Utilities
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                IVsSolution vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
+                var vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
                 Assumes.Present(vsSolution);
-                vsSolution.AdviseSolutionEvents(this, out uint _);
+                _ = vsSolution.AdviseSolutionEvents(this, out _);
             });
 #pragma warning restore VSTHRD104 // Offer async methods
         }

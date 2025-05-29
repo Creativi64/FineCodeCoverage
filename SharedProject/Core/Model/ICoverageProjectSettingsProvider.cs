@@ -7,5 +7,4 @@ namespace FineCodeCoverage.Engine.Model
     {
         Task<XElement> ProvideAsync(ICoverageProject coverageProject);
     }
-
 }

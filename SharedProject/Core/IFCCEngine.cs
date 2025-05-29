@@ -11,5 +11,4 @@ namespace FineCodeCoverage.Engine
         void ReloadCoverage(Func<Task<List<ICoverageProject>>> coverageRequestCallback);
         void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null);
     }
-
 }

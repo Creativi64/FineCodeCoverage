@@ -35,8 +35,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.runSettingsToConfiguration = runSettingsToConfiguration;
             this.runOptionsProvider = runOptionsProvider;
             this.environment = environment;
-            TakeFCCOptions(runOptionsProvider.Get());
-            this.runOptionsProvider.OptionsChanged += TakeFCCOptions;
+            this.TakeFCCOptions(runOptionsProvider.Get());
+            this.runOptionsProvider.OptionsChanged += this.TakeFCCOptions;
         }
 
         private void TakeFCCOptions(RunOptions appOptions)
@@ -47,12 +47,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public async Task<TUnitSettings> ProvideAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
         {
-            await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken, false);
+            _ = await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken, false);
             string coberturaPath = GetCoberturaPath(tUnitCoverageProject);
             CommandLineParseResult commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
             // todo commandLineParseResult.HasError
             string configurationPathArgument = null;
-            StringBuilder additionalArgsStringBuilder = new StringBuilder();
+            var additionalArgsStringBuilder = new StringBuilder();
             string ignoreExitCodeArg = null;
             int? minimumExpectedTests = null;
             foreach (CommandLineParseOption option in commandLineParseResult.Options)
@@ -73,6 +73,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                                 configurationPathArgument = arg;
                             }
                         }
+
                         break;
                     case "ignore-exit-code":
                         ignoreExitCodeArg = option.Arguments.FirstOrDefault();
@@ -86,6 +87,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                                 minimumExpectedTests = result;
                             }
                         }
+
                         break;
                     default:
                         AddToAdditionalArgs($"--{option.Name} {string.Join(" ", option.Arguments)}");
@@ -93,23 +95,23 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 }
             }
 
-            AddToAdditionalArgs(GetMinimumExpectedTestsPart(minimumExpectedTests));
-            AddToAdditionalArgs(GetIgnoreExitCodePart(ignoreExitCodeArg));
+            AddToAdditionalArgs(this.GetMinimumExpectedTestsPart(minimumExpectedTests));
+            AddToAdditionalArgs(this.GetIgnoreExitCodePart(ignoreExitCodeArg));
 
-            string configurationPath = await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
+            string configurationPath = await this.GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
             return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgsStringBuilder.ToString());
 
             bool ConfigurationPathArgExists(string pathArg)
             {
                 pathArg = pathArg.Replace("\"", "").Replace("'", "");
-                return fileUtil.Exists(pathArg);
+                return this.fileUtil.Exists(pathArg);
             }
 
             void AddToAdditionalArgs(string part)
             {
                 if (!string.IsNullOrEmpty(part))
                 {
-                    additionalArgsStringBuilder.Append($" {part}");
+                    _ = additionalArgsStringBuilder.Append($" {part}");
                 }
             }
         }
@@ -117,27 +119,29 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private string GetMinimumExpectedTestsPart(int? minimumExpectedTestsArg)
         {
             // non zero positive integer
-            if (!minimumExpectedTestsArg.HasValue && fccRunWhenTestsExceed > 1)
+            if (!minimumExpectedTestsArg.HasValue && this.fccRunWhenTestsExceed > 1)
             {
-                minimumExpectedTestsArg = fccRunWhenTestsExceed - 1;
+                minimumExpectedTestsArg = this.fccRunWhenTestsExceed - 1;
             }
+
             return minimumExpectedTestsArg.HasValue ? $"--minimum-expected-tests {minimumExpectedTestsArg}" : null;
         }
 
         private string GetIgnoreExitCodePart(string ignoreExitCodeArg)
         {
-            string ignoreExitCodeString = GetIgnoreExitCodeString(ignoreExitCodeArg);
-            List<int> ignoredExitCodes = GetIgnoredExitCodes(ignoreExitCodeString);
-            if (!ignoredExitCodes.Contains(2) && fccRunWhenTestsFail)
+            string ignoreExitCodeString = this.GetIgnoreExitCodeString(ignoreExitCodeArg);
+            List<int> ignoredExitCodes = this.GetIgnoredExitCodes(ignoreExitCodeString);
+            if (!ignoredExitCodes.Contains(2) && this.fccRunWhenTestsFail)
             {
                 ignoredExitCodes.Add(2);
             }
+
             return ignoredExitCodes.Any() ? $"--ignore-exit-code {string.Join(";", ignoredExitCodes)}" : null;
         }
 
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)
         {
-            string environmentVariableValue = environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
+            string environmentVariableValue = this.environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
             return environmentVariableValue ?? ignoreExitCodesArg ?? "";
         }
 
@@ -149,6 +153,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 {
                     return Enumerable.Empty<int>().ToList();
                 }
+
                 string[] codes = exitCodes.Split(';');
                 return codes.Select(code => int.Parse(code)).ToList();
             }
@@ -171,33 +176,33 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     return configurationPathArgument;
                 }
 
-                System.Xml.Linq.XElement configurationOrRunSettingsElement = xmlUtils.Load(configurationPathArgument);
+                System.Xml.Linq.XElement configurationOrRunSettingsElement = this.xmlUtils.Load(configurationPathArgument);
                 string name = configurationOrRunSettingsElement.Name.LocalName;
                 if (name == "Configuration") return configurationPathArgument;
                 if (name == "RunSettings")
                 {
-                    System.Xml.Linq.XElement configurationElement = runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
+                    System.Xml.Linq.XElement configurationElement = this.runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
                     if (configurationElement != null)
                     {
-                        return WriteConfiguration(tUnitCoverageProject, xmlUtils.Serialize(configurationElement));
+                        return this.WriteConfiguration(tUnitCoverageProject, this.xmlUtils.Serialize(configurationElement));
                     }
                 }
             }
 
-            return await WriteFCCConfigurationAsync(tUnitCoverageProject, cancellationToken);
+            return await this.WriteFCCConfigurationAsync(tUnitCoverageProject, cancellationToken);
         }
 
         private async Task<string> WriteFCCConfigurationAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
         {
             string configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
-            return WriteConfiguration(tUnitCoverageProject, configuration);
+            return this.WriteConfiguration(tUnitCoverageProject, configuration);
         }
 
         private string WriteConfiguration(ITUnitCoverageProject tUnitCoverageProject, string configuration)
         {
             Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
             string configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
-            fileUtil.WriteAllText(configurationPath, configuration);
+            this.fileUtil.WriteAllText(configurationPath, configuration);
             return configurationPath;
         }
 
@@ -206,8 +211,5 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
             return Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
         }
-
     }
-
-
 }

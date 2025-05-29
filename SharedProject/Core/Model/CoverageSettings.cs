@@ -57,5 +57,4 @@ namespace FineCodeCoverage.Engine.Model
         public string[] FunctionsExclude { get; set; }
         #endregion
     }
-
 }

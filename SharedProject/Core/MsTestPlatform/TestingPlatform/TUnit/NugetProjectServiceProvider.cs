@@ -17,9 +17,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public NugetProjectServiceProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        )
-        {
-            LazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
+        ) => this.LazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
             {
                 IBrokeredServiceContainer brokeredServiceContainer = serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
                 IServiceBroker serviceBroker = brokeredServiceContainer.GetFullAccessServiceBroker();
@@ -28,6 +26,5 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 #pragma warning restore ISB001 // Dispose of proxies
                 return nugetProjectService;
             }, ThreadHelper.JoinableTaskFactory);
-        }
     }
 }

@@ -34,22 +34,20 @@ namespace FineCodeCoverage.Engine.Coverlet
             this.coverletExeArgumentsProvider = coverletExeArgumentsProvider;
         }
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
-        {
-            fccExecutor.Initialize(appDataFolder, cancellationToken);
-        }
+            => this.fccExecutor.Initialize(appDataFolder, cancellationToken);
 
         public async Task RunAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
             string title = $"Coverlet Run ({project.ProjectName})";
 
-            List<string> coverletSettings = coverletExeArgumentsProvider.GetArguments(project);
+            List<string> coverletSettings = this.coverletExeArgumentsProvider.GetArguments(project);
 
-            List<string> executingLogLines = new List<string> { $"{title} - Arguments" };
+            var executingLogLines = new List<string> { $"{title} - Arguments" };
             executingLogLines.AddRange(coverletSettings);
-            await logger.LogAsync(executingLogLines);
+            await this.logger.LogAsync(executingLogLines);
 
-            ExecuteResponse result = await processUtil.ExecuteAsync(
-                await coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
+            ExecuteResponse result = await this.processUtil.ExecuteAsync(
+                await this.coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
                 cancellationToken
             );
 
@@ -62,12 +60,12 @@ namespace FineCodeCoverage.Engine.Coverlet
             if (result.ExitCode > 3)
             {
                 string errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
-                await logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
+                await this.logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
 
                 throw new Exception(errorExitCodeMessage);
             }
 
-            await logger.LogAsync($"{title} - Output", result.Output);
+            await this.logger.LogAsync($"{title} - Output", result.Output);
         }
     }
 }

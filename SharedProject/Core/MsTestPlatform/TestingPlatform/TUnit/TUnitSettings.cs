@@ -9,10 +9,10 @@
             string additionalArgs
             )
         {
-            ExePath = exePath;
-            SettingsPath = settingsPath;
-            OutputPath = outputPath;
-            AdditionalArgs = additionalArgs;
+            this.ExePath = exePath;
+            this.SettingsPath = settingsPath;
+            this.OutputPath = outputPath;
+            this.AdditionalArgs = additionalArgs;
         }
 
         public string ExePath { get; }

@@ -25,22 +25,24 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             this.reportGenerator = reportGenerator;
             this.logger = logger;
-            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => logs.Add(message));
-            fileRenameListener.FileRenamedEvent += FileRenameListener_FileRenamedEvent;
+            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => this.logs.Add(message));
+            fileRenameListener.FileRenamedEvent += this.FileRenameListener_FileRenamedEvent;
         }
 
         private void FileRenameListener_FileRenamedEvent(IReadOnlyList<FileRename> fileRenames)
-            => dynamicReportResult?.FileRenamed(fileRenames);
+            => this.dynamicReportResult?.FileRenamed(fileRenames);
 
         public async Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
             CancellationToken cancellationToken)
         {
-            logs = new List<string>();
-            logs.Add("Report Generator - Output");
+            this.logs = new List<string>
+            {
+                "Report Generator - Output"
+            };
             IReportResult reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
-            await logger.LogAsync(logs);
+            await this.logger.LogAsync(this.logs);
             this.dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
             return new ReportGeneratorResult
             {

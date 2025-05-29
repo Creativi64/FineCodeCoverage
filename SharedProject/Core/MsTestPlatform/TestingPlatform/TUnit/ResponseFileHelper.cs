@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
             catch (IOException e)
             {
-                errors.Add($"FailedToReadResponseFile {rspFilePath} {e.ToString()}");
+                errors.Add($"FailedToReadResponseFile {rspFilePath} {e}");
             }
 
             newArguments = null;

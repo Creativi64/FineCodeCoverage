@@ -24,21 +24,20 @@ namespace FineCodeCoverage.Engine
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
-            coverletUtil.Initialize(appDataFolderPath, cancellationToken);
+            this.openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
+            this.coverletUtil.Initialize(appDataFolderPath, cancellationToken);
             return Task.CompletedTask;
         }
-
 
         public async Task RunCoverageAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
             if (project.IsDotNetSdkStyle())
             {
-                await coverletUtil.RunCoverletAsync(project, cancellationToken);
+                await this.coverletUtil.RunCoverletAsync(project, cancellationToken);
             }
             else
             {
-                await openCoverUtil.RunOpenCoverAsync(project, cancellationToken);
+                await this.openCoverUtil.RunOpenCoverAsync(project, cancellationToken);
             }
         }
     }

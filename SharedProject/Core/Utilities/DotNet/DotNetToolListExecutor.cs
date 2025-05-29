@@ -8,23 +8,23 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public DotNetToolListExecutionResult Global()
         {
-            return Execute("--global");
+            return this.Execute("--global");
         }
 
         public DotNetToolListExecutionResult Local(string directory)
         {
-            return Execute("--local", directory);
+            return this.Execute("--local", directory);
         }
 
         public DotNetToolListExecutionResult GlobalToolsPath(string directory)
         {
             string safeDirectory = $@"""{directory}""";
-            return Execute($"--tool-path {safeDirectory}");
+            return this.Execute($"--tool-path {safeDirectory}");
         }
 
         private DotNetToolListExecutionResult Execute(string additionalArguments, string workingDirectory = null)
         {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            var processStartInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
                 CreateNoWindow = true,
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Core.Utilities
                 processStartInfo.WorkingDirectory = workingDirectory;
             }
 
-            Process process = Process.Start(processStartInfo);
+            var process = Process.Start(processStartInfo);
 
             process.WaitForExit();
 

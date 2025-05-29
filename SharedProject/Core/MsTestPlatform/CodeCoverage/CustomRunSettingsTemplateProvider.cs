@@ -18,8 +18,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public CustomRunSettingsTemplateDetails Provide(string projectDirectory, string solutionDirectory)
         {
-            CustomRunSettingsTemplateDetails runSettingsTemplate = GetTemplateIfExistsInDirectory(projectDirectory);
-            return runSettingsTemplate ?? GetTemplateIfExistsInDirectory(solutionDirectory);
+            CustomRunSettingsTemplateDetails runSettingsTemplate = this.GetTemplateIfExistsInDirectory(projectDirectory);
+            return runSettingsTemplate ?? this.GetTemplateIfExistsInDirectory(solutionDirectory);
         }
 
         private CustomRunSettingsTemplateDetails GetTemplateIfExistsInDirectory(string directory)
@@ -30,14 +30,15 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
 
             string templatePath = Path.Combine(directory, TemplateName);
-            if (fileUtil.Exists(templatePath))
+            if (this.fileUtil.Exists(templatePath))
             {
                 return new CustomRunSettingsTemplateDetails
                 {
-                    Template = fileUtil.ReadAllText(templatePath),
+                    Template = this.fileUtil.ReadAllText(templatePath),
                     Path = templatePath
                 };
             }
+
             return null;
         }
     }

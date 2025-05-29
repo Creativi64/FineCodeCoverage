@@ -25,13 +25,10 @@ namespace FineCodeCoverage.Engine.Model
             this.referencedProjectsHelper = referencedProjectsHelper;
         }
 
-        public ICoverageProject Create()
-        {
-            return new CoverageProject(
-                outputOptionsProvider,
-                fileSynchronizationUtil,
-                coverageProjectSettingsManager,
-                referencedProjectsHelper);
-        }
+        public ICoverageProject Create() => new CoverageProject(
+                this.outputOptionsProvider,
+                this.fileSynchronizationUtil,
+                this.coverageProjectSettingsManager,
+                this.referencedProjectsHelper);
     }
 }

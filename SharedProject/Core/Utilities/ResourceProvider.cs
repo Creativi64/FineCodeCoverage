@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Core.Utilities
         public ResourceProvider()
         {
             string assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            resourcesDirectory = Path.Combine(assemblyDirectory, "Resources");
+            this.resourcesDirectory = Path.Combine(assemblyDirectory, "Resources");
 
         }
         public string ReadResource(string resourceName)
         {
-            return File.ReadAllText(Path.Combine(resourcesDirectory, resourceName));
+            return File.ReadAllText(Path.Combine(this.resourcesDirectory, resourceName));
         }
     }
 }

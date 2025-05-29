@@ -17,6 +17,5 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         int CyclomaticComplexity { get; }
         int NPathComplexity { get; }
         decimal CrapScore { get; }
-
     }
 }

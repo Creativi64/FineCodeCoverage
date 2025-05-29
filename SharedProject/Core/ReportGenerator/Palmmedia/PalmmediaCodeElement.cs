@@ -9,35 +9,36 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     {
         public PalmmediaCodeElement(CodeElement codeElement, CodeFile codeFile)
         {
-            CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
-            Name = codeElement.Name;
-            StartLine = codeElement.FirstLine;
+            this.CodeElementType = this.ConvertCodeElementType(codeElement.CodeElementType);
+            this.Name = codeElement.Name;
+            this.StartLine = codeElement.FirstLine;
             IEnumerable<LineVisitStatus> lineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
             .Take(codeElement.LastLine - codeElement.FirstLine + 1);
-            SetLines(lineVisitStatuses);
+            this.SetLines(lineVisitStatuses);
 
-            Path = codeFile.Path;
+            this.Path = codeFile.Path;
             MethodMetric methodMetrics = codeFile.MethodMetrics.FirstOrDefault(methodMetric => methodMetric.FullName == codeElement.FullName);
             if (methodMetrics != null)
             {
                 List<MetricType> metricTypes = this.SetMetricProperties(methodMetrics.Metrics);
                 PalmmediaReportResult.AddMetricTypes(metricTypes);
             }
+
             codeFile.BranchesByLine
                 .Where(kvp => kvp.Key >= codeElement.FirstLine && kvp.Key <= codeElement.LastLine)
                 .ToList()
                 .ForEach(kvp =>
                 {
                     ICollection<Branch> branches = kvp.Value;
-                    TotalBranches += branches.Count;
-                    BranchesCovered += branches.Count(b => b.BranchVisits > 0);
+                    this.TotalBranches += branches.Count;
+                    this.BranchesCovered += branches.Count(b => b.BranchVisits > 0);
                 });
         }
 
         private void SetLines(IEnumerable<LineVisitStatus> lineVisitStatuses)
         {
-            List<ICoberturaLine> coberturaLines = new List<ICoberturaLine>();
-            int lineNumber = StartLine;
+            var coberturaLines = new List<ICoberturaLine>();
+            int lineNumber = this.StartLine;
             foreach (LineVisitStatus lineVisitStatus in lineVisitStatuses)
             {
                 if (lineVisitStatus != LineVisitStatus.NotCoverable)
@@ -47,7 +48,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
                 lineNumber++;
             }
-            Lines = coberturaLines;
+
+            this.Lines = coberturaLines;
         }
 
         private CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)
@@ -91,5 +93,4 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public decimal CrapScore { get; set; }
         public IReadOnlyList<ICoberturaLine> Lines { get; private set; }
     }
-
 }

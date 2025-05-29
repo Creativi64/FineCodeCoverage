@@ -28,22 +28,23 @@ namespace FineCodeCoverage.Engine.Model
         {
             this.projectFileXElementProvider = projectFileXElementProvider;
             this.projectFile = projectFile;
-            List<IExcludableReferencedProject> referencedProjects = await GetReferencedProjectsAsync();
+            List<IExcludableReferencedProject> referencedProjects = await this.GetReferencedProjectsAsync();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 
         private async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync()
         {
-            return await SafeGetReferencedProjectsFromVSApiAsync() ?? await projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(projectFile, projectFileXElementProvider());
+            return await this.SafeGetReferencedProjectsFromVSApiAsync() ?? await this.projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(this.projectFile, this.projectFileXElementProvider());
         }
 
         private async Task<List<IExcludableReferencedProject>> SafeGetReferencedProjectsFromVSApiAsync()
         {
             try
             {
-                return await vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(projectFile);
+                return await this.vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(this.projectFile);
             }
             catch { }
+
             return null;
         }
     }

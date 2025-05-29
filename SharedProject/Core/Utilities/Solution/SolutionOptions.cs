@@ -19,12 +19,12 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         )
         {
             this.options = options;
-            solutionEvents.AfterClosing += SolutionEvents_AfterClosing;
+            solutionEvents.AfterClosing += this.SolutionEvents_AfterClosing;
         }
 
         private void SolutionEvents_AfterClosing(object sender, System.EventArgs e)
         {
-            foreach (ISolutionOption option in options)
+            foreach (ISolutionOption option in this.options)
             {
                 option.Unloaded();
             }
@@ -32,17 +32,17 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         public Task<IEnumerable<string>> GetKeysAsync()
         {
-            return Task.FromResult(options.Select(o => o.Key));
+            return Task.FromResult(this.options.Select(o => o.Key));
         }
 
         public void LoadOptions(string key, Stream stream)
         {
-            options.First(o => o.Key == key).Load(stream);
+            this.options.First(o => o.Key == key).Load(stream);
         }
 
         public void SaveOptions(string key, Stream stream)
         {
-            options.First(o => o.Key == key).Save(stream);
+            this.options.First(o => o.Key == key).Save(stream);
         }
     }
 }

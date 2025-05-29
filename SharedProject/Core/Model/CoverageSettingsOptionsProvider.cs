@@ -18,10 +18,10 @@ namespace FineCodeCoverage.Core.Model
             IOptionsProvider<OpenCoverOptions> openCoverOptionsProvider
         )
         {
-            optionsProviders.Add(includesExcludesOptionsProvider);
-            optionsProviders.Add(runOptionsProvider);
-            optionsProviders.Add(coverletOptionsProvider);
-            optionsProviders.Add(openCoverOptionsProvider);
+            this.optionsProviders.Add(includesExcludesOptionsProvider);
+            this.optionsProviders.Add(runOptionsProvider);
+            this.optionsProviders.Add(coverletOptionsProvider);
+            this.optionsProviders.Add(openCoverOptionsProvider);
         }
 
         public IEnumerable<object> Get() => this.optionsProviders.Select(g => g.Options);

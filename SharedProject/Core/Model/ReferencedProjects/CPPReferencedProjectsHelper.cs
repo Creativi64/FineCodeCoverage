@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Engine.Model
         private string GetCPPProjectReferenceProjectFilePath(VCProjectReference reference)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            VSLangProj.Reference vsReference = reference.Reference as VSLangProj.Reference;
+            var vsReference = reference.Reference as VSLangProj.Reference;
             EnvDTE.Project sourceProject = vsReference.SourceProject;
             return sourceProject.FileName;
         }
@@ -54,11 +54,11 @@ namespace FineCodeCoverage.Engine.Model
                 .OfType<VCProjectReference>()
                 .Select(reference =>
                 {
-                    VCProject referencedProject = GetReferencedVCProject(reference);
+                    VCProject referencedProject = this.GetReferencedVCProject(reference);
 
-                    bool? isDll = IsDll(referencedProject);
+                    bool? isDll = this.IsDll(referencedProject);
                     return isDll.HasValue ? (IExcludableReferencedProject)new ReferencedProject(
-                            GetCPPProjectReferenceProjectFilePath(reference),
+                            this.GetCPPProjectReferenceProjectFilePath(reference),
                             Path.GetFileNameWithoutExtension(reference.FullPath),
                             isDll.Value
                         )

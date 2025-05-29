@@ -14,8 +14,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IReadOnlyList<CommandLineParseOption> options,
             IReadOnlyList<string> errors)
         {
-            Options = options;
-            Errors = errors;
+            this.Options = options;
+            this.Errors = errors;
         }
 
         public static CommandLineParseResult Empty { get; } = new CommandLineParseResult(Enumerable.Empty<CommandLineParseOption>().ToList(), Enumerable.Empty<string>().ToList());
@@ -25,15 +25,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public IReadOnlyList<CommandLineParseOption> Options { get; }
         public IReadOnlyList<string> Errors { get; }
 
-        public bool HasError => Errors.Count > 0;
+        public bool HasError => this.Errors.Count > 0;
 
         public bool IsOptionSet(string optionName)
-            => Options.Any(o => o.Name.Equals(optionName.Trim(OptionPrefix), StringComparison.OrdinalIgnoreCase));
+            => this.Options.Any(o => o.Name.Equals(optionName.Trim(OptionPrefix), StringComparison.OrdinalIgnoreCase));
 
         public bool TryGetOptionArgumentList(string optionName, out string[] arguments)
         {
             optionName = optionName.Trim(OptionPrefix);
-            IEnumerable<CommandLineParseOption> result = Options.Where(x => x.Name == optionName);
+            IEnumerable<CommandLineParseOption> result = this.Options.Where(x => x.Name == optionName);
             if (result.Any())
             {
                 arguments = result.SelectMany(x => x.Arguments).ToArray();

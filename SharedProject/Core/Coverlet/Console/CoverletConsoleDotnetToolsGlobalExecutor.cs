@@ -22,12 +22,13 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             if (coverageProject.Settings.CoverletConsoleGlobal)
             {
-                CoverletDotNetToolDetails details = await dotNetToolListCoverlet.GlobalAsync();
+                CoverletDotNetToolDetails details = await this.dotNetToolListCoverlet.GlobalAsync();
                 if (details == null)
                 {
-                    await logger.LogAsync("Unable to use Coverlet console global tool");
+                    await this.logger.LogAsync("Unable to use Coverlet console global tool");
                     return null;
                 }
+
                 return new ExecuteRequest
                 {
                     FilePath = details.Command,
@@ -35,6 +36,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     WorkingDirectory = coverageProject.ProjectOutputFolder
                 };
             }
+
             return null;
         }
     }

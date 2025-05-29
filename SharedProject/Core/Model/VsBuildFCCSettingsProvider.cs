@@ -19,16 +19,13 @@ namespace FineCodeCoverage.Engine.Model
         public VsBuildFCCSettingsProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        )
-        {
-            this.serviceProvider = serviceProvider;
-        }
+        ) => this.serviceProvider = serviceProvider;
 
         public async Task<XElement> GetSettingsAsync(Guid projectId)
         {
             XElement fccSettingsElement = null;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
@@ -44,12 +41,11 @@ namespace FineCodeCoverage.Engine.Model
                             }
                             catch { }
                         }
-
                     }
                 }
             }
+
             return fccSettingsElement;
         }
     }
-
 }

@@ -33,13 +33,13 @@ namespace FineCodeCoverage.Engine.Model
 			 */
 
             IEnumerable<XElement> xprojectReferences = projectFileXElement.XPathSelectElements("/ItemGroup/ProjectReference[@Include]");
-            List<string> referencedProjectFiles = new List<string>();
+            var referencedProjectFiles = new List<string>();
             foreach (XElement xprojectReference in xprojectReferences)
             {
                 string referencedProjectProjectFile = xprojectReference.Attribute("Include").Value;
                 if (referencedProjectProjectFile.Contains("$("))
                 {
-                    await logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.excludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
+                    await this.logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.excludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
                 }
                 else
                 {
@@ -47,6 +47,7 @@ namespace FineCodeCoverage.Engine.Model
                     {
                         referencedProjectProjectFile = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFile), referencedProjectProjectFile));
                     }
+
                     referencedProjectFiles.Add(referencedProjectProjectFile);
                 }
 

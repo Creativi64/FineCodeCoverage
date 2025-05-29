@@ -35,10 +35,10 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             this PalmmediaCodeElement palmmediaCodeElement,
             IEnumerable<PalmmediaMetric> metrics)
         {
-            List<MetricType> metricTypes = new List<MetricType>();
+            var metricTypes = new List<MetricType>();
             foreach (PalmmediaMetric metric in metrics)
             {
-                metricSetters.TryGetValue(metric.Name, out Func<PalmmediaCodeElement, decimal?, MetricType> setter);
+                _ = metricSetters.TryGetValue(metric.Name, out Func<PalmmediaCodeElement, decimal?, MetricType> setter);
                 if (setter != null)
                 {
 
@@ -46,8 +46,8 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                     metricTypes.Add(metricType);
                 }
             }
+
             return metricTypes;
         }
     }
-
 }

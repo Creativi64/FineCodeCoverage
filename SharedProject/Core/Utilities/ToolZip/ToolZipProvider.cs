@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Core.Utilities
         internal string ExtensionDirectory { get; set; }
         public ToolZipProvider()
         {
-            ExtensionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            this.ExtensionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
         public ZipDetails ProvideZip(string zipPrefix)
         {
-            string zipFolder = Path.Combine(ExtensionDirectory, ZippedToolsDirectoryName);
+            string zipFolder = Path.Combine(this.ExtensionDirectory, ZippedToolsDirectoryName);
             string[] matchingZipFiles = Directory.GetFiles(zipFolder, $"{zipPrefix}.*.zip");
             string zipPath = matchingZipFiles[0];
 

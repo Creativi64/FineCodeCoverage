@@ -13,13 +13,13 @@ namespace FineCodeCoverage.Core.Utilities
         {
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
 
                 action.Invoke();
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
             }
         }
 
@@ -27,29 +27,29 @@ namespace FineCodeCoverage.Core.Utilities
         {
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
 
                 return func.Invoke();
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
             }
         }
 
         public Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            AssemblyName assemblyName = new AssemblyName(args.Name);
+            var assemblyName = new AssemblyName(args.Name);
 
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
 
                 // try resolve by name
 
                 try
                 {
-                    Assembly assembly = Assembly.Load(assemblyName.Name);
+                    var assembly = Assembly.Load(assemblyName.Name);
                     if (assembly != null) return assembly;
                 }
                 catch
@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Core.Utilities
 
                     if (!string.IsNullOrWhiteSpace(dllPath))
                     {
-                        Assembly assembly = Assembly.LoadFile(dllPath);
+                        var assembly = Assembly.LoadFile(dllPath);
                         if (assembly != null) return assembly;
                     }
                 }
@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Core.Utilities
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
             }
 
             return null;

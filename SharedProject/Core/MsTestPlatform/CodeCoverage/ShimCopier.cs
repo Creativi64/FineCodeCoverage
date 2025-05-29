@@ -20,9 +20,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private void CopyShim(string shimPath, string outputFolder)
         {
             string destination = Path.Combine(outputFolder, Path.GetFileName(shimPath));
-            if (!fileUtil.Exists(destination))
+            if (!this.fileUtil.Exists(destination))
             {
-                fileUtil.Copy(shimPath, destination);
+                this.fileUtil.Copy(shimPath, destination);
             }
         }
 
@@ -30,14 +30,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             foreach (ICoverageProject coverageProject in coverageProjects)
             {
-                CopyShim(shimPath, coverageProject.ProjectOutputFolder);
+                this.CopyShim(shimPath, coverageProject.ProjectOutputFolder);
             }
         }
 
         public void Copy(string shimPath, IEnumerable<ICoverageProject> coverageProjects)
         {
             IEnumerable<ICoverageProject> netFrameworkCoverageProjects = coverageProjects.Where(cp => cp.IsDotNetFramework);
-            CopyShim(shimPath, netFrameworkCoverageProjects);
+            this.CopyShim(shimPath, netFrameworkCoverageProjects);
         }
     }
 

@@ -21,6 +21,7 @@ namespace FineCodeCoverage.Core.Utilities
                 {
                     return vsComponentModel;
                 }
+
                 vsComponentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
                 triedGetVsComponentModel = true;
                 return vsComponentModel;

@@ -36,18 +36,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 bool hasCoverageExtension
             )
             {
-                ExePath = exePath;
-                CoverageProject = coverageProject;
-                VsHierarchy = vsHierarchy;
-                CommandLineParseResult = commandLineParseResult;
+                this.ExePath = exePath;
+                this.CoverageProject = coverageProject;
+                this.VsHierarchy = vsHierarchy;
+                this.CommandLineParseResult = commandLineParseResult;
                 this.configurationProvider = configurationProvider;
-                HasCoverageExtension = hasCoverageExtension;
+                this.HasCoverageExtension = hasCoverageExtension;
             }
             public string ExePath { get; }
             public Task<string> GetConfigurationAsync(CancellationToken cancellationToken)
-            {
-                return configurationProvider(cancellationToken);
-            }
+                => this.configurationProvider(cancellationToken);
             public ICoverageProject CoverageProject { get; }
             public IVsHierarchy VsHierarchy { get; }
             public CommandLineParseResult CommandLineParseResult { get; }
@@ -76,25 +74,26 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            ICoverageProject coverageProject = coverageProjectFactory.Create();
-            project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_Name, out object projectName);
+            ICoverageProject coverageProject = this.coverageProjectFactory.Create();
+            _ = project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_Name, out object projectName);
             coverageProject.ProjectName = projectName.ToString();
-            project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out Guid projectGuid);
+            _ = project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out Guid projectGuid);
             coverageProject.Id = projectGuid;
-            project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID4.VSHPROPID_TargetFrameworkMoniker, out object targetFrameworkMoniker);
+            // _ = project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID4.VSHPROPID_TargetFrameworkMoniker, out object targetFrameworkMoniker);
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsBuildPropertyStorage buildPropertyStorage)
             {
                 //todo configuration parameter for Debug
                 int hr = buildPropertyStorage.GetPropertyValue("TargetPath", null, 1, out string outputFile);
-                ErrorHandler.ThrowOnFailure(hr);
+                _ = ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.TestDllFile = outputFile;
             }//todo throw if not
+
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsProject vsProject)
             {
                 int hr = vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out string projectFilePath);
-                ErrorHandler.ThrowOnFailure(hr);
+                _ = ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.ProjectFilePath = projectFilePath;
             }//todo throw if not
 
@@ -104,44 +103,42 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<string> GetSolutionDirectoryAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            vsSolution.GetSolutionInfo(out string solutionDirectory, out string _, out string __);
+            _ = vsSolution.GetSolutionInfo(out string solutionDirectory, out _, out string __);
             return solutionDirectory;
         }
 
         private async Task<XElement> GetConfigurationElementAsync(ICoverageProject coverageProject, CancellationToken ct)
         {
-            string solutionDirectory = await GetSolutionDirectoryAsync(ct);
-            string runSettings = templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
-            return runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
+            string solutionDirectory = await this.GetSolutionDirectoryAsync(ct);
+            string runSettings = this.templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
+            return this.runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
         }
 
         public async Task<ITUnitCoverageProject> CreateTUnitCoverageProjectAsync(
             ITUnitProject tUnitProject,
             CancellationToken cancellationToken)
         {
-            ICoverageProject coverageProject = await CreateCoverageProjectAsync(tUnitProject.Hierarchy, cancellationToken);
+            ICoverageProject coverageProject = await this.CreateCoverageProjectAsync(tUnitProject.Hierarchy, cancellationToken);
             string exePath = Path.ChangeExtension(coverageProject.TestDllFile, ".exe");
-
-            Func<CancellationToken, Task<string>> configurationProvider = async (ct) =>
-            {
-                XElement configurationElement = await GetConfigurationElementAsync(coverageProject, ct);
-                if (coverageProject.Settings.IncludeTestAssembly)
-                {
-                    configurationElement.Add(new XElement("IncludeTestAssembly", true));
-                }
-                return xmlUtils.Serialize(configurationElement);
-            };
 
             return new TUnitCoverageProject(
                 exePath,
                 coverageProject,
                 tUnitProject.Hierarchy,
                 tUnitProject.CommandLineParseResult,
-                configurationProvider,
+                async (ct) =>
+                {
+                    XElement configurationElement = await this.GetConfigurationElementAsync(coverageProject, ct);
+                    if (coverageProject.Settings.IncludeTestAssembly)
+                    {
+                        configurationElement.Add(new XElement("IncludeTestAssembly", true));
+                    }
+
+                    return this.xmlUtils.Serialize(configurationElement);
+                },
                 tUnitProject.HasCoverageExtension);
         }
     }
-
 }

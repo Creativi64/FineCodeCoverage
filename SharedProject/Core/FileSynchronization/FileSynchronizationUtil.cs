@@ -12,9 +12,9 @@ namespace FineCodeCoverage.Engine.FileSynchronization
     {
         public List<string> Synchronize(string sourceFolder, string destinationFolder, string fineCodeCoverageFolderName)
         {
-            List<string> logs = new List<string>();
-            DirectoryInfo srceDir = new DirectoryInfo(Path.GetFullPath(sourceFolder) + '\\');
-            DirectoryInfo destDir = new DirectoryInfo(Path.GetFullPath(destinationFolder) + '\\');
+            var logs = new List<string>();
+            var srceDir = new DirectoryInfo(Path.GetFullPath(sourceFolder) + '\\');
+            var destDir = new DirectoryInfo(Path.GetFullPath(destinationFolder) + '\\');
 
             // file lists
             IEnumerable<FileInfo> sourceFileInfos = srceDir.GetFiles().Concat(srceDir.GetDirectories().Where(d => d.Name != fineCodeCoverageFolderName).SelectMany(d => d.GetFiles("*", SearchOption.AllDirectories)));
@@ -25,13 +25,13 @@ namespace FineCodeCoverage.Engine.FileSynchronization
 
             foreach (ComparableFile fileToCopy in srceFiles.Except(destFiles(), FileComparer.Singleton))
             {
-                FileInfo to = new FileInfo(fileToCopy.FileInfo.FullName.Replace(srceDir.FullName, destDir.FullName));
+                var to = new FileInfo(fileToCopy.FileInfo.FullName.Replace(srceDir.FullName, destDir.FullName));
 
                 if (!to.Directory.Exists)
                 {
                     try
                     {
-                        Directory.CreateDirectory(to.DirectoryName);
+                        _ = Directory.CreateDirectory(to.DirectoryName);
                         logs.Add($"Create : {to.DirectoryName}");
                     }
                     catch (Exception exception)

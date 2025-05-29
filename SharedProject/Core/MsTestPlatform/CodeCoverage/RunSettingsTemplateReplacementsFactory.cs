@@ -36,21 +36,21 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 string testAdapter
             )
             {
-                ResultsDirectory = resultsDirectory;
-                TestAdapter = testAdapter;
-                Enabled = enabled;
-                ModulePathsExclude = GetExcludeIncludeElementsString(settings.ModulePathsExclude, "ModulePath");
-                ModulePathsInclude = GetExcludeIncludeElementsString(settings.ModulePathsInclude, "ModulePath");
-                FunctionsExclude = GetExcludeIncludeElementsString(settings.FunctionsExclude, "Function");
-                FunctionsInclude = GetExcludeIncludeElementsString(settings.FunctionsInclude, "Function");
-                AttributesExclude = GetExcludeIncludeElementsString(settings.AttributesExclude, "Attribute");
-                AttributesInclude = GetExcludeIncludeElementsString(settings.AttributesInclude, "Attribute");
-                SourcesExclude = GetExcludeIncludeElementsString(settings.SourcesExclude, "Source");
-                SourcesInclude = GetExcludeIncludeElementsString(settings.SourcesInclude, "Source");
-                CompanyNamesExclude = GetExcludeIncludeElementsString(settings.CompanyNamesExclude, "CompanyName");
-                CompanyNamesInclude = GetExcludeIncludeElementsString(settings.CompanyNamesInclude, "CompanyName");
-                PublicKeyTokensExclude = GetExcludeIncludeElementsString(settings.PublicKeyTokensExclude, "PublicKeyToken");
-                PublicKeyTokensInclude = GetExcludeIncludeElementsString(settings.PublicKeyTokensInclude, "PublicKeyToken");
+                this.ResultsDirectory = resultsDirectory;
+                this.TestAdapter = testAdapter;
+                this.Enabled = enabled;
+                this.ModulePathsExclude = GetExcludeIncludeElementsString(settings.ModulePathsExclude, "ModulePath");
+                this.ModulePathsInclude = GetExcludeIncludeElementsString(settings.ModulePathsInclude, "ModulePath");
+                this.FunctionsExclude = GetExcludeIncludeElementsString(settings.FunctionsExclude, "Function");
+                this.FunctionsInclude = GetExcludeIncludeElementsString(settings.FunctionsInclude, "Function");
+                this.AttributesExclude = GetExcludeIncludeElementsString(settings.AttributesExclude, "Attribute");
+                this.AttributesInclude = GetExcludeIncludeElementsString(settings.AttributesInclude, "Attribute");
+                this.SourcesExclude = GetExcludeIncludeElementsString(settings.SourcesExclude, "Source");
+                this.SourcesInclude = GetExcludeIncludeElementsString(settings.SourcesInclude, "Source");
+                this.CompanyNamesExclude = GetExcludeIncludeElementsString(settings.CompanyNamesExclude, "CompanyName");
+                this.CompanyNamesInclude = GetExcludeIncludeElementsString(settings.CompanyNamesInclude, "CompanyName");
+                this.PublicKeyTokensExclude = GetExcludeIncludeElementsString(settings.PublicKeyTokensExclude, "PublicKeyToken");
+                this.PublicKeyTokensInclude = GetExcludeIncludeElementsString(settings.PublicKeyTokensInclude, "PublicKeyToken");
             }
 
             private static string GetExcludeIncludeElementsString(IEnumerable<string> excludeIncludes, string elementName)
@@ -72,23 +72,23 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 this.allOptions = allOptions.ToList();
 
-                ModulePathsExclude = Merge(options => options.ModulePathsExclude);
-                ModulePathsInclude = Merge(options => options.ModulePathsInclude);
-                CompanyNamesExclude = Merge(options => options.CompanyNamesExclude);
-                CompanyNamesInclude = Merge(options => options.CompanyNamesInclude);
-                PublicKeyTokensExclude = Merge(options => options.PublicKeyTokensExclude);
-                PublicKeyTokensInclude = Merge(options => options.PublicKeyTokensInclude);
-                SourcesExclude = Merge(options => options.SourcesExclude);
-                SourcesInclude = Merge(options => options.SourcesInclude);
-                AttributesExclude = Merge(options => options.AttributesExclude);
-                AttributesInclude = Merge(options => options.AttributesInclude);
-                FunctionsExclude = Merge(options => options.FunctionsExclude);
-                FunctionsInclude = Merge(options => options.FunctionsInclude);
+                this.ModulePathsExclude = this.Merge(options => options.ModulePathsExclude);
+                this.ModulePathsInclude = this.Merge(options => options.ModulePathsInclude);
+                this.CompanyNamesExclude = this.Merge(options => options.CompanyNamesExclude);
+                this.CompanyNamesInclude = this.Merge(options => options.CompanyNamesInclude);
+                this.PublicKeyTokensExclude = this.Merge(options => options.PublicKeyTokensExclude);
+                this.PublicKeyTokensInclude = this.Merge(options => options.PublicKeyTokensInclude);
+                this.SourcesExclude = this.Merge(options => options.SourcesExclude);
+                this.SourcesInclude = this.Merge(options => options.SourcesInclude);
+                this.AttributesExclude = this.Merge(options => options.AttributesExclude);
+                this.AttributesInclude = this.Merge(options => options.AttributesInclude);
+                this.FunctionsExclude = this.Merge(options => options.FunctionsExclude);
+                this.FunctionsInclude = this.Merge(options => options.FunctionsInclude);
             }
 
             private string[] Merge(Func<ICoverageSettings, string[]> selector)
             {
-                return allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
+                return this.allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
             }
 
             public string[] ModulePathsExclude { get; set; }
@@ -116,16 +116,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 additionalModulePathsIncludes,
                 additionalModulePathsExcludes)
             {
-                CompanyNamesInclude = includesExcludesOptions.CompanyNamesInclude;
-                CompanyNamesExclude = includesExcludesOptions.CompanyNamesExclude;
-                PublicKeyTokensInclude = includesExcludesOptions.PublicKeyTokensInclude;
-                PublicKeyTokensExclude = includesExcludesOptions.PublicKeyTokensExclude;
-                SourcesExclude = includesExcludesOptions.SourcesExclude;
-                SourcesInclude = includesExcludesOptions.SourcesInclude;
-                AttributesExclude = includesExcludesOptions.AttributesExclude;
-                AttributesInclude = includesExcludesOptions.AttributesInclude;
-                FunctionsInclude = includesExcludesOptions.FunctionsInclude;
-                FunctionsExclude = includesExcludesOptions.FunctionsExclude;
+                this.CompanyNamesInclude = includesExcludesOptions.CompanyNamesInclude;
+                this.CompanyNamesExclude = includesExcludesOptions.CompanyNamesExclude;
+                this.PublicKeyTokensInclude = includesExcludesOptions.PublicKeyTokensInclude;
+                this.PublicKeyTokensExclude = includesExcludesOptions.PublicKeyTokensExclude;
+                this.SourcesExclude = includesExcludesOptions.SourcesExclude;
+                this.SourcesInclude = includesExcludesOptions.SourcesInclude;
+                this.AttributesExclude = includesExcludesOptions.AttributesExclude;
+                this.AttributesInclude = includesExcludesOptions.AttributesInclude;
+                this.FunctionsInclude = includesExcludesOptions.FunctionsInclude;
+                this.FunctionsExclude = includesExcludesOptions.FunctionsExclude;
             }
             public CombinedIncludesExcludesOptions(
                 ICoverageSettings includesExcludesOptions,
@@ -137,23 +137,23 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 additionalModulePathsIncludes,
                 additionalModulePathsExcludes)
             {
-                CompanyNamesInclude = includesExcludesOptions.CompanyNamesInclude;
-                CompanyNamesExclude = includesExcludesOptions.CompanyNamesExclude;
-                PublicKeyTokensInclude = includesExcludesOptions.PublicKeyTokensInclude;
-                PublicKeyTokensExclude = includesExcludesOptions.PublicKeyTokensExclude;
-                SourcesExclude = includesExcludesOptions.SourcesExclude;
-                SourcesInclude = includesExcludesOptions.SourcesInclude;
-                AttributesExclude = includesExcludesOptions.AttributesExclude;
-                AttributesInclude = includesExcludesOptions.AttributesInclude;
-                FunctionsInclude = includesExcludesOptions.FunctionsInclude;
-                FunctionsExclude = includesExcludesOptions.FunctionsExclude;
+                this.CompanyNamesInclude = includesExcludesOptions.CompanyNamesInclude;
+                this.CompanyNamesExclude = includesExcludesOptions.CompanyNamesExclude;
+                this.PublicKeyTokensInclude = includesExcludesOptions.PublicKeyTokensInclude;
+                this.PublicKeyTokensExclude = includesExcludesOptions.PublicKeyTokensExclude;
+                this.SourcesExclude = includesExcludesOptions.SourcesExclude;
+                this.SourcesInclude = includesExcludesOptions.SourcesInclude;
+                this.AttributesExclude = includesExcludesOptions.AttributesExclude;
+                this.AttributesInclude = includesExcludesOptions.AttributesInclude;
+                this.FunctionsInclude = includesExcludesOptions.FunctionsInclude;
+                this.FunctionsExclude = includesExcludesOptions.FunctionsExclude;
             }
             private CombinedIncludesExcludesOptions(string[] modulePathsInclude, string[] modulePathsExclude, IEnumerable<string> additionalModulePathsIncludes, IEnumerable<string> additionalModulePathsExcludes)
             {
                 IEnumerable<string> modulePathsIncludesFromOptions = modulePathsInclude ?? Enumerable.Empty<string>();
                 IEnumerable<string> modulePathsExcludesFromOptions = modulePathsExclude ?? Enumerable.Empty<string>();
-                ModulePathsInclude = additionalModulePathsIncludes.Concat(modulePathsIncludesFromOptions).ToArray();
-                ModulePathsExclude = additionalModulePathsExcludes.Concat(modulePathsExcludesFromOptions).ToArray();
+                this.ModulePathsInclude = additionalModulePathsIncludes.Concat(modulePathsIncludesFromOptions).ToArray();
+                this.ModulePathsExclude = additionalModulePathsExcludes.Concat(modulePathsExcludesFromOptions).ToArray();
             }
             public string[] ModulePathsExclude { get; set; }
             public string[] ModulePathsInclude { get; set; }
@@ -174,11 +174,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup,
             string testAdapter)
         {
-            List<IUserRunSettingsProjectDetails> allProjectDetails = testContainers.Select(tc => userRunSettingsProjectDetailsLookup[tc.Source]).ToList();
+            var allProjectDetails = testContainers.Select(tc => userRunSettingsProjectDetailsLookup[tc.Source]).ToList();
             string resultsDirectory = allProjectDetails[0].CoverageOutputFolder;
             IEnumerable<ICoverageSettings> allSettings = allProjectDetails.Select(pd => pd.Settings);
             bool allProjectsDisabled = allSettings.All(s => !s.Enabled);
-            MergedIncludesExcludesOptions mergedSettings = new MergedIncludesExcludesOptions(allSettings);
+            var mergedSettings = new MergedIncludesExcludesOptions(allSettings);
 
             IEnumerable<string> additionalModulePathsExclude = allProjectDetails.SelectMany(pd =>
                 GetAdditionalModulePathsExclude(pd.ExcludedReferencedProjects, pd.TestDllFile, pd.Settings.IncludeTestAssembly));
@@ -187,7 +187,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IEnumerable<string> additionalModulePathsInclude = allProjectDetails.SelectMany(pd =>
                 GetAdditionalModulePathsInclude(hasIncludes, pd.IncludedReferencedProjects, pd.TestDllFile, pd.Settings.IncludeTestAssembly));
 
-            CombinedIncludesExcludesOptions settings = new CombinedIncludesExcludesOptions(mergedSettings, additionalModulePathsInclude, additionalModulePathsExclude);
+            var settings = new CombinedIncludesExcludesOptions(mergedSettings, additionalModulePathsInclude, additionalModulePathsExclude);
             return new RunSettingsTemplateReplacements(settings, resultsDirectory, (!allProjectsDisabled).ToString().ToLower(), testAdapter);
         }
 
@@ -204,6 +204,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 additionalReferenced = additionalReferenced.Append(MsCodeCoverageRegex.RegexEscapePath(testDllFile));
             }
+
             return additionalReferenced;
 
         }
@@ -251,7 +252,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 coverageProject.TestDllFile,
                 projectSettings.IncludeTestAssembly);
 
-            CombinedIncludesExcludesOptions settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
+            var settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
             return new RunSettingsTemplateReplacements(settings, coverageProject.CoverageOutputFolder, projectSettings.Enabled.ToString(), testAdapter);
         }
     }

@@ -17,32 +17,29 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 this.Number = coberturaLine.Number;
                 this.OriginalLineNumber = this.Number;
                 this.CoverageType = coberturaLine.CoverageType;
-                CodeElement = codeElement;
+                this.CodeElement = codeElement;
             }
             public int OriginalLineNumber { get; }
             public int Number { get; private set; }
             public CoverageType CoverageType { get; }
             public IDynamicCodeElement CodeElement { get; }
 
-            public void LineMoved(int newLineNumber)
-            {
-                this.Number = newLineNumber;
-            }
+            public void LineMoved(int newLineNumber) => this.Number = newLineNumber;
         }
         public class DynamicCodeElement : IDynamicCodeElement
         {
-            public CodeElementType CodeElementType => codeElement.CodeElementType;
-            public string Name => codeElement.Name;
-            public int StartLine => codeElement.StartLine;
+            public CodeElementType CodeElementType => this.codeElement.CodeElementType;
+            public string Name => this.codeElement.Name;
+            public int StartLine => this.codeElement.StartLine;
             public string Path { get; set; }
             public IReadOnlyList<ICoberturaLine> Lines { get; }
-            public int BlocksCovered => codeElement.BlocksCovered;
-            public int BlocksNotCovered => codeElement.BlocksNotCovered;
-            public int CyclomaticComplexity => codeElement.CyclomaticComplexity;
-            public int NPathComplexity => codeElement.NPathComplexity;
-            public int TotalBranches => codeElement.TotalBranches;
-            public int BranchesCovered => codeElement.BranchesCovered;
-            public decimal CrapScore => codeElement.CrapScore;
+            public int BlocksCovered => this.codeElement.BlocksCovered;
+            public int BlocksNotCovered => this.codeElement.BlocksNotCovered;
+            public int CyclomaticComplexity => this.codeElement.CyclomaticComplexity;
+            public int NPathComplexity => this.codeElement.NPathComplexity;
+            public int TotalBranches => this.codeElement.TotalBranches;
+            public int BranchesCovered => this.codeElement.BranchesCovered;
+            public decimal CrapScore => this.codeElement.CrapScore;
             private readonly ICodeElement codeElement;
 
             public DynamicCodeElement(ICodeElement codeElement)
@@ -53,15 +50,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
 
             public DynamicCodeElementState State { get; set; }
-            public void IsDirty()
-            {
-                State = DynamicCodeElementState.Dirty;
-            }
+            public void IsDirty() => this.State = DynamicCodeElementState.Dirty;
 
-            public void Deleted()
-            {
-                State = DynamicCodeElementState.Deleted;
-            }
+            public void Deleted() => this.State = DynamicCodeElementState.Deleted;
         }
         public class DynamicClass : IClass
         {
@@ -70,31 +61,31 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 this.DisplayName = clss.DisplayName;
                 this.fileCodeElements = clss.FileCodeElements.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyList<DynamicCodeElement>)kvp.Value.Select(ce => new DynamicCodeElement(ce)).ToList());
                 this.SetFileCodeElements();
-                this.CodeElements = fileCodeElements.Values.SelectMany(ces => ces).ToList();
+                this.CodeElements = this.fileCodeElements.Values.SelectMany(ces => ces).ToList();
             }
 
-            private void SetFileCodeElements()
-            {
-                FileCodeElements = fileCodeElements.ToDictionary(
+            private void SetFileCodeElements() => this.FileCodeElements = this.fileCodeElements.ToDictionary(
                    kvp => kvp.Key,
                    kvp => (IReadOnlyList<ICodeElement>)kvp.Value.Cast<ICodeElement>().ToList()
                );
-            }
+
             public string DisplayName { get; }
+
             private readonly Dictionary<string, IReadOnlyList<DynamicCodeElement>> fileCodeElements;
             public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; private set; }
             public IReadOnlyList<ICodeElement> CodeElements { get; }
 
             internal void FileRenamed(IReadOnlyList<FileRename> fileRenames)
             {
-                fileRenames = fileRenames.TryUpdateDictionary(fileCodeElements);
+                fileRenames = fileRenames.TryUpdateDictionary(this.fileCodeElements);
                 if (fileRenames.Count > 0)
                 {
-                    SetFileCodeElements();
+                    this.SetFileCodeElements();
                 }
+
                 foreach (FileRename fileRename in fileRenames)
                 {
-                    IReadOnlyList<DynamicCodeElement> codeElements = fileCodeElements[fileRename.NewFilePath];
+                    IReadOnlyList<DynamicCodeElement> codeElements = this.fileCodeElements[fileRename.NewFilePath];
                     foreach (DynamicCodeElement dynamicCodeElement in codeElements)
                     {
                         dynamicCodeElement.Path = fileRename.NewFilePath;
@@ -106,13 +97,13 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             public DynamicAssembly(IAssembly assembly)
             {
-                Name = assembly.Name;
-                ShortName = assembly.ShortName;
-                Classes = assembly.Classes.Select(cls => new DynamicClass(cls)).ToList();
+                this.Name = assembly.Name;
+                this.ShortName = assembly.ShortName;
+                this.Classes = assembly.Classes.Select(cls => new DynamicClass(cls)).ToList();
             }
             public void FileRenamed(IReadOnlyList<FileRename> fileRenames)
             {
-                foreach (IClass cls in Classes)
+                foreach (IClass cls in this.Classes)
                 {
                     (cls as DynamicClass).FileRenamed(fileRenames);
                 }
@@ -127,20 +118,17 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         public void FileRenamed(IReadOnlyList<FileRename> fileRenames)
         {
-            foreach (IAssembly assembly in Assemblies)
+            foreach (IAssembly assembly in this.Assemblies)
             {
                 (assembly as DynamicAssembly).FileRenamed(fileRenames);
             }
+
             FileRenamedEvent?.Invoke(this, fileRenames);
         }
-        public static DynamicReportResult FromReportResult(IReportResult reportResult)
+        public static DynamicReportResult FromReportResult(IReportResult reportResult) => new DynamicReportResult
         {
-
-            return new DynamicReportResult
-            {
-                Assemblies = reportResult.Assemblies.Select(assembly => new DynamicAssembly(assembly)).ToList(),
-                MetricTypes = reportResult.MetricTypes
-            };
-        }
+            Assemblies = reportResult.Assemblies.Select(assembly => new DynamicAssembly(assembly)).ToList(),
+            MetricTypes = reportResult.MetricTypes
+        };
     }
 }

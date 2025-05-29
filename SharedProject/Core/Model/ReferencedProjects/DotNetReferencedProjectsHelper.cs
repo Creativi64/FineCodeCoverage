@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
     {
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(VSProject vsProject)
         {
-            List<ReferencedProject> referencedProjects = (await System.Threading.Tasks.Task.WhenAll(GetReferencedSourceProjects(vsProject).Select(GetReferencedProjectAsync))).ToList();
+            List<ReferencedProject> referencedProjects = (await System.Threading.Tasks.Task.WhenAll(this.GetReferencedSourceProjects(vsProject).Select(this.GetReferencedProjectAsync))).ToList();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.Model
         private async Task<ReferencedProject> GetReferencedProjectAsync(Project project)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            (string assemblyName, bool isDll) = await GetAssemblyNameIsDllAsync(project);
+            (string assemblyName, bool isDll) = await this.GetAssemblyNameIsDllAsync(project);
             return new ReferencedProject(project.FullName, assemblyName, isDll);
         }
 
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine.Model
             bool isDll = true;
             if (outputTypeProperty != null)
             {
-                prjOutputType po = (prjOutputType)Enum.Parse(typeof(prjOutputType), outputTypeProperty.Value.ToString());
+                var po = (prjOutputType)Enum.Parse(typeof(prjOutputType), outputTypeProperty.Value.ToString());
                 isDll = po == prjOutputType.prjOutputTypeLibrary;
             }
 

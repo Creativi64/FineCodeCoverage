@@ -11,18 +11,18 @@ namespace FineCodeCoverage.Core.Utilities
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public CancellationToken Token => cancellationTokenSource.Token;
+        public CancellationToken Token => this.cancellationTokenSource.Token;
 
-        public bool IsCancellationRequested => cancellationTokenSource.IsCancellationRequested;
+        public bool IsCancellationRequested => this.cancellationTokenSource.IsCancellationRequested;
 
         public void Cancel()
         {
-            cancellationTokenSource.Cancel();
+            this.cancellationTokenSource.Cancel();
         }
 
         public void Dispose()
         {
-            cancellationTokenSource.Dispose();
+            this.cancellationTokenSource.Dispose();
         }
     }
 

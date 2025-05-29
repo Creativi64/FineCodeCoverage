@@ -23,11 +23,12 @@ namespace FineCodeCoverage.Engine
             if (solutionFolder != null)
             {
                 string provided = Path.Combine(solutionFolder, fccOutputFolderName);
-                if (fileUtil.DirectoryExists(provided))
+                if (this.fileUtil.DirectoryExists(provided))
                 {
                     return provided;
                 }
             }
+
             return null;
         }
     }

@@ -33,7 +33,7 @@ namespace FineCodeCoverage.Core.Utilities
 
             int exitCode = result.ExitCode;
 
-            List<string> outputList = new List<string>();
+            var outputList = new List<string>();
 
             string directOutput = string.Join(Environment.NewLine, new[]
             {

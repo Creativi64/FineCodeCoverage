@@ -24,24 +24,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
         )
-        {
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 this.solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
                 Assumes.Present(this.solutionBuildManager2);
                 this.solutionBuildManager3 = this.solutionBuildManager2 as IVsSolutionBuildManager3;
-                buildStartEnd = new BuildStartEnd();
-                this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildStartEnd, out uint cookie);
-                buildStartEnd.BuildEvent += BuildStartEnd_BuildEvent;
+                this.buildStartEnd = new BuildStartEnd();
+                _ = this.solutionBuildManager2.AdviseUpdateSolutionEvents(this.buildStartEnd, out uint cookie);
+                this.buildStartEnd.BuildEvent += this.BuildStartEnd_BuildEvent;
             });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-        }
 
         private void BuildStartEnd_BuildEvent(object sender, BuildStartEndArgs e)
         {
-            if (!building)
+            if (!this.building)
             {
                 ExternalBuildEvent?.Invoke(this, e);
             }
@@ -50,51 +48,48 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public async Task<bool> BuildAsync(List<IVsHierarchy> projects, CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            if (await this.RequiresBuildAsync(cancellationToken))
-            {
-                return await BuildAsync(cancellationToken);
-            }
-            return true;
+            return !await this.RequiresBuildAsync(cancellationToken) || await this.BuildAsync(cancellationToken);
         }
 
         private async Task<bool> BuildAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            BuildCompletionHandler buildHandler = new BuildCompletionHandler(cancellationToken);
-            int hr = solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
-            ErrorHandler.ThrowOnFailure(hr);
+            var buildHandler = new BuildCompletionHandler(cancellationToken);
+            int hr = this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
+            _ = ErrorHandler.ThrowOnFailure(hr);
             bool succeeded = false;
             try
             {
-                building = true;
-                int result = solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
+                this.building = true;
+                int result = this.solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
                     (uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD, 0, 1);
-                ErrorHandler.ThrowOnFailure(result);
+                _ = ErrorHandler.ThrowOnFailure(result);
                 succeeded = await buildHandler.BuildCompleted;
             }
             catch (OperationCanceledException)
             {
-                solutionBuildManager2.CancelUpdateSolutionConfiguration();
+                _ = this.solutionBuildManager2.CancelUpdateSolutionConfiguration();
                 throw;
             }
             finally
             {
-                building = false;
+                this.building = false;
                 buildHandler.Dispose();
-                solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
+                _ = this.solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
             }
+
             return succeeded;
         }
 
         private async Task<bool> RequiresBuildAsync(CancellationToken cancellationToken)
         {
-            bool respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;
+            const bool respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;
             if (!respectOnlyBuildStartupProjectsAndDependenciesOnRun) return true;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            if (solutionBuildManager3 == null)
+            if (this.solutionBuildManager3 == null)
                 return true;
 
-            int hr = solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
+            int hr = this.solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
             return hr != VSConstants.S_OK;
         }
     }

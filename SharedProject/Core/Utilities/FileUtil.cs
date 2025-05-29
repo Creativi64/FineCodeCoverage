@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Core.Utilities
         public string CreateTempDirectory()
         {
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            Directory.CreateDirectory(tempDirectory);
+            _ = Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
         }
 
@@ -32,6 +32,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 directory = Path.GetFullPath(Path.Combine(possiblyRelativeTo, directory));
             }
+
             return directory;
         }
 
@@ -47,13 +48,14 @@ namespace FineCodeCoverage.Core.Utilities
 
         public void TryEmptyDirectory(string directory)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+            var directoryInfo = new DirectoryInfo(directory);
             if (directoryInfo.Exists)
             {
                 foreach (FileInfo file in directoryInfo.GetFiles())
                 {
                     file.TryDelete();
                 }
+
                 foreach (DirectoryInfo subDir in directoryInfo.GetDirectories())
                 {
                     subDir.TryDelete(true);
@@ -83,6 +85,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 return null;
             }
+
             return parentDirectory.FullName;
         }
 
@@ -98,8 +101,8 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static string GetRelativePath(string basePath, string fullPath)
         {
-            Uri baseUri = new Uri(AppendDirectorySeparator(basePath));
-            Uri fullUri = new Uri(fullPath);
+            var baseUri = new Uri(AppendDirectorySeparator(basePath));
+            var fullUri = new Uri(fullPath);
             return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fullUri).ToString())
                 .Replace('/', Path.DirectorySeparatorChar);
         }

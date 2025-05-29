@@ -24,11 +24,11 @@ namespace FineCodeCoverage.Core.Utilities
                     throw new Exception(result.Output);
                 }
 
-                await logger.LogAsync($"{title} Error", result.Output);
+                await this.logger.LogAsync($"{title} Error", result.Output);
                 return false;
             }
 
-            await logger.LogAsync(title, result.Output);
+            await this.logger.LogAsync(title, result.Output);
             successCallback?.Invoke();
             return true;
         }

@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 {
                     crap = PalmmediaMetric.CrapScore(0).Name;
                 }
+
                 return crap;
             }
         }
@@ -25,6 +26,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 {
                     nPath = PalmmediaMetric.NPathComplexity(0).Name;
                 }
+
                 return nPath;
             }
         }
@@ -37,6 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 {
                     cyclomaticComplexity = PalmmediaMetric.CyclomaticComplexity(0).Name;
                 }
+
                 return cyclomaticComplexity;
             }
         }
@@ -49,6 +52,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 {
                     blocksCovered = PalmmediaMetric.BlocksCovered(0).Name;
                 }
+
                 return blocksCovered;
             }
         }
@@ -61,9 +65,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 {
                     blocksNotCovered = PalmmediaMetric.BlocksNotCovered(0).Name;
                 }
+
                 return blocksNotCovered;
             }
         }
     }
-
 }

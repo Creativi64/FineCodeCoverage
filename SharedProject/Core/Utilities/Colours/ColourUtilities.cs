@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             if (ColorUtilities.BrushCache.TryGetValue(color, out SolidColorBrush brushFromCache1))
                 return brushFromCache1;
-            SolidColorBrush brushFromCache2 = new SolidColorBrush(color);
+            var brushFromCache2 = new SolidColorBrush(color);
             brushFromCache2.Freeze();
             ColorUtilities.BrushCache[color] = brushFromCache2;
             return brushFromCache2;

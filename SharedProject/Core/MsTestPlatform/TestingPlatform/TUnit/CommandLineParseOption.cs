@@ -8,8 +8,8 @@
     {
         public CommandLineParseOption(string name, string[] arguments)
         {
-            Name = name;
-            Arguments = arguments;
+            this.Name = name;
+            this.Arguments = arguments;
         }
         /// <summary>
         /// Gets the name of the option.

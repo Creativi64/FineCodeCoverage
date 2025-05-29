@@ -17,13 +17,13 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
             ThrowIfEmpty(featureName, nameof(featureName));
             ThrowIfEmpty(entityName, nameof(entityName));
 
-            Product = product;
-            FeatureName = featureName;
-            EntityName = entityName;
+            this.Product = product;
+            this.FeatureName = featureName;
+            this.EntityName = entityName;
         }
         public override string ToString()
         {
-            return $"{Product}/{FeatureName}/{EntityName}";
+            return $"{this.Product}/{this.FeatureName}/{this.EntityName}";
         }
         public string Product { get; }
         public string FeatureName { get; }

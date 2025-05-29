@@ -11,15 +11,15 @@ namespace FineCodeCoverage.Core.Utilities
 
         public string RelativePath { get; }
 
-        public override int GetHashCode() => hashCode;
+        public override int GetHashCode() => this.hashCode;
 
-        public bool Equals(ComparableFile other) => hashCode.Equals(other.hashCode);
+        public bool Equals(ComparableFile other) => this.hashCode.Equals(other.hashCode);
 
         public ComparableFile(FileInfo fileInfo, string relativePath)
         {
-            FileInfo = fileInfo;
-            RelativePath = relativePath;
-            hashCode = string.Format("{0}|{1}|{2}", RelativePath, FileInfo.Length, FileInfo.LastWriteTimeUtc.Ticks).GetHashCode();
+            this.FileInfo = fileInfo;
+            this.RelativePath = relativePath;
+            this.hashCode = string.Format("{0}|{1}|{2}", this.RelativePath, this.FileInfo.Length, this.FileInfo.LastWriteTimeUtc.Ticks).GetHashCode();
         }
     }
 }

@@ -15,26 +15,21 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public CommandLineParseResult Parse(string argumentsString)
         {
-            List<string> args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
-            if (!args.Any())
-            {
-                return CommandLineParseResult.Empty;
-            }
-            return Parse(args);
+            var args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
+            return !args.Any() ? CommandLineParseResult.Empty : this.Parse(args);
         }
 
         public CommandLineParseResult Parse(string[] args)
-            => Parse(args.ToList());
+            => this.Parse(args.ToList());
 
         private CommandLineParseResult Parse(List<string> args)
         {
-            List<CommandLineParseOption> options = new List<CommandLineParseOption>();
-            List<string> errors = new List<string>();
+            var options = new List<CommandLineParseOption>();
+            var errors = new List<string>();
 
             string currentOption = null;
             string currentArg = null;
-            string toolName = null;
-            List<string> currentOptionArguments = new List<string>();
+            var currentOptionArguments = new List<string>();
             for (int i = 0; i < args.Count; i++)
             {
                 if (args[i].StartsWith("@") && ResponseFileHelper.TryReadResponseFile(args[i].Substring(1), errors, out string[] newArguments))
@@ -42,6 +37,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     args.InsertRange(i + 1, newArguments);
                     continue;
                 }
+
                 bool argumentHandled = false;
                 currentArg = args[i];
 
@@ -75,7 +71,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         // If it's the first argument and it doesn't start with - then it's the tool name
                         if (i == 0 && !args[0][0].Equals('-'))
                         {
-                            toolName = currentArg;
+                            // removed tool code
                         }
                         else if (currentOption is null)
                         {
@@ -118,6 +114,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 currentOption = arg.Substring(0, delimiterIndex);
                 currentArg = arg.Substring(++delimiterIndex);
             }
+
             currentOption = currentOption.TrimStart('-');
         }
     }

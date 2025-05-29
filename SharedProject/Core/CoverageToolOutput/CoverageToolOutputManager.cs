@@ -35,10 +35,10 @@ namespace FineCodeCoverage.Engine
 
         public async Task SetProjectCoverageOutputFolderAsync(List<ICoverageProject> coverageProjects)
         {
-            eventAggregator.SendMessage(new OutdatedOutputMessage());
+            this.eventAggregator.SendMessage(new OutdatedOutputMessage());
             this.coverageProjects = coverageProjects;
-            await DetermineOutputFolderForAllProjectsAsync();
-            if (outputFolderForAllProjects == null)
+            await this.DetermineOutputFolderForAllProjectsAsync();
+            if (this.outputFolderForAllProjects == null)
             {
                 foreach (ICoverageProject coverageProject in coverageProjects)
                 {
@@ -47,26 +47,26 @@ namespace FineCodeCoverage.Engine
             }
             else
             {
-                fileUtil.TryEmptyDirectory(outputFolderForAllProjects);
+                this.fileUtil.TryEmptyDirectory(this.outputFolderForAllProjects);
                 foreach (ICoverageProject coverageProject in coverageProjects)
                 {
-                    coverageProject.CoverageOutputFolder = Path.Combine(outputFolderForAllProjects, coverageProject.ProjectName);
+                    coverageProject.CoverageOutputFolder = Path.Combine(this.outputFolderForAllProjects, coverageProject.ProjectName);
                 }
             }
         }
 
         private async Task DetermineOutputFolderForAllProjectsAsync()
         {
-            outputFolderForAllProjects = outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(coverageProjects));
-            if (outputFolderForAllProjects != null)
+            this.outputFolderForAllProjects = this.outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(this.coverageProjects));
+            if (this.outputFolderForAllProjects != null)
             {
-                await logger.LogAsync($"FCC output in {outputFolderForAllProjects}");
+                await this.logger.LogAsync($"FCC output in {this.outputFolderForAllProjects}");
             }
         }
 
         public string GetReportOutputFolder()
         {
-            return outputFolderForAllProjects ?? coverageProjects[0].CoverageOutputFolder;
+            return this.outputFolderForAllProjects ?? this.coverageProjects[0].CoverageOutputFolder;
         }
     }
 }

@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public ProjectAddedRemoved(bool added, IVsHierarchy project)
         {
-            Added = added;
-            Project = project;
+            this.Added = added;
+            this.Project = project;
         }
         public bool Added { get; }
         public IVsHierarchy Project { get; }

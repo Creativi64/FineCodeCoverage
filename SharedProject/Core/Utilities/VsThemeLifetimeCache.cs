@@ -7,13 +7,13 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public VsThemeLifetimeCache()
         {
-            VSColorTheme.ThemeChanged += (_) => _cache.Clear();
+            VSColorTheme.ThemeChanged += (_) => this._cache.Clear();
         }
 
         private readonly WeakCache<TKey, TValue> _cache = new WeakCache<TKey, TValue>();
         public TValue GetOrAdd(TKey key, Func<TValue> valueFactory)
         {
-            return _cache.GetOrAdd(key, valueFactory);
+            return this._cache.GetOrAdd(key, valueFactory);
         }
     }
 }

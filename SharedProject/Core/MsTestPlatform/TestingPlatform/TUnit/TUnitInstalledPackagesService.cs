@@ -17,10 +17,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public TUnitInstalledPackagesService(
             INugetProjectServiceProvider nugetProjectServiceProvider
-        )
-        {
-            this.lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
-        }
+        ) => this.lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
 
         public TUnitInstalledPackageResult GetTUnitInstalledPackages(IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems)
         {
@@ -39,21 +36,24 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     hasTUnit = true;
                     continue;
                 }
+
                 if (id == TUnitConstants.CodeCoveragePackageId)
                 {
                     hasCoverageExtension = true;
                 }
+
                 if (hasTUnit && hasCoverageExtension)
                 {
                     break;
                 }
             }
+
             return new TUnitInstalledPackageResult(InstalledPackageResultStatus.Successful, hasCoverageExtension, hasTUnit);
         }
 
         public async Task<TUnitInstalledPackageResult> GetTUnitInstalledPackagesAsync(Guid projectGuid, CancellationToken cancellationToken)
         {
-            INuGetProjectService nugetProjectService = await lazyNugetProjectService.GetValueAsync();
+            INuGetProjectService nugetProjectService = await this.lazyNugetProjectService.GetValueAsync();
             InstalledPackagesResult result = await nugetProjectService.GetInstalledPackagesAsync(projectGuid, cancellationToken);
             if (result.Status == InstalledPackageResultStatus.Successful)
             {
@@ -67,20 +67,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         hasTUnit = true;
                         continue;
                     }
+
                     if (id == TUnitConstants.CodeCoveragePackageId)
                     {
                         hasCoverageExtension = true;
                     }
+
                     if (hasTUnit && hasCoverageExtension)
                     {
                         break;
                     }
                 }
+
                 return new TUnitInstalledPackageResult(result.Status, hasCoverageExtension, hasTUnit);
             }
+
             return new TUnitInstalledPackageResult(result.Status, false, false);
         }
     }
-
-
 }

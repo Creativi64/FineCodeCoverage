@@ -15,15 +15,10 @@ namespace FineCodeCoverage.Engine
     [ExcludeFromCodeCoverage]
     internal class MessageBoxWrapper : IMessageBox
     {
-        public void Show(string message)
-        {
-            MessageBox.Show(message);
-        }
+        public void Show(string message) => MessageBox.Show(message);
 
         public void ShowError(string error, string caption)
-        {
-            MessageBox.Show(error, caption, MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+            => MessageBox.Show(error, caption, MessageBoxButton.OK, MessageBoxImage.Error);
 
         public bool ShowWarning(string messageBoxText, string caption)
         {
@@ -37,5 +32,4 @@ namespace FineCodeCoverage.Engine
             return result == MessageBoxResult.OK;
         }
     }
-
 }

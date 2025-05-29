@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             else
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                object pvar;
-                if (ErrorHandler.Succeeded(hier.GetProperty(4294967294U, -2027, out pvar)) && pvar is Project project)
+                if (ErrorHandler.Succeeded(hier.GetProperty(4294967294U, -2027, out object pvar)) && pvar is Project project)
                 {
                     context = project.Object as IVsBrowseObjectContext;
                     return context.UnconfiguredProject;
@@ -41,18 +40,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 (int)__VSHPROPID.VSHPROPID_ExtObject,
                 out object extObject);
 
-            if (ErrorHandler.Succeeded(hr) && extObject is Project project)
-            {
-                return project;
-            }
-
-            return null;
+            return ErrorHandler.Succeeded(hr) && extObject is Project project ? project : null;
         }
 
         public static Guid GetGuid(this IVsHierarchy hierarchy)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            int hr = hierarchy.GetGuidProperty(
+            _ = hierarchy.GetGuidProperty(
                 VSConstants.VSITEMID_ROOT,
                 (int)__VSHPROPID.VSHPROPID_ProjectIDGuid,
                 out Guid projectGuid);

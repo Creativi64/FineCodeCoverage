@@ -31,9 +31,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ITUnitProjectCache tUnitProjectCache
         )
         {
-            tUnitChangeNotifier.ProjectAddedRemovedEvent += TUnitChangeNotifier_ProjectAddedRemovedEvent;
-            tUnitChangeNotifier.SolutionClosedEvent += TUnitChangeNotifier_SolutionClosedEvent;
-            tUnitChangeNotifier.SolutionOpenedEvent += TUnitChangeNotifier_SolutionOpenedEvent;
+            tUnitChangeNotifier.ProjectAddedRemovedEvent += this.TUnitChangeNotifier_ProjectAddedRemovedEvent;
+            tUnitChangeNotifier.SolutionClosedEvent += this.TUnitChangeNotifier_SolutionClosedEvent;
+            tUnitChangeNotifier.SolutionOpenedEvent += this.TUnitChangeNotifier_SolutionOpenedEvent;
             this.solutionProjectsProvider = solutionProjectsProvider;
             this.cpsTestProjectService = cpsTestProjectService;
             this.tUnitChangeNotifier = tUnitChangeNotifier;
@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 bool solutionOpen = await solutionProjectsProvider.IsSolutionOpenAsync();
                 if (solutionOpen)
                 {
-                    OnReady(true);
+                    this.OnReady(true);
                 }
             });
         }
@@ -53,41 +53,39 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void OnReady(bool ready)
         {
-            Ready = ready;
+            this.Ready = ready;
             ReadyEvent?.Invoke(this, EventArgs.Empty);
         }
 
-        private void TUnitChangeNotifier_SolutionOpenedEvent(object sender, EventArgs e)
-        {
-            OnReady(true);
-        }
+        private void TUnitChangeNotifier_SolutionOpenedEvent(object sender, EventArgs e) => this.OnReady(true);
 
         private void TUnitChangeNotifier_SolutionClosedEvent(object sender, EventArgs e)
         {
-            addedProjects.Clear();
-            if (initializedCache)
+            this.addedProjects.Clear();
+            if (this.initializedCache)
             {
-                tUnitProjectCache.Clear();
-                initializedCache = false;
+                this.tUnitProjectCache.Clear();
+                this.initializedCache = false;
             }
-            OnReady(false);
+
+            this.OnReady(false);
         }
 
         private void TUnitChangeNotifier_ProjectAddedRemovedEvent(object sender, ProjectAddedRemoved e)
         {
-            if (initializedCache)
+            if (this.initializedCache)
             {
                 IVsHierarchy project = e.Project;
                 if (e.Added)
                 {
-                    addedProjects.Add(project);
+                    this.addedProjects.Add(project);
                 }
                 else
                 {
-                    bool removed = addedProjects.Remove(project);
+                    bool removed = this.addedProjects.Remove(project);
                     if (!removed)
                     {
-                        tUnitProjectCache.Remove(e.Project);
+                        this.tUnitProjectCache.Remove(e.Project);
                     }
                 }
             }
@@ -97,8 +95,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             public CpsProjectAndHierarchy(ConfiguredProject cpsProject, IVsHierarchy hierarchy)
             {
-                CpsProject = cpsProject;
-                Hierarchy = hierarchy;
+                this.CpsProject = cpsProject;
+                this.Hierarchy = hierarchy;
             }
 
             public ConfiguredProject CpsProject { get; }
@@ -107,50 +105,53 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<List<CpsProjectAndHierarchy>> GetCpsTestProjectsAndHierarchysAsync(IEnumerable<IVsHierarchy> projects)
         {
-            List<CpsProjectAndHierarchy> cpsTestProjectsAndHierarchys = new List<CpsProjectAndHierarchy>();
+            var cpsTestProjectsAndHierarchys = new List<CpsProjectAndHierarchy>();
             foreach (IVsHierarchy project in projects)
             {
-                ConfiguredProject cpsTestProject = await cpsTestProjectService.GetProjectAsync(project);
+                ConfiguredProject cpsTestProject = await this.cpsTestProjectService.GetProjectAsync(project);
                 if (cpsTestProject != null)
                 {
                     cpsTestProjectsAndHierarchys.Add(new CpsProjectAndHierarchy(cpsTestProject, project));
                 }
             }
+
             return cpsTestProjectsAndHierarchys;
         }
 
         private async Task<List<ITUnitProject>> GetTUnitProjectsAsync(IEnumerable<IVsHierarchy> projects)
         {
-            List<ITUnitProject> potentialTUnitProjects = new List<ITUnitProject>();
-            List<CpsProjectAndHierarchy> cpsTestProjectAndHierarchys = await GetCpsTestProjectsAndHierarchysAsync(projects);
+            var potentialTUnitProjects = new List<ITUnitProject>();
+            List<CpsProjectAndHierarchy> cpsTestProjectAndHierarchys = await this.GetCpsTestProjectsAndHierarchysAsync(projects);
             foreach (CpsProjectAndHierarchy cpsTestProjectAndHierarchy in cpsTestProjectAndHierarchys)
             {
-                ITUnitProject tUnitProject = tUnitProjectFactory.Create(cpsTestProjectAndHierarchy.Hierarchy, cpsTestProjectAndHierarchy.CpsProject);
+                ITUnitProject tUnitProject = this.tUnitProjectFactory.Create(cpsTestProjectAndHierarchy.Hierarchy, cpsTestProjectAndHierarchy.CpsProject);
                 potentialTUnitProjects.Add(tUnitProject);
             }
+
             return potentialTUnitProjects;
         }
 
         public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
-            if (!initializedCache)
+            if (!this.initializedCache)
             {
-                List<IVsHierarchy> solutionProjects = await solutionProjectsProvider.GetLoadedProjectsAsync(cancellationToken);
-                List<ITUnitProject> potentialTUnitProjects = await GetTUnitProjectsAsync(solutionProjects);
-                tUnitProjectCache.Initialize(potentialTUnitProjects);
-                initializedCache = true;
+                List<IVsHierarchy> solutionProjects = await this.solutionProjectsProvider.GetLoadedProjectsAsync(cancellationToken);
+                List<ITUnitProject> potentialTUnitProjects = await this.GetTUnitProjectsAsync(solutionProjects);
+                this.tUnitProjectCache.Initialize(potentialTUnitProjects);
+                this.initializedCache = true;
             }
             else
             {
-                List<ITUnitProject> newTUnitProjects = await GetTUnitProjectsAsync(addedProjects);
+                List<ITUnitProject> newTUnitProjects = await this.GetTUnitProjectsAsync(this.addedProjects);
                 foreach (ITUnitProject newTUnitProject in newTUnitProjects)
                 {
-                    tUnitProjectCache.Add(newTUnitProject);
+                    this.tUnitProjectCache.Add(newTUnitProject);
                 }
-                addedProjects.Clear();
+
+                this.addedProjects.Clear();
             }
 
-            return await tUnitProjectCache.GetTUnitProjectsAsync(cancellationToken);
+            return await this.tUnitProjectCache.GetTUnitProjectsAsync(cancellationToken);
         }
     }
 }

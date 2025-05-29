@@ -7,5 +7,4 @@ namespace FineCodeCoverage.Engine.Model
     {
         List<XElement> Provide(string projectDirectoryPath);
     }
-
 }

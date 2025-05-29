@@ -5,13 +5,13 @@
         public VsColorEntry(object iVsColorEntry, ColorName colorName)
         {
             dynamic d = iVsColorEntry as dynamic;
-            BackgroundType = d.BackgroundType;
-            ForegroundType = d.ForegroundType;
-            Background = d.Background;
-            Foreground = d.Foreground;
-            BackgroundSource = d.BackgroundSource;
-            ForegroundSource = d.ForegroundSource;
-            ColorName = colorName;
+            this.BackgroundType = d.BackgroundType;
+            this.ForegroundType = d.ForegroundType;
+            this.Background = d.Background;
+            this.Foreground = d.Foreground;
+            this.BackgroundSource = d.BackgroundSource;
+            this.ForegroundSource = d.ForegroundSource;
+            this.ColorName = colorName;
         }
 
         ColorName ColorName { get; }

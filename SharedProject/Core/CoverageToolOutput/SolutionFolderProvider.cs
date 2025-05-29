@@ -13,14 +13,16 @@ namespace FineCodeCoverage.Engine
             DirectoryInfo directory = new FileInfo(projectFile).Directory;
             while (directory != null)
             {
-                bool isSolutionDirectory = directory.EnumerateFiles().Any(IsSolutionFile);
+                bool isSolutionDirectory = directory.EnumerateFiles().Any(this.IsSolutionFile);
                 if (isSolutionDirectory)
                 {
                     provided = directory.FullName;
                     break;
                 }
+
                 directory = directory.Parent;
             }
+
             return provided;
         }
 
