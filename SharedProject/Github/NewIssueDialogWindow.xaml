@@ -7,54 +7,52 @@
                         xmlns:fccwpf="clr-namespace:FineCodeCoverage.Wpf"
                         mc:Ignorable="d"
                         Width="600"
-                        Height="700"
                         d:DesignHeight="600"
                         d:DesignWidth="400"
 						fccwpf:Themes.UseVsTheme="True"
                         Title="New Issue"
+                        SizeToContent="Height"
 						>
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label>Visual Studio Version - </Label>
-            <TextBlock VerticalAlignment="Center" Text="{Binding VsVersionString}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label>FCC Version - </Label>
-            <TextBlock VerticalAlignment="Center" Text="{Binding FccVersionString}" />
-        </StackPanel>
-        <Separator Margin="5,10,5,0"/>
+    <StackPanel Margin="8,8,8,0">
+        <TextBlock>
+            <Run Text="Visual Studio Version - "/>
+            <Run Text="{Binding VsVersionString, Mode=OneWay}"/>
+        </TextBlock>
+        <TextBlock>
+            <Run Text="FCC Version - "/>
+            <Run Text="{Binding FccVersionString, Mode=OneWay}"/>
+        </TextBlock>
+        <Separator Margin="0,8,0,8"/>
 
-        <Label>Issue Title</Label>
-        <TextBox Margin="5,0,5,0" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
-        <Separator Margin="5,10,5,0"/>
-        <TextBlock Margin="5,0,5,0">FCC Logs - <Hyperlink Command="{Binding RefreshFCCOutputCommand}">refresh</Hyperlink></TextBlock>
-        <Label>If empty please run coverage again.</Label>
-        <Label>Will be copied to clipboard on submit.  Please paste into the issue in the browser.</Label>
-        <TextBlock Margin="5,0,0,0">Or can be <Hyperlink Command="{Binding MailToCommand}">mailed privately</Hyperlink> after creating an issue.  Please add the issue number in the title</TextBlock>
+        <TextBlock>Issue Title</TextBlock>
+        <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+        <Separator Margin="0,8,0,8"/>
+
+        <TextBlock Margin="0,0,0,10">FCC Log</TextBlock>
+        <TextBlock>If empty please run coverage again. <Hyperlink Command="{Binding RefreshFCCOutputCommand}">Refresh</Hyperlink></TextBlock>
+        <TextBlock>The log, below, will be copied to clipboard on submit.  Please paste into the issue in the browser.</TextBlock>
+        <TextBlock>Alternatively, <Hyperlink Command="{Binding MailToCommand}">mail privately</Hyperlink> after creating an issue.  Please add the issue number in the title</TextBlock>
         <TextBox
-            Margin="5,10,0,0"
+            Margin="0,8,0,0"
             Height="340"
-  Name="tbMultiLine"
-  TextWrapping="Wrap"
-  AcceptsReturn="True"
-  VerticalScrollBarVisibility="Visible"
-  Text="{Binding FccOutput,UpdateSourceTrigger=PropertyChanged}"
->
-            
-        </TextBox>
-        <StackPanel Orientation="Horizontal">
-            <CheckBox Margin="5,10,0,0" IsChecked="{Binding HaveCheckedFCCIssues}">
-                <TextBlock Text="Have checked existing issues" />
-            </CheckBox>
-            <TextBlock VerticalAlignment="Bottom" Margin="5,0,0,0"><Hyperlink Command="{Binding SearchIssuesCommand}">search issues</Hyperlink></TextBlock>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <CheckBox Margin="5,10,0,0" IsChecked="{Binding HaveReadReadme}">
-                <TextBlock Text="Have read readme" />
-            </CheckBox>
-            <TextBlock VerticalAlignment="Bottom" Margin="5,0,0,0"><Hyperlink Command="{Binding OpenReadMeCommand}">open readme</Hyperlink></TextBlock>
-        </StackPanel>
+            TextWrapping="Wrap"
+            AcceptsReturn="True"
+            VerticalScrollBarVisibility="Auto"
+            Text="{Binding FccOutput,UpdateSourceTrigger=PropertyChanged}"
+        />
+        <CheckBox Margin="0,8,0,0" IsChecked="{Binding HaveCheckedFCCIssues}">
+            <TextBlock>
+                    <Run Text="Have checked"/>
+                    <Hyperlink Command="{Binding SearchIssuesCommand}">existing issues</Hyperlink>
+            </TextBlock>
+        </CheckBox>
+        <CheckBox Margin="0,8,0,0" IsChecked="{Binding HaveReadReadme}">
+            <TextBlock>
+                <Run Text="Have read"/>
+                <Hyperlink Command="{Binding OpenReadMeCommand}">readme</Hyperlink>
+            </TextBlock>
+        </CheckBox>
 
-        <Button Margin="5,10,0,0" HorizontalAlignment="Left" Width="100" Command="{Binding SubmitCommand}">Submit issue</Button>
+        <Button Margin="0,8,0,8" HorizontalAlignment="Left" Command="{Binding SubmitCommand}">Submit issue</Button>
     </StackPanel>
 </platform:DialogWindow>
