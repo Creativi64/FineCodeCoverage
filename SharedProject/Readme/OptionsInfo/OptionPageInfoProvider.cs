@@ -10,15 +10,13 @@ namespace FineCodeCoverage.Readme
     {
         public IEnumerable<OptionPageInfo> Provide(Type packageType, List<string> coverageSettingsPropertyNames)
         {
-            var provideOptionPageAttributes = packageType.GetCustomAttributes<ProvideOptionPageAttribute>();
-            return provideOptionPageAttributes.Select(provideOptionPageAttribute =>
-            {
-                return new OptionPageInfo(
+            IEnumerable<ProvideOptionPageAttribute> provideOptionPageAttributes = packageType.GetCustomAttributes<ProvideOptionPageAttribute>();
+            return provideOptionPageAttributes.Select(provideOptionPageAttribute
+                => new OptionPageInfo(
                     provideOptionPageAttribute.PageType.BaseType.GetGenericArguments()[0],
                     provideOptionPageAttribute.PageName,
                     coverageSettingsPropertyNames
-                    );
-            });
+                ));
         }
     }
 }

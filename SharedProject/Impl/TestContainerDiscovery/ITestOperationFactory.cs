@@ -9,4 +9,3 @@ namespace FineCodeCoverage.Impl
     }
 }
 
-

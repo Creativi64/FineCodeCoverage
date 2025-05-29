@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Readme
             renderer.Push(paragraph);
             renderer.WriteLeafInline(obj);
             renderer.Pop();
-            return new ElementAndMarker(paragraph, GetMarker(obj.Level));
+            return new ElementAndMarker(paragraph, this.GetMarker(obj.Level));
         }
 
         private MarkdownTypeMarker GetMarker(int level)
@@ -37,8 +37,8 @@ namespace FineCodeCoverage.Readme
                 case 6:
                     return MarkdownTypeMarker.HeadingBlock6;
             }
+
             return MarkdownTypeMarker.HeadingBlock1;
         }
     }
-
 }

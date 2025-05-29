@@ -37,8 +37,10 @@ namespace FineCodeCoverage.Readme
                 {
                     this.writableUserSettingsStore.CreateCollection(readMeShowCollection);
                 }
+
                 this.writableUserSettingsStore.SetBoolean(readMeShowCollection, readMeShownProperty, true);
             }
+
             this.HasShown = true;
             Shown?.Invoke(this, EventArgs.Empty);
 

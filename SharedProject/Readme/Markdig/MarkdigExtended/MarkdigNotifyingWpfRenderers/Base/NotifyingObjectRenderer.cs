@@ -12,31 +12,19 @@ namespace FineCodeCoverage.Readme
 
         protected sealed override void Write(WpfRenderer renderer, TObject obj)
         {
-            List<ElementAndMarker> elementMarkers = null;
-            var element = WriteAndReturn(renderer, obj);
-            if (element != null)
-            {
-                elementMarkers = new List<ElementAndMarker> { element };
-            }
-            else
-            {
-                elementMarkers = WriteAndReturns(renderer, obj);
-            }
+            ElementAndMarker element = this.WriteAndReturn(renderer, obj);
+            List<ElementAndMarker> elementMarkers = element != null ?
+                new List<ElementAndMarker> { element } : this.WriteAndReturns(renderer, obj);
             if (elementMarkers == null)
             {
                 return;
             }
+
             CreatedEvent?.Invoke(this, elementMarkers);
         }
 
-        protected virtual ElementAndMarker WriteAndReturn(WpfRenderer renderer, TObject obj)
-        {
-            return null;
-        }
+        protected virtual ElementAndMarker WriteAndReturn(WpfRenderer renderer, TObject obj) => null;
 
-        protected virtual List<ElementAndMarker> WriteAndReturns(WpfRenderer renderer, TObject obj)
-        {
-            return null;
-        }
+        protected virtual List<ElementAndMarker> WriteAndReturns(WpfRenderer renderer, TObject obj) => null;
     }
 }

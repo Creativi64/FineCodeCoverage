@@ -28,16 +28,16 @@ namespace FineCodeCoverage.Readme
             ICommand navigateCommand
             )
         {
-            var pipeline = readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, optionPageTableCreator.Create);
-            var markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);
+            MarkdownPipeline pipeline = this.readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, this.optionPageTableCreator.Create);
+            Markdig.Syntax.MarkdownDocument markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);
             return () =>
             {
                 var fccWpfRenderer = new FCCMarkdigWpfRenderer(templatedReadMeInfo.Directory, navigateCommand);
                 var flowDocument = new FlowDocument();
                 fccWpfRenderer.LoadDocument(flowDocument);
                 pipeline.Setup(fccWpfRenderer);
-                fccWpfRenderer.Render(markdownDocument);
-                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(optionPageTableCreator.ElementAndMarkers).ToList();
+                _ = fccWpfRenderer.Render(markdownDocument);
+                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(this.optionPageTableCreator.ElementAndMarkers).ToList();
                 elementAndMarkers.Add(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
                 return new FlowDocumentElementMarkers(flowDocument, elementAndMarkers);
             };

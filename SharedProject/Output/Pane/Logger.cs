@@ -23,21 +23,18 @@ namespace FineCodeCoverage.Output.Pane
 
         private static string GetFormattedNow()
         {
-            var stringBuilder = new StringBuilder();
             DateTime now = DateTime.Now;
-            stringBuilder.Append('[');
-            stringBuilder.Append(now.ToString("d", CultureInfo.CurrentCulture));
-            stringBuilder.Append(' ');
-            stringBuilder.Append(now.ToString("h:mm:ss.fff tt", CultureInfo.CurrentCulture));
-            stringBuilder.Append(']');
-            stringBuilder.Append(' ');
-            return stringBuilder.ToString();
+            return new StringBuilder()
+                .Append('[')
+                .Append(now.ToString("d", CultureInfo.CurrentCulture))
+                .Append(' ')
+                .Append(now.ToString("h:mm:ss.fff tt", CultureInfo.CurrentCulture))
+                .Append(']')
+                .Append(' ').ToString();
         }
 
         private IEnumerable<string> GetMessageList(IEnumerable<string> message)
-        {
-            return message?.Select(x => x?.Trim(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x));
-        }
+            => message?.Select(x => x?.Trim(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x));
 
         private async Task LogMessagesAsync(IEnumerable<string> messageList)
         {
@@ -48,7 +45,7 @@ namespace FineCodeCoverage.Output.Pane
                     return;
                 }
 
-                var pane = await fccOutputWindowCreator.GetOrCreateAsync();
+                IFCCOutputWindowPane pane = await this.fccOutputWindowCreator.GetOrCreateAsync();
                 if (pane == null) return;
 
                 string logs = string.Join(Environment.NewLine, messageList);
@@ -61,20 +58,12 @@ namespace FineCodeCoverage.Output.Pane
             }
         }
 
-        public Task LogAsync(IEnumerable<string> message)
-        {
-            return LogMessagesAsync(GetMessageList(message));
-        }
+        public Task LogAsync(IEnumerable<string> message) => this.LogMessagesAsync(this.GetMessageList(message));
 
-        public Task LogAsync(params string[] message)
-        {
-            return LogAsync(message as IEnumerable<string>);
-        }
+        public Task LogAsync(params string[] message) => this.LogAsync(message as IEnumerable<string>);
 
         private readonly FaultEventName logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
         public void LogFileAndForget(params string[] message)
-        {
-            LogAsync(message).FileAndForget(logFaultEventName.ToString());
-        }
+            => this.LogAsync(message).FileAndForget(this.logFaultEventName.ToString());
     }
 }

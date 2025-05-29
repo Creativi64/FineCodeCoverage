@@ -31,28 +31,25 @@ namespace FineCodeCoverage.Output
         protected override void Initialized()
         {
             this.Command.Enabled = false;
-            this.eventAggregator.AddListener(this);
+            _ = this.eventAggregator.AddListener(this);
         }
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (reportResult != null)
+            if (this.reportResult != null)
             {
-                this.hotspotsService.WriteHotspotsToXml(reportResult.Assemblies, hotspotsPath);
-                this.vsOpenFile.OpenFileInCodeEditor(hotspotsPath);
+                this.hotspotsService.WriteHotspotsToXml(this.reportResult.Assemblies, this.hotspotsPath);
+                this.vsOpenFile.OpenFileInCodeEditor(this.hotspotsPath);
             }
         }
 
-        public void Handle(OutdatedOutputMessage message)
-        {
-            Command.Enabled = false;
-        }
+        public void Handle(OutdatedOutputMessage message) => this.Command.Enabled = false;
 
         public void Handle(ReportFilesMessage message)
         {
             this.reportResult = message.ReportResult;
             this.hotspotsPath = Path.Combine(Path.GetDirectoryName(message.CoberturaFile), "hotspots.xml");
-            Command.Enabled = true;
+            this.Command.Enabled = true;
         }
     }
 }

@@ -17,6 +17,6 @@ namespace FineCodeCoverage.Output
 
         protected override void Execute(object sender, EventArgs e) => this.tUnitCoverage.CollectCoverage();
 
-        public void SetVisible(bool isVisible) => Command.Visible = isVisible;
+        public void SetVisible(bool isVisible) => this.Command.Visible = isVisible;
     }
 }

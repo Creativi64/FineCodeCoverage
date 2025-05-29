@@ -20,5 +20,4 @@ namespace FineCodeCoverage.Readme
             return new ElementAndMarker(paragraph, MarkdownTypeMarker.Paragraph);
         }
     }
-
 }

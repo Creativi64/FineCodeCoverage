@@ -4,8 +4,8 @@
     {
         public TemplatedReadmeInfo(string readme, string directory)
         {
-            Readme = readme;
-            Directory = directory;
+            this.Readme = readme;
+            this.Directory = directory;
         }
 
         public string Readme { get; }

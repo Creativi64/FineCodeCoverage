@@ -7,11 +7,12 @@ namespace FineCodeCoverage.Readme
     {
         public FlowDocumentElementMarkers(FlowDocument flowDocument, List<ElementAndMarker> elementAndMarkers)
         {
-            FlowDocument = flowDocument;
-            ElementAndMarkers = elementAndMarkers;
+            this.FlowDocument = flowDocument;
+            this.ElementAndMarkers = elementAndMarkers;
         }
 
         public FlowDocument FlowDocument { get; }
+
         public IReadOnlyList<ElementAndMarker> ElementAndMarkers { get; }
     }
 }

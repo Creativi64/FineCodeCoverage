@@ -17,6 +17,6 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         protected override void Execute(object sender, EventArgs e)
-            => this.PackageServices.ShowOptionPage(openOptionPageTypeProvider.Get());
+            => this.PackageServices.ShowOptionPage(this.openOptionPageTypeProvider.Get());
     }
 }

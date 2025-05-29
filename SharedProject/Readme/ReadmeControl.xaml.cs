@@ -2,13 +2,8 @@
 
 namespace FineCodeCoverage.Readme
 {
-
     public partial class ReadmeControl : UserControl
     {
-        public ReadmeControl()
-        {
-            this.InitializeComponent();
-
-        }
+        public ReadmeControl() => this.InitializeComponent();
     }
 }

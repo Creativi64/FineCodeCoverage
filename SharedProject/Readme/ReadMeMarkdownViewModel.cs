@@ -32,20 +32,20 @@ namespace FineCodeCoverage.Readme
             this.fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
             this.readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
             this.processStartCommand = new ProcessStartCommand(process);
-            ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
-            miscOptionsProvider.OptionsChanged += (newOptions) => ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
+            this.ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
+            miscOptionsProvider.OptionsChanged += (newOptions) => this.ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
         }
 
         public bool ShowHyperlinkUrlHover
         {
-            get => showHyperlinkUrlHover;
+            get => this.showHyperlinkUrlHover;
             set => this.Set(ref this.showHyperlinkUrlHover, value);
         }
 
         private FlowDocument GetFlowDocument()
         {
-            var templatedReadmeInfo = this.readmeProvider.GetTemplatedReadme();
-            var flowDocumentElementMarkers = fccMarkdownFlowDocumentProvider.Provide(
+            TemplatedReadmeInfo templatedReadmeInfo = this.readmeProvider.GetTemplatedReadme();
+            FlowDocumentElementMarkers flowDocumentElementMarkers = this.fccMarkdownFlowDocumentProvider.Provide(
                 templatedReadmeInfo,
                 ReadMeMarkdownViewModel.OptionsTableReplacementMarker,
                 ReadMeMarkdownViewModel.TruncateMarker,
@@ -55,6 +55,6 @@ namespace FineCodeCoverage.Readme
             return flowDocumentElementMarkers.FlowDocument;
         }
 
-        public FlowDocument FlowDocument => flowDocument ?? (flowDocument = GetFlowDocument());
+        public FlowDocument FlowDocument => this.flowDocument ?? (this.flowDocument = this.GetFlowDocument());
     }
 }

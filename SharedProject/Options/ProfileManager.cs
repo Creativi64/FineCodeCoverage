@@ -17,15 +17,12 @@ namespace FineCodeCoverage.Options
         {
             get
             {
-                LoadSettingsFromStorage();
-                return allSettings;
+                this.LoadSettingsFromStorage();
+                return this.allSettings;
             }
-            set
-            {
-                allSettings = value;
-            }
-        }
 
+            set => this.allSettings = value;
+        }
 
         public ProfileManager()
         {
@@ -36,54 +33,52 @@ namespace FineCodeCoverage.Options
         // may be called by VS prior to LoadSettingsFromXML and SaveSettingsToStorage
         public void LoadSettingsFromStorage()
         {
-            if (allSettings == null)
+            if (this.allSettings == null)
             {
                 this.allSettings = this.optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
             }
         }
 
         private object DeserializeStringArray(string value, PropertyDescriptor _)
-        {
-            return this.jsonConvertService.DeserializeObject<string[]>(value);
-        }
+            => this.jsonConvertService.DeserializeObject<string[]>(value);
 
         private object DeserializeFromPropertyDescriptor(string value, PropertyDescriptor propertyDescriptor)
         {
             TypeConverter converter = propertyDescriptor.Converter;
-            if (converter.CanConvertTo(typeof(string)) && converter.CanConvertFrom(typeof(string)))
-            {
-                return propertyDescriptor.Converter.ConvertFromInvariantString(value);
-            }
-            return null;
+            return converter.CanConvertTo(typeof(string)) && converter.CanConvertFrom(typeof(string))
+                ? propertyDescriptor.Converter.ConvertFromInvariantString(value)
+                : null;
         }
 
         public void LoadSettingsFromXml(IVsSettingsReader reader)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var index = 0;
-            foreach (var setting in AllSettings)
+            int index = 0;
+            foreach (object setting in this.AllSettings)
             {
-                var optionProvider = optionsProviders[index];
+                IProfileOptionsProvider optionProvider = this.optionsProviders[index];
                 optionProvider.Initializing = true;
                 foreach (PropertyDescriptor propertyDescriptor in optionProvider.LazyOptionsPropertyDescriptorCollection.Value)
                 {
                     Func<string, PropertyDescriptor, object> deserialize = propertyDescriptor.PropertyType == typeof(string[]) ?
-                        (Func<string, PropertyDescriptor, object>)DeserializeStringArray :
-                        DeserializeFromPropertyDescriptor;
+                        (Func<string, PropertyDescriptor, object>)this.DeserializeStringArray :
+                        this.DeserializeFromPropertyDescriptor;
 
                     object obj = null;
                     try
                     {
-                        if (reader.ReadSettingString(propertyDescriptor.Name, out var pbstrSettingValue) >= 0)
+                        if (reader.ReadSettingString(propertyDescriptor.Name, out string pbstrSettingValue) >= 0)
                         {
                             if (pbstrSettingValue != null)
                                 obj = deserialize(pbstrSettingValue, propertyDescriptor);
                         }
                     }
                     catch { }
+
                     if (obj != null)
                         propertyDescriptor.SetValue(setting, obj);
                 }
+
                 optionProvider.Initializing = false;
                 index++;
             }
@@ -96,47 +91,41 @@ namespace FineCodeCoverage.Options
         }
 
         public void SaveSettingsToStorage()
-        {
-            optionsProviders.ForEach(optionProvider => optionProvider.SaveSettingsToStorage());
-        }
+            => this.optionsProviders.ForEach(optionProvider => optionProvider.SaveSettingsToStorage());
 
         private string SerializeStringArray(object value, PropertyDescriptor _)
-        {
-            return this.jsonConvertService.SerializeObject(value);
-        }
+            => this.jsonConvertService.SerializeObject(value);
 
         private string SerializeFromPropertyDescriptor(object value, PropertyDescriptor propertyDescriptor)
         {
             TypeConverter converter = propertyDescriptor.Converter;
-            if (converter.CanConvertTo(typeof(string)) && converter.CanConvertFrom(typeof(string)))
-            {
-                return propertyDescriptor.Converter.ConvertToInvariantString(value);
-            }
-            return null;
+            return converter.CanConvertTo(typeof(string)) && converter.CanConvertFrom(typeof(string))
+                ? propertyDescriptor.Converter.ConvertToInvariantString(value)
+                : null;
         }
 
         public void SaveSettingsToXml(IVsSettingsWriter writer)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var index = 0;
-            foreach (var setting in AllSettings)
+            int index = 0;
+            foreach (object setting in this.AllSettings)
             {
-                var optionProvider = optionsProviders[index];
+                IProfileOptionsProvider optionProvider = this.optionsProviders[index];
                 foreach (PropertyDescriptor propertyDescriptor in optionProvider.LazyOptionsPropertyDescriptorCollection.Value)
                 {
-                    var propertyValue = propertyDescriptor.GetValue(setting);
+                    object propertyValue = propertyDescriptor.GetValue(setting);
                     if (propertyValue != null)
                     {
                         Func<object, PropertyDescriptor, string> serialize = propertyDescriptor.PropertyType == typeof(string[]) ?
-                            (Func<object, PropertyDescriptor, string>)SerializeStringArray :
-                            SerializeFromPropertyDescriptor;
+                            (Func<object, PropertyDescriptor, string>)this.SerializeStringArray :
+                            this.SerializeFromPropertyDescriptor;
 
-                        writer.WriteSettingString(propertyDescriptor.Name, serialize(propertyValue, propertyDescriptor));
+                        _ = writer.WriteSettingString(propertyDescriptor.Name, serialize(propertyValue, propertyDescriptor));
                     }
                 }
+
                 index++;
             }
         }
     }
-
 }

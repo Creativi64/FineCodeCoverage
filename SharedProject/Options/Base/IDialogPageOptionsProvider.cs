@@ -6,5 +6,4 @@
         void LoadSettingsFromStorage();
         TOptions Options { get; }
     }
-
 }

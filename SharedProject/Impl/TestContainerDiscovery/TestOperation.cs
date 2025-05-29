@@ -16,41 +16,36 @@ namespace FineCodeCoverage.Impl
             this.coverageProjectFactory = coverageProjectFactory;
             this.runSettingsRetriever = runSettingsRetriever;
         }
-        public long FailedTests => testRunRequest.Response.FailedTests;
+        public long FailedTests => this.testRunRequest.Response.FailedTests;
 
-        public long TotalTests => testRunRequest.TotalTests;
+        public long TotalTests => this.testRunRequest.TotalTests;
 
-        public string SolutionDirectory => testRunRequest.Configuration.SolutionDirectory;
+        public string SolutionDirectory => this.testRunRequest.Configuration.SolutionDirectory;
 
         public Task<List<ICoverageProject>> GetCoverageProjectsAsync()
-        {
-            return GetCoverageProjectsAsync(testRunRequest.Configuration);
-        }
+            => this.GetCoverageProjectsAsync(this.testRunRequest.Configuration);
 
         private async Task<List<ICoverageProject>> GetCoverageProjectsAsync(TestConfiguration testConfiguration)
         {
-            var userRunSettings = testConfiguration.UserRunSettings;
-            var testContainers = testConfiguration.Containers;
-            List<ICoverageProject> coverageProjects = new List<ICoverageProject>();
-            foreach (var container in testContainers)
+            object userRunSettings = testConfiguration.UserRunSettings;
+            IEnumerable<Container> testContainers = testConfiguration.Containers;
+            var coverageProjects = new List<ICoverageProject>();
+            foreach (Container container in testContainers)
             {
-                var project = coverageProjectFactory.Create();
+                ICoverageProject project = this.coverageProjectFactory.Create();
                 coverageProjects.Add(project);
                 project.ProjectName = container.ProjectName;
                 project.TestDllFile = container.Source;
                 project.Is64Bit = container.TargetPlatform.ToString().Equals("x64", System.StringComparison.OrdinalIgnoreCase);
                 project.TargetFramework = container.TargetFramework.ToString();
-                var containerData = container.ProjectData;
+                ContainerData containerData = container.ProjectData;
                 project.ProjectFilePath = container.ProjectData.ProjectFilePath;
                 project.Id = containerData.Id;
-                project.RunSettingsFile = await runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
-
+                project.RunSettingsFile = await this.runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
             }
+
             return coverageProjects;
         }
-
     }
 }
-
-
 

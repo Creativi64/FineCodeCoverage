@@ -10,14 +10,14 @@ namespace FineCodeCoverage.Readme
         public TruncateParser(string matchText)
         {
             this.matchText = matchText;
-            OpeningCharacters = new[] { matchText.TrimStart()[0] };
+            this.OpeningCharacters = new[] { matchText.TrimStart()[0] };
         }
 
         public override BlockState TryOpen(BlockProcessor processor)
         {
-            var line = processor.Line.ToString().Trim();
+            string line = processor.Line.ToString().Trim();
 
-            if (line == matchText)
+            if (line == this.matchText)
             {
                 var block = new TruncateBlock(this)
                 {

@@ -29,19 +29,19 @@ namespace FineCodeCoverage.Output
         /// </summary>
         public ReportToolWindow(ReportToolWindowContext context) : base(null)
         {
-            Initialize(context);
+            this.Initialize(context);
         }
 
         public ReportToolWindow()
         {
-            Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>());
+            this.Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>());
         }
 
         private void Initialize(ReportToolWindowContext context)
         {
             this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
 
-            Caption = Vsix.Name;
+            this.Caption = Vsix.Name;
             this.BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };
 
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
@@ -50,12 +50,12 @@ namespace FineCodeCoverage.Output
 
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
                 this.Content = new ReportToolWindowControl(context.ReportViewModel);
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
             }
         }
 
@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Output
 
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
 
                 // try resolve by name
 
@@ -100,7 +100,7 @@ namespace FineCodeCoverage.Output
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
             }
 
             return null;

@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Output
 
         private async Task DeleteCollectionAsync()
         {
-            var store = await lazyUserSettingsStore.GetValueAsync();
+            WritableSettingsStore store = await lazyUserSettingsStore.GetValueAsync();
             store.DeleteCollection(ColumnStatesCollectionName);
         }
         public async Task SaveColumnStatesAsync(string columnStates)
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Output
                 return;
             }
             await EnsureCollectionAsync();
-            var store = await lazyUserSettingsStore.GetValueAsync();
+            WritableSettingsStore store = await lazyUserSettingsStore.GetValueAsync();
             store.SetString(ColumnStatesCollectionName, ColumnStatesPropertyName, columnStates);
         }
 
@@ -50,20 +50,20 @@ namespace FineCodeCoverage.Output
         {
             if (!await CollectionExistsAsync())
             {
-                var store = await lazyUserSettingsStore.GetValueAsync();
+                WritableSettingsStore store = await lazyUserSettingsStore.GetValueAsync();
                 store.CreateCollection(ColumnStatesCollectionName);
             }
         }
         private async Task<bool> CollectionExistsAsync()
         {
-            var store = await lazyUserSettingsStore.GetValueAsync();
+            WritableSettingsStore store = await lazyUserSettingsStore.GetValueAsync();
             return store.CollectionExists(ColumnStatesCollectionName);
         }
         public async Task<string> GetColumnStatesAsync()
         {
             if (await CollectionExistsAsync())
             {
-                var store = await lazyUserSettingsStore.GetValueAsync();
+                WritableSettingsStore store = await lazyUserSettingsStore.GetValueAsync();
                 return store.GetString(ColumnStatesCollectionName, ColumnStatesPropertyName);
             }
             return null;

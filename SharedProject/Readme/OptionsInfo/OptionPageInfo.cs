@@ -10,19 +10,19 @@ namespace FineCodeCoverage.Readme
     {
         public OptionPageInfo(Type optionType, string pageName, List<string> coverageSettingsPropertyNames)
         {
-            TypeName = optionType.Name;
-            PageName = pageName;
-            PropertyCategories = optionType.GetProperties().Select(p =>
+            this.TypeName = optionType.Name;
+            this.PageName = pageName;
+            this.PropertyCategories = optionType.GetProperties().Select(p =>
             {
-                var displayNameAttribute = p.GetCustomAttribute<DisplayNameAttribute>();
-                var displayName = displayNameAttribute == null ? p.Name : displayNameAttribute.DisplayName;
+                DisplayNameAttribute displayNameAttribute = p.GetCustomAttribute<DisplayNameAttribute>();
+                string displayName = displayNameAttribute == null ? p.Name : displayNameAttribute.DisplayName;
 
-                var descriptionAttribute = p.GetCustomAttribute<DescriptionAttribute>();
-                var description = descriptionAttribute == null ? displayName : descriptionAttribute.Description;
+                DescriptionAttribute descriptionAttribute = p.GetCustomAttribute<DescriptionAttribute>();
+                string description = descriptionAttribute == null ? displayName : descriptionAttribute.Description;
 
-                var categoryAttribute = p.GetCustomAttribute<CategoryAttribute>();
-                var category = categoryAttribute == null ? "Misc" : categoryAttribute.Category;
-                var isCoverageSetting = coverageSettingsPropertyNames.Contains(p.Name);
+                CategoryAttribute categoryAttribute = p.GetCustomAttribute<CategoryAttribute>();
+                string category = categoryAttribute == null ? "Misc" : categoryAttribute.Category;
+                bool isCoverageSetting = coverageSettingsPropertyNames.Contains(p.Name);
                 return new OptionPropertyInfoWithCategory(displayName, description, category, p.Name, isCoverageSetting);
             }).GroupBy(PropertyCategoryDisplayNameDescription => PropertyCategoryDisplayNameDescription.Category)
             .Select(g => new CategorizedOptionPropertyInfos(g.Key, g));
@@ -31,5 +31,4 @@ namespace FineCodeCoverage.Readme
         public string PageName { get; }
         public IEnumerable<CategorizedOptionPropertyInfos> PropertyCategories { get; }
     }
-
 }

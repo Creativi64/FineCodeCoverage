@@ -10,17 +10,14 @@ namespace FineCodeCoverage.Readme
     {
         private readonly ICommand navigateCommand;
 
-        public AutolinkInlineRenderer(ICommand navigateCommand)
-        {
-            this.navigateCommand = navigateCommand;
-        }
+        public AutolinkInlineRenderer(ICommand navigateCommand) => this.navigateCommand = navigateCommand;
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, AutolinkInline link)
         {
             if (renderer == null) throw new ArgumentNullException(nameof(renderer));
             if (link == null) throw new ArgumentNullException(nameof(link));
 
-            var url = link.Url;
+            string url = link.Url;
             if (link.IsEmail)
             {
                 url = "mailto:" + url;
@@ -33,7 +30,7 @@ namespace FineCodeCoverage.Readme
 
             var hyperlink = new Hyperlink
             {
-                Command = navigateCommand,
+                Command = this.navigateCommand,
                 CommandParameter = url,
                 NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 ToolTip = link.Url,

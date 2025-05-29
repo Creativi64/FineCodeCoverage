@@ -18,9 +18,9 @@ namespace FineCodeCoverage.Readme
 
         public void Setup(MarkdownPipelineBuilder pipeline) => pipeline.BlockParsers.AddIfNotAlready<MarkerBlockParser>();
 
-        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer) =>
-            renderer.ObjectRenderers.AddIfNotAlready(
-                () => new MarkerBlockRenderer(marker, () => new Block[] { this.tableCreator() })
+        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
+            => renderer.ObjectRenderers.AddIfNotAlready(
+                () => new MarkerBlockRenderer(this.marker, () => new Block[] { this.tableCreator() })
             );
     }
 }

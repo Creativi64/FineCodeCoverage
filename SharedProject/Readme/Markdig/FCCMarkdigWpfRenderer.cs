@@ -19,24 +19,24 @@ namespace FineCodeCoverage.Readme
         protected override void LoadRenderers()
         {
             // Notifying object renderers
-            ObjectRenderers.Add(new CodeBlockRenderer());
-            ObjectRenderers.Add(new HeadingRenderer());
-            ObjectRenderers.Add(new ParagraphRenderer());
-            ObjectRenderers.Add(new QuoteBlockRenderer());
-            ObjectRenderers.Add(new ThematicBreakRenderer());
-            ObjectRenderers.Add(new TableRenderer());
-            ObjectRenderers.Add(new TaskListRenderer());
-            ObjectRenderers.Add(new CodeInlineRenderer());
-            ObjectRenderers.Add(new EmphasisInlineRenderer());
-            ObjectRenderers.Add(new LinkInlineRenderer(this.readMeDirectory, FCCGithub.MasterBlob, this.navigateCommand));
-            ObjectRenderers.Add(new AutolinkInlineRenderer(this.navigateCommand));
+            this.ObjectRenderers.Add(new CodeBlockRenderer());
+            this.ObjectRenderers.Add(new HeadingRenderer());
+            this.ObjectRenderers.Add(new ParagraphRenderer());
+            this.ObjectRenderers.Add(new QuoteBlockRenderer());
+            this.ObjectRenderers.Add(new ThematicBreakRenderer());
+            this.ObjectRenderers.Add(new TableRenderer());
+            this.ObjectRenderers.Add(new TaskListRenderer());
+            this.ObjectRenderers.Add(new CodeInlineRenderer());
+            this.ObjectRenderers.Add(new EmphasisInlineRenderer());
+            this.ObjectRenderers.Add(new LinkInlineRenderer(this.readMeDirectory, FCCGithub.MasterBlob, this.navigateCommand));
+            this.ObjectRenderers.Add(new AutolinkInlineRenderer(this.navigateCommand));
 
             //markdig
-            ObjectRenderers.Add(new ListRenderer());
-            ObjectRenderers.Add(new LiteralInlineRenderer());
-            ObjectRenderers.Add(new DelimiterInlineRenderer());
-            ObjectRenderers.Add(new HtmlEntityInlineRenderer());
-            ObjectRenderers.Add(new LineBreakInlineRenderer());
+            this.ObjectRenderers.Add(new ListRenderer());
+            this.ObjectRenderers.Add(new LiteralInlineRenderer());
+            this.ObjectRenderers.Add(new DelimiterInlineRenderer());
+            this.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
+            this.ObjectRenderers.Add(new LineBreakInlineRenderer());
         }
     }
 }

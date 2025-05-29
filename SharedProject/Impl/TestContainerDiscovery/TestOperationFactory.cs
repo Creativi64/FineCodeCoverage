@@ -30,16 +30,14 @@ namespace FineCodeCoverage.Impl
         {
             try
             {
-                return new TestOperation(new TestRunRequest(operation), coverageProjectFactory, runSettingsRetriever);
+                return new TestOperation(new TestRunRequest(operation), this.coverageProjectFactory, this.runSettingsRetriever);
             }
             catch (PropertyDoesNotExistException propertyDoesNotExistException)
             {
-                await logger.LogAsync("Error test container discoverer reflection");
+                await this.logger.LogAsync("Error test container discoverer reflection");
                 throw new Exception(propertyDoesNotExistException.Message);
             }
         }
     }
 }
-
-
 

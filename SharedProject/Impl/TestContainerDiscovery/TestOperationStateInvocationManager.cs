@@ -26,13 +26,15 @@ namespace FineCodeCoverage.Impl
         {
             if (testOperationState == TestOperationStates.TestExecutionStarting)
             {
-                initializedWhenTestExecutionStarting = initializeStatusProvider.InitializeStatus == InitializeStatus.Initialized;
+                this.initializedWhenTestExecutionStarting = this.initializeStatusProvider.InitializeStatus == InitializeStatus.Initialized;
             }
-            if (!initializedWhenTestExecutionStarting)
+
+            if (!this.initializedWhenTestExecutionStarting)
             {
-                await logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
+                await this.logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
             }
-            return initializedWhenTestExecutionStarting;
+
+            return this.initializedWhenTestExecutionStarting;
         }
     }
 }

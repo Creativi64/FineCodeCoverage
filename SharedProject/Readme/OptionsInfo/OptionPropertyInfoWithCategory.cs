@@ -8,11 +8,8 @@
             string category,
             string name,
             bool isCoverageSetting)
-            : base(displayName, description, name, isCoverageSetting)
-        {
-            Category = category;
-        }
-        public string Category { get; }
+            : base(displayName, description, name, isCoverageSetting) => this.Category = category;
 
+        public string Category { get; }
     }
 }

@@ -11,9 +11,9 @@ namespace FineCodeCoverage.Readme
         {
             if (renderer == null) throw new ArgumentNullException(nameof(renderer));
             if (obj == null) throw new ArgumentNullException(nameof(obj));
-
-            Span span = null;
             MarkdownTypeMarker? markdownTypeMarker = null;
+
+            Span span;
             if (obj.DelimiterChar == '*' || obj.DelimiterChar == '_')
             {
                 span = obj.DelimiterCount == 2 ? (Span)new Bold() : new Italic();
@@ -35,9 +35,9 @@ namespace FineCodeCoverage.Readme
                         markdownTypeMarker = MarkdownTypeMarker.EmphasisInlineMarked;
                         break;
                 }
+
                 span = new Span();
             }
-
 
             if (span != null)
             {
@@ -49,11 +49,8 @@ namespace FineCodeCoverage.Readme
             {
                 renderer.WriteChildren(obj);
             }
-            if (markdownTypeMarker.HasValue)
-            {
-                return new ElementAndMarker(span, markdownTypeMarker.Value);
-            }
-            return null;
+
+            return markdownTypeMarker.HasValue ? new ElementAndMarker(span, markdownTypeMarker.Value) : null;
         }
     }
 }

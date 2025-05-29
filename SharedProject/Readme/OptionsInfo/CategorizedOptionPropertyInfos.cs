@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Readme
         public CategorizedOptionPropertyInfos(
             string category, IEnumerable<OptionPropertyInfo> optionPropertyInfos)
         {
-            Category = category;
-            OptionPropertyInfos = optionPropertyInfos;
+            this.Category = category;
+            this.OptionPropertyInfos = optionPropertyInfos;
         }
         public string Category { get; }
         public IEnumerable<OptionPropertyInfo> OptionPropertyInfos { get; }

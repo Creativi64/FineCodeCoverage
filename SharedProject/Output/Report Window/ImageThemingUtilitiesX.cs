@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Output
     {
         public static Color ThemeColor(Color color, Color backgroundColor)
         {
-            HslColor backgroundHsl = HslColor.FromColor(backgroundColor);
+            var backgroundHsl = HslColor.FromColor(backgroundColor);
             var baseR = color.R;
             var baseG = color.G;
             var baseB = color.B;
@@ -16,9 +16,6 @@ namespace FineCodeCoverage.Output
             return Color.FromArgb(255, baseR, baseG, baseB);
         }
         public static SolidColorBrush ThemeColorToSolidBrush(Color color, Color backgroundColor)
-        {
-            return new SolidColorBrush(ThemeColor(color, backgroundColor));
-        }
+            => new SolidColorBrush(ThemeColor(color, backgroundColor));
     }
-
 }

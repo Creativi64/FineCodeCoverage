@@ -16,6 +16,7 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public ToggleCoverageIndicatorsCommand(IEventAggregator eventAggregator) => this.eventAggregator = eventAggregator;
 
-        protected override void Execute(object sender, EventArgs e) => eventAggregator.SendMessage(new ToggleCoverageIndicatorsMessage());
+        protected override void Execute(object sender, EventArgs e)
+            => this.eventAggregator.SendMessage(new ToggleCoverageIndicatorsMessage());
     }
 }

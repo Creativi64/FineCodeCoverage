@@ -26,32 +26,28 @@ namespace FineCodeCoverage.Readme
         {
             if (Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
-                var localPath = Path.Combine(this.relativeRoot, url);
-                if (File.Exists(localPath))
-                {
-                    return localPath;
-                }
-                return new Uri(Path.Combine(this.githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
+                string localPath = Path.Combine(this.relativeRoot, url);
+                return File.Exists(localPath) ?
+                    localPath : new Uri(Path.Combine(this.githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
             }
+
             return url;
         }
 
         private string GetUrl(LinkInline link)
         {
-            var url = link.GetDynamicUrl != null ? link.GetDynamicUrl() ?? link.Url : link.Url;
+            string url = link.GetDynamicUrl != null ? link.GetDynamicUrl() ?? link.Url : link.Url;
 
-            return !Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ? "#" : EnsureAbsolute(url);
+            return !Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ? "#" : this.EnsureAbsolute(url);
         }
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, LinkInline link)
         {
-            ElementAndMarker elementAndMarker = null;
             if (renderer == null) throw new ArgumentNullException(nameof(renderer));
             if (link == null) throw new ArgumentNullException(nameof(link));
 
-            var url = GetUrl(link);
-
-
+            string url = this.GetUrl(link);
+            ElementAndMarker elementAndMarker;
             if (link.IsImage)
             {
                 string altText = (link.FirstChild as LiteralInline)?.Content.ToString() ?? string.Empty;
@@ -64,7 +60,7 @@ namespace FineCodeCoverage.Readme
                 if (link.Parent is LinkInline urlLinkInline)
                 {
                     command = this.navigateCommand;
-                    url = GetUrl(urlLinkInline);
+                    url = this.GetUrl(urlLinkInline);
                 }
 
                 var btn = new Button()
@@ -81,7 +77,7 @@ namespace FineCodeCoverage.Readme
             {
                 var hyperlink = new Hyperlink
                 {
-                    Command = navigateCommand,
+                    Command = this.navigateCommand,
                     CommandParameter = url,
                     NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 };
@@ -91,6 +87,7 @@ namespace FineCodeCoverage.Readme
                 renderer.WriteChildren(link);
                 renderer.Pop();
             }
+
             return elementAndMarker;
         }
     }

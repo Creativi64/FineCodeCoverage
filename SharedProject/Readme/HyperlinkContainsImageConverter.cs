@@ -10,7 +10,8 @@ namespace FineCodeCoverage.Readme
     {
         protected override bool Convert(object value, object parameter, CultureInfo culture)
             => value is InlineCollection source &&
-            source.FirstOrDefault() is InlineUIContainer inlineUiContainer
-            && inlineUiContainer.Child is Button button && button.Content is Image;
+            source.FirstOrDefault() is InlineUIContainer inlineUiContainer &&
+            inlineUiContainer.Child is Button button &&
+            button.Content is Image;
     }
 }

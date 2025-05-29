@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Output
             {
                 return "---";
             }
+
             double d = (double)percentValue / total;
             int decimals = 2;
 

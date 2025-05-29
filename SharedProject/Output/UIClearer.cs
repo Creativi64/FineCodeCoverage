@@ -18,13 +18,13 @@ namespace FineCodeCoverage.Output
             IEventAggregator eventAggregator
             )
         {
-            eventAggregator.AddListener(this);
-            solutionEvents.AfterClosing += (s, args) => ClearUI();
+            _ = eventAggregator.AddListener(this);
+            solutionEvents.AfterClosing += (s, args) => this.ClearUI();
             runOptionsProvider.OptionsChanged += (runOptions) =>
             {
                 if (!runOptions.Enabled)
                 {
-                    ClearUI();
+                    this.ClearUI();
                 }
             };
             this.eventAggregator = eventAggregator;
@@ -32,14 +32,10 @@ namespace FineCodeCoverage.Output
 
         public void ClearUI()
         {
-            eventAggregator.SendMessage(new ClearReportMessage());
-            eventAggregator.SendMessage(new ClearLinesMessage());
+            this.eventAggregator.SendMessage(new ClearReportMessage());
+            this.eventAggregator.SendMessage(new ClearLinesMessage());
         }
 
-        public void Handle(CoverageStartingMessage message)
-        {
-            eventAggregator.SendMessage(new ClearLinesMessage());
-        }
+        public void Handle(CoverageStartingMessage message) => this.eventAggregator.SendMessage(new ClearLinesMessage());
     }
-
 }

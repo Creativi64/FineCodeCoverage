@@ -8,13 +8,9 @@ namespace FineCodeCoverage.Output
     internal class BrushToSolidColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value as SolidColorBrush;
-        }
+            => value as SolidColorBrush;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

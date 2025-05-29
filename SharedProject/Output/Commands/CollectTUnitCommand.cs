@@ -17,12 +17,12 @@ namespace FineCodeCoverage.Output
 
         protected override void Initialized()
         {
-            this.Command.Enabled = tUnitCoverage.Ready;
-            tUnitCoverage.ReadyEvent += (_, __) => this.Command.Enabled = this.tUnitCoverage.Ready;
+            this.Command.Enabled = this.tUnitCoverage.Ready;
+            this.tUnitCoverage.ReadyEvent += (_, __) => this.Command.Enabled = this.tUnitCoverage.Ready;
         }
 
         protected override void Execute(object sender, EventArgs e) => this.tUnitCoverage.CollectCoverage();
 
-        public void SetVisible(bool isVisible) => Command.Visible = isVisible;
+        public void SetVisible(bool isVisible) => this.Command.Visible = isVisible;
     }
 }

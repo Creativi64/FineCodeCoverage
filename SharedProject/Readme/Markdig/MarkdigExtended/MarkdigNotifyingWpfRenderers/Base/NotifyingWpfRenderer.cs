@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Readme
         private List<INotifiyingObjectRenderer> notifyingObjectRenderers;
 
         private void NotifyingObjectRenderer_CreatedEvent(object sender, List<ElementAndMarker> elementAndMarkers)
-            => ElementAndMarkers.AddRange(elementAndMarkers);
+            => this.ElementAndMarkers.AddRange(elementAndMarkers);
 
         public override void LoadDocument(FlowDocument document)
         {
@@ -22,15 +22,16 @@ namespace FineCodeCoverage.Readme
 
         public override object Render(MarkdownObject markdownObject)
         {
-            var notifyingObjectRenderers = ObjectRenderers.OfType<INotifiyingObjectRenderer>();
-            foreach(var notifyingObjectRenderer in notifyingObjectRenderers)
+            IEnumerable<INotifiyingObjectRenderer> notifyingObjectRenderers = this.ObjectRenderers.OfType<INotifiyingObjectRenderer>();
+            foreach(INotifiyingObjectRenderer notifyingObjectRenderer in notifyingObjectRenderers)
             {
-                notifyingObjectRenderer.CreatedEvent += NotifyingObjectRenderer_CreatedEvent;
+                notifyingObjectRenderer.CreatedEvent += this.NotifyingObjectRenderer_CreatedEvent;
             }
+
             this.notifyingObjectRenderers = notifyingObjectRenderers.ToList();
-            var rendered = base.Render(markdownObject);
+            object rendered = base.Render(markdownObject);
             this.notifyingObjectRenderers.ForEach(notifyingObjectRenderer
-                => notifyingObjectRenderer.CreatedEvent -= NotifyingObjectRenderer_CreatedEvent);
+                => notifyingObjectRenderer.CreatedEvent -= this.NotifyingObjectRenderer_CreatedEvent);
             return rendered;
         }
     }

@@ -33,34 +33,32 @@ namespace FineCodeCoverage.Options
             this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
             this.jsonConvertService = jsonConvertService;
             this.defaultOptionsSetter = defaultOptionsSetter;
-            options = new TOptions();
-            defaultOptionsSetter.Set(options);
-            LazyOptionsPropertyDescriptorCollection = new Lazy<PropertyDescriptorCollection>(() => TypeDescriptor.GetProperties(typeof(TOptions)));
+            this.options = new TOptions();
+            defaultOptionsSetter.Set(this.options);
+            this.LazyOptionsPropertyDescriptorCollection = new Lazy<PropertyDescriptorCollection>(() => TypeDescriptor.GetProperties(typeof(TOptions)));
         }
 
-        private void RaiseOptionsChanged(TOptions options)
-        {
-            OptionsChanged?.Invoke(options);
-        }
+        private void RaiseOptionsChanged(TOptions options) => OptionsChanged?.Invoke(options);
 
-        public TOptions Get() => options;
+        public TOptions Get() => this.options;
 
         private WritableSettingsStore EnsureStore()
         {
-            var settingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
+            WritableSettingsStore settingsStore = this.writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
             if (!settingsStore.CollectionExists(Vsix.Code))
             {
                 settingsStore.CreateCollection(Vsix.Code);
             }
+
             return settingsStore;
         }
 
         void IDialogPageOptionsProvider<TOptions>.LoadSettingsFromStorage()
         {
             this.Initializing = true;
-            var settingsStore = EnsureStore();
+            WritableSettingsStore settingsStore = this.EnsureStore();
 
-            foreach (PropertyDescriptor property in LazyOptionsPropertyDescriptorCollection.Value)
+            foreach (PropertyDescriptor property in this.LazyOptionsPropertyDescriptorCollection.Value)
             {
                 try
                 {
@@ -69,75 +67,78 @@ namespace FineCodeCoverage.Options
                         continue;
                     }
 
-                    var strValue = settingsStore.GetString(Vsix.Code, property.Name);
+                    string strValue = settingsStore.GetString(Vsix.Code, property.Name);
 
                     if (string.IsNullOrWhiteSpace(strValue))
                     {
                         continue;
                     }
 
-                    var objValue = jsonConvertService.DeserializeObject(strValue, property.PropertyType);
-                    property.SetValue(options, objValue);
+                    object objValue = this.jsonConvertService.DeserializeObject(strValue, property.PropertyType);
+                    property.SetValue(this.options, objValue);
                 }
                 catch (Exception exception)
                 {
-                    logger.LogFileAndForget($"Failed to load '{property.Name}' setting", exception.ToString());
+                    this.logger.LogFileAndForget($"Failed to load '{property.Name}' setting", exception.ToString());
                 }
             }
+
             this.Initializing = false;
         }
 
-        void IDialogPageOptionsProvider<TOptions>.SaveSettingsToStorage() => SaveSettingsToStorage();
+        void IDialogPageOptionsProvider<TOptions>.SaveSettingsToStorage() => this.SaveSettingsToStorage();
 
-        TOptions IDialogPageOptionsProvider<TOptions>.Options => options;
+        TOptions IDialogPageOptionsProvider<TOptions>.Options => this.options;
 
-        void IProfileOptionsProvider.SaveSettingsToStorage() => SaveSettingsToStorage();
+        void IProfileOptionsProvider.SaveSettingsToStorage() => this.SaveSettingsToStorage();
 
-        public object Options => options;
+        public object Options => this.options;
 
         private void SaveSettingsToStorage()
         {
             if (!this.Initializing)
             {
-                SaveSettingsToStorageActual();
+                this.SaveSettingsToStorageActual();
             }
         }
 
         private void SaveSettingsToStorageActual()
         {
-            var settingsStore = EnsureStore();
+            WritableSettingsStore settingsStore = this.EnsureStore();
 
-            foreach (PropertyDescriptor property in LazyOptionsPropertyDescriptorCollection.Value)
+            foreach (PropertyDescriptor property in this.LazyOptionsPropertyDescriptorCollection.Value)
             {
                 try
                 {
-                    var objValue = property.GetValue(options);
-                    var strValue = jsonConvertService.SerializeObject(objValue);
+                    object objValue = property.GetValue(this.options);
+                    string strValue = this.jsonConvertService.SerializeObject(objValue);
 
                     settingsStore.SetString(Vsix.Code, property.Name, strValue);
                 }
                 catch (Exception exception)
                 {
-                    logger.LogFileAndForget($"Failed to save '{property.Name}' setting", exception.ToString());
+                    this.logger.LogFileAndForget($"Failed to save '{property.Name}' setting", exception.ToString());
                 }
             }
-            RaiseOptionsChanged(options);
+
+            this.RaiseOptionsChanged(this.options);
         }
 
         public void Reset()
         {
             this.Initializing = true;
-            foreach (PropertyDescriptor property in LazyOptionsPropertyDescriptorCollection.Value)
+            foreach (PropertyDescriptor property in this.LazyOptionsPropertyDescriptorCollection.Value)
             {
                 object defaultValue = property.PropertyType.IsValueType
                     ? Activator.CreateInstance(property.PropertyType)
                     : null;
 
-                property.SetValue(options, defaultValue);
+                property.SetValue(this.options, defaultValue);
             }
-            defaultOptionsSetter.Set(options);
+
+            this.defaultOptionsSetter.Set(this.options);
             this.Initializing = false;
-            SaveSettingsToStorage();
+            this.SaveSettingsToStorage();
         }
     }
 }

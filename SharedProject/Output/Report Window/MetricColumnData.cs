@@ -16,14 +16,11 @@ namespace FineCodeCoverage.Output
            double width,
            double minWidth = 100
        ) : base(reportColumnType, name, displayIndex, isVisible, headerAlignment, cellAlignment, width, minWidth)
-        {
-            this.MetricType = metricType;
-        }
+            => this.MetricType = metricType;
+
         public MetricColumnData(MetricType metricType, string reportColumnType, string name, int displayIndex, bool isVisible, double width, double minWidth = 100, HorizontalAlignment initialAlignment = HorizontalAlignment.Right)
             : base(reportColumnType, name, displayIndex, isVisible, initialAlignment, initialAlignment, width, minWidth)
-        {
-            this.MetricType = metricType;
-        }
+            => this.MetricType = metricType;
 
         public MetricType MetricType { get; }
     }

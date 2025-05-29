@@ -27,26 +27,23 @@ namespace FineCodeCoverage.Output
         protected override void Initialized()
         {
             this.Command.Enabled = false;
-            this.eventAggregator.AddListener(this);
+            _ = this.eventAggregator.AddListener(this);
         }
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (fileUtil.Exists(coberturaFile))
+            if (this.fileUtil.Exists(this.coberturaFile))
             {
-                this.vsOpenFile.OpenFileInDefaultViewer(coberturaFile);
+                this.vsOpenFile.OpenFileInDefaultViewer(this.coberturaFile);
             }
         }
 
-        public void Handle(OutdatedOutputMessage message)
-        {
-            Command.Enabled = false;
-        }
+        public void Handle(OutdatedOutputMessage message) => this.Command.Enabled = false;
 
         public void Handle(ReportFilesMessage message)
         {
             this.coberturaFile = message.CoberturaFile;
-            Command.Enabled = true;
+            this.Command.Enabled = true;
         }
     }
 }

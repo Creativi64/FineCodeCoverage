@@ -27,7 +27,6 @@ namespace FineCodeCoverage.Options
         [DisplayName("Coverlet Console Custom Path")]
         public string CoverletConsoleCustomPath { get; set; }
 
-
         #endregion
 
         #region collector category

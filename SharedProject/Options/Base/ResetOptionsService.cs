@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Options
                 "Reset Settings"
             ))
             {
-                foreach (var resetter in this.resetters)
+                foreach (IResetOptions resetter in this.resetters)
                 {
                     resetter.Reset();
                 }

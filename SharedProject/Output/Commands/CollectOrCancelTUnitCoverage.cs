@@ -32,5 +32,4 @@ namespace FineCodeCoverage.Output
             this.cancelCollectTUnitCommand.SetVisible(false);
         }
     }
-
 }
