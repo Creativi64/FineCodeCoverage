@@ -7,17 +7,17 @@ namespace FineCodeCoverage.Core.Coverlet
     {
         public bool Read(string runSettingsXml)
         {
-            var document = XDocument.Parse(runSettingsXml);
+            XDocument document = XDocument.Parse(runSettingsXml);
             //<DataCollector friendlyName=""XPlat code coverage"">
-            var coverletDataCollectorElement = document.Descendants("DataCollector").FirstOrDefault(dataCollector =>
+            XElement coverletDataCollectorElement = document.Descendants("DataCollector").FirstOrDefault(dataCollector =>
             {
-                var friendlyNameAttribute = dataCollector.Attribute("friendlyName");
+                XAttribute friendlyNameAttribute = dataCollector.Attribute("friendlyName");
                 return (friendlyNameAttribute == null ? "" : friendlyNameAttribute.Value) == "XPlat code coverage";
             });
 
             if (coverletDataCollectorElement != null)
             {
-                var enabledAttribute = coverletDataCollectorElement.Attribute("enabled");
+                XAttribute enabledAttribute = coverletDataCollectorElement.Attribute("enabled");
                 if (enabledAttribute == null)
                 {
                     CoverletDataCollectorState = CoverletDataCollectorState.Enabled;
@@ -32,12 +32,12 @@ namespace FineCodeCoverage.Core.Coverlet
                 return false;
             }
 
-            var configurationElement = coverletDataCollectorElement.Element("Configuration");
+            XElement configurationElement = coverletDataCollectorElement.Element("Configuration");
             if (configurationElement == null)
             {
                 return false;
             }
-            var configurationElements = configurationElement.Elements().ToList();
+            System.Collections.Generic.List<XElement> configurationElements = configurationElement.Elements().ToList();
             if (configurationElements.Count == 0)
             {
                 return false;
@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Core.Coverlet
             bool foundElements = false;
             this.GetType().GetProperties().ToList().ForEach(p =>
             {
-                var configurationPropertyElement = configurationElements.FirstOrDefault(e => e.Name == p.Name);
+                XElement configurationPropertyElement = configurationElements.FirstOrDefault(e => e.Name == p.Name);
                 if (configurationPropertyElement != null)
                 {
                     foundElements = true;

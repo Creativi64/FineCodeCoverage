@@ -4,16 +4,12 @@
     {
         public ReportContentTypeViewModel(ReportContentType reportContentType, string display)
         {
-            ReportContentType = reportContentType;
-            Display = display;
+            this.ReportContentType = reportContentType;
+            this.Display = display;
         }
 
         public ReportContentType ReportContentType { get; }
         public string Display { get; }
-        public override string ToString()
-        {
-            return Display;
-        }
+        public override string ToString() => this.Display;
     }
-
 }

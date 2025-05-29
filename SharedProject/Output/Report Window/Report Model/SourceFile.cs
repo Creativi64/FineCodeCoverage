@@ -14,15 +14,15 @@ namespace FineCodeCoverage.Output
         {
             this.Path = path;
             this.Classes = classes;
-            HasNewCode = hasNewCode;
+            this.HasNewCode = hasNewCode;
         }
 
         public string Path
         {
-            get => path;
+            get => this.path;
             set
             {
-                path = value;
+                this.path = value;
                 PathChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -35,5 +35,4 @@ namespace FineCodeCoverage.Output
             this.HasNewCodeChanged?.Invoke(this, EventArgs.Empty);
         }
     }
-
 }

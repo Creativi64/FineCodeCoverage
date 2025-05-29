@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Core.Utilities
         private readonly string resourcesDirectory;
         public ResourceProvider()
         {
-            var assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             resourcesDirectory = Path.Combine(assemblyDirectory, "Resources");
 
         }

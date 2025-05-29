@@ -64,9 +64,9 @@ namespace FineCodeCoverage.Engine.Coverlet
         private bool? GetUseDataCollectorFromProjectFile()
         {
             bool? useDataCollector = null;
-            var root = coverageProject.ProjectFileXElement;
-            var propertyGroups = root.Elements().Where(el => el.Name.LocalName == "PropertyGroup");
-            foreach (var propertyGroup in propertyGroups)
+            XElement root = coverageProject.ProjectFileXElement;
+            System.Collections.Generic.IEnumerable<XElement> propertyGroups = root.Elements().Where(el => el.Name.LocalName == "PropertyGroup");
+            foreach (XElement propertyGroup in propertyGroups)
             {
                 useDataCollector = UseDataCollector(propertyGroup);
                 if (useDataCollector.HasValue)
@@ -80,10 +80,10 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private bool? UseDataCollector(XElement xElement)
         {
-            var useDataCollectorElement = xElement.Elements().FirstOrDefault(ig => ig.Name.LocalName == "UseDataCollector");
+            XElement useDataCollectorElement = xElement.Elements().FirstOrDefault(ig => ig.Name.LocalName == "UseDataCollector");
             if (useDataCollectorElement != null)
             {
-                var useDataCollectorValue = useDataCollectorElement.Value.ToLower().Trim();
+                string useDataCollectorValue = useDataCollectorElement.Value.ToLower().Trim();
                 return useDataCollectorValue == "true" || useDataCollectorValue.Length == 0;
             }
             return null;
@@ -91,10 +91,10 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private async Task<bool?> GetUseDataCollectorElementAsync()
         {
-            var useDataCollector = GetUseDataCollectorFromProjectFile();
+            bool? useDataCollector = GetUseDataCollectorFromProjectFile();
             if (!useDataCollector.HasValue)
             {
-                var importedSettings = await vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
+                XElement importedSettings = await vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
                 if (importedSettings != null)
                 {
                     useDataCollector = UseDataCollector(importedSettings);
@@ -106,7 +106,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private async Task<bool> OverriddenFromProjectFileAsync()
         {
-            var useDataCollectorFromProjectFile = await GetUseDataCollectorElementAsync();
+            bool? useDataCollectorFromProjectFile = await GetUseDataCollectorElementAsync();
             if (useDataCollectorFromProjectFile.HasValue)
             {
                 return !useDataCollectorFromProjectFile.Value;
@@ -119,7 +119,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private async Task<bool> HasSetUseDataCollectorInProjectFileAsync()
         {
-            var useDataCollector = await GetUseDataCollectorElementAsync();
+            bool? useDataCollector = await GetUseDataCollectorElementAsync();
             return useDataCollector == true;
         }
 
@@ -130,7 +130,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             if (coverageProject.RunSettingsFile != null)
             {
-                var runSettingsXml = fileUtil.ReadAllText(coverageProject.RunSettingsFile);
+                string runSettingsXml = fileUtil.ReadAllText(coverageProject.RunSettingsFile);
 
                 runSettingsCoverletConfiguration.Read(runSettingsXml);
                 switch (runSettingsCoverletConfiguration.CoverletDataCollectorState)
@@ -149,7 +149,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private string GetSettings()
         {
-            var dataCollectorSettingsBuilder = dataCollectorSettingsBuilderFactory.Create();
+            IDataCollectorSettingsBuilder dataCollectorSettingsBuilder = dataCollectorSettingsBuilderFactory.Create();
             dataCollectorSettingsBuilder
                 .Initialize(coverageProject.Settings.RunSettingsOnly, coverageProject.RunSettingsFile, Path.Combine(coverageProject.CoverageOutputFolder, "FCC.runsettings"));
 
@@ -184,7 +184,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     SanitizeExcludesOrIncludes(coverageProject.Settings.ExcludeByAttribute),
                     runSettingsCoverletConfiguration.ExcludeByAttribute);
 
-            var projectIncludes = coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*");
+            System.Collections.Generic.IEnumerable<string> projectIncludes = coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*");
             if (coverageProject.Settings.Include != null)
             {
                 projectIncludes = projectIncludes.Concat(SanitizeExcludesOrIncludes(coverageProject.Settings.Include));
@@ -225,7 +225,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             if (!String.IsNullOrWhiteSpace(coverageProject.Settings.CoverletCollectorDirectoryPath))
             {
-                var directoryPath = coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
+                string directoryPath = coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
                 if (Directory.Exists(directoryPath))
                 {
                     await logger.LogAsync($"Using custom coverlet data collector : {directoryPath}");
@@ -237,11 +237,11 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public async Task RunAsync(CancellationToken cancellationToken)
         {
-            var settings = GetSettings();
+            string settings = GetSettings();
 
             await LogRunAsync(settings);
 
-            var result = await processUtil
+            ExecuteResponse result = await processUtil
             .ExecuteAsync(new ExecuteRequest
             {
                 FilePath = "dotnet",
@@ -283,8 +283,8 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
-            var testAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
+            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            string testAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             TestAdapterPathArg = $@"""{testAdapterPath}""";
         }
     }

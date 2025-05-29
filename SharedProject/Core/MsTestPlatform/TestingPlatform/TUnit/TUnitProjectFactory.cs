@@ -55,9 +55,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             */
             private async Task<bool?> UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync()
             {
-                var propertyNames = await commonProperties.GetPropertyNamesAsync();
-                var hasTestingPlatformCommandLineArgumentsPropertyName = false;
-                foreach (var propertyName in propertyNames)
+                System.Collections.Generic.IEnumerable<string> propertyNames = await commonProperties.GetPropertyNamesAsync();
+                bool hasTestingPlatformCommandLineArgumentsPropertyName = false;
+                foreach (string propertyName in propertyNames)
                 {
                     if (propertyName == FCCTestingPlatformCommandLineArgumentsPropertyName)
                     {
@@ -77,15 +77,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             private async Task ParseTestingPlatformCommandLineArgumentsAsync()
             {
-                var useFCCTestingPlatformCommandLineArgumentsPropertyName = await UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
+                bool? useFCCTestingPlatformCommandLineArgumentsPropertyName = await UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
                 if (!useFCCTestingPlatformCommandLineArgumentsPropertyName.HasValue)
                 {
                     CommandLineParseResult = CommandLineParseResult.Empty;
                 }
                 else
                 {
-                    var propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
-                    var testingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
+                    string propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
+                    string testingPlatformCommandLineArguments = await commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
 
                     CommandLineParseResult = commandLineParser.Parse(testingPlatformCommandLineArguments);
                 }
@@ -94,8 +94,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             private IDisposable SubscribeToPackageReferenceChanges(ConfiguredProject configuredProject)
             {
                 // there is ActiveConfiguredProjectSubscription but not available in 2019
-                var subscriptionService = configuredProject.Services.ProjectSubscription;
-                var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(ProjectUpdateAsync);
+                IProjectSubscriptionService subscriptionService = configuredProject.Services.ProjectSubscription;
+                ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>> receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(ProjectUpdateAsync);
                 return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: new string[] { "PackageReference" });
             }
 
@@ -136,7 +136,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 if (requiresUpdate)
                 {
-                    var installedPackagesResult = await tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), cancellationToken);
+                    TUnitInstalledPackageResult installedPackagesResult = await tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), cancellationToken);
                     if (installedPackagesResult.Status != InstalledPackageResultStatus.Successful)
                     {
                         // fallback but not transitive

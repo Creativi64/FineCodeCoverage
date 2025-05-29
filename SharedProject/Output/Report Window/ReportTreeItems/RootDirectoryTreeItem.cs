@@ -9,14 +9,11 @@ namespace FineCodeCoverage.Output
 
         public RootDirectoryTreeItem(IDirectory directory, string path, bool nameIsPath, SourceFileStructure sourceFileStructure) : base(directory, sourceFileStructure)
         {
-            this.name = Name;
+            this.name = this.Name;
             this.path = path;
-            SetName(nameIsPath);
+            this.SetName(nameIsPath);
         }
 
-        public void SetName(bool fromPath)
-        {
-            this.Name = fromPath ? path : name;
-        }
+        public void SetName(bool fromPath) => this.Name = fromPath ? this.path : this.name;
     }
 }

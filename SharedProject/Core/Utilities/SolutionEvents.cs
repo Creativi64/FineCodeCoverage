@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Core.Utilities
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                var vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
+                IVsSolution vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
                 Assumes.Present(vsSolution);
                 vsSolution.AdviseSolutionEvents(this, out uint _);
             });

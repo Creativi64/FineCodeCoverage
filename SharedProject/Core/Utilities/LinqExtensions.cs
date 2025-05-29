@@ -7,9 +7,9 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public static TTransformed SelectFirstNonNull<T, TTransformed>(this IEnumerable<T> source, Func<T, TTransformed> select) where TTransformed : class
         {
-            foreach (var element in source)
+            foreach (T element in source)
             {
-                var selected = select(element);
+                TTransformed selected = select(element);
                 if (selected != null)
                 {
                     return selected;

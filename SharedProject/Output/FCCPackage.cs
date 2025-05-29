@@ -75,7 +75,6 @@ namespace FineCodeCoverage.Output
 			https://developercommunity.visualstudio.com/t/vsix-tool-window-vs2022-different-instantiation-wh/1663280
 		*/
 
-
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -87,12 +86,12 @@ namespace FineCodeCoverage.Output
         {
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
-            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var componentModel = GetComponentModel();
-            InstantiateAllDialogPages();
-            await InitializeSolutionOptionsAsync(componentModel);
+            await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            IComponentModel componentModel = this.GetComponentModel();
+            this.InstantiateAllDialogPages();
+            await this.InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
-            await InitializeCommandsAsync(componentModel);
+            await this.InitializeCommandsAsync(componentModel);
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
@@ -102,66 +101,53 @@ namespace FineCodeCoverage.Output
             => typeof(FCCPackage).GetCustomAttributes<ProvideOptionPageAttribute>()
             .Select(a => a.PageType).ToList().ForEach(t => _ = this.GetDialogPage(t));
 
-        private IComponentModel GetComponentModel()
-        {
-            return (IComponentModel)GetGlobalService(typeof(SComponentModel));
-        }
+        private IComponentModel GetComponentModel() => (IComponentModel)GetGlobalService(typeof(SComponentModel));
 
         private async Task InitializeSolutionOptionsAsync(IComponentModel componentModel)
         {
-            await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
+            await this.JoinableTaskFactory.SwitchToMainThreadAsync(this.DisposalToken);
             this.solutionOptions = componentModel.GetService<ISolutionOptions>();
-            var keys = await solutionOptions.GetKeysAsync();
-            foreach (var key in keys)
+            System.Collections.Generic.IEnumerable<string> keys = await this.solutionOptions.GetKeysAsync();
+            foreach (string key in keys)
             {
-                AddOptionKey(key);
+                this.AddOptionKey(key);
             }
+
             var solutionPersistence = await this.GetServiceAsync(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
             Assumes.Present(solutionPersistence);
-            foreach (var key in keys)
+            foreach (string key in keys)
             {
-                solutionPersistence.LoadPackageUserOpts(this, key);
+                _ = solutionPersistence.LoadPackageUserOpts(this, key);
             }
         }
 
-        protected override void OnLoadOptions(string key, Stream stream)
-        {
-            solutionOptions.LoadOptions(key, stream);
-        }
+        protected override void OnLoadOptions(string key, Stream stream) => this.solutionOptions.LoadOptions(key, stream);
 
-        protected override void OnSaveOptions(string key, Stream stream)
-        {
-            solutionOptions.SaveOptions(key, stream);
-        }
-
+        protected override void OnSaveOptions(string key, Stream stream) => this.solutionOptions.SaveOptions(key, stream);
 
         private async Task InitializeCommandsAsync(IComponentModel componentModel)
         {
-            var commandPackageServices = await CommandPackageServices.CreateAsync(this, componentModel.GetService<ILogger>());
-            foreach (var command in componentModel.GetExtensions<ICommandInitializer>())
+            ICommandPackageServices commandPackageServices = await CommandPackageServices.CreateAsync(this, componentModel.GetService<ILogger>());
+            foreach (ICommandInitializer command in componentModel.GetExtensions<ICommandInitializer>())
             {
                 await command.InitializeAsync(commandPackageServices);
             }
         }
 
-        protected override Task<object> InitializeToolWindowAsync(Type toolWindowType, int id, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
-        }
+        protected override Task<object> InitializeToolWindowAsync(
+            Type toolWindowType,
+            int id,
+            CancellationToken cancellationToken
+        ) => Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
+
         public override IVsAsyncToolWindowFactory GetAsyncToolWindowFactory(Guid toolWindowType)
         {
-            var isToolWindowWithContext = ReflectionMEFToolWindowContextProvider.IsToolWindowWithContext(this.GetType(), toolWindowType);
+            bool isToolWindowWithContext = ReflectionMEFToolWindowContextProvider.IsToolWindowWithContext(this.GetType(), toolWindowType);
             return isToolWindowWithContext ? this : null;
         }
 
         protected override string GetToolWindowTitle(Type toolWindowType, int id)
-        {
-            if (toolWindowType == typeof(ReportToolWindow))
-            {
-                return $"{Vsix.Name} loading";
-            }
-
-            return base.GetToolWindowTitle(toolWindowType, id);
-        }
+            => toolWindowType == typeof(ReportToolWindow) ?
+                $"{Vsix.Name} loading" : base.GetToolWindowTitle(toolWindowType, id);
     }
 }

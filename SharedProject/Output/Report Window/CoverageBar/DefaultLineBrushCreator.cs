@@ -4,20 +4,19 @@ using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Output
 {
-    internal class DefaultLineBrushCreator : ILineBrushCreator
+    internal sealed class DefaultLineBrushCreator : ILineBrushCreator
     {
         private static readonly VsThemeLifetimeCache<Color, Brush> _cache = new VsThemeLifetimeCache<Color, Brush>();
         private DefaultLineBrushCreator() { }
         public Brush Create(Color penColor)
-        {
-            return _cache.GetOrAdd(penColor, () =>
+            => _cache.GetOrAdd(penColor, () =>
             {
-                var tile = 10;
-                var hash = false;
+                const int tile = 10;
+                const bool hash = false;
                 var line = new LineGeometry(
-                   new Point(0, tile),
-                   new Point(tile, 0)
-               );
+                    new Point(0, tile),
+                    new Point(tile, 0)
+                );
 
                 var geometryGroup = new GeometryGroup();
                 geometryGroup.Children.Add(line);
@@ -47,8 +46,6 @@ namespace FineCodeCoverage.Output
                 brush.Freeze();
                 return brush;
             });
-        }
         public static DefaultLineBrushCreator Instance { get; } = new DefaultLineBrushCreator();
     }
-
 }

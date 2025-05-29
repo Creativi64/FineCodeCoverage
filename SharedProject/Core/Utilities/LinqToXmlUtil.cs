@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static XElement Load(string path, bool removeNamespaces)
         {
-            var xelement = XElement.Parse(File.ReadAllText(path));
+            XElement xelement = XElement.Parse(File.ReadAllText(path));
 
             if (removeNamespaces)
             {
@@ -50,12 +50,12 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static XElement GetStrictDescendant(this XContainer element, string path)
         {
-            var names = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] names = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             if (names.Length == 0)
                 throw new ArgumentException("Empty path", nameof(path));
 
-            var result = element;
-            foreach (var name in names)
+            XContainer result = element;
+            foreach (string name in names)
             {
                 result = result.Element(name);
                 if (result == null)

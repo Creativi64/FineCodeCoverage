@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Readme
     {
         public MarkerBlock(string marker, MarkerBlockParser parser) : base(parser)
         {
-            Marker = marker;
+            this.Marker = marker;
         }
         public string Marker { get; }
     }

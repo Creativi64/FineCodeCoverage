@@ -46,9 +46,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             public static async Task<CoverageProjectsByType> CreateAsync(ITestOperation testOperation)
             {
-                var coverageProjects = await testOperation.GetCoverageProjectsAsync();
-                var coverageProjectsWithRunSettings = coverageProjects.Where(coverageProject => coverageProject.RunSettingsFile != null).ToList();
-                var coverageProjectsWithoutRunSettings = coverageProjects.Except(coverageProjectsWithRunSettings).ToList();
+                List<ICoverageProject> coverageProjects = await testOperation.GetCoverageProjectsAsync();
+                List<ICoverageProject> coverageProjectsWithRunSettings = coverageProjects.Where(coverageProject => coverageProject.RunSettingsFile != null).ToList();
+                List<ICoverageProject> coverageProjectsWithoutRunSettings = coverageProjects.Except(coverageProjectsWithRunSettings).ToList();
                 return new CoverageProjectsByType
                 {
                     All = coverageProjects,
@@ -108,7 +108,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
             fccMsTestAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             shimPath = Path.Combine(zipDestination, "build", "netstandard2.0", "CodeCoverage", "coreclr", "Microsoft.VisualStudio.CodeCoverage.Shim.dll");
             return Task.CompletedTask;
@@ -188,7 +188,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private async Task<IUserRunSettingsAnalysisResult> AnalyseUserRunSettingsAsync()
         {
-            var analysisResult = userRunSettingsService.Analyse(
+            IUserRunSettingsAnalysisResult analysisResult = userRunSettingsService.Analyse(
                     coverageProjectsByType.RunSettings,
                     useMsCodeCoverage,
                     fccMsTestAdapterPath
@@ -218,7 +218,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             string solutionDirectory
         )
         {
-            var generationResult = await templatedRunSettingsService.GenerateAsync(
+            IProjectRunSettingsFromTemplateResult generationResult = await templatedRunSettingsService.GenerateAsync(
                 coverageProjectsByType.Templated,
                 solutionDirectory,
                 fccMsTestAdapterPath
@@ -241,7 +241,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
             else
             {
-                var exceptionReason = generationResult.ExceptionReason;
+                IExceptionReason exceptionReason = generationResult.ExceptionReason;
                 await logger.LogAsync(exceptionReason.Reason, exceptionReason.Exception.ToString());
                 collectionStatus = MsCodeCoverageCollectionStatus.Error;
             }
@@ -250,8 +250,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private async Task CollectingWithTemplateAsync(IProjectRunSettingsFromTemplateResult generationResult, List<ICoverageProject> coverageProjectsForShim)
         {
             coverageProjectsForShim.AddRange(generationResult.CoverageProjectsWithFCCMsTestAdapter);
-            var leadingMessage = generationResult.CustomTemplatePaths.Any() ? $"{msCodeCoverageMessage} - custom template paths" : msCodeCoverageMessage;
-            var loggerMessages = new List<string> { leadingMessage }.Concat(generationResult.CustomTemplatePaths.Distinct());
+            string leadingMessage = generationResult.CustomTemplatePaths.Any() ? $"{msCodeCoverageMessage} - custom template paths" : msCodeCoverageMessage;
+            IEnumerable<string> loggerMessages = new List<string> { leadingMessage }.Concat(generationResult.CustomTemplatePaths.Distinct());
             await logger.LogAsync(loggerMessages);
             collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
         }
@@ -276,7 +276,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private async Task PrepareCoverageProjectsAsync()
         {
             await coverageOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjectsByType.All);
-            foreach (var coverageProject in coverageProjectsByType.All)
+            foreach (ICoverageProject coverageProject in coverageProjectsByType.All)
             {
                 await coverageProject.PrepareForCoverageAsync(CancellationToken.None, false);
             }
@@ -285,9 +285,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private void SetUserRunSettingsProjectDetails()
         {
             userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
-            foreach (var coverageProjectWithRunSettings in coverageProjectsByType.RunSettings)
+            foreach (ICoverageProject coverageProjectWithRunSettings in coverageProjectsByType.RunSettings)
             {
-                var userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
+                UserRunSettingsProjectDetails userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
                 {
                     Settings = coverageProjectWithRunSettings.Settings,
                     CoverageOutputFolder = coverageProjectWithRunSettings.CoverageOutputFolder,
@@ -322,7 +322,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             await CleanUpAsync(testOperation);
 
-            var coberturaFiles = GetCoberturaFiles(operation);
+            string[] coberturaFiles = GetCoberturaFiles(operation);
             if (coberturaFiles.Length == 0)
             {
                 await logger.LogAsync("No cobertura files for ms code coverage.");
@@ -333,8 +333,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private string[] GetCoberturaFiles(IOperation operation)
         {
-            var resultsUris = operation.GetRunSettingsMsDataCollectorResultUri();
-            var coberturaFiles = new string[0];
+            IEnumerable<Uri> resultsUris = operation.GetRunSettingsMsDataCollectorResultUri();
+            string[] coberturaFiles = new string[0];
             if (resultsUris != null)
             {
                 coberturaFiles = resultsUris.Select(uri => uri.LocalPath).Where(f => f.EndsWith(".cobertura.xml")).ToArray();

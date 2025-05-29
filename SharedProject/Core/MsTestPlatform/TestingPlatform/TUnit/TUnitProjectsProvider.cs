@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             this.tUnitProjectCache = tUnitProjectCache;
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
-                var solutionOpen = await solutionProjectsProvider.IsSolutionOpenAsync();
+                bool solutionOpen = await solutionProjectsProvider.IsSolutionOpenAsync();
                 if (solutionOpen)
                 {
                     OnReady(true);
@@ -77,14 +77,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             if (initializedCache)
             {
-                var project = e.Project;
+                IVsHierarchy project = e.Project;
                 if (e.Added)
                 {
                     addedProjects.Add(project);
                 }
                 else
                 {
-                    var removed = addedProjects.Remove(project);
+                    bool removed = addedProjects.Remove(project);
                     if (!removed)
                     {
                         tUnitProjectCache.Remove(e.Project);
@@ -108,9 +108,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<List<CpsProjectAndHierarchy>> GetCpsTestProjectsAndHierarchysAsync(IEnumerable<IVsHierarchy> projects)
         {
             List<CpsProjectAndHierarchy> cpsTestProjectsAndHierarchys = new List<CpsProjectAndHierarchy>();
-            foreach (var project in projects)
+            foreach (IVsHierarchy project in projects)
             {
-                var cpsTestProject = await cpsTestProjectService.GetProjectAsync(project);
+                ConfiguredProject cpsTestProject = await cpsTestProjectService.GetProjectAsync(project);
                 if (cpsTestProject != null)
                 {
                     cpsTestProjectsAndHierarchys.Add(new CpsProjectAndHierarchy(cpsTestProject, project));
@@ -121,11 +121,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<List<ITUnitProject>> GetTUnitProjectsAsync(IEnumerable<IVsHierarchy> projects)
         {
-            var potentialTUnitProjects = new List<ITUnitProject>();
-            var cpsTestProjectAndHierarchys = await GetCpsTestProjectsAndHierarchysAsync(projects);
-            foreach (var cpsTestProjectAndHierarchy in cpsTestProjectAndHierarchys)
+            List<ITUnitProject> potentialTUnitProjects = new List<ITUnitProject>();
+            List<CpsProjectAndHierarchy> cpsTestProjectAndHierarchys = await GetCpsTestProjectsAndHierarchysAsync(projects);
+            foreach (CpsProjectAndHierarchy cpsTestProjectAndHierarchy in cpsTestProjectAndHierarchys)
             {
-                var tUnitProject = tUnitProjectFactory.Create(cpsTestProjectAndHierarchy.Hierarchy, cpsTestProjectAndHierarchy.CpsProject);
+                ITUnitProject tUnitProject = tUnitProjectFactory.Create(cpsTestProjectAndHierarchy.Hierarchy, cpsTestProjectAndHierarchy.CpsProject);
                 potentialTUnitProjects.Add(tUnitProject);
             }
             return potentialTUnitProjects;
@@ -135,15 +135,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             if (!initializedCache)
             {
-                var solutionProjects = await solutionProjectsProvider.GetLoadedProjectsAsync(cancellationToken);
-                var potentialTUnitProjects = await GetTUnitProjectsAsync(solutionProjects);
+                List<IVsHierarchy> solutionProjects = await solutionProjectsProvider.GetLoadedProjectsAsync(cancellationToken);
+                List<ITUnitProject> potentialTUnitProjects = await GetTUnitProjectsAsync(solutionProjects);
                 tUnitProjectCache.Initialize(potentialTUnitProjects);
                 initializedCache = true;
             }
             else
             {
-                var newTUnitProjects = await GetTUnitProjectsAsync(addedProjects);
-                foreach (var newTUnitProject in newTUnitProjects)
+                List<ITUnitProject> newTUnitProjects = await GetTUnitProjectsAsync(addedProjects);
+                foreach (ITUnitProject newTUnitProject in newTUnitProjects)
                 {
                     tUnitProjectCache.Add(newTUnitProject);
                 }

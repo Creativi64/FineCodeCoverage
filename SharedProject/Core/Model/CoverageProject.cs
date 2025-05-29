@@ -31,14 +31,14 @@ namespace FineCodeCoverage.Engine.Model
             {
                 if (buildOutputPath == null)
                 {
-                    var adjacentBuildOutput = outputOptionsProvider.Get().AdjacentBuildOutput;
+                    bool adjacentBuildOutput = outputOptionsProvider.Get().AdjacentBuildOutput;
                     if (adjacentBuildOutput)
                     {
                         // Net framework - Debug | Debug-NET45
                         // SDK style - Debug/netcoreapp3.1 etc
-                        var projectOutputDirectory = new DirectoryInfo(ProjectOutputFolder);
-                        var projectOutputDirectoryName = projectOutputDirectory.Name;
-                        var containingDirectoryPath = projectOutputDirectory.Parent.FullName;
+                        DirectoryInfo projectOutputDirectory = new DirectoryInfo(ProjectOutputFolder);
+                        string projectOutputDirectoryName = projectOutputDirectory.Name;
+                        string containingDirectoryPath = projectOutputDirectory.Parent.FullName;
                         buildOutputPath = Path.Combine(containingDirectoryPath, $"{fccFolderName}-{projectOutputDirectoryName}");
                     }
                     else
@@ -218,7 +218,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private async Task SetIncludedExcludedReferencedProjectsAsync()
         {
-            var referencedProjects = await referencedProjectsHelper.GetReferencedProjectsAsync(ProjectFilePath, () => ProjectFileXElement);
+            List<IExcludableReferencedProject> referencedProjects = await referencedProjectsHelper.GetReferencedProjectsAsync(ProjectFilePath, () => ProjectFileXElement);
             SetExcludedReferencedProjects(referencedProjects);
             SetIncludedReferencedProjects(referencedProjects);
         }
@@ -233,7 +233,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private void SetExcludedReferencedProjects(List<IExcludableReferencedProject> referencedProjects)
         {
-            foreach (var referencedProject in referencedProjects)
+            foreach (IExcludableReferencedProject referencedProject in referencedProjects)
             {
                 if (referencedProject.ExcludeFromCodeCoverage)
                 {
@@ -291,8 +291,8 @@ namespace FineCodeCoverage.Engine.Model
         }
         private void CleanFCCDirectory()
         {
-            var exclusions = new List<string> { buildOutputFolderName, coverageToolOutputFolderName };
-            var fccDirectory = new DirectoryInfo(FCCOutputFolder);
+            List<string> exclusions = new List<string> { buildOutputFolderName, coverageToolOutputFolderName };
+            DirectoryInfo fccDirectory = new DirectoryInfo(FCCOutputFolder);
 
             fccDirectory.EnumerateFileSystemInfos().AsParallel().ForAll(fileOrDirectory =>
                {
@@ -317,9 +317,9 @@ namespace FineCodeCoverage.Engine.Model
 
         private CoverageProjectFileSynchronizationDetails SynchronizeBuildOutput()
         {
-            var start = DateTime.Now;
-            var logs = fileSynchronizationUtil.Synchronize(ProjectOutputFolder, BuildOutputPath, fccFolderName);
-            var duration = DateTime.Now - start;
+            DateTime start = DateTime.Now;
+            List<string> logs = fileSynchronizationUtil.Synchronize(ProjectOutputFolder, BuildOutputPath, fccFolderName);
+            TimeSpan duration = DateTime.Now - start;
             TestDllFile = Path.Combine(BuildOutputPath, Path.GetFileName(TestDllFile));
             return new CoverageProjectFileSynchronizationDetails
             {

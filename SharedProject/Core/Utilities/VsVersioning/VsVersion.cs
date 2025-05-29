@@ -68,7 +68,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         private string GetAppIdStringProperty(int propId)
         {
-            var vsAppId = this.serviceProvider.GetService(typeof(SVsAppId)) as IVsAppId;
+            IVsAppId vsAppId = this.serviceProvider.GetService(typeof(SVsAppId)) as IVsAppId;
             Assumes.Present(vsAppId);
             _ = vsAppId.GetProperty(propId, out object v);
             return v as string;

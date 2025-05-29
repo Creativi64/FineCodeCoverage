@@ -7,9 +7,9 @@ namespace FineCodeCoverage.Output
     {
         public SourceFileClass(string displayName, string path, IReadOnlyList<ICodeElement> codeElements)
         {
-            DisplayName = displayName;
-            CodeElements = codeElements;
-            FileCodeElements = new Dictionary<string, IReadOnlyList<ICodeElement>>
+            this.DisplayName = displayName;
+            this.CodeElements = codeElements;
+            this.FileCodeElements = new Dictionary<string, IReadOnlyList<ICodeElement>>
             {
                 {path, codeElements},
             };
@@ -18,5 +18,4 @@ namespace FineCodeCoverage.Output
         public IReadOnlyList<ICodeElement> CodeElements { get; }
         public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; }
     }
-
 }

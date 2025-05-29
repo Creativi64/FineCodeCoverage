@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Core.Utilities
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             if (projectHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage)
             {
-                var result = vsBuildPropertyStorage.GetPropertyValue(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE, out var v);
+                int result = vsBuildPropertyStorage.GetPropertyValue(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE, out string v);
                 if (result == VSConstants.S_OK && v == value)
                 {
                     return true;

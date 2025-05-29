@@ -24,95 +24,95 @@ namespace FineCodeCoverage.Output
             IOptionsProvider<ReportOptions> reportOptionsProvider
         )
         {
-            VSColorTheme.ThemeChanged += VsColorTheme_ThemeChanged;
-            GridLinesBrushKey = HeaderColors.SeparatorLineBrushKey;
-            BackgroundBrushKey = HeaderColors.DefaultBrushKey;
-            BackgroundIsMouseOverBrushKey = HeaderColors.MouseOverBrushKey;
-            BackgroundIsPressedBrushKey = HeaderColors.MouseDownBrushKey;
+            VSColorTheme.ThemeChanged += this.VsColorTheme_ThemeChanged;
+            this.GridLinesBrushKey = HeaderColors.SeparatorLineBrushKey;
+            this.BackgroundBrushKey = HeaderColors.DefaultBrushKey;
+            this.BackgroundIsMouseOverBrushKey = HeaderColors.MouseOverBrushKey;
+            this.BackgroundIsPressedBrushKey = HeaderColors.MouseDownBrushKey;
 
-            headerUseTabularSharedColors = reportOptionsProvider.Get().HeaderUseTabularSharedColors;
+            this.headerUseTabularSharedColors = reportOptionsProvider.Get().HeaderUseTabularSharedColors;
             reportOptionsProvider.OptionsChanged += (newOptions) =>
             {
-                var newHeaderUseTabularSharedColors = newOptions.HeaderUseTabularSharedColors;
-                if (headerUseTabularSharedColors != newHeaderUseTabularSharedColors)
+                bool newHeaderUseTabularSharedColors = newOptions.HeaderUseTabularSharedColors;
+                if (this.headerUseTabularSharedColors != newHeaderUseTabularSharedColors)
                 {
-                    headerUseTabularSharedColors = newHeaderUseTabularSharedColors;
-                    SetHeaderForegroundColors();
-                    OnPropertyChanged(nameof(ForegroundBrushKey));
-                    OnPropertyChanged(nameof(ForegroundIsMouseOverBrushKey));
-                    OnPropertyChanged(nameof(ForegroundIsPressedBrushKey));
+                    this.headerUseTabularSharedColors = newHeaderUseTabularSharedColors;
+                    this.SetHeaderForegroundColors();
+                    this.OnPropertyChanged(nameof(this.ForegroundBrushKey));
+                    this.OnPropertyChanged(nameof(this.ForegroundIsMouseOverBrushKey));
+                    this.OnPropertyChanged(nameof(this.ForegroundIsPressedBrushKey));
                 }
             };
-            SetHeaderForegroundColors();
+            this.SetHeaderForegroundColors();
         }
 
         private void VsColorTheme_ThemeChanged(EventArgs _)
         {
-            OnPropertyChanged(nameof(GridLinesBrushKey));
-            OnPropertyChanged(nameof(BackgroundBrushKey));
-            OnPropertyChanged(nameof(BackgroundIsMouseOverBrushKey));
-            OnPropertyChanged(nameof(BackgroundIsPressedBrushKey));
-            OnPropertyChanged(nameof(ForegroundBrushKey));
-            OnPropertyChanged(nameof(ForegroundIsMouseOverBrushKey));
-            OnPropertyChanged(nameof(ForegroundIsPressedBrushKey));
+            this.OnPropertyChanged(nameof(this.GridLinesBrushKey));
+            this.OnPropertyChanged(nameof(this.BackgroundBrushKey));
+            this.OnPropertyChanged(nameof(this.BackgroundIsMouseOverBrushKey));
+            this.OnPropertyChanged(nameof(this.BackgroundIsPressedBrushKey));
+            this.OnPropertyChanged(nameof(this.ForegroundBrushKey));
+            this.OnPropertyChanged(nameof(this.ForegroundIsMouseOverBrushKey));
+            this.OnPropertyChanged(nameof(this.ForegroundIsPressedBrushKey));
         }
 
         private void SetHeaderForegroundColors()
         {
-            if (headerUseTabularSharedColors)
+            if (this.headerUseTabularSharedColors)
             {
-                ForegroundBrushKey = EnvironmentColors.CommandBarTextActiveBrushKey;
-                ForegroundIsMouseOverBrushKey = EnvironmentColors.CommandBarTextHoverBrushKey;
-                ForegroundIsPressedBrushKey = EnvironmentColors.CommandBarTextSelectedBrushKey;
+                this.ForegroundBrushKey = EnvironmentColors.CommandBarTextActiveBrushKey;
+                this.ForegroundIsMouseOverBrushKey = EnvironmentColors.CommandBarTextHoverBrushKey;
+                this.ForegroundIsPressedBrushKey = EnvironmentColors.CommandBarTextSelectedBrushKey;
             }
             else
             {
-                ForegroundBrushKey = HeaderColors.DefaultTextBrushKey;
-                ForegroundIsMouseOverBrushKey = HeaderColors.MouseOverTextBrushKey;
-                ForegroundIsPressedBrushKey = HeaderColors.MouseDownTextBrushKey;
+                this.ForegroundBrushKey = HeaderColors.DefaultTextBrushKey;
+                this.ForegroundIsMouseOverBrushKey = HeaderColors.MouseOverTextBrushKey;
+                this.ForegroundIsPressedBrushKey = HeaderColors.MouseDownTextBrushKey;
             }
         }
 
         public ThemeResourceKey GridLinesBrushKey
         {
             get => this.gridLinesBrushKey;
-            set => this.Set(ref gridLinesBrushKey, value);
+            set => this.Set(ref this.gridLinesBrushKey, value);
         }
 
         public ThemeResourceKey BackgroundBrushKey
         {
             get => this.backgroundBrushKey;
-            set => this.Set(ref backgroundBrushKey, value);
+            set => this.Set(ref this.backgroundBrushKey, value);
         }
 
         public ThemeResourceKey BackgroundIsMouseOverBrushKey
         {
             get => this.backgroundIsMouseOverBrushKey;
-            set => this.Set(ref backgroundIsMouseOverBrushKey, value);
+            set => this.Set(ref this.backgroundIsMouseOverBrushKey, value);
         }
 
         public ThemeResourceKey BackgroundIsPressedBrushKey
         {
             get => this.backgroundIsPressedBrushKey;
-            set => this.Set(ref backgroundIsPressedBrushKey, value);
+            set => this.Set(ref this.backgroundIsPressedBrushKey, value);
         }
 
         public ThemeResourceKey ForegroundBrushKey
         {
             get => this.foregroundBrushKey;
-            set => this.Set(ref foregroundBrushKey, value);
+            set => this.Set(ref this.foregroundBrushKey, value);
         }
 
         public ThemeResourceKey ForegroundIsMouseOverBrushKey
         {
             get => this.foregroundIsMouseOverBrushKey;
-            set => this.Set(ref foregroundIsMouseOverBrushKey, value);
+            set => this.Set(ref this.foregroundIsMouseOverBrushKey, value);
         }
 
         public ThemeResourceKey ForegroundIsPressedBrushKey
         {
             get => this.foregroundIsPressedBrushKey;
-            set => this.Set(ref foregroundIsPressedBrushKey, value);
+            set => this.Set(ref this.foregroundIsPressedBrushKey, value);
         }
     }
 }

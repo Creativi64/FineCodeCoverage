@@ -13,10 +13,7 @@ namespace FineCodeCoverage.Output
         {
         }
 
-        protected override ReportViewSolutionOptionValue GetDefaultValue()
-        {
-            return ReportViewSolutionOptionValue.Default;
-        }
+        protected override ReportViewSolutionOptionValue GetDefaultValue() => ReportViewSolutionOptionValue.Default;
 
         public override string Key { get; protected set; } = "FCC_ReportView";
     }

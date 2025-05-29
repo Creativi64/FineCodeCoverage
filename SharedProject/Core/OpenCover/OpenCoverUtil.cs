@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
             openCoverExePath = fileUtil.GetFiles(zipDestination, "OpenCover.Console.exe", SearchOption.AllDirectories).First();
         }
 
@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             {
                 // deleting the pdb of the test assembly seems to work; this is a VERY VERY shameful hack :(
 
-                var testDllPdbFile = Path.Combine(project.ProjectOutputFolder, Path.GetFileNameWithoutExtension(project.TestDllFile)) + ".pdb";
+                string testDllPdbFile = Path.Combine(project.ProjectOutputFolder, Path.GetFileNameWithoutExtension(project.TestDllFile)) + ".pdb";
                 fileUtil.DeleteFile(testDllPdbFile);
 
                 // filtering out the test-assembly blows up the entire process and nothing gets instrumented or analysed
@@ -78,13 +78,13 @@ namespace FineCodeCoverage.Engine.OpenCover
         {
             DeleteTestPdbIfDoNotIncludeTestAssembly(project);
 
-            var openCoverSettings = openCoverExeArgumentsProvider.Provide(project, msTestPlatformUtil.MsTestPlatformExePath);
+            System.Collections.Generic.List<string> openCoverSettings = openCoverExeArgumentsProvider.Provide(project, msTestPlatformUtil.MsTestPlatformExePath);
 
-            var title = $"OpenCover Run ({project.ProjectName})";
+            string title = $"OpenCover Run ({project.ProjectName})";
 
             await logger.LogAsync($"{title} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", openCoverSettings)}");
 
-            var result = await processUtil
+            ExecuteResponse result = await processUtil
             .ExecuteAsync(new ExecuteRequest
             {
                 FilePath = GetOpenCoverExePath(project.Settings.OpenCoverCustomPath),

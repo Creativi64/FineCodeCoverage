@@ -20,9 +20,9 @@ namespace FineCodeCoverage.Core.Utilities
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                var trackProjectDocuments = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
+                IVsTrackProjectDocuments2 trackProjectDocuments = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
                 Assumes.Present(trackProjectDocuments);
-                trackProjectDocuments.AdviseTrackProjectDocumentsEvents(this, out var cookie);
+                trackProjectDocuments.AdviseTrackProjectDocumentsEvents(this, out uint cookie);
             });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
@@ -94,7 +94,7 @@ namespace FineCodeCoverage.Core.Utilities
             if (FileRenamedEvent != null)
             {
                 List<FileRename> fileRenames = new List<FileRename>();
-                for (var i = 0; i < cFiles; i++)
+                for (int i = 0; i < cFiles; i++)
                 {
                     fileRenames.Add(new FileRename(rgszMkOldNames[i], rgszMkNewNames[i]));
                 }

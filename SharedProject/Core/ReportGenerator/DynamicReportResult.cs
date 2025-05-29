@@ -92,10 +92,10 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 {
                     SetFileCodeElements();
                 }
-                foreach (var fileRename in fileRenames)
+                foreach (FileRename fileRename in fileRenames)
                 {
                     IReadOnlyList<DynamicCodeElement> codeElements = fileCodeElements[fileRename.NewFilePath];
-                    foreach (var dynamicCodeElement in codeElements)
+                    foreach (DynamicCodeElement dynamicCodeElement in codeElements)
                     {
                         dynamicCodeElement.Path = fileRename.NewFilePath;
                     }
@@ -112,7 +112,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
             public void FileRenamed(IReadOnlyList<FileRename> fileRenames)
             {
-                foreach (var cls in Classes)
+                foreach (IClass cls in Classes)
                 {
                     (cls as DynamicClass).FileRenamed(fileRenames);
                 }
@@ -127,7 +127,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         public void FileRenamed(IReadOnlyList<FileRename> fileRenames)
         {
-            foreach (var assembly in Assemblies)
+            foreach (IAssembly assembly in Assemblies)
             {
                 (assembly as DynamicAssembly).FileRenamed(fileRenames);
             }

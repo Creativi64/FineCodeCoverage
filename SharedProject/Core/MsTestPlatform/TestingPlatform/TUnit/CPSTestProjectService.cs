@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 return null;
             }
-            var unconfiguredProject = await hierarchy.AsUnconfiguredProjectAsync();
+            UnconfiguredProject unconfiguredProject = await hierarchy.AsUnconfiguredProjectAsync();
             if (unconfiguredProject == null) return null;
             return await unconfiguredProject.GetSuggestedConfiguredProjectAsync();
         }

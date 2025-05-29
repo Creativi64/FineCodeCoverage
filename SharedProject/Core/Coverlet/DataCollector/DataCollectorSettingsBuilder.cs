@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         public string Build()
         {
             GenerateRunSettings();
-            var args = new List<string>
+            IEnumerable<string> args = new List<string>
             {
                 ProjectDll,
                 Blame,
@@ -63,7 +63,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         #region run settings xml generation
         private void GenerateRunSettings()
         {
-            var runSettingsDocument = existingRunSettings == null ? GenerateFullRunSettings() : GenerateRunSettingsFromExisting();
+            XDocument runSettingsDocument = existingRunSettings == null ? GenerateFullRunSettings() : GenerateRunSettingsFromExisting();
             runSettingsDocument.Save(generatedRunSettingsPath);
         }
 
@@ -85,32 +85,32 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private XDocument GenerateRunSettingsFromExisting()
         {
-            var existingRunSettingsDocument = XDocument.Load(existingRunSettings);
-            var existingRunSettingsElement = existingRunSettingsDocument.Root;
-            var dataCollectionRunSettings = existingRunSettingsElement.Element("DataCollectionRunSettings");
+            XDocument existingRunSettingsDocument = XDocument.Load(existingRunSettings);
+            XElement existingRunSettingsElement = existingRunSettingsDocument.Root;
+            XElement dataCollectionRunSettings = existingRunSettingsElement.Element("DataCollectionRunSettings");
             if (dataCollectionRunSettings == null)
             {
                 existingRunSettingsElement.Add(DataCollectionRunSettings());
             }
             else
             {
-                var dataCollectors = dataCollectionRunSettings.Element("DataCollectors");
+                XElement dataCollectors = dataCollectionRunSettings.Element("DataCollectors");
                 if (dataCollectors == null)
                 {
                     dataCollectionRunSettings.Add(DataCollectors());
                 }
                 else
                 {
-                    var coverletCollectorElement = dataCollectors.Elements("DataCollector").FirstOrDefault(e =>
+                    XElement coverletCollectorElement = dataCollectors.Elements("DataCollector").FirstOrDefault(e =>
                     {
-                        var friendlyNameAttribute = e.Attribute("friendlyName");
+                        XAttribute friendlyNameAttribute = e.Attribute("friendlyName");
                         if (friendlyNameAttribute != null)
                         {
                             return string.Equals(friendlyNameAttribute.Value, "xplat code coverage", System.StringComparison.OrdinalIgnoreCase);
                         }
                         return false;
                     });
-                    var newCoverletCollector = GenerateDataCollectorElement();
+                    XElement newCoverletCollector = GenerateDataCollectorElement();
                     if (coverletCollectorElement != null)
                     {
                         coverletCollectorElement.ReplaceWith(newCoverletCollector);
@@ -131,7 +131,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         private XElement GenerateDataCollectorElement()
         {
-            var configurationElement = $@"<Configuration>
+            string configurationElement = $@"<Configuration>
                 {GetElementIfNotNull("Format", Format)}
                 {GetElementIfNotNull("Exclude", Exclude)}
                 {GetElementIfNotNull("Include", Include)}

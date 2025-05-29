@@ -10,12 +10,12 @@ namespace FineCodeCoverage.Output
             bool canUseRepositories
         )
         {
-            ReportStyle = optionValue.ReportStyle;
-            ReportContentType = optionValue.ReportContent;
-            SelectedRepositoryPath = optionValue.SelectedRepository;
-            SelectedBranchName = optionValue.SelectedBranchName;
-            RepositoryPaths = repositories;
-            CanUseRepositories = canUseRepositories;
+            this.ReportStyle = optionValue.ReportStyle;
+            this.ReportContentType = optionValue.ReportContent;
+            this.SelectedRepositoryPath = optionValue.SelectedRepository;
+            this.SelectedBranchName = optionValue.SelectedBranchName;
+            this.RepositoryPaths = repositories;
+            this.CanUseRepositories = canUseRepositories;
         }
 
         public ReportStyle ReportStyle { get; }
@@ -25,5 +25,4 @@ namespace FineCodeCoverage.Output
         public IReadOnlyList<string> RepositoryPaths { get; }
         public bool CanUseRepositories { get; }
     }
-
 }

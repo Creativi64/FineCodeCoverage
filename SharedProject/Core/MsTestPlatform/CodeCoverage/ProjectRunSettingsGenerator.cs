@@ -45,8 +45,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return Task.WhenAll(
                 coverageProjectsRunSettings.Select(coverageProjectRunSettings =>
                 {
-                    var coverageProject = coverageProjectRunSettings.CoverageProject;
-                    var projectRunSettingsFilePath = GeneratedProjectRunSettingsFilePath(coverageProject);
+                    ICoverageProject coverageProject = coverageProjectRunSettings.CoverageProject;
+                    string projectRunSettingsFilePath = GeneratedProjectRunSettingsFilePath(coverageProject);
                     return WriteProjectRunSettingsAsync(coverageProject.Id, coverageProject.ProjectName, projectRunSettingsFilePath, coverageProjectRunSettings.RunSettings);
                 })
             );
@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private async Task WriteProjectRunSettingsAsync(Guid projectGuid, string projectName, string projectRunSettingsFilePath, string projectRunSettings)
         {
-            var ok = await vsRunSettingsWriter.WriteRunSettingsFilePathAsync(projectGuid, projectRunSettingsFilePath);
+            bool ok = await vsRunSettingsWriter.WriteRunSettingsFilePathAsync(projectGuid, projectRunSettingsFilePath);
             if (ok)
             {
                 projectRunSettings = XDocument.Parse(projectRunSettings).FormatXml();

@@ -23,5 +23,4 @@ namespace FineCodeCoverage.Output
             return (d * 100).ToString($"F{decimals}", culture) + " %";
         }
     }
-
 }

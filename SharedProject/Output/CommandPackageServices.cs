@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Output
 
         public CommandPackageServices(AsyncPackage package, IMenuCommandService menuCommandService, ILogger logger)
         {
-            MenuCommandService = menuCommandService;
+            this.MenuCommandService = menuCommandService;
             this.logger = logger;
             this.package = package;
         }
@@ -21,15 +21,14 @@ namespace FineCodeCoverage.Output
         public CancellationToken DisposalToken { get; }
         public IMenuCommandService MenuCommandService { get; }
 
-        public void ShowOptionPage(Type optionsPageType)
-        {
-            this.package.ShowOptionPage(optionsPageType);
-        }
+        public void ShowOptionPage(Type optionsPageType) => this.package.ShowOptionPage(optionsPageType);
 
-        public Task<ToolWindowPane> ShowToolWindowAsync(Type toolWindowType, int id, bool create, CancellationToken cancellationToken)
-        {
-            return package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
-        }
+        public Task<ToolWindowPane> ShowToolWindowAsync(
+            Type toolWindowType,
+            int id,
+            bool create,
+            CancellationToken cancellationToken
+        ) => this.package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
 
         public static async Task<ICommandPackageServices> CreateAsync(AsyncPackage package, ILogger logger)
         {
@@ -38,18 +37,16 @@ namespace FineCodeCoverage.Output
         }
 
         public void RunAsyncWithExceptionLogging<T>(Func<Task<T>> asyncMethod)
-        {
-            package.JoinableTaskFactory.RunAsync(async () =>
+            => this.package.JoinableTaskFactory.RunAsync(async () =>
             {
                 try
                 {
-                    await asyncMethod();
+                    _ = await asyncMethod();
                 }
                 catch (Exception exception)
                 {
-                    await logger.LogAsync(exception.ToString());
+                    await this.logger.LogAsync(exception.ToString());
                 }
             }).FileAndForget("RunAsyncWithExceptionLogging");
-        }
     }
 }

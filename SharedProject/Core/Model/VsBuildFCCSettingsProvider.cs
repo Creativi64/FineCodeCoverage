@@ -28,9 +28,9 @@ namespace FineCodeCoverage.Engine.Model
         {
             XElement fccSettingsElement = null;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            if (vsSolution.GetProjectOfGuid(ref projectId, out var vsHierarchy) == VSConstants.S_OK)
+            if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
                 if (vsHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage)
                 {

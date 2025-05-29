@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         private async Task<CoverletDotNetToolDetails> ExecuteAndParseAsync(Func<IDotNetToolListExecutor, DotNetToolListExecutionResult> execution)
         {
             const string title = "Dotnet tool list Coverlet";
-            var result = execution(executor);
+            DotNetToolListExecutionResult result = execution(executor);
             if (result.ExitCode != 0)
             {
                 await logger.LogAsync($"{title} Error", result.Output);
@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 return null;
             }
 
-            var coverletConsoleTool = tools.FirstOrDefault(tool => tool.PackageId == CoverletPackageId);
+            DotNetToolInfo coverletConsoleTool = tools.FirstOrDefault(tool => tool.PackageId == CoverletPackageId);
             if (coverletConsoleTool == null)
             {
                 return null;

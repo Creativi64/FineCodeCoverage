@@ -26,9 +26,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
-            var cancelled = fCancelCommand == 1;
-            var nonFailed = fSucceeded == 1;
-            var anySucceeded = fModified == 1;
+            bool cancelled = fCancelCommand == 1;
+            bool nonFailed = fSucceeded == 1;
+            bool anySucceeded = fModified == 1;
 
             // Signal the task completion.
             _tcs.TrySetResult(fSucceeded != 0);

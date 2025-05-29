@@ -28,24 +28,24 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public async Task<List<IVsHierarchy>> GetLoadedProjectsAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             return GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
         }
 
         public async Task<bool> IsSolutionOpenAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out var isSolutionOpen);
+            vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object isSolutionOpen);
             return (bool)isSolutionOpen;
         }
 
         private List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var projects = new List<IVsHierarchy>();
-            var result = vsSolution.GetProjectEnum((uint)flags, Guid.Empty, out var enumHierarchies);
+            List<IVsHierarchy> projects = new List<IVsHierarchy>();
+            int result = vsSolution.GetProjectEnum((uint)flags, Guid.Empty, out IEnumHierarchies enumHierarchies);
             if (result == VSConstants.S_OK)
             {
                 IVsHierarchy[] rgelt = new IVsHierarchy[1];
@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     int hr = rgelt[0].GetGuidProperty(
                         VSConstants.VSITEMID_ROOT,
                         (int)__VSHPROPID.VSHPROPID_TypeGuid,
-                        out var typeGuid
+                        out Guid typeGuid
                     );
 
                     if (typeGuid != VSConstants.GUID_ItemType_VirtualFolder)

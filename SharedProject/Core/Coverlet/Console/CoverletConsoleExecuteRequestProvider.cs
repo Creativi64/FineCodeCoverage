@@ -33,9 +33,9 @@ namespace FineCodeCoverage.Engine.Coverlet
         // for now FCCCoverletConsoleExeProvider can return null for exe path
         public async Task<ExecuteRequest> GetExecuteRequestAsync(ICoverageProject project, string coverletSettings)
         {
-            foreach (var exeProvider in executors)
+            foreach (ICoverletConsoleExecutor exeProvider in executors)
             {
-                var executeRequest = await exeProvider.GetRequestAsync(project, coverletSettings);
+                ExecuteRequest executeRequest = await exeProvider.GetRequestAsync(project, coverletSettings);
                 if (executeRequest != null)
                 {
                     return executeRequest;

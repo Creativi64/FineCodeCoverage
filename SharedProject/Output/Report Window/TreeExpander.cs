@@ -32,13 +32,13 @@ namespace FineCodeCoverage.Output
             // Traverse roots using pointers
             while (newIndex < newRoots.Count && savedIndex < savedState.Roots.Count)
             {
-                var newRoot = newRoots[newIndex];
-                var savedRoot = savedState.Roots[savedIndex];
-                var newRootId = getId(newRoot);
+                T newRoot = newRoots[newIndex];
+                TreeExpansionState savedRoot = savedState.Roots[savedIndex];
+                string newRootId = this.getId(newRoot);
                 if (newRootId == savedRoot.Id)
                 {
                     // Recursively restore expansion state for the root and its children
-                    RestoreExpansionStateForNode(newRoot, savedRoot);
+                    this.RestoreExpansionStateForNode(newRoot, savedRoot);
                     newIndex++;
                     savedIndex++;
                 }
@@ -59,21 +59,21 @@ namespace FineCodeCoverage.Output
         {
             if (newTree == null || savedState == null)
                 return;
-            var newTreeId = getId(newTree);
+            string newTreeId = this.getId(newTree);
             if (newTreeId == savedState.Id)
             {
-                setIsExpanded(newTree);
+                this.setIsExpanded(newTree);
 
                 int newIndex = 0, savedIndex = 0;
-                var children = getChildren(newTree);
+                IList<T> children = this.getChildren(newTree);
                 while (newIndex < children.Count && savedIndex < savedState.Children.Count)
                 {
-                    var newChild = children[newIndex];
-                    var savedChild = savedState.Children[savedIndex];
-                    var newChildId = getId(newChild);
+                    T newChild = children[newIndex];
+                    TreeExpansionState savedChild = savedState.Children[savedIndex];
+                    string newChildId = this.getId(newChild);
                     if (newChildId == savedChild.Id)
                     {
-                        RestoreExpansionStateForNode(newChild, savedChild);
+                        this.RestoreExpansionStateForNode(newChild, savedChild);
                         newIndex++;
                         savedIndex++;
                     }
@@ -91,28 +91,28 @@ namespace FineCodeCoverage.Output
 
         private void SaveExpansionState(IList<T> roots)
         {
-            wrapper = new TreeExpansionStateWrapper();
+            this.wrapper = new TreeExpansionStateWrapper();
 
-            foreach (var root in roots)
+            foreach (T root in roots)
             {
-                var state = SaveExpansionStateForNode(root);
+                TreeExpansionState state = this.SaveExpansionStateForNode(root);
                 if (state != null)
                 {
-                    wrapper.Roots.Add(state);
+                    this.wrapper.Roots.Add(state);
                 }
             }
         }
 
         private TreeExpansionState SaveExpansionStateForNode(T item)
         {
-            if (!getIsExpanded(item))
+            if (!this.getIsExpanded(item))
                 return null;
 
-            var state = new TreeExpansionState { Id = getId(item) };
-            var children = getChildren(item);
-            foreach (var child in children)
+            var state = new TreeExpansionState { Id = this.getId(item) };
+            IList<T> children = this.getChildren(item);
+            foreach (T child in children)
             {
-                var childState = SaveExpansionStateForNode(child);
+                TreeExpansionState childState = this.SaveExpansionStateForNode(child);
                 if (childState != null)
                 {
                     state.Children.Add(childState);
@@ -137,10 +137,9 @@ namespace FineCodeCoverage.Output
         public void RestoreExpansionState(
             IList<T> oldItems, IList<T> newItems)
         {
-            SaveExpansionState(oldItems);
-            RestoreExpansionState(newItems, wrapper);
+            this.SaveExpansionState(oldItems);
+            this.RestoreExpansionState(newItems, this.wrapper);
             this.wrapper = null;
         }
     }
-
 }

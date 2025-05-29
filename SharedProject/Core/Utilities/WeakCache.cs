@@ -9,12 +9,12 @@ namespace FineCodeCoverage.Core.Utilities
 
         public TValue GetOrAdd(TKey key, Func<TValue> valueFactory)
         {
-            if (_cache.TryGetValue(key, out var weakRef) && weakRef.TryGetTarget(out var existing))
+            if (_cache.TryGetValue(key, out WeakReference<TValue> weakRef) && weakRef.TryGetTarget(out TValue existing))
             {
                 return existing;
             }
 
-            var value = valueFactory();
+            TValue value = valueFactory();
             _cache[key] = new WeakReference<TValue>(value);
             return value;
         }

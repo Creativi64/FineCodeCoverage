@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void CopyShim(string shimPath, IEnumerable<ICoverageProject> coverageProjects)
         {
-            foreach (var coverageProject in coverageProjects)
+            foreach (ICoverageProject coverageProject in coverageProjects)
             {
                 CopyShim(shimPath, coverageProject.ProjectOutputFolder);
             }
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public void Copy(string shimPath, IEnumerable<ICoverageProject> coverageProjects)
         {
-            var netFrameworkCoverageProjects = coverageProjects.Where(cp => cp.IsDotNetFramework);
+            IEnumerable<ICoverageProject> netFrameworkCoverageProjects = coverageProjects.Where(cp => cp.IsDotNetFramework);
             CopyShim(shimPath, netFrameworkCoverageProjects);
         }
     }

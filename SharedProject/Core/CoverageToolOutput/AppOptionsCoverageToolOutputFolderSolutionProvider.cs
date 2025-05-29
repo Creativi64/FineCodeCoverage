@@ -21,10 +21,10 @@ namespace FineCodeCoverage.Engine
 
         public string Provide(Func<string> solutionFolderProvider)
         {
-            var appOptions = outputOptionsProvider.Get();
+            OutputOptions appOptions = outputOptionsProvider.Get();
             if (!String.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
             {
-                var solutionFolder = solutionFolderProvider();
+                string solutionFolder = solutionFolderProvider();
                 if (solutionFolder != null)
                 {
                     return Path.Combine(solutionFolder, appOptions.FCCSolutionOutputDirectoryName);

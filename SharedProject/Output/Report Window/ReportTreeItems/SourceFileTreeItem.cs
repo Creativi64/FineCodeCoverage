@@ -16,18 +16,12 @@ namespace FineCodeCoverage.Output
         {
             this.sourceFile = sourceFile;
             this.Name = Path.GetFileName(sourceFile.Path);
-            sourceFile.HasNewCodeChanged += (_, __) =>
-            {
-                MainThreadHelper.SwitchAndFileAndForget(
+            sourceFile.HasNewCodeChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
-            };
-            sourceFile.PathChanged += (_, __) =>
-            {
-                MainThreadHelper.SwitchAndFileAndForget(
+                    () => this.HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
+            sourceFile.PathChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
                     () => this.Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
-            };
 
             this.ImageMoniker = KnownMonikers.TextFile;
             if (sourceFileStructure == SourceFileStructure.AsRequired)
@@ -37,6 +31,7 @@ namespace FineCodeCoverage.Output
                     SourceFileStructure.NamespaceAndClass :
                     SourceFileStructure.Class : SourceFileStructure.Method;
             }
+
             IEnumerable<ReportTreeItemBase> children = null;
             switch (sourceFileStructure)
             {
@@ -57,7 +52,8 @@ namespace FineCodeCoverage.Output
                     ));
                     break;
             }
-            foreach (var child in children)
+
+            foreach (ReportTreeItemBase child in children)
             {
                 child.Parent = this;
                 this.observableChildren.Add(child);
@@ -76,11 +72,8 @@ namespace FineCodeCoverage.Output
         private bool hasNewCode;
         public bool HasNewCode
         {
-            get => hasNewCode;
-            set
-            {
-                Set(ref hasNewCode, value);
-            }
+            get => this.hasNewCode;
+            set => this.Set(ref this.hasNewCode, value);
         }
         public override ImageMoniker ImageMoniker { get; }
     }

@@ -33,7 +33,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 Assumes.Present(this.solutionBuildManager2);
                 this.solutionBuildManager3 = this.solutionBuildManager2 as IVsSolutionBuildManager3;
                 buildStartEnd = new BuildStartEnd();
-                this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildStartEnd, out var cookie);
+                this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildStartEnd, out uint cookie);
                 buildStartEnd.BuildEvent += BuildStartEnd_BuildEvent;
             });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
@@ -60,14 +60,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<bool> BuildAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var buildHandler = new BuildCompletionHandler(cancellationToken);
+            BuildCompletionHandler buildHandler = new BuildCompletionHandler(cancellationToken);
             int hr = solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
             ErrorHandler.ThrowOnFailure(hr);
-            var succeeded = false;
+            bool succeeded = false;
             try
             {
                 building = true;
-                var result = solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
+                int result = solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
                     (uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD, 0, 1);
                 ErrorHandler.ThrowOnFailure(result);
                 succeeded = await buildHandler.BuildCompleted;
@@ -88,7 +88,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<bool> RequiresBuildAsync(CancellationToken cancellationToken)
         {
-            var respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;
+            bool respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;
             if (!respectOnlyBuildStartupProjectsAndDependenciesOnRun) return true;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             if (solutionBuildManager3 == null)

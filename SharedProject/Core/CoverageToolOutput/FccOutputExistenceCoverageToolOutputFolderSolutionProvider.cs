@@ -19,10 +19,10 @@ namespace FineCodeCoverage.Engine
 
         public string Provide(Func<string> solutionFolderProvider)
         {
-            var solutionFolder = solutionFolderProvider();
+            string solutionFolder = solutionFolderProvider();
             if (solutionFolder != null)
             {
-                var provided = Path.Combine(solutionFolder, fccOutputFolderName);
+                string provided = Path.Combine(solutionFolder, fccOutputFolderName);
                 if (fileUtil.DirectoryExists(provided))
                 {
                     return provided;

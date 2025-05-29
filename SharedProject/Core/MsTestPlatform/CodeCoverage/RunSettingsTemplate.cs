@@ -172,8 +172,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             bool isNetFramework
         )
         {
-            var replacedTestAdapter = HasReplaceableTestAdapter(runSettingsTemplate);
-            var replacedRunSettingsTemplate = Replace(runSettingsTemplate, replacements);
+            bool replacedTestAdapter = HasReplaceableTestAdapter(runSettingsTemplate);
+            string replacedRunSettingsTemplate = Replace(runSettingsTemplate, replacements);
 
             return new TemplateReplaceResult
             {
@@ -193,15 +193,15 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 throw new MsTemplateReplacementException(exc, replacedRunSettingsTemplate);
             }
-            var msDataCollectorCodeCoverageElement = GetMsDataCollectorCodeCoverageElement(templateDocument);
+            XElement msDataCollectorCodeCoverageElement = GetMsDataCollectorCodeCoverageElement(templateDocument);
             if (msDataCollectorCodeCoverageElement != null)
             {
-                var recommendedYouDoNotChangeElementsDetails = isNetFramework ? recommendedYouDoNotChangeElementsNetFramework : recommendedYouDoNotChangeElementsNetCore;
-                foreach (var recommendedYouDoNotChangeElementDetails in recommendedYouDoNotChangeElementsDetails)
+                List<(string elementName, string value)> recommendedYouDoNotChangeElementsDetails = isNetFramework ? recommendedYouDoNotChangeElementsNetFramework : recommendedYouDoNotChangeElementsNetCore;
+                foreach ((string elementName, string value) recommendedYouDoNotChangeElementDetails in recommendedYouDoNotChangeElementsDetails)
                 {
-                    var elementName = recommendedYouDoNotChangeElementDetails.elementName;
-                    var value = recommendedYouDoNotChangeElementDetails.value;
-                    var recommendedYouDoNotChangeElement = msDataCollectorCodeCoverageElement.Element(elementName);
+                    string elementName = recommendedYouDoNotChangeElementDetails.elementName;
+                    string value = recommendedYouDoNotChangeElementDetails.value;
+                    XElement recommendedYouDoNotChangeElement = msDataCollectorCodeCoverageElement.Element(elementName);
                     if (recommendedYouDoNotChangeElement == null)
                     {
                         msDataCollectorCodeCoverageElement.Add(XElement.Parse($"<{elementName}>{value}</{elementName}>"));
@@ -213,8 +213,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private XElement GetMsDataCollectorCodeCoverageElement(XDocument templateDocument)
         {
-            var dataCollectors = templateDocument.GetStrictDescendant("RunSettings/DataCollectionRunSettings/DataCollectors");
-            var msDataCollector = RunSettingsHelper.FindMsDataCollector(dataCollectors);
+            XElement dataCollectors = templateDocument.GetStrictDescendant("RunSettings/DataCollectionRunSettings/DataCollectors");
+            XElement msDataCollector = RunSettingsHelper.FindMsDataCollector(dataCollectors);
             return msDataCollector.GetStrictDescendant("Configuration/CodeCoverage");
         }
 
@@ -268,7 +268,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void AddIfNotPresent(XElement parent, Func<XElement, XElement> find, string elementAsString, Action<XElement> presentPath = null, bool addFirst = true)
         {
-            var child = find(parent);
+            XElement child = find(parent);
             if (child == null)
             {
                 if (addFirst)
@@ -291,7 +291,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             AddIfNotPresent(dataCollectors, _ => RunSettingsHelper.FindMsDataCollector(dataCollectors), MsDataCollectorElement, msDataCollector =>
             {
                 AddEnabledReplacementAttributeIfNotPresent(msDataCollector);
-                var msDataCollectorConfiguration = GetOrAddConfigurationElement(msDataCollector);
+                XElement msDataCollectorConfiguration = GetOrAddConfigurationElement(msDataCollector);
                 AddOrCorrectFormat(msDataCollectorConfiguration);
                 AddFCCGeneratedIfNotPresent(msDataCollectorConfiguration);
 
@@ -311,7 +311,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void AddEnabledReplacementAttributeIfNotPresent(XElement msDataCollector)
         {
-            var enabledAttribute = msDataCollector.Attribute("enabled");
+            XAttribute enabledAttribute = msDataCollector.Attribute("enabled");
             if (enabledAttribute == null)
             {
                 msDataCollector.Add(new XAttribute("enabled", replacementLookups.Enabled));
@@ -328,7 +328,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void AddOrCorrectFormat(XElement configuration)
         {
-            var formatElement = configuration.Element("Format");
+            XElement formatElement = configuration.Element("Format");
             if (formatElement == null)
             {
                 configuration.Add(new XElement("Format", "Cobertura"));
@@ -351,8 +351,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public string ConfigureCustom(string runSettingsTemplate)
         {
-            var runSettingsDocument = XDocument.Parse(runSettingsTemplate);
-            var runSettingsElement = runSettingsDocument.Element("RunSettings");
+            XDocument runSettingsDocument = XDocument.Parse(runSettingsTemplate);
+            XElement runSettingsElement = runSettingsDocument.Element("RunSettings");
 
             EnsureRunConfiguration(runSettingsElement);
             EnsureMsDataCollector(runSettingsElement);
@@ -363,7 +363,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public bool FCCGenerated(IXPathNavigable inputRunSettingDocument)
         {
-            var navigator = inputRunSettingDocument.CreateNavigator();
+            XPathNavigator navigator = inputRunSettingDocument.CreateNavigator();
             return navigator.SelectSingleNode($"//{fccMarkerElementName}") != null;
 
         }

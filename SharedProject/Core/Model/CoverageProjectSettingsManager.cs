@@ -38,9 +38,9 @@ namespace FineCodeCoverage.Engine.Model
 
         public async Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject)
         {
-            var settingsFilesElements = GetSettingsFilesElements(coverageProject);
-            var projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
-            var coverageSettings = GetSettingsFromOptions();
+            List<XElement> settingsFilesElements = GetSettingsFilesElements(coverageProject);
+            XElement projectSettingsElement = await coverageProjectSettingsProvider.ProvideAsync(coverageProject);
+            CoverageSettings coverageSettings = GetSettingsFromOptions();
             if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
             {
                 await settingsMerger.MergeAsync(
@@ -54,15 +54,15 @@ namespace FineCodeCoverage.Engine.Model
 
         private List<XElement> GetSettingsFilesElements(ICoverageProject coverageProject)
         {
-            var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
+            string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
             return fccSettingsFilesProvider.Provide(projectDirectory);
         }
 
         private void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
         {
-            var (newOldStyleExclude, newMsExclude) = AddCommon(
+            (string[] newOldStyleExclude, string[] newMsExclude) = AddCommon(
                 coverageSettings.Exclude, coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
-            var (newOldStyleInclude, newMsInclude) = AddCommon(
+            (string[] newOldStyleInclude, string[] newMsInclude) = AddCommon(
                 coverageSettings.Include, coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
             coverageSettings.Exclude = newOldStyleExclude;
             coverageSettings.Include = newOldStyleInclude;
@@ -76,15 +76,15 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return (oldStyle, ms);
             }
-            var newMs = ListFromExisting(ms);
-            var newOldStyle = ListFromExisting(oldStyle);
+            List<string> newMs = ListFromExisting(ms);
+            List<string> newOldStyle = ListFromExisting(oldStyle);
 
-            var nonWhitespaceCommon = common.Where(c => !string.IsNullOrWhiteSpace(c));
-            foreach (var assemblyFileName in nonWhitespaceCommon)
+            IEnumerable<string> nonWhitespaceCommon = common.Where(c => !string.IsNullOrWhiteSpace(c));
+            foreach (string assemblyFileName in nonWhitespaceCommon)
             {
-                var msModulePath = $".*\\{assemblyFileName}.dll$";
+                string msModulePath = $".*\\{assemblyFileName}.dll$";
                 newMs.Add(msModulePath);
-                var old = $"[{assemblyFileName}]*";
+                string old = $"[{assemblyFileName}]*";
                 newOldStyle.Add(old);
             }
 

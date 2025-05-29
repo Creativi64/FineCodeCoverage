@@ -10,10 +10,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public XElement ConvertToConfiguration(XElement runSettingsElement)
         {
-            var dataCollectorsElement = runSettingsElement.Element("DataCollectionRunSettings").Element("DataCollectors");
-            var codeCoverageDataCollectorElement = dataCollectorsElement.Elements().FirstOrDefault(dataCollectorElement =>
+            XElement dataCollectorsElement = runSettingsElement.Element("DataCollectionRunSettings").Element("DataCollectors");
+            XElement codeCoverageDataCollectorElement = dataCollectorsElement.Elements().FirstOrDefault(dataCollectorElement =>
             {
-                var friendlyName = dataCollectorElement.Attribute((XName)"friendlyName")?.Value ?? string.Empty;
+                string friendlyName = dataCollectorElement.Attribute((XName)"friendlyName")?.Value ?? string.Empty;
                 return friendlyName.Equals("Code Coverage", StringComparison.OrdinalIgnoreCase);
             });
             return codeCoverageDataCollectorElement?.Element("Configuration");

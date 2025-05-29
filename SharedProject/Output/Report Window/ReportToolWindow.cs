@@ -27,15 +27,12 @@ namespace FineCodeCoverage.Output
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
         /// </summary>
-        public ReportToolWindow(ReportToolWindowContext context) : base(null)
-        {
-            this.Initialize(context);
-        }
+        public ReportToolWindow(ReportToolWindowContext context) : base(null) => this.Initialize(context);
 
         public ReportToolWindow()
-        {
-            this.Initialize(ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>());
-        }
+            => this.Initialize(
+                ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>()
+            );
 
         private void Initialize(ReportToolWindowContext context)
         {
@@ -83,9 +80,9 @@ namespace FineCodeCoverage.Output
 
                 try
                 {
-                    var dllName = $"{assemblyName.Name}.dll";
-                    var projectDllPath = Path.GetDirectoryName(typeof(FCCEngine).Assembly.Location);
-                    var dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
+                    string dllName = $"{assemblyName.Name}.dll";
+                    string projectDllPath = Path.GetDirectoryName(typeof(FCCEngine).Assembly.Location);
+                    string dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
 
                     if (!string.IsNullOrWhiteSpace(dllPath))
                     {
@@ -105,7 +102,5 @@ namespace FineCodeCoverage.Output
 
             return null;
         }
-
-
     }
 }

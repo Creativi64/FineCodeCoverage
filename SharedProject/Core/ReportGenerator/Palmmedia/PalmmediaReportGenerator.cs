@@ -29,9 +29,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
         {
-            var empty = Enumerable.Empty<string>();
-            var defaultFilter = new DefaultFilter(new string[] { });
-            var config = new ReportConfiguration(
+            IEnumerable<string> empty = Enumerable.Empty<string>();
+            DefaultFilter defaultFilter = new DefaultFilter(new string[] { });
+            ReportConfiguration config = new ReportConfiguration(
                 new ReadOnlyCollection<string>(coverageFiles.ToList()),
                 reportDirectory,
                 empty,
@@ -45,9 +45,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 ""
                 );
 
-            var parser = new CoverageReportParser(1, 1, Enumerable.Empty<string>(), defaultFilter, defaultFilter, defaultFilter);
+            CoverageReportParser parser = new CoverageReportParser(1, 1, Enumerable.Empty<string>(), defaultFilter, defaultFilter, defaultFilter);
             ReadOnlyCollection<string> collection = new ReadOnlyCollection<string>(coverageFiles.ToList());
-            var parserResult = parser.ParseFiles(collection);
+            ParserResult parserResult = parser.ParseFiles(collection);
             new Generator().GenerateReport(config, parserResult);
             htmlFilesToFolder.Collate(reportDirectory);
             return new PalmmediaReportResult(parserResult);
@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             this.verbosityLevel = verbosityLevel;
             LoggerFactory.Configure((palmmediaVerbosityLevel, message) =>
             {
-                var shouldLog = true;
+                bool shouldLog = true;
                 if (palmmediaVerbosityLevel != PalmmediaVerbosityLevel.Error)
                 {
                     Match matched = this.fileDoesNotExistAnymoreRegex.Match(message);

@@ -4,11 +4,11 @@
     {
         public CoverageTooltipViewModel(double percentage, double covered, double coverable, int? partial)
         {
-            Percentage = percentage;
-            Covered = covered;
-            Coverable = coverable;
-            Uncovered = Coverable - Covered - (Partial ?? 0);
-            Partial = partial;
+            this.Percentage = percentage;
+            this.Covered = covered;
+            this.Coverable = coverable;
+            this.Uncovered = this.Coverable - this.Covered - (this.Partial ?? 0);
+            this.Partial = partial;
         }
 
         public double Percentage { get; }
@@ -17,5 +17,4 @@
         public double Coverable { get; }
         public int? Partial { get; }
     }
-
 }

@@ -12,15 +12,15 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
             Name = codeElement.Name;
             StartLine = codeElement.FirstLine;
-            var lineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
+            IEnumerable<LineVisitStatus> lineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
             .Take(codeElement.LastLine - codeElement.FirstLine + 1);
             SetLines(lineVisitStatuses);
 
             Path = codeFile.Path;
-            var methodMetrics = codeFile.MethodMetrics.FirstOrDefault(methodMetric => methodMetric.FullName == codeElement.FullName);
+            MethodMetric methodMetrics = codeFile.MethodMetrics.FirstOrDefault(methodMetric => methodMetric.FullName == codeElement.FullName);
             if (methodMetrics != null)
             {
-                var metricTypes = this.SetMetricProperties(methodMetrics.Metrics);
+                List<MetricType> metricTypes = this.SetMetricProperties(methodMetrics.Metrics);
                 PalmmediaReportResult.AddMetricTypes(metricTypes);
             }
             codeFile.BranchesByLine
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 .ToList()
                 .ForEach(kvp =>
                 {
-                    var branches = kvp.Value;
+                    ICollection<Branch> branches = kvp.Value;
                     TotalBranches += branches.Count;
                     BranchesCovered += branches.Count(b => b.BranchVisits > 0);
                 });
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         private void SetLines(IEnumerable<LineVisitStatus> lineVisitStatuses)
         {
-            var coberturaLines = new List<ICoberturaLine>();
+            List<ICoberturaLine> coberturaLines = new List<ICoberturaLine>();
             int lineNumber = StartLine;
             foreach (LineVisitStatus lineVisitStatus in lineVisitStatuses)
             {

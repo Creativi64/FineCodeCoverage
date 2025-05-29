@@ -14,14 +14,14 @@ namespace FineCodeCoverage.Core.Utilities
         }
         public IEnumerable<string> GetConfigDirectories(string upFromDirectory)
         {
-            var currentDirectory = new DirectoryInfo(upFromDirectory);
+            DirectoryInfo currentDirectory = new DirectoryInfo(upFromDirectory);
             while (true)
             {
                 if (DirectoryContainsConfig(currentDirectory))
                 {
                     yield return currentDirectory.FullName;
                 }
-                var parentDirectory = currentDirectory.Parent;
+                DirectoryInfo parentDirectory = currentDirectory.Parent;
                 if (parentDirectory != null)
                 {
                     currentDirectory = parentDirectory;

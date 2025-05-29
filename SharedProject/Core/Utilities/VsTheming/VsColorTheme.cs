@@ -73,11 +73,11 @@ namespace FineCodeCoverage.Core.Utilities
                 colorNameType = indexer.GetIndexParameters()[0].ParameterType;
             }
 
-            var vsColorName = Activator.CreateInstance(colorNameType, true);
+            object vsColorName = Activator.CreateInstance(colorNameType, true);
             ((dynamic)vsColorName).Category = colorName.Category;
             ((dynamic)vsColorName).Name = colorName.Name;
 
-            var colorEntry = indexer.GetValue(CurrentTheme, new object[] { vsColorName });
+            object colorEntry = indexer.GetValue(CurrentTheme, new object[] { vsColorName });
             if (colorEntry == null) return null;
             return new VsColorEntry(colorEntry, colorName);
         }

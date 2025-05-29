@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private static void AddExcludesOrIncludes(List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude)
         {
-            foreach (var value in excludesOrIncludes)
+            foreach (string value in excludesOrIncludes)
             {
                 coverletSettings.Add($@"--{(isInclude ? "include" : "exclude")} ""{value}""");
             }
@@ -37,7 +37,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             IEnumerable<string> includes,
             string projectName)
         {
-            var hasIncludes = projectIncludes.Any() || includes.Any();
+            bool hasIncludes = projectIncludes.Any() || includes.Any();
             if (!hasIncludes)
             {
                 return projectIncludes;
@@ -55,9 +55,9 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             AddExcludesOrIncludes(coverletSettings, SantitizeExcludeInclude(project.Settings.Exclude), false);
             AddProjectExcludesOrIncludes(coverletSettings, project.ExcludedReferencedProjects.Select(rp => rp.AssemblyName), false);
-            var includes = SantitizeExcludeInclude(project.Settings.Include);
+            IEnumerable<string> includes = SantitizeExcludeInclude(project.Settings.Include);
             AddExcludesOrIncludes(coverletSettings, includes, true);
-            var projectIncludes = project.IncludedReferencedProjects.Select(rp => rp.AssemblyName);
+            IEnumerable<string> projectIncludes = project.IncludedReferencedProjects.Select(rp => rp.AssemblyName);
             if (project.Settings.IncludeTestAssembly)
             {
                 projectIncludes = AddTestAssemblyIfNecessary(projectIncludes, includes, project.ProjectName);
@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public List<string> GetArguments(ICoverageProject project)
         {
-            var coverletSettings = new List<string>();
+            List<string> coverletSettings = new List<string>();
 
             coverletSettings.Add($@"""{project.TestDllFile}""");
 
@@ -75,14 +75,14 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             AddExcludesIncludes(coverletSettings, project);
 
-            foreach (var value in (project.Settings.ExcludeByFile ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x)))
+            foreach (string value in (project.Settings.ExcludeByFile ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 coverletSettings.Add($@"--exclude-by-file ""{value.Replace("\"", "\\\"").Trim(' ', '\'')}""");
             }
 
-            foreach (var value in SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(EnsureAttributeTypeUnqualified))
+            foreach (string value in SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(EnsureAttributeTypeUnqualified))
             {
-                var withoutAttributeBrackets = value.Trim('[', ']');
+                string withoutAttributeBrackets = value.Trim('[', ']');
                 coverletSettings.Add($"--exclude-by-attribute {value}");
             }
 
@@ -101,7 +101,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             coverletSettings.Add($@"--output ""{project.CoverageOutputFile}""");
 
-            var runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $@"--settings """"{project.RunSettingsFile}""""" : default;
+            string runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $@"--settings """"{project.RunSettingsFile}""""" : default;
             coverletSettings.Add($@"--targetargs ""test  """"{project.TestDllFile}"""" --nologo --blame {runSettings} --results-directory """"{project.CoverageOutputFolder}"""" --diag """"{project.CoverageOutputFolder}/diagnostics.log""""  """);
 
             return coverletSettings;

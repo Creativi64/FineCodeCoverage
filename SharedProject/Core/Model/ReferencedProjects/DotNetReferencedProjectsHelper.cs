@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
     {
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(VSProject vsProject)
         {
-            var referencedProjects = (await System.Threading.Tasks.Task.WhenAll(GetReferencedSourceProjects(vsProject).Select(GetReferencedProjectAsync))).ToList();
+            List<ReferencedProject> referencedProjects = (await System.Threading.Tasks.Task.WhenAll(GetReferencedSourceProjects(vsProject).Select(GetReferencedProjectAsync))).ToList();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 
@@ -28,17 +28,17 @@ namespace FineCodeCoverage.Engine.Model
         private async Task<ReferencedProject> GetReferencedProjectAsync(Project project)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var (assemblyName, isDll) = await GetAssemblyNameIsDllAsync(project);
+            (string assemblyName, bool isDll) = await GetAssemblyNameIsDllAsync(project);
             return new ReferencedProject(project.FullName, assemblyName, isDll);
         }
 
         private async Task<(string, bool)> GetAssemblyNameIsDllAsync(Project project)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var assemblyNameProperty = project.Properties.Item(nameof(ProjectProperties3.AssemblyName));
-            var assemblyName = assemblyNameProperty?.Value.ToString() ?? project.Name;
-            var outputTypeProperty = project.Properties.Item(nameof(ProjectProperties3.OutputType));
-            var isDll = true;
+            Property assemblyNameProperty = project.Properties.Item(nameof(ProjectProperties3.AssemblyName));
+            string assemblyName = assemblyNameProperty?.Value.ToString() ?? project.Name;
+            Property outputTypeProperty = project.Properties.Item(nameof(ProjectProperties3.OutputType));
+            bool isDll = true;
             if (outputTypeProperty != null)
             {
                 prjOutputType po = (prjOutputType)Enum.Parse(typeof(prjOutputType), outputTypeProperty.Value.ToString());

@@ -32,6 +32,6 @@ namespace FineCodeCoverage.Output
         private readonly IReadOnlyList<ICoberturaLine> lines;
         public override ImageMoniker ImageMoniker { get; }
         public int FileLine => this.lines[0].Number;
-        public string FilePath => codeElement.Path;
+        public string FilePath => this.codeElement.Path;
     }
 }

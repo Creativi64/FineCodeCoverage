@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Readme
     {
         public MarkerBlockParser()
         {
-            OpeningCharacters = new[] { '{' }; // trigger on `{`
+            this.OpeningCharacters = new[] { '{' }; // trigger on `{`
         }
 
         private string GetMarker(string text)
@@ -21,9 +21,9 @@ namespace FineCodeCoverage.Readme
 
         public override BlockState TryOpen(BlockProcessor processor)
         {
-            var line = processor.Line;
-            var text = line.ToString();
-            var marker = GetMarker(text);
+            Markdig.Helpers.StringSlice line = processor.Line;
+            string text = line.ToString();
+            string marker = this.GetMarker(text);
             if (marker != null)
             {
                 var block = new MarkerBlock(marker, this);

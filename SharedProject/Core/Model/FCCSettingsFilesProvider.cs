@@ -23,9 +23,9 @@ namespace FineCodeCoverage.Engine.Model
 
         public List<XElement> Provide(string projectDirectoryPath)
         {
-            var fccOptionsElements = new List<XElement>();
-            var directoryPath = projectDirectoryPath;
-            var ascend = true;
+            List<XElement> fccOptionsElements = new List<XElement>();
+            string directoryPath = projectDirectoryPath;
+            bool ascend = true;
             while (ascend)
             {
                 ascend = AddFromDirectory(fccOptionsElements, directoryPath);
@@ -47,14 +47,14 @@ namespace FineCodeCoverage.Engine.Model
 
         private bool AddFromDirectory(List<XElement> fccOptionsElements, string directory)
         {
-            var ascend = true;
-            var fccOptionsPath = GetFCCOptionsPath(directory);
+            bool ascend = true;
+            string fccOptionsPath = GetFCCOptionsPath(directory);
             if (fileUtil.Exists(fccOptionsPath))
             {
-                var fccOptions = fileUtil.ReadAllText(fccOptionsPath);
+                string fccOptions = fileUtil.ReadAllText(fccOptionsPath);
                 try
                 {
-                    var element = XElement.Parse(fccOptions);
+                    XElement element = XElement.Parse(fccOptions);
                     fccOptionsElements.Add(element);
                     ascend = !IsTopLevel(element);
                 }
@@ -70,8 +70,8 @@ namespace FineCodeCoverage.Engine.Model
 
         private bool IsTopLevel(XElement root)
         {
-            var topLevel = false;
-            var topLevelAttribute = root.Attribute(topLevelAttributeName);
+            bool topLevel = false;
+            XAttribute topLevelAttribute = root.Attribute(topLevelAttributeName);
             if (topLevelAttribute?.Value.ToLower() == "true")
             {
                 topLevel = true;

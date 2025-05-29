@@ -37,7 +37,7 @@ namespace FineCodeCoverage.Engine.Model
         private Dictionary<Type, List<PropertyInfo>> optionsTypeCoverageSettingsInterfacesPropertyLookup;
         public CoverageSettingsReflectionService()
         {
-            var interfaces = typeof(CoverageSettings).FindInterfaces((type, _) => type != typeof(ICoverageSettings), null);
+            Type[] interfaces = typeof(CoverageSettings).FindInterfaces((type, _) => type != typeof(ICoverageSettings), null);
             coverageSettingsInterfacesPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace, iFace => iFace.GetProperties());
             CoverageSettingsPropertyInfos = coverageSettingsInterfacesPropertyInfosLookup.Values.SelectMany(v => v).ToList();
         }
@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Engine.Model
            IEnumerable<object> coverageSettingsOptions
         )
         {
-            var optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option));
+            IEnumerable<OptionInfo> optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option));
             return GetOptionCoverageSettingsInterfacesPropertyInfos(optionInfos);
         }
 
@@ -65,12 +65,12 @@ namespace FineCodeCoverage.Engine.Model
         private void CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(IEnumerable<OptionInfo> optionInfos)
         {
             this.optionsTypeCoverageSettingsInterfacesPropertyLookup = new Dictionary<Type, List<PropertyInfo>>();
-            foreach (var optionInfo in optionInfos)
+            foreach (OptionInfo optionInfo in optionInfos)
             {
-                var optionInterfacesPropertyInfos = new List<PropertyInfo>();
-                foreach (var optionInterfaceType in optionInfo.InterfaceTypes)
+                List<PropertyInfo> optionInterfacesPropertyInfos = new List<PropertyInfo>();
+                foreach (Type optionInterfaceType in optionInfo.InterfaceTypes)
                 {
-                    if (coverageSettingsInterfacesPropertyInfosLookup.TryGetValue(optionInterfaceType, out var optionInterfacePropertyInfos))
+                    if (coverageSettingsInterfacesPropertyInfosLookup.TryGetValue(optionInterfaceType, out PropertyInfo[] optionInterfacePropertyInfos))
                     {
                         optionInterfacesPropertyInfos.AddRange(optionInterfacePropertyInfos);
                     }
@@ -83,9 +83,9 @@ namespace FineCodeCoverage.Engine.Model
 
         public CoverageSettings CreateCoverageSettingsFromOptions(IEnumerable<object> coverageSettingsOptions)
         {
-            var coverageSettings = new CoverageSettings();
+            CoverageSettings coverageSettings = new CoverageSettings();
 
-            foreach (var optionCoverageSettingsInterfacesPropertyInfos in GetOptionCoverageSettingsInterfacesPropertyInfos(coverageSettingsOptions))
+            foreach (OptionCoverageSettingsInterfacesPropertyInfos optionCoverageSettingsInterfacesPropertyInfos in GetOptionCoverageSettingsInterfacesPropertyInfos(coverageSettingsOptions))
             {
                 SetCovergeSettingsFromOptions(coverageSettings, optionCoverageSettingsInterfacesPropertyInfos);
             }
@@ -94,16 +94,16 @@ namespace FineCodeCoverage.Engine.Model
 
         private void SetCovergeSettingsFromOptions(CoverageSettings coverageSettings, OptionCoverageSettingsInterfacesPropertyInfos optionPropertyInfos)
         {
-            foreach (var property in optionPropertyInfos.PropertyInfos)
+            foreach (PropertyInfo property in optionPropertyInfos.PropertyInfos)
             {
-                var value = GetOptionValueCloneArrays(optionPropertyInfos.Option, property);
+                object value = GetOptionValueCloneArrays(optionPropertyInfos.Option, property);
                 property.SetValue(coverageSettings, value);
             }
         }
 
         private object GetOptionValueCloneArrays(object option, PropertyInfo property)
         {
-            var value = property.GetValue(option);
+            object value = property.GetValue(option);
             if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))
             {
                 if (property.PropertyType == typeof(string[]))

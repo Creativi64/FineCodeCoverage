@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             LazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
             {
-                var brokeredServiceContainer = serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
+                IBrokeredServiceContainer brokeredServiceContainer = serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
                 IServiceBroker serviceBroker = brokeredServiceContainer.GetFullAccessServiceBroker();
 #pragma warning disable ISB001 // Dispose of proxies
                 INuGetProjectService nugetProjectService = await serviceBroker.GetProxyAsync<INuGetProjectService>(NuGetServices.NuGetProjectServiceV1);

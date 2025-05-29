@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var assemblyName = new AssemblyName(args.Name);
+            AssemblyName assemblyName = new AssemblyName(args.Name);
 
             try
             {
@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Core.Utilities
 
                 try
                 {
-                    var assembly = Assembly.Load(assemblyName.Name);
+                    Assembly assembly = Assembly.Load(assemblyName.Name);
                     if (assembly != null) return assembly;
                 }
                 catch
@@ -61,13 +61,13 @@ namespace FineCodeCoverage.Core.Utilities
 
                 try
                 {
-                    var dllName = $"{assemblyName.Name}.dll";
-                    var projectDllPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    var dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
+                    string dllName = $"{assemblyName.Name}.dll";
+                    string projectDllPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    string dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
 
                     if (!string.IsNullOrWhiteSpace(dllPath))
                     {
-                        var assembly = Assembly.LoadFile(dllPath);
+                        Assembly assembly = Assembly.LoadFile(dllPath);
                         if (assembly != null) return assembly;
                     }
                 }

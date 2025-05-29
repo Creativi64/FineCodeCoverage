@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Core.Utilities
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 IVsShell vsShell = (IVsShell)serviceProvider.GetService(typeof(SVsShell));
                 Assumes.Present(vsShell);
-                vsShell.AdviseShellPropertyChanges(this, out var cookie);
+                vsShell.AdviseShellPropertyChanges(this, out uint cookie);
             });
 #pragma warning restore VSTHRD104 // Offer async methods
 

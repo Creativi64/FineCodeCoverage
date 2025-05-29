@@ -33,11 +33,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public async Task<bool> WriteRunSettingsFilePathAsync(Guid projectGuid, string projectRunSettingsFilePath)
         {
-            var success = false;
+            bool success = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            if (vsSolution.GetProjectOfGuid(ref projectGuid, out var vsHierarchy) == VSConstants.S_OK)
+            if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
                 success = await projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName, projectRunSettingsFilePath);
             }
@@ -47,11 +47,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public async Task<bool> RemoveRunSettingsFilePathAsync(Guid projectGuid)
         {
 
-            var ok = false;
+            bool ok = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            if (vsSolution.GetProjectOfGuid(ref projectGuid, out var vsHierarchy) == VSConstants.S_OK)
+            if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
                 ok = await projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName);
                 if (ok)

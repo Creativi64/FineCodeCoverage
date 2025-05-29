@@ -93,7 +93,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             List<string> customTemplatePaths = new List<string>();
             List<ICoverageProject> coverageProjectsWithFCCMsTestAdapter = new List<ICoverageProject>();
-            foreach (var templatedCoverageProjectRunSettingsResult in templatedCoverageProjectsRunSettingsResult)
+            foreach (TemplatedCoverageProjectRunSettingsResult templatedCoverageProjectRunSettingsResult in templatedCoverageProjectsRunSettingsResult)
             {
                 if (templatedCoverageProjectRunSettingsResult.ReplacedTestAdapter)
                 {
@@ -120,9 +120,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             return coverageProjects.Select(coverageProject =>
             {
-                var projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
-                var (replaceableTemplate, customTemplatePath) = GetRunSettingsTemplate(projectDirectory, solutionDirectory);
-                var templateReplaceResult = ReplaceTemplate(coverageProject, replaceableTemplate, fccMsTestAdapterPath);
+                string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
+                (string replaceableTemplate, string customTemplatePath) = GetRunSettingsTemplate(projectDirectory, solutionDirectory);
+                ITemplateReplacementResult templateReplaceResult = ReplaceTemplate(coverageProject, replaceableTemplate, fccMsTestAdapterPath);
 
                 return new TemplatedCoverageProjectRunSettingsResult
                 {
@@ -139,7 +139,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             string customPath = null;
             string replaceableTemplate;
-            var customRunSettingsTemplateDetails = customRunSettingsTemplateProvider.Provide(projectDirectory, solutionDirectory);
+            CustomRunSettingsTemplateDetails customRunSettingsTemplateDetails = customRunSettingsTemplateProvider.Provide(projectDirectory, solutionDirectory);
             if (customRunSettingsTemplateDetails != null)
             {
                 customPath = customRunSettingsTemplateDetails.Path;
@@ -154,7 +154,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private ITemplateReplacementResult ReplaceTemplate(ICoverageProject coverageProject, string replaceableTemplate, string fccMsTestAdapterPath)
         {
-            var replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, fccMsTestAdapterPath);
+            IRunSettingsTemplateReplacements replacements = runSettingsTemplateReplacementsFactory.Create(coverageProject, fccMsTestAdapterPath);
 
             return this.runSettingsTemplate.ReplaceTemplate(replaceableTemplate, replacements, coverageProject.IsDotNetFramework);
         }

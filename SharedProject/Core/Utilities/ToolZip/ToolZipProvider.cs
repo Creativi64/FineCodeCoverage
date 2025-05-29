@@ -16,12 +16,12 @@ namespace FineCodeCoverage.Core.Utilities
 
         public ZipDetails ProvideZip(string zipPrefix)
         {
-            var zipFolder = Path.Combine(ExtensionDirectory, ZippedToolsDirectoryName);
-            var matchingZipFiles = Directory.GetFiles(zipFolder, $"{zipPrefix}.*.zip");
-            var zipPath = matchingZipFiles[0];
+            string zipFolder = Path.Combine(ExtensionDirectory, ZippedToolsDirectoryName);
+            string[] matchingZipFiles = Directory.GetFiles(zipFolder, $"{zipPrefix}.*.zip");
+            string zipPath = matchingZipFiles[0];
 
-            var zipFileName = Path.GetFileName(zipPath);
-            var version = zipFileName.Replace($"{zipPrefix}.", "").Replace(".zip", "");
+            string zipFileName = Path.GetFileName(zipPath);
+            string version = zipFileName.Replace($"{zipPrefix}.", "").Replace(".zip", "");
 
             return new ZipDetails { Path = zipPath, Version = version };
         }

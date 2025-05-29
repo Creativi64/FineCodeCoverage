@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Output
         // might want a wrapper if FriendlyName is not distinct or expensive to get the branch again
         public IEnumerable<string> GetBranches()
         {
-            List<string> branches = new List<string>();
+            var branches = new List<string>();
             foreach (Branch branch in this._repository.Branches)
             {
                 if (branch.Tip != null)
@@ -35,45 +35,44 @@ namespace FineCodeCoverage.Output
                         branches.Add(branch.FriendlyName);
                 }
             }
+
             return branches;
         }
 
         private static bool IsMain(Branch branch)
-        {
-            return branch.FriendlyName.StartsWith("main") || branch.FriendlyName.StartsWith("master") || branch.FriendlyName.StartsWith("origin/main") || branch.FriendlyName.StartsWith("origin/master");
-        }
+            => branch.FriendlyName.StartsWith("main") ||
+            branch.FriendlyName.StartsWith("master") ||
+            branch.FriendlyName.StartsWith("origin/main")
+            || branch.FriendlyName.StartsWith("origin/master");
 
-        public bool HasBranch(string selectedBranchName)
-        {
-            return GetBranches().Any(b => b == selectedBranchName);
-        }
+        public bool HasBranch(string selectedBranchName) => this.GetBranches().Any(b => b == selectedBranchName);
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!this.disposedValue)
             {
                 if (disposing)
                 {
-                    _repository.Dispose();
+                    this._repository.Dispose();
                 }
-                disposedValue = true;
+
+                this.disposedValue = true;
             }
         }
-
 
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
+            this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
         public IDictionary<string, HashSet<int>> GetChangeset(string selectedBranchName)
         {
-            var selectedBranch = this._repository.Branches.FirstOrDefault(branch => branch.FriendlyName == selectedBranchName);
+            Branch selectedBranch = this._repository.Branches.FirstOrDefault(branch => branch.FriendlyName == selectedBranchName);
             if (selectedBranch == null) return null;
 
-            Dictionary<string, HashSet<int>> changeset = new Dictionary<string, HashSet<int>>();
+            var changeset = new Dictionary<string, HashSet<int>>();
             this.AddChanges(this._repository.Diff.Compare<Patch>(), changeset);
             this.AddChanges(this._repository.Diff.Compare<Patch>(selectedBranch.Tip.Tree, DiffTargets.Index), changeset);
             return changeset;
@@ -89,23 +88,26 @@ namespace FineCodeCoverage.Output
                     case ChangeKind.Modified:
                     case ChangeKind.Renamed:
                         string key = patchEntryChanges.Path.Replace("/", "\\");
-                        if (workingDirectory != null)
+                        if (this.workingDirectory != null)
                         {
-                            key = Path.Combine(workingDirectory, key);
+                            key = Path.Combine(this.workingDirectory, key);
                         }
+
                         HashSet<int> intSet;
                         if (!changeset.TryGetValue(key, out intSet))
                         {
                             intSet = new HashSet<int>();
                             changeset[key] = intSet;
                         }
+
                         using (List<Line>.Enumerator enumerator = patchEntryChanges.AddedLines.GetEnumerator())
                         {
                             while (enumerator.MoveNext())
                             {
                                 Line current = enumerator.Current;
-                                intSet.Add(current.LineNumber);
+                                _ = intSet.Add(current.LineNumber);
                             }
+
                             continue;
                         }
                     default:
@@ -118,12 +120,13 @@ namespace FineCodeCoverage.Output
         {
             try
             {
-                var _ = _repository.Info.IsHeadDetached;
+                bool _ = this._repository.Info.IsHeadDetached;
             }
             catch
             {
                 return true;
             }
+
             return false;
         }
     }

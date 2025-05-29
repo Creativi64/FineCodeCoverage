@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public async Task<ExecuteResponse> ExecuteAsync(ExecuteRequest request, CancellationToken cancellationToken)
         {
-            var commandTask = Cli
+            CommandTask<BufferedCommandResult> commandTask = Cli
             .Wrap(request.FilePath)
             .WithArguments(request.Arguments)
             .WithValidation(CommandResultValidation.None)
@@ -31,11 +31,11 @@ namespace FineCodeCoverage.Core.Utilities
                 cancellationToken.ThrowIfCancellationRequested();
             }
 
-            var exitCode = result.ExitCode;
+            int exitCode = result.ExitCode;
 
-            var outputList = new List<string>();
+            List<string> outputList = new List<string>();
 
-            var directOutput = string.Join(Environment.NewLine, new[]
+            string directOutput = string.Join(Environment.NewLine, new[]
             {
                 result.StandardOutput,
                 Environment.NewLine,
@@ -50,7 +50,7 @@ namespace FineCodeCoverage.Core.Utilities
                 outputList.Add(directOutput);
             }
 
-            var output = string.Join(Environment.NewLine, outputList)
+            string output = string.Join(Environment.NewLine, outputList)
             .Trim('\r', '\n')
             .Trim();
 

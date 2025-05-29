@@ -13,19 +13,19 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         private void AddFilter(ICoverageProject project, List<string> opencoverSettings)
         {
-            var includes = SanitizeExcludesOrIncludes(project.Settings.Include);
-            var excludes = SanitizeExcludesOrIncludes(project.Settings.Exclude).ToList();
+            IEnumerable<string> includes = SanitizeExcludesOrIncludes(project.Settings.Include);
+            List<string> excludes = SanitizeExcludesOrIncludes(project.Settings.Exclude).ToList();
 
-            var includedModules = project.IncludedReferencedProjects.ConvertAll(rp => rp.AssemblyName);
+            List<string> includedModules = project.IncludedReferencedProjects.ConvertAll(rp => rp.AssemblyName);
             if (project.Settings.IncludeTestAssembly && (includes.Any() || project.IncludedReferencedProjects.Any()))
             {
                 includedModules.Add(project.ProjectName);
             }
 
-            var includeFilters = GetExcludesOrIncludes(includes, includedModules, true);
-            var excludeFilters = GetExcludesOrIncludes(excludes, project.ExcludedReferencedProjects.Select(rp => rp.AssemblyName), false);
+            List<string> includeFilters = GetExcludesOrIncludes(includes, includedModules, true);
+            List<string> excludeFilters = GetExcludesOrIncludes(excludes, project.ExcludedReferencedProjects.Select(rp => rp.AssemblyName), false);
             AddIncludeAllIfExcludingWithoutIncludes();
-            var filters = includeFilters.Concat(excludeFilters).ToList();
+            List<string> filters = includeFilters.Concat(excludeFilters).ToList();
             SafeAddToSettingsDelimitedIfAny(opencoverSettings, "filter", filters, Delimiter.Space);
 
             void AddIncludeAllIfExcludingWithoutIncludes()
@@ -39,15 +39,15 @@ namespace FineCodeCoverage.Engine.OpenCover
             List<string> GetExcludesOrIncludes(
                 IEnumerable<string> excludesOrIncludes, IEnumerable<string> moduleExcludesOrIncludes, bool isInclude)
             {
-                var excludeOrIncludeFilters = new List<string>();
-                var includeExcludeSymbol = isInclude ? "+" : "-";
+                List<string> excludeOrIncludeFilters = new List<string>();
+                string includeExcludeSymbol = isInclude ? "+" : "-";
 
-                foreach (var value in excludesOrIncludes)
+                foreach (string value in excludesOrIncludes)
                 {
                     excludeOrIncludeFilters.Add($"{includeExcludeSymbol}{value}");
                 }
 
-                foreach (var moduleExcludeOrInclude in moduleExcludesOrIncludes)
+                foreach (string moduleExcludeOrInclude in moduleExcludesOrIncludes)
                 {
                     excludeOrIncludeFilters.Add($"{includeExcludeSymbol}[{moduleExcludeOrInclude}]*");
                 }
@@ -72,27 +72,27 @@ namespace FineCodeCoverage.Engine.OpenCover
         {
             if (settings.Any())
             {
-                var delimit = delimiter == Delimiter.Semicolon ? ";" : " ";
+                string delimit = delimiter == Delimiter.Semicolon ? ";" : " ";
                 opencoverSettings.Add($@"""-{settingName}:{string.Join(delimit, settings)}""");
             }
         }
 
         private void AddExcludeByFile(ICoverageProject project, List<string> opencoverSettings)
         {
-            var excludes = SanitizeExcludesOrIncludes(project.Settings.ExcludeByFile).ToList();
+            List<string> excludes = SanitizeExcludesOrIncludes(project.Settings.ExcludeByFile).ToList();
             SafeAddToSettingsDelimitedIfAny(opencoverSettings, "excludebyfile", excludes);
         }
 
         private void AddExcludeByAttribute(ICoverageProject project, List<string> opencoverSettings)
         {
-            var excludeFromCodeCoverageAttributes = new List<string>()
+            List<string> excludeFromCodeCoverageAttributes = new List<string>()
                 {
 					// coverlet knows these implicitly
 					"ExcludeFromCoverage",
                     "ExcludeFromCodeCoverage"
                 };
 
-            var excludes = SanitizeExcludesOrIncludes(project.Settings.ExcludeByAttribute)
+            IEnumerable<string> excludes = SanitizeExcludesOrIncludes(project.Settings.ExcludeByAttribute)
                 .Concat(excludeFromCodeCoverageAttributes)
                 .SelectMany(exclude => new[] { exclude, GetAlternateName(exclude) })
                 .OrderBy(exclude => exclude)
@@ -127,22 +127,22 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         private string GetTargetArgs(ICoverageProject project)
         {
-            var runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $" /Settings:{CommandLineArgumentsHelper.AddEscapeQuotes(project.RunSettingsFile)}" : default;
-            var openCoverTargetArgs = project.Settings.OpenCoverTargetArgs;
-            var additionalTargetArgs = !string.IsNullOrWhiteSpace(openCoverTargetArgs) ? $" {openCoverTargetArgs}" : default;
+            string runSettings = !string.IsNullOrWhiteSpace(project.RunSettingsFile) ? $" /Settings:{CommandLineArgumentsHelper.AddEscapeQuotes(project.RunSettingsFile)}" : default;
+            string openCoverTargetArgs = project.Settings.OpenCoverTargetArgs;
+            string additionalTargetArgs = !string.IsNullOrWhiteSpace(openCoverTargetArgs) ? $" {openCoverTargetArgs}" : default;
             return $@"""-targetargs:{CommandLineArgumentsHelper.AddEscapeQuotes(project.TestDllFile)}{runSettings}{additionalTargetArgs}""";
         }
 
         private void AddTargetAndTargetArgs(ICoverageProject project, List<string> opencoverSettings, string msTestPlatformExePath)
         {
-            var target = !string.IsNullOrWhiteSpace(project.Settings.OpenCoverTarget) ? project.Settings.OpenCoverTarget : msTestPlatformExePath;
+            string target = !string.IsNullOrWhiteSpace(project.Settings.OpenCoverTarget) ? project.Settings.OpenCoverTarget : msTestPlatformExePath;
             opencoverSettings.Add(CommandLineArgumentsHelper.AddQuotes($"-target:{target}"));
             opencoverSettings.Add(GetTargetArgs(project));
         }
 
         private string GetRegister(ICoverageProject project)
         {
-            var openCoverRegister = project.Settings.OpenCoverRegister;
+            OpenCoverRegister openCoverRegister = project.Settings.OpenCoverRegister;
             if (openCoverRegister == OpenCoverRegister.Default)
             {
                 return $":path{(project.Is64Bit ? "64" : "32")}";
@@ -156,7 +156,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         public List<string> Provide(ICoverageProject project, string msTestPlatformExePath)
         {
-            var opencoverSettings = new List<string>();
+            List<string> opencoverSettings = new List<string>();
             AddTargetAndTargetArgs(project, opencoverSettings, msTestPlatformExePath);
 
             opencoverSettings.Add(CommandLineArgumentsHelper.AddQuotes($"-output:{project.CoverageOutputFile}"));

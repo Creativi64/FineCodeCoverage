@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             logs = new List<string>();
             logs.Add("Report Generator - Output");
-            var reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
+            IReportResult reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
             await logger.LogAsync(logs);
             this.dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
             return new ReportGeneratorResult

@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Output
         {
             bool invert = false;
 
-            if (parameter is string s && bool.TryParse(s, out var parsed))
+            if (parameter is string s && bool.TryParse(s, out bool parsed))
             {
                 invert = parsed;
             }

@@ -123,27 +123,27 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<List<ITUnitCoverageProject>> GetEnabledTUnitProjectsAsync(CancellationToken cancellationToken)
         {
-            var tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(cancellationToken);
-            var tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateTUnitCoverageProjectAsync(tUnitProject, cancellationToken)));
+            List<ITUnitProject> tUnitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(cancellationToken);
+            ITUnitCoverageProject[] tUnitCoverageProjects = await Task.WhenAll(tUnitProjects.Select(tUnitProject => tUnitCoverageProjectFactory.CreateTUnitCoverageProjectAsync(tUnitProject, cancellationToken)));
             return tUnitCoverageProjects.Where(tp => tp.CoverageProject.Settings.Enabled).ToList();
         }
 
         private async Task CollectCoverageAsync()
         {
-            var cancellationToken = cancellationTokenSource.Token;
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
             await LogCoverageStartingAsync();
 
             OnCollectingChanged(true);//order important
             eventAggregator.SendMessage(new TestExecutionStartingMessage());
             eventAggregator.SendMessage(new CoverageStartingMessage());
 
-            var raiseCoverageEndedMessage = true;
+            bool raiseCoverageEndedMessage = true;
             try
             {
-                var tUnitCoverageProjects = await GetEnabledTUnitProjectsAsync(cancellationToken);
+                List<ITUnitCoverageProject> tUnitCoverageProjects = await GetEnabledTUnitProjectsAsync(cancellationToken);
                 if (tUnitCoverageProjects.Any())
                 {
-                    var success = await BuildAndCollectAsync(tUnitCoverageProjects, cancellationToken);
+                    bool success = await BuildAndCollectAsync(tUnitCoverageProjects, cancellationToken);
                     raiseCoverageEndedMessage = !success;
                 }
                 else
@@ -170,9 +170,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<bool> BuildAndCollectAsync(List<ITUnitCoverageProject> tUnitCoverageProjects, CancellationToken cancellationToken)
         {
-            var success = false;
+            bool success = false;
             await logger.LogAsync("Starting build");
-            var buildSuccess = await buildHelper.BuildAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy), cancellationToken);
+            bool buildSuccess = await buildHelper.BuildAsync(tUnitCoverageProjects.ConvertAll(tp => tp.VsHierarchy), cancellationToken);
             if (buildSuccess)
             {
                 success = await CollectCoverageAsync(tUnitCoverageProjects, cancellationToken);
@@ -188,16 +188,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             await logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
 
-            var coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
+            List<Engine.Model.ICoverageProject> coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
             cancellationToken.ThrowIfCancellationRequested();
             await coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
-            var runAllProjects = true;
+            bool runAllProjects = true;
             List<string> coberturaFiles = new List<string>();
-            foreach (var tUnitCoverageProject in tUnitCoverageProjects)
+            foreach (ITUnitCoverageProject tUnitCoverageProject in tUnitCoverageProjects)
             {
-                var tUnitSettings = await tUnitSettingsProvider.ProvideAsync(tUnitCoverageProject, cancellationToken);
-                var success = await tUnitCoverageRunner.RunAsync(tUnitSettings, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
+                TUnitSettings tUnitSettings = await tUnitSettingsProvider.ProvideAsync(tUnitCoverageProject, cancellationToken);
+                bool success = await tUnitCoverageRunner.RunAsync(tUnitSettings, tUnitCoverageProject.HasCoverageExtension, false, cancellationToken);
                 if (success)
                 {
                     coberturaFiles.Add(tUnitSettings.OutputPath);
@@ -222,7 +222,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
-            var tunitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
+            List<ITUnitProject> tunitProjects = await tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
             return !tunitProjects.Any();
         }
     }

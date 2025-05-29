@@ -6,8 +6,6 @@ namespace FineCodeCoverage.Output
     {
         public static CoveragePercentageBarOptionsViewModel Instance { get; }
         static CoveragePercentageBarOptionsViewModelProvider()
-        {
-            Instance = MefServiceProvider.Get<CoveragePercentageBarOptionsViewModel>();
-        }
+            => Instance = MefServiceProvider.Get<CoveragePercentageBarOptionsViewModel>();
     }
 }

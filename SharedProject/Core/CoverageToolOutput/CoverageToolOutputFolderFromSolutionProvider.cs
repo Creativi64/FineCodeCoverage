@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Engine
 
         public string Provide(List<ICoverageProject> coverageProjects)
         {
-            var provided = false;
+            bool provided = false;
             string providedDirectory = null;
             return solutionFolderProviders.SelectFirstNonNull(p => p.Value.Provide(() =>
             {

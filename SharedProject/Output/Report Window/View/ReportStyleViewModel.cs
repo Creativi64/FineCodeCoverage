@@ -4,15 +4,12 @@
     {
         public ReportStyleViewModel(ReportStyle reportStyle, string display)
         {
-            ReportStyle = reportStyle;
-            Display = display;
+            this.ReportStyle = reportStyle;
+            this.Display = display;
         }
 
         public ReportStyle ReportStyle { get; }
         public string Display { get; }
-        public override string ToString()
-        {
-            return Display;
-        }
+        public override string ToString() => this.Display;
     }
 }

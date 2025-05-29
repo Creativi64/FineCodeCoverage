@@ -88,7 +88,7 @@ namespace FineCodeCoverage.ReportGeneration
 
         private void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
-            var rootElement = new XElement("Hotspots", hotspots.Select(hotspot =>
+            XElement rootElement = new XElement("Hotspots", hotspots.Select(hotspot =>
             {
                 return new XElement("Hotspot",
                     new XElement("Assembly", hotspot.Assembly),
@@ -112,7 +112,7 @@ namespace FineCodeCoverage.ReportGeneration
 
         public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
         {
-            var riskHotspots = GetRiskhotspots(reportAssemblies, hotspotThresholdsOptionsProvider.Get());
+            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, hotspotThresholdsOptionsProvider.Get());
             WriteHotspotsToXml(riskHotspots, hotspotsPath);
         }
 

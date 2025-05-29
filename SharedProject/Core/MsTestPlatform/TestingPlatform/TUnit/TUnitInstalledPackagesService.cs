@@ -29,11 +29,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 return new TUnitInstalledPackageResult(InstalledPackageResultStatus.Unknown, false, false);
             }
 
-            var hasTUnit = false;
-            var hasCoverageExtension = false;
-            foreach (var packageReference in packageReferenceItems)
+            bool hasTUnit = false;
+            bool hasCoverageExtension = false;
+            foreach (System.Collections.Generic.KeyValuePair<string, IImmutableDictionary<string, string>> packageReference in packageReferenceItems)
             {
-                var id = packageReference.Key;
+                string id = packageReference.Key;
                 if (id == TUnitConstants.TUnitPackageId)
                 {
                     hasTUnit = true;
@@ -53,15 +53,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public async Task<TUnitInstalledPackageResult> GetTUnitInstalledPackagesAsync(Guid projectGuid, CancellationToken cancellationToken)
         {
-            var nugetProjectService = await lazyNugetProjectService.GetValueAsync();
-            var result = await nugetProjectService.GetInstalledPackagesAsync(projectGuid, cancellationToken);
+            INuGetProjectService nugetProjectService = await lazyNugetProjectService.GetValueAsync();
+            InstalledPackagesResult result = await nugetProjectService.GetInstalledPackagesAsync(projectGuid, cancellationToken);
             if (result.Status == InstalledPackageResultStatus.Successful)
             {
-                var hasTUnit = false;
-                var hasCoverageExtension = false;
-                foreach (var package in result.Packages)
+                bool hasTUnit = false;
+                bool hasCoverageExtension = false;
+                foreach (NuGetInstalledPackage package in result.Packages)
                 {
-                    var id = package.Id;
+                    string id = package.Id;
                     if (id == TUnitConstants.TUnitPackageId)
                     {
                         hasTUnit = true;

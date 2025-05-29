@@ -11,13 +11,11 @@ namespace FineCodeCoverage.Output
         public ClassTreeItem(IClass clss)
         {
             this.Name = clss.DisplayName.Split('.').Last();
-            IEnumerable<CodeElementTreeItem> codeElements = clss.CodeElements.Select(codeElement =>
-            {
-                return new CodeElementTreeItem(codeElement)
+            IEnumerable<CodeElementTreeItem> codeElements = clss.CodeElements.Select(
+                codeElement => new CodeElementTreeItem(codeElement)
                 {
                     Parent = this
-                };
-            });
+                });
 
             foreach (CodeElementTreeItem codeElement in codeElements)
             {

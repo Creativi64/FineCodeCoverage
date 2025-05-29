@@ -7,10 +7,7 @@ namespace FineCodeCoverage.Output
     {
         private bool _isExpanded;
         internal readonly ObservableCollection<ReportTreeItemBase> observableChildren = new ObservableCollection<ReportTreeItemBase>();
-        protected ReportTreeItemBase()
-        {
-            this.Children = this.observableChildren;
-        }
+        protected ReportTreeItemBase() => this.Children = this.observableChildren;
 
         public abstract ImageMoniker ImageMoniker { get; }
         private string _name;
@@ -55,7 +52,6 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this.cyclomaticComplexity, value);
         }
 
-
         private int npathComplexity;
         public int NPathComplexity
         {
@@ -82,10 +78,7 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this.coveredBranches, value);
         }
 
-        public int NotCoveredBranches
-        {
-            get => this.TotalBranches - this.CoveredBranches;
-        }
+        public int NotCoveredBranches => this.TotalBranches - this.CoveredBranches;
         public override bool IsExpanded
         {
             get => this._isExpanded;

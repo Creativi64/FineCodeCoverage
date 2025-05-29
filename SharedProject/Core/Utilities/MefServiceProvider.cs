@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             get
             {
-                var componentModel = TestComponentModel ?? VsComponentModel;
+                IComponentModel componentModel = TestComponentModel ?? VsComponentModel;
                 return componentModel ?? throw new InvalidOperationException("IComponentModel service not available.");
             }
         }

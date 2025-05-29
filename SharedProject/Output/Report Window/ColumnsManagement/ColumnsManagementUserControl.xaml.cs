@@ -4,9 +4,6 @@ namespace FineCodeCoverage.Output
 {
     internal partial class ColumnsManagementUserControl : UserControl
     {
-        public ColumnsManagementUserControl()
-        {
-            InitializeComponent();
-        }
+        public ColumnsManagementUserControl() => this.InitializeComponent();
     }
 }

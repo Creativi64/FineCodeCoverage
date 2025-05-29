@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public void Clear()
         {
-            foreach (var tUnitproject in projectLookup.Values)
+            foreach (ITUnitProject tUnitproject in projectLookup.Values)
             {
                 tUnitproject.Dispose();
             }
@@ -27,8 +27,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
-            var tUnitProjects = new List<ITUnitProject>();
-            foreach (var project in projectLookup.Values)
+            List<ITUnitProject> tUnitProjects = new List<ITUnitProject>();
+            foreach (ITUnitProject project in projectLookup.Values)
             {
                 await project.UpdateStateAsync(cancellationToken);
                 if (project.IsTUnit)

@@ -4,7 +4,7 @@
     {
         public BaseDialogWindow(IDialogViewModel dialogViewModel) : base(dialogViewModel)
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

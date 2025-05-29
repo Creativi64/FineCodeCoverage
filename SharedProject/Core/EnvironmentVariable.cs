@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Engine
     {
         public string Get(string variable)
         {
-            var result = Environment.GetEnvironmentVariable(variable);
+            string result = Environment.GetEnvironmentVariable(variable);
             return result;
         }
     }

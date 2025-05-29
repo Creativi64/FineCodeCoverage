@@ -32,11 +32,11 @@ namespace FineCodeCoverage.Engine.Model
 			</ItemGroup>
 			 */
 
-            var xprojectReferences = projectFileXElement.XPathSelectElements("/ItemGroup/ProjectReference[@Include]");
+            IEnumerable<XElement> xprojectReferences = projectFileXElement.XPathSelectElements("/ItemGroup/ProjectReference[@Include]");
             List<string> referencedProjectFiles = new List<string>();
-            foreach (var xprojectReference in xprojectReferences)
+            foreach (XElement xprojectReference in xprojectReferences)
             {
-                var referencedProjectProjectFile = xprojectReference.Attribute("Include").Value;
+                string referencedProjectProjectFile = xprojectReference.Attribute("Include").Value;
                 if (referencedProjectProjectFile.Contains("$("))
                 {
                     await logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.excludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");

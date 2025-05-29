@@ -13,13 +13,13 @@ namespace FineCodeCoverage.Output
                 return null;
 
             // Determine the common root directory
-            var rootPath = FindCommonRootPath(codeFiles.ConvertAll(cf => cf.Path));
+            string rootPath = FindCommonRootPath(codeFiles.ConvertAll(cf => cf.Path));
             var root = new DirectoryNode(rootPath);
 
             // Add files to the tree
-            foreach (var file in codeFiles)
+            foreach (ISourceFile file in codeFiles)
             {
-                var relativePath = FileUtil.GetRelativePath(rootPath, file.Path);
+                string relativePath = FileUtil.GetRelativePath(rootPath, file.Path);
                 AddFileToTree(root, relativePath, file);
             }
 
@@ -28,13 +28,13 @@ namespace FineCodeCoverage.Output
 
         public static IEnumerable<T> TakeAllButLast<T>(this IEnumerable<T> source)
         {
-            var enumerator = source.GetEnumerator();
+            IEnumerator<T> enumerator = source.GetEnumerator();
             try
             {
                 if (!enumerator.MoveNext())
                     yield break;
 
-                var previous = enumerator.Current;
+                T previous = enumerator.Current;
 
                 while (enumerator.MoveNext())
                 {
@@ -50,22 +50,23 @@ namespace FineCodeCoverage.Output
 
         private static string FindCommonRootPath(List<string> paths)
         {
-            var splitPaths = paths.ConvertAll(p => p.Split(Path.DirectorySeparatorChar).TakeAllButLast().ToArray());
-            var commonParts = splitPaths
+            List<string[]> splitPaths = paths.ConvertAll(p => p.Split(Path.DirectorySeparatorChar).TakeAllButLast().ToArray());
+            string[] commonParts = splitPaths
                 .Aggregate((current, next) => current.Zip(next, (c, n) => c == n ? c : null).TakeWhile(p => p != null).ToArray());
             return Path.Combine(commonParts);
         }
 
         private static void AddFileToTree(DirectoryNode currentNode, string relativePath, ISourceFile file)
         {
-            var parts = relativePath.Split(Path.DirectorySeparatorChar);
+            string[] parts = relativePath.Split(Path.DirectorySeparatorChar);
             for (int i = 0; i < parts.Length - 1; i++) // Traverse directories
             {
-                var part = parts[i];
+                string part = parts[i];
                 if (!currentNode.SubDirectoryParts.ContainsKey(part))
                 {
                     currentNode.SubDirectoryParts[part] = new DirectoryNode(part);
                 }
+
                 currentNode = currentNode.SubDirectoryParts[part];
             }
 
@@ -78,24 +79,13 @@ namespace FineCodeCoverage.Output
             public string Name { get; set; }
             public Dictionary<string, DirectoryNode> SubDirectoryParts { get; set; } = new Dictionary<string, DirectoryNode>();
             private readonly List<ISourceFile> sourceFiles = new List<ISourceFile>();
-            public IReadOnlyList<ISourceFile> SourceFiles => sourceFiles;
-            public void AddSourceFile(ISourceFile sourceFile)
-            {
-                sourceFiles.Add(sourceFile);
-            }
-            public List<IDirectory> subDirectories;
+            public IReadOnlyList<ISourceFile> SourceFiles => this.sourceFiles;
+            public void AddSourceFile(ISourceFile sourceFile) => this.sourceFiles.Add(sourceFile);
+            private List<IDirectory> subDirectories;
             public IReadOnlyList<IDirectory> SubDirectories
-            {
-                get
-                {
-                    return subDirectories ?? (subDirectories = SubDirectoryParts.Values.ToList<IDirectory>());
-                }
-            }
+                => this.subDirectories ?? (this.subDirectories = this.SubDirectoryParts.Values.ToList<IDirectory>());
 
-            public DirectoryNode(string name)
-            {
-                Name = name;
-            }
+            public DirectoryNode(string name) => this.Name = name;
         }
     }
 }

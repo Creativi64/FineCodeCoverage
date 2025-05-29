@@ -56,8 +56,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             bool hasCoverageExtension
         )
         {
-            var path = hasCoverageExtension ? tUnitSettings.ExePath : dotnetCoverageExePath;
-            var args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
+            string path = hasCoverageExtension ? tUnitSettings.ExePath : dotnetCoverageExePath;
+            string args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
                     $"collect \"{tUnitSettings.ExePath}\" --disable-logo -f cobertura -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
             args = $"{args} {tUnitSettings.AdditionalArgs}";
             return (path, args);
@@ -73,10 +73,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             CancellationToken cancellationToken = default(CancellationToken))
         {
             this.cancellationToken = cancellationToken;
-            var (path, args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
+            (string path, string args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
             // could have FCC option - hide-test-output or just allow them to supply their own
             await logger.LogAsync("Executing TUnit", path, "Arguments", args);
-            using (var process = new Process())
+            using (Process process = new Process())
             {
                 process.StartInfo = new ProcessStartInfo
                 {
@@ -115,7 +115,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             if (exitCode != successExitCode)
             {
                 string message = $"Non success exit code : {exitCode}.";
-                if (nonSuccessExitCodeMessages.TryGetValue(exitCode, out var msg))
+                if (nonSuccessExitCodeMessages.TryGetValue(exitCode, out string msg))
                 {
                     message = $"{message}  {msg}";
                 }
@@ -141,7 +141,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
             dotnetCoverageExePath = Directory.GetFiles(zipDestination, "dotnet-coverage.exe", SearchOption.AllDirectories).First();
             ReadyEvent?.Invoke(this, EventArgs.Empty);
             return Task.CompletedTask;

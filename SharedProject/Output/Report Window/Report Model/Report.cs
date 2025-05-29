@@ -15,17 +15,17 @@ namespace FineCodeCoverage.Output
 
         public Report(NewReportMessage message)
         {
-            TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
-            Assemblies = message.Report.Assemblies;
-            MetricTypes = message.Report.MetricTypes;
-            (message.Report as IDynamicReportResult).FileRenamedEvent += Report_FileRenamedEvent;
+            this.TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
+            this.Assemblies = message.Report.Assemblies;
+            this.MetricTypes = message.Report.MetricTypes;
+            (message.Report as IDynamicReportResult).FileRenamedEvent += this.Report_FileRenamedEvent;
         }
 
         private void Report_FileRenamedEvent(object sender, IReadOnlyList<FileRename> fileRenames)
         {
             // only dealing with directories - ReportGeneratorUtil dealing with Assemblies => Class.FileCodeElements
-            fileRenames.TryUpdateDictionary(sourceFilesPathsWithNewCode);
-            if (Directory != null)
+            _ = fileRenames.TryUpdateDictionary(this.sourceFilesPathsWithNewCode);
+            if (this.Directory != null)
             {
                 if (!this.HasDirectoryStructureChanged(fileRenames))
                 {
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Output
         {
             if (fileRenames.Any(fileRename => fileRename.HasDirectoryChanged()))
             {
-                ClearDirectory();
+                this.ClearDirectory();
                 DirectoryStructureChanged?.Invoke(this, EventArgs.Empty);
                 return true;
             }
@@ -48,17 +48,18 @@ namespace FineCodeCoverage.Output
 
         private void UpdateSourceFiles(List<FileRename> fileRenames)
         {
-            foreach (var sourceFile in sourceFiles)
+            foreach (SourceFile sourceFile in this.sourceFiles)
             {
-                foreach (var fileRename in fileRenames)
+                foreach (FileRename fileRename in fileRenames)
                 {
                     if (sourceFile.Path == fileRename.OldFilePath)
                     {
                         sourceFile.Path = fileRename.NewFilePath;
-                        fileRenames.Remove(fileRename);
+                        _ = fileRenames.Remove(fileRename);
                         break;
                     }
                 }
+
                 if (fileRenames.Count == 0)
                 {
                     break;
@@ -72,67 +73,48 @@ namespace FineCodeCoverage.Output
 
         public IReadOnlyList<MetricType> MetricTypes { get; }
 
-        public IDirectory Directory
-        {
-            get
-            {
-                return directory ?? (directory = CreateDirectory());
-            }
-        }
+        public IDirectory Directory => this.directory ?? (this.directory = this.CreateDirectory());
 
         private void ClearDirectory()
         {
-            sourceFiles = null;
-            directory = null;
+            this.sourceFiles = null;
+            this.directory = null;
         }
 
         private List<SourceFile> GetSourceFiles()
-        {
-            return this.Assemblies.SelectMany(a =>
-            {
-                return a.Classes.SelectMany(
+            => this.Assemblies.SelectMany(a => a.Classes.SelectMany(
                     pc => pc.FileCodeElements.Select(
-                        kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value }));
-            }).GroupBy(a => a.SourcePath)
+                        kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value }
+                    )
+                )
+            ).GroupBy(a => a.SourcePath)
             .Select(g =>
             {
                 var sourceFileClasses = g.Select(a => new SourceFileClass(a.ClassName, a.SourcePath, a.CodeElements)).ToList();
-                var path = g.Key;
-                var hasNewCode = sourceFilesPathsWithNewCode.ContainsKey(path);
+                string path = g.Key;
+                bool hasNewCode = this.sourceFilesPathsWithNewCode.ContainsKey(path);
                 return new SourceFile(path, sourceFileClasses, hasNewCode);
             }).ToList();
-        }
 
-        private List<SourceFile> SourceFiles
-        {
-            get
-            {
-                return sourceFiles ?? (sourceFiles = GetSourceFiles());
-            }
-        }
+        private List<SourceFile> SourceFiles => this.sourceFiles ?? (this.sourceFiles = this.GetSourceFiles());
 
-        private IDirectory CreateDirectory()
-        {
-            return CreateDirectory(SourceFiles);
-        }
+        private IDirectory CreateDirectory() => this.CreateDirectory(this.SourceFiles);
 
         private IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
-        {
-            return DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
-        }
+            => DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
 
         public void NewCodeChanged(string path, bool hasNewCode)
         {
             if (hasNewCode)
             {
-                sourceFilesPathsWithNewCode.Add(path, true);
+                this.sourceFilesPathsWithNewCode.Add(path, true);
             }
             else
             {
-                _ = sourceFilesPathsWithNewCode.Remove(path);
+                _ = this.sourceFilesPathsWithNewCode.Remove(path);
             }
 
-            foreach (var sourceFile in SourceFiles)
+            foreach (SourceFile sourceFile in this.SourceFiles)
             {
                 if (sourceFile.Path == path)
                 {

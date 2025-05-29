@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Core.Initialization
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     IVsAppCommandLine cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
                     Assumes.Present(cmdLine);
-                    cmdLine.GetOption(ClearSettingsOnShutdownOption, out var isPresent, out var _);
+                    cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out string _);
 
                 }
                 return false;

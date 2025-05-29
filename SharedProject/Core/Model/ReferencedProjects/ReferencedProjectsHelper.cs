@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             this.projectFileXElementProvider = projectFileXElementProvider;
             this.projectFile = projectFile;
-            var referencedProjects = await GetReferencedProjectsAsync();
+            List<IExcludableReferencedProject> referencedProjects = await GetReferencedProjectsAsync();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 

@@ -9,7 +9,7 @@
 
         public static string RegexModuleName(string moduleName, bool isDll)
         {
-            var extensionMatch = isDll ? "dll" : "(dll|exe)";
+            string extensionMatch = isDll ? "dll" : "(dll|exe)";
             return $".*\\\\{EscapeDots(moduleName)}\\.{extensionMatch}$";
         }
 

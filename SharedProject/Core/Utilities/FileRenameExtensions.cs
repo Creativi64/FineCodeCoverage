@@ -8,8 +8,8 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public static IReadOnlyList<FileRename> TryUpdateDictionary<T>(this IEnumerable<FileRename> fileRenames, IDictionary<string, T> fileDictionary)
         {
-            var renames = new List<FileRename>();
-            foreach (var fileRename in fileRenames)
+            List<FileRename> renames = new List<FileRename>();
+            foreach (FileRename fileRename in fileRenames)
             {
                 if (fileDictionary != null && fileDictionary.TryGetValue(fileRename.OldFilePath, out T value))
                 {

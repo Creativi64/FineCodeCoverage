@@ -59,10 +59,7 @@ namespace FineCodeCoverage.Output
 
         #endregion
 
-        private void VsShutdown_Shutdown(object sender, System.EventArgs e)
-        {
-            this.SaveColumnStates();
-        }
+        private void VsShutdown_Shutdown(object sender, System.EventArgs e) => this.SaveColumnStates();
 
         private void SaveColumnStates()
         {
@@ -140,9 +137,6 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        public IEnumerable<IReportColumnData> GetColumns()
-        {
-            return this.Columns.OfType<IReportColumnData>();
-        }
+        public IEnumerable<IReportColumnData> GetColumns() => this.Columns.OfType<IReportColumnData>();
     }
 }

@@ -10,10 +10,10 @@ namespace FineCodeCoverage.Engine
         public string Provide(string projectFile)
         {
             string provided = null;
-            var directory = new FileInfo(projectFile).Directory;
+            DirectoryInfo directory = new FileInfo(projectFile).Directory;
             while (directory != null)
             {
-                var isSolutionDirectory = directory.EnumerateFiles().Any(IsSolutionFile);
+                bool isSolutionDirectory = directory.EnumerateFiles().Any(IsSolutionFile);
                 if (isSolutionDirectory)
                 {
                     provided = directory.FullName;

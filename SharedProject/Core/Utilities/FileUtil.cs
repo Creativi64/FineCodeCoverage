@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public string DirectoryParentPath(string directoryPath)
         {
-            var parentDirectory = new DirectoryInfo(directoryPath).Parent;
+            DirectoryInfo parentDirectory = new DirectoryInfo(directoryPath).Parent;
             if (parentDirectory == null)
             {
                 return null;
@@ -98,8 +98,8 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static string GetRelativePath(string basePath, string fullPath)
         {
-            var baseUri = new Uri(AppendDirectorySeparator(basePath));
-            var fullUri = new Uri(fullPath);
+            Uri baseUri = new Uri(AppendDirectorySeparator(basePath));
+            Uri fullUri = new Uri(fullPath);
             return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fullUri).ToString())
                 .Replace('/', Path.DirectorySeparatorChar);
         }

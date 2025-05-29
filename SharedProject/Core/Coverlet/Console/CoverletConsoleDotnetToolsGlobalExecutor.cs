@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             if (coverageProject.Settings.CoverletConsoleGlobal)
             {
-                var details = await dotNetToolListCoverlet.GlobalAsync();
+                CoverletDotNetToolDetails details = await dotNetToolListCoverlet.GlobalAsync();
                 if (details == null)
                 {
                     await logger.LogAsync("Unable to use Coverlet console global tool");

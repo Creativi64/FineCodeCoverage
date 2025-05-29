@@ -20,8 +20,8 @@ namespace FineCodeCoverage.Core.Utilities
         {
             get
             {
-                var managerType = typeof(ThemeChangedWeakEventManager);
-                var manager = (ThemeChangedWeakEventManager)GetCurrentManager(managerType);
+                Type managerType = typeof(ThemeChangedWeakEventManager);
+                ThemeChangedWeakEventManager manager = (ThemeChangedWeakEventManager)GetCurrentManager(managerType);
                 if (manager == null)
                 {
                     manager = new ThemeChangedWeakEventManager();

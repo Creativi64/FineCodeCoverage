@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                     return string.Empty;
                 }
 
-                var elements = excludeIncludes.Select(excludeInclude => $"<{elementName}>{excludeInclude}</{elementName}>").Distinct();
+                IEnumerable<string> elements = excludeIncludes.Select(excludeInclude => $"<{elementName}>{excludeInclude}</{elementName}>").Distinct();
                 return string.Concat(elements);
             }
         }
@@ -150,8 +150,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
             private CombinedIncludesExcludesOptions(string[] modulePathsInclude, string[] modulePathsExclude, IEnumerable<string> additionalModulePathsIncludes, IEnumerable<string> additionalModulePathsExcludes)
             {
-                var modulePathsIncludesFromOptions = modulePathsInclude ?? Enumerable.Empty<string>();
-                var modulePathsExcludesFromOptions = modulePathsExclude ?? Enumerable.Empty<string>();
+                IEnumerable<string> modulePathsIncludesFromOptions = modulePathsInclude ?? Enumerable.Empty<string>();
+                IEnumerable<string> modulePathsExcludesFromOptions = modulePathsExclude ?? Enumerable.Empty<string>();
                 ModulePathsInclude = additionalModulePathsIncludes.Concat(modulePathsIncludesFromOptions).ToArray();
                 ModulePathsExclude = additionalModulePathsExcludes.Concat(modulePathsExcludesFromOptions).ToArray();
             }
@@ -174,20 +174,20 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup,
             string testAdapter)
         {
-            var allProjectDetails = testContainers.Select(tc => userRunSettingsProjectDetailsLookup[tc.Source]).ToList();
-            var resultsDirectory = allProjectDetails[0].CoverageOutputFolder;
-            var allSettings = allProjectDetails.Select(pd => pd.Settings);
-            var allProjectsDisabled = allSettings.All(s => !s.Enabled);
-            var mergedSettings = new MergedIncludesExcludesOptions(allSettings);
+            List<IUserRunSettingsProjectDetails> allProjectDetails = testContainers.Select(tc => userRunSettingsProjectDetailsLookup[tc.Source]).ToList();
+            string resultsDirectory = allProjectDetails[0].CoverageOutputFolder;
+            IEnumerable<ICoverageSettings> allSettings = allProjectDetails.Select(pd => pd.Settings);
+            bool allProjectsDisabled = allSettings.All(s => !s.Enabled);
+            MergedIncludesExcludesOptions mergedSettings = new MergedIncludesExcludesOptions(allSettings);
 
-            var additionalModulePathsExclude = allProjectDetails.SelectMany(pd =>
+            IEnumerable<string> additionalModulePathsExclude = allProjectDetails.SelectMany(pd =>
                 GetAdditionalModulePathsExclude(pd.ExcludedReferencedProjects, pd.TestDllFile, pd.Settings.IncludeTestAssembly));
 
-            var hasIncludes = allProjectDetails.Any(pd => HasIncludes(pd.Settings.ModulePathsInclude, pd.IncludedReferencedProjects));
-            var additionalModulePathsInclude = allProjectDetails.SelectMany(pd =>
+            bool hasIncludes = allProjectDetails.Any(pd => HasIncludes(pd.Settings.ModulePathsInclude, pd.IncludedReferencedProjects));
+            IEnumerable<string> additionalModulePathsInclude = allProjectDetails.SelectMany(pd =>
                 GetAdditionalModulePathsInclude(hasIncludes, pd.IncludedReferencedProjects, pd.TestDllFile, pd.Settings.IncludeTestAssembly));
 
-            var settings = new CombinedIncludesExcludesOptions(mergedSettings, additionalModulePathsInclude, additionalModulePathsExclude);
+            CombinedIncludesExcludesOptions settings = new CombinedIncludesExcludesOptions(mergedSettings, additionalModulePathsInclude, additionalModulePathsExclude);
             return new RunSettingsTemplateReplacements(settings, resultsDirectory, (!allProjectsDisabled).ToString().ToLower(), testAdapter);
         }
 
@@ -198,7 +198,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             bool isInclude
             )
         {
-            var additionalReferenced = referencedProjects.Select(
+            IEnumerable<string> additionalReferenced = referencedProjects.Select(
                 rp => MsCodeCoverageRegex.RegexModuleName(rp.AssemblyName, rp.IsDll));
             if (includeTestAssembly == isInclude)
             {
@@ -239,19 +239,19 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public IRunSettingsTemplateReplacements Create(ICoverageProject coverageProject, string testAdapter)
         {
-            var projectSettings = coverageProject.Settings;
-            var additionalModulePathsExclude = GetAdditionalModulePathsExclude(
+            ICoverageSettings projectSettings = coverageProject.Settings;
+            IEnumerable<string> additionalModulePathsExclude = GetAdditionalModulePathsExclude(
                 coverageProject.ExcludedReferencedProjects,
                 coverageProject.TestDllFile,
                 projectSettings.IncludeTestAssembly);
 
-            var additionalModulePathsInclude = GetAdditionalModulePathsInclude(
+            IEnumerable<string> additionalModulePathsInclude = GetAdditionalModulePathsInclude(
                 HasIncludes(coverageProject.Settings.ModulePathsInclude, coverageProject.IncludedReferencedProjects),
                 coverageProject.IncludedReferencedProjects,
                 coverageProject.TestDllFile,
                 projectSettings.IncludeTestAssembly);
 
-            var settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
+            CombinedIncludesExcludesOptions settings = new CombinedIncludesExcludesOptions(projectSettings, additionalModulePathsInclude, additionalModulePathsExclude);
             return new RunSettingsTemplateReplacements(settings, coverageProject.CoverageOutputFolder, projectSettings.Enabled.ToString(), testAdapter);
         }
     }

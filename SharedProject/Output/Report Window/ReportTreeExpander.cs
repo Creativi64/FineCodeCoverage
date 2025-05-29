@@ -9,8 +9,6 @@ namespace FineCodeCoverage.Output
         private readonly TreeExpander<ReportTreeItemBase> treeExpander = new TreeExpander<ReportTreeItemBase>(
             ti => ti.Name, ti => ti.IsExpanded, ti => ti.IsExpanded = true, ti => ti.observableChildren);
         public void RestoreExpansionState(IList<ReportTreeItemBase> oldItems, IList<ReportTreeItemBase> newItems)
-        {
-            treeExpander.RestoreExpansionState(oldItems, newItems);
-        }
+            => this.treeExpander.RestoreExpansionState(oldItems, newItems);
     }
 }

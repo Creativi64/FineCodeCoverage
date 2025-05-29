@@ -18,13 +18,13 @@ namespace FineCodeCoverage.Core.Utilities
 
         public DotNetToolListExecutionResult GlobalToolsPath(string directory)
         {
-            var safeDirectory = $@"""{directory}""";
+            string safeDirectory = $@"""{directory}""";
             return Execute($"--tool-path {safeDirectory}");
         }
 
         private DotNetToolListExecutionResult Execute(string additionalArguments, string workingDirectory = null)
         {
-            var processStartInfo = new ProcessStartInfo
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
                 CreateNoWindow = true,
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Core.Utilities
                 processStartInfo.WorkingDirectory = workingDirectory;
             }
 
-            var process = Process.Start(processStartInfo);
+            Process process = Process.Start(processStartInfo);
 
             process.WaitForExit();
 

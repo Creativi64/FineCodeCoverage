@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
         public async System.Threading.Tasks.Task SaveProjectAsync(IVsHierarchy projectHierarchy)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var _solution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
+            IVsSolution _solution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
             Assumes.Present(_solution);
             int hr = _solution.SaveSolutionElement((uint)__VSSLNSAVEOPTIONS.SLNSAVEOPT_SaveIfDirty, projectHierarchy, 0);
             if (ErrorHandler.Failed(hr))

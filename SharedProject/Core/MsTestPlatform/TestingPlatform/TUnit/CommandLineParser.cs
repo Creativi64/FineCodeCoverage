@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public CommandLineParseResult Parse(string argumentsString)
         {
-            var args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
+            List<string> args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
             if (!args.Any())
             {
                 return CommandLineParseResult.Empty;
@@ -107,7 +107,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private static void ParseOptionAndSeparators(string arg, out string currentOption, out string currentArg)
         {
-            var delimiterIndex = arg.IndexOfAny(new char[] { ':', '=', ' ' });
+            int delimiterIndex = arg.IndexOfAny(new char[] { ':', '=', ' ' });
             if (delimiterIndex == -1)
             {
                 currentOption = arg;

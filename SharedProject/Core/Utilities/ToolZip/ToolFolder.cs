@@ -19,25 +19,25 @@ namespace FineCodeCoverage.Core.Utilities
         public string EnsureUnzipped(string appDataFolder, string toolFolderName, ZipDetails zipDetails, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var version = zipDetails.Version;
+            string version = zipDetails.Version;
 
-            var toolFolderPath = Path.Combine(appDataFolder, toolFolderName);
-            var toolDirectory = Directory.CreateDirectory(toolFolderPath);
-            var zipDestination = Path.Combine(toolFolderPath, version);
+            string toolFolderPath = Path.Combine(appDataFolder, toolFolderName);
+            DirectoryInfo toolDirectory = Directory.CreateDirectory(toolFolderPath);
+            string zipDestination = Path.Combine(toolFolderPath, version);
 
             cancellationToken.ThrowIfCancellationRequested();
-            var unzippedDirectories = toolDirectory.GetDirectories();
-            var requiresUnzip = !unzippedDirectories.Any(d => d.Name == version);
+            DirectoryInfo[] unzippedDirectories = toolDirectory.GetDirectories();
+            bool requiresUnzip = !unzippedDirectories.Any(d => d.Name == version);
 
             if (requiresUnzip)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                foreach (var file in toolDirectory.GetFiles())
+                foreach (FileInfo file in toolDirectory.GetFiles())
                 {
                     file.TryDelete();
                 }
 
-                foreach (var unzippedDirectory in unzippedDirectories)
+                foreach (DirectoryInfo unzippedDirectory in unzippedDirectories)
                 {
                     unzippedDirectory.TryDelete();
                 }

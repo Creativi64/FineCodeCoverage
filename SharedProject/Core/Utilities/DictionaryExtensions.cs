@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Core.Utilities
             TKey key,
             Func<TValue> factory)
         {
-            if (!dict.TryGetValue(key, out var value))
+            if (!dict.TryGetValue(key, out TValue value))
             {
                 value = factory();
                 dict.Add(key, value);

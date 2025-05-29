@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Engine.Model
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var project = await GetProjectAsync(projectFile);
+            Project project = await GetProjectAsync(projectFile);
 
             if (project == null)
             {
@@ -62,13 +62,13 @@ namespace FineCodeCoverage.Engine.Model
         private async Task<Project> GetProjectAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var dte2 = await lazyDTE2.GetValueAsync();
+            DTE2 dte2 = await lazyDTE2.GetValueAsync();
             // note that cannot do dte.Solution.Projects.Item(ProjectFile) - fails when dots in path
             return dte2.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
                 //have to try here as unloaded projects will throw
-                var projectFullName = "";
+                string projectFullName = "";
                 try
                 {
                     projectFullName = p.FullName;

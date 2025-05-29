@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Engine.Model
             if (!(vcProject.Configurations is IEnumerable configurations))
                 return null;
 
-            var configuration = configurations.Cast<VCConfiguration>().FirstOrDefault();
+            VCConfiguration configuration = configurations.Cast<VCConfiguration>().FirstOrDefault();
             if (configuration == null)
                 return null;
 
@@ -38,8 +38,8 @@ namespace FineCodeCoverage.Engine.Model
         private string GetCPPProjectReferenceProjectFilePath(VCProjectReference reference)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var vsReference = reference.Reference as VSLangProj.Reference;
-            var sourceProject = vsReference.SourceProject;
+            VSLangProj.Reference vsReference = reference.Reference as VSLangProj.Reference;
+            EnvDTE.Project sourceProject = vsReference.SourceProject;
             return sourceProject.FileName;
         }
 
@@ -54,9 +54,9 @@ namespace FineCodeCoverage.Engine.Model
                 .OfType<VCProjectReference>()
                 .Select(reference =>
                 {
-                    var referencedProject = GetReferencedVCProject(reference);
+                    VCProject referencedProject = GetReferencedVCProject(reference);
 
-                    var isDll = IsDll(referencedProject);
+                    bool? isDll = IsDll(referencedProject);
                     return isDll.HasValue ? (IExcludableReferencedProject)new ReferencedProject(
                             GetCPPProjectReferenceProjectFilePath(reference),
                             Path.GetFileNameWithoutExtension(reference.FullPath),

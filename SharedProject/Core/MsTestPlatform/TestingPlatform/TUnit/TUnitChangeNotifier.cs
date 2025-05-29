@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+                IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
                 Assumes.Present(vsSolution);
                 vsSolution.AdviseSolutionEvents(this, out uint _);
             });

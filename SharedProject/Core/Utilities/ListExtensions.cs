@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Core.Utilities
                 throw new ArgumentNullException(nameof(list));
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
-            foreach (var item in items)
+            foreach (T item in items)
             {
                 list.Add(item);
             }
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 int step = count / 2;
                 int index = first + step;
-                var result = compare(list[index]);
+                int result = compare(list[index]);
                 if (result == 0)
                 {
                     return index;

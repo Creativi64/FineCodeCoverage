@@ -19,14 +19,14 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public OpenReportWindowCommand(IShownToolWindowHistory shownToolWindowHistory) => this.shownToolWindowHistory = shownToolWindowHistory;
 
-        protected override void Execute(object sender, EventArgs e) => PackageServices.RunAsyncWithExceptionLogging(ShowToolWindowAsync);
+        protected override void Execute(object sender, EventArgs e) => this.PackageServices.RunAsyncWithExceptionLogging(this.ShowToolWindowAsync);
 
         public async Task<ToolWindowPane> ShowToolWindowAsync()
         {
-            shownToolWindowHistory.ShowedToolWindow();
-            ToolWindowPane window = await PackageServices.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, PackageServices.DisposalToken);
+            this.shownToolWindowHistory.ShowedToolWindow();
+            ToolWindowPane window = await this.PackageServices.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, this.PackageServices.DisposalToken);
 
-            return ReturnOrThrowIfCannotCreateToolWindow(window);
+            return this.ReturnOrThrowIfCannotCreateToolWindow(window);
         }
 
         private ToolWindowPane ReturnOrThrowIfCannotCreateToolWindow(ToolWindowPane window)
@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Output
         {
             try
             {
-                await ShowToolWindowAsync();
+                await this.ShowToolWindowAsync();
             }
             catch { }
         }

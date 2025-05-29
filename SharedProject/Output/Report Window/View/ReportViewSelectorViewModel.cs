@@ -13,11 +13,11 @@ namespace FineCodeCoverage.Output
         private string selectedBranch;
         public string SelectedBranch
         {
-            get => selectedBranch ?? Branches.FirstOrDefault();
+            get => this.selectedBranch ?? this.Branches.FirstOrDefault();
             set
             {
-                Set(ref selectedBranch, value);
-                RaiseOkChangedIfChanged();
+                this.Set(ref this.selectedBranch, value);
+                this.RaiseOkChangedIfChanged();
             }
         }
 
@@ -26,24 +26,23 @@ namespace FineCodeCoverage.Output
         private ReportContentTypeViewModel selectedReportContentType;
         public ReportContentTypeViewModel SelectedReportContentType
         {
-            get => selectedReportContentType;
+            get => this.selectedReportContentType;
             set
             {
-                Set(ref selectedReportContentType, value);
-                OnPropertyChanged(nameof(GitCombosEnabled));
-                RaiseOkChangedIfChanged();
+                this.Set(ref this.selectedReportContentType, value);
+                this.OnPropertyChanged(nameof(this.GitCombosEnabled));
+                this.RaiseOkChangedIfChanged();
             }
         }
-
 
         private ReportStyleViewModel _selectedReportStyle;
         public ReportStyleViewModel SelectedReportStyle
         {
-            get { return _selectedReportStyle; }
+            get => this._selectedReportStyle;
             set
             {
-                this.Set(ref _selectedReportStyle, value);
-                RaiseOkChangedIfChanged();
+                this.Set(ref this._selectedReportStyle, value);
+                this.RaiseOkChangedIfChanged();
             }
         }
 
@@ -51,24 +50,21 @@ namespace FineCodeCoverage.Output
 
         private void RaiseOkChangedIfChanged()
         {
-            var changedFromInitial = ChangedFromInitial();
-            if (changed != changedFromInitial)
+            bool changedFromInitial = this.ChangedFromInitial();
+            if (this.changed != changedFromInitial)
             {
-                changed = changedFromInitial;
-                notifyOkCommandCanExecuteChanged();
+                this.changed = changedFromInitial;
+                this.notifyOkCommandCanExecuteChanged();
             }
         }
         private readonly Action notifyOkCommandCanExecuteChanged;
         private readonly bool initializing = true;
 
-        private bool ChangedFromInitial()
-        {
-            if (initializing) return false;
-            return initialReportViewState.ReportContentType != SelectedReportContentType.ReportContentType ||
-                initialReportViewState.ReportStyle != SelectedReportStyle.ReportStyle ||
-                initialReportViewState.SelectedBranchName != SelectedBranch ||
-                initialReportViewState.SelectedRepositoryPath != SelectedRepositoryPath;
-        }
+        private bool ChangedFromInitial() => !this.initializing &&
+            (this.initialReportViewState.ReportContentType != this.SelectedReportContentType.ReportContentType ||
+            this.initialReportViewState.ReportStyle != this.SelectedReportStyle.ReportStyle ||
+            this.initialReportViewState.SelectedBranchName != this.SelectedBranch ||
+            this.initialReportViewState.SelectedRepositoryPath != this.SelectedRepositoryPath);
 
         public ReportViewSelectorViewModel(IReportViewSelectorModel reportViewSelectorModel)
         {
@@ -76,49 +72,49 @@ namespace FineCodeCoverage.Output
             var okRelayCommand = new RelayCommand(() =>
             {
                 reportViewSelectorModel.Update(
-                    SelectedReportStyle.ReportStyle,
-                    SelectedReportContentType.ReportContentType,
-                    SelectedBranch,
-                    SelectedRepositoryPath);
+                    this.SelectedReportStyle.ReportStyle,
+                    this.SelectedReportContentType.ReportContentType,
+                    this.SelectedBranch,
+                    this.SelectedRepositoryPath);
                 Done?.Invoke(this, EventArgs.Empty);
-            }, () => changed);
-            notifyOkCommandCanExecuteChanged = okRelayCommand.NotifyCanExecuteChanged;
-            OkCommand = okRelayCommand;
-            CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
+            }, () => this.changed);
+            this.notifyOkCommandCanExecuteChanged = okRelayCommand.NotifyCanExecuteChanged;
+            this.OkCommand = okRelayCommand;
+            this.CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
 
-            initialReportViewState = reportViewSelectorModel.GetState();
-            RepositoryPaths = initialReportViewState.RepositoryPaths;
-            hasRepositories = RepositoryPaths.Any();
-            var canUseRepositories = initialReportViewState.CanUseRepositories;
-            if (hasRepositories)
+            this.initialReportViewState = reportViewSelectorModel.GetState();
+            this.RepositoryPaths = this.initialReportViewState.RepositoryPaths;
+            this.hasRepositories = this.RepositoryPaths.Any();
+            bool canUseRepositories = this.initialReportViewState.CanUseRepositories;
+            if (this.hasRepositories)
             {
-                SelectedRepositoryPath = initialReportViewState.SelectedRepositoryPath ?? RepositoryPaths[0];
-                SelectedBranch = initialReportViewState.SelectedBranchName;
-                ShowBranchesCombo = true;
-                ShowRepositoriesCombo = RepositoryPaths.Count > 1;
-                ShowReportContentTypeCombo = true;
+                this.SelectedRepositoryPath = this.initialReportViewState.SelectedRepositoryPath ?? this.RepositoryPaths[0];
+                this.SelectedBranch = this.initialReportViewState.SelectedBranchName;
+                this.ShowBranchesCombo = true;
+                this.ShowRepositoriesCombo = this.RepositoryPaths.Count > 1;
+                this.ShowReportContentTypeCombo = true;
             }
             else
             {
-                NoRepositoriesMessage = canUseRepositories ? "Add a git repo to filter by changeset." : "Changeset filtering available in VS2022.";
-                ShowNoRepositoriesMessage = true;
+                this.NoRepositoriesMessage = canUseRepositories ? "Add a git repo to filter by changeset." : "Changeset filtering available in VS2022.";
+                this.ShowNoRepositoriesMessage = true;
             }
 
             var fullReportContentTypeVM = new ReportContentTypeViewModel(ReportContentType.Full, "Full");
             var changesetReportContentTypeVM = new ReportContentTypeViewModel(ReportContentType.Changeset, "Changeset");
-            ReportContentTypes.Add(changesetReportContentTypeVM);
-            ReportContentTypes.Add(fullReportContentTypeVM);
-            SelectedReportContentType = initialReportViewState.ReportContentType == ReportContentType.Full ?
+            this.ReportContentTypes.Add(changesetReportContentTypeVM);
+            this.ReportContentTypes.Add(fullReportContentTypeVM);
+            this.SelectedReportContentType = this.initialReportViewState.ReportContentType == ReportContentType.Full ?
             fullReportContentTypeVM : changesetReportContentTypeVM;
 
             var assemblyReportStyle = new ReportStyleViewModel(ReportStyle.Assembly, "Assembly");
             var sourceReportStyle = new ReportStyleViewModel(ReportStyle.Source, "Source");
-            ReportStyles.Add(assemblyReportStyle);
-            ReportStyles.Add(sourceReportStyle);
-            SelectedReportStyle = initialReportViewState.ReportStyle == ReportStyle.Assembly ?
+            this.ReportStyles.Add(assemblyReportStyle);
+            this.ReportStyles.Add(sourceReportStyle);
+            this.SelectedReportStyle = this.initialReportViewState.ReportStyle == ReportStyle.Assembly ?
                 assemblyReportStyle : sourceReportStyle;
-            initializing = false;
-            changed = ChangedFromInitial();
+            this.initializing = false;
+            this.changed = this.ChangedFromInitial();
         }
 
         private readonly bool hasRepositories;
@@ -132,7 +128,7 @@ namespace FineCodeCoverage.Output
 
         public System.Windows.Input.ICommand OkCommand { get; }
 
-        public bool GitCombosEnabled => hasRepositories && SelectedReportContentType.ReportContentType == ReportContentType.Changeset;
+        public bool GitCombosEnabled => this.hasRepositories && this.SelectedReportContentType.ReportContentType == ReportContentType.Changeset;
         public bool ShowReportContentTypeCombo { get; }
         public bool ShowBranchesCombo { get; }
         public bool ShowRepositoriesCombo { get; }
@@ -142,23 +138,24 @@ namespace FineCodeCoverage.Output
 
         public string SelectedRepositoryPath
         {
-            get => selectedRepositoryPath;
+            get => this.selectedRepositoryPath;
             set
             {
-                Set(ref selectedRepositoryPath, value);
-                ClearRepositoryBranches();
-                foreach (var branch in reportViewSelectorModel.GetBranches(selectedRepositoryPath))
+                this.Set(ref this.selectedRepositoryPath, value);
+                this.ClearRepositoryBranches();
+                foreach (string branch in this.reportViewSelectorModel.GetBranches(this.selectedRepositoryPath))
                 {
                     this.Branches.Add(branch);
                 }
-                RaiseOkChangedIfChanged();
+
+                this.RaiseOkChangedIfChanged();
             }
         }
 
         private void ClearRepositoryBranches()
         {
             this.Branches.Clear();
-            SelectedBranch = null;
+            this.SelectedBranch = null;
         }
 
         public event EventHandler Done;

@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Output
             {
                 if (this.Monochrome)
                 {
-                    SetIconStyles();
+                    this.SetIconStyles();
                 }
             };
             reportOptionsProvider.OptionsChanged += (newAppOptions) =>
@@ -34,18 +34,20 @@ namespace FineCodeCoverage.Output
                     this.ShowIcons = newAppOptions.ShowIcons;
                     ShowIconsChanged?.Invoke(this, EventArgs.Empty);
                 }
+
                 if (newAppOptions.IconSize != this.IconSize)
                 {
                     this.IconSize = newAppOptions.IconSize;
                     IconSizeChanged?.Invoke(this, EventArgs.Empty);
                 }
-                if (newAppOptions.ThemedIconStyle != themedIconStyle)
+
+                if (newAppOptions.ThemedIconStyle != this.themedIconStyle)
                 {
                     this.themedIconStyle = newAppOptions.ThemedIconStyle;
-                    SetIconStyles();
+                    this.SetIconStyles();
                 }
             };
-            var appOptions = reportOptionsProvider.Get();
+            ReportOptions appOptions = reportOptionsProvider.Get();
             this.ShowIcons = appOptions.ShowIcons;
             this.IconSize = appOptions.IconSize;
             this.themedIconStyle = appOptions.ThemedIconStyle;

@@ -76,24 +76,24 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var coverageProject = coverageProjectFactory.Create();
-            project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_Name, out var projectName);
+            ICoverageProject coverageProject = coverageProjectFactory.Create();
+            project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_Name, out object projectName);
             coverageProject.ProjectName = projectName.ToString();
-            project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out var projectGuid);
+            project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out Guid projectGuid);
             coverageProject.Id = projectGuid;
-            project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID4.VSHPROPID_TargetFrameworkMoniker, out var targetFrameworkMoniker);
+            project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID4.VSHPROPID_TargetFrameworkMoniker, out object targetFrameworkMoniker);
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsBuildPropertyStorage buildPropertyStorage)
             {
                 //todo configuration parameter for Debug
-                int hr = buildPropertyStorage.GetPropertyValue("TargetPath", null, 1, out var outputFile);
+                int hr = buildPropertyStorage.GetPropertyValue("TargetPath", null, 1, out string outputFile);
                 ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.TestDllFile = outputFile;
             }//todo throw if not
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsProject vsProject)
             {
-                int hr = vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out var projectFilePath);
+                int hr = vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out string projectFilePath);
                 ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.ProjectFilePath = projectFilePath;
             }//todo throw if not
@@ -104,16 +104,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<string> GetSolutionDirectoryAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution vsSolution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            vsSolution.GetSolutionInfo(out string solutionDirectory, out var _, out var __);
+            vsSolution.GetSolutionInfo(out string solutionDirectory, out string _, out string __);
             return solutionDirectory;
         }
 
         private async Task<XElement> GetConfigurationElementAsync(ICoverageProject coverageProject, CancellationToken ct)
         {
-            var solutionDirectory = await GetSolutionDirectoryAsync(ct);
-            var runSettings = templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
+            string solutionDirectory = await GetSolutionDirectoryAsync(ct);
+            string runSettings = templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
             return runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
         }
 
@@ -121,12 +121,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ITUnitProject tUnitProject,
             CancellationToken cancellationToken)
         {
-            var coverageProject = await CreateCoverageProjectAsync(tUnitProject.Hierarchy, cancellationToken);
-            var exePath = Path.ChangeExtension(coverageProject.TestDllFile, ".exe");
+            ICoverageProject coverageProject = await CreateCoverageProjectAsync(tUnitProject.Hierarchy, cancellationToken);
+            string exePath = Path.ChangeExtension(coverageProject.TestDllFile, ".exe");
 
             Func<CancellationToken, Task<string>> configurationProvider = async (ct) =>
             {
-                var configurationElement = await GetConfigurationElementAsync(coverageProject, ct);
+                XElement configurationElement = await GetConfigurationElementAsync(coverageProject, ct);
                 if (coverageProject.Settings.IncludeTestAssembly)
                 {
                     configurationElement.Add(new XElement("IncludeTestAssembly", true));

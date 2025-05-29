@@ -40,15 +40,15 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public async Task RunAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
-            var title = $"Coverlet Run ({project.ProjectName})";
+            string title = $"Coverlet Run ({project.ProjectName})";
 
-            var coverletSettings = coverletExeArgumentsProvider.GetArguments(project);
+            List<string> coverletSettings = coverletExeArgumentsProvider.GetArguments(project);
 
-            var executingLogLines = new List<string> { $"{title} - Arguments" };
+            List<string> executingLogLines = new List<string> { $"{title} - Arguments" };
             executingLogLines.AddRange(coverletSettings);
             await logger.LogAsync(executingLogLines);
 
-            var result = await processUtil.ExecuteAsync(
+            ExecuteResponse result = await processUtil.ExecuteAsync(
                 await coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
                 cancellationToken
             );
@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 			*/
             if (result.ExitCode > 3)
             {
-                var errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
+                string errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
                 await logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
 
                 throw new Exception(errorExitCodeMessage);

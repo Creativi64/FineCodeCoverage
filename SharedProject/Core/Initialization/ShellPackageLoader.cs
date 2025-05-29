@@ -26,8 +26,8 @@ namespace FineCodeCoverage.Core.Initialization
 
             if (serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell)
             {
-                var packageToBeLoadedGuid = PackageGuids.guidFCCPackage;
-                shell.LoadPackage(ref packageToBeLoadedGuid, out var _);
+                Guid packageToBeLoadedGuid = PackageGuids.guidFCCPackage;
+                shell.LoadPackage(ref packageToBeLoadedGuid, out IVsPackage _);
             }
         }
     }

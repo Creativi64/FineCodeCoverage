@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Output
         private ThemedTreeGridColours()
         {
             VSColorTheme.ThemeChanged += (_) => this.PopulateColors();
-            PopulateColors();
+            this.PopulateColors();
         }
 
         public static ThemedTreeGridColours Instance { get; } = new ThemedTreeGridColours();
@@ -38,20 +38,21 @@ namespace FineCodeCoverage.Output
 
         private void SetImageBackgroundColor()
         {
-            this.ImageBackgroundColor = ImageBackgroundThemeResourceKey.ToColor();
+            this.ImageBackgroundColor = this.ImageBackgroundThemeResourceKey.ToColor();
             if (this.ImageBackgroundColor == Colors.Transparent)
             {
-                this.ImageBackgroundColor = ImageBackgroundFallbackThemeResourceKey.ToColor();
+                this.ImageBackgroundColor = this.ImageBackgroundFallbackThemeResourceKey.ToColor();
             }
+
             this.ImageBackgroundBrush = new SolidColorBrush(this.ImageBackgroundColor);
             this.ImageBackgroundBrush.Freeze();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBackgroundColor)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBackgroundBrush)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ImageBackgroundColor)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ImageBackgroundBrush)));
         }
 
         private void PopulateColors()
         {
-            SetImageBackgroundColor();
+            this.SetImageBackgroundColor();
             this.SelectedItemActiveBackColor = TreeViewColors.SelectedItemActiveColorKey.ToBrush();
             this.SelectedItemActiveForeColor = TreeViewColors.SelectedItemActiveTextColorKey.ToBrush();
             this.SelectedItemInactiveBackColor = TreeViewColors.SelectedItemInactiveColorKey.ToBrush();

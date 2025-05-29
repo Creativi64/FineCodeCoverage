@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
             MsTestPlatformExePath = Directory
                 .GetFiles(zipDestination, "vstest.console.exe", SearchOption.AllDirectories)
                 .FirstOrDefault();

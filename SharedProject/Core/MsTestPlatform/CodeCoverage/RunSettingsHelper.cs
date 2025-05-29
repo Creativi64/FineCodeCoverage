@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public const string MsDataCollectorFriendlyName = "Code Coverage";
         public static bool IsMsDataCollector(XElement dataCollectorElement)
         {
-            var friendlyNameAttribute = dataCollectorElement.Attribute(FriendlyNameAttributeName);
+            XAttribute friendlyNameAttribute = dataCollectorElement.Attribute(FriendlyNameAttributeName);
             if (friendlyNameAttribute != null)
             {
                 return IsFriendlyMsCodeCoverage(friendlyNameAttribute.Value);
             }
-            var uriAttribute = dataCollectorElement.Attribute(UriAttributeName);
+            XAttribute uriAttribute = dataCollectorElement.Attribute(UriAttributeName);
             return uriAttribute != null && IsMsCodeCoverageUri(uriAttribute.Value);
         }
 

@@ -7,19 +7,19 @@ namespace FineCodeCoverage.Wpf
     {
         public BaseDialogControl()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public string Title
         {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
+            get => (string)this.GetValue(TitleProperty);
+            set => this.SetValue(TitleProperty, value);
         }
 
         public object CustomContent
         {
-            get => GetValue(CustomContentProperty);
-            set => SetValue(CustomContentProperty, value);
+            get => this.GetValue(CustomContentProperty);
+            set => this.SetValue(CustomContentProperty, value);
         }
 
         public static readonly DependencyProperty CustomContentProperty =

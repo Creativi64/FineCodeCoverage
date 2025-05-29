@@ -10,12 +10,13 @@ namespace FineCodeCoverage.Output
         public DirectoryTreeItem(IDirectory directory, SourceFileStructure sourceFileStructure)
         {
             this.Name = directory.Name;
-            ImageMoniker = KnownMonikers.FolderClosed;
-            foreach (var subDirectory in directory.SubDirectories)
+            this.ImageMoniker = KnownMonikers.FolderClosed;
+            foreach (IDirectory subDirectory in directory.SubDirectories)
             {
                 this.observableChildren.Add(new DirectoryTreeItem(subDirectory, sourceFileStructure) { Parent = this });
             }
-            foreach (var sourceFile in directory.SourceFiles)
+
+            foreach (ISourceFile sourceFile in directory.SourceFiles)
             {
                 this.observableChildren.Add(new SourceFileTreeItem(sourceFile, sourceFileStructure) { Parent = this });
             }
@@ -30,7 +31,6 @@ namespace FineCodeCoverage.Output
             this.TotalBranches = this.observableChildren.Sum(c => c.TotalBranches);
             this.CoveredBranches = this.observableChildren.Sum(c => c.CoveredBranches);
         }
-
 
         public override ImageMoniker ImageMoniker { get; }
     }

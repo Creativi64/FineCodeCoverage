@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Engine.Coverlet
     {
         public Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
-            var coverletConsoleCustomPath = coverageProject.Settings.CoverletConsoleCustomPath;
+            string coverletConsoleCustomPath = coverageProject.Settings.CoverletConsoleCustomPath;
             if (string.IsNullOrWhiteSpace(coverletConsoleCustomPath))
             {
                 return Task.FromResult<ExecuteRequest>(null);

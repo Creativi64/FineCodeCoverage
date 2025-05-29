@@ -52,16 +52,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 
         private bool AllProjectsDisabled()
         {
-            var appOptions = runOptionsProvider.Get();
+            RunOptions appOptions = runOptionsProvider.Get();
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
         private async Task<bool> IsTestProjectAsync(ConfiguredProject configuredProject)
         {
-            var commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
-            var isTestProjectPropertValue = await commonProperties.GetEvaluatedPropertyValueAsync("IsTestProject");
+            Microsoft.VisualStudio.ProjectSystem.Properties.IProjectProperties commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
+            string isTestProjectPropertValue = await commonProperties.GetEvaluatedPropertyValueAsync("IsTestProject");
             if (String.IsNullOrEmpty(isTestProjectPropertValue)) { return false; }
-            if (bool.TryParse(isTestProjectPropertValue, out var isTestProject))
+            if (bool.TryParse(isTestProjectPropertValue, out bool isTestProject))
             {
                 return isTestProject;
             }
@@ -71,7 +71,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         private async Task<bool> NoTUnitPackageReferenceAsync(ConfiguredProject configuredProject)
         {
             // although have ITUnitInstalledPackagesService it is not ready the first time this is called.
-            var references = await configuredProject.Services.PackageReferences.GetUnresolvedReferencesAsync();
+            IImmutableSet<Microsoft.VisualStudio.ProjectSystem.References.IUnresolvedPackageReference> references = await configuredProject.Services.PackageReferences.GetUnresolvedReferencesAsync();
             return !references.Any(r => r.UnevaluatedInclude == TUnitConstants.TUnitPackageId);
         }
 
@@ -79,7 +79,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         {
             try
             {
-                var configuredProject = await unconfiguredProject.GetSuggestedConfiguredProjectAsync();
+                ConfiguredProject configuredProject = await unconfiguredProject.GetSuggestedConfiguredProjectAsync();
                 return await IsTestProjectAsync(configuredProject) && await NoTUnitPackageReferenceAsync(configuredProject);
             }
             catch { }
@@ -88,23 +88,23 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 
         private async Task<bool> ProjectEnabledAsync()
         {
-            var projectGuid = await GetProjectGuidAsync();
+            Guid? projectGuid = await GetProjectGuidAsync();
             if (!projectGuid.HasValue) return false;
 
-            var coverageProject = GetCoverageProject(projectGuid.Value);
-            var projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
+            CoverageProject coverageProject = GetCoverageProject(projectGuid.Value);
+            ICoverageSettings projectSettings = await coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
             return projectSettings.Enabled;
         }
 
         private async Task<Guid?> GetProjectGuidAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var hostObject = unconfiguredProject.Services.HostObject;
+            object hostObject = unconfiguredProject.Services.HostObject;
 
-            var vsHierarchy = (IVsHierarchy)hostObject;
+            IVsHierarchy vsHierarchy = (IVsHierarchy)hostObject;
             if (vsHierarchy != null)
             {
-                var success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
+                bool success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
 
                 if (success)
                 {

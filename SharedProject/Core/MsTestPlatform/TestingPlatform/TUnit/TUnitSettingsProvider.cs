@@ -48,14 +48,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public async Task<TUnitSettings> ProvideAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
         {
             await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken, false);
-            var coberturaPath = GetCoberturaPath(tUnitCoverageProject);
-            var commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
+            string coberturaPath = GetCoberturaPath(tUnitCoverageProject);
+            CommandLineParseResult commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
             // todo commandLineParseResult.HasError
             string configurationPathArgument = null;
-            var additionalArgsStringBuilder = new StringBuilder();
+            StringBuilder additionalArgsStringBuilder = new StringBuilder();
             string ignoreExitCodeArg = null;
             int? minimumExpectedTests = null;
-            foreach (var option in commandLineParseResult.Options)
+            foreach (CommandLineParseOption option in commandLineParseResult.Options)
             {
                 switch (option.Name)
                 {
@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         break;
                     case "coverage-settings":
                     case "settings":
-                        var arg = option.Arguments.FirstOrDefault();
+                        string arg = option.Arguments.FirstOrDefault();
                         if (arg != null)
                         {
                             if (ConfigurationPathArgExists(arg))
@@ -78,10 +78,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         ignoreExitCodeArg = option.Arguments.FirstOrDefault();
                         break;
                     case "minimum-expected-tests":
-                        var minExpectedTestsArg = option.Arguments.FirstOrDefault();
+                        string minExpectedTestsArg = option.Arguments.FirstOrDefault();
                         if (minExpectedTestsArg != null)
                         {
-                            if (int.TryParse(minExpectedTestsArg, out var result))
+                            if (int.TryParse(minExpectedTestsArg, out int result))
                             {
                                 minimumExpectedTests = result;
                             }
@@ -96,7 +96,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             AddToAdditionalArgs(GetMinimumExpectedTestsPart(minimumExpectedTests));
             AddToAdditionalArgs(GetIgnoreExitCodePart(ignoreExitCodeArg));
 
-            var configurationPath = await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
+            string configurationPath = await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
             return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgsStringBuilder.ToString());
 
             bool ConfigurationPathArgExists(string pathArg)
@@ -126,8 +126,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private string GetIgnoreExitCodePart(string ignoreExitCodeArg)
         {
-            var ignoreExitCodeString = GetIgnoreExitCodeString(ignoreExitCodeArg);
-            var ignoredExitCodes = GetIgnoredExitCodes(ignoreExitCodeString);
+            string ignoreExitCodeString = GetIgnoreExitCodeString(ignoreExitCodeArg);
+            List<int> ignoredExitCodes = GetIgnoredExitCodes(ignoreExitCodeString);
             if (!ignoredExitCodes.Contains(2) && fccRunWhenTestsFail)
             {
                 ignoredExitCodes.Add(2);
@@ -137,7 +137,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)
         {
-            var environmentVariableValue = environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
+            string environmentVariableValue = environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
             return environmentVariableValue ?? ignoreExitCodesArg ?? "";
         }
 
@@ -149,7 +149,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 {
                     return Enumerable.Empty<int>().ToList();
                 }
-                var codes = exitCodes.Split(';');
+                string[] codes = exitCodes.Split(';');
                 return codes.Select(code => int.Parse(code)).ToList();
             }
             catch
@@ -171,12 +171,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     return configurationPathArgument;
                 }
 
-                var configurationOrRunSettingsElement = xmlUtils.Load(configurationPathArgument);
-                var name = configurationOrRunSettingsElement.Name.LocalName;
+                System.Xml.Linq.XElement configurationOrRunSettingsElement = xmlUtils.Load(configurationPathArgument);
+                string name = configurationOrRunSettingsElement.Name.LocalName;
                 if (name == "Configuration") return configurationPathArgument;
                 if (name == "RunSettings")
                 {
-                    var configurationElement = runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
+                    System.Xml.Linq.XElement configurationElement = runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
                     if (configurationElement != null)
                     {
                         return WriteConfiguration(tUnitCoverageProject, xmlUtils.Serialize(configurationElement));
@@ -189,21 +189,21 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<string> WriteFCCConfigurationAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
         {
-            var configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
+            string configuration = await tUnitCoverageProject.GetConfigurationAsync(cancellationToken);
             return WriteConfiguration(tUnitCoverageProject, configuration);
         }
 
         private string WriteConfiguration(ITUnitCoverageProject tUnitCoverageProject, string configuration)
         {
-            var coverageProject = tUnitCoverageProject.CoverageProject;
-            var configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
+            Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
+            string configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
             fileUtil.WriteAllText(configurationPath, configuration);
             return configurationPath;
         }
 
         private static string GetCoberturaPath(ITUnitCoverageProject tUnitCoverageProject)
         {
-            var coverageProject = tUnitCoverageProject.CoverageProject;
+            Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
             return Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
         }
 

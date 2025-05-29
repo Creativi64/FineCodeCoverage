@@ -9,9 +9,9 @@ namespace FineCodeCoverage.Output
         public static Color ThemeColor(Color color, Color backgroundColor)
         {
             var backgroundHsl = HslColor.FromColor(backgroundColor);
-            var baseR = color.R;
-            var baseG = color.G;
-            var baseB = color.B;
+            byte baseR = color.R;
+            byte baseG = color.G;
+            byte baseB = color.B;
             ImageThemingUtilities.ThemePixel(ref baseR, ref baseG, ref baseB, backgroundHsl);
             return Color.FromArgb(255, baseR, baseG, baseB);
         }

@@ -11,9 +11,7 @@ namespace FineCodeCoverage.Output
     {
         private static readonly MethodInfo GetServiceMethod;
         static ReflectionMEFToolWindowContextProvider()
-        {
-            GetServiceMethod = typeof(IComponentModel).GetMethod("GetService");
-        }
+            => GetServiceMethod = typeof(IComponentModel).GetMethod("GetService");
         public static IComponentModel ComponentModel { get; set; }
         public static TContext GetToolWindowContext<TToolWindowType, TContext>() => (TContext)GetToolWindowContext(typeof(TToolWindowType));
         public static object GetToolWindowContext(Type toolWindowType)
@@ -34,10 +32,10 @@ namespace FineCodeCoverage.Output
         private static void SetToolWindowsWithContext(Type packageType)
         {
             toolWindowsWithContext = new Dictionary<Guid, bool>();
-            var provideToolWindowAttributes = packageType.GetCustomAttributes<ProvideToolWindowAttribute>();
-            foreach (var provideToolWindowAttribute in provideToolWindowAttributes)
+            IEnumerable<ProvideToolWindowAttribute> provideToolWindowAttributes = packageType.GetCustomAttributes<ProvideToolWindowAttribute>();
+            foreach (ProvideToolWindowAttribute provideToolWindowAttribute in provideToolWindowAttributes)
             {
-                var toolWindowType = provideToolWindowAttribute.ToolType;
+                Type toolWindowType = provideToolWindowAttribute.ToolType;
                 toolWindowsWithContext.Add(toolWindowType.GUID, toolWindowType.GetConstructors().Any(c => c.GetParameters().Length == 1));
             }
         }
@@ -48,7 +46,8 @@ namespace FineCodeCoverage.Output
             {
                 SetToolWindowsWithContext(packageType);
             }
-            var isPackageToolWindow = toolWindowsWithContext.TryGetValue(toolWindowType, out bool isToolWindowWithContext);
+
+            bool isPackageToolWindow = toolWindowsWithContext.TryGetValue(toolWindowType, out bool isToolWindowWithContext);
             return isPackageToolWindow && isToolWindowWithContext;
         }
     }

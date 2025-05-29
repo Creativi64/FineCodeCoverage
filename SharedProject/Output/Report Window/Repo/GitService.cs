@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
-
 namespace FineCodeCoverage.Output
 {
 #if VS2022
@@ -27,9 +26,7 @@ namespace FineCodeCoverage.Output
             Assumes.Present(this.gitExt);
         }
         public IReadOnlyList<string> GetRepositoryPaths()
-        {
-            return gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
-        }
+            => this.gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
 
         public IGitRepo GetRepository(string selectedRepositoryPath)
         {
@@ -43,10 +40,7 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup)
-        {
-            return new Changeset(changeLookup);
-        }
+        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup) => new Changeset(changeLookup);
 
         public bool CanUseChangeset => true;
     }
@@ -54,20 +48,11 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IGitService))]
     internal class GitService2019 : IGitService
     {
-        public IGitRepo GetRepository(string selectedRepository)
-        {
-            throw new NotImplementedException();
-        }
+        public IGitRepo GetRepository(string selectedRepository) => throw new NotImplementedException();
 
-        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup)
-        {
-            throw new NotImplementedException();
-        }
+        public IChangeset GetChangeset(IDictionary<string, HashSet<int>> changeLookup) => throw new NotImplementedException();
 
-        public IReadOnlyList<string> GetRepositoryPaths()
-        {
-            throw new NotImplementedException();
-        }
+        public IReadOnlyList<string> GetRepositoryPaths() => throw new NotImplementedException();
 
         public bool CanUseChangeset => false;
     }

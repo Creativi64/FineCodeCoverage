@@ -34,9 +34,9 @@ namespace FineCodeCoverage.Engine.Model
 			</PropertyGroup>
 			 */
 
-            var xassemblyName = projectFileXElement.XPathSelectElement("/PropertyGroup/AssemblyName");
+            XElement xassemblyName = projectFileXElement.XPathSelectElement("/PropertyGroup/AssemblyName");
 
-            var result = xassemblyName?.Value.Trim();
+            string result = xassemblyName?.Value.Trim();
 
             if (string.IsNullOrWhiteSpace(result))
             {
@@ -67,8 +67,8 @@ namespace FineCodeCoverage.Engine.Model
 					</PropertyGroup>
 					...
 				 */
-                var projectFileXElement = LinqToXmlUtil.Load(projectPath, true);
-                var excludeFromCodeCoverageProperty = projectFileXElement.XPathSelectElement($"/PropertyGroup/{excludeFromCodeCoveragePropertyName}");
+                XElement projectFileXElement = LinqToXmlUtil.Load(projectPath, true);
+                XElement excludeFromCodeCoverageProperty = projectFileXElement.XPathSelectElement($"/PropertyGroup/{excludeFromCodeCoveragePropertyName}");
 
                 return excludeFromCodeCoverageProperty != null;
             }

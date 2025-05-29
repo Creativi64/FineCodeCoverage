@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Output.Report_Window.ReportTreeItems
     {
         public TotalTreeItem(IEnumerable<ReportTreeItemBase> children)
         {
-            foreach (var child in children)
+            foreach (ReportTreeItemBase child in children)
             {
                 this.CoverableLines += child.CoverableLines;
                 this.CoveredLines += child.CoveredLines;
@@ -23,6 +23,7 @@ namespace FineCodeCoverage.Output.Report_Window.ReportTreeItems
                 this.CoveredBranches += child.CoveredBranches;
 
             }
+
             this.Name = "Total";
         }
 

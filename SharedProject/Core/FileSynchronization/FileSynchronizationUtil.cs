@@ -12,20 +12,20 @@ namespace FineCodeCoverage.Engine.FileSynchronization
     {
         public List<string> Synchronize(string sourceFolder, string destinationFolder, string fineCodeCoverageFolderName)
         {
-            var logs = new List<string>();
-            var srceDir = new DirectoryInfo(Path.GetFullPath(sourceFolder) + '\\');
-            var destDir = new DirectoryInfo(Path.GetFullPath(destinationFolder) + '\\');
+            List<string> logs = new List<string>();
+            DirectoryInfo srceDir = new DirectoryInfo(Path.GetFullPath(sourceFolder) + '\\');
+            DirectoryInfo destDir = new DirectoryInfo(Path.GetFullPath(destinationFolder) + '\\');
 
             // file lists
-            var sourceFileInfos = srceDir.GetFiles().Concat(srceDir.GetDirectories().Where(d => d.Name != fineCodeCoverageFolderName).SelectMany(d => d.GetFiles("*", SearchOption.AllDirectories)));
-            var srceFiles = sourceFileInfos.AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(srceDir.FullName.Length)));
+            IEnumerable<FileInfo> sourceFileInfos = srceDir.GetFiles().Concat(srceDir.GetDirectories().Where(d => d.Name != fineCodeCoverageFolderName).SelectMany(d => d.GetFiles("*", SearchOption.AllDirectories)));
+            ParallelQuery<ComparableFile> srceFiles = sourceFileInfos.AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(srceDir.FullName.Length)));
             ParallelQuery<ComparableFile> destFiles() => destDir.GetFiles("*", SearchOption.AllDirectories).AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(destDir.FullName.Length)));
 
             // copy to dest
 
-            foreach (var fileToCopy in srceFiles.Except(destFiles(), FileComparer.Singleton))
+            foreach (ComparableFile fileToCopy in srceFiles.Except(destFiles(), FileComparer.Singleton))
             {
-                var to = new FileInfo(fileToCopy.FileInfo.FullName.Replace(srceDir.FullName, destDir.FullName));
+                FileInfo to = new FileInfo(fileToCopy.FileInfo.FullName.Replace(srceDir.FullName, destDir.FullName));
 
                 if (!to.Directory.Exists)
                 {
@@ -54,7 +54,7 @@ namespace FineCodeCoverage.Engine.FileSynchronization
 
             // delete from dest
 
-            foreach (var fileToDelete in destFiles().Except(srceFiles, FileComparer.Singleton))
+            foreach (ComparableFile fileToDelete in destFiles().Except(srceFiles, FileComparer.Singleton))
             {
                 try
                 {

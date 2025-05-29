@@ -25,12 +25,12 @@ namespace FineCodeCoverage.Readme
 
         protected override void Write(WpfRenderer renderer, MarkerBlock markerBlock)
         {
-            if (blockCreators.TryGetValue(markerBlock.Marker, out var creator))
+            if (this.blockCreators.TryGetValue(markerBlock.Marker, out Func<IEnumerable<Block>> creator))
             {
-                var blocks = creator();
+                IEnumerable<Block> blocks = creator();
                 if (blocks != null)
                 {
-                    foreach (var block in blocks)
+                    foreach (Block block in blocks)
                     {
                         renderer.WriteBlock(block);
                     }

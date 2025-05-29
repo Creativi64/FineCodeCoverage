@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine
             await DetermineOutputFolderForAllProjectsAsync();
             if (outputFolderForAllProjects == null)
             {
-                foreach (var coverageProject in coverageProjects)
+                foreach (ICoverageProject coverageProject in coverageProjects)
                 {
                     coverageProject.CoverageOutputFolder = coverageProject.DefaultCoverageOutputFolder;
                 }
@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Engine
             else
             {
                 fileUtil.TryEmptyDirectory(outputFolderForAllProjects);
-                foreach (var coverageProject in coverageProjects)
+                foreach (ICoverageProject coverageProject in coverageProjects)
                 {
                     coverageProject.CoverageOutputFolder = Path.Combine(outputFolderForAllProjects, coverageProject.ProjectName);
                 }
