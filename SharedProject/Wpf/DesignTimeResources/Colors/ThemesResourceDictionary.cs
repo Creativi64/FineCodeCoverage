@@ -10,19 +10,12 @@ namespace FineCodeCoverage.Wpf
         public class ThemeResourceDictionary : ResourceDictionary
         {
             public ThemeResourceDictionary(string themeName)
-            {
-                ThemeService.GetResources(themeName).ToList().ForEach(kvp => Add(kvp.Key, GetResource(kvp.Value, kvp.Key.KeyType)));
-            }
+                => ThemeService.GetResources(themeName).ToList()
+                .ForEach(kvp => this.Add(kvp.Key, GetResource(kvp.Value, kvp.Key.KeyType)));
         }
 
         private static object GetResource(Color color, ThemeResourceKeyType themeResourceKeyType)
-        {
-            if (themeResourceKeyType.IsBrushType())
-            {
-                return new SolidColorBrush(color);
-            }
-            return color;
-        }
+            => themeResourceKeyType.IsBrushType() ? new SolidColorBrush(color) : (object)color;
 
         internal void SetTheme(string themeName)
         {

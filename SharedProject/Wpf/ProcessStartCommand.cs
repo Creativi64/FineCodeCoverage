@@ -16,5 +16,4 @@ namespace FineCodeCoverage.Wpf
 
         public void Execute(object parameter) => this.process.Start(parameter as string);
     }
-
 }

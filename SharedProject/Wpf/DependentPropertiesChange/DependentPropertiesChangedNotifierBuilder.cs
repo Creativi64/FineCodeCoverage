@@ -13,12 +13,12 @@ namespace FineCodeCoverage.Wpf
     {
         public static DependentPropertiesChangedNotifier<T> Build<T>() where T : FrameworkElement, IPropertyDependencyChanged
         {
-            var type = typeof(T);
-            var dependencies = BuildPropertyDependencies(type);
-            var dependencyProperties = GetDependencyProperties(type);
+            Type type = typeof(T);
+            IDictionary<string, OneOrMany<string>> dependencies = BuildPropertyDependencies(type);
+            List<DependencyProperty> dependencyProperties = GetDependencyProperties(type);
             var allDescriptorDependents = dependencies.Select(kvp =>
             {
-                var dependedUponDp = dependencyProperties.FirstOrDefault(dp => dp.Name == kvp.Key);
+                DependencyProperty dependedUponDp = dependencyProperties.FirstOrDefault(dp => dp.Name == kvp.Key);
                 if (dependedUponDp == null) return null;
                 var descriptor = DependencyPropertyDescriptor.FromProperty(dependedUponDp, type);
                 return new DependentPropertiesDescriptor(descriptor, (changedPropertyName) => GetDependentProperties(changedPropertyName, dependencies));
@@ -27,17 +27,16 @@ namespace FineCodeCoverage.Wpf
         }
 
         private static List<DependencyProperty> GetDependencyProperties(Type type)
-        {
-            return type.GetFields(BindingFlags.Static | BindingFlags.Public).Where(f => f.FieldType == typeof(DependencyProperty))
+            => type.GetFields(BindingFlags.Static | BindingFlags.Public)
+                .Where(f => f.FieldType == typeof(DependencyProperty))
                 .Select(f => f.GetValue(null) as DependencyProperty).ToList();
-        }
 
         private static IDictionary<string, OneOrMany<string>> BuildPropertyDependencies(Type type)
         {
             IDictionary<string, OneOrMany<string>> map1 = null;
             IDictionary<string, OneOrMany<string>> map2 = null;
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            HashSet<string> stringSet = new HashSet<string>(properties.Select(prop => prop.Name));
+            var stringSet = new HashSet<string>(properties.Select(prop => prop.Name));
             foreach (PropertyInfo propertyInfo in properties)
             {
                 foreach (string str in propertyInfo.GetCustomAttributes(typeof(DependsOnPropertyAttribute), true).Cast<DependsOnPropertyAttribute>().Select(attr => attr.PropertyName))
@@ -48,6 +47,7 @@ namespace FineCodeCoverage.Wpf
                     AddToMapValues(ref map1, propertyInfo.Name, str);
                 }
             }
+
             ValidatePropertyDependencies(map1);
             return map2;
 
@@ -56,7 +56,8 @@ namespace FineCodeCoverage.Wpf
               string key,
               string valueToAdd)
             {
-                (map ?? (map = new Dictionary<string, OneOrMany<string>>())).TryGetValue(key, out OneOrMany<string> oneOrMany);
+                _ = (map ?? (map = new Dictionary<string, OneOrMany<string>>()))
+                    .TryGetValue(key, out OneOrMany<string> oneOrMany);
                 oneOrMany.Add(valueToAdd);
                 map[key] = oneOrMany;
             }
@@ -67,11 +68,11 @@ namespace FineCodeCoverage.Wpf
         {
             if (propertyDependencies == null)
                 return;
-            List<string> allDependentProperties = new List<string>();
+            var allDependentProperties = new List<string>();
             foreach (string key in (IEnumerable<string>)propertyDependencies.Keys)
             {
                 allDependentProperties.Clear();
-                AddDependentProperties(key, key, propertyDependencies, ref allDependentProperties);
+                _ = AddDependentProperties(key, key, propertyDependencies, ref allDependentProperties);
             }
         }
 
@@ -92,21 +93,22 @@ namespace FineCodeCoverage.Wpf
                     allDependentProperties.Add(str);
                     if (str == rootProperty)
                         throw new CircularPropertyDependencyException(str, allDependentProperties.ToArray());
-                    AddDependentProperties(rootProperty, str, propertyDependencies, ref allDependentProperties);
+                    _ = AddDependentProperties(rootProperty, str, propertyDependencies, ref allDependentProperties);
                 }
                 else
                 {
                     break;
                 }
             }
+
             return true;
         }
 
-        private static IEnumerable<string> GetDependentProperties(string property, IDictionary<string, OneOrMany<string>> _propertyDependencies)
+        private static IEnumerable<string> GetDependentProperties(
+            string property, IDictionary<string, OneOrMany<string>> _propertyDependencies)
         {
             List<string> allDependentProperties = null;
             return !AddDependentProperties(property, property, _propertyDependencies, ref allDependentProperties) ? Enumerable.Empty<string>() : allDependentProperties;
         }
     }
-
 }

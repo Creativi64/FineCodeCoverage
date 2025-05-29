@@ -12,30 +12,25 @@ namespace FineCodeCoverage.Wpf
         private readonly Dictionary<T, List<EventHandler>> handlers = new Dictionary<T, List<EventHandler>>();
 
         public DependentPropertiesChangedNotifier(List<DependentPropertiesDescriptor> dependentPropertiesDescriptors)
-        {
-            this.dependentPropertiesDescriptors = dependentPropertiesDescriptors;
-        }
+            => this.dependentPropertiesDescriptors = dependentPropertiesDescriptors;
 
         private EventHandler CreateHandler(T instance, DependentPropertiesDescriptor dependentPropertiesDescriptor)
+            => (_, __) =>
         {
-            EventHandler handler = (_, __) =>
+            IEnumerable<string> dependentPropertyNames = dependentPropertiesDescriptor.GetDependentProperties();
+            foreach (string propertyName in dependentPropertyNames)
             {
-                var dependentPropertyNames = dependentPropertiesDescriptor.GetDependentProperties();
-                foreach (var propertyName in dependentPropertyNames)
-                {
-                    instance.NotifyDependentPropertyChanged(propertyName);
-                }
-            };
-            return handler;
-        }
+                instance.NotifyDependentPropertyChanged(propertyName);
+            }
+        };
 
         public void NotifyOfChanges(T instance)
         {
             var instanceHandlers = new List<EventHandler>();
-            handlers.Add(instance, instanceHandlers);
+            this.handlers.Add(instance, instanceHandlers);
             this.dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
             {
-                var handler = CreateHandler(instance, dependentPropertiesDescriptor);
+                EventHandler handler = this.CreateHandler(instance, dependentPropertiesDescriptor);
                 instanceHandlers.Add(handler);
                 dependentPropertiesDescriptor.AddValueChanged(instance, handler);
             });
@@ -43,22 +38,22 @@ namespace FineCodeCoverage.Wpf
 
         public void RemoveNotificationOfChanges(T instance)
         {
-            if (!handlers.ContainsKey(instance)) return;
-            var instanceHandlers = handlers[instance];
-            var index = 0;
+            if (!this.handlers.ContainsKey(instance)) return;
+            List<EventHandler> instanceHandlers = this.handlers[instance];
+            int index = 0;
             this.dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
             {
                 dependentPropertiesDescriptor.RemoveValueChanged(instance, instanceHandlers[index]);
                 index++;
             });
-            handlers.Remove(instance);
-            RemoveStale();
+            _ = this.handlers.Remove(instance);
+            this.RemoveStale();
         }
 
         private void RemoveStale()
         {
-            var removals = handlers.Keys.Where(k => k.DataContext != null && k.DataContext == BindingOperations.DisconnectedSource).ToList();
-            removals.ForEach(removal => handlers.Remove(removal));
+            var removals = this.handlers.Keys.Where(k => k.DataContext != null && k.DataContext == BindingOperations.DisconnectedSource).ToList();
+            removals.ForEach(removal => this.handlers.Remove(removal));
         }
     }
 }

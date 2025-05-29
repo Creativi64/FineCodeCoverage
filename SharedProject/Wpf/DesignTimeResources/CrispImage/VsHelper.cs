@@ -8,22 +8,20 @@ namespace FineCodeCoverage.Wpf
     {
         public static string GetAVsInstallationPath()
         {
-            var vswherePath = GetVsWherePath();
+            string vswherePath = GetVsWherePath();
             if (!File.Exists(vswherePath))
             {
                 return null;
             }
+
             string vs2022Path = GetInstallPath(vswherePath, "17");
             return vs2022Path ?? GetInstallPath(vswherePath, "16");
         }
 
-        private static string GetVsWherePath()
-        {
-            return Path.Combine(
+        private static string GetVsWherePath() => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
             "Microsoft Visual Studio", "Installer", "vswhere.exe"
             );
-        }
 
         private static string GetInstallPath(string vswherePath, string version)
         {

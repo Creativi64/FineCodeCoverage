@@ -7,8 +7,6 @@ namespace FineCodeCoverage.Wpf
     public class ApplicationResourcesLoader : IApplicationResourcesLoader
     {
         public void AddFromExecutingAssembly(string path)
-        {
-            Application.Current.Resources.AddFromExecutingAssembly(path);
-        }
+            => Application.Current.Resources.AddFromExecutingAssembly(path);
     }
 }

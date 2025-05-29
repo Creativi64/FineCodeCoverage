@@ -4,5 +4,4 @@
     {
         void NotifyDependentPropertyChanged(string propertyName);
     }
-
 }

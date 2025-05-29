@@ -21,16 +21,16 @@ namespace FineCodeCoverage.Wpf
 
             void ApplyBinding()
             {
-                var ancestor = FindMarkedAncestor(targetElement);
+                DependencyObject ancestor = this.FindMarkedAncestor(targetElement);
                 if (ancestor is FrameworkElement fe)
                 {
-                    var binding = new Binding(Path)
+                    var binding = new Binding(this.Path)
                     {
                         Source = fe.DataContext,
                         Mode = BindingMode.OneWay
                     };
 
-                    BindingOperations.SetBinding(
+                    _ = BindingOperations.SetBinding(
                         (DependencyObject)pvt.TargetObject,
                         (DependencyProperty)pvt.TargetProperty,
                         binding);
@@ -47,10 +47,10 @@ namespace FineCodeCoverage.Wpf
 
         private DependencyObject FindMarkedAncestor(DependencyObject start)
         {
-            var current = start;
+            DependencyObject current = start;
             while (current != null)
             {
-                if (AncestorLocator.GetMarker(current) == Marker)
+                if (AncestorLocator.GetMarker(current) == this.Marker)
                     return current;
 
                 current = LogicalTreeHelper.GetParent(current)
@@ -60,5 +60,4 @@ namespace FineCodeCoverage.Wpf
             return null;
         }
     }
-
 }

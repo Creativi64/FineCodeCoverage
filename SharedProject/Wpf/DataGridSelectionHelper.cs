@@ -17,14 +17,10 @@ namespace FineCodeCoverage.Wpf
                 new PropertyMetadata(false, OnHandleSelectionChanged));
 
         public static void SetHandleSelection(DependencyObject element, bool value)
-        {
-            element.SetValue(HandleSelectionProperty, value);
-        }
+            => element.SetValue(HandleSelectionProperty, value);
 
         public static bool GetHandleSelection(DependencyObject element)
-        {
-            return (bool)element.GetValue(HandleSelectionProperty);
-        }
+            => (bool)element.GetValue(HandleSelectionProperty);
 
         private static void OnHandleSelectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -45,44 +41,43 @@ namespace FineCodeCoverage.Wpf
         {
             if (!(sender is DataGrid dataGrid)) return;
 
-            var dataContext = dataGrid.DataContext;
+            object dataContext = dataGrid.DataContext;
             if (dataContext == null) return;
 
-            var itemsSourceType = dataGrid.ItemsSource?.GetType();
+            Type itemsSourceType = dataGrid.ItemsSource?.GetType();
             if (itemsSourceType == null) return;
 
             // Find generic argument from ICollection<T>
-            var itemType = GetGenericArgumentFromICollection(itemsSourceType);
+            Type itemType = GetGenericArgumentFromICollection(itemsSourceType);
             if (itemType == null) return;
 
-            var handlerInterface = typeof(ISelectionHandler<>).MakeGenericType(itemType);
+            Type handlerInterface = typeof(ISelectionHandler<>).MakeGenericType(itemType);
             if (!handlerInterface.IsAssignableFrom(dataContext.GetType())) return;
 
-            var method = handlerInterface.GetMethod(nameof(ISelectionHandler<object>.SelectionChanged));
+            System.Reflection.MethodInfo method = handlerInterface.GetMethod(nameof(ISelectionHandler<object>.SelectionChanged));
 
-            var selectedItems = ExtractTypedSelectedItems(dataGrid.SelectedItems, itemType);
-            method.Invoke(dataContext, new[] { selectedItems });
+            object selectedItems = ExtractTypedSelectedItems(dataGrid.SelectedItems, itemType);
+            _ = method.Invoke(dataContext, new[] { selectedItems });
         }
 
         private static Type GetGenericArgumentFromICollection(Type type)
         {
-            var interfaceType = type.GetInterfaces()
+            Type interfaceType = type.GetInterfaces()
                 .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>));
             return interfaceType?.GetGenericArguments()[0];
         }
 
         private static object ExtractTypedSelectedItems(IList selectedItems, Type targetType)
         {
-            var listType = typeof(List<>).MakeGenericType(targetType);
+            Type listType = typeof(List<>).MakeGenericType(targetType);
             var result = (IList)Activator.CreateInstance(listType);
 
-            foreach (var item in selectedItems)
+            foreach (object item in selectedItems)
             {
-                result.Add(item);
+                _ = result.Add(item);
             }
 
             return result;
         }
     }
-
 }

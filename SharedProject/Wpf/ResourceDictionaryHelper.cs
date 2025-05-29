@@ -9,18 +9,14 @@ namespace FineCodeCoverage.Wpf
         public static ResourceDictionary FromExecutingAssemembly(string resourcePath)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
-            var name = executingAssembly.GetName().Name;
-            var resourceDictionary = new ResourceDictionary
+            string name = executingAssembly.GetName().Name;
+            return new ResourceDictionary
             {
                 Source = new Uri($"pack://application:,,,/{name};component/{resourcePath}", UriKind.Absolute)
             };
-            return resourceDictionary;
         }
 
         public static void AddFromExecutingAssembly(this ResourceDictionary resourceDictionary, string resourcePath)
-        {
-
-            resourceDictionary.MergedDictionaries.Add(FromExecutingAssemembly(resourcePath));
-        }
+            => resourceDictionary.MergedDictionaries.Add(FromExecutingAssemembly(resourcePath));
     }
 }

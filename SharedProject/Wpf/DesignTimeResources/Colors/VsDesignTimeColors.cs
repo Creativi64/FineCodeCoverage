@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 
@@ -12,15 +13,9 @@ namespace FineCodeCoverage.Wpf
                 typeof(string),
                 typeof(VsDesignTimeColors),
                 new PropertyMetadata(default(string), OnThemeNameChanged));
-        public static void SetThemeName(DependencyObject element, string value)
-        {
-            element.SetValue(ThemeNameProperty, value);
-        }
+        public static void SetThemeName(DependencyObject element, string value)=> element.SetValue(ThemeNameProperty, value);
 
-        public static string GetThemeName(DependencyObject element)
-        {
-            return (string)element.GetValue(ThemeNameProperty);
-        }
+        public static string GetThemeName(DependencyObject element) => (string)element.GetValue(ThemeNameProperty);
 
         private static void OnThemeNameChanged(DependencyObject root, DependencyPropertyChangedEventArgs e)
         {
@@ -28,28 +23,28 @@ namespace FineCodeCoverage.Wpf
             {
                 return;
             }
-            var newThemeName = e.NewValue as string;
+
+            string newThemeName = e.NewValue as string;
             if (!ThemeService.IsTheme(newThemeName))
             {
                 return;
             }
 
-            var themeResourceDictionary = GetOrAddThemeResourceDictionary(root as FrameworkElement);
+            ThemesResourceDictionary themeResourceDictionary = GetOrAddThemeResourceDictionary(root as FrameworkElement);
             themeResourceDictionary.SetTheme(newThemeName);
         }
 
         private static ThemesResourceDictionary GetOrAddThemeResourceDictionary(FrameworkElement fe)
         {
-            var resources = fe.Resources;
-            var mergedDictionaries = resources.MergedDictionaries;
+            ResourceDictionary resources = fe.Resources;
+            Collection<ResourceDictionary> mergedDictionaries = resources.MergedDictionaries;
             if (!(mergedDictionaries.FirstOrDefault(rd => rd is ThemesResourceDictionary) is ThemesResourceDictionary themeResourceDictionary))
             {
                 themeResourceDictionary = new ThemesResourceDictionary();
                 resources.MergedDictionaries.Add(themeResourceDictionary);
             }
+
             return themeResourceDictionary;
         }
-
     }
-
 }

@@ -6,21 +6,18 @@ namespace FineCodeCoverage.Wpf
 {
     public partial class VsImageButton : UserControl
     {
-        public VsImageButton()
-        {
-            InitializeComponent();
-        }
+        public VsImageButton() => this.InitializeComponent();
 
         public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get => (ICommand)this.GetValue(CommandProperty);
+            set => this.SetValue(CommandProperty, value);
         }
 
         public object Image
         {
-            get { return GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get => this.GetValue(ImageProperty);
+            set => this.SetValue(ImageProperty, value);
         }
 
         public static readonly DependencyProperty CommandProperty =

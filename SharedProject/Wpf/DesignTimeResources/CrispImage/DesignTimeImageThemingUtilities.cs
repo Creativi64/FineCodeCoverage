@@ -22,13 +22,9 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static void SetImageBackgroundColor(DependencyObject element, Color value)
-        {
-            element.SetValue(ImageBackgroundColorProperty, value);
-        }
+            => element.SetValue(ImageBackgroundColorProperty, value);
 
         public static Color GetImageBackgroundColor(DependencyObject element)
-        {
-            return (Color)element.GetValue(ImageBackgroundColorProperty);
-        }
+            => (Color)element.GetValue(ImageBackgroundColorProperty);
     }
 }

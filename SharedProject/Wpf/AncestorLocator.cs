@@ -14,5 +14,4 @@ namespace FineCodeCoverage.Wpf
         public static string GetMarker(DependencyObject element)
             => (string)element.GetValue(MarkerProperty);
     }
-
 }

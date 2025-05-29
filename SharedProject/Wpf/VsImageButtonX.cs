@@ -6,11 +6,8 @@ namespace FineCodeCoverage.Wpf
 {
     public partial class VsImageButtonX : ContentControl
     {
-        static VsImageButtonX()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(VsImageButtonX),
+        static VsImageButtonX() => DefaultStyleKeyProperty.OverrideMetadata(typeof(VsImageButtonX),
             new FrameworkPropertyMetadata(typeof(VsImageButtonX)));
-        }
 
         public VsImageButtonX()
         {
@@ -21,13 +18,12 @@ namespace FineCodeCoverage.Wpf
 
         public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get => (ICommand)this.GetValue(CommandProperty);
+            set => this.SetValue(CommandProperty, value);
         }
 
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(VsImageButtonX), new PropertyMetadata(null));
 
     }
-
 }

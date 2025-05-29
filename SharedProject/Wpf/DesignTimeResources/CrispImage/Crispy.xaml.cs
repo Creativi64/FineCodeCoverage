@@ -17,10 +17,7 @@ namespace FineCodeCoverage.Wpf
     {
         public class ImageThemingColorChangedArgs : EventArgs
         {
-            public ImageThemingColorChangedArgs(Color color)
-            {
-                Color = color;
-            }
+            public ImageThemingColorChangedArgs(Color color) => this.Color = color;
 
             public Color Color { get; }
         }
@@ -34,6 +31,7 @@ namespace FineCodeCoverage.Wpf
             {
                 return;
             }
+
             ImageThemingUtilities.ImageBackgroundColorProperty.OverrideMetadata(
                 typeof(Crispy),
                 new FrameworkPropertyMetadata((_, args) => ImageThemingColorChanged?.Invoke(
@@ -42,7 +40,6 @@ namespace FineCodeCoverage.Wpf
         }
 
         private Image image;
-
 
         public static readonly DependencyProperty MonikerProperty = CrispImage.MonikerProperty.AddOwner(
             typeof(Crispy),
@@ -64,17 +61,16 @@ namespace FineCodeCoverage.Wpf
             get => (ImageMoniker)this.GetValue(Crispy.MonikerProperty);
             set => this.SetValue(Crispy.MonikerProperty, (object)value);
         }
-
-
         public Crispy()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             if (!isInDesignMode)
             {
-                SetupCrispImage();
+                this.SetupCrispImage();
                 return;
             }
-            SetupDesignTimeCrispImage();
+
+            this.SetupDesignTimeCrispImage();
         }
 
         private void SetupCrispImage()
@@ -83,22 +79,21 @@ namespace FineCodeCoverage.Wpf
             var crispImage = new CrispImage();
 
             // Bind dependency properties from Crispy to CrispImage
-            BindProperty(MonikerProperty, crispImage, CrispImage.MonikerProperty);
-            BindProperty(WidthProperty, crispImage, CrispImage.WidthProperty);
-            BindProperty(HeightProperty, crispImage, CrispImage.HeightProperty);
+            this.BindProperty(MonikerProperty, crispImage, CrispImage.MonikerProperty);
+            this.BindProperty(WidthProperty, crispImage, CrispImage.WidthProperty);
+            this.BindProperty(HeightProperty, crispImage, CrispImage.HeightProperty);
 
-            Content = crispImage;
+            this.Content = crispImage;
         }
 
         private void SetupDesignTimeCrispImage()
         {
-            WeakEventManager<Crispy, ImageThemingColorChangedArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), Crispy_ImageThemingColorChanged);
+            WeakEventManager<Crispy, ImageThemingColorChangedArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), this.Crispy_ImageThemingColorChanged);
 
-            SetImage();
-            SetImageSource();
-            this.Content = image;
+            this.SetImage();
+            this.SetImageSource();
+            this.Content = this.image;
         }
-
 
         private void BindProperty(DependencyProperty sourceProperty,
                           DependencyObject targetObject,
@@ -110,51 +105,41 @@ namespace FineCodeCoverage.Wpf
                 Path = new PropertyPath(sourceProperty),
                 Mode = BindingMode.OneWay
             };
-            BindingOperations.SetBinding(targetObject, targetProperty, binding);
+            _ = BindingOperations.SetBinding(targetObject, targetProperty, binding);
         }
 
         // could do this but it's not necessary
         // protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
 
-
         private void SetImage()
         {
-            image = new Image();
+            this.image = new Image();
 
-            BindingOperations.SetBinding(image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
+            _ = BindingOperations.SetBinding(this.image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
             {
                 Source = this,
             });
-            BindingOperations.SetBinding(image, Image.HeightProperty, new Binding(nameof(FrameworkElement.Height))
+            _ = BindingOperations.SetBinding(this.image, Image.HeightProperty, new Binding(nameof(FrameworkElement.Height))
             {
                 Source = this,
             });
         }
 
-        private Color GetColor()
-        {
-            return (Color)GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
-        }
+        private Color GetColor() => (Color)this.GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
 
-        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedArgs e)
-        {
-            SetImageSource();
-        }
+        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedArgs e) => this.SetImageSource();
 
         private void SetImageSource()
         {
-            var imageSource = (ImageSource)ImageLibraryLoader.Default.GetImage(Moniker, GetImageAttributes());
-            image.Source = imageSource;
+            var imageSource = (ImageSource)ImageLibraryLoader.Default.GetImage(this.Moniker, this.GetImageAttributes());
+            this.image.Source = imageSource;
         }
 
-        private uint ConvertColor(Color color)
-        {
-            return (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
-        }
+        private uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
 
         private static int GetDpi()
         {
-            double dpi = 0;
+            double dpi;
             try
             {
                 dpi = DpiAwareness.SystemDpiX;
@@ -163,25 +148,28 @@ namespace FineCodeCoverage.Wpf
             {
                 dpi = 96.0;
             }
+
             return (int)dpi;
         }
 
         private ImageAttributes GetImageAttributes()
         {
-            var imageAttributes = new ImageAttributes();
-            //imageAttributes.HighContrast = 1;
-            imageAttributes.Format = (uint)_UIDataFormat.DF_WPF;
-            imageAttributes.ImageType = (uint)_UIImageType.IT_Bitmap;
+            var imageAttributes = new ImageAttributes
+            {
+                //imageAttributes.HighContrast = 1;
+                Format = (uint)_UIDataFormat.DF_WPF,
+                ImageType = (uint)_UIImageType.IT_Bitmap
+            };
             const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background;// others
             imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
             imageAttributes.StructSize = (int)Marshal.SizeOf<ImageAttributes>();
-            imageAttributes.Background = ConvertColor(GetColor());
+            imageAttributes.Background = this.ConvertColor(this.GetColor());
             imageAttributes.Dpi = GetDpi();
 
             //var scaleFactor = 1;  
 
-            imageAttributes.LogicalHeight = (int)Width;
-            imageAttributes.LogicalWidth = (int)Height;
+            imageAttributes.LogicalHeight = (int)this.Width;
+            imageAttributes.LogicalWidth = (int)this.Height;
             /*
                 device size
                  double num = dpi / 96.0 * scaleFactor;
@@ -189,8 +177,5 @@ namespace FineCodeCoverage.Wpf
             */
             return imageAttributes;
         }
-
-
-
     }
 }

@@ -995,7 +995,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Editor\.editorconfig" />
-    <None Include="$(MSBuildThisFileDirectory)Wpf\Directory.Build.props" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\" />

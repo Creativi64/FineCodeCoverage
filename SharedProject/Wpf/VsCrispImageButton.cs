@@ -14,17 +14,15 @@ typeof(VsCrispImageButton));
 
         public ImageMoniker Moniker
         {
-            get => (ImageMoniker)GetValue(MonikerProperty);
-            set => SetValue(MonikerProperty, value);
+            get => (ImageMoniker)this.GetValue(MonikerProperty);
+            set => this.SetValue(MonikerProperty, value);
         }
-
 
         public VsCrispImageButton()
         {
             var crispy = new Crispy();
-            crispy.SetBinding(Crispy.MonikerProperty, new Binding(nameof(Moniker)) { Source = this });
+            _ = crispy.SetBinding(Crispy.MonikerProperty, new Binding(nameof(this.Moniker)) { Source = this });
             base.Image = crispy;
         }
     }
-
 }

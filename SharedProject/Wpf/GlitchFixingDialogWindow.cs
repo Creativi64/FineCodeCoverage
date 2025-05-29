@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Wpf
             base.OnContentRendered(e);
             if (this.SizeToContent == SizeToContent.WidthAndHeight)
             {
-                InvalidateMeasure();
+                this.InvalidateMeasure();
             }
         }
     }

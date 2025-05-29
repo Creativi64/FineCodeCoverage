@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Wpf
     {
         static DesignModeHelper()
         {
-            var currentProcessName = Process.GetCurrentProcess().ProcessName;
+            string currentProcessName = Process.GetCurrentProcess().ProcessName;
             IsInDesignMode = currentProcessName == "WpfSurface";
         }
 

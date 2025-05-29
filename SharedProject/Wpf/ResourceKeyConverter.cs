@@ -8,17 +8,9 @@ namespace FineCodeCoverage.Wpf
     public class ResourceKeyConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value == null)
-                return null;
-
-            return Application.Current.Resources[value];
-        }
+            => value == null ? null : Application.Current.Resources[value];
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
-
 }
