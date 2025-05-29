@@ -9,32 +9,32 @@ namespace FineCodeCoverageTests
 {
     internal class ReportViewSelectorViewModel_Tests
     {
-        private class ReportViewState
-        {
-            public ReportViewState(
-                ReportStyle reportStyle, 
-                ReportContentType reportContentType,
-                string selectedRepositoryPath,
-                string selectedBranchName,
-                IReadOnlyList<string> repositoryPaths,
-                bool canUseRepositories
+        //private class ReportViewState
+        //{
+        //    public ReportViewState(
+        //        ReportStyle reportStyle, 
+        //        ReportContentType reportContentType,
+        //        string selectedRepositoryPath,
+        //        string selectedBranchName,
+        //        IReadOnlyList<string> repositoryPaths,
+        //        bool canUseRepositories
 
-            ) {
-                ReportStyle = reportStyle;
-                ReportContentType = reportContentType;
-                SelectedRepositoryPath = selectedRepositoryPath;
-                SelectedBranchName = selectedBranchName;
-                RepositoryPaths = repositoryPaths;
-                CanUseRepositories = canUseRepositories;
-            }
+        //    ) {
+        //        ReportStyle = reportStyle;
+        //        ReportContentType = reportContentType;
+        //        SelectedRepositoryPath = selectedRepositoryPath;
+        //        SelectedBranchName = selectedBranchName;
+        //        RepositoryPaths = repositoryPaths;
+        //        CanUseRepositories = canUseRepositories;
+        //    }
 
-            public bool CanUseRepositories { get; }
-            public ReportContentType ReportContentType { get; }
-            public ReportStyle ReportStyle { get; }
-            public IReadOnlyList<string> RepositoryPaths { get; }
-            public string SelectedBranchName { get; }
-            public string SelectedRepositoryPath { get; }
-        } 
+        //    public bool CanUseRepositories { get; }
+        //    public ReportContentType ReportContentType { get; }
+        //    public ReportStyle ReportStyle { get; }
+        //    public IReadOnlyList<string> RepositoryPaths { get; }
+        //    public string SelectedBranchName { get; }
+        //    public string SelectedRepositoryPath { get; }
+        //} 
         private ReportViewSelectorViewModel Setup(ReportViewState reportViewState)
         {
             var autoMoqer = new AutoMoqer();
@@ -47,7 +47,12 @@ namespace FineCodeCoverageTests
         public void Should_GetState_From_The_Model()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, new List<string>(), false);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full
+                }, new List<string>(), false);
             autoMoqer.GetMock<IReportViewSelectorModel>().Setup(model => model.GetState()).Returns(reportViewState);
             
             autoMoqer.Create<ReportViewSelectorViewModel>();
@@ -63,7 +68,12 @@ namespace FineCodeCoverageTests
                 repositories.Add($"repopath{i}");
             }
             
-            return Setup(new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, repositories, true));
+            return Setup(new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full
+                }, repositories, true));
         }
 
         [TestCase(true)]
@@ -81,10 +91,13 @@ namespace FineCodeCoverageTests
             var repositoryPaths = new List<string> { "repopath", "repopath2" };
             var reportViewSelectorViewModel = Setup(
                 new ReportViewState(
-                    ReportStyle.Assembly, 
-                    ReportContentType.Full, 
-                    "repopath", 
-                    "selectedbranch", 
+                    new ReportViewSolutionOptionValue
+                    {
+                        ReportStyle = ReportStyle.Assembly,
+                        ReportContent = ReportContentType.Full,
+                        SelectedRepository = "repopath",
+                        SelectedBranchName = "selectedbranch"
+                    }, 
                     repositoryPaths, true));
 
             Assert.That(reportViewSelectorViewModel.RepositoryPaths, Is.EqualTo(repositoryPaths));
@@ -103,7 +116,14 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Set_SelectedRepositoryPath_From_State_If_Not_Null()
         {
-            var reportViewSelectorViewModel = Setup(new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "selectedrepopath", "selectedbranch", new List<string> { "firstrepopath", "selectedrepopath" }, true));
+            var reportViewSelectorViewModel = Setup(new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full,
+                    SelectedRepository = "selectedrepopath",
+                    SelectedBranchName = "selectedbranch"
+                }, new List<string> { "firstrepopath", "selectedrepopath" }, true));
 
             Assert.That(reportViewSelectorViewModel.SelectedRepositoryPath, Is.EqualTo("selectedrepopath"));
         }
@@ -111,7 +131,12 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Set_SelectedRepositoryPath_To_The_First_If_Not_Set_In_State()
         {
-            var reportViewSelectorViewModel = Setup(new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, new List<string> { "firstrepopath", "secondrepopath" }, true));
+            var reportViewSelectorViewModel = Setup(new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full
+                }, new List<string> { "firstrepopath", "secondrepopath" }, true));
 
             Assert.That(reportViewSelectorViewModel.SelectedRepositoryPath, Is.EqualTo("firstrepopath"));
         }
@@ -131,10 +156,11 @@ namespace FineCodeCoverageTests
             var repositoryPaths = new List<string> { "repopath", "repopath2" };
             var reportViewSelectorViewModel = Setup(
                 new ReportViewState(
-                    ReportStyle.Assembly,
-                    reportContentType,
-                    "repopath",
-                    "selectedbranch",
+                    new ReportViewSolutionOptionValue {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = reportContentType,
+                    SelectedRepository = "repopath",
+                    SelectedBranchName = "selectedbranch"},
                     repositoryPaths, true));
 
             Assert.That(reportViewSelectorViewModel.SelectedReportContentType.ReportContentType, Is.EqualTo(reportContentType));
@@ -164,10 +190,11 @@ namespace FineCodeCoverageTests
             var repositoryPaths = new List<string> { "repopath", "repopath2" };
             var reportViewSelectorViewModel = Setup(
                 new ReportViewState(
-                    reportStyle,
-                    ReportContentType.Full,
-                    "repopath",
-                    "selectedbranch",
+                    new ReportViewSolutionOptionValue {
+                    ReportStyle = reportStyle,
+                    ReportContent = ReportContentType.Full,
+                    SelectedRepository = "repopath",
+                    SelectedBranchName = "selectedbranch"},
                     repositoryPaths, true));
 
             Assert.That(reportViewSelectorViewModel.SelectedReportStyle.ReportStyle, Is.EqualTo(reportStyle));
@@ -178,10 +205,11 @@ namespace FineCodeCoverageTests
         {
             var reportViewSelectorViewModel = Setup(
                 new ReportViewState(
-                    ReportStyle.Source,
-                    ReportContentType.Full,
-                    null,
-                    null,
+                    new ReportViewSolutionOptionValue
+                    {
+                        ReportStyle = ReportStyle.Source,
+                        ReportContent = ReportContentType.Full
+                    }, 
                     new List<string>(), true));
 
             Assert.That(reportViewSelectorViewModel.NoRepositoriesMessage,Is.EqualTo("Add a git repo to filter by changeset."));
@@ -193,10 +221,11 @@ namespace FineCodeCoverageTests
         {
             var reportViewSelectorViewModel = Setup(
                 new ReportViewState(
-                    ReportStyle.Source,
-                    ReportContentType.Full,
-                    null,
-                    null,
+                    new ReportViewSolutionOptionValue
+                    {
+                        ReportStyle = ReportStyle.Source,
+                        ReportContent = ReportContentType.Full
+                    },
                     new List<string>(), false));
 
             Assert.That(reportViewSelectorViewModel.NoRepositoriesMessage, Is.EqualTo("Changeset filtering available in VS2022."));
@@ -218,10 +247,13 @@ namespace FineCodeCoverageTests
             var repositoryPaths = new List<string> { "repopath", "repopath2" };
             var reportViewSelectorViewModel = Setup(
                 new ReportViewState(
-                    ReportStyle.Assembly,
-                    reportContentType,
-                    "repopath",
-                    "selectedbranch",
+                    new ReportViewSolutionOptionValue
+                    {
+                        ReportStyle = ReportStyle.Assembly,
+                        ReportContent = reportContentType,
+                        SelectedRepository = "repopath",
+                        SelectedBranchName = "selectedbranch"
+                    },
                     repositoryPaths, true));
 
             Assert.That(reportViewSelectorViewModel.GitCombosEnabled, Is.EqualTo(expectedEnabled));
@@ -231,7 +263,10 @@ namespace FineCodeCoverageTests
         public void Should_GetBranches_When_SelectedRepositoryPath_Is_Set()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, new List<string> { "repopath" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue { ReportStyle = ReportStyle.Assembly, ReportContent = ReportContentType.Full }, 
+                new List<string> { "repopath" }, 
+                true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "Branch2" };
@@ -246,7 +281,13 @@ namespace FineCodeCoverageTests
         public void Should_Have_Selected_Branch_As_The_First_When_No_Explicitly_Selected()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, new List<string> { "repopath" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue { 
+                    ReportStyle = ReportStyle.Assembly, 
+                    ReportContent = ReportContentType.Full 
+                }, 
+                new List<string> { "repopath" },
+                true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "Branch2" };
@@ -261,7 +302,14 @@ namespace FineCodeCoverageTests
         public void Should_Have_SelectedBranch_From_State_When_Set()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "repopath", "selectedbranch", new List<string> { "repopath" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full,
+                    SelectedRepository = "repopath",
+                    SelectedBranchName = "selectedbranch"
+                }, new List<string> { "repopath" }, true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "selectedbranch" };
@@ -276,7 +324,14 @@ namespace FineCodeCoverageTests
         public void Should_Clear_Existing_Branches_When_Select_New_Repository()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "repopath", "selectedbranch", new List<string> { "repopath","repopath2" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full,
+                    SelectedRepository = "repopath",
+                    SelectedBranchName = "selectedbranch"
+                }, new List<string> { "repopath","repopath2" }, true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "selectedbranch" };
@@ -297,7 +352,15 @@ namespace FineCodeCoverageTests
         public void Should_Not_Have_Executable_OkCommand_When_No_Changes()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "repopath", "selectedbranch", new List<string> { "repopath", "repopath2" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue { 
+                        ReportStyle = ReportStyle.Assembly, 
+                        ReportContent = ReportContentType.Full,
+                        SelectedRepository = "repopath",
+                        SelectedBranchName = "selectedbranch" 
+                }, 
+                new List<string> { "repopath", "repopath2" }, 
+                true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "selectedbranch" };
@@ -311,7 +374,13 @@ namespace FineCodeCoverageTests
         private void CanExecuteChanged_True_Test(Action<ReportViewSelectorViewModel> change)
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "repopath", "selectedbranch", new List<string> { "repopath", "repopath2" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue { 
+                    ReportStyle = ReportStyle.Assembly, 
+                    ReportContent = ReportContentType.Full, 
+                    SelectedRepository = "repopath", 
+                    SelectedBranchName = "selectedbranch" }, 
+                new List<string> { "repopath", "repopath2" }, true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "selectedbranch" };
@@ -369,7 +438,13 @@ namespace FineCodeCoverageTests
         public void Should_Raise_OKCommand_CanExecuteChanged_False_When_Change_Back_To_Original()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "repopath", "selectedbranch", new List<string> { "repopath", "repopath2" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue { 
+                    ReportStyle = ReportStyle.Assembly, 
+                    ReportContent = ReportContentType.Full, 
+                    SelectedRepository = "repopath", 
+                    SelectedBranchName = "selectedbranch" }, 
+                new List<string> { "repopath", "repopath2" }, true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "selectedbranch" };
@@ -396,7 +471,14 @@ namespace FineCodeCoverageTests
         public void Should_Not_Raise_OkCommand_CanExecuteChanged_When_No_Change()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, "repopath", "selectedbranch", new List<string> { "repopath", "repopath2" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full,
+                    SelectedRepository = "repopath",
+                    SelectedBranchName = "selectedbranch"
+                }, new List<string> { "repopath", "repopath2" }, true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1", "selectedbranch" };
@@ -422,7 +504,12 @@ namespace FineCodeCoverageTests
         public void Should_Update_The_Model_When_Ok_Executed()
         {
             var autoMoqer = new AutoMoqer();
-            var reportViewState = new ReportViewState(ReportStyle.Assembly, ReportContentType.Full, null, null, new List<string> { "repopath" }, true);
+            var reportViewState = new ReportViewState(
+                new ReportViewSolutionOptionValue
+                {
+                    ReportStyle = ReportStyle.Assembly,
+                    ReportContent = ReportContentType.Full
+                }, new List<string> { "repopath" }, true);
             var mockReportViewSelectorModel = autoMoqer.GetMock<IReportViewSelectorModel>();
             mockReportViewSelectorModel.Setup(model => model.GetState()).Returns(reportViewState);
             var selectedRepositoryBranches = new List<string> { "Branch1" };

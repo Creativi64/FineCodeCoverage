@@ -11,12 +11,14 @@ namespace FineCodeCoverageTests
         private const string md =
 @"# Heading 1
 {{Marker}}
-# Heading 2";
+# Heading 2
+## remove this
+";
 
         [Test]
         public void Pipeline_Should_Parse_Markers_To_Markers_Blocks()
         {
-            var markdownPipeline = new ReadMePipeLineProvider().Provide("Marker", () => null);
+            var markdownPipeline = new ReadMePipeLineProvider().Provide("Marker", "## remove this", () => null);
             var markdownDocument = Markdown.Parse(md, markdownPipeline);
             var blocks = markdownDocument.ToList();
             var heading1 = markdownDocument[0];
@@ -32,7 +34,7 @@ namespace FineCodeCoverageTests
         public void Pipeline_Should_Create_Table_From_Marker_Block()
         {
             var table = new System.Windows.Documents.Table();
-            var markdownPipeline = new ReadMePipeLineProvider().Provide("Marker", () => table);
+            var markdownPipeline = new ReadMePipeLineProvider().Provide("Marker", "## remove this", () => table);
             var flowDocument = Markdig.Wpf.Markdown.ToFlowDocument(md, markdownPipeline);
             Assert.That(flowDocument.Blocks.ToList()[1], Is.SameAs(table));
         }

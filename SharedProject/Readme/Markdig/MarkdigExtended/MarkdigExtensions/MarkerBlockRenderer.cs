@@ -11,17 +11,14 @@ namespace FineCodeCoverage.Readme
         private readonly IDictionary<string, Func<IEnumerable<Block>>> blockCreators;
 
         public MarkerBlockRenderer(IDictionary<string, Func<IEnumerable<Block>>> blockCreators)
-        {
-            this.blockCreators = blockCreators;
-        }
-        public MarkerBlockRenderer(string marker, Func<IEnumerable<Block>> creator) :
-            this(
-                new Dictionary<string, Func<IEnumerable<Block>>> {
+            => this.blockCreators = blockCreators;
+
+        public MarkerBlockRenderer(string marker, Func<IEnumerable<Block>> creator)
+            : this( new Dictionary<string, Func<IEnumerable<Block>>> {
                     { marker, creator }
                 }
             )
-        {
-        }
+        { }
 
         protected override void Write(WpfRenderer renderer, MarkerBlock markerBlock)
         {
