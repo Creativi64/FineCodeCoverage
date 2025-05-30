@@ -22,10 +22,12 @@ namespace FineCodeCoverage.Output
                 geometryGroup.Children.Add(line);
                 if (hash)
                 {
+#pragma warning disable CS0162 // Unreachable code detected
                     var line2 = new LineGeometry(
                         new Point(tile, tile),
                         new Point(0, 0)
                     );
+#pragma warning restore CS0162 // Unreachable code detected
                     geometryGroup.Children.Add(line2);
                 }
 

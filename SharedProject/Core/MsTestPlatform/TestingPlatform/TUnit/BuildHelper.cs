@@ -85,7 +85,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             const bool respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;
             if (!respectOnlyBuildStartupProjectsAndDependenciesOnRun) return true;
+#pragma warning disable CS0162 // Unreachable code detected
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+#pragma warning restore CS0162 // Unreachable code detected
             if (this.solutionBuildManager3 == null)
                 return true;
 
