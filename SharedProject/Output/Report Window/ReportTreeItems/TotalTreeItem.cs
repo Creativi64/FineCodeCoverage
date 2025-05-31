@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
 
-namespace FineCodeCoverage.Output.Report_Window.ReportTreeItems
+namespace FineCodeCoverage.Output
 {
     internal class TotalTreeItem : ReportTreeItemBase
     {

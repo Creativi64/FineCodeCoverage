@@ -8,8 +8,10 @@ namespace FineCodeCoverage.Core.Utilities
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [TypeIdentifier]
 #pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable CA1715
     public interface SVsColorThemeService
 #pragma warning restore IDE1006 // Naming Styles
+#pragma warning restore CA1715
     {
     }
 }

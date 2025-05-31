@@ -7,8 +7,10 @@ namespace FineCodeCoverage.Core.Utilities
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [ComImport]
 #pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable CA1715
     public interface SVsAppId
 #pragma warning restore IDE1006 // Naming Styles
+#pragma warning restore CA1715
     {
     }
 }

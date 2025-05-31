@@ -23,8 +23,8 @@ namespace FineCodeCoverage.Wpf
         public void NotifyCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(object _) => this.canExecute?.Invoke() != false;
+        public bool CanExecute(object parameter) => this.canExecute?.Invoke() != false;
 
-        public void Execute(object _) => this.execute();
+        public void Execute(object parameter) => this.execute();
     }
 }

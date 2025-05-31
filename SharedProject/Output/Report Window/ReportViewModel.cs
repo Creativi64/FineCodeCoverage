@@ -9,7 +9,6 @@ using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Options;
-using FineCodeCoverage.Output.Report_Window.ReportTreeItems;
 using Microsoft.VisualStudio.Shell;
 using TreeGrid;
 

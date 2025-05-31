@@ -19,7 +19,9 @@ namespace FineCodeCoverage.Core.Utilities
         int SetProperty(int propid, [MarshalAs(UnmanagedType.Struct)] object var);
 
         [MethodImpl(MethodImplOptions.PreserveSig)]
+#pragma warning disable CA1720
         int GetGuidProperty(int propid, out Guid guid);
+#pragma warning restore CA1720
 
         [MethodImpl(MethodImplOptions.PreserveSig)]
         int SetGuidProperty(int propid, ref Guid rguid);

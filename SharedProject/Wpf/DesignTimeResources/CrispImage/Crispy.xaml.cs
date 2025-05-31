@@ -15,14 +15,14 @@ namespace FineCodeCoverage.Wpf
 {
     public partial class Crispy : ContentControl
     {
-        public class ImageThemingColorChangedArgs : EventArgs
+        public class ImageThemingColorChangedEventArgs : EventArgs
         {
-            public ImageThemingColorChangedArgs(Color color) => this.Color = color;
+            public ImageThemingColorChangedEventArgs(Color color) => this.Color = color;
 
             public Color Color { get; }
         }
 
-        public static event EventHandler<ImageThemingColorChangedArgs> ImageThemingColorChanged;
+        public static event EventHandler<ImageThemingColorChangedEventArgs> ImageThemingColorChanged;
         private static readonly bool isInDesignMode;
         static Crispy()
         {
@@ -36,7 +36,7 @@ namespace FineCodeCoverage.Wpf
                 typeof(Crispy),
                 new FrameworkPropertyMetadata((_, args) => ImageThemingColorChanged?.Invoke(
                     null,
-                    new ImageThemingColorChangedArgs((Color)args.NewValue))));
+                    new ImageThemingColorChangedEventArgs((Color)args.NewValue))));
         }
 
         private Image image;
@@ -88,7 +88,7 @@ namespace FineCodeCoverage.Wpf
 
         private void SetupDesignTimeCrispImage()
         {
-            WeakEventManager<Crispy, ImageThemingColorChangedArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), this.Crispy_ImageThemingColorChanged);
+            WeakEventManager<Crispy, ImageThemingColorChangedEventArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), this.Crispy_ImageThemingColorChanged);
 
             this.SetImage();
             this.SetImageSource();
@@ -127,7 +127,7 @@ namespace FineCodeCoverage.Wpf
 
         private Color GetColor() => (Color)this.GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
 
-        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedArgs e) => this.SetImageSource();
+        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedEventArgs e) => this.SetImageSource();
 
         private void SetImageSource()
         {
@@ -135,7 +135,7 @@ namespace FineCodeCoverage.Wpf
             this.image.Source = imageSource;
         }
 
-        private uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
+        private static uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
 
         private static int GetDpi()
         {
@@ -163,7 +163,7 @@ namespace FineCodeCoverage.Wpf
             const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background;// others
             imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
             imageAttributes.StructSize = (int)Marshal.SizeOf<ImageAttributes>();
-            imageAttributes.Background = this.ConvertColor(this.GetColor());
+            imageAttributes.Background = ConvertColor(this.GetColor());
             imageAttributes.Dpi = GetDpi();
 
             //var scaleFactor = 1;  

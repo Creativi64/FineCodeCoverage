@@ -6,7 +6,9 @@ namespace FineCodeCoverage.Engine.Cobertura
 {
     [XmlRoot(ElementName = "class")]
     [ExcludeFromCodeCoverage]
+#pragma warning disable CA1716
     public class Class
+#pragma warning restore CA1716
     {
         [XmlArray(ElementName = "methods")]
         [XmlArrayItem(ElementName = "method")]
