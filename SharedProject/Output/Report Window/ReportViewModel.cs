@@ -127,6 +127,8 @@ namespace FineCodeCoverage.Output
                         }
 
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -254,6 +256,10 @@ namespace FineCodeCoverage.Output
                         newItems.Insert(0, this.totalTreeItem);
                     }
 
+                    break;
+                case ReportTotalRow.Never:
+                    break;
+                default:
                     break;
             }
         }

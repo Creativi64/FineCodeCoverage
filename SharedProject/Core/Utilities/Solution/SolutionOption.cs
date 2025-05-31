@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                     this.Value = (T)(object)optionAsString;
                 }
 
-                this.Value = (T)this.jsonConvertService.DeserializeObject(optionAsString, typeof(T));
+                this.Value = this.jsonConvertService.DeserializeObject<T>(optionAsString);
             }
 
             this.Loaded();

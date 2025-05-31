@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     {
         public PalmmediaCodeElement(CodeElement codeElement, CodeFile codeFile)
         {
-            this.CodeElementType = this.ConvertCodeElementType(codeElement.CodeElementType);
+            this.CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
             this.Name = codeElement.Name;
             this.StartLine = codeElement.FirstLine;
             IEnumerable<LineVisitStatus> lineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             {
                 if (lineVisitStatus != LineVisitStatus.NotCoverable)
                 {
-                    coberturaLines.Add(new CoberturaLine(lineNumber, this.ConvertLineVisitStatus(lineVisitStatus)));
+                    coberturaLines.Add(new CoberturaLine(lineNumber, ConvertLineVisitStatus(lineVisitStatus)));
                 }
 
                 lineNumber++;
@@ -52,7 +52,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             this.Lines = coberturaLines;
         }
 
-        private CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)
+        private static CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)
         {
             switch (lineVisitStatus)
             {
@@ -62,21 +62,23 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                     return CoverageType.NotCovered;
                 case LineVisitStatus.PartiallyCovered:
                     return CoverageType.Partial;
+                case LineVisitStatus.NotCoverable:
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(lineVisitStatus));
             }
         }
 
-        private CodeElementType ConvertCodeElementType(Palmmedia.ReportGenerator.Core.Parser.Analysis.CodeElementType cet)
+        private static CodeElementType ConvertCodeElementType(
+            Palmmedia.ReportGenerator.Core.Parser.Analysis.CodeElementType codeElementType)
         {
-            switch (cet)
+            switch (codeElementType)
             {
                 case Palmmedia.ReportGenerator.Core.Parser.Analysis.CodeElementType.Property:
                     return CodeElementType.Property;
                 case Palmmedia.ReportGenerator.Core.Parser.Analysis.CodeElementType.Method:
                     return CodeElementType.Method;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(codeElementType));
             }
         }
 

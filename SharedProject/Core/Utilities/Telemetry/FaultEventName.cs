@@ -6,11 +6,12 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
     {
         private static void ThrowIfEmpty(string part, string parameterName)
         {
-            if (String.IsNullOrEmpty(part))
+            if (string.IsNullOrEmpty(part))
             {
-                throw new ArgumentNullException("FaultEventName part cannot be null or empty", parameterName);
+                throw new ArgumentException("FaultEventName part cannot be null or empty", parameterName);
             }
         }
+
         public FaultEventName(string product, string featureName, string entityName)
         {
             ThrowIfEmpty(product, nameof(product));
@@ -21,13 +22,9 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
             this.FeatureName = featureName;
             this.EntityName = entityName;
         }
-        public override string ToString()
-        {
-            return $"{this.Product}/{this.FeatureName}/{this.EntityName}";
-        }
+        public override string ToString() => $"{this.Product}/{this.FeatureName}/{this.EntityName}";
         public string Product { get; }
         public string FeatureName { get; }
         public string EntityName { get; }
     }
-
 }

@@ -830,7 +830,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DemoCustomMarkupExt.xaml.cs">
       <DependentUpon>DemoCustomMarkupExt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\FileLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\ImageLibraryLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeResourceKeyTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeService.cs" />

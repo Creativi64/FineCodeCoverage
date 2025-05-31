@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Engine.Coverlet
     internal class CoverletDataCollectorGeneratedCobertura : ICoverletDataCollectorGeneratedCobertura
     {
         internal const string collectorGeneratedCobertura = "coverage.cobertura.xml";
-        private FileInfo GetCoberturaFile(string coverageOutputFolder)
+        private static FileInfo GetCoberturaFile(string coverageOutputFolder)
         {
             //C:\\Users\\tonyh\\Source\\Repos\\DataCollectorXUnit\\XUnitTestProject1\\bin\\Debug\\netcoreapp3.1\\fine-code-coverage\\coverage-tool-output\\7ba6447d-a89f-4836-bffc-aeb4799e48ab\\coverage.cobertura.xml\r\nP
             var coverageOutputDirectory = new DirectoryInfo(coverageOutputFolder);
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         public void CorrectPath(string coverageOutputFolder, string coverageOutputFile)
         {
-            FileInfo coberturaFile = this.GetCoberturaFile(coverageOutputFolder) ?? throw new Exception($"Data collector did not generate {collectorGeneratedCobertura}");
+            FileInfo coberturaFile = GetCoberturaFile(coverageOutputFolder) ?? throw new Exception($"Data collector did not generate {collectorGeneratedCobertura}");
             DirectoryInfo guidDirectoryToDelete = coberturaFile.Directory;
             coberturaFile.MoveTo(coverageOutputFile);
 
