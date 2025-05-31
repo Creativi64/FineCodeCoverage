@@ -1,6 +1,6 @@
 # C# files
 [*.cs]
-
+dotnet_analyzer_diagnostic.category-Naming.severity = error
 #### Core EditorConfig Options ####
 
 # Indentation and spacing

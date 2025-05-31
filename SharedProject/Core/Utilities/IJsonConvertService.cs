@@ -6,6 +6,6 @@ namespace FineCodeCoverage.Core.Utilities
     {
         object DeserializeObject(string serialized, Type propertyType);
         T DeserializeObject<T>(string serialized);
-        string SerializeObject(object objValue);
+        string SerializeObject(object value);
     }
 }
