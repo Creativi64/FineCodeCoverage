@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
@@ -21,7 +20,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         public void CorrectPath(string coverageOutputFolder, string coverageOutputFile)
         {
-            FileInfo coberturaFile = GetCoberturaFile(coverageOutputFolder) ?? throw new Exception($"Data collector did not generate {collectorGeneratedCobertura}");
+            FileInfo coberturaFile = GetCoberturaFile(coverageOutputFolder) ?? throw new CoverletDataCollectorDidNotGenerateCoberturaException(collectorGeneratedCobertura);
             DirectoryInfo guidDirectoryToDelete = coberturaFile.Directory;
             coberturaFile.MoveTo(coverageOutputFile);
 

@@ -373,7 +373,7 @@ namespace FineCodeCoverageTests
         {
             var settingsElement = XElement.Parse($"<Root><PropertyType/></Root>");
             var expectedMessage = $"Unexpected settings type Type for setting TheName in settings merger GetValueFromXml";
-            Assert.Throws<Exception>(() => settingsMerger.GetValueFromXml(settingsElement, typeof(Type), "TheName"), expectedMessage);
+            Assert.Throws<UnexpectedSettingsTypeException>(() => settingsMerger.GetValueFromXml(settingsElement, typeof(Type), "TheName"), expectedMessage);
         }
 
         // add to if add additional types.

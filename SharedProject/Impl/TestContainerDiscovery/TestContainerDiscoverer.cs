@@ -113,7 +113,7 @@ namespace FineCodeCoverage.Impl
 
             await this.LogCoverageStartingAsync();
             this.msCodeCoverageCollectionStatus = await this.msCodeCoverageRunSettingsService.IsCollectingAsync(
-                await this.testOperationFactory.CreateAsync(operation));
+                this.testOperationFactory.Create(operation));
             if (this.msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.NotCollecting)
             {
                 if (settings.RunInParallel)
@@ -122,7 +122,7 @@ namespace FineCodeCoverage.Impl
                     this.runningInParallel = true;
                     this.fccEngine.ReloadCoverage(async () =>
                     {
-                        ITestOperation testOperation = await this.testOperationFactory.CreateAsync(operation);
+                        ITestOperation testOperation = this.testOperationFactory.Create(operation);
                         return await testOperation.GetCoverageProjectsAsync();
                     });
                 }
@@ -163,7 +163,7 @@ namespace FineCodeCoverage.Impl
                 return (false, null);
             }
 
-            ITestOperation testOperation = await this.testOperationFactory.CreateAsync(operation);
+            ITestOperation testOperation = this.testOperationFactory.Create(operation);
 
             bool shouldCollect = await this.CoverageConditionsMetAsync(testOperation);
             return (shouldCollect, testOperation);
@@ -237,7 +237,7 @@ namespace FineCodeCoverage.Impl
         {
             if (this.msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
             {
-                ITestOperation testOperation = await this.testOperationFactory.CreateAsync(operation);
+                ITestOperation testOperation = this.testOperationFactory.Create(operation);
                 await this.msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
             }
         }

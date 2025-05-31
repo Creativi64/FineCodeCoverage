@@ -122,7 +122,7 @@ namespace FineCodeCoverageTests
                 ReportStyle = ReportStyle.Source,
                 ReportContent = ReportContentType.Full
             };
-            mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.DeserializeObject(deserialized, typeof(ReportViewSolutionOptionValue))).Returns(deserializedReportViewSolutionOptionValue);
+            mockJsonConvertService.Setup(jsonConvertService => jsonConvertService.DeserializeObject<ReportViewSolutionOptionValue>(deserialized)).Returns(deserializedReportViewSolutionOptionValue);
             var option = new ReportViewSolutionOption(mockJsonConvertService.Object);
 
             

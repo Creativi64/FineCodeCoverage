@@ -38,6 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletDotNetToolDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletExeArgumentsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletExitCodeFailureException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\DotNetToolListCoverlet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\FCCCoverletConsoleExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\ICoverletConsoleCustomPathExecutor.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\IDotNetToolListCoverlet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\IFCCCoverletConsoleExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\CoverletUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\CoverletDataCollectorDidNotGenerateCoberturaException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\CoverletDataCollectorGeneratedCobertura.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\CoverletDataCollectorState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\CoverletDataCollectorUtil.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\VsApiReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\SettingsMergeLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\SettingsMerger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\UnexpectedSettingsTypeException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\VsBuildFCCSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\CustomRunSettingsTemplateDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\IExceptionReason.cs" />
@@ -210,6 +213,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverExeArgumentsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExeArgumentsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverExitCodeException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportFilesMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\CodeElementType.cs" />
@@ -253,6 +257,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Process\ExecuteRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Process\ExecuteResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Process\ProcessExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Process\ProcessResponseException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\FaultEventName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Telemetry\FCCFaultEventName.cs" />

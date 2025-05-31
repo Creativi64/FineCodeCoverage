@@ -36,7 +36,7 @@ namespace Test
                 Output = "This will be exception message"
             };
             var callbackExitCode = 0;
-            Assert.ThrowsAsync<Exception>(async () =>
+            Assert.ThrowsAsync<ProcessResponseException>(async () =>
             {
                 await processor.ProcessAsync(executeResponse, exitCode =>
                 {

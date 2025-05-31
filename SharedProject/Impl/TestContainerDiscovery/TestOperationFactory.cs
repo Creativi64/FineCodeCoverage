@@ -8,25 +8,36 @@ using ILogger = FineCodeCoverage.Output.ILogger;
 
 namespace FineCodeCoverage.Impl
 {
+    internal class TestContainerDiscoveryReflectionException : Exception
+    {
+        public TestContainerDiscoveryReflectionException(string message) : base(message)
+        {
+        }
+
+        public TestContainerDiscoveryReflectionException() : base()
+        {
+        }
+
+        public TestContainerDiscoveryReflectionException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
     [Export(typeof(ITestOperationFactory))]
     internal class TestOperationFactory : ITestOperationFactory
     {
         private readonly ICoverageProjectFactory coverageProjectFactory;
         private readonly IRunSettingsRetriever runSettingsRetriever;
-        private readonly ILogger logger;
 
         [ImportingConstructor]
         public TestOperationFactory(
             ICoverageProjectFactory coverageProjectFactory,
-            IRunSettingsRetriever runSettingsRetriever,
-            ILogger logger
+            IRunSettingsRetriever runSettingsRetriever
             )
         {
             this.coverageProjectFactory = coverageProjectFactory;
             this.runSettingsRetriever = runSettingsRetriever;
-            this.logger = logger;
         }
-        public async Task<ITestOperation> CreateAsync(IOperation operation)
+        public ITestOperation Create(IOperation operation)
         {
             try
             {
@@ -34,8 +45,7 @@ namespace FineCodeCoverage.Impl
             }
             catch (PropertyDoesNotExistException propertyDoesNotExistException)
             {
-                await this.logger.LogAsync("Error test container discoverer reflection");
-                throw new Exception(propertyDoesNotExistException.Message);
+                throw new TestContainerDiscoveryReflectionException(propertyDoesNotExistException.Message);
             }
         }
     }

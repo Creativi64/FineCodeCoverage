@@ -113,9 +113,8 @@ namespace Test
             var mockTestOperation = new Mock<ITestOperation>();
             var coverageProjects = new List<ICoverageProject>();
             mockTestOperation.Setup(t => t.GetCoverageProjectsAsync()).Returns(Task.FromResult(coverageProjects));
-            mocker.GetMock<ITestOperationFactory>().Setup(f => f.CreateAsync(operation)).ReturnsAsync(mockTestOperation.Object);
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(mockTestOperation.Object);
             return (operation, coverageProjects, mockTestOperation);
-
         }
 
         [SetUp]
@@ -187,7 +186,7 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             var mockTestOperationFactory = mocker.GetMock<ITestOperationFactory>();
             var testOperation = new Mock<ITestOperation>().Object;
-            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.CreateAsync(operation)).ReturnsAsync(testOperation);
+            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.Create(operation)).Returns(testOperation);
 
             RaiseOperationStateChanged(
                 cancelling ? TestOperationStates.TestExecutionCanceling : TestOperationStates.TestExecutionCancelAndFinished, 
@@ -256,7 +255,7 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             var testOperation = new Mock<ITestOperation>().Object;
             var mockTestOperationFactory = mocker.GetMock<ITestOperationFactory>();
-            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.CreateAsync(operation)).ReturnsAsync(testOperation);
+            mockTestOperationFactory.Setup(testOperationFactory => testOperationFactory.Create(operation)).Returns(testOperation);
 
             RaiseTestExecutionFinished(operation);
 #pragma warning disable VSTHRD110 // Observe result of async calls
@@ -337,7 +336,7 @@ namespace Test
             var operation = new Mock<IOperation>().Object;
             var mockTestOperation = new Mock<ITestOperation>();
             mockTestOperation.Setup(t => t.TotalTests).Returns(1);
-            mocker.GetMock<ITestOperationFactory>().Setup(f => f.CreateAsync(operation)).ReturnsAsync(mockTestOperation.Object);
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(mockTestOperation.Object);
 
             SetUpOptions(new RunOptions { Enabled = false, RunWhenTestsFail = true, RunWhenTestsExceed = 0, RunInParallel = false });
 
@@ -394,7 +393,7 @@ namespace Test
 
             var mockTestOperation = new Mock<ITestOperation>();
                 mockTestOperation.SetupGet(testOperation => testOperation.FailedTests).Returns(1);
-            mocker.GetMock<ITestOperationFactory>().Setup(f => f.CreateAsync(It.IsAny<IOperation>())).ReturnsAsync(mockTestOperation.Object);
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(It.IsAny<IOperation>())).Returns(mockTestOperation.Object);
             RaiseTestExecutionStarting();
             RaiseTestExecutionFinished();
 

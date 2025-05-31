@@ -11,17 +11,15 @@ namespace FineCodeCoverage.Core.Utilities
         private readonly ILogger logger;
 
         [ImportingConstructor]
-        public ProcessResponseProcessor(ILogger logger)
-        {
-            this.logger = logger;
-        }
+        public ProcessResponseProcessor(ILogger logger) => this.logger = logger;
+
         public async Task<bool> ProcessAsync(ExecuteResponse result, Func<int, bool> exitCodeSuccessPredicate, bool throwError, string title, Action successCallback = null)
         {
             if (!exitCodeSuccessPredicate(result.ExitCode))
             {
                 if (throwError)
                 {
-                    throw new Exception(result.Output);
+                    throw new ProcessResponseException(result.Output);
                 }
 
                 await this.logger.LogAsync($"{title} Error", result.Output);

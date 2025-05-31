@@ -56,10 +56,10 @@ namespace Test
         {
             var coverletDataCollectorGeneratedCobertura = new CoverletDataCollectorGeneratedCobertura();
             var coverageOutputFile = Path.Combine(coverageOutputFolder.FullName, "renamed.xml");
-            Assert.Throws<Exception>(() =>
+            Assert.Throws<CoverletDataCollectorDidNotGenerateCoberturaException>(() =>
             {
                 coverletDataCollectorGeneratedCobertura.CorrectPath(coverageOutputFolder.FullName, coverageOutputFile);
-            }, "Data collector did not generate coverage.cobertura.xml");
+            }, "coverage.cobertura.xml");
             
         }
         private string GetLastDirectoryPath()

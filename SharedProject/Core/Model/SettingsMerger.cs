@@ -357,7 +357,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 return type.IsEnum
                     ? Enum.Parse(type, strValueArr.FirstOrDefault(), true)
-                    : throw new Exception($"Unexpected settings type '{type.Name}' for setting {name} in settings merger GetValueFromXml");
+                    : throw new UnexpectedSettingsTypeException($"Unexpected settings type '{type.Name}' for setting {name} in settings merger GetValueFromXml");
 
             }
 

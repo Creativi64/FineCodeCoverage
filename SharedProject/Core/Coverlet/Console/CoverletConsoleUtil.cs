@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +61,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 string errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
                 await this.logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
 
-                throw new Exception(errorExitCodeMessage);
+                throw new CoverletExitCodeFailureException(errorExitCodeMessage);
             }
 
             await this.logger.LogAsync($"{title} - Output", result.Output);

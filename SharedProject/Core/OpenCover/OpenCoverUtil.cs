@@ -88,7 +88,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
             if (result.ExitCode != 0)
             {
-                throw new Exception(result.Output);
+                throw new OpenCoverExitCodeException(result.Output);
             }
 
             await this.logger.LogAsync($"{title} - Output", result.Output);

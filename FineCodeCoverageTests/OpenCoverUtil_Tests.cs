@@ -118,7 +118,7 @@ namespace FineCodeCoverageTests
             var mockCoverageProject = new Mock<ICoverageProject>();
             mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(true);
 
-            Assert.ThrowsAsync<Exception>(async () =>  await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct), "Output");
+            Assert.ThrowsAsync<OpenCoverExitCodeException>(async () =>  await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct), "Output");
         }
 
         //todo logging tests

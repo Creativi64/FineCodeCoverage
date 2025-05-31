@@ -267,7 +267,7 @@ namespace Test
         public void Should_Throw_With_ExecuteResponse_Output_When_ExitCode_Is_Greater_Than_3()
         {
             var failureExecuteResponse = new ExecuteResponse { ExitCode = 4, Output = "failure message" };
-            var exception = Assert.ThrowsAsync<Exception>(async() => await RunAsync(failureExecuteResponse));
+            var exception = Assert.ThrowsAsync<CoverletExitCodeFailureException>(async() => await RunAsync(failureExecuteResponse));
 
             Assert.That(exception.Message, Is.EqualTo("Error. Exit code: 4"));
         }
@@ -277,7 +277,7 @@ namespace Test
         {
             var failureExecuteResponse = new ExecuteResponse { ExitCode = 4, Output = "failure message" };
             
-            Assert.ThrowsAsync<Exception>(() => RunAsync(failureExecuteResponse));
+            Assert.ThrowsAsync<CoverletExitCodeFailureException>(() => RunAsync(failureExecuteResponse));
 
             var mockLogger = mocker.GetMock<ILogger>();
 #pragma warning disable VSTHRD110 // Observe result of async calls
