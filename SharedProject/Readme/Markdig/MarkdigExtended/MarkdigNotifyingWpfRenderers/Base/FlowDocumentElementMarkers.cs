@@ -5,7 +5,9 @@ namespace FineCodeCoverage.Readme
 {
     public class FlowDocumentElementMarkers
     {
-        public FlowDocumentElementMarkers(FlowDocument flowDocument, List<ElementAndMarker> elementAndMarkers)
+        public FlowDocumentElementMarkers(
+            FlowDocument flowDocument,
+            IReadOnlyList<ElementAndMarker> elementAndMarkers)
         {
             this.FlowDocument = flowDocument;
             this.ElementAndMarkers = elementAndMarkers;

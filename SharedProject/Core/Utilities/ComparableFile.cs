@@ -15,6 +15,8 @@ namespace FineCodeCoverage.Core.Utilities
 
         public bool Equals(ComparableFile other) => this.hashCode.Equals(other.hashCode);
 
+        public override bool Equals(object obj) => obj is ComparableFile other && this.Equals(other);
+
         public ComparableFile(FileInfo fileInfo, string relativePath)
         {
             this.FileInfo = fileInfo;

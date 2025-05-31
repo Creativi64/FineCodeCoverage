@@ -8,11 +8,14 @@ namespace FineCodeCoverage.Readme
 {
     public abstract class NotifyingWpfRenderer : WpfRenderer
     {
-        public List<ElementAndMarker> ElementAndMarkers = new List<ElementAndMarker>();
+        private readonly List<ElementAndMarker> elementAndMarkers = new List<ElementAndMarker>();
+
+        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => this.elementAndMarkers;
+
         private List<INotifiyingObjectRenderer> notifyingObjectRenderers;
 
         private void NotifyingObjectRenderer_CreatedEvent(object sender, List<ElementAndMarker> elementAndMarkers)
-            => this.ElementAndMarkers.AddRange(elementAndMarkers);
+            => elementAndMarkers.AddRange(elementAndMarkers);
 
         public override void LoadDocument(FlowDocument document)
         {

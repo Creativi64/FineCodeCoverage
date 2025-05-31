@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace FineCodeCoverage.Wpf
 {
-    public static class VsDesignTimeColors
+    internal static class VsDesignTimeColors
     {
         public static readonly DependencyProperty ThemeNameProperty =
             DependencyProperty.RegisterAttached(

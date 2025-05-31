@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Output
 {
     [Export(typeof(IReportViews))]
     [Export(typeof(IReportViewSelectorModel))]
-    internal class ReportViews : IReportViews, IReportViewSelectorModel
+    internal class ReportViews : IReportViews, IReportViewSelectorModel, IDisposable
     {
         private readonly IReportViewSolutionOption reportViewSolutionOption;
         private readonly IGitService gitService;
@@ -202,6 +202,7 @@ namespace FineCodeCoverage.Output
 
         private bool HasChangeSet() => this.reportViewSolutionOption.Value.ReportContent == ReportContentType.Changeset
             && this.selectedGitRepo?.SelectedBranchName != null;
+        public void Dispose() => this.DisposeSelectedGitRepo();
 
         public ReportStyle ReportStyle => this.reportViewSolutionOption.Value.ReportStyle;
 

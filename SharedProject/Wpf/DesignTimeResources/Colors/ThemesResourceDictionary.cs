@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Wpf
 {
-    public class ThemesResourceDictionary : ResourceDictionary
+    internal class ThemesResourceDictionary : ResourceDictionary
     {
         public class ThemeResourceDictionary : ResourceDictionary
         {
