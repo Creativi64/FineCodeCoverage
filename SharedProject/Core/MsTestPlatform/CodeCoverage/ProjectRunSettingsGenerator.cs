@@ -32,17 +32,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         public Task RemoveGeneratedProjectSettingsAsync(IEnumerable<ICoverageProject> coverageProjects)
-        {
-            return Task.WhenAll(
+            => Task.WhenAll(
                 coverageProjects
                 .Where(coverageProject => IsGeneratedRunSettings(coverageProject.RunSettingsFile))
                 .Select(coverageProjectForRemoval => this.vsRunSettingsWriter.RemoveRunSettingsFilePathAsync(coverageProjectForRemoval.Id))
             );
-        }
 
         public Task WriteProjectsRunSettingsAsync(IEnumerable<ICoverageProjectRunSettings> coverageProjectsRunSettings)
-        {
-            return Task.WhenAll(
+            => Task.WhenAll(
                 coverageProjectsRunSettings.Select(coverageProjectRunSettings =>
                 {
                     ICoverageProject coverageProject = coverageProjectRunSettings.CoverageProject;
@@ -51,12 +48,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 })
             );
 
-        }
-
         internal static string GeneratedProjectRunSettingsFilePath(ICoverageProject coverageProject)
-        {
-            return Path.Combine(coverageProject.CoverageOutputFolder, $"{coverageProject.ProjectName}-{fccGeneratedRunSettingsSuffix}.runsettings");
-        }
+            => Path.Combine(
+                coverageProject.CoverageOutputFolder,
+                $"{coverageProject.ProjectName}-{fccGeneratedRunSettingsSuffix}.runsettings");
 
         private async Task WriteProjectRunSettingsAsync(Guid projectGuid, string projectName, string projectRunSettingsFilePath, string projectRunSettings)
         {
@@ -74,15 +69,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private static bool IsGeneratedRunSettings(string runSettingsFile)
-        {
-            if (runSettingsFile == null)
-            {
-                return false;
-            }
-
-            return Path.GetFileNameWithoutExtension(runSettingsFile).EndsWith(fccGeneratedRunSettingsSuffix);
-        }
-
+            => runSettingsFile != null && Path.GetFileNameWithoutExtension(runSettingsFile).EndsWith(fccGeneratedRunSettingsSuffix);
     }
-
 }

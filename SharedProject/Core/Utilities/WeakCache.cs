@@ -19,9 +19,6 @@ namespace FineCodeCoverage.Core.Utilities
             return value;
         }
 
-        public void Clear()
-        {
-            this._cache.Clear();
-        }
+        public void Clear() => this._cache.Clear();
     }
 }

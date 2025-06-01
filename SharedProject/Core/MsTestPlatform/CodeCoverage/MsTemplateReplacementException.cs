@@ -25,13 +25,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
         }
 
-        public override string ToString()
-        {
-            return $@"${this.innerException} 
+        public override string ToString() => $@"${this.innerException} 
 Replaced template :
 ${this.replacedRunSettingsTemplate}
 ";
-        }
-
     }
 }

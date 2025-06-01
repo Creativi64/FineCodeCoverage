@@ -37,11 +37,9 @@ namespace FineCodeCoverage.Core.Utilities
             }
         }
 
-
         public static T Get<T>() where T : class => ComponentModel.GetService<T>();
 
         public static IEnumerable<T> GetAll<T>() where T : class => ComponentModel.GetExtensions<T>();
 
     }
-
 }

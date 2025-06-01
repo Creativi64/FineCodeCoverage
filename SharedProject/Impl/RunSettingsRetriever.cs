@@ -16,46 +16,36 @@ namespace FineCodeCoverage.Impl
             string runSettingsFile = this.GetDefaultRunSettingsFilePath();
             string projectRunSettingsFile = await projectData.GetBuildPropertyAsync("RunSettingsFilePath", (string)null);
 
-            if (!string.IsNullOrEmpty(projectRunSettingsFile))
-            {
-                return projectRunSettingsFile;
-            }
-
-            return runSettingsFile;
+            return !string.IsNullOrEmpty(projectRunSettingsFile) ? projectRunSettingsFile : runSettingsFile;
         }
 
         private string GetAndUpdateSolutionRunSettingsFilePath()
-        {
-            return this.userSettings.GetType().GetMethod("GetAndUpdateSolutionRunSettingsFilePath", BindingFlags.Public | BindingFlags.Instance).Invoke(this.userSettings, new object[] { }) as string;
-        }
+            => this.userSettings.GetType()
+                .GetMethod(
+                    "GetAndUpdateSolutionRunSettingsFilePath",
+                    BindingFlags.Public | BindingFlags.Instance
+                ).Invoke(this.userSettings, new object[] { }) as string;
 
         private string LastRunSettingsFilePath()
-        {
-            return this.userSettings.GetType().GetProperty("LastRunSettingsFilePath", BindingFlags.Public | BindingFlags.Instance).GetValue(this.userSettings) as string;
-        }
+            => this.userSettings.GetType()
+                .GetProperty(
+                    "LastRunSettingsFilePath",
+                    BindingFlags.Public | BindingFlags.Instance
+                ).GetValue(this.userSettings) as string;
 
         private bool AutomaticallyDetectRunSettings()
-        {
-            return (bool)this.userSettings.GetType().GetProperty("AutomaticallyDetectRunSettings", BindingFlags.Public | BindingFlags.Instance).GetValue(this.userSettings);
-        }
+            => (bool)this.userSettings.GetType()
+            .GetProperty("AutomaticallyDetectRunSettings", BindingFlags.Public | BindingFlags.Instance)
+            .GetValue(this.userSettings);
 
         private string GetDefaultRunSettingsFilePath()
         {
             string settingsFilePath = this.GetAndUpdateSolutionRunSettingsFilePath();
             string lastRunSettingsFilePath = this.LastRunSettingsFilePath();
 
-            if (!string.IsNullOrEmpty(lastRunSettingsFilePath))
-            {
-                return lastRunSettingsFilePath;
-            }
-
-            if (!this.AutomaticallyDetectRunSettings() || string.IsNullOrEmpty(settingsFilePath))
-            {
-                return null;
-            }
-
-            return settingsFilePath;
+            return !string.IsNullOrEmpty(lastRunSettingsFilePath)
+                ? lastRunSettingsFilePath
+                : !this.AutomaticallyDetectRunSettings() || string.IsNullOrEmpty(settingsFilePath) ? null : settingsFilePath;
         }
-
     }
 }

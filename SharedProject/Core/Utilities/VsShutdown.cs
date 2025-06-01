@@ -18,9 +18,8 @@ namespace FineCodeCoverage.Core.Utilities
              IServiceProvider serviceProvider
 
         )
-        {
 #pragma warning disable VSTHRD104 // Offer async methods
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var vsShell = (IVsShell)serviceProvider.GetService(typeof(SVsShell));
@@ -28,8 +27,6 @@ namespace FineCodeCoverage.Core.Utilities
                 _ = vsShell.AdviseShellPropertyChanges(this, out uint cookie);
             });
 #pragma warning restore VSTHRD104 // Offer async methods
-
-        }
 
         public int OnShellPropertyChange(int propid, object var)
         {
@@ -41,5 +38,4 @@ namespace FineCodeCoverage.Core.Utilities
             return VSConstants.S_OK;
         }
     }
-
 }

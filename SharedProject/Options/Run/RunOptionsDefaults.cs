@@ -13,5 +13,4 @@ namespace FineCodeCoverage.Options
             options.DisabledNoCoverage = true;
         }
     }
-
 }

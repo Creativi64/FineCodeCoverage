@@ -69,7 +69,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public bool ReplacedTestAdapter { get; set; }
         }
 
-
         public RunSettingsTemplate()
         {
             this.ResultsDirectoryElement = $"<ResultsDirectory>{this.replacementLookups.ResultsDirectory}</ResultsDirectory>";
@@ -194,7 +193,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 throw new MsTemplateReplacementException(exc, replacedRunSettingsTemplate);
             }
 
-            XElement msDataCollectorCodeCoverageElement = this.GetMsDataCollectorCodeCoverageElement(templateDocument);
+            XElement msDataCollectorCodeCoverageElement = GetMsDataCollectorCodeCoverageElement(templateDocument);
             if (msDataCollectorCodeCoverageElement != null)
             {
                 List<(string elementName, string value)> recommendedYouDoNotChangeElementsDetails = isNetFramework ? this.recommendedYouDoNotChangeElementsNetFramework : this.recommendedYouDoNotChangeElementsNetCore;
@@ -213,7 +212,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return templateDocument.ToXmlString();
         }
 
-        private XElement GetMsDataCollectorCodeCoverageElement(XDocument templateDocument)
+        private static XElement GetMsDataCollectorCodeCoverageElement(XDocument templateDocument)
         {
             XElement dataCollectors = templateDocument.GetStrictDescendant("RunSettings/DataCollectionRunSettings/DataCollectors");
             XElement msDataCollector = RunSettingsHelper.FindMsDataCollector(dataCollectors);
@@ -221,21 +220,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         // hacky.  due to tests
-        private string SafeFilePathEscape(string path)
-        {
-            if (path == null)
-            {
-                return null;
-            }
-
-            return XmlFileEscaper.Escape(path);
-        }
+        private static string SafeFilePathEscape(string path) => path == null ? null : XmlFileEscaper.Escape(path);
 
         public string Replace(string templatedXml, IRunSettingsTemplateReplacements replacements)
-        {
-            return templatedXml
-                .Replace(this.replacementLookups.ResultsDirectory, this.SafeFilePathEscape(replacements.ResultsDirectory))
-                .Replace(this.replacementLookups.TestAdapter, this.SafeFilePathEscape(replacements.TestAdapter))
+            => templatedXml
+                .Replace(this.replacementLookups.ResultsDirectory, SafeFilePathEscape(replacements.ResultsDirectory))
+                .Replace(this.replacementLookups.TestAdapter, SafeFilePathEscape(replacements.TestAdapter))
                 .Replace(this.replacementLookups.Enabled, replacements.Enabled)
                 .Replace(this.replacementLookups.ModulePathsExclude, replacements.ModulePathsExclude)
                 .Replace(this.replacementLookups.ModulePathsInclude, replacements.ModulePathsInclude)
@@ -249,27 +239,30 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 .Replace(this.replacementLookups.CompanyNamesInclude, replacements.CompanyNamesInclude)
                 .Replace(this.replacementLookups.PublicKeyTokensExclude, replacements.PublicKeyTokensExclude)
                 .Replace(this.replacementLookups.PublicKeyTokensInclude, replacements.PublicKeyTokensInclude);
-        }
-
 
         #region custom
         private void EnsureRunConfigurationEssentials(XElement runConfiguration)
         {
-            this.AddIfNotPresent(runConfiguration, "ResultsDirectory", this.ResultsDirectoryElement, null, true);
-            this.AddIfNotPresent(runConfiguration, "TestAdaptersPaths", this.TestAdaptersPathElement, null, false);
+            AddIfNotPresent(runConfiguration, "ResultsDirectory", this.ResultsDirectoryElement, null, true);
+            AddIfNotPresent(runConfiguration, "TestAdaptersPaths", this.TestAdaptersPathElement, null, false);
         }
 
         private void EnsureRunConfiguration(XElement runSettingsElement)
-        {
-            this.AddIfNotPresent(runSettingsElement, "RunConfiguration", this.RunConfigurationElement, this.EnsureRunConfigurationEssentials, true);
-        }
+            => AddIfNotPresent(
+                runSettingsElement,
+                "RunConfiguration",
+                this.RunConfigurationElement,
+                this.EnsureRunConfigurationEssentials,
+                true);
 
-        private void AddIfNotPresent(XElement parent, string elementName, string elementAsString, Action<XElement> presentPath = null, bool addFirst = true)
-        {
-            this.AddIfNotPresent(parent, p => p.Element(elementName), elementAsString, presentPath, addFirst);
-        }
+        private static void AddIfNotPresent(
+            XElement parent,
+            string elementName,
+            string elementAsString,
+            Action<XElement> presentPath = null,
+            bool addFirst = true) => AddIfNotPresent(parent, p => p.Element(elementName), elementAsString, presentPath, addFirst);
 
-        private void AddIfNotPresent(XElement parent, Func<XElement, XElement> find, string elementAsString, Action<XElement> presentPath = null, bool addFirst = true)
+        private static void AddIfNotPresent(XElement parent, Func<XElement, XElement> find, string elementAsString, Action<XElement> presentPath = null, bool addFirst = true)
         {
             XElement child = find(parent);
             if (child == null)
@@ -290,27 +283,26 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private void EnsureMsDataCollectorElement(XElement dataCollectors)
-        {
-            this.AddIfNotPresent(dataCollectors, _ => RunSettingsHelper.FindMsDataCollector(dataCollectors), this.MsDataCollectorElement, msDataCollector =>
-            {
-                this.AddEnabledReplacementAttributeIfNotPresent(msDataCollector);
-                XElement msDataCollectorConfiguration = this.GetOrAddConfigurationElement(msDataCollector);
-                this.AddOrCorrectFormat(msDataCollectorConfiguration);
-                this.AddFCCGeneratedIfNotPresent(msDataCollectorConfiguration);
-
-            });
-        }
+            => AddIfNotPresent(
+                dataCollectors,
+                _ => RunSettingsHelper.FindMsDataCollector(dataCollectors),
+                this.MsDataCollectorElement,
+                msDataCollector =>
+                {
+                    this.AddEnabledReplacementAttributeIfNotPresent(msDataCollector);
+                    XElement msDataCollectorConfiguration = this.GetOrAddConfigurationElement(msDataCollector);
+                    AddOrCorrectFormat(msDataCollectorConfiguration);
+                    AddFCCGeneratedIfNotPresent(msDataCollectorConfiguration);
+                });
 
         private XElement GetOrAddConfigurationElement(XElement msDataCollector)
         {
-            this.AddIfNotPresent(msDataCollector, "Configuration", this.msDataCollectorConfigurationElement, this.AddCodeCoverageIfNotPresent, false);
+            AddIfNotPresent(msDataCollector, "Configuration", this.msDataCollectorConfigurationElement, this.AddCodeCoverageIfNotPresent, false);
             return msDataCollector.Element("Configuration");
         }
 
         private void AddCodeCoverageIfNotPresent(XElement configurationElement)
-        {
-            this.AddIfNotPresent(configurationElement, "CodeCoverage", this.msDataCollectorCodeCoverageElement, null, true);
-        }
+            => AddIfNotPresent(configurationElement, "CodeCoverage", this.msDataCollectorCodeCoverageElement, null, true);
 
         private void AddEnabledReplacementAttributeIfNotPresent(XElement msDataCollector)
         {
@@ -321,7 +313,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
         }
 
-        private void AddFCCGeneratedIfNotPresent(XElement msDataCollectorConfiguration)
+        private static void AddFCCGeneratedIfNotPresent(XElement msDataCollectorConfiguration)
         {
             if (msDataCollectorConfiguration.Element(fccMarkerElementName) == null)
             {
@@ -329,7 +321,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
         }
 
-        private void AddOrCorrectFormat(XElement configuration)
+        private static void AddOrCorrectFormat(XElement configuration)
         {
             XElement formatElement = configuration.Element("Format");
             if (formatElement == null)
@@ -343,14 +335,19 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private void EnsureDataCollectorsElement(XElement dataCollectionRunSettings)
-        {
-            this.AddIfNotPresent(dataCollectionRunSettings, "DataCollectors", this.DataCollectorsElement, this.EnsureMsDataCollectorElement);
-        }
+            => AddIfNotPresent(
+                dataCollectionRunSettings,
+                "DataCollectors",
+                this.DataCollectorsElement,
+                this.EnsureMsDataCollectorElement);
 
         private void EnsureMsDataCollector(XElement runSettingsElement)
-        {
-            this.AddIfNotPresent(runSettingsElement, "DataCollectionRunSettings", this.DataCollectionRunSettingsElement, this.EnsureDataCollectorsElement, false);
-        }
+            => AddIfNotPresent(
+                runSettingsElement,
+                "DataCollectionRunSettings",
+                this.DataCollectionRunSettingsElement,
+                this.EnsureDataCollectorsElement,
+                false);
 
         public string ConfigureCustom(string runSettingsTemplate)
         {
@@ -371,10 +368,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         }
 
-        public bool HasReplaceableTestAdapter(string replaceable)
-        {
-            return replaceable.Contains(this.replacementLookups.TestAdapter);
-        }
+        public bool HasReplaceableTestAdapter(string replaceable) => replaceable.Contains(this.replacementLookups.TestAdapter);
     }
-
 }

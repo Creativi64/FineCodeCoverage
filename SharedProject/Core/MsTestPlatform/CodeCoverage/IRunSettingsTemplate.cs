@@ -29,5 +29,4 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         bool FCCGenerated(IXPathNavigable inputRunSettingDocument);
         bool HasReplaceableTestAdapter(string replaceable);
     }
-
 }

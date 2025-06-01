@@ -10,5 +10,4 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         Task RemoveGeneratedProjectSettingsAsync(IEnumerable<ICoverageProject> coverageProjects);
         Task WriteProjectsRunSettingsAsync(IEnumerable<ICoverageProjectRunSettings> coverageProjectsRunSettings);
     }
-
 }

@@ -10,5 +10,4 @@ namespace FineCodeCoverage.Core.Utilities
         public DateTimeOffset StartTime { get; set; }
         public string Output { get; set; }
     }
-
 }

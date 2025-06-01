@@ -16,10 +16,7 @@ namespace FineCodeCoverage.Engine.Model
         private readonly ILogger logger;
 
         [ImportingConstructor]
-        public ProjectFileReferencedProjectsHelper(ILogger logger)
-        {
-            this.logger = logger;
-        }
+        public ProjectFileReferencedProjectsHelper(ILogger logger) => this.logger = logger;
 
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
             string projectFile, XElement projectFileXElement
@@ -50,7 +47,6 @@ namespace FineCodeCoverage.Engine.Model
 
                     referencedProjectFiles.Add(referencedProjectProjectFile);
                 }
-
             }
 
             return referencedProjectFiles.ConvertAll(referencedProjectProjectFile => (IExcludableReferencedProject)new ReferencedProject(referencedProjectProjectFile));

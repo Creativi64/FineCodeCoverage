@@ -23,6 +23,5 @@ namespace FineCodeCoverage.Engine.Cobertura
 
         [XmlAttribute(AttributeName = "condition-coverage")]
         public string ConditionCoverage { get; set; }
-
     }
 }

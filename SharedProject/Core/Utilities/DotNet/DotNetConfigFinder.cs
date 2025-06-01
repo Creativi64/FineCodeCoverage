@@ -8,16 +8,15 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IDotNetConfigFinder))]
     internal class DotNetConfigFinder : IDotNetConfigFinder
     {
-        private bool DirectoryContainsConfig(DirectoryInfo directoryInfo)
-        {
-            return directoryInfo.GetDirectories().Any(dir => dir.Name == ".config");
-        }
+        private static bool DirectoryContainsConfig(DirectoryInfo directoryInfo)
+            => directoryInfo.GetDirectories().Any(dir => dir.Name == ".config");
+
         public IEnumerable<string> GetConfigDirectories(string upFromDirectory)
         {
             var currentDirectory = new DirectoryInfo(upFromDirectory);
             while (true)
             {
-                if (this.DirectoryContainsConfig(currentDirectory))
+                if (DirectoryContainsConfig(currentDirectory))
                 {
                     yield return currentDirectory.FullName;
                 }

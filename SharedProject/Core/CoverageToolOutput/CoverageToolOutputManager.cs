@@ -65,8 +65,6 @@ namespace FineCodeCoverage.Engine
         }
 
         public string GetReportOutputFolder()
-        {
-            return this.outputFolderForAllProjects ?? this.coverageProjects[0].CoverageOutputFolder;
-        }
+            => this.outputFolderForAllProjects ?? this.coverageProjects[0].CoverageOutputFolder;
     }
 }

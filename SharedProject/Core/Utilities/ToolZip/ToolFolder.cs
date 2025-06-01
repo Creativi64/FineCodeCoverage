@@ -11,10 +11,7 @@ namespace FineCodeCoverage.Core.Utilities
         private readonly IZipFile zipFile;
 
         [ImportingConstructor]
-        public ToolFolder(IZipFile zipFile)
-        {
-            this.zipFile = zipFile;
-        }
+        public ToolFolder(IZipFile zipFile) => this.zipFile = zipFile;
 
         public string EnsureUnzipped(string appDataFolder, string toolFolderName, ZipDetails zipDetails, CancellationToken cancellationToken)
         {

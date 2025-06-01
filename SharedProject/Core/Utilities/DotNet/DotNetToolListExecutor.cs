@@ -6,23 +6,17 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IDotNetToolListExecutor))]
     internal class DotNetToolListExecutor : IDotNetToolListExecutor
     {
-        public DotNetToolListExecutionResult Global()
-        {
-            return this.Execute("--global");
-        }
+        public DotNetToolListExecutionResult Global() => Execute("--global");
 
-        public DotNetToolListExecutionResult Local(string directory)
-        {
-            return this.Execute("--local", directory);
-        }
+        public DotNetToolListExecutionResult Local(string directory) => Execute("--local", directory);
 
         public DotNetToolListExecutionResult GlobalToolsPath(string directory)
         {
             string safeDirectory = $@"""{directory}""";
-            return this.Execute($"--tool-path {safeDirectory}");
+            return Execute($"--tool-path {safeDirectory}");
         }
 
-        private DotNetToolListExecutionResult Execute(string additionalArguments, string workingDirectory = null)
+        private static DotNetToolListExecutionResult Execute(string additionalArguments, string workingDirectory = null)
         {
             var processStartInfo = new ProcessStartInfo
             {

@@ -7,8 +7,6 @@ namespace FineCodeCoverage.Core.Utilities
     internal class ZipFileWrapper : IZipFile
     {
         public void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
-        {
-            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
-        }
+            => ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
     }
 }

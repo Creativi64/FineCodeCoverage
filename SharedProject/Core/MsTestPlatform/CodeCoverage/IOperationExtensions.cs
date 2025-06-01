@@ -4,11 +4,9 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
-    public static class MsCodeCoverageIOperationExtensions
+    public static class IOperationExtensions
     {
         public static IEnumerable<Uri> GetRunSettingsMsDataCollectorResultUri(this IOperation operation)
-        {
-            return operation.GetRunSettingsDataCollectorResultUri(new Uri(RunSettingsHelper.MsDataCollectorUri));
-        }
+            => operation.GetRunSettingsDataCollectorResultUri(new Uri(RunSettingsHelper.MsDataCollectorUri));
     }
 }

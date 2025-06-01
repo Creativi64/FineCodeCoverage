@@ -7,17 +7,13 @@ namespace FineCodeCoverage.Core.Utilities
     internal static class ProcessExtensions
     {
         public static string GetOutput(this Process process)
-        {
-            return string.Join(
+            => string.Join(
                 Environment.NewLine,
                 new[]
                 {
                     process.StandardOutput?.ReadToEnd(),
                     process.StandardError?.ReadToEnd()
-                }
-                .Where(x => !string.IsNullOrWhiteSpace(x))
+                }.Where(x => !string.IsNullOrWhiteSpace(x))
             );
-        }
-
     }
 }

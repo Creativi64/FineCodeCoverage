@@ -63,7 +63,5 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             return ok;
         }
-
     }
-
 }

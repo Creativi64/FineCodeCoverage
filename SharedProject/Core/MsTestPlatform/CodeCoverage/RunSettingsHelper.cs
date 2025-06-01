@@ -22,18 +22,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         public static bool IsFriendlyMsCodeCoverage(string friendlyName)
-        {
-            return friendlyName == MsDataCollectorFriendlyName;
-        }
+            => friendlyName == MsDataCollectorFriendlyName;
 
-        public static bool IsMsCodeCoverageUri(string uri)
-        {
-            return uri == MsDataCollectorUri;
-        }
+        public static bool IsMsCodeCoverageUri(string uri) => uri == MsDataCollectorUri;
 
         public static XElement FindMsDataCollector(XElement dataCollectors)
-        {
-            return dataCollectors.Elements().FirstOrDefault(IsMsDataCollector);
-        }
+            => dataCollectors.Elements().FirstOrDefault(IsMsDataCollector);
     }
 }

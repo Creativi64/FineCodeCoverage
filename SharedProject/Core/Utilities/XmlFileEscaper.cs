@@ -2,9 +2,6 @@
 {
     internal static class XmlFileEscaper
     {
-        public static string Escape(string filePath)
-        {
-            return filePath.Replace("&", "&#38;").Replace("'", "&#39;");
-        }
+        public static string Escape(string filePath) => filePath.Replace("&", "&#38;").Replace("'", "&#39;");
     }
 }

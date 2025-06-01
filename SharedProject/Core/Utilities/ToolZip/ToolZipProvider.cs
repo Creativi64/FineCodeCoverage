@@ -10,9 +10,7 @@ namespace FineCodeCoverage.Core.Utilities
         internal const string ZippedToolsDirectoryName = "ZippedTools";
         internal string ExtensionDirectory { get; set; }
         public ToolZipProvider()
-        {
-            this.ExtensionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        }
+            => this.ExtensionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         public ZipDetails ProvideZip(string zipPrefix)
         {

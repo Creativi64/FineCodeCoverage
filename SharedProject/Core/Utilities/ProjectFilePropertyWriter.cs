@@ -14,12 +14,7 @@ namespace FineCodeCoverage.Core.Utilities
             if (projectHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage)
             {
                 int result = vsBuildPropertyStorage.GetPropertyValue(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE, out string v);
-                if (result == VSConstants.S_OK && v == value)
-                {
-                    return true;
-                }
-
-                return vsBuildPropertyStorage.SetPropertyValue(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE, value) == VSConstants.S_OK;
+                return (result == VSConstants.S_OK && v == value) || vsBuildPropertyStorage.SetPropertyValue(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE, value) == VSConstants.S_OK;
             }
 
             return false;
@@ -28,13 +23,12 @@ namespace FineCodeCoverage.Core.Utilities
         public async System.Threading.Tasks.Task<bool> RemovePropertyAsync(IVsHierarchy pHierProj, string propertyName)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            if (pHierProj is IVsBuildPropertyStorage vsBuildPropertyStorage)
-            {
-                return vsBuildPropertyStorage.RemoveProperty(propertyName, string.Empty, (uint)_PersistStorageType.PST_PROJECT_FILE) == VSConstants.S_OK;
-            }
-
-            return false;
+            return pHierProj is IVsBuildPropertyStorage vsBuildPropertyStorage &&
+                vsBuildPropertyStorage.RemoveProperty(
+                    propertyName,
+                    string.Empty,
+                    (uint)_PersistStorageType.PST_PROJECT_FILE
+                ) == VSConstants.S_OK;
         }
     }
-
 }

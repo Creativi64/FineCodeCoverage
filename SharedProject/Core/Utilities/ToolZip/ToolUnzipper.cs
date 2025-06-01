@@ -18,9 +18,15 @@ namespace FineCodeCoverage.Core.Utilities
             this.toolZipProvider = toolZipProvider;
             this.toolFolder = toolFolder;
         }
-        public string EnsureUnzipped(string appDataFolder, string ownFolderName, string zipPrefix, CancellationToken cancellationToken)
-        {
-            return this.toolFolder.EnsureUnzipped(appDataFolder, ownFolderName, this.toolZipProvider.ProvideZip(zipPrefix), cancellationToken);
-        }
+        public string EnsureUnzipped(
+            string appDataFolder,
+            string ownFolderName,
+            string zipPrefix,
+            CancellationToken cancellationToken
+        ) => this.toolFolder.EnsureUnzipped(
+            appDataFolder,
+            ownFolderName,
+            this.toolZipProvider.ProvideZip(zipPrefix),
+            cancellationToken);
     }
 }

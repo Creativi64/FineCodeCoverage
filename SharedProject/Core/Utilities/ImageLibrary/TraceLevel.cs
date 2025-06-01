@@ -8,5 +8,4 @@
         Info,
         Verbose
     }
-
 }

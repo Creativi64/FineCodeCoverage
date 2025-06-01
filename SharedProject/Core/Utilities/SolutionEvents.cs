@@ -18,9 +18,8 @@ namespace FineCodeCoverage.Core.Utilities
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
             )
-        {
 #pragma warning disable VSTHRD104 // Offer async methods
-            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var vsSolution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
@@ -28,37 +27,18 @@ namespace FineCodeCoverage.Core.Utilities
                 _ = vsSolution.AdviseSolutionEvents(this, out _);
             });
 #pragma warning restore VSTHRD104 // Offer async methods
-        }
 
-        public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded) => VSConstants.S_OK;
 
-        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel) => VSConstants.S_OK;
 
-        public int OnBeforeCloseProject(IVsHierarchy pHierarchy, int fRemoved)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnBeforeCloseProject(IVsHierarchy pHierarchy, int fRemoved) => VSConstants.S_OK;
 
-        public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy) => VSConstants.S_OK;
 
-        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel) => VSConstants.S_OK;
 
-        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy) => VSConstants.S_OK;
 
         public int OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
@@ -66,15 +46,9 @@ namespace FineCodeCoverage.Core.Utilities
             return VSConstants.S_OK;
         }
 
-        public int OnQueryCloseSolution(object pUnkReserved, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnQueryCloseSolution(object pUnkReserved, ref int pfCancel) => VSConstants.S_OK;
 
-        public int OnBeforeCloseSolution(object pUnkReserved)
-        {
-            return VSConstants.S_OK;
-        }
+        public int OnBeforeCloseSolution(object pUnkReserved) => VSConstants.S_OK;
 
         public int OnAfterCloseSolution(object pUnkReserved)
         {

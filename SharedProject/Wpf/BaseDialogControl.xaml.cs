@@ -5,10 +5,7 @@ namespace FineCodeCoverage.Wpf
 {
     internal partial class BaseDialogControl : UserControl
     {
-        public BaseDialogControl()
-        {
-            this.InitializeComponent();
-        }
+        public BaseDialogControl() => this.InitializeComponent();
 
         public string Title
         {

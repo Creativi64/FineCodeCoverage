@@ -17,10 +17,7 @@ namespace FineCodeCoverage.Core.Utilities
         [ImportingConstructor]
         public VsColorTheme(
         [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
-        )
-        {
-            this.colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
-        }
+        ) => this.colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
 
         private object CurrentTheme
         {
@@ -34,10 +31,7 @@ namespace FineCodeCoverage.Core.Utilities
                 return this.currentTheme;
             }
         }
-        public string CurrentThemeName
-        {
-            get => ((dynamic)this.CurrentTheme).Name;
-        }
+        public string CurrentThemeName => ((dynamic)this.CurrentTheme).Name;
 
 #pragma warning disable IDE1006 // Naming Styles
         private event EventHandler themeChanged;
@@ -55,16 +49,11 @@ namespace FineCodeCoverage.Core.Utilities
 
                 };
             }
-            remove
-            {
-                themeChanged = null;
-            }
+
+            remove => themeChanged = null;
         }
 
-        private void SetCurrentTheme()
-        {
-            this.currentTheme = ((dynamic)this.colorThemeService).CurrentTheme;
-        }
+        private void SetCurrentTheme() => this.currentTheme = ((dynamic)this.colorThemeService).CurrentTheme;
 
         public VsColorEntry GetColorEntry(ColorName colorName)
         {
@@ -79,9 +68,7 @@ namespace FineCodeCoverage.Core.Utilities
             ((dynamic)vsColorName).Name = colorName.Name;
 
             object colorEntry = this.indexer.GetValue(this.CurrentTheme, new object[] { vsColorName });
-            if (colorEntry == null) return null;
-            return new VsColorEntry(colorEntry, colorName);
+            return colorEntry == null ? null : new VsColorEntry(colorEntry, colorName);
         }
     }
-
 }

@@ -8,5 +8,4 @@ namespace FineCodeCoverage.Engine.Model
     {
         Task<List<IExcludableReferencedProject>> GetInstrumentableReferencedProjectsAsync(VCProject cppProject);
     }
-
 }

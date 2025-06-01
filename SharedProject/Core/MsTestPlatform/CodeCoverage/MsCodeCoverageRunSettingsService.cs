@@ -39,10 +39,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public List<ICoverageProject> RunSettings { get; private set; }
             public List<ICoverageProject> Templated { get; private set; }
 
-            public bool HasTemplated()
-            {
-                return this.Templated.Any();
-            }
+            public bool HasTemplated() => this.Templated.Count > 0;
 
             public static async Task<CoverageProjectsByType> CreateAsync(ITestOperation testOperation)
             {
@@ -227,11 +224,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             await this.ProcessTemplateGenerationResultAsync(generationResult, coverageProjectsForShim);
         }
 
-
         private bool ShouldGenerateTemplatedRunSettings(bool runSettingsSpecifiedMsCodeCoverage)
-        {
-            return this.coverageProjectsByType.HasTemplated() && (this.useMsCodeCoverage || runSettingsSpecifiedMsCodeCoverage);
-        }
+            => this.coverageProjectsByType.HasTemplated() &&
+            (this.useMsCodeCoverage || runSettingsSpecifiedMsCodeCoverage);
 
         private async Task ProcessTemplateGenerationResultAsync(IProjectRunSettingsFromTemplateResult generationResult, List<ICoverageProject> coverageProjectsForShim)
         {
@@ -302,20 +297,20 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         #endregion
 
         #region IRunSettingsService
-        public IXPathNavigable AddRunSettings(IXPathNavigable inputRunSettingDocument, IRunSettingsConfigurationInfo configurationInfo, Microsoft.VisualStudio.TestWindow.Extensibility.ILogger log)
-        {
-            if (configurationInfo.IsTestExecution() && this.ShouldAddFCCRunSettings())
-            {
-                return this.userRunSettingsService.AddFCCRunSettings(inputRunSettingDocument, configurationInfo, this.userRunSettingsProjectDetailsLookup, this.fccMsTestAdapterPath);
-            }
-
-            return null;
-        }
+        public IXPathNavigable AddRunSettings(
+            IXPathNavigable inputRunSettingDocument,
+            IRunSettingsConfigurationInfo configurationInfo,
+            Microsoft.VisualStudio.TestWindow.Extensibility.ILogger log
+        ) => configurationInfo.IsTestExecution() && this.ShouldAddFCCRunSettings()
+                ? this.userRunSettingsService.AddFCCRunSettings(
+                    inputRunSettingDocument,
+                    configurationInfo,
+                    this.userRunSettingsProjectDetailsLookup,
+                    this.fccMsTestAdapterPath)
+                : null;
 
         private bool ShouldAddFCCRunSettings()
-        {
-            return this.IsCollecting && this.userRunSettingsProjectDetailsLookup?.Count > 0;
-        }
+            => this.IsCollecting && this.userRunSettingsProjectDetailsLookup?.Count > 0;
 
         #endregion
 
@@ -323,7 +318,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             await this.CleanUpAsync(testOperation);
 
-            string[] coberturaFiles = this.GetCoberturaFiles(operation);
+            string[] coberturaFiles = GetCoberturaFiles(operation);
             if (coberturaFiles.Length == 0)
             {
                 await this.logger.LogAsync("No cobertura files for ms code coverage.");
@@ -332,10 +327,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             this.fccEngine.RunAndProcessReport(coberturaFiles, this.coverageProjectsByType.All);
         }
 
-        private string[] GetCoberturaFiles(IOperation operation)
+        private static string[] GetCoberturaFiles(IOperation operation)
         {
             IEnumerable<Uri> resultsUris = operation.GetRunSettingsMsDataCollectorResultUri();
-            string[] coberturaFiles = new string[0];
+            string[] coberturaFiles = Array.Empty<string>();
             if (resultsUris != null)
             {
                 coberturaFiles = resultsUris.Select(uri => uri.LocalPath).Where(f => f.EndsWith(".cobertura.xml")).ToArray();
@@ -344,17 +339,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return coberturaFiles;
         }
 
-        public void StopCoverage()
-        {
-            this.fccEngine.StopCoverage();
-        }
-
-
+        public void StopCoverage() => this.fccEngine.StopCoverage();
 
         public Task TestExecutionNotFinishedAsync(ITestOperation testOperation)
-        {
-            return this.CleanUpAsync(testOperation);
-        }
+            => this.CleanUpAsync(testOperation);
 
         private async Task CleanUpAsync(ITestOperation testOperation)
         {

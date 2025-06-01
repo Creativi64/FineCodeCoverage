@@ -38,12 +38,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public List<ICoverageProject> CoverageProjectsWithFCCMsTestAdapter { get; set; }
 
             public static ProjectRunSettingsFromTemplateResult FromException(Exception exception, string reason)
-            {
-                return new ProjectRunSettingsFromTemplateResult
+                => new ProjectRunSettingsFromTemplateResult
                 {
                     ExceptionReason = new ExceptionReasonImpl(exception, reason)
                 };
-            }
         }
 
         [ImportingConstructor]
@@ -86,10 +84,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 return ProjectRunSettingsFromTemplateResult.FromException(exc, "Exception writing templated runsettings");
             }
 
-            return this.CreateSuccessResult(projectsRunSettings);
+            return CreateSuccessResult(projectsRunSettings);
         }
 
-        private IProjectRunSettingsFromTemplateResult CreateSuccessResult(IEnumerable<TemplatedCoverageProjectRunSettingsResult> templatedCoverageProjectsRunSettingsResult)
+        private static ProjectRunSettingsFromTemplateResult CreateSuccessResult(
+            IEnumerable<TemplatedCoverageProjectRunSettingsResult> templatedCoverageProjectsRunSettingsResult
+        )
         {
             var customTemplatePaths = new List<string>();
             var coverageProjectsWithFCCMsTestAdapter = new List<ICoverageProject>();
@@ -117,13 +117,13 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IEnumerable<ICoverageProject> coverageProjects,
             string solutionDirectory,
             string fccMsTestAdapterPath
-        )
-        {
-            return coverageProjects.Select(coverageProject =>
+        ) => coverageProjects.Select(coverageProject =>
             {
                 string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
-                (string replaceableTemplate, string customTemplatePath) = this.GetRunSettingsTemplate(projectDirectory, solutionDirectory);
-                ITemplateReplacementResult templateReplaceResult = this.ReplaceTemplate(coverageProject, replaceableTemplate, fccMsTestAdapterPath);
+                (string replaceableTemplate, string customTemplatePath) = this.GetRunSettingsTemplate(
+                    projectDirectory, solutionDirectory);
+                ITemplateReplacementResult templateReplaceResult = this.ReplaceTemplate(
+                    coverageProject, replaceableTemplate, fccMsTestAdapterPath);
 
                 return new TemplatedCoverageProjectRunSettingsResult
                 {
@@ -134,7 +134,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 };
 
             }).ToList();
-        }
 
         private (string ReplaceableTemplate, string CustomPath) GetRunSettingsTemplate(string projectDirectory, string solutionDirectory)
         {
@@ -162,9 +161,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         public Task CleanUpAsync(List<ICoverageProject> coverageProjects)
-        {
-            return this.projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects);
-        }
+            => this.projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects);
     }
-
 }

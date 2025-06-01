@@ -7,14 +7,10 @@ namespace FineCodeCoverage.Core.Utilities
     public class ThemeChangedWeakEventManager : WeakEventManager
     {
         public static void AddListener(IWeakEventListener listener)
-        {
-            CurrentManager.ProtectedAddListener(null, listener);
-        }
+            => CurrentManager.ProtectedAddListener(null, listener);
 
         public static void RemoveListener(IWeakEventListener listener)
-        {
-            CurrentManager.ProtectedRemoveListener(null, listener);
-        }
+            => CurrentManager.ProtectedRemoveListener(null, listener);
 
         private static ThemeChangedWeakEventManager CurrentManager
         {
@@ -33,18 +29,11 @@ namespace FineCodeCoverage.Core.Utilities
         }
 
         protected sealed override void StartListening(object source)
-        {
-            VSColorTheme.ThemeChanged += this.ThemeChanged;
-        }
+            => VSColorTheme.ThemeChanged += this.ThemeChanged;
 
         protected sealed override void StopListening(object source)
-        {
-            VSColorTheme.ThemeChanged -= this.ThemeChanged;
-        }
+            => VSColorTheme.ThemeChanged -= this.ThemeChanged;
 
-        void ThemeChanged(EventArgs e)
-        {
-            this.DeliverEvent(null, e);
-        }
+        void ThemeChanged(EventArgs e) => this.DeliverEvent(null, e);
     }
 }

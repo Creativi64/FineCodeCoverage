@@ -10,11 +10,7 @@ namespace FineCodeCoverage.Core.Utilities.FCCVersioning
     internal class FCCVersion : IFCCVersion
     {
         private string version;
-        [ImportingConstructor]
-        public FCCVersion()
-        {
 
-        }
         public string GetVersion()
         {
             if (this.version == null)
@@ -37,9 +33,7 @@ namespace FineCodeCoverage.Core.Utilities.FCCVersioning
                 XmlElement metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
                 XmlElement identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
                 this.version = identity.GetAttribute("Version");
-
             }
         }
     }
-
 }

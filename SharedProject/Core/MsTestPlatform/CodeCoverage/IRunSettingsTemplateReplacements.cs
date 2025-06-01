@@ -7,7 +7,6 @@
         string ResultsDirectory { get; }
         string TestAdapter { get; }
 
-
         // the following are xml fragments as strings
         // e.g <ModulePath>path1</ModulePath><ModulePath>path2</ModulePath>
         string ModulePathsExclude { get; }

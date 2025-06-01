@@ -6,23 +6,15 @@
             ProductFaultEventNameBuilder.Create("FineCodeCoverage");
 
         public static FaultEventName Create(string featureName, string entityName)
-        {
-            return productFaultEventNameBuilder.Build(featureName, entityName);
-        }
+            => productFaultEventNameBuilder.Build(featureName, entityName);
 
         public static FaultEventName Create<TEntity>(string featureName)
-        {
-            return productFaultEventNameBuilder.Build<TEntity>(featureName);
-        }
+            => productFaultEventNameBuilder.Build<TEntity>(featureName);
 
         public static IBuildFaultEventNameFromFeatureHierarchy WithEntityName(string entityName)
-        {
-            return productFaultEventNameBuilder.WithEntityName(entityName);
-        }
+            => productFaultEventNameBuilder.WithEntityName(entityName);
 
         public static IBuildFaultEventNameFromFeatureHierarchy WithEntityName<TEntity>()
-        {
-            return productFaultEventNameBuilder.WithEntityName<TEntity>();
-        }
+            => productFaultEventNameBuilder.WithEntityName<TEntity>();
     }
 }

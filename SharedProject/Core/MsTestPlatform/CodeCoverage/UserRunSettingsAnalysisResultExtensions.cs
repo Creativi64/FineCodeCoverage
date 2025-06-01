@@ -3,14 +3,6 @@
     internal static class UserRunSettingsAnalysisResultExtensions
     {
         public static bool Ok(this IUserRunSettingsAnalysisResult userRunSettingsAnalysisResult)
-        {
-            if (userRunSettingsAnalysisResult == null)
-            {
-                return false;
-            }
-
-            return userRunSettingsAnalysisResult.Suitable;
-
-        }
+            => userRunSettingsAnalysisResult?.Suitable == true;
     }
 }

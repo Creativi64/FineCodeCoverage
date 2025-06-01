@@ -2,10 +2,7 @@
 {
     internal static class MsCodeCoverageRegex
     {
-        public static string RegexEscapePath(string path)
-        {
-            return path.Replace(@"\", @"\\");
-        }
+        public static string RegexEscapePath(string path) => path.Replace(@"\", @"\\");
 
         public static string RegexModuleName(string moduleName, bool isDll)
         {
@@ -13,10 +10,6 @@
             return $".*\\\\{EscapeDots(moduleName)}\\.{extensionMatch}$";
         }
 
-        private static string EscapeDots(string moduleName)
-        {
-            return moduleName.Replace(".", @"\.");
-        }
+        private static string EscapeDots(string moduleName) => moduleName.Replace(".", @"\.");
     }
-
 }

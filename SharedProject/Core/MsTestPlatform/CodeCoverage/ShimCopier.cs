@@ -13,10 +13,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly IFileUtil fileUtil;
 
         [ImportingConstructor]
-        public ShimCopier(IFileUtil fileUtil)
-        {
-            this.fileUtil = fileUtil;
-        }
+        public ShimCopier(IFileUtil fileUtil) => this.fileUtil = fileUtil;
+
         private void CopyShim(string shimPath, string outputFolder)
         {
             string destination = Path.Combine(outputFolder, Path.GetFileName(shimPath));
@@ -40,5 +38,4 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             this.CopyShim(shimPath, netFrameworkCoverageProjects);
         }
     }
-
 }

@@ -8,18 +8,12 @@ namespace FineCodeCoverage.Core.Utilities
     internal class ReflectionService : IReflectionService
     {
         public object GetPropertyValue(PropertyInfo propertyInfo, object instance)
-        {
-            return propertyInfo.GetValue(instance);
-        }
+            => propertyInfo.GetValue(instance);
 
         public PropertyInfo[] GetPublicProperties(Type type)
-        {
-            return type.GetPublicProperties();
-        }
+            => type.GetPublicProperties();
 
         public void SetPropertyValue(PropertyInfo propertyInfo, object instance, object value)
-        {
-            propertyInfo.SetValue(instance, value);
-        }
+            => propertyInfo.SetValue(instance, value);
     }
 }

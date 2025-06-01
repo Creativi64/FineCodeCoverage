@@ -161,7 +161,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\XPathNavigatorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\IMsTestPlatformUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\IRunSettingsTemplateReplacements.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\MsCodeCoverageIOperationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\IOperationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\MsCodeCoverageRunSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\MsTestPlatformUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\RunSettingsHelper.cs" />

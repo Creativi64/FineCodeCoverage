@@ -25,5 +25,4 @@ namespace FineCodeCoverage.Options
             options.UseEnterpriseFontsAndColors = true;
         }
     }
-
 }

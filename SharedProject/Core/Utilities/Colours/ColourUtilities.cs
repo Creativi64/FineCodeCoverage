@@ -20,9 +20,11 @@ namespace FineCodeCoverage.Core.Utilities
             double luminance = color.GetLuminance();
             double contrastRatio1 = ColorUtilities.GetContrastRatio(ColorUtilities.WhiteLuminance, luminance);
             double contrastRatio2 = ColorUtilities.GetContrastRatio(ColorUtilities.BlackLuminance, luminance);
-            if (contrastRatio1 > contrastRatio2)
-                return ContrastComparisonResult.ContrastHigherWithWhite;
-            return contrastRatio2 <= contrastRatio1 ? ContrastComparisonResult.Equal : ContrastComparisonResult.ContrastHigherWithBlack;
+            return contrastRatio1 > contrastRatio2
+                ? ContrastComparisonResult.ContrastHigherWithWhite
+                : contrastRatio2 <= contrastRatio1 ?
+                    ContrastComparisonResult.Equal :
+                    ContrastComparisonResult.ContrastHigherWithBlack;
         }
 
         public static Color Blend(Color foreground, Color background)
@@ -66,5 +68,4 @@ namespace FineCodeCoverage.Core.Utilities
             return brushFromCache2;
         }
     }
-
 }

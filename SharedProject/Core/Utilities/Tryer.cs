@@ -13,6 +13,5 @@ namespace FineCodeCoverage.Core.Utilities
             }
             catch { }
         }
-
     }
 }

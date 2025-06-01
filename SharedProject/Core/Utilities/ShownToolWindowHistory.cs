@@ -16,10 +16,7 @@ namespace FineCodeCoverage.Core.Utilities
         private string appDataFolderPath;
 
         [ImportingConstructor]
-        public ShownToolWindowHistory(IFileUtil fileUtil)
-        {
-            this.fileUtil = fileUtil;
-        }
+        public ShownToolWindowHistory(IFileUtil fileUtil) => this.fileUtil = fileUtil;
 
         private string ShownToolWindowFilePath => Path.Combine(this.appDataFolderPath, "outputWindowInitialized");
 

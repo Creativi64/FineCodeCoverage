@@ -11,10 +11,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly IFileUtil fileUtil;
 
         [ImportingConstructor]
-        public CustomRunSettingsTemplateProvider(IFileUtil fileUtil)
-        {
-            this.fileUtil = fileUtil;
-        }
+        public CustomRunSettingsTemplateProvider(IFileUtil fileUtil) => this.fileUtil = fileUtil;
 
         public CustomRunSettingsTemplateDetails Provide(string projectDirectory, string solutionDirectory)
         {
@@ -30,16 +27,13 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
 
             string templatePath = Path.Combine(directory, TemplateName);
-            if (this.fileUtil.Exists(templatePath))
-            {
-                return new CustomRunSettingsTemplateDetails
+            return this.fileUtil.Exists(templatePath)
+                ? new CustomRunSettingsTemplateDetails
                 {
                     Template = this.fileUtil.ReadAllText(templatePath),
                     Path = templatePath
-                };
-            }
-
-            return null;
+                }
+                : null;
         }
     }
 }

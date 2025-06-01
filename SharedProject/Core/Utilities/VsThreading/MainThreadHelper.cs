@@ -14,20 +14,26 @@ namespace FineCodeCoverage.Core.Utilities
     */
     internal static class MainThreadHelper
     {
-        public static void SwitchAndFileAndForget(FaultEventName faultEventName, Action action, string faultDescription = null)
-        {
+        public static void SwitchAndFileAndForget(
+            FaultEventName faultEventName,
+            Action action,
+            string faultDescription = null)
 #pragma warning disable VSSDK007
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            => ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 action();
             }).FileAndForget(faultEventName.ToString(), faultDescription);
 #pragma warning restore VSSDK007
-        }
 
-        private static void SwitchAndLogException(FaultEventName faultEventName, Action action, bool rethrow, string faultDescription = null)
-        {
-            SwitchAndFileAndForget(faultEventName, () =>
+        private static void SwitchAndLogException(
+            FaultEventName faultEventName,
+            Action action,
+            bool rethrow,
+            string faultDescription = null
+        ) => SwitchAndFileAndForget(
+            faultEventName,
+            () =>
             {
                 try
                 {
@@ -42,7 +48,6 @@ namespace FineCodeCoverage.Core.Utilities
                     }
                 }
             }, faultDescription);
-        }
 
         // given that catches and does not rethrow should be unnecessary
         private static readonly FaultEventName switchAndCatchFaultEventName = FCCFaultEventName.WithEntityName(nameof(MainThreadHelper))
@@ -50,9 +55,10 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static void SwitchAndLogException(Action action) => SwitchAndLogException(switchAndCatchFaultEventName, action, false);
 
-        public static void SwitchLogExceptionRethrow(FaultEventName faultEventName, Action action, string faultDescription = null)
-        {
-            SwitchAndLogException(faultEventName, action, true, faultDescription);
-        }
+        public static void SwitchLogExceptionRethrow(
+            FaultEventName faultEventName,
+            Action action,
+            string faultDescription = null
+        ) => SwitchAndLogException(faultEventName, action, true, faultDescription);
     }
 }

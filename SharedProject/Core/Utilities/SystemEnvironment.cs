@@ -6,9 +6,6 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IEnvironment))]
     internal class SystemEnvironment : IEnvironment
     {
-        public string GetEnvironmentVariable(string variable)
-        {
-            return Environment.GetEnvironmentVariable(variable);
-        }
+        public string GetEnvironmentVariable(string variable) => Environment.GetEnvironmentVariable(variable);
     }
 }

@@ -19,49 +19,28 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
             }
 
             private static string GetFeatureName(params string[] hierarchy)
-            {
-                if (hierarchy.Length == 0)
-                {
-                    throw new ArgumentException("Empty hierarchy", nameof(hierarchy));
-                }
-
-                return String.Join("/", hierarchy);
-            }
+                => hierarchy.Length == 0 ? throw new ArgumentException("Empty hierarchy", nameof(hierarchy))
+                    : string.Join("/", hierarchy);
 
             public FaultEventName BuildFromFeatureNameHierarchy(params string[] hierarchy)
-            {
-                return new FaultEventName(this.product, GetFeatureName(hierarchy), this.entityName);
-            }
+                => new FaultEventName(this.product, GetFeatureName(hierarchy), this.entityName);
         }
 
-        private ProductFaultEventNameBuilder(string product)
-        {
-            this.product = product;
-        }
+        private ProductFaultEventNameBuilder(string product) => this.product = product;
 
         public FaultEventName Build(string featureName, string entityName)
-        {
-            return new FaultEventName(this.product, featureName, entityName);
-        }
+            => new FaultEventName(this.product, featureName, entityName);
 
         public FaultEventName Build<TEntity>(string featureName)
-        {
-            return new FaultEventName(this.product, featureName, EntityName<TEntity>());
-        }
+            => new FaultEventName(this.product, featureName, EntityName<TEntity>());
 
         public IBuildFaultEventNameFromFeatureHierarchy WithEntityName(string entityName)
-        {
-            return new BuildFaultEventNameFromFeatureHierarchy(this.product, entityName);
-        }
+            => new BuildFaultEventNameFromFeatureHierarchy(this.product, entityName);
 
         public IBuildFaultEventNameFromFeatureHierarchy WithEntityName<TEntity>()
-        {
-            return this.WithEntityName(EntityName<TEntity>());
-        }
+            => this.WithEntityName(EntityName<TEntity>());
 
         public static ProductFaultEventNameBuilder Create(string productName)
-        {
-            return new ProductFaultEventNameBuilder(productName);
-        }
+            => new ProductFaultEventNameBuilder(productName);
     }
 }

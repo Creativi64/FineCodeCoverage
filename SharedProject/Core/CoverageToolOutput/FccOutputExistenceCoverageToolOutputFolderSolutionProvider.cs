@@ -13,9 +13,7 @@ namespace FineCodeCoverage.Engine
 
         [ImportingConstructor]
         public FccOutputExistenceCoverageToolOutputFolderSolutionProvider(IFileUtil fileUtil)
-        {
-            this.fileUtil = fileUtil;
-        }
+            => this.fileUtil = fileUtil;
 
         public string Provide(Func<string> solutionFolderProvider)
         {

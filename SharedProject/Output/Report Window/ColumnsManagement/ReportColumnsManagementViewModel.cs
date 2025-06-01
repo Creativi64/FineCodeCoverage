@@ -33,16 +33,13 @@ namespace FineCodeCoverage.Output
                     this.UpdateReportColumnData();
                     Done?.Invoke(this, EventArgs.Empty);
                 }
-
             }, () => true);
             this.CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
-
 
             /*
                 Move logic is to RemoveItem and InsertItem
 
             */
-
 
             this.DownCommand = new RelayCommand(() =>
             {
@@ -106,13 +103,9 @@ namespace FineCodeCoverage.Output
         }
 
         private IEnumerable<int> GetSelectedIndices()
-        {
-            return this.selectedEditableColumns.Select(demoCol => this.Columns.IndexOf(demoCol));
-        }
+            => this.selectedEditableColumns.Select(demoCol => this.Columns.IndexOf(demoCol));
         private IEnumerable<int> GetAscendingSelectedIndices()
-        {
-            return this.GetSelectedIndices().OrderBy(i => i);
-        }
+            => this.GetSelectedIndices().OrderBy(i => i);
 
         public ObservableCollection<EditableColumn> Columns { get; }
 
@@ -145,7 +138,5 @@ namespace FineCodeCoverage.Output
         }
 
         // Reset
-
     }
-
 }

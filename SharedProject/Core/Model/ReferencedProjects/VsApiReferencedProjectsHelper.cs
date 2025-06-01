@@ -41,22 +41,13 @@ namespace FineCodeCoverage.Engine.Model
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             Project project = await this.GetProjectAsync(projectFile);
 
-            if (project == null)
-            {
-                return null;
-            }
-
-            if (project.Object is VCProject cppProject)
-            {
-                return await this.cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject);
-            }
-
-            if (project.Object is VSProject vsProject)
-            {
-                return await this.dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject);
-            }
-
-            return null;
+            return project == null
+                ? null
+                : project.Object is VCProject cppProject
+                ? await this.cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject)
+                : project.Object is VSProject vsProject ?
+                await this.dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject)
+                : null;
         }
 
         private async Task<Project> GetProjectAsync(string projectFile)
@@ -79,5 +70,4 @@ namespace FineCodeCoverage.Engine.Model
             });
         }
     }
-
 }

@@ -87,9 +87,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
 
             private string[] Merge(Func<ICoverageSettings, string[]> selector)
-            {
-                return this.allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
-            }
+                => this.allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
 
             public string[] ModulePathsExclude { get; set; }
             public string[] ModulePathsInclude { get; set; }
@@ -211,16 +209,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private static IEnumerable<string> GetAdditionalModulePathsExclude(
      IEnumerable<IReferencedProject> referencedProjects, string testDllFile, bool includeTestAssembly)
-        {
-            return GetAdditionalModulePaths(referencedProjects, testDllFile, includeTestAssembly, false);
-        }
+            => GetAdditionalModulePaths(referencedProjects, testDllFile, includeTestAssembly, false);
 
         private static bool HasIncludes(
             string[] modulePathsInclude,
             List<IReferencedProject> includedReferencedProjects)
-        {
-            return modulePathsInclude?.Any() == true || includedReferencedProjects.Any();
-        }
+            => modulePathsInclude?.Any() == true || includedReferencedProjects.Any();
 
         private static IEnumerable<string> GetAdditionalModulePathsInclude(
             bool hasIncludes,
@@ -256,5 +250,4 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return new RunSettingsTemplateReplacements(settings, coverageProject.CoverageOutputFolder, projectSettings.Enabled.ToString(), testAdapter);
         }
     }
-
 }

@@ -14,7 +14,6 @@ namespace FineCodeCoverage.Core.Utilities
                 {
                     return selected;
                 }
-
             }
 
             return null;

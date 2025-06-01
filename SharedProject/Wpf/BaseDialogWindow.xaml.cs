@@ -3,8 +3,6 @@
     public partial class BaseDialogWindow : BaseViewModelDialogWindow
     {
         public BaseDialogWindow(IDialogViewModel dialogViewModel) : base(dialogViewModel)
-        {
-            this.InitializeComponent();
-        }
+            => this.InitializeComponent();
     }
 }

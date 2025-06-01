@@ -12,14 +12,14 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ICPPReferencedProjectsHelper))]
     internal class CPPReferencedProjectsHelper : ICPPReferencedProjectsHelper
     {
-        private VCProject GetReferencedVCProject(VCProjectReference projectReference)
+        private static VCProject GetReferencedVCProject(VCProjectReference projectReference)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             return projectReference.ReferencedProject as VCProject
                 ?? (projectReference.ReferencedProject as EnvDTE.Project)?.Object as VCProject;
         }
 
-        private bool? IsDll(VCProject vcProject)
+        private static bool? IsDll(VCProject vcProject)
         {
             if (!(vcProject.Configurations is IEnumerable configurations))
                 return null;
@@ -30,12 +30,10 @@ namespace FineCodeCoverage.Engine.Model
 
             bool isDll = configuration.ConfigurationType == ConfigurationTypes.typeDynamicLibrary;
             bool isApplication = configuration.ConfigurationType == ConfigurationTypes.typeApplication;
-            if (!isDll && !isApplication)
-                return null;
-            return isDll;
+            return !isDll && !isApplication ? null : (bool?)isDll;
         }
 
-        private string GetCPPProjectReferenceProjectFilePath(VCProjectReference reference)
+        private static string GetCPPProjectReferenceProjectFilePath(VCProjectReference reference)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             var vsReference = reference.Reference as VSLangProj.Reference;
@@ -47,18 +45,17 @@ namespace FineCodeCoverage.Engine.Model
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            if (!(cppProject.VCReferences is IEnumerable vcReferences))
-                return null;
-
-            return vcReferences
+            return !(cppProject.VCReferences is IEnumerable vcReferences)
+                ? null
+                : vcReferences
                 .OfType<VCProjectReference>()
                 .Select(reference =>
                 {
-                    VCProject referencedProject = this.GetReferencedVCProject(reference);
+                    VCProject referencedProject = GetReferencedVCProject(reference);
 
-                    bool? isDll = this.IsDll(referencedProject);
+                    bool? isDll = IsDll(referencedProject);
                     return isDll.HasValue ? (IExcludableReferencedProject)new ReferencedProject(
-                            this.GetCPPProjectReferenceProjectFilePath(reference),
+                            GetCPPProjectReferenceProjectFilePath(reference),
                             Path.GetFileNameWithoutExtension(reference.FullPath),
                             isDll.Value
                         )
@@ -67,7 +64,5 @@ namespace FineCodeCoverage.Engine.Model
                 .Where(p => p != null)
                 .ToList();
         }
-
     }
-
 }

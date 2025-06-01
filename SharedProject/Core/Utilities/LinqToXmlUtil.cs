@@ -11,13 +11,11 @@ namespace FineCodeCoverage.Core.Utilities
         private class Utf8StringWriter : StringWriter
         {
             public Utf8StringWriter(StringBuilder sb) : base(sb) { }
-            public override Encoding Encoding { get { return Encoding.UTF8; } }
+            public override Encoding Encoding => Encoding.UTF8;
         }
 
         public static string ToXmlString(this XDocument xdoc)
-        {
-            return xdoc.Declaration == null ? xdoc.ToString() : xdoc.Declaration + Environment.NewLine + xdoc;
-        }
+            => xdoc.Declaration == null ? xdoc.ToString() : xdoc.Declaration + Environment.NewLine + xdoc;
 
         public static string FormatXml(this XDocument xDocument, bool utf8 = true)
         {
@@ -29,12 +27,10 @@ namespace FineCodeCoverage.Core.Utilities
         }
 
         public static XElement RemoveAllNamespaces(this XElement @this)
-        {
-            return new XElement(@this.Name.LocalName,
+            => new XElement(@this.Name.LocalName,
                 from n in @this.Nodes()
                 select ((n is XElement) ? RemoveAllNamespaces(n as XElement) : n),
                 @this.HasAttributes ? (from a in @this.Attributes() select a) : null);
-        }
 
         public static XElement Load(string path, bool removeNamespaces)
         {

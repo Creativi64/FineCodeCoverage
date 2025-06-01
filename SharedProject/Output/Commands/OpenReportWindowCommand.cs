@@ -26,18 +26,13 @@ namespace FineCodeCoverage.Output
             this.shownToolWindowHistory.ShowedToolWindow();
             ToolWindowPane window = await this.PackageServices.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, this.PackageServices.DisposalToken);
 
-            return this.ReturnOrThrowIfCannotCreateToolWindow(window);
+            return ReturnOrThrowIfCannotCreateToolWindow(window);
         }
 
-        private ToolWindowPane ReturnOrThrowIfCannotCreateToolWindow(ToolWindowPane window)
-        {
-            if ((window == null) || (window.Frame == null))
-            {
-                throw new NotSupportedException($"Cannot create '{Vsix.Name}' report window");
-            }
-
-            return window;
-        }
+        private static ToolWindowPane ReturnOrThrowIfCannotCreateToolWindow(ToolWindowPane window)
+            => (window == null) || (window.Frame == null)
+                ? throw new NotSupportedException($"Cannot create '{Vsix.Name}' report window")
+                : window;
 
         async Task IReportToolWindowOpener.TryOpenAsync()
         {
