@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => Wrap(trackingSpanRange, new TrackingLineTracker(trackingLine));
 
         public IContainingCodeTracker CreateOtherLines(ITrackingSpanRange trackingSpanRange)
-            =>  Wrap(trackingSpanRange, new OtherLinesTracker());
+            => Wrap(trackingSpanRange, new OtherLinesTracker());
 
         private static TrackingSpanRangeUpdatingTracker Wrap(
             ITrackingSpanRange trackingSpanRange, IUpdatableDynamicLines updatableDynamicLines

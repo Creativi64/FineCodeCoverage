@@ -52,7 +52,7 @@ namespace FineCodeCoverage.Editor.Roslyn
             => node.Body != null || node.ExpressionBody != null;
         private void AddIfHasBody(BaseMethodDeclarationSyntax node)
         {
-            if(HasBody(node))
+            if (HasBody(node))
             {
                 this.AddNode(node);
             }
