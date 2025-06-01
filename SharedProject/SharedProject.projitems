@@ -998,7 +998,7 @@
     <Resource Include="$(MSBuildThisFileDirectory)Resources\OutputToolWindowPackage.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Editor\.editorconfig" />
+    <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\" />

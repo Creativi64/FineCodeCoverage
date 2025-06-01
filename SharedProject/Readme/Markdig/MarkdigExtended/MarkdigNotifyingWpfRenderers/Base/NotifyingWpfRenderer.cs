@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Readme
         private List<INotifiyingObjectRenderer> notifyingObjectRenderers;
 
         private void NotifyingObjectRenderer_CreatedEvent(object sender, List<ElementAndMarker> elementAndMarkers)
-            => elementAndMarkers.AddRange(elementAndMarkers);
+            => this.elementAndMarkers.AddRange(elementAndMarkers);
 
         public override void LoadDocument(FlowDocument document)
         {
