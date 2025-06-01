@@ -89,22 +89,22 @@ namespace FineCodeCoverage.Engine.Model
 
             foreach (OptionCoverageSettingsInterfacesPropertyInfos optionCoverageSettingsInterfacesPropertyInfos in this.GetOptionCoverageSettingsInterfacesPropertyInfos(coverageSettingsOptions))
             {
-                this.SetCovergeSettingsFromOptions(coverageSettings, optionCoverageSettingsInterfacesPropertyInfos);
+                SetCovergeSettingsFromOptions(coverageSettings, optionCoverageSettingsInterfacesPropertyInfos);
             }
 
             return coverageSettings;
         }
 
-        private void SetCovergeSettingsFromOptions(CoverageSettings coverageSettings, OptionCoverageSettingsInterfacesPropertyInfos optionPropertyInfos)
+        private static void SetCovergeSettingsFromOptions(CoverageSettings coverageSettings, OptionCoverageSettingsInterfacesPropertyInfos optionPropertyInfos)
         {
             foreach (PropertyInfo property in optionPropertyInfos.PropertyInfos)
             {
-                object value = this.GetOptionValueCloneArrays(optionPropertyInfos.Option, property);
+                object value = GetOptionValueCloneArrays(optionPropertyInfos.Option, property);
                 property.SetValue(coverageSettings, value);
             }
         }
 
-        private object GetOptionValueCloneArrays(object option, PropertyInfo property)
+        private static object GetOptionValueCloneArrays(object option, PropertyInfo property)
         {
             object value = property.GetValue(option);
             if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))

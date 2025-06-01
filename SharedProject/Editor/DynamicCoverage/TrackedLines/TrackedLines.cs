@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.useFileCodeSpanRangeService = this.fileCodeSpanRangeService != null && newCodeTracker != null;
         }
 
-        private List<LineRange> GetRanges(ITextSnapshot currentSnapshot, List<Span> newSpanChanges)
+        private static List<LineRange> GetRanges(ITextSnapshot currentSnapshot, List<Span> newSpanChanges)
             => newSpanChanges.ConvertAll(
                  newSpanChange => new LineRange(
                      currentSnapshot.GetLineNumberFromPosition(newSpanChange.Start),
@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             foreach (IContainingCodeTracker containingCodeTracker in this.containingCodeTrackers)
             {
                 (IEnumerable<int> changedLines, List<LineRange> unprocessedSpans) =
-                    this.ProcessContainingCodeTracker(removals, containingCodeTracker, currentSnapshot, spanAndLineRanges);
+                    ProcessContainingCodeTracker(removals, containingCodeTracker, currentSnapshot, spanAndLineRanges);
                 allChangedLines.AddRange(changedLines);
                 spanAndLineRanges = unprocessedSpans;
             }
@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return (allChangedLines, spanAndLineRanges);
         }
 
-        private (IEnumerable<int> changedLines, List<LineRange> unprocessedSpans) ProcessContainingCodeTracker(
+        private static (IEnumerable<int> changedLines, List<LineRange> unprocessedSpans) ProcessContainingCodeTracker(
             List<IContainingCodeTracker> removals,
             IContainingCodeTracker containingCodeTracker,
             ITextSnapshot currentSnapshot,
@@ -76,7 +76,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         // normalized spans
         public IEnumerable<int> GetChangedLineNumbers(ITextSnapshot currentSnapshot, List<Span> newSpanChanges)
         {
-            List<LineRange> changedRanges = this.GetRanges(currentSnapshot, newSpanChanges);
+            List<LineRange> changedRanges = GetRanges(currentSnapshot, newSpanChanges);
             (IEnumerable<int> changedLines, List<LineRange> unprocessedRanges) =
                 this.ProcessContainingCodeTrackers(currentSnapshot, changedRanges);
             IEnumerable<int> newCodeTrackerChangedLines = this.GetNewCodeTrackerChangedLineNumbers(
@@ -141,25 +141,26 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return newCodeCodeRanges;
         }
 
-        private (bool done, IEnumerable<IDynamicLine> lines) GetLines(IEnumerable<IDynamicLine> dynamicLines, int startLineNumber, int endLineNumber)
+        private static (bool done, IEnumerable<IDynamicLine> lines) GetLines(IEnumerable<IDynamicLine> dynamicLines, int startLineNumber, int endLineNumber)
         {
-            IEnumerable<IDynamicLine> linesApplicableToStartLineNumber = this.LinesApplicableToStartLineNumber(dynamicLines, startLineNumber);
+            IEnumerable<IDynamicLine> linesApplicableToStartLineNumber = LinesApplicableToStartLineNumber(dynamicLines, startLineNumber);
             var lines = linesApplicableToStartLineNumber.TakeWhile(l => l.LineNumber <= endLineNumber).ToList();
             bool done = lines.Count != linesApplicableToStartLineNumber.Count();
             return (done, lines);
         }
 
-        private IEnumerable<IDynamicLine> LinesApplicableToStartLineNumber(IEnumerable<IDynamicLine> dynamicLines, int startLineNumber)
-            => dynamicLines.Where(l => l.LineNumber >= startLineNumber);
+        private static IEnumerable<IDynamicLine> LinesApplicableToStartLineNumber(
+            IEnumerable<IDynamicLine> dynamicLines, int startLineNumber
+        ) => dynamicLines.Where(l => l.LineNumber >= startLineNumber);
 
         private IEnumerable<IDynamicLine> GetLinesFromContainingCodeTrackers(int startLineNumber, int endLineNumber)
-            => this.containingCodeTrackers.Select(containingCodeTracker => this.GetLines(containingCodeTracker.Lines, startLineNumber, endLineNumber))
+            => this.containingCodeTrackers.Select(containingCodeTracker => GetLines(containingCodeTracker.Lines, startLineNumber, endLineNumber))
                 .TakeUntil(a => a.done).SelectMany(a => a.lines);
 
         private IEnumerable<IDynamicLine> NewCodeTrackerLines() => this.NewCodeTracker?.Lines ?? Enumerable.Empty<IDynamicLine>();
 
         private IEnumerable<IDynamicLine> GetNewLines(int startLineNumber, int endLineNumber)
-            => this.LinesApplicableToStartLineNumber(this.NewCodeTrackerLines(), startLineNumber)
+            => LinesApplicableToStartLineNumber(this.NewCodeTrackerLines(), startLineNumber)
                 .TakeWhile(l => l.LineNumber <= endLineNumber);
 
         public IEnumerable<IDynamicLine> GetLines(int startLineNumber, int endLineNumber)

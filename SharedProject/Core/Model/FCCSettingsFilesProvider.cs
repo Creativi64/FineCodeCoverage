@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Engine.Model
         private bool AddFromDirectory(List<XElement> fccOptionsElements, string directory)
         {
             bool ascend = true;
-            string fccOptionsPath = this.GetFCCOptionsPath(directory);
+            string fccOptionsPath = GetFCCOptionsPath(directory);
             if (this.fileUtil.Exists(fccOptionsPath))
             {
                 string fccOptions = this.fileUtil.ReadAllText(fccOptionsPath);
@@ -52,7 +52,7 @@ namespace FineCodeCoverage.Engine.Model
                 {
                     var element = XElement.Parse(fccOptions);
                     fccOptionsElements.Add(element);
-                    ascend = !this.IsTopLevel(element);
+                    ascend = !IsTopLevel(element);
                 }
                 catch
                 {
@@ -63,7 +63,7 @@ namespace FineCodeCoverage.Engine.Model
             return ascend;
         }
 
-        private bool IsTopLevel(XElement root)
+        private static bool IsTopLevel(XElement root)
         {
             bool topLevel = false;
             XAttribute topLevelAttribute = root.Attribute(topLevelAttributeName);
@@ -75,6 +75,6 @@ namespace FineCodeCoverage.Engine.Model
             return topLevel;
         }
 
-        private string GetFCCOptionsPath(string directory) => Path.Combine(directory, fccOptionsFileName);
+        private static string GetFCCOptionsPath(string directory) => Path.Combine(directory, fccOptionsFileName);
     }
 }

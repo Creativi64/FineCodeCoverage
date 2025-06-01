@@ -237,11 +237,11 @@ namespace FineCodeCoverage.Engine.Model
             this.EnsureEmptyOutputFolder();
         }
 
-        private void EnsureFccDirectory() => this.CreateIfDoesNotExist(this.FCCOutputFolder);
+        private void EnsureFccDirectory() => CreateIfDoesNotExist(this.FCCOutputFolder);
 
-        private void EnsureBuildOutputDirectory() => this.CreateIfDoesNotExist(this.BuildOutputPath);
+        private void EnsureBuildOutputDirectory() => CreateIfDoesNotExist(this.BuildOutputPath);
 
-        private void CreateIfDoesNotExist(string path)
+        private static void CreateIfDoesNotExist(string path)
         {
             if (!Directory.Exists(path))
             {

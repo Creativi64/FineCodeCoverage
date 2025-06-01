@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Engine.Model;
@@ -8,13 +9,14 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(ICoverletExeArgumentsProvider))]
     internal class CoverletExeArgumentsProvider : ICoverletExeArgumentsProvider
     {
-        private IEnumerable<string> SanitizeExcludesByAttribute(string[] excludes) => (excludes ?? new string[0])
+        private static IEnumerable<string> SanitizeExcludesByAttribute(string[] excludes)
+            => (excludes ?? Array.Empty<string>())
                 .Where(x => x != null)
                 .Select(x => x.Trim(' ', '\'', '\"'))
                 .Where(x => !string.IsNullOrWhiteSpace(x));
 
         private static IEnumerable<string> SantitizeExcludeInclude(string[] excludesOrIncludes)
-            => (excludesOrIncludes ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x))
+            => (excludesOrIncludes ?? Array.Empty<string>()).Where(x => !string.IsNullOrWhiteSpace(x))
             .Select(value => value.Replace("\"", "\\\"").Trim(' ', '\''));
 
         private static void AddExcludesOrIncludes(List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude)
@@ -63,12 +65,12 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             AddExcludesIncludes(coverletSettings, project);
 
-            foreach (string value in (project.Settings.ExcludeByFile ?? new string[0]).Where(x => !string.IsNullOrWhiteSpace(x)))
+            foreach (string value in (project.Settings.ExcludeByFile ?? Array.Empty<string>()).Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 coverletSettings.Add($@"--exclude-by-file ""{value.Replace("\"", "\\\"").Trim(' ', '\'')}""");
             }
 
-            foreach (string value in this.SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(this.EnsureAttributeTypeUnqualified))
+            foreach (string value in SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(this.EnsureAttributeTypeUnqualified))
             {
                 string withoutAttributeBrackets = value.Trim('[', ']');
                 coverletSettings.Add($"--exclude-by-attribute {value}");

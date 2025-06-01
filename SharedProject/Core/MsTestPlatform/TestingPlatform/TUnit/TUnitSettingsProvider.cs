@@ -130,7 +130,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private string GetIgnoreExitCodePart(string ignoreExitCodeArg)
         {
             string ignoreExitCodeString = this.GetIgnoreExitCodeString(ignoreExitCodeArg);
-            List<int> ignoredExitCodes = this.GetIgnoredExitCodes(ignoreExitCodeString);
+            List<int> ignoredExitCodes = GetIgnoredExitCodes(ignoreExitCodeString);
             if (!ignoredExitCodes.Contains(2) && this.fccRunWhenTestsFail)
             {
                 ignoredExitCodes.Add(2);
@@ -145,7 +145,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return environmentVariableValue ?? ignoreExitCodesArg ?? "";
         }
 
-        private List<int> GetIgnoredExitCodes(string exitCodes)
+        private static List<int> GetIgnoredExitCodes(string exitCodes)
         {
             try
             {

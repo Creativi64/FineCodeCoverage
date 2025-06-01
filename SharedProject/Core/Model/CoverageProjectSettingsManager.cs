@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace FineCodeCoverage.Engine.Model
                 );
             }
 
-            this.AddCommonAssemblyExcludesIncludes(coverageSettings);
+            AddCommonAssemblyExcludesIncludes(coverageSettings);
             return coverageSettings;
         }
 
@@ -58,11 +59,11 @@ namespace FineCodeCoverage.Engine.Model
             return this.fccSettingsFilesProvider.Provide(projectDirectory);
         }
 
-        private void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
+        private static void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
         {
-            (string[] newOldStyleExclude, string[] newMsExclude) = this.AddCommon(
+            (string[] newOldStyleExclude, string[] newMsExclude) = AddCommon(
                 coverageSettings.Exclude, coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
-            (string[] newOldStyleInclude, string[] newMsInclude) = this.AddCommon(
+            (string[] newOldStyleInclude, string[] newMsInclude) = AddCommon(
                 coverageSettings.Include, coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
             coverageSettings.Exclude = newOldStyleExclude;
             coverageSettings.Include = newOldStyleInclude;
@@ -70,15 +71,15 @@ namespace FineCodeCoverage.Engine.Model
             coverageSettings.ModulePathsInclude = newMsInclude;
         }
 
-        private (string[] newOldStyle, string[] newMs) AddCommon(string[] oldStyle, string[] ms, string[] common)
+        private static (string[] newOldStyle, string[] newMs) AddCommon(string[] oldStyle, string[] ms, string[] common)
         {
             if (common == null)
             {
                 return (oldStyle, ms);
             }
 
-            List<string> newMs = this.ListFromExisting(ms);
-            List<string> newOldStyle = this.ListFromExisting(oldStyle);
+            List<string> newMs = ListFromExisting(ms);
+            List<string> newOldStyle = ListFromExisting(oldStyle);
 
             IEnumerable<string> nonWhitespaceCommon = common.Where(c => !string.IsNullOrWhiteSpace(c));
             foreach (string assemblyFileName in nonWhitespaceCommon)
@@ -92,6 +93,7 @@ namespace FineCodeCoverage.Engine.Model
             return (newOldStyle.ToArray(), newMs.ToArray());
         }
 
-        private List<string> ListFromExisting(string[] existing) => new List<string>(existing ?? new string[0]);
+        private static List<string> ListFromExisting(string[] existing)
+            => new List<string>(existing ?? Array.Empty<string>());
     }
 }

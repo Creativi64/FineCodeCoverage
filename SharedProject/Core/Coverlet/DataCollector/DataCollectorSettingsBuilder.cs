@@ -114,22 +114,22 @@ namespace FineCodeCoverage.Engine.Coverlet
             return existingRunSettingsDocument;
         }
 
-        private string GetElementIfNotNull(string elementName, string value)
+        private static string GetElementIfNotNull(string elementName, string value)
             => value == null ? "" : $"<{elementName}>{value}</{elementName}>";
 
         private XElement GenerateDataCollectorElement()
         {
             string configurationElement = $@"<Configuration>
-                {this.GetElementIfNotNull("Format", this.Format)}
-                {this.GetElementIfNotNull("Exclude", this.Exclude)}
-                {this.GetElementIfNotNull("Include", this.Include)}
-                {this.GetElementIfNotNull("ExcludeByAttribute", this.ExcludeByAttribute)}
-                {this.GetElementIfNotNull("ExcludeByFile", this.ExcludeByFile)}
-                {this.GetElementIfNotNull("IncludeDirectory", this.IncludeDirectory)}
-                {this.GetElementIfNotNull("SingleHit", this.SingleHit)}
-                {this.GetElementIfNotNull("UseSourceLink", this.UseSourceLink)}
-                {this.GetElementIfNotNull("IncludeTestAssembly", this.IncludeTestAssembly)}
-                {this.GetElementIfNotNull("SkipAutoProps", this.SkipAutoProps)}
+                {GetElementIfNotNull("Format", this.Format)}
+                {GetElementIfNotNull("Exclude", this.Exclude)}
+                {GetElementIfNotNull("Include", this.Include)}
+                {GetElementIfNotNull("ExcludeByAttribute", this.ExcludeByAttribute)}
+                {GetElementIfNotNull("ExcludeByFile", this.ExcludeByFile)}
+                {GetElementIfNotNull("IncludeDirectory", this.IncludeDirectory)}
+                {GetElementIfNotNull("SingleHit", this.SingleHit)}
+                {GetElementIfNotNull("UseSourceLink", this.UseSourceLink)}
+                {GetElementIfNotNull("IncludeTestAssembly", this.IncludeTestAssembly)}
+                {GetElementIfNotNull("SkipAutoProps", this.SkipAutoProps)}
 </Configuration>
 ";
 
@@ -139,26 +139,26 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         #endregion
 
-        internal string Quote(string settings) => $@"""{settings}""";
+        internal static string Quote(string settings) => $@"""{settings}""";
 
         #region With args
         public void WithBlame() => this.Blame = "--blame";
 
-        public void WithDiagnostics(string logPath) => this.Diagnostics = $"--diag {this.Quote(logPath)}";
+        public void WithDiagnostics(string logPath) => this.Diagnostics = $"--diag {Quote(logPath)}";
 
         public void WithNoLogo() => this.NoLogo = "--nologo";
 
-        public void WithProjectDll(string projectDll) => this.ProjectDll = this.Quote(projectDll);
+        public void WithProjectDll(string projectDll) => this.ProjectDll = Quote(projectDll);
 
         public void WithResultsDirectory(string resultsDirectory)
-            => this.ResultsDirectory = $"--results-directory {this.Quote(resultsDirectory)}";
+            => this.ResultsDirectory = $"--results-directory {Quote(resultsDirectory)}";
 
         public void Initialize(bool runSettingsOnly, string runSettingsPath, string generatedRunSettingsPath)
         {
             this.runSettingsOnly = runSettingsOnly;
             this.generatedRunSettingsPath = generatedRunSettingsPath;
             this.existingRunSettings = runSettingsPath;
-            this.RunSettings = $"--settings {this.Quote(generatedRunSettingsPath)}";
+            this.RunSettings = $"--settings {Quote(generatedRunSettingsPath)}";
         }
         #endregion
 

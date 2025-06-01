@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<LineRange> nonIntersecting,
             bool textChanged,
             ITrackingSpanRange trackingSpanRange
-        ) => this.dirtyLine == null && textChanged && this.Intersected(newSpanChanges, nonIntersecting)
+        ) => this.dirtyLine == null && textChanged && Intersected(newSpanChanges, nonIntersecting)
                 ? this.CreateDirtyLine(trackingSpanRange)
                 : null;
 
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             return new int[] { this.dirtyLine.Line.LineNumber }.Concat(this.trackedCoverageLines.Lines.Select(l => l.LineNumber)).ToList();
         }
 
-        private bool Intersected(
+        private static bool Intersected(
             List<LineRange> newSpanChanges,
             List<LineRange> nonIntersecting
         ) => nonIntersecting.Count < newSpanChanges.Count;

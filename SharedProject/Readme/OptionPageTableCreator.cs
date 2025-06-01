@@ -81,7 +81,7 @@ namespace FineCodeCoverage.Readme
         private void AddCell(TableRow row, string cellStr, OptionPageTableCellAlignment alignment)
         {
             if (cellStr == null) return;
-            var cell = new TableCell() { TextAlignment = this.GetTextAlignment(alignment) };
+            var cell = new TableCell() { TextAlignment = GetTextAlignment(alignment) };
             var cellParagraph = new Paragraph(new Run(cellStr));
             cell.Blocks.Add(cellParagraph);
             this.AddElementAndMarker(cellParagraph, MarkdownTypeMarker.Paragraph);
@@ -90,7 +90,7 @@ namespace FineCodeCoverage.Readme
             row.Cells.Add(cell);
         }
 
-        private TextAlignment GetTextAlignment(OptionPageTableCellAlignment alignment)
+        private static TextAlignment GetTextAlignment(OptionPageTableCellAlignment alignment)
         {
             switch (alignment)
             {

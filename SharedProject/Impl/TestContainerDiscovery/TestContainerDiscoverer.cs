@@ -91,7 +91,8 @@ namespace FineCodeCoverage.Impl
 
         internal Action<Func<Task>> RunAsync = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
 
-        private bool CoverageDisabled(RunOptions runOptions) => !runOptions.Enabled && runOptions.DisabledNoCoverage;
+        private static bool CoverageDisabled(RunOptions runOptions)
+            => !runOptions.Enabled && runOptions.DisabledNoCoverage;
 
         private Task LogCoverageStartingAsync()
             => this.logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {this.coverageRunNumber++}"));
@@ -104,7 +105,7 @@ namespace FineCodeCoverage.Impl
             this.StopCoverage();
 
             RunOptions settings = this.runOptionsProvider.Get();
-            if (this.CoverageDisabled(settings))
+            if (CoverageDisabled(settings))
             {
                 await this.logger.LogAsync("Coverage not collected as FCC disabled.");
                 this.RaiseCoverageEnded();
@@ -172,8 +173,7 @@ namespace FineCodeCoverage.Impl
         private bool ShouldNotCollectWhenTestExecutionFinished()
         {
             this.runOptions = this.runOptionsProvider.Get();
-            return this.CoverageDisabled(this.runOptions) || this.runningInParallel || this.MsCodeCoverageErrored;
-
+            return CoverageDisabled(this.runOptions) || this.runningInParallel || this.MsCodeCoverageErrored;
         }
 
         private async Task TestExecutionFinishedCollectionAsync(IOperation operation, ITestOperation testOperation)

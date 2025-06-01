@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Wpf
         public DependentPropertiesChangedNotifier(List<DependentPropertiesDescriptor> dependentPropertiesDescriptors)
             => this.dependentPropertiesDescriptors = dependentPropertiesDescriptors;
 
-        private EventHandler CreateHandler(T instance, DependentPropertiesDescriptor dependentPropertiesDescriptor)
+        private static EventHandler CreateHandler(T instance, DependentPropertiesDescriptor dependentPropertiesDescriptor)
             => (_, __) =>
         {
             IEnumerable<string> dependentPropertyNames = dependentPropertiesDescriptor.GetDependentProperties();
@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Wpf
             this.handlers.Add(instance, instanceHandlers);
             this.dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
             {
-                EventHandler handler = this.CreateHandler(instance, dependentPropertiesDescriptor);
+                EventHandler handler = CreateHandler(instance, dependentPropertiesDescriptor);
                 instanceHandlers.Add(handler);
                 dependentPropertiesDescriptor.AddValueChanged(instance, handler);
             });

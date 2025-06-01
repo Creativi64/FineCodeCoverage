@@ -9,16 +9,17 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public int GetLineNumber(ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd)
         {
-            SnapshotPoint position = this.GetPoint(trackingSpan, currentSnapshot, lineFromEnd);
+            SnapshotPoint position = GetPoint(trackingSpan, currentSnapshot, lineFromEnd);
             return currentSnapshot.GetLineNumberFromPosition(position);
         }
 
-        private SnapshotPoint GetPoint(ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd)
-            => lineFromEnd ? trackingSpan.GetEndPoint(currentSnapshot) : trackingSpan.GetStartPoint(currentSnapshot);
+        private static SnapshotPoint GetPoint(
+            ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd
+        ) => lineFromEnd ? trackingSpan.GetEndPoint(currentSnapshot) : trackingSpan.GetStartPoint(currentSnapshot);
 
         public TrackedLineInfo GetTrackedLineInfo(ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd)
         {
-            SnapshotPoint position = this.GetPoint(trackingSpan, currentSnapshot, lineFromEnd);
+            SnapshotPoint position = GetPoint(trackingSpan, currentSnapshot, lineFromEnd);
 
             ITextSnapshotLine line = currentSnapshot.GetLineFromPosition(position);
             int lineNumber = line.LineNumber;

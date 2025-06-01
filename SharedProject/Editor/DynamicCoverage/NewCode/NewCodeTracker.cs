@@ -107,7 +107,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<ITrackedNewCodeLine> removals)
         {
             TrackedNewCodeLineUpdate trackedNewCodeLineUpdate = trackedNewCodeLine.Update(currentSnapshot);
-            this.RemoveIfTracked(ranges, trackedNewCodeLineUpdate.NewLineNumber);
+            RemoveIfTracked(ranges, trackedNewCodeLineUpdate.NewLineNumber);
             return this.ApplyUpdate(trackedNewCodeLineUpdate, trackedNewCodeLine, removals);
         }
 
@@ -128,14 +128,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 : Enumerable.Empty<int>();
         }
 
-        private void RemoveIfTracked(List<LineRange> ranges, int updatedLineNumber)
+        private static void RemoveIfTracked(List<LineRange> ranges, int updatedLineNumber)
             => _ = ranges.RemoveAll(spanAndLineRange => spanAndLineRange.StartLineNumber == updatedLineNumber);
 
         private IEnumerable<int> AddDistinctTrackedNewCodeLinesIfNotExcluded(IEnumerable<LineRange> ranges, ITextSnapshot currentSnapshot)
-            => this.GetDistinctStartLineNumbers(ranges)
+            => GetDistinctStartLineNumbers(ranges)
                     .Where(lineNumber => this.AddTrackedNewCodeLineIfNotExcluded(currentSnapshot, lineNumber));
 
-        private IEnumerable<int> GetDistinctStartLineNumbers(IEnumerable<LineRange> ranges)
+        private static IEnumerable<int> GetDistinctStartLineNumbers(IEnumerable<LineRange> ranges)
             => ranges.Select(spanAndLineNumber => spanAndLineNumber.StartLineNumber).Distinct();
 
         private bool AddTrackedNewCodeLineIfNotExcluded(ITextSnapshot currentSnapshot, int lineNumber)

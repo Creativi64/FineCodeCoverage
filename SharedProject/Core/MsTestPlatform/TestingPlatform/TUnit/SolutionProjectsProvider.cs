@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-            return this.GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
+            return GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
         }
 
         public async Task<bool> IsSolutionOpenAsync()
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return (bool)isSolutionOpen;
         }
 
-        private List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)
+        private static List<IVsHierarchy> GetProjects(IVsSolution vsSolution, __VSENUMPROJFLAGS flags)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             var projects = new List<IVsHierarchy>();

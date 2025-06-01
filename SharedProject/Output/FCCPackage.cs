@@ -87,7 +87,7 @@ namespace FineCodeCoverage.Output
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            IComponentModel componentModel = this.GetComponentModel();
+            IComponentModel componentModel = GetComponentModel();
             this.InstantiateAllDialogPages();
             await this.InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
@@ -101,7 +101,7 @@ namespace FineCodeCoverage.Output
             => typeof(FCCPackage).GetCustomAttributes<ProvideOptionPageAttribute>()
             .Select(a => a.PageType).ToList().ForEach(t => _ = this.GetDialogPage(t));
 
-        private IComponentModel GetComponentModel() => (IComponentModel)GetGlobalService(typeof(SComponentModel));
+        private static IComponentModel GetComponentModel() => (IComponentModel)GetGlobalService(typeof(SComponentModel));
 
         private async Task InitializeSolutionOptionsAsync(IComponentModel componentModel)
         {

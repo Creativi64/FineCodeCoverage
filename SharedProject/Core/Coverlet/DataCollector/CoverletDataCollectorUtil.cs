@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             IEnumerable<XElement> propertyGroups = root.Elements().Where(el => el.Name.LocalName == "PropertyGroup");
             foreach (XElement propertyGroup in propertyGroups)
             {
-                useDataCollector = this.UseDataCollector(propertyGroup);
+                useDataCollector = UseDataCollector(propertyGroup);
                 if (useDataCollector.HasValue)
                 {
                     break;
@@ -77,7 +77,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             return useDataCollector;
         }
 
-        private bool? UseDataCollector(XElement xElement)
+        private static bool? UseDataCollector(XElement xElement)
         {
             XElement useDataCollectorElement = xElement.Elements().FirstOrDefault(ig => ig.Name.LocalName == "UseDataCollector");
             if (useDataCollectorElement != null)
@@ -97,7 +97,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 XElement importedSettings = await this.vsBuildFCCSettingsProvider.GetSettingsAsync(this.coverageProject.Id);
                 if (importedSettings != null)
                 {
-                    useDataCollector = this.UseDataCollector(importedSettings);
+                    useDataCollector = UseDataCollector(importedSettings);
                 }
             }
 
@@ -160,7 +160,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             string[] projectExcludes = this.coverageProject.ExcludedReferencedProjects.Select(erp => $"[{erp.AssemblyName}]*").ToArray();
             if (this.coverageProject.Settings.Exclude != null)
             {
-                projectExcludes = projectExcludes.Concat(this.SanitizeExcludesOrIncludes(this.coverageProject.Settings.Exclude)).ToArray();
+                projectExcludes = projectExcludes.Concat(SanitizeExcludesOrIncludes(this.coverageProject.Settings.Exclude)).ToArray();
             }
 
             //DataCollector Configuration
@@ -168,17 +168,17 @@ namespace FineCodeCoverage.Engine.Coverlet
                 .WithExclude(projectExcludes, this.runSettingsCoverletConfiguration.Exclude);
             dataCollectorSettingsBuilder
                 .WithExcludeByFile(
-                    this.SanitizeExcludesOrIncludes(this.coverageProject.Settings.ExcludeByFile),
+                    SanitizeExcludesOrIncludes(this.coverageProject.Settings.ExcludeByFile),
                     this.runSettingsCoverletConfiguration.ExcludeByFile);
             dataCollectorSettingsBuilder
                 .WithExcludeByAttribute(
-                    this.SanitizeExcludesOrIncludes(this.coverageProject.Settings.ExcludeByAttribute),
+                    SanitizeExcludesOrIncludes(this.coverageProject.Settings.ExcludeByAttribute),
                     this.runSettingsCoverletConfiguration.ExcludeByAttribute);
 
             IEnumerable<string> projectIncludes = this.coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*");
             if (this.coverageProject.Settings.Include != null)
             {
-                projectIncludes = projectIncludes.Concat(this.SanitizeExcludesOrIncludes(this.coverageProject.Settings.Include));
+                projectIncludes = projectIncludes.Concat(SanitizeExcludesOrIncludes(this.coverageProject.Settings.Include));
             }
 
             if (this.coverageProject.Settings.IncludeTestAssembly && projectIncludes.Any())
@@ -205,7 +205,8 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         }
 
-        private string[] SanitizeExcludesOrIncludes(string[] excludesOrIncludes) => (excludesOrIncludes ?? new string[0])
+        private static string[] SanitizeExcludesOrIncludes(string[] excludesOrIncludes)
+            => (excludesOrIncludes ?? Array.Empty<string>())
                 .Where(x => x != null)
                 .Select(x => x.Trim(' ', '\'', '\"'))
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();

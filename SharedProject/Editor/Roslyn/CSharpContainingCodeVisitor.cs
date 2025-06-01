@@ -48,10 +48,11 @@ namespace FineCodeCoverage.Editor.Roslyn
 
         public override void VisitOperatorDeclaration(OperatorDeclarationSyntax node) => this.AddIfHasBody(node);
 
-        private bool HasBody(BaseMethodDeclarationSyntax node) => node.Body != null || node.ExpressionBody != null;
+        private static bool HasBody(BaseMethodDeclarationSyntax node)
+            => node.Body != null || node.ExpressionBody != null;
         private void AddIfHasBody(BaseMethodDeclarationSyntax node)
         {
-            if (this.HasBody(node))
+            if(HasBody(node))
             {
                 this.AddNode(node);
             }
@@ -65,7 +66,7 @@ namespace FineCodeCoverage.Editor.Roslyn
 
         private void VisitBasePropertyDeclaration(BasePropertyDeclarationSyntax node)
         {
-            if (!this.IsAbstract(node.Modifiers))
+            if (!IsAbstract(node.Modifiers))
             {
                 this.VisitNonAbstractBasePropertyDeclaration(node);
             }
@@ -92,9 +93,10 @@ namespace FineCodeCoverage.Editor.Roslyn
         }
 
         private void AddAccessors(SyntaxList<AccessorDeclarationSyntax> accessors, bool typeIsInterface)
-            => accessors.Where(accessor => !typeIsInterface || this.AccessorHasBody(accessor)).ToList().ForEach(this.AddNode);
+            => accessors.Where(accessor => !typeIsInterface || AccessorHasBody(accessor)).ToList().ForEach(this.AddNode);
 
-        private bool AccessorHasBody(AccessorDeclarationSyntax accessor) => accessor.Body != null || accessor.ExpressionBody != null;
+        private static bool AccessorHasBody(AccessorDeclarationSyntax accessor)
+            => accessor.Body != null || accessor.ExpressionBody != null;
 
         private void VisitMembers(SyntaxList<MemberDeclarationSyntax> members)
         {
@@ -104,7 +106,8 @@ namespace FineCodeCoverage.Editor.Roslyn
             }
         }
 
-        private bool IsAbstract(SyntaxTokenList modifiers) => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.AbstractKeyword));
+        private static bool IsAbstract(SyntaxTokenList modifiers)
+            => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.AbstractKeyword));
 
         private void AddNode(SyntaxNode node) => this.nodes.Add(node);
     }

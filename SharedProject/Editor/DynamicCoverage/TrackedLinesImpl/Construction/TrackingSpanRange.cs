@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             (SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan) = this.GetCurrentRange(currentSnapshot);
             (bool isEmpty, bool textChanged) = this.GetTextChangeInfo(currentSnapshot, currentFirstSpan, currentEndSpan);
-            List<LineRange> nonIntersecting = this.GetNonIntersecting(currentSnapshot, currentFirstSpan, currentEndSpan, newSpanAndLineRanges);
+            List<LineRange> nonIntersecting = GetNonIntersecting(currentSnapshot, currentFirstSpan, currentEndSpan, newSpanAndLineRanges);
             return new TrackingSpanRangeProcessResult(this, nonIntersecting, isEmpty, textChanged);
         }
 
@@ -57,21 +57,21 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         }
 
-        private List<LineRange> GetNonIntersecting(
+        private static List<LineRange> GetNonIntersecting(
             ITextSnapshot currentSnapshot, SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan, List<LineRange> newSpanAndLineRanges)
         {
             int currentFirstTrackedLineNumber = currentSnapshot.GetLineNumberFromPosition(currentFirstSpan.End);
             int currentEndTrackedLineNumber = currentSnapshot.GetLineNumberFromPosition(currentEndSpan.End);
             return newSpanAndLineRanges.Where(
-                spanAndLineNumber => this.OutsideRange(
+                spanAndLineNumber => IsOutsideRange(
                     currentFirstTrackedLineNumber,
                     currentEndTrackedLineNumber,
                     spanAndLineNumber.StartLineNumber)
                 &&
-                this.OutsideRange(currentFirstTrackedLineNumber, currentEndTrackedLineNumber, spanAndLineNumber.EndLineNumber)).ToList();
+                IsOutsideRange(currentFirstTrackedLineNumber, currentEndTrackedLineNumber, spanAndLineNumber.EndLineNumber)).ToList();
         }
 
-        private bool OutsideRange(int firstLineNumber, int endLineNumber, int spanLineNumber)
+        private static bool IsOutsideRange(int firstLineNumber, int endLineNumber, int spanLineNumber)
             => spanLineNumber < firstLineNumber || spanLineNumber > endLineNumber;
 
         public ITrackingSpan GetFirstTrackingSpan() => this.startTrackingSpan;

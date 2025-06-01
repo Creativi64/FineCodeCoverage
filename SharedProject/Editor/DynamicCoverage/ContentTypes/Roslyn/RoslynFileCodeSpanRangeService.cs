@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
             this.threadHelper = threadHelper;
         }
 
-        private CodeSpanRange GetCodeSpanRange(TextSpan span, ITextSnapshot textSnapshot)
+        private static CodeSpanRange GetCodeSpanRange(TextSpan span, ITextSnapshot textSnapshot)
         {
             int startLine = textSnapshot.GetLineNumberFromPosition(span.Start);
             int endLine = textSnapshot.GetLineNumberFromPosition(span.End);
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
                 () => this.roslynService.GetContainingCodeSpansAsync(snapshot)
             );
 
-            return textSpans.ConvertAll(textSpan => this.GetCodeSpanRange(textSpan, snapshot));
+            return textSpans.ConvertAll(textSpan => GetCodeSpanRange(textSpan, snapshot));
         }
 
         public IFileCodeSpanRangeService FileCodeSpanRangeService => this;

@@ -37,15 +37,17 @@ namespace FineCodeCoverage.Editor.Roslyn
 
         public override void VisitMethodBlock(MethodBlockSyntax node)
         {
-            if (!this.IsPartial(node.SubOrFunctionStatement.Modifiers))
+            if (!IsPartial(node.SubOrFunctionStatement.Modifiers))
             {
                 this.AddNode(node);
             }
         }
 
-        private bool IsPartial(SyntaxTokenList modifiers) => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.PartialKeyword));
+        private static bool IsPartial(SyntaxTokenList modifiers)
+            => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.PartialKeyword));
 
-        private bool IsAbstract(SyntaxTokenList modifiers) => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.MustOverrideKeyword));
+        private static bool IsAbstract(SyntaxTokenList modifiers)
+            => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.MustOverrideKeyword));
 
         public override void VisitOperatorBlock(OperatorBlockSyntax node) => this.AddNode(node);
 
@@ -54,7 +56,7 @@ namespace FineCodeCoverage.Editor.Roslyn
         // Coverlet instruments C# auto properties but not VB.  May be able to remove this
         public override void VisitPropertyStatement(PropertyStatementSyntax node)
         {
-            if (!this.IsAbstract(node.Modifiers))
+            if (!IsAbstract(node.Modifiers))
             {
                 this.AddNode(node);
             }

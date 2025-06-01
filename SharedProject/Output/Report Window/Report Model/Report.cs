@@ -98,9 +98,9 @@ namespace FineCodeCoverage.Output
 
         private List<SourceFile> SourceFiles => this.sourceFiles ?? (this.sourceFiles = this.GetSourceFiles());
 
-        private IDirectory CreateDirectory() => this.CreateDirectory(this.SourceFiles);
+        private IDirectory CreateDirectory() => CreateDirectory(this.SourceFiles);
 
-        private IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
+        private static IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
             => DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
 
         public void NewCodeChanged(string path, bool hasNewCode)

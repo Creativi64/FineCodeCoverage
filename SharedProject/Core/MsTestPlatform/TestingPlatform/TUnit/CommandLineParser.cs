@@ -16,13 +16,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public CommandLineParseResult Parse(string argumentsString)
         {
             var args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
-            return !args.Any() ? CommandLineParseResult.Empty : this.Parse(args);
+            return !args.Any() ? CommandLineParseResult.Empty : Parse(args);
         }
 
-        public CommandLineParseResult Parse(string[] args)
-            => this.Parse(args.ToList());
-
-        private CommandLineParseResult Parse(List<string> args)
+        private static CommandLineParseResult Parse(List<string> args)
         {
             var options = new List<CommandLineParseOption>();
             var errors = new List<string>();

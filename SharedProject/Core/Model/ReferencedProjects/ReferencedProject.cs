@@ -20,10 +20,13 @@ namespace FineCodeCoverage.Engine.Model
         public ReferencedProject(string projectPath)
         {
             this.projectPath = projectPath;
-            this.AssemblyName = this.GetAssemblyName(LinqToXmlUtil.Load(projectPath, true), Path.GetFileNameWithoutExtension(projectPath));
+            this.AssemblyName = GetAssemblyName(
+                LinqToXmlUtil.Load(projectPath, true),
+                Path.GetFileNameWithoutExtension(projectPath)
+            );
         }
 
-        private string GetAssemblyName(XElement projectFileXElement, string fallbackName = null)
+        private static string GetAssemblyName(XElement projectFileXElement, string fallbackName = null)
         {
             /*
 			<PropertyGroup>

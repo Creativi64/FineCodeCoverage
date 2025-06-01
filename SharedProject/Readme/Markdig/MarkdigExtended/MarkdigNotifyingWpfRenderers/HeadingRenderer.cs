@@ -17,10 +17,10 @@ namespace FineCodeCoverage.Readme
             renderer.Push(paragraph);
             renderer.WriteLeafInline(obj);
             renderer.Pop();
-            return new ElementAndMarker(paragraph, this.GetMarker(obj.Level));
+            return new ElementAndMarker(paragraph, GetMarker(obj.Level));
         }
 
-        private MarkdownTypeMarker GetMarker(int level)
+        private static MarkdownTypeMarker GetMarker(int level)
         {
             switch (level)
             {

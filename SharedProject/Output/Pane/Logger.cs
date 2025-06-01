@@ -33,7 +33,7 @@ namespace FineCodeCoverage.Output.Pane
                 .Append(' ').ToString();
         }
 
-        private IEnumerable<string> GetMessageList(IEnumerable<string> message)
+        private static IEnumerable<string> GetMessageList(IEnumerable<string> message)
             => message?.Select(x => x?.Trim(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x));
 
         private async Task LogMessagesAsync(IEnumerable<string> messageList)
@@ -58,7 +58,7 @@ namespace FineCodeCoverage.Output.Pane
             }
         }
 
-        public Task LogAsync(IEnumerable<string> message) => this.LogMessagesAsync(this.GetMessageList(message));
+        public Task LogAsync(IEnumerable<string> message) => this.LogMessagesAsync(GetMessageList(message));
 
         public Task LogAsync(params string[] message) => this.LogAsync(message as IEnumerable<string>);
 

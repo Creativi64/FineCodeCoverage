@@ -87,7 +87,7 @@ namespace FineCodeCoverage.ReportGeneration
             IOptionsProvider<HotspotThresholdsOptions> hotspotThresholdsOptionsProvider
         ) => this.hotspotThresholdsOptionsProvider = hotspotThresholdsOptionsProvider;
 
-        private void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
+        private static void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
             var rootElement = new XElement("Hotspots", hotspots.Select(hotspot => new XElement("Hotspot",
                     new XElement("Assembly", hotspot.Assembly),
@@ -107,11 +107,11 @@ namespace FineCodeCoverage.ReportGeneration
 
         public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
         {
-            IEnumerable<RiskHotspot> riskHotspots = this.GetRiskhotspots(reportAssemblies, this.hotspotThresholdsOptionsProvider.Get());
-            this.WriteHotspotsToXml(riskHotspots, hotspotsPath);
+            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, this.hotspotThresholdsOptionsProvider.Get());
+            WriteHotspotsToXml(riskHotspots, hotspotsPath);
         }
 
-        private IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, HotspotThresholdsOptions hotspotThresholdsOptions)
+        private static IEnumerable<RiskHotspot> GetRiskhotspots(IEnumerable<IAssembly> reportAssemblies, HotspotThresholdsOptions hotspotThresholdsOptions)
             => reportAssemblies.SelectMany(assembly =>
                 assembly.Classes.SelectMany(cls =>
                     cls.CodeElements.Select(ce => new MethodMetric(ce, hotspotThresholdsOptions))

@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Editor.Management
             this.threadHelper = threadHelper;
         }
 
-        private System.Windows.Media.Color ParseColor(uint color)
+        private static System.Windows.Media.Color ParseColor(uint color)
             => System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(color)).ToMediaColor();
 
         private IVsFontAndColorStorage vsFontAndColorStorage;
@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Editor.Management
             return this.vsFontAndColorStorage;
         }
 
-        private IFontAndColorsInfo GetInfo(string displayName, IVsFontAndColorStorage fontAndColorStorage)
+        private static IFontAndColorsInfo GetInfo(string displayName, IVsFontAndColorStorage fontAndColorStorage)
         {
             var touchAreaInfo = new ColorableItemInfo[1];
 #pragma warning disable VSTHRD010 // Invoke single-threaded types on Main thread
@@ -54,8 +54,8 @@ namespace FineCodeCoverage.Editor.Management
 
             if (getItemSuccess == VSConstants.S_OK)
             {
-                System.Windows.Media.Color bgColor = this.ParseColor(touchAreaInfo[0].crBackground);
-                System.Windows.Media.Color fgColor = this.ParseColor(touchAreaInfo[0].crForeground);
+                System.Windows.Media.Color bgColor = ParseColor(touchAreaInfo[0].crBackground);
+                System.Windows.Media.Color fgColor = ParseColor(touchAreaInfo[0].crForeground);
                 return new FontAndColorsInfo(new ItemCoverageColours(fgColor, bgColor), touchAreaInfo[0].dwFontFlags == (uint)FONTFLAGS.FF_BOLD);
             }
 
@@ -67,7 +67,9 @@ namespace FineCodeCoverage.Editor.Management
             var infos = new List<IFontAndColorsInfo>();
             await this.OpenCloseCategoryAsync(
                 category,
-                fontAndColorStorage => infos = names.Select(name => this.GetInfo(name, fontAndColorStorage)).Where(color => color != null).ToList()
+                fontAndColorStorage
+                    => infos = names.Select(name => GetInfo(name, fontAndColorStorage))
+                                .Where(color => color != null).ToList()
             );
             return infos;
         }

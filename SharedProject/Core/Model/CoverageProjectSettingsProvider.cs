@@ -16,18 +16,16 @@ namespace FineCodeCoverage.Engine.Model
         ) => this.vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
 
         public async Task<XElement> ProvideAsync(ICoverageProject coverageProject)
-        {
-            XElement settingsElement = this.ProjectSettingsElementFromFCCLabelledPropertyGroup(coverageProject) ??
+            => ProjectSettingsElementFromFCCLabelledPropertyGroup(coverageProject) ??
                 await this.vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
-            return settingsElement;
-        }
 
         /*
             <PropertyGroup Label="FineCodeCoverage">
             ...
             </PropertyGroup>
         */
-        private XElement ProjectSettingsElementFromFCCLabelledPropertyGroup(ICoverageProject coverageProject)
-            => coverageProject.ProjectFileXElement.XPathSelectElement($"/PropertyGroup[@Label='{Vsix.Code}']");
+        private static XElement ProjectSettingsElementFromFCCLabelledPropertyGroup(
+            ICoverageProject coverageProject
+        ) => coverageProject.ProjectFileXElement.XPathSelectElement($"/PropertyGroup[@Label='{Vsix.Code}']");
     }
 }

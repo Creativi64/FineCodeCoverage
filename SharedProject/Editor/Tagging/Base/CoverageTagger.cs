@@ -110,7 +110,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             return this.GetTags(dynamicLineAndSnapshotSpans);
         }
 
-        private bool IsNewOrDirty(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
+        private static bool IsNewOrDirty(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
             DynamicCoverageType ct = dynamicLineAndSnapshotSpan.Line.CoverageType;
             return ct == DynamicCoverageType.Dirty || ct == DynamicCoverageType.NewLine;
@@ -122,7 +122,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 this.dynamicLineFilter.GetFileFilter(this.originalFilePath) : (_) => true;
             return dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot
                 => this.coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType) &&
-                (this.IsNewOrDirty(dynamicLineAndSnapshot) || fileFilter(dynamicLineAndSnapshot.Line))
+                (IsNewOrDirty(dynamicLineAndSnapshot) || fileFilter(dynamicLineAndSnapshot.Line))
             ).Select(dynamicLineAndSnapshot => this.lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
         }
 
