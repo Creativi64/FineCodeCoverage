@@ -2,8 +2,11 @@
 {
     internal class ReportViewSolutionOptionValue
     {
-        public static ReportViewSolutionOptionValue Default => new ReportViewSolutionOptionValue {
-            ReportStyle = ReportStyle.Assembly, ReportContent = ReportContentType.Full };
+        public static ReportViewSolutionOptionValue Default => new ReportViewSolutionOptionValue
+        {
+            ReportStyle = ReportStyle.Assembly,
+            ReportContent = ReportContentType.Full
+        };
 
         public ReportStyle ReportStyle { get; set; }
 

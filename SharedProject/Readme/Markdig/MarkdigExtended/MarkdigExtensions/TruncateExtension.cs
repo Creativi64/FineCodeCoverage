@@ -1,5 +1,5 @@
-﻿using Markdig.Renderers;
-using Markdig;
+﻿using Markdig;
+using Markdig.Renderers;
 
 namespace FineCodeCoverage.Readme
 {

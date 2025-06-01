@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Readme
             => this.blockCreators = blockCreators;
 
         public MarkerBlockRenderer(string marker, Func<IEnumerable<Block>> creator)
-            : this( new Dictionary<string, Func<IEnumerable<Block>>> {
+            : this(new Dictionary<string, Func<IEnumerable<Block>>> {
                     { marker, creator }
                 }
             )

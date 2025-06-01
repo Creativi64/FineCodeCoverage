@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.Shell;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Utilities.VsThreading

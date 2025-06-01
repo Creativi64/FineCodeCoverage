@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Readme
                 foreach (CategorizedOptionPropertyInfos propertyCategory in optionPageInfo.PropertyCategories)
                 {
                     this.AddRow(
-                        OptionPageTableDisplayInfo.PageNameCategoryDisplay(optionPageInfo.PageName,propertyCategory.Category),
+                        OptionPageTableDisplayInfo.PageNameCategoryDisplay(optionPageInfo.PageName, propertyCategory.Category),
                         "",
                         ""
                     );
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Readme
 
             this.tableRowGroup.Rows.Add(row);
 
-            this.AddCell(row, cell1,isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.OptionCellAlignment);
+            this.AddCell(row, cell1, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.OptionCellAlignment);
             this.AddCell(row, cell2, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.DescriptionCellAlignment);
             this.AddCell(row, cell3, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.IsCoverageSettingCellAlignment);
         }

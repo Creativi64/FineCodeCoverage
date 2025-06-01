@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Readme
         public override object Render(MarkdownObject markdownObject)
         {
             IEnumerable<INotifiyingObjectRenderer> notifyingObjectRenderers = this.ObjectRenderers.OfType<INotifiyingObjectRenderer>();
-            foreach(INotifiyingObjectRenderer notifyingObjectRenderer in notifyingObjectRenderers)
+            foreach (INotifiyingObjectRenderer notifyingObjectRenderer in notifyingObjectRenderers)
             {
                 notifyingObjectRenderer.CreatedEvent += this.NotifyingObjectRenderer_CreatedEvent;
             }

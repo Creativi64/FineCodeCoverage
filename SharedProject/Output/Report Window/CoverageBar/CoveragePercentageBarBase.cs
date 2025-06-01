@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Wpf;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Output
 {
@@ -52,21 +52,24 @@ namespace FineCodeCoverage.Output
 
         #region coverage values
         public int? Partial
-        { get => (int?)this.GetValue(PartialProperty); set => this.SetValue(PartialProperty, value);
+        {
+            get => (int?)this.GetValue(PartialProperty); set => this.SetValue(PartialProperty, value);
         }
 
         public static readonly DependencyProperty PartialProperty =
             DependencyProperty.Register(nameof(Partial), typeof(int?), typeof(CoveragePercentageBarBase), new PropertyMetadata(null));
 
         public double Coverable
-        { get => (double)this.GetValue(CoverableProperty); set => this.SetValue(CoverableProperty, value);
+        {
+            get => (double)this.GetValue(CoverableProperty); set => this.SetValue(CoverableProperty, value);
         }
 
         public static readonly DependencyProperty CoverableProperty =
             DependencyProperty.Register(nameof(Coverable), typeof(double), typeof(CoveragePercentageBarBase), new PropertyMetadata((double)0));
 
         public double Covered
-        { get => (double)this.GetValue(CoveredProperty); set => this.SetValue(CoveredProperty, value);
+        {
+            get => (double)this.GetValue(CoveredProperty); set => this.SetValue(CoveredProperty, value);
         }
 
         public static readonly DependencyProperty CoveredProperty =
@@ -74,14 +77,16 @@ namespace FineCodeCoverage.Output
         #endregion
 
         public bool ShowToolTip
-        { get => (bool)this.GetValue(ShowToolTipProperty); set => this.SetValue(ShowToolTipProperty, value);
+        {
+            get => (bool)this.GetValue(ShowToolTipProperty); set => this.SetValue(ShowToolTipProperty, value);
         }
 
         public static readonly DependencyProperty ShowToolTipProperty =
             DependencyProperty.Register(nameof(ShowToolTip), typeof(bool), typeof(CoveragePercentageBarBase), new PropertyMetadata(true));
 
         public bool CoveredPercentageIsLeft
-        { get => (bool)this.GetValue(CoveredPercentageIsLeftProperty); set => this.SetValue(CoveredPercentageIsLeftProperty, value);
+        {
+            get => (bool)this.GetValue(CoveredPercentageIsLeftProperty); set => this.SetValue(CoveredPercentageIsLeftProperty, value);
         }
 
         public static readonly DependencyProperty CoveredPercentageIsLeftProperty =
@@ -90,7 +95,8 @@ namespace FineCodeCoverage.Output
         #region colors
 
         public SolidColorBrush SingularPartBrush
-        { get => (SolidColorBrush)this.GetValue(SingularPartBrushProperty); set => this.SetValue(SingularPartBrushProperty, value);
+        {
+            get => (SolidColorBrush)this.GetValue(SingularPartBrushProperty); set => this.SetValue(SingularPartBrushProperty, value);
         }
 
         public static readonly DependencyProperty SingularPartBrushProperty =
@@ -110,14 +116,16 @@ namespace FineCodeCoverage.Output
         }
 
         public Color CoveredColor
-        { get => (Color)this.GetValue(CoveredColorProperty); set => this.SetValue(CoveredColorProperty, value);
+        {
+            get => (Color)this.GetValue(CoveredColorProperty); set => this.SetValue(CoveredColorProperty, value);
         }
 
         public static readonly DependencyProperty CoveredColorProperty =
             DependencyProperty.Register(nameof(CoveredColor), typeof(Color), typeof(CoveragePercentageBarBase), new PropertyMetadata(VisualStudioNotificationColors.Positive));
 
         public Color NotCoveredColor
-        { get => (Color)this.GetValue(NotCoveredColorProperty); set => this.SetValue(NotCoveredColorProperty, value);
+        {
+            get => (Color)this.GetValue(NotCoveredColorProperty); set => this.SetValue(NotCoveredColorProperty, value);
         }
 
         public static readonly DependencyProperty NotCoveredColorProperty =
@@ -126,7 +134,8 @@ namespace FineCodeCoverage.Output
         #endregion
 
         public double? HeightOrMultiplier
-        { get => (double?)this.GetValue(HeightOrMultiplierProperty); set => this.SetValue(HeightOrMultiplierProperty, value);
+        {
+            get => (double?)this.GetValue(HeightOrMultiplierProperty); set => this.SetValue(HeightOrMultiplierProperty, value);
         }
 
         public static readonly DependencyProperty HeightOrMultiplierProperty =

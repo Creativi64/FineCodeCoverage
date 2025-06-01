@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Model;
-using System.Threading.Tasks;
-using System.ComponentModel.Composition;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {

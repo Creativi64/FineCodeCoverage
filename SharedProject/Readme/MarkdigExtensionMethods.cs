@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Readme
 {
     internal static class MarkdigExtensionMethods
     {
-        public static void AddIfNotAlready<TItem,TCreated>(
+        public static void AddIfNotAlready<TItem, TCreated>(
             this OrderedList<TItem> list,
             Func<TCreated> creator) where TItem : class where TCreated : class, TItem
         {

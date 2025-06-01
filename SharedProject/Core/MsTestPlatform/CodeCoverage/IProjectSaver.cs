@@ -5,6 +5,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
 {
     interface IProjectSaver
     {
-       Task SaveProjectAsync(IVsHierarchy projectHierarchy);
+        Task SaveProjectAsync(IVsHierarchy projectHierarchy);
     }
 }

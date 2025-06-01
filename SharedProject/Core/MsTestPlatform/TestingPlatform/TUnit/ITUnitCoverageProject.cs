@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Engine.Model;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Threading;
+using FineCodeCoverage.Engine.Model;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
