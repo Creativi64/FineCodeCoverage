@@ -84,24 +84,26 @@ namespace FineCodeCoverage.Engine.Model
                 IsRootImportElementWithSdkAttribute(x));
 
             return this.isDotNetSdkStyle.Value;
-
-            bool HasSdkAttribute(XElement x) => x?.Attributes()?
-                .FirstOrDefault(attr => attr?.Name?.LocalName?.Equals("Sdk", StringComparison.OrdinalIgnoreCase) == true) != null;
-
-            bool IsRootProjectElementWithSdkAttribute(XElement x)
-                => x?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
-                    x?.Parent == null && HasSdkAttribute(x);
-
-            bool IsRootProjectElementSdkElementChild(XElement x)
-                => x?.Name?.LocalName?.Equals("Sdk", StringComparison.OrdinalIgnoreCase) == true &&
-                    x?.Parent?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
-                    x?.Parent?.Parent == null;
-
-            bool IsRootImportElementWithSdkAttribute(XElement x)
-                => x?.Name?.LocalName?.Equals("Import", StringComparison.OrdinalIgnoreCase) == true &&
-                    x?.Parent?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
-                    x?.Parent?.Parent == null && HasSdkAttribute(x);
         }
+
+        private static bool HasSdkAttribute(XElement x)
+            => x.Attributes().Any(IsSdkAttribute);
+
+        private static bool IsSdkAttribute(XAttribute attr)
+            => attr.Name.LocalName.Equals("Sdk", StringComparison.OrdinalIgnoreCase);
+        private static bool IsRootImportElementWithSdkAttribute(XElement x)
+            => x?.Name?.LocalName?.Equals("Import", StringComparison.OrdinalIgnoreCase) == true &&
+                x?.Parent?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
+                x?.Parent?.Parent == null && HasSdkAttribute(x);
+
+        private static bool IsRootProjectElementSdkElementChild(XElement x)
+            => x?.Name?.LocalName?.Equals("Sdk", StringComparison.OrdinalIgnoreCase) == true &&
+            x?.Parent?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
+            x?.Parent?.Parent == null;
+
+        private static bool IsRootProjectElementWithSdkAttribute(XElement x)
+            => x?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
+                x?.Parent == null && HasSdkAttribute(x);
 
         public string TestDllFile { get; set; }
         public string ProjectOutputFolder => Path.GetDirectoryName(this.TestDllFile);
