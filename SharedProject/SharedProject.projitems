@@ -108,6 +108,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IFCCSettingsFilesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsMergeLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsMerger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ISettingsXmlParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\IVsBuildFCCSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\CPPReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\DotNetReferencedProjectsHelper.cs" />
@@ -124,6 +125,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProjects\VsApiReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\SettingsMergeLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\SettingsMerger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\SettingsXmlParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\TryParseDelegate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\UnexpectedSettingsTypeException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\VsBuildFCCSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\CodeCoverage\CustomRunSettingsTemplateDetails.cs" />

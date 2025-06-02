@@ -2,7 +2,9 @@
 
 namespace FineCodeCoverage.Output
 {
+#pragma warning disable CA1501
     internal class ColumnsManagementWindow : ResourceDialogWindowBase<ReportColumnsManagementViewModel>
+#pragma warning restore CA1501
     {
         private const string resourcePath = "Output/Report Window/ColumnsManagement/ColumnsManagementDataTemplate.xaml";
         public ColumnsManagementWindow(ReportColumnsManagementViewModel reportColumnsManagmentViewModel) : base(reportColumnsManagmentViewModel, resourcePath)

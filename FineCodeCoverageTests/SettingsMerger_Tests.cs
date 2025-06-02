@@ -363,8 +363,7 @@ namespace FineCodeCoverageTests
         [TestCaseSource(nameof(XmlConversionCases))]
         public void Should_Convert_Xml_Value_Correctly(XElement propertyElement, Type propertyType, object expectedConversion)
         {
-            var settingsMerger = new SettingsMerger(new Mock<ILogger>().Object);
-            var value = settingsMerger.GetValueFromXml(propertyElement, propertyType, "");
+            var value = SettingsMerger.GetValueFromXml(propertyElement, propertyType, "");
             Assert.AreEqual(expectedConversion, value);
         }
 
@@ -373,7 +372,46 @@ namespace FineCodeCoverageTests
         {
             var settingsElement = XElement.Parse($"<Root><PropertyType/></Root>");
             var expectedMessage = $"Unexpected settings type Type for setting TheName in settings merger GetValueFromXml";
-            Assert.Throws<UnexpectedSettingsTypeException>(() => settingsMerger.GetValueFromXml(settingsElement, typeof(Type), "TheName"), expectedMessage);
+            Assert.Throws<UnexpectedSettingsTypeException>(() => SettingsMerger.GetValueFromXml(settingsElement, typeof(Type), "TheName"), expectedMessage);
+        }
+
+        class DemoType
+        {
+            public bool?[] NullableBoolArray { get; set; }
+            public bool[] BoolArray { get; set; }
+            public bool Bool { get; set; }
+            public bool? NullableBool { get; set; }
+        }
+
+        [Test]
+        public void Should_Be_Able_To_SetValue_From_GetValueFromXml()
+        {
+            var boolArrayElement = XElement.Parse(@"
+<El>
+true
+false
+</El>
+");
+            var demoType = new DemoType();
+            var nullableBoolArrayProperty = typeof(DemoType).GetProperty(nameof(DemoType.NullableBoolArray));
+            var boolArrayProperty = typeof(DemoType).GetProperty(nameof(DemoType.BoolArray));
+            SetValue(nullableBoolArrayProperty, boolArrayElement);
+            Assert.That(demoType.NullableBoolArray, Is.EqualTo(new bool?[] { true, false }));
+            SetValue(boolArrayProperty, boolArrayElement);
+            Assert.That(demoType.BoolArray, Is.EqualTo(new bool[] { true, false }));
+
+            var boolElement = XElement.Parse("<El>true</El>");
+            var nullableBoolProperty = typeof(DemoType).GetProperty(nameof(DemoType.NullableBool));
+            SetValue(nullableBoolProperty, boolElement);
+            Assert.That(demoType.NullableBool.Value, Is.True);
+
+            void SetValue(PropertyInfo property, XElement element)
+            {
+
+                var value = SettingsMerger.GetValueFromXml(element, property.PropertyType, "");
+                
+                property.SetValue(demoType, value);
+            }
         }
 
         // add to if add additional types.
@@ -391,11 +429,6 @@ namespace FineCodeCoverageTests
             };
 
             return cases;
-        }
-
-        private XElement CreateElement(string elementName, string value)
-        {
-            return XElement.Parse(CreateElementString(elementName, value));
         }
 
         private string CreateElementString(string elementName, object value)

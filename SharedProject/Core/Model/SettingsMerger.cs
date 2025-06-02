@@ -18,6 +18,17 @@ namespace FineCodeCoverage.Engine.Model
         private const string mergeAttributeName = "merge";
         private readonly ILogger logger;
         private readonly SettingsMergeLogic settingsMergeLogic = new SettingsMergeLogic();
+        private static readonly Dictionary<Type, ISettingsXmlParser> parsers = new Dictionary<Type, ISettingsXmlParser>()
+        {
+            { typeof(bool), new SettingsXmlParser<bool,bool?>(bool.TryParse)},
+            { typeof(int), new SettingsXmlParser<int,int?>(int.TryParse)},
+            { typeof(short), new SettingsXmlParser<short,short?>(short.TryParse)},
+            { typeof(long), new SettingsXmlParser<long,long?>(long.TryParse)},
+            { typeof(decimal), new SettingsXmlParser<decimal,decimal?>(decimal.TryParse)},
+            { typeof(double), new SettingsXmlParser<double,double?>(double.TryParse)},
+            { typeof(float), new SettingsXmlParser<float,float?>(float.TryParse)},
+            { typeof(char), new SettingsXmlParser<char,char?>(char.TryParse)}
+        };
 
         private class SettingsElementDefaultMerge
         {
@@ -219,155 +230,52 @@ namespace FineCodeCoverage.Engine.Model
 
             string[] strValueArr = strValue.Split('\n', '\r').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
 
-            if (TypeMatch(type, typeof(string)))
+            return GetValueFromXml(strValueArr, type, name);
+        }
+
+        private static object GetValueFromXml(string[] strValueArr, Type type, string name)
+        {
+            if (type == typeof(string))
             {
                 string value = strValueArr.FirstOrDefault();
                 return value ?? "";
             }
-            else if (TypeMatch(type, typeof(string[])))
-            {
-                return strValueArr;
-            }
 
-            else if (TypeMatch(type, typeof(bool), typeof(bool?)))
-            {
-                if (bool.TryParse(strValueArr.FirstOrDefault(), out bool value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(bool[]), typeof(bool?[])))
-            {
-                IEnumerable<bool> arr = strValueArr.Where(x => bool.TryParse(x, out bool _)).Select(x => bool.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
+            return type.IsEnum
+                ? Enum.Parse(type, strValueArr.FirstOrDefault(), true)
+                : type == typeof(string[]) ?
+                    strValueArr :
+                    GetValueFromParsers(strValueArr, type, name);
+        }
 
-            else if (TypeMatch(type, typeof(int), typeof(int?)))
-            {
-                if (int.TryParse(strValueArr.FirstOrDefault(), out int value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(int[]), typeof(int?[])))
-            {
-                IEnumerable<int> arr = strValueArr.Where(x => int.TryParse(x, out int _)).Select(x => int.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
+        private static (Type lookupType, bool isNullable) GetLookupTypeInfo(Type type)
+        {
+            Type underlying = Nullable.GetUnderlyingType(type);
+            return underlying != null ? ((Type lookupType, bool isNullable))(underlying, true) :
+                ((Type lookupType, bool isNullable))(type, false);
+        }
 
-            else if (TypeMatch(type, typeof(short), typeof(short?)))
+        private static object GetValueFromParsers(string[] strValueArr, Type type, string name)
+        {
+            if (type.IsArray)
             {
-                if (short.TryParse(strValueArr.FirstOrDefault(), out short vaue))
+                Type elementType = type.GetElementType();
+                (Type lookupType, bool isNullable) = GetLookupTypeInfo(elementType);
+                if (parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
                 {
-                    return vaue;
-                }
-            }
-            else if (TypeMatch(type, typeof(short[]), typeof(short?[])))
-            {
-                IEnumerable<short> arr = strValueArr.Where(x => short.TryParse(x, out short _)).Select(x => short.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
-
-            else if (TypeMatch(type, typeof(long), typeof(long?)))
-            {
-                if (long.TryParse(strValueArr.FirstOrDefault(), out long value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(long[]), typeof(long?[])))
-            {
-                IEnumerable<long> arr = strValueArr.Where(x => long.TryParse(x, out long _)).Select(x => long.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
-
-            else if (TypeMatch(type, typeof(decimal), typeof(decimal?)))
-            {
-                if (decimal.TryParse(strValueArr.FirstOrDefault(), out decimal value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(decimal[]), typeof(decimal?[])))
-            {
-                IEnumerable<decimal> arr = strValueArr.Where(x => decimal.TryParse(x, out decimal _)).Select(x => decimal.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
-
-            else if (TypeMatch(type, typeof(double), typeof(double?)))
-            {
-                if (double.TryParse(strValueArr.FirstOrDefault(), out double value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(double[]), typeof(double?[])))
-            {
-                IEnumerable<double> arr = strValueArr.Where(x => double.TryParse(x, out double _)).Select(x => double.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
-
-            else if (TypeMatch(type, typeof(float), typeof(float?)))
-            {
-                if (float.TryParse(strValueArr.FirstOrDefault(), out float value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(float[]), typeof(float?[])))
-            {
-                IEnumerable<float> arr = strValueArr.Where(x => float.TryParse(x, out float _)).Select(x => float.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
-                }
-            }
-
-            else if (TypeMatch(type, typeof(char), typeof(char?)))
-            {
-                if (char.TryParse(strValueArr.FirstOrDefault(), out char value))
-                {
-                    return value;
-                }
-            }
-            else if (TypeMatch(type, typeof(char[]), typeof(char?[])))
-            {
-                IEnumerable<char> arr = strValueArr.Where(x => char.TryParse(x, out char _)).Select(x => char.Parse(x));
-                if (arr.Any())
-                {
-                    return arr;
+                    return parser.ParseArray(strValueArr, isNullable);
                 }
             }
             else
             {
-                return type.IsEnum
-                    ? Enum.Parse(type, strValueArr.FirstOrDefault(), true)
-                    : throw new UnexpectedSettingsTypeException($"Unexpected settings type '{type.Name}' for setting {name} in settings merger GetValueFromXml");
-
+                (Type lookupType, bool _) = GetLookupTypeInfo(type);
+                if (parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
+                {
+                    return parser.Parse(strValueArr.FirstOrDefault());
+                }
             }
 
-            return null;
+            throw new UnexpectedSettingsTypeException($"Unexpected settings type '{type.Name}' for setting {name} in settings merger GetValueFromXml");
         }
-
-        private static bool TypeMatch(Type type, params Type[] otherTypes)
-            => (otherTypes ?? Array.Empty<Type>()).Any(ot => type == ot);
     }
 }

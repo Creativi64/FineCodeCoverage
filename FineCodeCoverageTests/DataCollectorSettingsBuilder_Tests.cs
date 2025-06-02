@@ -42,7 +42,7 @@ namespace Test
         [Test]
         public void Should_Safely_Quote_Paths_When_Quote()
         {
-            var quoted = dataCollectorSettingsBuilder.Quote(@"C\Some Path");
+            var quoted = DataCollectorSettingsBuilder.Quote(@"C\Some Path");
             Assert.AreEqual(@"""C\Some Path""", quoted);
         }
 
@@ -64,28 +64,28 @@ namespace Test
         public void Should_Set_Diagnostics_Flag_Quoted_When_WithDiagnostics()
         {
             dataCollectorSettingsBuilder.WithDiagnostics("path");
-            Assert.AreEqual(dataCollectorSettingsBuilder.Diagnostics, $"--diag {dataCollectorSettingsBuilder.Quote("path")}");
+            Assert.AreEqual(dataCollectorSettingsBuilder.Diagnostics, $"--diag {DataCollectorSettingsBuilder.Quote("path")}");
         }
 
         [Test]
         public void Should_Set_Results_Directory_Flag_Quoted_When_WithResultsDirectory()
         {
             dataCollectorSettingsBuilder.WithResultsDirectory("path");
-            Assert.AreEqual(dataCollectorSettingsBuilder.ResultsDirectory, $"--results-directory {dataCollectorSettingsBuilder.Quote("path")}");
+            Assert.AreEqual(dataCollectorSettingsBuilder.ResultsDirectory, $"--results-directory {DataCollectorSettingsBuilder.Quote("path")}");
         }
 
         [Test]
         public void Should_Set_ProjectDll_Quoted_When_WithProjectDll()
         {
             dataCollectorSettingsBuilder.WithProjectDll("projectdll");
-            Assert.AreEqual(dataCollectorSettingsBuilder.ProjectDll, dataCollectorSettingsBuilder.Quote("projectdll"));
+            Assert.AreEqual(dataCollectorSettingsBuilder.ProjectDll, DataCollectorSettingsBuilder.Quote("projectdll"));
         }
         
         [Test]
         public void Should_Set_RunSettings_As_Quoted_GeneratedRunSettings_When_Initialize()
         {
             dataCollectorSettingsBuilder.Initialize(false,".runsettings","generated.runsettings");
-            Assert.AreEqual(dataCollectorSettingsBuilder.RunSettings,$"--settings {dataCollectorSettingsBuilder.Quote("generated.runsettings")}");
+            Assert.AreEqual(dataCollectorSettingsBuilder.RunSettings,$"--settings {DataCollectorSettingsBuilder.Quote("generated.runsettings")}");
         }
         
         #endregion
