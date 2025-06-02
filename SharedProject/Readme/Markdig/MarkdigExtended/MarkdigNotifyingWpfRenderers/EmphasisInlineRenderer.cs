@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Readme
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             MarkdownTypeMarker? markdownTypeMarker = null;
 
-            Span span;
+            Span span = null;
             if (obj.DelimiterChar == '*' || obj.DelimiterChar == '_')
             {
                 span = obj.DelimiterCount == 2 ? (Span)new Bold() : new Italic();
@@ -23,7 +23,9 @@ namespace FineCodeCoverage.Readme
                 switch (obj.DelimiterChar)
                 {
                     case '~':
-                        markdownTypeMarker = obj.DelimiterCount == 2 ? MarkdownTypeMarker.EmphasisInlineStrikeThrough : MarkdownTypeMarker.EmphasisInlineSubscript;
+                        markdownTypeMarker = obj.DelimiterCount == 2 ?
+                            MarkdownTypeMarker.EmphasisInlineStrikeThrough :
+                            MarkdownTypeMarker.EmphasisInlineSubscript;
                         break;
                     case '^':
                         markdownTypeMarker = MarkdownTypeMarker.EmphasisInlineSuperscript;
@@ -36,7 +38,10 @@ namespace FineCodeCoverage.Readme
                         break;
                 }
 
-                span = new Span();
+                if (markdownTypeMarker.HasValue)
+                {
+                    span = new Span();
+                }
             }
 
             if (span != null)
