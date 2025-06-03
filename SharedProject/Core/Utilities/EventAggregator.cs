@@ -551,4 +551,3 @@ namespace FineCodeCoverage.Core.Utilities
 }
 
 // ReSharper enable InconsistentNaming
-

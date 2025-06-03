@@ -73,4 +73,3 @@ namespace FineCodeCoverage.Core.Initialization
         }
     }
 }
-

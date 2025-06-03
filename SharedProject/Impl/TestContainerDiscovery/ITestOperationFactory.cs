@@ -7,4 +7,3 @@ namespace FineCodeCoverage.Impl
         ITestOperation Create(IOperation operation);
     }
 }
-

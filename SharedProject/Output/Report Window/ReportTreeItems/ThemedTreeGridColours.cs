@@ -61,4 +61,3 @@ namespace FineCodeCoverage.Output
         }
     }
 }
-

@@ -18,4 +18,3 @@ namespace FineCodeCoverage.Output
         protected override void Execute(object sender, EventArgs e) => _ = this.showFCCOutputPane.ShowAsync();
     }
 }
-

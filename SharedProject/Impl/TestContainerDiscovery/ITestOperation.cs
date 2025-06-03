@@ -11,4 +11,3 @@ namespace FineCodeCoverage.Impl
         string SolutionDirectory { get; }
     }
 }
-

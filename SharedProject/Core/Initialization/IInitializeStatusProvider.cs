@@ -6,4 +6,3 @@
         string InitializeExceptionMessage { get; set; }
     }
 }
-
