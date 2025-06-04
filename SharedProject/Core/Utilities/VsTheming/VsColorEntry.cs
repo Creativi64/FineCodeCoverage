@@ -14,18 +14,18 @@
             ColorName = colorName;
         }
 
-        ColorName ColorName { get; }
+        public ColorName ColorName { get; }
 
-        byte BackgroundType { get; }
+        public byte BackgroundType { get; }
 
-        byte ForegroundType { get; }
+        public byte ForegroundType { get; }
 
-        uint Background { get; }
+        public uint Background { get; }
 
-        uint Foreground { get; }
+        public uint Foreground { get; }
 
-        uint BackgroundSource { get; }
+        public uint BackgroundSource { get; }
 
-        uint ForegroundSource { get; }
+        public uint ForegroundSource { get; }
     }
 }
