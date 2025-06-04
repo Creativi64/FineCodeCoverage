@@ -58,14 +58,16 @@ namespace FineCodeCoverage.Engine
 
         public void StopCoverage()
         {
-            if (this._cancellationTokenSource != null)
+            if (this._cancellationTokenSource == null)
             {
-                try
-                {
-                    this._cancellationTokenSource.Cancel();
-                }
-                catch (ObjectDisposedException) { }
+                return;
             }
+
+            try
+            {
+                this._cancellationTokenSource.Cancel();
+            }
+            catch (ObjectDisposedException) { }
         }
 
         private void Reset()
@@ -151,7 +153,7 @@ namespace FineCodeCoverage.Engine
 
                 CoverageProjectFileSynchronizationDetails fileSynchronizationDetails = await project.PrepareForCoverageAsync(cancellationToken);
                 List<string> logs = fileSynchronizationDetails.Logs;
-                if (logs.Any())
+                if (logs.Count != 0)
                 {
                     logs.Insert(0, "File synchronization :");
                     logs.Add($"File synchronization duration : {fileSynchronizationDetails.Duration}");
@@ -173,7 +175,7 @@ namespace FineCodeCoverage.Engine
             {
                 var reportResult = new ReportResult();
 
-                if (coberturaFiles.Any())
+                if (coberturaFiles.Length != 0)
                 {
                     reportResult = await this.RunAndProcessReportAsync(coberturaFiles, coverageProjects, vsShutdownLinkedCancellationToken);
                 }
@@ -237,7 +239,7 @@ namespace FineCodeCoverage.Engine
                 await this._coverageOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
                 string[] coverOutputFiles = await this.RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
-                if (coverOutputFiles.Any())
+                if (coverOutputFiles.Length != 0)
                 {
                     reportResult = await this.RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
                 }

@@ -56,19 +56,26 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             this._verbosityLevel = verbosityLevel;
             LoggerFactory.Configure((palmmediaVerbosityLevel, message) =>
             {
-                bool shouldLog = true;
-                if (palmmediaVerbosityLevel != PalmmediaVerbosityLevel.Error)
+                bool shouldLog = this.ShouldLog(palmmediaVerbosityLevel, message);
+                if (!shouldLog)
                 {
-                    Match matched = this._fileDoesNotExistAnymoreRegex.Match(message);
-                    shouldLog = !matched.Success;
+                    return;
                 }
 
-                if (shouldLog)
-                {
-                    logger((VerbosityLevel)palmmediaVerbosityLevel, message);
-                }
+                logger((VerbosityLevel)palmmediaVerbosityLevel, message);
             });
             LoggerFactory.VerbosityLevel = (PalmmediaVerbosityLevel)verbosityLevel;
+        }
+
+        private bool ShouldLog(PalmmediaVerbosityLevel palmmediaVerbosityLevel, string message)
+        {
+            bool shouldLog = true;
+            if (palmmediaVerbosityLevel != PalmmediaVerbosityLevel.Error)
+            {
+                Match matched = this._fileDoesNotExistAnymoreRegex.Match(message);
+                shouldLog = !matched.Success;
+            }
+            return shouldLog;
         }
     }
 }

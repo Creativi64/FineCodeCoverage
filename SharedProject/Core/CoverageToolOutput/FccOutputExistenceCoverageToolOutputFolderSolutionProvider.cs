@@ -18,16 +18,13 @@ namespace FineCodeCoverage.Engine
         public string Provide(Func<string> solutionFolderProvider)
         {
             string solutionFolder = solutionFolderProvider();
-            if (solutionFolder != null)
+            if (solutionFolder == null)
             {
-                string provided = Path.Combine(solutionFolder, fccOutputFolderName);
-                if (this._fileUtil.DirectoryExists(provided))
-                {
-                    return provided;
-                }
+                return null;
             }
 
-            return null;
+            string provided = Path.Combine(solutionFolder, fccOutputFolderName);
+            return this._fileUtil.DirectoryExists(provided) ? provided : null;
         }
     }
 }

@@ -62,10 +62,12 @@ namespace FineCodeCoverage.Engine
         private async Task DetermineOutputFolderForAllProjectsAsync()
         {
             this._outputFolderForAllProjects = this._outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(this._coverageProjects));
-            if (this._outputFolderForAllProjects != null)
+            if (this._outputFolderForAllProjects == null)
             {
-                await this._logger.LogAsync($"FCC output in {this._outputFolderForAllProjects}");
+                return;
             }
+
+            await this._logger.LogAsync($"FCC output in {this._outputFolderForAllProjects}");
         }
 
         public string GetReportOutputFolder()

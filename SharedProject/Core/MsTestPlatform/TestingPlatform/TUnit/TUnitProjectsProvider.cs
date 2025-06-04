@@ -40,10 +40,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 bool solutionOpen = await solutionProjectsProvider.IsSolutionOpenAsync();
-                if (solutionOpen)
+                if (!solutionOpen)
                 {
-                    this.OnReady(true);
+                    return;
                 }
+
+                this.OnReady(true);
             });
         }
 
@@ -71,20 +73,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void TUnitChangeNotifier_ProjectAddedRemovedEvent(object sender, ProjectAddedRemoved e)
         {
-            if (this._initializedCache)
+            if (!this._initializedCache)
             {
-                IVsHierarchy project = e.Project;
-                if (e.Added)
+                return;
+            }
+
+            IVsHierarchy project = e.Project;
+            if (e.Added)
+            {
+                this._addedProjects.Add(project);
+            }
+            else
+            {
+                bool removed = this._addedProjects.Remove(project);
+                if (!removed)
                 {
-                    this._addedProjects.Add(project);
-                }
-                else
-                {
-                    bool removed = this._addedProjects.Remove(project);
-                    if (!removed)
-                    {
-                        this._tUnitProjectCache.Remove(e.Project);
-                    }
+                    this._tUnitProjectCache.Remove(e.Project);
                 }
             }
         }

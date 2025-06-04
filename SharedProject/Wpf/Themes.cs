@@ -31,60 +31,63 @@ namespace FineCodeCoverage.Wpf
 
         private static void UseVsThemePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!DesignerProperties.GetIsInDesignMode(d))
+            if (DesignerProperties.GetIsInDesignMode(d) || !(d is FrameworkElement element))
             {
-                if (d is FrameworkElement element)
-                {
-                    if ((bool)e.NewValue)
-                    {
-                        OverrideProperty(element, Control.BackgroundProperty, _originalBackgroundProperty, ThemedDialogColors.WindowPanelBrushKey);
-                        OverrideProperty(element, Control.ForegroundProperty, _originalForegroundProperty, ThemedDialogColors.WindowPanelTextBrushKey);
-                        ThemedDialogStyleLoader.SetUseDefaultThemedDialogStyles(element, true);
-                        ImageThemingUtilities.SetThemeScrollBars(element, true);
-                    }
-                    else
-                    {
-                        ImageThemingUtilities.SetThemeScrollBars(element, null);
-                        ThemedDialogStyleLoader.SetUseDefaultThemedDialogStyles(element, false);
-                        RestoreProperty(element, Control.ForegroundProperty, _originalForegroundProperty);
-                        RestoreProperty(element, Control.BackgroundProperty, _originalBackgroundProperty);
-                    }
-                }
+                return;
+            }
+
+            if ((bool)e.NewValue)
+            {
+                OverrideProperty(element, Control.BackgroundProperty, _originalBackgroundProperty, ThemedDialogColors.WindowPanelBrushKey);
+                OverrideProperty(element, Control.ForegroundProperty, _originalForegroundProperty, ThemedDialogColors.WindowPanelTextBrushKey);
+                ThemedDialogStyleLoader.SetUseDefaultThemedDialogStyles(element, true);
+                ImageThemingUtilities.SetThemeScrollBars(element, true);
+            }
+            else
+            {
+                ImageThemingUtilities.SetThemeScrollBars(element, null);
+                ThemedDialogStyleLoader.SetUseDefaultThemedDialogStyles(element, false);
+                RestoreProperty(element, Control.ForegroundProperty, _originalForegroundProperty);
+                RestoreProperty(element, Control.BackgroundProperty, _originalBackgroundProperty);
             }
         }
 
         private static void OverrideProperty(FrameworkElement element, DependencyProperty property, DependencyProperty backup, object value)
         {
-            if (element is Control control)
+            if (!(element is Control control))
             {
-                object original = control.ReadLocalValue(property);
-
-                if (!ReferenceEquals(value, DependencyProperty.UnsetValue))
-                {
-                    control.SetValue(backup, original);
-                }
-
-                control.SetResourceReference(property, value);
+                return;
             }
+
+            object original = control.ReadLocalValue(property);
+
+            if (!ReferenceEquals(value, DependencyProperty.UnsetValue))
+            {
+                control.SetValue(backup, original);
+            }
+
+            control.SetResourceReference(property, value);
         }
 
         private static void RestoreProperty(FrameworkElement element, DependencyProperty property, DependencyProperty backup)
         {
-            if (element is Control control)
+            if (!(element is Control control))
             {
-                object value = control.ReadLocalValue(backup);
-
-                if (!ReferenceEquals(value, DependencyProperty.UnsetValue))
-                {
-                    control.SetValue(property, value);
-                }
-                else
-                {
-                    control.ClearValue(property);
-                }
-
-                control.ClearValue(backup);
+                return;
             }
+
+            object value = control.ReadLocalValue(backup);
+
+            if (!ReferenceEquals(value, DependencyProperty.UnsetValue))
+            {
+                control.SetValue(property, value);
+            }
+            else
+            {
+                control.ClearValue(property);
+            }
+
+            control.ClearValue(backup);
         }
     }
 }

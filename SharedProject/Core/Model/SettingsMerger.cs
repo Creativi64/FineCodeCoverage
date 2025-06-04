@@ -153,14 +153,16 @@ namespace FineCodeCoverage.Engine.Model
         private async Task MergeAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
         {
             object value = await this.TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
-            if (value != null)
+            if (value == null)
             {
-                object currentValue = settingPropertyInfo.GetValue(coverageSettings);
-                object merged = currentValue == null ?
-                    value :
-                    this._settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
-                settingPropertyInfo.SetValue(coverageSettings, merged);
+                return;
             }
+
+            object currentValue = settingPropertyInfo.GetValue(coverageSettings);
+            object merged = currentValue == null ?
+                value :
+                this._settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
+            settingPropertyInfo.SetValue(coverageSettings, merged);
         }
 
         private static bool GetMerge(bool defaultMerge, XElement propertyElement)
@@ -194,10 +196,12 @@ namespace FineCodeCoverage.Engine.Model
         private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
         {
             object value = await this.TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
-            if (value != null)
+            if (value == null)
             {
-                settingPropertyInfo.SetValue(coverageSettings, value);
+                return;
             }
+
+            settingPropertyInfo.SetValue(coverageSettings, value);
         }
 
         private static XElement GetPropertyElement(XElement settingsElement, string propertyName)

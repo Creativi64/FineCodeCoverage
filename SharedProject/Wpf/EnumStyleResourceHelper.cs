@@ -12,10 +12,12 @@ namespace FineCodeCoverage.Wpf
             var styleDictionary = new Dictionary<TEnum, Style>();
             Enum.GetValues(typeof(TEnum)).OfType<TEnum>().ToList().ForEach(enumValue =>
             {
-                if (frameworkElement.TryFindResource(enumValue) is Style style)
+                if (!(frameworkElement.TryFindResource(enumValue) is Style style))
                 {
-                    styleDictionary.Add(enumValue, style);
+                    return;
                 }
+
+                styleDictionary.Add(enumValue, style);
             });
             return styleDictionary;
         }

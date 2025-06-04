@@ -52,10 +52,12 @@ namespace FineCodeCoverage.Editor.Roslyn
             => node.Body != null || node.ExpressionBody != null;
         private void AddIfHasBody(BaseMethodDeclarationSyntax node)
         {
-            if (HasBody(node))
+            if (!HasBody(node))
             {
-                this.AddNode(node);
+                return;
             }
+
+            this.AddNode(node);
         }
 
         public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node) => this.VisitBasePropertyDeclaration(node);
@@ -66,18 +68,22 @@ namespace FineCodeCoverage.Editor.Roslyn
 
         private void VisitBasePropertyDeclaration(BasePropertyDeclarationSyntax node)
         {
-            if (!IsAbstract(node.Modifiers))
+            if (IsAbstract(node.Modifiers))
             {
-                this.VisitNonAbstractBasePropertyDeclaration(node);
+                return;
             }
+
+            this.VisitNonAbstractBasePropertyDeclaration(node);
         }
 
         private void AddIfPropertyDeclaration(BasePropertyDeclarationSyntax node)
         {
-            if (node is PropertyDeclarationSyntax propertyDeclarationSyntax)
+            if (!(node is PropertyDeclarationSyntax propertyDeclarationSyntax))
             {
-                this.AddNode(propertyDeclarationSyntax);
+                return;
             }
+
+            this.AddNode(propertyDeclarationSyntax);
         }
 
         private void VisitNonAbstractBasePropertyDeclaration(BasePropertyDeclarationSyntax node)

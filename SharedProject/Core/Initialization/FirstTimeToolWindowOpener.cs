@@ -28,12 +28,14 @@ namespace FineCodeCoverage.Core.Initialization
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (
-                this._initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer &&
-                !this._shownToolWindowHistory.HasShownToolWindow
+                !this._initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer ||
+                this._shownToolWindowHistory.HasShownToolWindow
             )
             {
-                await this._toolWindowOpener.TryOpenAsync();
+                return;
             }
+
+            await this._toolWindowOpener.TryOpenAsync();
         }
     }
 }

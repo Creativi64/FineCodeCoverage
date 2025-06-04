@@ -49,15 +49,17 @@ namespace FineCodeCoverage.Output
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this._disposedValue)
+            if (this._disposedValue)
             {
-                if (disposing)
-                {
-                    this._repository.Dispose();
-                }
-
-                this._disposedValue = true;
+                return;
             }
+
+            if (disposing)
+            {
+                this._repository.Dispose();
+            }
+
+            this._disposedValue = true;
         }
 
         public void Dispose()

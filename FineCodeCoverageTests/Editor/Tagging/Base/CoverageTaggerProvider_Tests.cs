@@ -163,9 +163,9 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
 
             var coverageTaggerType = typeof(CoverageTagger<DummyTag>);
 
-            var fileLineCoverageArg = coverageTaggerType.GetField("bufferLineCoverage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(tagger) as IBufferLineCoverage;
-            var coverageTypeFilterArg = coverageTaggerType.GetField("coverageTypeFilter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(tagger) as ICoverageTypeFilter;
-            var textInfoArg = coverageTaggerType.GetField("textInfo", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(tagger) as ITextInfo;
+            var fileLineCoverageArg = coverageTaggerType.GetField("_bufferLineCoverage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(tagger) as IBufferLineCoverage;
+            var coverageTypeFilterArg = coverageTaggerType.GetField("_coverageTypeFilter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(tagger) as ICoverageTypeFilter;
+            var textInfoArg = coverageTaggerType.GetField("_textInfo", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(tagger) as ITextInfo;
 
             Assert.Multiple(() =>
             {

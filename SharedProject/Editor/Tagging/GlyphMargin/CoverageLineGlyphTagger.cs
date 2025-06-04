@@ -41,10 +41,12 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
 
         public void Handle(CoverageColoursChangedMessage message)
         {
-            if (this._coverageTagger.HasCoverage)
+            if (!this._coverageTagger.HasCoverage)
             {
-                this._coverageTagger.RaiseTagsChanged();
+                return;
             }
+
+            this._coverageTagger.RaiseTagsChanged();
         }
     }
 }

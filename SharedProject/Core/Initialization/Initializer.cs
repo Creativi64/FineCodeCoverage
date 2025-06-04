@@ -66,10 +66,12 @@ namespace FineCodeCoverage.Core.Initialization
                 }
             }
 
-            if (this.InitializeStatus != InitializeStatus.Error)
+            if (this.InitializeStatus == InitializeStatus.Error)
             {
-                this.InitializeStatus = InitializeStatus.Initialized;
+                return;
             }
+
+            this.InitializeStatus = InitializeStatus.Initialized;
         }
     }
 }

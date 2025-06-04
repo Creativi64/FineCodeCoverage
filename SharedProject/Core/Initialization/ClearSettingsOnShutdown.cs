@@ -18,14 +18,15 @@ namespace FineCodeCoverage.Core.Initialization
             System.IServiceProvider serviceProvider
             ) => this.LazyShouldClearSettingsOnShutdown = new AsyncLazy<bool>(async () =>
             {
-                if (Debugger.IsAttached)
+                if (!Debugger.IsAttached)
                 {
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                    var cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
-                    Assumes.Present(cmdLine);
-                    _ = cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out _);
-
+                    return false;
                 }
+
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
+                Assumes.Present(cmdLine);
+                _ = cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out _);
 
                 return false;
             }, ThreadHelper.JoinableTaskFactory);

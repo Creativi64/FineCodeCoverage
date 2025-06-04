@@ -7,6 +7,9 @@ dotnet_diagnostic.IDE0060.severity = none
 # Roslynator
 dotnet_diagnostic.RCS1163.severity = warning
 dotnet_diagnostic.RCS1036.severity = none
+dotnet_diagnostic.RCS1265.severity = warning # Remove redundant catch block
+dotnet_diagnostic.RCS1208.severity = warning # Reduce 'if' nesting
+dotnet_diagnostic.RCS1218.severity = warning # Simplify code branching
 
 dotnet_diagnostic.IDE0001.severity = error # simplify name
 #dotnet_diagnostic.IDE0004.severity = error # remove unnecessary cast

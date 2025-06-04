@@ -21,10 +21,12 @@ namespace FineCodeCoverage.Editor.Management
         private void EditorFormatMap_FormatMappingChanged(object sender, FormatItemsEventArgs e)
         {
             var watchedItems = e.ChangedItems.Where(changedItem => this._keys.Contains(changedItem)).ToList();
-            if (this._listening && watchedItems.Any())
+            if (!this._listening || !watchedItems.Any())
             {
-                this._callback();
+                return;
             }
+
+            this._callback();
         }
 
         public void ListenFor(List<string> keys, Action callback)

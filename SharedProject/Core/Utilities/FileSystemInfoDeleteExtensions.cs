@@ -9,10 +9,12 @@ namespace FineCodeCoverage.Core.Utilities
         public static void TryDelete(string path)
 #pragma warning restore RCS1224 // Make method an extension method
         {
-            if (File.Exists(path))
+            if (!File.Exists(path))
             {
-                new FileInfo(path).TryDelete();
+                return;
             }
+
+            new FileInfo(path).TryDelete();
         }
         public static void TryDelete(this FileInfo fileInfo, Action<Exception> exceptionCallback = null)
         {

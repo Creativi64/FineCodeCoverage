@@ -58,12 +58,14 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions appOptions)
         {
             TCoverageTypeFilter newCoverageTypeFilter = CreateFilter(appOptions);
-            if (newCoverageTypeFilter.Changed(this._coverageTypeFilter))
+            if (!newCoverageTypeFilter.Changed(this._coverageTypeFilter))
             {
-                this._coverageTypeFilter = newCoverageTypeFilter;
-                var message = new CoverageTypeFilterChangedMessage(newCoverageTypeFilter);
-                this.eventAggregator.SendMessage(message);
+                return;
             }
+
+            this._coverageTypeFilter = newCoverageTypeFilter;
+            var message = new CoverageTypeFilterChangedMessage(newCoverageTypeFilter);
+            this.eventAggregator.SendMessage(message);
         }
 
         private bool ExcludeContentTypeFile(string contentType, string filePath)

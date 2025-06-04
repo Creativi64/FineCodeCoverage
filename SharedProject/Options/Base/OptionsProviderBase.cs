@@ -96,10 +96,12 @@ namespace FineCodeCoverage.Options
 
         private void SaveSettingsToStorage()
         {
-            if (!this.Initializing)
+            if (this.Initializing)
             {
-                this.SaveSettingsToStorageActual();
+                return;
             }
+
+            this.SaveSettingsToStorageActual();
         }
 
         private void SaveSettingsToStorageActual()

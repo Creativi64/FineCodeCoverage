@@ -19,10 +19,12 @@ namespace FineCodeCoverage.Wpf
                     false,
                     (o, _) =>
                     {
-                        if (o is DataGrid dg)
+                        if (!(o is DataGrid dg))
                         {
-                            AddPreventAllBinding(dg);
+                            return;
                         }
+
+                        AddPreventAllBinding(dg);
                     }));
 
         private static void AddPreventAllBinding(DataGrid dg)

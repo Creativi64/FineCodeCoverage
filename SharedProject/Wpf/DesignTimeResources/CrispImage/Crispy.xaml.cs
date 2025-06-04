@@ -50,10 +50,12 @@ namespace FineCodeCoverage.Wpf
         {
             if (!isInDesignMode) return;
 
-            if (d is Crispy crispy)
+            if (!(d is Crispy crispy))
             {
-                crispy.SetImageSource();
+                return;
             }
+
+            crispy.SetImageSource();
         }
 
         public ImageMoniker Moniker

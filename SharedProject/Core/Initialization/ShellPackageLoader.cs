@@ -21,11 +21,13 @@ namespace FineCodeCoverage.Core.Initialization
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            if (this._serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell)
+            if (!(this._serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell))
             {
-                Guid packageToBeLoadedGuid = PackageGuids.guidFCCPackage;
-                _ = shell.LoadPackage(ref packageToBeLoadedGuid, out _);
+                return;
             }
+
+            Guid packageToBeLoadedGuid = PackageGuids.guidFCCPackage;
+            _ = shell.LoadPackage(ref packageToBeLoadedGuid, out _);
         }
     }
 }

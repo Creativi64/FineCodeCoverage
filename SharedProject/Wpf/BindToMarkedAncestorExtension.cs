@@ -22,19 +22,21 @@ namespace FineCodeCoverage.Wpf
             void ApplyBinding()
             {
                 DependencyObject ancestor = this.FindMarkedAncestor(targetElement);
-                if (ancestor is FrameworkElement fe)
+                if (!(ancestor is FrameworkElement fe))
                 {
-                    var binding = new Binding(this.Path)
-                    {
-                        Source = fe.DataContext,
-                        Mode = BindingMode.OneWay
-                    };
-
-                    _ = BindingOperations.SetBinding(
-                        (DependencyObject)pvt.TargetObject,
-                        (DependencyProperty)pvt.TargetProperty,
-                        binding);
+                    return;
                 }
+
+                var binding = new Binding(this.Path)
+                {
+                    Source = fe.DataContext,
+                    Mode = BindingMode.OneWay
+                };
+
+                _ = BindingOperations.SetBinding(
+                    (DependencyObject)pvt.TargetObject,
+                    (DependencyProperty)pvt.TargetProperty,
+                    binding);
             }
 
             if (!targetElement.IsLoaded)

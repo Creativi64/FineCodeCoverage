@@ -32,10 +32,12 @@ namespace FineCodeCoverage.Output
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (this._fileUtil.Exists(this._coberturaFile))
+            if (!this._fileUtil.Exists(this._coberturaFile))
             {
-                this._vsOpenFile.OpenFileInDefaultViewer(this._coberturaFile);
+                return;
             }
+
+            this._vsOpenFile.OpenFileInDefaultViewer(this._coberturaFile);
         }
 
         public void Handle(OutdatedOutputMessage message) => this.Command.Enabled = false;

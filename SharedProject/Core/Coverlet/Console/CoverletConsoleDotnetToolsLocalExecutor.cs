@@ -26,24 +26,26 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
-            if (coverageProject.Settings.CoverletConsoleLocal)
+            if (!coverageProject.Settings.CoverletConsoleLocal)
             {
-                foreach (string configContainingDirectory in this._dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
-                {
-                    CoverletDotNetToolDetails coverletToolDetails = await this._dotnetToolListCoverlet.LocalAsync(configContainingDirectory);
-                    if (coverletToolDetails != null)
-                    {
-                        return new ExecuteRequest
-                        {
-                            FilePath = "dotnet",
-                            Arguments = coverletToolDetails.Command + " " + coverletSettings,
-                            WorkingDirectory = configContainingDirectory
-                        };
-                    }
-                }
-
-                await this._logger.LogAsync("Unable to use Coverlet console local tool");
+                return null;
             }
+
+            foreach (string configContainingDirectory in this._dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
+            {
+                CoverletDotNetToolDetails coverletToolDetails = await this._dotnetToolListCoverlet.LocalAsync(configContainingDirectory);
+                if (coverletToolDetails != null)
+                {
+                    return new ExecuteRequest
+                    {
+                        FilePath = "dotnet",
+                        Arguments = coverletToolDetails.Command + " " + coverletSettings,
+                        WorkingDirectory = configContainingDirectory
+                    };
+                }
+            }
+
+            await this._logger.LogAsync("Unable to use Coverlet console local tool");
 
             return null;
         }

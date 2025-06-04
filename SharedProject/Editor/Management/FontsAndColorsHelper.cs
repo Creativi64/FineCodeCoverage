@@ -52,14 +52,14 @@ namespace FineCodeCoverage.Editor.Management
             int getItemSuccess = fontAndColorStorage.GetItem(displayName, touchAreaInfo);
 #pragma warning restore VSTHRD010 // Invoke single-threaded types on Main thread
 
-            if (getItemSuccess == VSConstants.S_OK)
+            if (getItemSuccess != VSConstants.S_OK)
             {
-                System.Windows.Media.Color bgColor = ParseColor(touchAreaInfo[0].crBackground);
-                System.Windows.Media.Color fgColor = ParseColor(touchAreaInfo[0].crForeground);
-                return new FontAndColorsInfo(new ItemCoverageColours(fgColor, bgColor), touchAreaInfo[0].dwFontFlags == (uint)FONTFLAGS.FF_BOLD);
+                return null;
             }
 
-            return null;
+            System.Windows.Media.Color bgColor = ParseColor(touchAreaInfo[0].crBackground);
+            System.Windows.Media.Color fgColor = ParseColor(touchAreaInfo[0].crForeground);
+            return new FontAndColorsInfo(new ItemCoverageColours(fgColor, bgColor), touchAreaInfo[0].dwFontFlags == (uint)FONTFLAGS.FF_BOLD);
         }
 
         public async Task<List<IFontAndColorsInfo>> GetInfosAsync(Guid category, IEnumerable<string> names)

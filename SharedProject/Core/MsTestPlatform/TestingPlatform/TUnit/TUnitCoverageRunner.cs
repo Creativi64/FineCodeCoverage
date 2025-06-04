@@ -111,32 +111,38 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task LogNonSuccessExitCodeAsync(int exitCode)
         {
-            if (exitCode != successExitCode)
+            if (exitCode == successExitCode)
             {
-                string message = $"Non success exit code : {exitCode}.";
-                if (this._nonSuccessExitCodeMessages.TryGetValue(exitCode, out string msg))
-                {
-                    message = $"{message}  {msg}";
-                }
-
-                await this._logger.LogAsync(message);
+                return;
             }
+
+            string message = $"Non success exit code : {exitCode}.";
+            if (this._nonSuccessExitCodeMessages.TryGetValue(exitCode, out string msg))
+            {
+                message = $"{message}  {msg}";
+            }
+
+            await this._logger.LogAsync(message);
         }
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.Data))
+            if (string.IsNullOrEmpty(e.Data))
             {
-                this._logger.LogFileAndForget($"Error: {e.Data}");
+                return;
             }
+
+            this._logger.LogFileAndForget($"Error: {e.Data}");
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (!this._cancellationToken.IsCancellationRequested)
+            if (this._cancellationToken.IsCancellationRequested)
             {
-                this._logger.LogFileAndForget(e.Data);
+                return;
             }
+
+            this._logger.LogFileAndForget(e.Data);
         }
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)

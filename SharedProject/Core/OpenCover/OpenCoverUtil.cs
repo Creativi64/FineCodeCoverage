@@ -54,18 +54,18 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         private void DeleteTestPdbIfDoNotIncludeTestAssembly(ICoverageProject project)
         {
-            if (!project.Settings.IncludeTestAssembly)
+            if (project.Settings.IncludeTestAssembly)
             {
-                // deleting the pdb of the test assembly seems to work; this is a VERY VERY shameful hack :(
-
-                string testDllPdbFile = Path.Combine(project.ProjectOutputFolder, Path.GetFileNameWithoutExtension(project.TestDllFile)) + ".pdb";
-                this._fileUtil.DeleteFile(testDllPdbFile);
-
-                // filtering out the test-assembly blows up the entire process and nothing gets instrumented or analysed
-
-                //var nameOnlyOfDll = Path.GetFileNameWithoutExtension(project.TestDllFileInWorkFolder);
-                //filters.Add($@"-[{nameOnlyOfDll}]*");
+                return;
             }
+
+            string testDllPdbFile = Path.Combine(project.ProjectOutputFolder, Path.GetFileNameWithoutExtension(project.TestDllFile)) + ".pdb";
+            this._fileUtil.DeleteFile(testDllPdbFile);
+            // deleting the pdb of the test assembly seems to work; this is a VERY VERY shameful hack :(
+            // filtering out the test-assembly blows up the entire process and nothing gets instrumented or analysed
+
+            //var nameOnlyOfDll = Path.GetFileNameWithoutExtension(project.TestDllFileInWorkFolder);
+            //filters.Add($@"-[{nameOnlyOfDll}]*");
         }
 
         public async Task RunOpenCoverAsync(ICoverageProject project, CancellationToken cancellationToken)

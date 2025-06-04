@@ -60,31 +60,33 @@ namespace FineCodeCoverage.Output
             if (newTree == null || savedState == null)
                 return;
             string newTreeId = this._getId(newTree);
-            if (newTreeId == savedState.Id)
+            if (newTreeId != savedState.Id)
             {
-                this._setIsExpanded(newTree);
+                return;
+            }
 
-                int newIndex = 0, savedIndex = 0;
-                IReadOnlyList<T> children = this._getChildren(newTree);
-                while (newIndex < children.Count && savedIndex < savedState.Children.Count)
+            this._setIsExpanded(newTree);
+
+            int newIndex = 0, savedIndex = 0;
+            IReadOnlyList<T> children = this._getChildren(newTree);
+            while (newIndex < children.Count && savedIndex < savedState.Children.Count)
+            {
+                T newChild = children[newIndex];
+                TreeExpansionState savedChild = savedState.Children[savedIndex];
+                string newChildId = this._getId(newChild);
+                if (newChildId == savedChild.Id)
                 {
-                    T newChild = children[newIndex];
-                    TreeExpansionState savedChild = savedState.Children[savedIndex];
-                    string newChildId = this._getId(newChild);
-                    if (newChildId == savedChild.Id)
-                    {
-                        this.RestoreExpansionStateForNode(newChild, savedChild);
-                        newIndex++;
-                        savedIndex++;
-                    }
-                    else if (string.CompareOrdinal(newChildId, savedChild.Id) < 0)
-                    {
-                        newIndex++;
-                    }
-                    else
-                    {
-                        savedIndex++;
-                    }
+                    this.RestoreExpansionStateForNode(newChild, savedChild);
+                    newIndex++;
+                    savedIndex++;
+                }
+                else if (string.CompareOrdinal(newChildId, savedChild.Id) < 0)
+                {
+                    newIndex++;
+                }
+                else
+                {
+                    savedIndex++;
                 }
             }
         }

@@ -37,17 +37,19 @@ namespace FineCodeCoverage.Core.Utilities
         public void TryEmptyDirectory(string directory)
         {
             var directoryInfo = new DirectoryInfo(directory);
-            if (directoryInfo.Exists)
+            if (!directoryInfo.Exists)
             {
-                foreach (FileInfo file in directoryInfo.GetFiles())
-                {
-                    file.TryDelete();
-                }
+                return;
+            }
 
-                foreach (DirectoryInfo subDir in directoryInfo.GetDirectories())
-                {
-                    subDir.TryDelete(true);
-                }
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                file.TryDelete();
+            }
+
+            foreach (DirectoryInfo subDir in directoryInfo.GetDirectories())
+            {
+                subDir.TryDelete(true);
             }
         }
 

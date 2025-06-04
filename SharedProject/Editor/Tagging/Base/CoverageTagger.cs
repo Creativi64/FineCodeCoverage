@@ -66,11 +66,13 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         {
             bool newIsDisplayingIndicators = this._fileIndicatorVisibility.IsVisible(this._textInfo.FilePath);
             bool visibilityChanged = newIsDisplayingIndicators != this._isDisplayingIndicators;
-            if (visibilityChanged)
+            if (!visibilityChanged)
             {
-                this._isDisplayingIndicators = newIsDisplayingIndicators;
-                this.RaiseTagsChanged();
+                return;
             }
+
+            this._isDisplayingIndicators = newIsDisplayingIndicators;
+            this.RaiseTagsChanged();
         }
 
         public bool HasCoverage => this._bufferLineCoverage.HasCoverage;
@@ -134,10 +136,12 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public void Handle(CoverageChangedMessage message)
         {
-            if (this.IsOwnChange(message))
+            if (!this.IsOwnChange(message))
             {
-                this.HandleOwnChange(message);
+                return;
             }
+
+            this.HandleOwnChange(message);
         }
 
         private bool IsOwnChange(CoverageChangedMessage message) => message.FilePath == this._textInfo.FilePath;
@@ -146,13 +150,15 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public void Handle(CoverageTypeFilterChangedMessage message)
         {
-            if (message.Filter.TypeIdentifier == this._coverageTypeFilter.TypeIdentifier)
+            if (message.Filter.TypeIdentifier != this._coverageTypeFilter.TypeIdentifier)
             {
-                this._coverageTypeFilter = message.Filter;
-                if (this.HasCoverage)
-                {
-                    this.RaiseTagsChanged();
-                }
+                return;
+            }
+
+            this._coverageTypeFilter = message.Filter;
+            if (this.HasCoverage)
+            {
+                this.RaiseTagsChanged();
             }
         }
     }

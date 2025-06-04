@@ -6,10 +6,12 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
     {
         private static void ThrowIfEmpty(string part, string parameterName)
         {
-            if (string.IsNullOrEmpty(part))
+            if (!string.IsNullOrEmpty(part))
             {
-                throw new ArgumentException("FaultEventName part cannot be null or empty", parameterName);
+                return;
             }
+
+            throw new ArgumentException("FaultEventName part cannot be null or empty", parameterName);
         }
 
         public FaultEventName(string product, string featureName, string entityName)

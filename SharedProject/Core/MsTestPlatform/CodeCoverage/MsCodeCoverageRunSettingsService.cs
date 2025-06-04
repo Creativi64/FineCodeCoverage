@@ -127,14 +127,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private async Task TrySetUpForCollectionAsync(string solutionDirectory)
         {
             IUserRunSettingsAnalysisResult analysisResult = await this.TryAnalyseUserRunSettingsAsync();
-            if (analysisResult.Ok())
+            if (!analysisResult.Ok())
             {
-                await this.SetUpForCollectionAsync(
-                    analysisResult.ProjectsWithFCCMsTestAdapter,
-                    analysisResult.SpecifiedMsCodeCoverage,
-                    solutionDirectory
-                );
+                return;
             }
+
+            await this.SetUpForCollectionAsync(
+                analysisResult.ProjectsWithFCCMsTestAdapter,
+                analysisResult.SpecifiedMsCodeCoverage,
+                solutionDirectory
+            );
         }
 
         private async Task SetUpForCollectionAsync(
@@ -205,10 +207,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             string solutionDirectory
         )
         {
-            if (this.ShouldGenerateTemplatedRunSettings(runSettingsSpecifiedMsCodeCoverage))
+            if (!this.ShouldGenerateTemplatedRunSettings(runSettingsSpecifiedMsCodeCoverage))
             {
-                await this.GenerateTemplatedRunSettingsAsync(coverageProjectsForShim, solutionDirectory);
+                return;
             }
+
+            await this.GenerateTemplatedRunSettingsAsync(coverageProjectsForShim, solutionDirectory);
         }
         private async Task GenerateTemplatedRunSettingsAsync(
             List<ICoverageProject> coverageProjectsForShim,
@@ -253,19 +257,23 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private async Task CollectingIfUserRunSettingsOnlyAsync()
         {
-            if (!this._coverageProjectsByType.HasTemplated())
+            if (this._coverageProjectsByType.HasTemplated())
             {
-                this.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
-                await this._logger.LogAsync($"{msCodeCoverageMessage} with user runsettings");
+                return;
             }
+
+            this.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            await this._logger.LogAsync($"{msCodeCoverageMessage} with user runsettings");
         }
 
         private void CopyShimWhenCollecting(List<ICoverageProject> coverageProjectsForShim)
         {
-            if (this.IsCollecting)
+            if (!this.IsCollecting)
             {
-                this._shimCopier.Copy(this._shimPath, coverageProjectsForShim);
+                return;
             }
+
+            this._shimCopier.Copy(this._shimPath, coverageProjectsForShim);
         }
 
         private async Task PrepareCoverageProjectsAsync()

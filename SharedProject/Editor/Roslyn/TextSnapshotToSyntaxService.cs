@@ -13,14 +13,14 @@ namespace FineCodeCoverage.Editor.Roslyn
         public async Task<RootNodeAndLanguage> GetRootAndLanguageAsync(ITextSnapshot textSnapshot)
         {
             Microsoft.CodeAnalysis.Document document = textSnapshot.GetOpenDocumentInCurrentContextWithChanges();
-            if (document != null)
+            if (document == null)
             {
-                string language = document.Project.Language;
-                Microsoft.CodeAnalysis.SyntaxNode root = await document.GetSyntaxRootAsync();
-                return new RootNodeAndLanguage(root, language);
+                return null;
             }
 
-            return null;
+            string language = document.Project.Language;
+            Microsoft.CodeAnalysis.SyntaxNode root = await document.GetSyntaxRootAsync();
+            return new RootNodeAndLanguage(root, language);
         }
     }
 }

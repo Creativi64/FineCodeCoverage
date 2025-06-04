@@ -29,10 +29,12 @@ namespace FineCodeCoverage.Engine
             dte.MainWindow.Activate();
 
             _ = dte.ItemOperations.OpenFile(sourceFilePath, Constants.vsViewKindCode);
-            if (line != 0)
+            if (line == 0)
             {
-                ((TextSelection)dte.ActiveDocument.Selection).GotoLine(line, false);
+                return;
             }
+
+            ((TextSelection)dte.ActiveDocument.Selection).GotoLine(line, false);
         }
     }
 }

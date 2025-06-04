@@ -109,10 +109,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             void AddToAdditionalArgs(string part)
             {
-                if (!string.IsNullOrEmpty(part))
+                if (string.IsNullOrEmpty(part))
                 {
-                    _ = additionalArgsStringBuilder.Append($" {part}");
+                    return;
                 }
+
+                _ = additionalArgsStringBuilder.Append($" {part}");
             }
         }
 

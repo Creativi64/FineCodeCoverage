@@ -22,11 +22,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this._line = DynamicLine.FromCoberturaLine(coberturaLine);
             this._trackingSpan = trackingSpan;
             this._lineTracker = lineTracker;
-            if (coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine)
+            if (!(coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine))
             {
-                this.DynamicCoberturaLine = dynamicCoberturaLine;
-                this._updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
+                return;
             }
+
+            this.DynamicCoberturaLine = dynamicCoberturaLine;
+            this._updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
         }
 
         public List<int> GetUpdateLineNumbers(ITextSnapshot currentSnapshot)

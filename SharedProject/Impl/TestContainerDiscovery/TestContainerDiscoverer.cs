@@ -134,10 +134,12 @@ namespace FineCodeCoverage.Impl
                 }
             }
 
-            if (this._msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
+            if (this._msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
             {
-                this.RaiseCoverageStarted();
+                return;
             }
+
+            this.RaiseCoverageStarted();
         }
 
         private async Task TestExecutionFinishedAsync(IOperation operation)
@@ -199,17 +201,14 @@ namespace FineCodeCoverage.Impl
 
             long totalTests = testOperation.TotalTests;
             int runWhenTestsExceed = this._runOptions.RunWhenTestsExceed;
-            if (totalTests > 0) // in case this changes to not reporting total tests
+            if (totalTests <= 0 || totalTests > runWhenTestsExceed) // in case this changes to not reporting total tests
             {
-                if (totalTests <= runWhenTestsExceed)
-                {
-                    await this._logger.LogAsync($"Skipping coverage as total tests ({totalTests}) <= {nameof(RunOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
-                    this.RaiseCoverageEnded();
-                    return false;
-                }
+                return true;
             }
 
-            return true;
+            await this._logger.LogAsync($"Skipping coverage as total tests ({totalTests}) <= {nameof(RunOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
+            this.RaiseCoverageEnded();
+            return false;
         }
 
         private void StopCoverage()
@@ -235,11 +234,13 @@ namespace FineCodeCoverage.Impl
 
         private async Task NotifyMsCodeCoverageTestExecutionNotFinishedIfCollectingAsync(IOperation operation)
         {
-            if (this._msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
+            if (this._msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
             {
-                ITestOperation testOperation = this._testOperationFactory.Create(operation);
-                await this._msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
+                return;
             }
+
+            ITestOperation testOperation = this._testOperationFactory.Create(operation);
+            await this._msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
         }
 
         private void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
@@ -253,21 +254,25 @@ namespace FineCodeCoverage.Impl
 
         private async Task TestExecutionCancelAndFinishedAsync(IOperation operation)
         {
-            if (!this._cancelling)
+            if (this._cancelling)
             {
-                await this.CoverageCancelledAsync("There has been an issue running tests. See the Tests output window pane.", operation);
+                return;
             }
+
+            await this.CoverageCancelledAsync("There has been an issue running tests. See the Tests output window pane.", operation);
         }
 
         private async Task OperationState_StateChangedAsync(OperationStateChangedEventArgs e)
         {
-            if (this.testOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler))
+            if (!this.testOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
+                || !await this._coverageCollectableFromTestExplorer.IsCollectableAsync()
+                || !await this._testOperationStateInvocationManager.CanInvokeAsync(e.State)
+            )
             {
-                if (await this._coverageCollectableFromTestExplorer.IsCollectableAsync() && await this._testOperationStateInvocationManager.CanInvokeAsync(e.State))
-                {
-                    await handler(e.Operation);
-                }
+                return;
             }
+
+            await handler(e.Operation);
         }
 
         private async Task TryAndLogExceptionAsync(Func<Task> action)

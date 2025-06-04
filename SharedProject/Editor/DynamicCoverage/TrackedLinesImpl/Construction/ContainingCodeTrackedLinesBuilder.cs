@@ -159,15 +159,17 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             void CreateOtherLine(int otherCodeLine)
             {
                 string lineText = this._textSnapshotText.GetLineText(textSnapshot, otherCodeLine);
-                if (!string.IsNullOrWhiteSpace(lineText))
+                if (string.IsNullOrWhiteSpace(lineText))
                 {
-                    containingCodeTrackers.Add(
-                            this.CreateOtherLines(
-                                textSnapshot,
-                                CodeSpanRange.SingleLine(otherCodeLine)
-                            )
-                    );
+                    return;
                 }
+
+                containingCodeTrackers.Add(
+                    this.CreateOtherLines(
+                        textSnapshot,
+                        CodeSpanRange.SingleLine(otherCodeLine)
+                    )
+                );
             }
 
             for (int lineNumber = 0; lineNumber < textSnapshot.LineCount; lineNumber++)

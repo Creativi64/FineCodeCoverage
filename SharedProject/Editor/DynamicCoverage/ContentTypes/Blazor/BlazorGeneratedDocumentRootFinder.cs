@@ -15,18 +15,20 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
         public async Task<SyntaxNode> FindSyntaxRootAsync(ITextBuffer textBuffer, string filePath, IBlazorGeneratedFilePathMatcher blazorGeneratedFilePathMatcher)
         {
             Workspace ws = textBuffer.GetWorkspace();
-            if (ws != null)
+            if (ws == null)
             {
-                IEnumerable<Project> projects = ws.CurrentSolution.Projects;
-                foreach (Project project in projects)
+                return null;
+            }
+
+            IEnumerable<Project> projects = ws.CurrentSolution.Projects;
+            foreach (Project project in projects)
+            {
+                foreach (Document document in project.Documents)
                 {
-                    foreach (Document document in project.Documents)
+                    string docFilePath = document.FilePath;
+                    if (blazorGeneratedFilePathMatcher.IsBlazorGeneratedFilePath(filePath, docFilePath))
                     {
-                        string docFilePath = document.FilePath;
-                        if (blazorGeneratedFilePathMatcher.IsBlazorGeneratedFilePath(filePath, docFilePath))
-                        {
-                            return await document.GetSyntaxRootAsync();
-                        }
+                        return await document.GetSyntaxRootAsync();
                     }
                 }
             }

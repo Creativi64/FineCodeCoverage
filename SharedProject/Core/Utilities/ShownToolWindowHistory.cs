@@ -36,11 +36,13 @@ namespace FineCodeCoverage.Core.Utilities
 
         public void ShowedToolWindow()
         {
-            if (!this._hasShownToolWindow)
+            if (this._hasShownToolWindow)
             {
-                this._hasShownToolWindow = true;
-                this._fileUtil.WriteAllText(this.ShownToolWindowFilePath, string.Empty);
+                return;
             }
+
+            this._hasShownToolWindow = true;
+            this._fileUtil.WriteAllText(this.ShownToolWindowFilePath, string.Empty);
         }
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)

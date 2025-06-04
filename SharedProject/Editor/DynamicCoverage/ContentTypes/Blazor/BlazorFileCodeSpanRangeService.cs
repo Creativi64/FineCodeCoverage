@@ -43,24 +43,23 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
             SyntaxNode generatedDocumentSyntaxRoot = this._threadHelper.JoinableTaskFactory.Run(
                 () => this._blazorGeneratedDocumentRootFinder.FindSyntaxRootAsync(snapshot.TextBuffer, filePath, this._blazorGeneratedFilePathMatcher)
             );
-            if (generatedDocumentSyntaxRoot != null)
+            if (generatedDocumentSyntaxRoot == null)
             {
-
-                List<SyntaxNode> nodes = this._cSharpCodeCoverageNodeVisitor.GetNodes(generatedDocumentSyntaxRoot);
-                if (nodes.Count == 0)
-                {
-                    return null; // sometimes the generated document has not been generated
-                }
-
-                return nodes.Select(node => new { Node = node, MappedLineSpan = this._syntaxNodeLocationMapper.Map(node) })
-                    .Where(a => a.MappedLineSpan.Path == filePath)
-                    .Select(a => new CodeSpanRange(
-                        a.MappedLineSpan.StartLinePosition.Line,
-                        a.MappedLineSpan.EndLinePosition.Line)
-                    ).ToList();
+                return null;
             }
 
-            return null;
+            List<SyntaxNode> nodes = this._cSharpCodeCoverageNodeVisitor.GetNodes(generatedDocumentSyntaxRoot);
+            if (nodes.Count == 0)
+            {
+                return null; // sometimes the generated document has not been generated
+            }
+
+            return nodes.Select(node => new { Node = node, MappedLineSpan = this._syntaxNodeLocationMapper.Map(node) })
+                .Where(a => a.MappedLineSpan.Path == filePath)
+                .Select(a => new CodeSpanRange(
+                    a.MappedLineSpan.StartLinePosition.Line,
+                    a.MappedLineSpan.EndLinePosition.Line)
+                ).ToList();
         }
     }
 }

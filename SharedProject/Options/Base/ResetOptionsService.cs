@@ -22,15 +22,17 @@ namespace FineCodeCoverage.Options
 
         public void Reset()
         {
-            if (this._messageBox.ShowWarning(
+            if (!this._messageBox.ShowWarning(
                 "Are you sure you want to reset all settings to their default values?",
                 "Reset Settings"
             ))
             {
-                foreach (IResetOptions resetter in this._resetters)
-                {
-                    resetter.Reset();
-                }
+                return;
+            }
+
+            foreach (IResetOptions resetter in this._resetters)
+            {
+                resetter.Reset();
             }
         }
     }

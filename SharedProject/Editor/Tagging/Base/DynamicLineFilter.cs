@@ -24,11 +24,13 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
         {
-            if (e.ChangesetChanged)
+            if (!e.ChangesetChanged)
             {
-                this._shouldGetChangeset = true;
-                FilterChanged?.Invoke(this, EventArgs.Empty);
+                return;
             }
+
+            this._shouldGetChangeset = true;
+            FilterChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private IChangeset GetChangeset()

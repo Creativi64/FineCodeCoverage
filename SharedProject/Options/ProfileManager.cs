@@ -33,10 +33,12 @@ namespace FineCodeCoverage.Options
         // may be called by VS prior to LoadSettingsFromXML and SaveSettingsToStorage
         public void LoadSettingsFromStorage()
         {
-            if (this._allSettings == null)
+            if (this._allSettings != null)
             {
-                this._allSettings = this._optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
+                return;
             }
+
+            this._allSettings = this._optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
         }
 
         private object DeserializeStringArray(string value, PropertyDescriptor _)

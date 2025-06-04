@@ -21,21 +21,25 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public void Initialize(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            if (this.ShouldGetShowLookup(editorCoverageColouringOptions))
+            if (!this.ShouldGetShowLookup(editorCoverageColouringOptions))
             {
-                this._showLookup = this.GetShowLookup(editorCoverageColouringOptions);
-                this.ThrowIfInvalidShowLookup();
+                return;
             }
+
+            this._showLookup = this.GetShowLookup(editorCoverageColouringOptions);
+            this.ThrowIfInvalidShowLookup();
         }
 
         private bool ShouldGetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowEditorCoverage && this.EnabledPrivate(editorCoverageColouringOptions);
 
         private void ThrowIfInvalidShowLookup()
         {
-            if (this._showLookup == null || this._showLookup.Count != 6)
+            if (this._showLookup != null && this._showLookup.Count == 6)
             {
-                throw new InvalidOperationException("Invalid showLookup");
+                return;
             }
+
+            throw new InvalidOperationException("Invalid showLookup");
         }
 
         private bool EnabledPrivate(EditorCoverageColouringOptions editorCoverageColouringOptions)
@@ -67,10 +71,12 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private void ThrowIfIncorrectCoverageTypeFilter(ICoverageTypeFilter other)
         {
-            if (other.TypeIdentifier != this.TypeIdentifier)
+            if (other.TypeIdentifier == this.TypeIdentifier)
             {
-                throw new ArgumentException("Argument of incorrect type", nameof(other));
+                return;
             }
+
+            throw new ArgumentException("Argument of incorrect type", nameof(other));
         }
     }
 }

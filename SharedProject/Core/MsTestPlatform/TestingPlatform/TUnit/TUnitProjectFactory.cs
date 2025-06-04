@@ -147,30 +147,31 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     this._requiresUpdate = false;
                 }
 
-                if (this.IsTUnit)
+                if (!this.IsTUnit)
                 {
-                    /*
-                        alternative is 
-                        var projectSnapshotService = configuredProject.Services.ProjectSnapshotService;
-                        var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSnapshot>>((pvv) =>
-                        {
-                            var projectInstance = pvv.Value.ProjectInstance;
-                            var argsProperty = projectInstance.GetProperty(FCCTestingPlatformCommandLineArgumentsPropertyName);
-                            if (argsProperty == null)
-                            {
-                                argsProperty = projectInstance.GetProperty(TestingPlatformCommandLineArgumentsPropertyName);
-                            }
-                            if(argsProperty != null)
-                            {
-                                var value = argsProperty.EvaluatedValue;
-                            }
-
-                        });
-                        return projectSnapshotService.SourceBlock.LinkTo(receivingBlock);
-
-                    */
-                    await this.ParseTestingPlatformCommandLineArgumentsAsync();
+                    return;
                 }
+                /*
+                    alternative is 
+                    var projectSnapshotService = configuredProject.Services.ProjectSnapshotService;
+                    var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSnapshot>>((pvv) =>
+                    {
+                        var projectInstance = pvv.Value.ProjectInstance;
+                        var argsProperty = projectInstance.GetProperty(FCCTestingPlatformCommandLineArgumentsPropertyName);
+                        if (argsProperty == null)
+                        {
+                            argsProperty = projectInstance.GetProperty(TestingPlatformCommandLineArgumentsPropertyName);
+                        }
+                        if(argsProperty != null)
+                        {
+                            var value = argsProperty.EvaluatedValue;
+                        }
+
+                    });
+                    return projectSnapshotService.SourceBlock.LinkTo(receivingBlock);
+
+                */
+                await this.ParseTestingPlatformCommandLineArgumentsAsync();
             }
 
             protected virtual void Dispose(bool disposing)

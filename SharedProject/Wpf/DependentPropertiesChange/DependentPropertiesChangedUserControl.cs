@@ -31,11 +31,13 @@ namespace FineCodeCoverage.Wpf
 
         private void DependentPropertiesChangedUserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!this._listening)
+            if (this._listening)
             {
-                this._notifier.NotifyOfChanges((T)this);
-                this._listening = true;
+                return;
             }
+
+            this._notifier.NotifyOfChanges((T)this);
+            this._listening = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)

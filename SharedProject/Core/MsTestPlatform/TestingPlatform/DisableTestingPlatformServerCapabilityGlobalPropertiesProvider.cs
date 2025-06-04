@@ -99,17 +99,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             object hostObject = this._unconfiguredProject.Services.HostObject;
 
             var vsHierarchy = (IVsHierarchy)hostObject;
-            if (vsHierarchy != null)
+            if (vsHierarchy == null)
             {
-                bool success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
-
-                if (success)
-                {
-                    return projectGuid;
-                }
+                return null;
             }
 
-            return null;
+            bool success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
+
+            return success ? projectGuid : (Guid?)null;
         }
 
         private CoverageProject GetCoverageProject(Guid projectGuid)

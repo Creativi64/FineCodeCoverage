@@ -80,13 +80,13 @@ namespace FineCodeCoverage.Engine.Coverlet
         private static bool? UseDataCollector(XElement xElement)
         {
             XElement useDataCollectorElement = xElement.Elements().FirstOrDefault(ig => ig.Name.LocalName == "UseDataCollector");
-            if (useDataCollectorElement != null)
+            if (useDataCollectorElement == null)
             {
-                string useDataCollectorValue = useDataCollectorElement.Value.ToLower().Trim();
-                return useDataCollectorValue == "true" || useDataCollectorValue.Length == 0;
+                return null;
             }
 
-            return null;
+            string useDataCollectorValue = useDataCollectorElement.Value.ToLower().Trim();
+            return useDataCollectorValue == "true" || useDataCollectorValue.Length == 0;
         }
 
         private async Task<bool?> GetUseDataCollectorElementAsync()

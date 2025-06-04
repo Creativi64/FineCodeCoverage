@@ -14,10 +14,12 @@ namespace FineCodeCoverage.Output.Pane
         {
             IFCCOutputWindowPane pane = await this._fccOutputWindowCreator.GetOrCreateAsync();
 
-            if (pane != null)
+            if (pane == null)
             {
-                await pane.ShowAsync();
+                return;
             }
+
+            await pane.ShowAsync();
         }
     }
 }

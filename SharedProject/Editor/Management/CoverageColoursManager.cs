@@ -116,12 +116,14 @@ namespace FineCodeCoverage.Editor.Management
 
         private void SetClassificationTypeColoursIfChanged(Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes)
         {
-            if (changes.Any())
+            if (!changes.Any())
             {
-                this._editorFormatMapTextSpecificListener.PauseListeningWhenExecuting(
-                    () => this.SetClassificationTypeColours(changes)
-                );
+                return;
             }
+
+            this._editorFormatMapTextSpecificListener.PauseListeningWhenExecuting(
+                () => this.SetClassificationTypeColours(changes)
+            );
         }
 
         private void SetClassificationTypeColours(Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes)

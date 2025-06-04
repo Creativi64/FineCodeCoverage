@@ -39,10 +39,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void BuildStartEnd_BuildEvent(object sender, BuildStartEndArgs e)
         {
-            if (!this._building)
+            if (this._building)
             {
-                ExternalBuildEvent?.Invoke(this, e);
+                return;
             }
+
+            ExternalBuildEvent?.Invoke(this, e);
         }
 
         public async Task<bool> BuildAsync(List<IVsHierarchy> projects, CancellationToken cancellationToken)

@@ -26,14 +26,16 @@ namespace FineCodeCoverage.Core.Utilities.FCCVersioning
             var asm = Assembly.GetExecutingAssembly();
             string asmDir = Path.GetDirectoryName(asm.Location);
             string manifestPath = Path.Combine(asmDir, "extension.vsixmanifest");
-            if (File.Exists(manifestPath))
+            if (!File.Exists(manifestPath))
             {
-                var doc = new XmlDocument();
-                doc.Load(manifestPath);
-                XmlElement metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
-                XmlElement identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
-                this._version = identity.GetAttribute("Version");
+                return;
             }
+
+            var doc = new XmlDocument();
+            doc.Load(manifestPath);
+            XmlElement metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
+            XmlElement identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
+            this._version = identity.GetAttribute("Version");
         }
     }
 }

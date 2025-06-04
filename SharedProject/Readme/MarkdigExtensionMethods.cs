@@ -9,10 +9,12 @@ namespace FineCodeCoverage.Readme
             this OrderedList<TItem> list,
             Func<TCreated> creator) where TItem : class where TCreated : class, TItem
         {
-            if (!list.Contains<TCreated>())
+            if (list.Contains<TCreated>())
             {
-                list.Add(creator());
+                return;
             }
+
+            list.Add(creator());
         }
     }
 }

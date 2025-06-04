@@ -31,20 +31,24 @@ namespace FineCodeCoverage.Editor.Management
 
         private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            if (this._initialized)
+            if (!this._initialized)
             {
-                this.ReactToAppOptionsChanging(editorCoverageColouringOptions);
+                return;
             }
+
+            this.ReactToAppOptionsChanging(editorCoverageColouringOptions);
         }
 
         private void ReactToAppOptionsChanging(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
             bool preUsingEnterprise = this._usingEnterprise;
             this.Set(() => editorCoverageColouringOptions.UseEnterpriseFontsAndColors);
-            if (this._usingEnterprise != preUsingEnterprise)
+            if (this._usingEnterprise == preUsingEnterprise)
             {
-                Changed?.Invoke(this, EventArgs.Empty);
+                return;
             }
+
+            Changed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Initialize(FCCEditorFormatDefinitionNames fCCEditorFormatDefinitionNames)

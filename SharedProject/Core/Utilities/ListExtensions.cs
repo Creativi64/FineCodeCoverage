@@ -19,13 +19,13 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static bool AddIfNotNull<T>(this IList<T> list, T item)
         {
-            if (item != null)
+            if (item == null)
             {
-                list.Add(item);
-                return true;
+                return false;
             }
 
-            return false;
+            list.Add(item);
+            return true;
         }
 
         // To be performed on a sorted list

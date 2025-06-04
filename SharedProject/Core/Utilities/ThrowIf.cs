@@ -6,10 +6,12 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public static void Null<T>(T value, string name) where T : class
         {
-            if (value == null)
+            if (value != null)
             {
-                throw new ArgumentNullException(name);
+                return;
             }
+
+            throw new ArgumentNullException(name);
         }
     }
 }

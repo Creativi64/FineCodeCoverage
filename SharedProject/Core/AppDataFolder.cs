@@ -41,25 +41,27 @@ namespace FineCodeCoverage.Engine
 
         private async Task CleanInstallDevAsync()
         {
-            if (this._environmentVariable.Get(fccDebugCleanInstallEnvironmentVariable) != null)
+            if (this._environmentVariable.Get(fccDebugCleanInstallEnvironmentVariable) == null)
             {
-                await this._logger.LogAsync("FCCDebugCleanInstall");
-                if (Directory.Exists(this.DirectoryPath))
+                return;
+            }
+
+            await this._logger.LogAsync("FCCDebugCleanInstall");
+            if (Directory.Exists(this.DirectoryPath))
+            {
+                try
                 {
-                    try
-                    {
-                        Directory.Delete(this.DirectoryPath, true);
-                        await this._logger.LogAsync("Deleted app data folder");
-                    }
-                    catch (Exception exc)
-                    {
-                        await this._logger.LogAsync("Error deleting app data folder", exc.ToString());
-                    }
+                    Directory.Delete(this.DirectoryPath, true);
+                    await this._logger.LogAsync("Deleted app data folder");
                 }
-                else
+                catch (Exception exc)
                 {
-                    await this._logger.LogAsync("App data folder does not exist");
+                    await this._logger.LogAsync("Error deleting app data folder", exc.ToString());
                 }
+            }
+            else
+            {
+                await this._logger.LogAsync("App data folder does not exist");
             }
         }
 

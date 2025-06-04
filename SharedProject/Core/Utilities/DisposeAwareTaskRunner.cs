@@ -40,30 +40,32 @@ namespace FineCodeCoverage.Core.Utilities
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposing)
             {
-                this._disposeCancellationTokenSource.Cancel();
+                return;
+            }
 
-                try
-                {
-                    // Block Dispose until all async work has completed.
+            this._disposeCancellationTokenSource.Cancel();
+
+            try
+            {
+                // Block Dispose until all async work has completed.
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-                    ThreadHelper.JoinableTaskFactory.Run(this.JoinableTaskCollection.JoinTillEmptyAsync);
+                ThreadHelper.JoinableTaskFactory.Run(this.JoinableTaskCollection.JoinTillEmptyAsync);
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
-                }
-                catch (OperationCanceledException)
-                {
-                    // this exception is expected because we signaled the cancellation token
-                }
-                catch (AggregateException ex)
-                {
-                    // ignore AggregateException containing only OperationCanceledException
-                    ex.Handle(inner => inner is OperationCanceledException);
-                }
-                finally
-                {
-                    this._disposeCancellationTokenSource.Dispose();
-                }
+            }
+            catch (OperationCanceledException)
+            {
+                // this exception is expected because we signaled the cancellation token
+            }
+            catch (AggregateException ex)
+            {
+                // ignore AggregateException containing only OperationCanceledException
+                ex.Handle(inner => inner is OperationCanceledException);
+            }
+            finally
+            {
+                this._disposeCancellationTokenSource.Dispose();
             }
         }
 

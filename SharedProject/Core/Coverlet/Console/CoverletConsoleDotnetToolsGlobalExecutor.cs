@@ -23,24 +23,24 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
         public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
-            if (coverageProject.Settings.CoverletConsoleGlobal)
+            if (!coverageProject.Settings.CoverletConsoleGlobal)
             {
-                CoverletDotNetToolDetails details = await this._dotNetToolListCoverlet.GlobalAsync();
-                if (details == null)
-                {
-                    await this._logger.LogAsync("Unable to use Coverlet console global tool");
-                    return null;
-                }
-
-                return new ExecuteRequest
-                {
-                    FilePath = details.Command,
-                    Arguments = coverletSettings,
-                    WorkingDirectory = coverageProject.ProjectOutputFolder
-                };
+                return null;
             }
 
-            return null;
+            CoverletDotNetToolDetails details = await this._dotNetToolListCoverlet.GlobalAsync();
+            if (details == null)
+            {
+                await this._logger.LogAsync("Unable to use Coverlet console global tool");
+                return null;
+            }
+
+            return new ExecuteRequest
+            {
+                FilePath = details.Command,
+                Arguments = coverletSettings,
+                WorkingDirectory = coverageProject.ProjectOutputFolder
+            };
         }
     }
 }

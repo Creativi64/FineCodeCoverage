@@ -36,11 +36,13 @@ namespace FineCodeCoverage.Output
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (this._reportResult != null)
+            if (this._reportResult == null)
             {
-                this._hotspotsService.WriteHotspotsToXml(this._reportResult.Assemblies, this._hotspotsPath);
-                this._vsOpenFile.OpenFileInCodeEditor(this._hotspotsPath);
+                return;
             }
+
+            this._hotspotsService.WriteHotspotsToXml(this._reportResult.Assemblies, this._hotspotsPath);
+            this._vsOpenFile.OpenFileInCodeEditor(this._hotspotsPath);
         }
 
         public void Handle(OutdatedOutputMessage message) => this.Command.Enabled = false;

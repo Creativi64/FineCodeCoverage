@@ -45,11 +45,13 @@ namespace FineCodeCoverage.Core.Coverlet
             this.GetType().GetProperties().ToList().ForEach(p =>
             {
                 XElement configurationPropertyElement = configurationElements.FirstOrDefault(e => e.Name == p.Name);
-                if (configurationPropertyElement != null)
+                if (configurationPropertyElement == null)
                 {
-                    foundElements = true;
-                    p.SetValue(this, configurationPropertyElement.Value);
+                    return;
                 }
+
+                foundElements = true;
+                p.SetValue(this, configurationPropertyElement.Value);
             });
 
             return foundElements;

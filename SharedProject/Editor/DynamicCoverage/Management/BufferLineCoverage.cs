@@ -53,11 +53,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             {
                 bool newEditorCoverageModeOff = editorCoverageColouringOptions.EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
                 this._editorCoverageModeOff = newEditorCoverageModeOff;
-                if (this._trackedLines != null && newEditorCoverageModeOff)
+                if (this._trackedLines == null || !newEditorCoverageModeOff)
                 {
-                    this._trackedLines = null;
-                    this.SendCoverageChangedMessage();
+                    return;
                 }
+
+                this._trackedLines = null;
+                this.SendCoverageChangedMessage();
             }
 
             editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsChanged;
@@ -82,10 +84,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public void SetLastCoverage(ILastCoverage lastCoverage)
         {
-            if (!this.EditorCoverageColouringModeOff())
+            if (this.EditorCoverageColouringModeOff())
             {
-                this.UseLastCoverageIfHasFileLines(lastCoverage);
+                return;
             }
+
+            this.UseLastCoverageIfHasFileLines(lastCoverage);
         }
 
         private void UseLastCoverageIfHasFileLines(ILastCoverage lastCoverage)
@@ -93,22 +97,26 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this._fileLineCoverage = lastCoverage.FileLineCoverage;
             this._lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
             this._fileLines = this._fileLineCoverage.GetLines(this._textInfo.FilePath);
-            if (this._fileLines != null)
+            if (this._fileLines == null)
             {
-                this.UseLastCoverage();
+                return;
             }
+
+            this.UseLastCoverage();
         }
 
         private void UseLastCoverage()
         {
             bool isOutOfDate = this.FileLinesFromLastCoverageIfNotOutOfDate();
 
-            if (isOutOfDate)
+            if (!isOutOfDate)
             {
-                this._logger.LogFileAndForget($"Not creating editor marks for {this._textInfo.FilePath} as coverage is out of date");
-                this._fileLineCoverage.OutOfDate(this._textInfo.FilePath);
-                this._fileLines = null;
+                return;
             }
+
+            this._logger.LogFileAndForget($"Not creating editor marks for {this._textInfo.FilePath} as coverage is out of date");
+            this._fileLineCoverage.OutOfDate(this._textInfo.FilePath);
+            this._fileLines = null;
         }
 
         private bool FileLinesFromLastCoverageIfNotOutOfDate()
@@ -191,10 +199,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
 
             bool hasTrackedLines = this._trackedLines != null;
-            if (hadTrackedLines || hasTrackedLines)
+            if (!hadTrackedLines && !hasTrackedLines)
             {
-                this.SendCoverageChangedMessage();
+                return;
             }
+
+            this.SendCoverageChangedMessage();
         }
 
         private void CreateTrackedLines()
@@ -233,10 +243,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void TextBuffer_ChangedOnBackground(object sender, TextContentChangedEventArgs textContentChangedEventArgs)
         {
             this._textBufferLastChanged = DateTime.Now;
-            if (this._trackedLines != null)
+            if (this._trackedLines == null)
             {
-                this.TryUpdateTrackedLines(textContentChangedEventArgs);
+                return;
             }
+
+            this.TryUpdateTrackedLines(textContentChangedEventArgs);
         }
 
         private void TryUpdateTrackedLines(TextContentChangedEventArgs textContentChangedEventArgs)
@@ -262,10 +274,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void SendCoverageChangedMessageIfChanged(IEnumerable<int> changedLineNumbers)
         {
-            if (changedLineNumbers.Any())
+            if (!changedLineNumbers.Any())
             {
-                this.SendCoverageChangedMessage(changedLineNumbers);
+                return;
             }
+
+            this.SendCoverageChangedMessage(changedLineNumbers);
         }
 
         private void SendCoverageChangedMessage(IEnumerable<int> changedLineNumbers = null)

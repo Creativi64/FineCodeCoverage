@@ -60,11 +60,13 @@ namespace FineCodeCoverage.Output
             this.UseContrastedThemeWhenSingularDisplay = reportOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
             this.HeightOrMultiplier = reportOptions.CoveragePercentageHeightOrMultiplier;
             this.ShowToolTip = reportOptions.CoveragePercentageShowTooltip;
-            if (reportOptions.CoveragePercentageUseColorsFromFontsAndColors != this._lastCoveragePercentageBarColorsFromFontsAndColors)
+            if (reportOptions.CoveragePercentageUseColorsFromFontsAndColors == this._lastCoveragePercentageBarColorsFromFontsAndColors)
             {
-                this.SetCoverageColours(reportOptions.CoveragePercentageUseColorsFromFontsAndColors);
-                this._lastCoveragePercentageBarColorsFromFontsAndColors = reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
+                return;
             }
+
+            this.SetCoverageColours(reportOptions.CoveragePercentageUseColorsFromFontsAndColors);
+            this._lastCoveragePercentageBarColorsFromFontsAndColors = reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
         }
 
         private void SetCoverageColours(bool coveragePercentageBarColorsFromFontsAndColors)
@@ -104,10 +106,12 @@ namespace FineCodeCoverage.Output
         public void Handle(CoverageColoursChangedMessage message)
         {
             this._coverageColoursDirty = true;
-            if (this._lastCoveragePercentageBarColorsFromFontsAndColors)
+            if (!this._lastCoveragePercentageBarColorsFromFontsAndColors)
             {
-                this.SetCoverageColoursFromFontsAndColors();
+                return;
             }
+
+            this.SetCoverageColoursFromFontsAndColors();
         }
 
         public CoveragePercentageBarDisplayParts DisplayParts

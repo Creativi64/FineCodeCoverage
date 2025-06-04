@@ -19,16 +19,13 @@ namespace FineCodeCoverage.Engine
         public string Provide(Func<string> solutionFolderProvider)
         {
             OutputOptions appOptions = this._outputOptionsProvider.Get();
-            if (!string.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
+            if (string.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
             {
-                string solutionFolder = solutionFolderProvider();
-                if (solutionFolder != null)
-                {
-                    return Path.Combine(solutionFolder, appOptions.FCCSolutionOutputDirectoryName);
-                }
+                return null;
             }
 
-            return null;
+            string solutionFolder = solutionFolderProvider();
+            return solutionFolder != null ? Path.Combine(solutionFolder, appOptions.FCCSolutionOutputDirectoryName) : null;
         }
     }
 }

@@ -24,16 +24,18 @@ namespace FineCodeCoverage.Wpf
 
         private static void OnHandleSelectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is DataGrid dataGrid)
+            if (!(d is DataGrid dataGrid))
             {
-                if ((bool)e.NewValue)
-                {
-                    dataGrid.SelectionChanged += DataGrid_SelectionChanged;
-                }
-                else
-                {
-                    dataGrid.SelectionChanged -= DataGrid_SelectionChanged;
-                }
+                return;
+            }
+
+            if ((bool)e.NewValue)
+            {
+                dataGrid.SelectionChanged += DataGrid_SelectionChanged;
+            }
+            else
+            {
+                dataGrid.SelectionChanged -= DataGrid_SelectionChanged;
             }
         }
 
