@@ -683,9 +683,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestOperationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestRunResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\Vsix.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsPage.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IncludesExcludesOptionsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\IncludesExcludes\IIncludesExcludesOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IJsonConvertService.cs" />
