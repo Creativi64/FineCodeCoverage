@@ -39,9 +39,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private T OnHasNewCodeChangedIfChanged<T>(Func<T> action, ITextSnapshot currentSnapshot)
         {
-            bool hasTracked = this._trackedNewCodeLines.Any();
+            bool hasTracked = this._trackedNewCodeLines.Count != 0;
             T t = action();
-            bool newHasTracked = this._trackedNewCodeLines.Any();
+            bool newHasTracked = this._trackedNewCodeLines.Count != 0;
             if (newHasTracked != hasTracked)
             {
                 this.OnHasNewCodeChanged(newHasTracked, currentSnapshot);

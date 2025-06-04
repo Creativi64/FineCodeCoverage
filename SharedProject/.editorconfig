@@ -34,7 +34,7 @@ dotnet_diagnostic.CA1512.severity = error
 dotnet_diagnostic.CA1513.severity = error
 dotnet_diagnostic.CA1514.severity = error
 dotnet_diagnostic.CA1515.severity = error
-
+dotnet_diagnostic.CA1860.severity = error # Avoid using 'Enumerable.Any()'
 dotnet_diagnostic.CA1822.severity = error # Mark members as static
 dotnet_code_quality.CA1822.api_surface = private, internal
 

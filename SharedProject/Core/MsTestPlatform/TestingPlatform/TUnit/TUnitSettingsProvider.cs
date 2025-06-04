@@ -138,7 +138,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 ignoredExitCodes.Add(2);
             }
 
-            return ignoredExitCodes.Any() ? $"--ignore-exit-code {string.Join(";", ignoredExitCodes)}" : null;
+            return ignoredExitCodes.Count != 0 ? $"--ignore-exit-code {string.Join(";", ignoredExitCodes)}" : null;
         }
 
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)

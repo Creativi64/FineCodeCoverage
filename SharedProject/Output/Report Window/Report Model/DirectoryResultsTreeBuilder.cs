@@ -62,12 +62,13 @@ namespace FineCodeCoverage.Output
             for (int i = 0; i < parts.Length - 1; i++) // Traverse directories
             {
                 string part = parts[i];
-                if (!currentNode.SubDirectoryParts.ContainsKey(part))
+                if (!currentNode.SubDirectoryParts.TryGetValue(part, out DirectoryNode value))
                 {
-                    currentNode.SubDirectoryParts[part] = new DirectoryNode(part);
+                    value = new DirectoryNode(part);
+                    currentNode.SubDirectoryParts[part] = value;
                 }
 
-                currentNode = currentNode.SubDirectoryParts[part];
+                currentNode = value;
             }
 
             // Add the file to the current directory

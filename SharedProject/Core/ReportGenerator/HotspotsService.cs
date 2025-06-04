@@ -65,7 +65,7 @@ namespace FineCodeCoverage.ReportGeneration
                     metrics.Add(new Metric("NPathComplexity", codeElement.NPathComplexity));
                 }
 
-                this.IsHotspot = metrics.Any();
+                this.IsHotspot = metrics.Count != 0;
                 this.Metrics = metrics;
 
             }

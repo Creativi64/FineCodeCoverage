@@ -120,7 +120,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private IEnumerable<ITagSpan<TTag>> GetTags(List<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans)
         {
-            Func<IDynamicLine, bool> fileFilter = dynamicLineAndSnapshotSpans.Any() ?
+            Func<IDynamicLine, bool> fileFilter = dynamicLineAndSnapshotSpans.Count != 0 ?
                 this._dynamicLineFilter.GetFileFilter(this._originalFilePath) : (_) => true;
             return dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot
                 => this._coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType) &&
@@ -156,10 +156,12 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
 
             this._coverageTypeFilter = message.Filter;
-            if (this.HasCoverage)
+            if (!this.HasCoverage)
             {
-                this.RaiseTagsChanged();
+                return;
             }
+
+            this.RaiseTagsChanged();
         }
     }
 }

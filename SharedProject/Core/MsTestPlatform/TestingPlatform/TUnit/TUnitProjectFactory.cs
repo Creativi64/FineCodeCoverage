@@ -93,7 +93,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 // there is ActiveConfiguredProjectSubscription but not available in 2019
                 IProjectSubscriptionService subscriptionService = configuredProject.Services.ProjectSubscription;
                 var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(this.ProjectUpdateAsync);
-                return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: new string[] { "PackageReference" });
+                return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: packageReferenceRuleNames);
             }
 
             /*
@@ -129,6 +129,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             public IVsHierarchy Hierarchy { get; }
 
             public CommandLineParseResult CommandLineParseResult { get; private set; } = CommandLineParseResult.Empty;
+            private static readonly string[] packageReferenceRuleNames = new string[] { "PackageReference" };
+
             public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {
                 if (this._requiresUpdate)
@@ -176,15 +178,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             protected virtual void Dispose(bool disposing)
             {
-                if (!this._disposedValue)
+                if (this._disposedValue)
                 {
-                    if (disposing)
-                    {
-                        this._packageChangeSubscription.Dispose();
-                    }
-
-                    this._disposedValue = true;
+                    return;
                 }
+
+                if (disposing)
+                {
+                    this._packageChangeSubscription.Dispose();
+                }
+
+                this._disposedValue = true;
             }
 
             public void Dispose()

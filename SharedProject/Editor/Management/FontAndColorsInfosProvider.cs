@@ -133,7 +133,7 @@ namespace FineCodeCoverage.Editor.Management
             CoverageColours currentColors = this.GetCoverageColoursFromFontsAndColors();
             Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes = currentColors.GetChanges(this._lastCoverageColours);
             this._lastCoverageColours = currentColors;
-            if (changes.Any())
+            if (changes.Count != 0)
             {
                 this._eventAggregator.SendMessage(new CoverageColoursChangedMessage());
             }

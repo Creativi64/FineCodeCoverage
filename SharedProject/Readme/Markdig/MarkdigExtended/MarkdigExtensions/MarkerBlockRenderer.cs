@@ -28,12 +28,14 @@ namespace FineCodeCoverage.Readme
             }
 
             IEnumerable<Block> blocks = creator();
-            if (blocks != null)
+            if (blocks == null)
             {
-                foreach (Block block in blocks)
-                {
-                    renderer.WriteBlock(block);
-                }
+                return;
+            }
+
+            foreach (Block block in blocks)
+            {
+                renderer.WriteBlock(block);
             }
         }
     }

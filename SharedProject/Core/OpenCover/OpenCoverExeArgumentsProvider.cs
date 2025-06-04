@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             var excludes = SanitizeExcludesOrIncludes(project.Settings.Exclude).ToList();
 
             List<string> includedModules = project.IncludedReferencedProjects.ConvertAll(rp => rp.AssemblyName);
-            if (project.Settings.IncludeTestAssembly && (includes.Any() || project.IncludedReferencedProjects.Any()))
+            if (project.Settings.IncludeTestAssembly && (includes.Any() || project.IncludedReferencedProjects.Count != 0))
             {
                 includedModules.Add(project.ProjectName);
             }

@@ -10,7 +10,6 @@ using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
-using Microsoft.CodeAnalysis;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
@@ -133,7 +132,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             try
             {
                 List<ITUnitCoverageProject> tUnitCoverageProjects = await this.GetEnabledTUnitProjectsAsync(cancellationToken);
-                if (tUnitCoverageProjects.Any())
+                if (tUnitCoverageProjects.Count != 0)
                 {
                     bool success = await this.BuildAndCollectAsync(tUnitCoverageProjects, cancellationToken);
                     raiseCoverageEndedMessage = !success;
@@ -219,7 +218,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         async Task<bool> ICoverageCollectableFromTestExplorer.IsCollectableAsync()
         {
             List<ITUnitProject> tunitProjects = await this._tUnitProjectsProvider.GetTUnitProjectsAsync(CancellationToken.None);
-            return !tunitProjects.Any();
+            return tunitProjects.Count == 0;
         }
     }
 }

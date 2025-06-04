@@ -249,7 +249,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private async Task CollectingWithTemplateAsync(IProjectRunSettingsFromTemplateResult generationResult, List<ICoverageProject> coverageProjectsForShim)
         {
             coverageProjectsForShim.AddRange(generationResult.CoverageProjectsWithFCCMsTestAdapter);
-            string leadingMessage = generationResult.CustomTemplatePaths.Any() ? $"{msCodeCoverageMessage} - custom template paths" : msCodeCoverageMessage;
+            string leadingMessage = generationResult.CustomTemplatePaths.Count != 0 ? $"{msCodeCoverageMessage} - custom template paths" : msCodeCoverageMessage;
             IEnumerable<string> loggerMessages = new List<string> { leadingMessage }.Concat(generationResult.CustomTemplatePaths.Distinct());
             await this._logger.LogAsync(loggerMessages);
             this.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;

@@ -116,7 +116,7 @@ namespace FineCodeCoverage.Editor.Management
 
         private void SetClassificationTypeColoursIfChanged(Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes)
         {
-            if (!changes.Any())
+            if (changes.Count == 0)
             {
                 return;
             }

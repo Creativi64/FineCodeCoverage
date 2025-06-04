@@ -214,7 +214,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private static bool HasIncludes(
             string[] modulePathsInclude,
             List<IReferencedProject> includedReferencedProjects)
-            => modulePathsInclude?.Any() == true || includedReferencedProjects.Any();
+            => modulePathsInclude?.Length > 0 || includedReferencedProjects.Count != 0;
 
         private static IEnumerable<string> GetAdditionalModulePathsInclude(
             bool hasIncludes,
