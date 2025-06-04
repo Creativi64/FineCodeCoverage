@@ -31,10 +31,13 @@ namespace FineCodeCoverage.Engine.OpenCover
 
             void AddIncludeAllIfExcludingWithoutIncludes()
             {
-                if (excludeFilters.Any() && !includeFilters.Any())
+                bool excludingWithoutIncludes = excludeFilters.Count != 0 && includeFilters.Count == 0;
+                if (!excludingWithoutIncludes)
                 {
-                    includeFilters.Add("+[*]*");
+                    return;
                 }
+
+                includeFilters.Add("+[*]*");
             }
 
             List<string> GetExcludesOrIncludes(
@@ -70,11 +73,13 @@ namespace FineCodeCoverage.Engine.OpenCover
             Delimiter delimiter = Delimiter.Semicolon
         )
         {
-            if (settings.Any())
+            if (!settings.Any())
             {
-                string delimit = delimiter == Delimiter.Semicolon ? ";" : " ";
-                opencoverSettings.Add($@"""-{settingName}:{string.Join(delimit, settings)}""");
+                return;
             }
+
+            string delimit = delimiter == Delimiter.Semicolon ? ";" : " ";
+            opencoverSettings.Add($@"""-{settingName}:{string.Join(delimit, settings)}""");
         }
 
         private static void AddExcludeByFile(ICoverageProject project, List<string> opencoverSettings)

@@ -49,26 +49,29 @@ namespace FineCodeCoverage.Output
 
         private async Task EnsureCollectionAsync()
         {
-            if (!await this.CollectionExistsAsync())
+            if (await this.CollectionExistsAsync())
             {
-                WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
-                store.CreateCollection(ColumnStatesCollectionName);
+                return;
             }
+
+            WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
+            store.CreateCollection(ColumnStatesCollectionName);
         }
         private async Task<bool> CollectionExistsAsync()
         {
             WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
             return store.CollectionExists(ColumnStatesCollectionName);
         }
+
         public async Task<string> GetColumnStatesAsync()
         {
-            if (await this.CollectionExistsAsync())
+            if (!await this.CollectionExistsAsync())
             {
-                WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
-                return store.GetString(ColumnStatesCollectionName, ColumnStatesPropertyName);
+                return null;
             }
 
-            return null;
+            WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
+            return store.GetString(ColumnStatesCollectionName, ColumnStatesPropertyName);
         }
     }
 }

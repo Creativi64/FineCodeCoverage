@@ -164,10 +164,12 @@ namespace FineCodeCoverage.Engine
 
         private void RaiseReportFiles(ReportResult reportResult)
         {
-            if (reportResult.CoberturaFile != null)
+            if (reportResult.CoberturaFile == null)
             {
-                this._eventAggregator.SendMessage(new ReportFilesMessage { CoberturaFile = reportResult.CoberturaFile, ReportResult = reportResult.Report });
+                return;
             }
+
+            this._eventAggregator.SendMessage(new ReportFilesMessage { CoberturaFile = reportResult.CoberturaFile, ReportResult = reportResult.Report });
         }
 
         public void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null)

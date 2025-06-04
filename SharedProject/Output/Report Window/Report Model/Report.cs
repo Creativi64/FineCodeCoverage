@@ -25,25 +25,24 @@ namespace FineCodeCoverage.Output
         {
             // only dealing with directories - ReportGeneratorUtil dealing with Assemblies => Class.FileCodeElements
             _ = fileRenames.TryUpdateDictionary(this._sourceFilesPathsWithNewCode);
-            if (this.Directory != null)
+            if (this.Directory == null || this.HasDirectoryStructureChanged(fileRenames))
             {
-                if (!this.HasDirectoryStructureChanged(fileRenames))
-                {
-                    this.UpdateSourceFiles(fileRenames.ToList());
-                }
+                return;
             }
+
+            this.UpdateSourceFiles(fileRenames.ToList());
         }
 
         private bool HasDirectoryStructureChanged(IReadOnlyList<FileRename> fileRenames)
         {
-            if (fileRenames.Any(fileRename => fileRename.HasDirectoryChanged()))
+            if (!fileRenames.Any(fileRename => fileRename.HasDirectoryChanged()))
             {
-                this.ClearDirectory();
-                DirectoryStructureChanged?.Invoke(this, EventArgs.Empty);
-                return true;
+                return false;
             }
 
-            return false;
+            this.ClearDirectory();
+            DirectoryStructureChanged?.Invoke(this, EventArgs.Empty);
+            return true;
         }
 
         private void UpdateSourceFiles(List<FileRename> fileRenames)

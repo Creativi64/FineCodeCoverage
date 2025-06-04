@@ -100,10 +100,12 @@ namespace FineCodeCoverage.Output
                 displayIndex++;
             }
 
-            if (displayIndicesChanged)
+            if (!displayIndicesChanged)
             {
-                this._reportColumnsManager.SortColumnsArray();
+                return;
             }
+
+            this._reportColumnsManager.SortColumnsArray();
         }
 
         private IEnumerable<int> GetSelectedIndices()
@@ -125,20 +127,24 @@ namespace FineCodeCoverage.Output
             }
 
             bool newCanMoveDown = first > 0 && ascendingOrderedSelectedIndices.Last() < this.Columns.Count - 1;
-            if (newCanMoveDown != this._canMoveDown)
+            if (newCanMoveDown == this._canMoveDown)
             {
-                this._canMoveDown = newCanMoveDown;
-                this.DownCommand.NotifyCanExecuteChanged();
+                return;
             }
+
+            this._canMoveDown = newCanMoveDown;
+            this.DownCommand.NotifyCanExecuteChanged();
         }
 
         public void SelectionChanged(List<EditableColumn> selectedItems)
         {
             this._selectedEditableColumns = selectedItems;
-            if (selectedItems.Count > 0)
+            if (selectedItems.Count == 0)
             {
-                this.SetCanMove();
+                return;
             }
+
+            this.SetCanMove();
         }
 
         // Reset

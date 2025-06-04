@@ -6,6 +6,12 @@ namespace FineCodeCoverage.Output
 {
     internal class EditableColumn : ObservableBase, IDataErrorInfo
     {
+        private bool _isVisible;
+        private string _name;
+        private HorizontalAlignment _headerAlignment;
+        private HorizontalAlignment _cellAlignment;
+        private bool _canEditCellAlignment;
+
         public EditableColumn()
         {
             // throw if not design time
@@ -21,7 +27,7 @@ namespace FineCodeCoverage.Output
             this.CellAlignment = reportColumnData.CellAlignment;
             this.CanEditCellAlignment = reportColumnData.CanEditCellAlignment;
         }
-        private bool _isVisible;
+
         public bool IsVisible
         {
             get => this._isVisible;
@@ -31,7 +37,7 @@ namespace FineCodeCoverage.Output
         public bool CanEditVisible { get; }
 
         public string Column { get; set; }
-        private string _name;
+
         public IReportColumnData ReportColumnData { get; }
 
         public string Name
@@ -40,21 +46,18 @@ namespace FineCodeCoverage.Output
             set => this.Set(ref this._name, value);
         }
 
-        private HorizontalAlignment _headerAlignment;
         public HorizontalAlignment HeaderAlignment
         {
             get => this._headerAlignment;
             set => this.Set(ref this._headerAlignment, value);
         }
 
-        private HorizontalAlignment _cellAlignment;
         public HorizontalAlignment CellAlignment
         {
             get => this._cellAlignment;
             set => this.Set(ref this._cellAlignment, value);
         }
 
-        private bool _canEditCellAlignment;
         public bool CanEditCellAlignment
         {
             get => this._canEditCellAlignment;
@@ -64,19 +67,7 @@ namespace FineCodeCoverage.Output
         public string Error => this[nameof(this.Name)];
 
         public string this[string columnName]
-        {
-            get
-            {
-                if (columnName == nameof(this.Name))
-                {
-                    if (this.Name.Trim().Length == 0)
-                    {
-                        return "Name is required";
-                    }
-                }
-
-                return null;
-            }
-        }
+            => columnName != nameof(this.Name) ? null :
+                this.Name.Trim().Length == 0 ? "Name is required" : null;
     }
 }

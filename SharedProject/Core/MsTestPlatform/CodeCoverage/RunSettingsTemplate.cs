@@ -307,18 +307,22 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private void AddEnabledReplacementAttributeIfNotPresent(XElement msDataCollector)
         {
             XAttribute enabledAttribute = msDataCollector.Attribute("enabled");
-            if (enabledAttribute == null)
+            if (enabledAttribute != null)
             {
-                msDataCollector.Add(new XAttribute("enabled", this._replacementLookups.Enabled));
+                return;
             }
+
+            msDataCollector.Add(new XAttribute("enabled", this._replacementLookups.Enabled));
         }
 
         private static void AddFCCGeneratedIfNotPresent(XElement msDataCollectorConfiguration)
         {
-            if (msDataCollectorConfiguration.Element(fccMarkerElementName) == null)
+            if (msDataCollectorConfiguration.Element(fccMarkerElementName) != null)
             {
-                msDataCollectorConfiguration.Add(XElement.Parse($"<{fccMarkerElementName}/>"));
+                return;
             }
+
+            msDataCollectorConfiguration.Add(XElement.Parse($"<{fccMarkerElementName}/>"));
         }
 
         private static void AddOrCorrectFormat(XElement configuration)

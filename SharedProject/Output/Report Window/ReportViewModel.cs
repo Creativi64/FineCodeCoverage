@@ -62,10 +62,12 @@ namespace FineCodeCoverage.Output
                     this.UpdateRootDirectoryTreeItemNames(newOptions.RootDirectoryNameFromPath);
                 }
 
-                if (newOptions.SourceFileStructure != this._sourceFileStructure)
+                if (newOptions.SourceFileStructure == this._sourceFileStructure)
                 {
-                    this.UpdateSourceViewStructure(newOptions.SourceFileStructure);
+                    return;
                 }
+
+                this.UpdateSourceViewStructure(newOptions.SourceFileStructure);
             };
             this.TreeViewAutomationName = "Coverage Report Tree";
             _ = eventAggregator.AddListener(this);
@@ -84,52 +86,58 @@ namespace FineCodeCoverage.Output
         private void UpdateSourceViewStructure(SourceFileStructure newSourceFileStructure)
         {
             this._sourceFileStructure = newSourceFileStructure;
-            if (this._lastReportStyle == ReportStyle.Source)
+            if (this._lastReportStyle != ReportStyle.Source)
             {
-                this.GenerateReport(null);
+                return;
             }
+
+            this.GenerateReport(null);
         }
         private void UpdateRootDirectoryTreeItemNames(bool rootDirectoryNameFromPath)
         {
             this._rootDirectoryNameFromPath = rootDirectoryNameFromPath;
-            if (this._lastReportStyle == ReportStyle.Source)
+            if (this._lastReportStyle != ReportStyle.Source)
             {
-                this.Items.OfType<RootDirectoryTreeItem>().ToList().ForEach(d => d.SetName(rootDirectoryNameFromPath));
+                return;
             }
+
+            this.Items.OfType<RootDirectoryTreeItem>().ToList().ForEach(d => d.SetName(rootDirectoryNameFromPath));
         }
 
         private void UpdateTotalRow(ReportTotalRow newReportTotalRow)
         {
             this._reportTotalRow = newReportTotalRow;
-            if (this._items.Count > 0)
+            if (this._items.Count == 0)
             {
-                bool firstItemIsTotal = this._items[0] is TotalTreeItem;
-                switch (this._reportTotalRow)
-                {
-                    case ReportTotalRow.Always:
-                        if (!firstItemIsTotal)
-                        {
-                            this.InsertTotalRow();
-                        }
+                return;
+            }
 
-                        break;
-                    case ReportTotalRow.WhenRequired:
-                        if (!firstItemIsTotal && this._items.Count > 1)
-                        {
-                            this.InsertTotalRow();
-                        }
+            bool firstItemIsTotal = this._items[0] is TotalTreeItem;
+            switch (this._reportTotalRow)
+            {
+                case ReportTotalRow.Always:
+                    if (!firstItemIsTotal)
+                    {
+                        this.InsertTotalRow();
+                    }
 
-                        break;
-                    case ReportTotalRow.Never:
-                        if (firstItemIsTotal)
-                        {
-                            this._items.RemoveAt(0);
-                        }
+                    break;
+                case ReportTotalRow.WhenRequired:
+                    if (!firstItemIsTotal && this._items.Count > 1)
+                    {
+                        this.InsertTotalRow();
+                    }
 
-                        break;
-                    default:
-                        break;
-                }
+                    break;
+                case ReportTotalRow.Never:
+                    if (firstItemIsTotal)
+                    {
+                        this._items.RemoveAt(0);
+                    }
+
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -160,16 +168,18 @@ namespace FineCodeCoverage.Output
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
         {
-            if (this._lastReport != null)
+            if (this._lastReport == null)
             {
-                if (e.ChangesetChanged)
-                {
-                    this.GenerateReport(this._reportViews.GetChangeset());
-                }
-                else
-                {
-                    this.GenerateReport(null);
-                }
+                return;
+            }
+
+            if (e.ChangesetChanged)
+            {
+                this.GenerateReport(this._reportViews.GetChangeset());
+            }
+            else
+            {
+                this.GenerateReport(null);
             }
         }
 
@@ -236,10 +246,12 @@ namespace FineCodeCoverage.Output
 
         private void RestoreExpansionStateIfRequired(IList<ReportTreeItemBase> newItems)
         {
-            if (this._items.Count > 0 && this._reportViews.ReportStyle == this._lastReportStyle)
+            if (this._items.Count == 0 || this._reportViews.ReportStyle != this._lastReportStyle)
             {
-                this._treeExpander.RestoreExpansionState(this._items, newItems);
+                return;
             }
+
+            this._treeExpander.RestoreExpansionState(this._items, newItems);
         }
 
         private void AddTotalRowIfRequired(List<ReportTreeItemBase> newItems)
@@ -274,10 +286,12 @@ namespace FineCodeCoverage.Output
 
         private void LastReport_DirectoryStructureChanged(object sender, EventArgs e)
         {
-            if (this._lastReport != null && this._reportViews.ReportStyle == ReportStyle.Source)
+            if (this._lastReport == null || this._reportViews.ReportStyle != ReportStyle.Source)
             {
-                this.GenerateReport(null);
+                return;
             }
+
+            this.GenerateReport(null);
         }
 
         public void Handle(ClearReportMessage message)
@@ -299,10 +313,12 @@ namespace FineCodeCoverage.Output
         protected override void LeafTreeItemDoubleClick(ReportTreeItemBase treeItem)
         {
             var codeElementTreeItem = treeItem as CodeElementTreeItem;
-            if (!IsRelativePath(codeElementTreeItem.FilePath) && File.Exists(codeElementTreeItem.FilePath))
+            if (IsRelativePath(codeElementTreeItem.FilePath) || !File.Exists(codeElementTreeItem.FilePath))
             {
-                _ = this._sourceFileOpener.OpenAsync(codeElementTreeItem.FilePath, codeElementTreeItem.FileLine);
+                return;
             }
+
+            _ = this._sourceFileOpener.OpenAsync(codeElementTreeItem.FilePath, codeElementTreeItem.FileLine);
         }
 
         public static bool IsRelativePath(string path) => Uri.IsWellFormedUriString(path, UriKind.Relative);

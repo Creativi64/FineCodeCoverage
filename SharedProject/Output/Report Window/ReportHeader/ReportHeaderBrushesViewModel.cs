@@ -34,14 +34,16 @@ namespace FineCodeCoverage.Output
             reportOptionsProvider.OptionsChanged += (newOptions) =>
             {
                 bool newHeaderUseTabularSharedColors = newOptions.HeaderUseTabularSharedColors;
-                if (this._headerUseTabularSharedColors != newHeaderUseTabularSharedColors)
+                if (this._headerUseTabularSharedColors == newHeaderUseTabularSharedColors)
                 {
-                    this._headerUseTabularSharedColors = newHeaderUseTabularSharedColors;
-                    this.SetHeaderForegroundColors();
-                    this.OnPropertyChanged(nameof(this.ForegroundBrushKey));
-                    this.OnPropertyChanged(nameof(this.ForegroundIsMouseOverBrushKey));
-                    this.OnPropertyChanged(nameof(this.ForegroundIsPressedBrushKey));
+                    return;
                 }
+
+                this._headerUseTabularSharedColors = newHeaderUseTabularSharedColors;
+                this.SetHeaderForegroundColors();
+                this.OnPropertyChanged(nameof(this.ForegroundBrushKey));
+                this.OnPropertyChanged(nameof(this.ForegroundIsMouseOverBrushKey));
+                this.OnPropertyChanged(nameof(this.ForegroundIsPressedBrushKey));
             };
             this.SetHeaderForegroundColors();
         }

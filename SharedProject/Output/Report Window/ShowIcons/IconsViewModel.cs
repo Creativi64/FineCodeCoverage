@@ -25,10 +25,12 @@ namespace FineCodeCoverage.Output
         {
             VSColorTheme.ThemeChanged += (_) =>
             {
-                if (this.Monochrome)
+                if (!this.Monochrome)
                 {
-                    this.SetIconStyles();
+                    return;
                 }
+
+                this.SetIconStyles();
             };
             reportOptionsProvider.OptionsChanged += (newAppOptions) =>
             {
@@ -44,11 +46,13 @@ namespace FineCodeCoverage.Output
                     IconSizeChanged?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (newAppOptions.ThemedIconStyle != this._themedIconStyle)
+                if (newAppOptions.ThemedIconStyle == this._themedIconStyle)
                 {
-                    this._themedIconStyle = newAppOptions.ThemedIconStyle;
-                    this.SetIconStyles();
+                    return;
                 }
+
+                this._themedIconStyle = newAppOptions.ThemedIconStyle;
+                this.SetIconStyles();
             };
             ReportOptions appOptions = reportOptionsProvider.Get();
             this.ShowIcons = appOptions.ShowIcons;

@@ -18,10 +18,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private void CopyShim(string shimPath, string outputFolder)
         {
             string destination = Path.Combine(outputFolder, Path.GetFileName(shimPath));
-            if (!this._fileUtil.Exists(destination))
+            if (this._fileUtil.Exists(destination))
             {
-                this._fileUtil.Copy(shimPath, destination);
+                return;
             }
+
+            this._fileUtil.Copy(shimPath, destination);
         }
 
         private void CopyShim(string shimPath, IEnumerable<ICoverageProject> coverageProjects)

@@ -22,10 +22,12 @@ namespace FineCodeCoverage.Output
             solutionEvents.AfterClosing += (s, args) => this.ClearUI();
             runOptionsProvider.OptionsChanged += (runOptions) =>
             {
-                if (!runOptions.Enabled)
+                if (runOptions.Enabled)
                 {
-                    this.ClearUI();
+                    return;
                 }
+
+                this.ClearUI();
             };
             this._eventAggregator = eventAggregator;
         }

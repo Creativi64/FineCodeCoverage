@@ -62,11 +62,13 @@ namespace FineCodeCoverage.Output
         private void RaiseOkChangedIfChanged()
         {
             bool changedFromInitial = this.ChangedFromInitial();
-            if (this._changed != changedFromInitial)
+            if (this._changed == changedFromInitial)
             {
-                this._changed = changedFromInitial;
-                this._notifyOkCommandCanExecuteChanged();
+                return;
             }
+
+            this._changed = changedFromInitial;
+            this._notifyOkCommandCanExecuteChanged();
         }
 
         private bool ChangedFromInitial() => !this._initializing &&

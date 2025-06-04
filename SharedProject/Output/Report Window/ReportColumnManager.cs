@@ -106,23 +106,26 @@ namespace FineCodeCoverage.Output
 
             reportColumnStates.ForEach(columnState =>
             {
-                if (columnsLookup.TryGetValue(columnState.ColumnType, out ReportColumnData column))
+                if (!columnsLookup.TryGetValue(columnState.ColumnType, out ReportColumnData column))
                 {
-                    column.IsVisible = columnState.IsVisible;
-                    column.DisplayIndex = columnState.DisplayIndex;
-                    column.Width = columnState.Width;
-                    column.HeaderAlignment = columnState.HeaderAlignment;
-                    column.CellAlignment = columnState.CellAlignment;
+                    return;
                 }
+
+                column.IsVisible = columnState.IsVisible;
+                column.DisplayIndex = columnState.DisplayIndex;
+                column.Width = columnState.Width;
+                column.HeaderAlignment = columnState.HeaderAlignment;
+                column.CellAlignment = columnState.CellAlignment;
             });
             int numDistinctDisplayIndices = reportColumns.Select(c => c.DisplayIndex).Distinct().Count();
-            if (numDistinctDisplayIndices != reportColumns.Length)
+            if (numDistinctDisplayIndices == reportColumns.Length)
             {
-                // there are duplicates - reset to original display indices
-                for (int i = 0; i < reportColumns.Length; i++)
-                {
-                    reportColumns[i].DisplayIndex = originalDisplayIndices[i];
-                }
+                return;
+            }
+            // there are duplicates - reset to original display indices
+            for (int i = 0; i < reportColumns.Length; i++)
+            {
+                reportColumns[i].DisplayIndex = originalDisplayIndices[i];
             }
         }
 

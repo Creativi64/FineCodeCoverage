@@ -212,10 +212,12 @@ namespace FineCodeCoverage.Engine.Model
 
         private void SetIncludedReferencedProjects(List<IExcludableReferencedProject> referencedProjects)
         {
-            if (this.Settings.IncludeReferencedProjects)
+            if (!this.Settings.IncludeReferencedProjects)
             {
-                this.IncludedReferencedProjects = new List<IReferencedProject>(referencedProjects);
+                return;
             }
+
+            this.IncludedReferencedProjects = new List<IReferencedProject>(referencedProjects);
         }
 
         private void SetExcludedReferencedProjects(List<IExcludableReferencedProject> referencedProjects)
@@ -242,10 +244,12 @@ namespace FineCodeCoverage.Engine.Model
 
         private static void CreateIfDoesNotExist(string path)
         {
-            if (!Directory.Exists(path))
+            if (Directory.Exists(path))
             {
-                _ = Directory.CreateDirectory(path);
+                return;
             }
+
+            _ = Directory.CreateDirectory(path);
         }
 
         private void EnsureEmptyOutputFolder()
@@ -275,21 +279,23 @@ namespace FineCodeCoverage.Engine.Model
 
             fccDirectory.EnumerateFileSystemInfos().AsParallel().ForAll(fileOrDirectory =>
                {
-                   if (!exclusions.Contains(fileOrDirectory.Name))
+                   if (exclusions.Contains(fileOrDirectory.Name))
                    {
-                       try
-                       {
-                           if (fileOrDirectory is FileInfo)
-                           {
-                               fileOrDirectory.Delete();
-                           }
-                           else
-                           {
-                               (fileOrDirectory as DirectoryInfo)?.Delete(true);
-                           }
-                       }
-                       catch { }
+                       return;
                    }
+
+                   try
+                   {
+                       if (fileOrDirectory is FileInfo)
+                       {
+                           fileOrDirectory.Delete();
+                       }
+                       else
+                       {
+                           (fileOrDirectory as DirectoryInfo)?.Delete(true);
+                       }
+                   }
+                   catch { }
                });
 
         }
