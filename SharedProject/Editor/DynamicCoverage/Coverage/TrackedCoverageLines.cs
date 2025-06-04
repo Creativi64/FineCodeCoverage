@@ -9,19 +9,19 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly List<ITrackedCoverageLine> _trackedCoverageLines;
 
         public IEnumerable<IDynamicLine> Lines
-            => this._trackedCoverageLines.Select(coverageLine => coverageLine.Line);
+            => _trackedCoverageLines.Select(coverageLine => coverageLine.Line);
 
         public TrackedCoverageLines(List<ITrackedCoverageLine> coverageLines)
-            => this._trackedCoverageLines = coverageLines;
+            => _trackedCoverageLines = coverageLines;
 
         public IEnumerable<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)
-            => this._trackedCoverageLines.SelectMany(
+            => _trackedCoverageLines.SelectMany(
                 trackedCoverageLine => trackedCoverageLine.GetUpdateLineNumbers(currentSnapshot)
             );
 
         public FirstTrackedCoverageLineInfo GetFirstTrackedCoverageLineInfo()
         {
-            ITrackedCoverageLine first = this._trackedCoverageLines[0];
+            ITrackedCoverageLine first = _trackedCoverageLines[0];
             return new FirstTrackedCoverageLineInfo(first.Line.OriginalLineNumber, first.DynamicCoberturaLine);
         }
     }

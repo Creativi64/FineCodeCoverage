@@ -12,12 +12,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public CoverageChangedMessage(string filePath, IEnumerable<int> changedLineNumbers)
         {
-            this.FilePath = filePath;
-            this.ChangedLineNumbers = changedLineNumbers;
+            FilePath = filePath;
+            ChangedLineNumbers = changedLineNumbers;
         }
 
         public override bool Equals(object obj) => obj is CoverageChangedMessage message &&
-                message.FilePath == this.FilePath &&
-                message.ChangedLineNumbers == this.ChangedLineNumbers;
+                message.FilePath == FilePath &&
+                message.ChangedLineNumbers == ChangedLineNumbers;
     }
 }

@@ -23,29 +23,29 @@ namespace FineCodeCoverage.Engine.Coverlet
             IDotNetToolListParser parser
         )
         {
-            this._logger = logger;
-            this._executor = executor;
-            this._parser = parser;
+            _logger = logger;
+            _executor = executor;
+            _parser = parser;
         }
 
         private async Task<CoverletDotNetToolDetails> ExecuteAndParseAsync(Func<IDotNetToolListExecutor, DotNetToolListExecutionResult> execution)
         {
             const string title = "Dotnet tool list Coverlet";
-            DotNetToolListExecutionResult result = execution(this._executor);
+            DotNetToolListExecutionResult result = execution(_executor);
             if (result.ExitCode != 0)
             {
-                await this._logger.LogAsync($"{title} Error", result.Output);
+                await _logger.LogAsync($"{title} Error", result.Output);
                 return null;
             }
 
             List<DotNetToolInfo> tools = null;
             try
             {
-                tools = this._parser.Parse(result.Output);
+                tools = _parser.Parse(result.Output);
             }
             catch (Exception)
             {
-                await this._logger.LogAsync($"{title} Error parsing", result.Output);
+                await _logger.LogAsync($"{title} Error parsing", result.Output);
                 return null;
             }
 
@@ -59,12 +59,12 @@ namespace FineCodeCoverage.Engine.Coverlet
                 };
         }
 
-        public Task<CoverletDotNetToolDetails> GlobalAsync() => this.ExecuteAndParseAsync(executor => executor.Global());
+        public Task<CoverletDotNetToolDetails> GlobalAsync() => ExecuteAndParseAsync(executor => executor.Global());
 
         public Task<CoverletDotNetToolDetails> LocalAsync(string directory)
-            => this.ExecuteAndParseAsync(executor => executor.Local(directory));
+            => ExecuteAndParseAsync(executor => executor.Local(directory));
 
         public Task<CoverletDotNetToolDetails> GlobalToolsPathAsync(string directory)
-            => this.ExecuteAndParseAsync(executor => executor.GlobalToolsPath(directory));
+            => ExecuteAndParseAsync(executor => executor.GlobalToolsPath(directory));
     }
 }

@@ -11,11 +11,11 @@ namespace FineCodeCoverage.Funding
         [ImportingConstructor]
         public FundingService(IProcess process)
         {
-            this.KofiClickedCommand = new ProcessStartCommand(process);
-            this.BuyMeACoffeeClickedCommand = new ProcessStartCommand(process);
-            this.LiberapayClickedCommand = new ProcessStartCommand(process);
-            this.PayPalClickedCommand = new ProcessStartCommand(process);
-            this.GithubClickedCommand = new ProcessStartCommand(process);
+            KofiClickedCommand = new ProcessStartCommand(process);
+            BuyMeACoffeeClickedCommand = new ProcessStartCommand(process);
+            LiberapayClickedCommand = new ProcessStartCommand(process);
+            PayPalClickedCommand = new ProcessStartCommand(process);
+            GithubClickedCommand = new ProcessStartCommand(process);
         }
         public ICommand KofiClickedCommand { get; }
         public ICommand BuyMeACoffeeClickedCommand { get; }

@@ -17,14 +17,14 @@ namespace FineCodeCoverage.Impl
             IRunSettingsRetriever runSettingsRetriever
             )
         {
-            this._coverageProjectFactory = coverageProjectFactory;
-            this._runSettingsRetriever = runSettingsRetriever;
+            _coverageProjectFactory = coverageProjectFactory;
+            _runSettingsRetriever = runSettingsRetriever;
         }
         public ITestOperation Create(IOperation operation)
         {
             try
             {
-                return new TestOperation(new TestRunRequest(operation), this._coverageProjectFactory, this._runSettingsRetriever);
+                return new TestOperation(new TestRunRequest(operation), _coverageProjectFactory, _runSettingsRetriever);
             }
             catch (PropertyDoesNotExistException propertyDoesNotExistException)
             {

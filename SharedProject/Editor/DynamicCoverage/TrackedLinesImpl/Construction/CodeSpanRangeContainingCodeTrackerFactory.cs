@@ -26,19 +26,19 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             INotIncludedLineFactory notIncludedLineFactory
             )
         {
-            this._trackingLineFactory = trackingLineFactory;
-            this._trackingSpanRangeFactory = trackingSpanRangeFactory;
-            this._trackedCoverageLinesFactory = trackedCoverageLinesFactory;
-            this._trackedCoverageLineFactory = trackedCoverageLineFactory;
-            this._trackingSpanRangeContainingCodeTrackerFactory = trackingSpanRangeContainingCodeTrackerFactory;
-            this._notIncludedLineFactory = notIncludedLineFactory;
+            _trackingLineFactory = trackingLineFactory;
+            _trackingSpanRangeFactory = trackingSpanRangeFactory;
+            _trackedCoverageLinesFactory = trackedCoverageLinesFactory;
+            _trackedCoverageLineFactory = trackedCoverageLineFactory;
+            _trackingSpanRangeContainingCodeTrackerFactory = trackingSpanRangeContainingCodeTrackerFactory;
+            _notIncludedLineFactory = notIncludedLineFactory;
         }
 
         public IContainingCodeTracker CreateNotIncluded(ITextSnapshot textSnapshot, CodeSpanRange containingRange, SpanTrackingMode spanTrackingMode)
         {
-            ITrackingSpanRange trackingSpanRange = this.CreateTrackingSpanRange(textSnapshot, containingRange, spanTrackingMode);
-            ITrackingLine notIncludedLine = this._notIncludedLineFactory.Create(trackingSpanRange.GetFirstTrackingSpan(), textSnapshot);
-            return this._trackingSpanRangeContainingCodeTrackerFactory.CreateNotIncluded(notIncludedLine, trackingSpanRange);
+            ITrackingSpanRange trackingSpanRange = CreateTrackingSpanRange(textSnapshot, containingRange, spanTrackingMode);
+            ITrackingLine notIncludedLine = _notIncludedLineFactory.Create(trackingSpanRange.GetFirstTrackingSpan(), textSnapshot);
+            return _trackingSpanRangeContainingCodeTrackerFactory.CreateNotIncluded(notIncludedLine, trackingSpanRange);
         }
 
         public IContainingCodeTracker CreateCoverageLines(
@@ -46,30 +46,30 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<ICoberturaLine> coberturaLines,
             CodeSpanRange containingRange,
             SpanTrackingMode spanTrackingMode
-        ) => this._trackingSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
-            this.CreateTrackingSpanRange(textSnapshot, containingRange, spanTrackingMode),
-            this.CreateTrackedCoverageLines(textSnapshot, coberturaLines, spanTrackingMode)
+        ) => _trackingSpanRangeContainingCodeTrackerFactory.CreateCoverageLines(
+            CreateTrackingSpanRange(textSnapshot, containingRange, spanTrackingMode),
+            CreateTrackedCoverageLines(textSnapshot, coberturaLines, spanTrackingMode)
         );
 
         public IContainingCodeTracker CreateOtherLines(ITextSnapshot textSnapshot, CodeSpanRange containingRange, SpanTrackingMode spanTrackingMode)
         {
-            ITrackingSpanRange trackingSpanRange = this.CreateTrackingSpanRange(textSnapshot, containingRange, spanTrackingMode);
-            return this._trackingSpanRangeContainingCodeTrackerFactory.CreateOtherLines(trackingSpanRange);
+            ITrackingSpanRange trackingSpanRange = CreateTrackingSpanRange(textSnapshot, containingRange, spanTrackingMode);
+            return _trackingSpanRangeContainingCodeTrackerFactory.CreateOtherLines(trackingSpanRange);
         }
 
         private ITrackingSpanRange CreateTrackingSpanRange(ITextSnapshot textSnapshot, CodeSpanRange containingRange, SpanTrackingMode spanTrackingMode)
         {
-            ITrackingSpan startTrackingSpan = this._trackingLineFactory.CreateTrackingSpan(textSnapshot, containingRange.StartLine, spanTrackingMode);
-            ITrackingSpan endTrackingSpan = this._trackingLineFactory.CreateTrackingSpan(textSnapshot, containingRange.EndLine, spanTrackingMode);
-            return this._trackingSpanRangeFactory.Create(startTrackingSpan, endTrackingSpan, textSnapshot);
+            ITrackingSpan startTrackingSpan = _trackingLineFactory.CreateTrackingSpan(textSnapshot, containingRange.StartLine, spanTrackingMode);
+            ITrackingSpan endTrackingSpan = _trackingLineFactory.CreateTrackingSpan(textSnapshot, containingRange.EndLine, spanTrackingMode);
+            return _trackingSpanRangeFactory.Create(startTrackingSpan, endTrackingSpan, textSnapshot);
         }
 
         private ITrackedCoverageLines CreateTrackedCoverageLines(ITextSnapshot textSnapshot, List<ICoberturaLine> coberturaLines, SpanTrackingMode spanTrackingMode)
         {
-            List<ITrackedCoverageLine> trackedCoverageLines = coberturaLines.ConvertAll(coberturaLine => this._trackedCoverageLineFactory.Create(
-                this._trackingLineFactory.CreateTrackingSpan(textSnapshot, coberturaLine.Number - 1, spanTrackingMode), coberturaLine)
+            List<ITrackedCoverageLine> trackedCoverageLines = coberturaLines.ConvertAll(coberturaLine => _trackedCoverageLineFactory.Create(
+                _trackingLineFactory.CreateTrackingSpan(textSnapshot, coberturaLine.Number - 1, spanTrackingMode), coberturaLine)
             );
-            return this._trackedCoverageLinesFactory.Create(trackedCoverageLines.ToList());
+            return _trackedCoverageLinesFactory.Create(trackedCoverageLines.ToList());
         }
     }
 }

@@ -49,8 +49,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IToolUnzipper toolUnzipper
         )
         {
-            this._logger = logger;
-            this._toolUnzipper = toolUnzipper;
+            _logger = logger;
+            _toolUnzipper = toolUnzipper;
         }
 
         private (string, string) GetExeAndArgs(
@@ -58,7 +58,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             bool hasCoverageExtension
         )
         {
-            string path = hasCoverageExtension ? tUnitSettings.ExePath : this._dotnetCoverageExePath;
+            string path = hasCoverageExtension ? tUnitSettings.ExePath : _dotnetCoverageExePath;
             string args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
                     $"collect \"{tUnitSettings.ExePath}\" --disable-logo -f cobertura -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
             args = $"{args} {tUnitSettings.AdditionalArgs}";
@@ -71,10 +71,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             bool showWindow = false,
             CancellationToken cancellationToken = default)
         {
-            this._cancellationToken = cancellationToken;
-            (string path, string args) = this.GetExeAndArgs(tUnitSettings, hasCoverageExtension);
+            _cancellationToken = cancellationToken;
+            (string path, string args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
             // could have FCC option - hide-test-output or just allow them to supply their own
-            await this._logger.LogAsync("Executing TUnit", path, "Arguments", args);
+            await _logger.LogAsync("Executing TUnit", path, "Arguments", args);
             using (var process = new Process())
             {
                 process.StartInfo = new ProcessStartInfo
@@ -86,8 +86,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                 };
-                process.OutputDataReceived += this.Process_OutputDataReceived;
-                process.ErrorDataReceived += this.Process_ErrorDataReceived;
+                process.OutputDataReceived += Process_OutputDataReceived;
+                process.ErrorDataReceived += Process_ErrorDataReceived;
                 cancellationToken.ThrowIfCancellationRequested();
                 _ = process.Start();
                 process.BeginOutputReadLine();
@@ -103,8 +103,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 				    You can ignore a specific exit code using the --ignore-exit-code command line option.
 
                 */
-                await this.LogNonSuccessExitCodeAsync(process.ExitCode);
-                await this._logger.LogAsync("-----------");
+                await LogNonSuccessExitCodeAsync(process.ExitCode);
+                await _logger.LogAsync("-----------");
                 return process.ExitCode == SuccessExitCode;
             }
         }
@@ -117,12 +117,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
 
             string message = $"Non success exit code : {exitCode}.";
-            if (this._nonSuccessExitCodeMessages.TryGetValue(exitCode, out string msg))
+            if (_nonSuccessExitCodeMessages.TryGetValue(exitCode, out string msg))
             {
                 message = $"{message}  {msg}";
             }
 
-            await this._logger.LogAsync(message);
+            await _logger.LogAsync(message);
         }
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
@@ -132,23 +132,23 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 return;
             }
 
-            this._logger.LogFileAndForget($"Error: {e.Data}");
+            _logger.LogFileAndForget($"Error: {e.Data}");
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (this._cancellationToken.IsCancellationRequested)
+            if (_cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            this._logger.LogFileAndForget(e.Data);
+            _logger.LogFileAndForget(e.Data);
         }
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolderPath, ZipDirectoryName, ZipPrefix, cancellationToken);
-            this._dotnetCoverageExePath = Directory.GetFiles(zipDestination, "dotnet-coverage.exe", SearchOption.AllDirectories).First();
+            string zipDestination = _toolUnzipper.EnsureUnzipped(appDataFolderPath, ZipDirectoryName, ZipPrefix, cancellationToken);
+            _dotnetCoverageExePath = Directory.GetFiles(zipDestination, "dotnet-coverage.exe", SearchOption.AllDirectories).First();
             ReadyEvent?.Invoke(this, EventArgs.Empty);
             return Task.CompletedTask;
         }

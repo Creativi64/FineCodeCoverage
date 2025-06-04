@@ -13,9 +13,9 @@ namespace FineCodeCoverage.Output
         public AsyncPackage Package { get; set; }
 
         public Task<ToolWindowPane> ShowToolWindowAsync(Type toolWindowType, int id, bool create, CancellationToken cancellationToken)
-            => this.Package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
+            => Package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
 
         public Task<ToolWindowPane> ShowToolWindowAsync(Type toolWindowType, int id, bool create)
-            => this.ShowToolWindowAsync(toolWindowType, id, create, this.Package.DisposalToken);
+            => ShowToolWindowAsync(toolWindowType, id, create, Package.DisposalToken);
     }
 }

@@ -12,8 +12,8 @@ namespace FineCodeCoverage.Output
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
             => item is CoverageTooltipViewModel vm
                 ? vm.Coverable == 0 ?
-                    this.NoneTemplate :
-                    vm.Partial.HasValue ? this.FullTemplate : this.SimpleTemplate
+                    NoneTemplate :
+                    vm.Partial.HasValue ? FullTemplate : SimpleTemplate
                 : base.SelectTemplate(item, container);
     }
 }

@@ -11,19 +11,19 @@ namespace FineCodeCoverage.Wpf
 
         public event EventHandler CanExecuteChanged;
 
-        public RelayCommand(Action execute) => this._execute = execute;
+        public RelayCommand(Action execute) => _execute = execute;
 
         public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            this._execute = execute;
-            this._canExecute = canExecute;
+            _execute = execute;
+            _canExecute = canExecute;
         }
 
         public void NotifyCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(object parameter) => this._canExecute?.Invoke() != false;
+        public bool CanExecute(object parameter) => _canExecute?.Invoke() != false;
 
-        public void Execute(object parameter) => this._execute();
+        public void Execute(object parameter) => _execute();
     }
 }

@@ -6,15 +6,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         private readonly string[] _startsWithExclusions;
 
-        public LineExcluder(string[] startsWithExclusions) => this._startsWithExclusions = startsWithExclusions;
+        public LineExcluder(string[] startsWithExclusions) => _startsWithExclusions = startsWithExclusions;
 
         public bool ExcludeIfNotCode(string text)
         {
             string trimmedLineText = text.Trim();
-            return trimmedLineText.Length == 0 || this.StartsWithExclusion(trimmedLineText);
+            return trimmedLineText.Length == 0 || StartsWithExclusion(trimmedLineText);
         }
 
         private bool StartsWithExclusion(string text)
-            => this._startsWithExclusions.Any(languageExclusion => text.StartsWith(languageExclusion));
+            => _startsWithExclusions.Any(languageExclusion => text.StartsWith(languageExclusion));
     }
 }

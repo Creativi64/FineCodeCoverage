@@ -7,8 +7,8 @@
             IDynamicCoberturaLine dynamicCoberturaLine
         )
         {
-            this.OriginalLineNumber = originalLineNumber;
-            this.DynamicCoberturaLine = dynamicCoberturaLine;
+            OriginalLineNumber = originalLineNumber;
+            DynamicCoberturaLine = dynamicCoberturaLine;
         }
 
         public int OriginalLineNumber { get; }

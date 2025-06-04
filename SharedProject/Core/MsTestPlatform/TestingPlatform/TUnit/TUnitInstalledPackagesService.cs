@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public TUnitInstalledPackagesService(
             INugetProjectServiceProvider nugetProjectServiceProvider
-        ) => this._lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
+        ) => _lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
 
         public TUnitInstalledPackageResult GetTUnitInstalledPackages(IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems)
         {
@@ -53,7 +53,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public async Task<TUnitInstalledPackageResult> GetTUnitInstalledPackagesAsync(Guid projectGuid, CancellationToken cancellationToken)
         {
-            INuGetProjectService nugetProjectService = await this._lazyNugetProjectService.GetValueAsync();
+            INuGetProjectService nugetProjectService = await _lazyNugetProjectService.GetValueAsync();
             InstalledPackagesResult result = await nugetProjectService.GetInstalledPackagesAsync(projectGuid, cancellationToken);
             if (result.Status == InstalledPackageResultStatus.Successful)
             {

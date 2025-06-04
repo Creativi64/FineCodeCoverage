@@ -37,49 +37,49 @@ namespace FineCodeCoverage.Github
 
         public string FccOutput
         {
-            get => this._fccOutput;
+            get => _fccOutput;
             set
             {
-                this.Set(ref this._fccOutput, value);
-                this._mailToCommand.NotifyCanExecuteChanged();
+                Set(ref _fccOutput, value);
+                _mailToCommand.NotifyCanExecuteChanged();
             }
         }
 
         public string Title
         {
-            get => this._title;
+            get => _title;
             set
             {
-                this.Set(ref this._title, value);
-                this._submitCommand.NotifyCanExecuteChanged();
+                Set(ref _title, value);
+                _submitCommand.NotifyCanExecuteChanged();
             }
         }
 
         public bool HaveReadReadme
         {
-            get => this._haveReadReadme;
+            get => _haveReadReadme;
             set
             {
-                this.Set(ref this._haveReadReadme, value);
-                this._submitCommand.NotifyCanExecuteChanged();
+                Set(ref _haveReadReadme, value);
+                _submitCommand.NotifyCanExecuteChanged();
             }
         }
 
         public bool HaveCheckedFCCIssues
         {
-            get => this._haveCheckedFCCIssues;
+            get => _haveCheckedFCCIssues;
             set
             {
-                this.Set(ref this._haveCheckedFCCIssues, value);
-                this._submitCommand.NotifyCanExecuteChanged();
+                Set(ref _haveCheckedFCCIssues, value);
+                _submitCommand.NotifyCanExecuteChanged();
             }
         }
 
-        public ICommand SubmitCommand => this._submitCommand;
-        public ICommand MailToCommand => this._mailToCommand;
-        public ICommand SearchIssuesCommand => this._searchIssuesCommand;
-        public ICommand OpenReadMeCommand => this._openReadMeCommand;
-        public ICommand RefreshFCCOutputCommand => this._refreshFCCOutputCommand;
+        public ICommand SubmitCommand => _submitCommand;
+        public ICommand MailToCommand => _mailToCommand;
+        public ICommand SearchIssuesCommand => _searchIssuesCommand;
+        public ICommand OpenReadMeCommand => _openReadMeCommand;
+        public ICommand RefreshFCCOutputCommand => _refreshFCCOutputCommand;
 
         [ImportingConstructor]
         public FCCGithubService(
@@ -91,65 +91,65 @@ namespace FineCodeCoverage.Github
             IShowReadMeService readMeService
         )
         {
-            this._paneCreator = paneCreator;
-            this._vsVersion = vsVersion;
-            this._fccVersion = fccVersion;
-            this._process = process;
-            this._submitCommand = new RelayCommand(() =>
+            _paneCreator = paneCreator;
+            _vsVersion = vsVersion;
+            _fccVersion = fccVersion;
+            _process = process;
+            _submitCommand = new RelayCommand(() =>
             {
                 var encodings = new Dictionary<string, string>
                 {
-                    { "vsversion", this.VsVersionString },
-                    { "fccversion", this.FccVersionString },
-                    { "title", this.Title }
+                    { "vsversion", VsVersionString },
+                    { "fccversion", FccVersionString },
+                    { "title", Title }
                 };
 
                 var sb = new StringBuilder($"{FCCGithub.Repo}/issues/new?template=Issue-form.yaml");
                 _ = encodings.Aggregate(sb, (acc, kv) => acc.Append($"&{kv.Key}={urlEncoder.Encode(kv.Value)}"));
 
-                Clipboard.SetDataObject(this.FccOutput);
+                Clipboard.SetDataObject(FccOutput);
                 string url = sb.ToString();
                 process.Start(url);
-            }, () => !string.IsNullOrWhiteSpace(this.Title) && this.HaveReadReadme && this.HaveCheckedFCCIssues);
-            this._mailToCommand = new RelayCommand(() =>
+            }, () => !string.IsNullOrWhiteSpace(Title) && HaveReadReadme && HaveCheckedFCCIssues);
+            _mailToCommand = new RelayCommand(() =>
             {
-                string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "fortunengwenya@gmail.com", this.Title, this.FccOutput);
+                string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "fortunengwenya@gmail.com", Title, FccOutput);
                 mailto = Uri.EscapeUriString(mailto);
                 process.Start(mailto);
-            }, () => !string.IsNullOrWhiteSpace(this.FccOutput));
-            this._openReadMeCommand = new RelayCommand(() => readMeService.Show());
-            this._searchIssuesCommand = new RelayCommand(() =>
+            }, () => !string.IsNullOrWhiteSpace(FccOutput));
+            _openReadMeCommand = new RelayCommand(() => readMeService.Show());
+            _searchIssuesCommand = new RelayCommand(() =>
                 {
-                    process.Start($"{FCCGithub.Repo}/issues?q=is%3Aissue+{urlEncoder.Encode(this.Title)}");
-                    this.HaveCheckedFCCIssues = true;
+                    process.Start($"{FCCGithub.Repo}/issues?q=is%3Aissue+{urlEncoder.Encode(Title)}");
+                    HaveCheckedFCCIssues = true;
                 }
             );
-            this._refreshFCCOutputCommand = new RelayCommand(() => _ = this.GetFCCOutputAsync());
+            _refreshFCCOutputCommand = new RelayCommand(() => _ = GetFCCOutputAsync());
 
-            this.HaveReadReadme = readMeService.HasShown;
-            readMeService.Shown += (s, e) => this.HaveReadReadme = true;
+            HaveReadReadme = readMeService.HasShown;
+            readMeService.Shown += (s, e) => HaveReadReadme = true;
         }
 
-        public void NewIssue() => _ = this.NewIssueAsync();
+        public void NewIssue() => _ = NewIssueAsync();
 
         private async Task NewIssueAsync()
         {
-            if (this.VsVersionString == null)
+            if (VsVersionString == null)
             {
-                this.VsVersionString = $"{this._vsVersion.GetEditionName()} {this._vsVersion.GetDisplayVersion()}";
-                this.FccVersionString = this._fccVersion.GetVersion();
+                VsVersionString = $"{_vsVersion.GetEditionName()} {_vsVersion.GetDisplayVersion()}";
+                FccVersionString = _fccVersion.GetVersion();
             }
 
-            await this.GetFCCOutputAsync();
+            await GetFCCOutputAsync();
             new NewIssueDialogWindow(this).Show();
         }
 
         private async Task GetFCCOutputAsync()
         {
-            IFCCOutputWindowPane pane = await this._paneCreator.GetOrCreateAsync();
-            this.FccOutput = await pane.GetTextAsync();
+            IFCCOutputWindowPane pane = await _paneCreator.GetOrCreateAsync();
+            FccOutput = await pane.GetTextAsync();
         }
 
-        public void Navigate() => this._process.Start(FCCGithub.Repo);
+        public void Navigate() => _process.Start(FCCGithub.Repo);
     }
 }

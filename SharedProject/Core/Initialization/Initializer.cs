@@ -32,46 +32,46 @@ namespace FineCodeCoverage.Core.Initialization
 #pragma warning restore RCS1163 // Unused parameter
         )
         {
-            this._appDataFolder = appDataFolder;
-            this._appDataFolderPathDependents = appDataFolderPathDependents;
-            this._logger = logger;
-            this._firstTimeToolWindowOpener = firstTimeToolWindowOpener;
+            _appDataFolder = appDataFolder;
+            _appDataFolderPathDependents = appDataFolderPathDependents;
+            _logger = logger;
+            _firstTimeToolWindowOpener = firstTimeToolWindowOpener;
         }
         public async Task InitializeAsync(CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await this._logger.LogAsync("Initializing");
+                await _logger.LogAsync("Initializing");
 
                 cancellationToken.ThrowIfCancellationRequested();
-                await this._appDataFolder.InitializeAsync(cancellationToken);
-                foreach (IAppDataFolderPathDependent appDataPathDependent in this._appDataFolderPathDependents)
+                await _appDataFolder.InitializeAsync(cancellationToken);
+                foreach (IAppDataFolderPathDependent appDataPathDependent in _appDataFolderPathDependents)
                 {
-                    await appDataPathDependent.InitializeAsync(this._appDataFolder.DirectoryPath, cancellationToken);
+                    await appDataPathDependent.InitializeAsync(_appDataFolder.DirectoryPath, cancellationToken);
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
-                await this._logger.LogAsync("Initialized");
+                await _logger.LogAsync("Initialized");
 
-                await this._firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
+                await _firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
             }
             catch (Exception exception)
             {
-                this.InitializeStatus = InitializeStatus.Error;
-                this.InitializeExceptionMessage = exception.Message;
+                InitializeStatus = InitializeStatus.Error;
+                InitializeExceptionMessage = exception.Message;
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    await this._logger.LogAsync("Failed Initialization", exception.ToString());
+                    await _logger.LogAsync("Failed Initialization", exception.ToString());
                 }
             }
 
-            if (this.InitializeStatus == InitializeStatus.Error)
+            if (InitializeStatus == InitializeStatus.Error)
             {
                 return;
             }
 
-            this.InitializeStatus = InitializeStatus.Initialized;
+            InitializeStatus = InitializeStatus.Initialized;
         }
     }
 }

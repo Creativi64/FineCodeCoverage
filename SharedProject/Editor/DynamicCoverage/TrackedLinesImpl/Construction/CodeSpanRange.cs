@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public CodeSpanRange(int startLine, int endLine)
         {
-            this.StartLine = startLine;
-            this.EndLine = endLine;
+            StartLine = startLine;
+            EndLine = endLine;
         }
         public static CodeSpanRange SingleLine(int lineNumber) => new CodeSpanRange(lineNumber, lineNumber);
         public int StartLine { get; set; }
@@ -15,14 +15,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         [ExcludeFromCodeCoverage]
         public override bool Equals(object obj)
-            => obj is CodeSpanRange codeSpanRange && codeSpanRange.StartLine == this.StartLine && codeSpanRange.EndLine == this.EndLine;
+            => obj is CodeSpanRange codeSpanRange && codeSpanRange.StartLine == StartLine && codeSpanRange.EndLine == EndLine;
 
         [ExcludeFromCodeCoverage]
         public override int GetHashCode()
         {
             int hashCode = -1763436595;
-            hashCode = (hashCode * -1521134295) + this.StartLine.GetHashCode();
-            hashCode = (hashCode * -1521134295) + this.EndLine.GetHashCode();
+            hashCode = (hashCode * -1521134295) + StartLine.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EndLine.GetHashCode();
             return hashCode;
         }
     }

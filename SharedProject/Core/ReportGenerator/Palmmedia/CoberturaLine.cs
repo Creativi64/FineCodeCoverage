@@ -4,8 +4,8 @@
     {
         public CoberturaLine(int number, CoverageType coverageType)
         {
-            this.Number = number;
-            this.CoverageType = coverageType;
+            Number = number;
+            CoverageType = coverageType;
         }
         public int Number { get; }
         public CoverageType CoverageType { get; }

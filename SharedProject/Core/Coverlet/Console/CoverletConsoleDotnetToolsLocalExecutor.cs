@@ -20,9 +20,9 @@ namespace FineCodeCoverage.Engine.Coverlet
             ILogger logger
         )
         {
-            this._dotnetToolListCoverlet = dotnetToolListCoverlet;
-            this._dotNetConfigFinder = dotNetConfigFinder;
-            this._logger = logger;
+            _dotnetToolListCoverlet = dotnetToolListCoverlet;
+            _dotNetConfigFinder = dotNetConfigFinder;
+            _logger = logger;
         }
         public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
@@ -31,9 +31,9 @@ namespace FineCodeCoverage.Engine.Coverlet
                 return null;
             }
 
-            foreach (string configContainingDirectory in this._dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
+            foreach (string configContainingDirectory in _dotNetConfigFinder.GetConfigDirectories(coverageProject.ProjectOutputFolder))
             {
-                CoverletDotNetToolDetails coverletToolDetails = await this._dotnetToolListCoverlet.LocalAsync(configContainingDirectory);
+                CoverletDotNetToolDetails coverletToolDetails = await _dotnetToolListCoverlet.LocalAsync(configContainingDirectory);
                 if (coverletToolDetails != null)
                 {
                     return new ExecuteRequest
@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 }
             }
 
-            await this._logger.LogAsync("Unable to use Coverlet console local tool");
+            await _logger.LogAsync("Unable to use Coverlet console local tool");
 
             return null;
         }

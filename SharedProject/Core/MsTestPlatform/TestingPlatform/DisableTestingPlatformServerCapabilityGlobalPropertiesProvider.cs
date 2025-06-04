@@ -44,15 +44,15 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         )
           : base(projectService.Services)
         {
-            this._unconfiguredProject = unconfiguredProject;
-            this._runOptionsProvider = runOptionsProvider;
-            this._outputOptionsProvider = outputOptionsProvider;
-            this._coverageProjectSettingsManager = coverageProjectSettingsManager;
+            _unconfiguredProject = unconfiguredProject;
+            _runOptionsProvider = runOptionsProvider;
+            _outputOptionsProvider = outputOptionsProvider;
+            _coverageProjectSettingsManager = coverageProjectSettingsManager;
         }
 
         private bool AllProjectsDisabled()
         {
-            RunOptions appOptions = this._runOptionsProvider.Get();
+            RunOptions appOptions = _runOptionsProvider.Get();
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
@@ -75,7 +75,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         {
             try
             {
-                ConfiguredProject configuredProject = await this._unconfiguredProject.GetSuggestedConfiguredProjectAsync();
+                ConfiguredProject configuredProject = await _unconfiguredProject.GetSuggestedConfiguredProjectAsync();
                 return await IsTestProjectAsync(configuredProject) && await NoTUnitPackageReferenceAsync(configuredProject);
             }
             catch { }
@@ -85,18 +85,18 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
 
         private async Task<bool> ProjectEnabledAsync()
         {
-            Guid? projectGuid = await this.GetProjectGuidAsync();
+            Guid? projectGuid = await GetProjectGuidAsync();
             if (!projectGuid.HasValue) return false;
 
-            CoverageProject coverageProject = this.GetCoverageProject(projectGuid.Value);
-            ICoverageSettings projectSettings = await this._coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
+            CoverageProject coverageProject = GetCoverageProject(projectGuid.Value);
+            ICoverageSettings projectSettings = await _coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
             return projectSettings.Enabled;
         }
 
         private async Task<Guid?> GetProjectGuidAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            object hostObject = this._unconfiguredProject.Services.HostObject;
+            object hostObject = _unconfiguredProject.Services.HostObject;
 
             var vsHierarchy = (IVsHierarchy)hostObject;
             if (vsHierarchy == null)
@@ -110,14 +110,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         }
 
         private CoverageProject GetCoverageProject(Guid projectGuid)
-            => new CoverageProject(this._outputOptionsProvider, null, this._coverageProjectSettingsManager, null)
+            => new CoverageProject(_outputOptionsProvider, null, _coverageProjectSettingsManager, null)
             {
                 Id = projectGuid,
-                ProjectFilePath = this._unconfiguredProject.FullPath
+                ProjectFilePath = _unconfiguredProject.FullPath
             };
 
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)
-            => await this.IsApplicableAsync() && !this.AllProjectsDisabled() && await this.ProjectEnabledAsync()
+            => await IsApplicableAsync() && !AllProjectsDisabled() && await ProjectEnabledAsync()
                 ? Empty.PropertiesMap.Add("DisableTestingPlatformServerCapability", "true")
                 : (IImmutableDictionary<string, string>)Empty.PropertiesMap;
     }

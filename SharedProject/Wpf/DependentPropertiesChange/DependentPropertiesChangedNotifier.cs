@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Wpf
         private readonly Dictionary<T, List<EventHandler>> _handlers = new Dictionary<T, List<EventHandler>>();
 
         public DependentPropertiesChangedNotifier(List<DependentPropertiesDescriptor> dependentPropertiesDescriptors)
-            => this._dependentPropertiesDescriptors = dependentPropertiesDescriptors;
+            => _dependentPropertiesDescriptors = dependentPropertiesDescriptors;
 
         private static EventHandler CreateHandler(T instance, DependentPropertiesDescriptor dependentPropertiesDescriptor)
             => (_, __) =>
@@ -27,8 +27,8 @@ namespace FineCodeCoverage.Wpf
         public void NotifyOfChanges(T instance)
         {
             var instanceHandlers = new List<EventHandler>();
-            this._handlers.Add(instance, instanceHandlers);
-            this._dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
+            _handlers.Add(instance, instanceHandlers);
+            _dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
             {
                 EventHandler handler = CreateHandler(instance, dependentPropertiesDescriptor);
                 instanceHandlers.Add(handler);
@@ -38,22 +38,22 @@ namespace FineCodeCoverage.Wpf
 
         public void RemoveNotificationOfChanges(T instance)
         {
-            if (!this._handlers.ContainsKey(instance)) return;
-            List<EventHandler> instanceHandlers = this._handlers[instance];
+            if (!_handlers.ContainsKey(instance)) return;
+            List<EventHandler> instanceHandlers = _handlers[instance];
             int index = 0;
-            this._dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
+            _dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>
             {
                 dependentPropertiesDescriptor.RemoveValueChanged(instance, instanceHandlers[index]);
                 index++;
             });
-            _ = this._handlers.Remove(instance);
-            this.RemoveStale();
+            _ = _handlers.Remove(instance);
+            RemoveStale();
         }
 
         private void RemoveStale()
         {
-            var removals = this._handlers.Keys.Where(k => k.DataContext != null && k.DataContext == BindingOperations.DisconnectedSource).ToList();
-            removals.ForEach(removal => this._handlers.Remove(removal));
+            var removals = _handlers.Keys.Where(k => k.DataContext != null && k.DataContext == BindingOperations.DisconnectedSource).ToList();
+            removals.ForEach(removal => _handlers.Remove(removal));
         }
     }
 }

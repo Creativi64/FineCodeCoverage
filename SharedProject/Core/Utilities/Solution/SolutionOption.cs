@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         protected SolutionOption(IJsonConvertService jsonConvertService)
         {
-            this._jsonConvertService = jsonConvertService;
-            this.Value = this.GetDefaultValue();
+            _jsonConvertService = jsonConvertService;
+            Value = GetDefaultValue();
         }
 
         public T Value { get; set; }
@@ -26,13 +26,13 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                 string optionAsString = sr.ReadToEnd();
                 if (typeof(T) == typeof(string))
                 {
-                    this.Value = (T)(object)optionAsString;
+                    Value = (T)(object)optionAsString;
                 }
 
-                this.Value = this._jsonConvertService.DeserializeObject<T>(optionAsString);
+                Value = _jsonConvertService.DeserializeObject<T>(optionAsString);
             }
 
-            this.Loaded();
+            Loaded();
         }
 
         protected virtual void Loaded()
@@ -46,18 +46,18 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         {
             using (var sw = new StreamWriter(stream, Encoding.UTF8, 1024, leaveOpen: true))
             {
-                sw.Write(this._jsonConvertService.SerializeObject(this.Value));
+                sw.Write(_jsonConvertService.SerializeObject(Value));
                 sw.Flush();
             }
 
-            this.Saved();
+            Saved();
         }
 
         protected virtual void Saved() { }
 
         public void Unloaded()
         {
-            this.Value = this.GetDefaultValue();
+            Value = GetDefaultValue();
             UnloadedEvent?.Invoke(this, EventArgs.Empty);
         }
     }

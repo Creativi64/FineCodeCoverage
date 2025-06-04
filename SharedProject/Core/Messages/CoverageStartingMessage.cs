@@ -2,7 +2,7 @@
 {
     internal class CoverageStartingMessage
     {
-        public CoverageStartingMessage(bool pending = false) => this.Pending = pending;
+        public CoverageStartingMessage(bool pending = false) => Pending = pending;
 
         public bool Pending { get; }
     }

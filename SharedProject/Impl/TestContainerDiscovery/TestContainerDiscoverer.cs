@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Impl
         public Uri ExecutorUri => new Uri($"executor://{Vsix.Code}.Executor/v1");
         [ExcludeFromCodeCoverage]
         public IEnumerable<ITestContainer> TestContainers => Enumerable.Empty<ITestContainer>();
-        public bool MsCodeCoverageErrored => this._msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Error;
+        public bool MsCodeCoverageErrored => _msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Error;
 
         [ImportingConstructor]
         public TestContainerDiscoverer
@@ -70,23 +70,23 @@ namespace FineCodeCoverage.Impl
             ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer
         )
         {
-            this._runOptionsProvider = runOptionsProvider;
-            this._msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
-            this._eventAggregator = eventAggregator;
-            this._coverageCollectableFromTestExplorer = coverageCollectableFromTestExplorer;
-            this._fccEngine = fccEngine;
-            this._testOperationStateInvocationManager = testOperationStateInvocationManager;
-            this._testOperationFactory = testOperationFactory;
-            this._logger = logger;
-            this._testOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
+            _runOptionsProvider = runOptionsProvider;
+            _msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
+            _eventAggregator = eventAggregator;
+            _coverageCollectableFromTestExplorer = coverageCollectableFromTestExplorer;
+            _fccEngine = fccEngine;
+            _testOperationStateInvocationManager = testOperationStateInvocationManager;
+            _testOperationFactory = testOperationFactory;
+            _logger = logger;
+            _testOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
             {
-                { TestOperationStates.TestExecutionCanceling, this.TestExecutionCancellingAsync},
-                { TestOperationStates.TestExecutionStarting, this.TestExecutionStartingAsync},
-                { TestOperationStates.TestExecutionFinished, this.TestExecutionFinishedAsync},
-                { TestOperationStates.TestExecutionCancelAndFinished, this.TestExecutionCancelAndFinishedAsync},
+                { TestOperationStates.TestExecutionCanceling, TestExecutionCancellingAsync},
+                { TestOperationStates.TestExecutionStarting, TestExecutionStartingAsync},
+                { TestOperationStates.TestExecutionFinished, TestExecutionFinishedAsync},
+                { TestOperationStates.TestExecutionCancelAndFinished, TestExecutionCancelAndFinishedAsync},
             };
             _ = packageLoader.LoadPackageAsync(CancellationToken.None);
-            operationState.StateChanged += this.OperationState_StateChanged;
+            operationState.StateChanged += OperationState_StateChanged;
         }
 
         internal Action<Func<Task>> _runAsync = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
@@ -95,65 +95,65 @@ namespace FineCodeCoverage.Impl
             => !runOptions.Enabled && runOptions.DisabledNoCoverage;
 
         private Task LogCoverageStartingAsync()
-            => this._logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {this._coverageRunNumber++}"));
+            => _logger.LogAsync(StatusMarkerProvider.Get($"Coverage Starting - {_coverageRunNumber++}"));
 
         private async Task TestExecutionStartingAsync(IOperation operation)
         {
-            this._eventAggregator.SendMessage(new TestExecutionStartingMessage());
-            this._cancelling = false;
-            this._runningInParallel = false;
-            this.StopCoverage();
+            _eventAggregator.SendMessage(new TestExecutionStartingMessage());
+            _cancelling = false;
+            _runningInParallel = false;
+            StopCoverage();
 
-            RunOptions settings = this._runOptionsProvider.Get();
+            RunOptions settings = _runOptionsProvider.Get();
             if (CoverageDisabled(settings))
             {
-                await this._logger.LogAsync("Coverage not collected as FCC disabled.");
-                this.RaiseCoverageEnded();
+                await _logger.LogAsync("Coverage not collected as FCC disabled.");
+                RaiseCoverageEnded();
                 return;
             }
 
-            await this.LogCoverageStartingAsync();
-            this._msCodeCoverageCollectionStatus = await this._msCodeCoverageRunSettingsService.IsCollectingAsync(
-                this._testOperationFactory.Create(operation));
-            if (this._msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.NotCollecting)
+            await LogCoverageStartingAsync();
+            _msCodeCoverageCollectionStatus = await _msCodeCoverageRunSettingsService.IsCollectingAsync(
+                _testOperationFactory.Create(operation));
+            if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.NotCollecting)
             {
                 if (settings.RunInParallel)
                 {
-                    this.RaiseCoverageStarted(true);
-                    this._runningInParallel = true;
-                    this._fccEngine.ReloadCoverage(async () =>
+                    RaiseCoverageStarted(true);
+                    _runningInParallel = true;
+                    _fccEngine.ReloadCoverage(async () =>
                     {
-                        ITestOperation testOperation = this._testOperationFactory.Create(operation);
+                        ITestOperation testOperation = _testOperationFactory.Create(operation);
                         return await testOperation.GetCoverageProjectsAsync();
                     });
                 }
                 else
                 {
-                    this.RaiseCoverageStarted(false);
-                    await this._logger.LogAsync("Coverage collected when tests finish. RunInParallel option true for immediate");
+                    RaiseCoverageStarted(false);
+                    await _logger.LogAsync("Coverage collected when tests finish. RunInParallel option true for immediate");
                 }
             }
 
-            if (this._msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
+            if (_msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
             {
                 return;
             }
 
-            this.RaiseCoverageStarted();
+            RaiseCoverageStarted();
         }
 
         private async Task TestExecutionFinishedAsync(IOperation operation)
         {
-            (bool should, ITestOperation testOperation) = await this.ShouldConditionallyCollectWhenTestExecutionFinishedAsync(operation);
+            (bool should, ITestOperation testOperation) = await ShouldConditionallyCollectWhenTestExecutionFinishedAsync(operation);
             if (should)
             {
-                await this.TestExecutionFinishedCollectionAsync(operation, testOperation);
+                await TestExecutionFinishedCollectionAsync(operation, testOperation);
             }
             else
             {
-                if (this._msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
+                if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
                 {
-                    await this._msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
+                    await _msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
                 }
             }
         }
@@ -161,112 +161,112 @@ namespace FineCodeCoverage.Impl
         private async Task<(bool should, ITestOperation testOperation)> ShouldConditionallyCollectWhenTestExecutionFinishedAsync(
             IOperation operation)
         {
-            if (this.ShouldNotCollectWhenTestExecutionFinished())
+            if (ShouldNotCollectWhenTestExecutionFinished())
             {
                 return (false, null);
             }
 
-            ITestOperation testOperation = this._testOperationFactory.Create(operation);
+            ITestOperation testOperation = _testOperationFactory.Create(operation);
 
-            bool shouldCollect = await this.CoverageConditionsMetAsync(testOperation);
+            bool shouldCollect = await CoverageConditionsMetAsync(testOperation);
             return (shouldCollect, testOperation);
         }
 
         private bool ShouldNotCollectWhenTestExecutionFinished()
         {
-            this._runOptions = this._runOptionsProvider.Get();
-            return CoverageDisabled(this._runOptions) || this._runningInParallel || this.MsCodeCoverageErrored;
+            _runOptions = _runOptionsProvider.Get();
+            return CoverageDisabled(_runOptions) || _runningInParallel || MsCodeCoverageErrored;
         }
 
         private async Task TestExecutionFinishedCollectionAsync(IOperation operation, ITestOperation testOperation)
         {
-            if (this._msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
+            if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
             {
-                await this._msCodeCoverageRunSettingsService.CollectAsync(operation, testOperation);
+                await _msCodeCoverageRunSettingsService.CollectAsync(operation, testOperation);
             }
             else
             {
-                this._fccEngine.ReloadCoverage(testOperation.GetCoverageProjectsAsync);
+                _fccEngine.ReloadCoverage(testOperation.GetCoverageProjectsAsync);
             }
         }
 
         private async Task<bool> CoverageConditionsMetAsync(ITestOperation testOperation)
         {
-            if (!this._runOptions.RunWhenTestsFail && testOperation.FailedTests > 0)
+            if (!_runOptions.RunWhenTestsFail && testOperation.FailedTests > 0)
             {
-                await this._logger.LogAsync($"Skipping coverage due to failed tests.  Option {nameof(RunOptions.RunWhenTestsFail)} is false");
-                this.RaiseCoverageEnded();
+                await _logger.LogAsync($"Skipping coverage due to failed tests.  Option {nameof(RunOptions.RunWhenTestsFail)} is false");
+                RaiseCoverageEnded();
                 return false;
             }
 
             long totalTests = testOperation.TotalTests;
-            int runWhenTestsExceed = this._runOptions.RunWhenTestsExceed;
+            int runWhenTestsExceed = _runOptions.RunWhenTestsExceed;
             if (totalTests <= 0 || totalTests > runWhenTestsExceed) // in case this changes to not reporting total tests
             {
                 return true;
             }
 
-            await this._logger.LogAsync($"Skipping coverage as total tests ({totalTests}) <= {nameof(RunOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
-            this.RaiseCoverageEnded();
+            await _logger.LogAsync($"Skipping coverage as total tests ({totalTests}) <= {nameof(RunOptions.RunWhenTestsExceed)} ({runWhenTestsExceed})");
+            RaiseCoverageEnded();
             return false;
         }
 
         private void StopCoverage()
         {
-            switch (this._msCodeCoverageCollectionStatus)
+            switch (_msCodeCoverageCollectionStatus)
             {
                 case MsCodeCoverageCollectionStatus.Collecting:
-                    this._msCodeCoverageRunSettingsService.StopCoverage();
+                    _msCodeCoverageRunSettingsService.StopCoverage();
                     break;
                 case MsCodeCoverageCollectionStatus.NotCollecting:
-                    this._fccEngine.StopCoverage();
+                    _fccEngine.StopCoverage();
                     break;
             }
         }
 
         private async Task CoverageCancelledAsync(string logMessage, IOperation operation)
         {
-            await this._logger.LogAsync(logMessage);
-            this.RaiseCoverageEnded();
-            this._fccEngine.StopCoverage();
-            await this.NotifyMsCodeCoverageTestExecutionNotFinishedIfCollectingAsync(operation);
+            await _logger.LogAsync(logMessage);
+            RaiseCoverageEnded();
+            _fccEngine.StopCoverage();
+            await NotifyMsCodeCoverageTestExecutionNotFinishedIfCollectingAsync(operation);
         }
 
         private async Task NotifyMsCodeCoverageTestExecutionNotFinishedIfCollectingAsync(IOperation operation)
         {
-            if (this._msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
+            if (_msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
             {
                 return;
             }
 
-            ITestOperation testOperation = this._testOperationFactory.Create(operation);
-            await this._msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
+            ITestOperation testOperation = _testOperationFactory.Create(operation);
+            await _msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
         }
 
         private void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
-            => this._runAsync(async () => await this.TryAndLogExceptionAsync(() => this.OperationState_StateChangedAsync(e)));
+            => _runAsync(async () => await TryAndLogExceptionAsync(() => OperationState_StateChangedAsync(e)));
 
         private async Task TestExecutionCancellingAsync(IOperation operation)
         {
-            this._cancelling = true;
-            await this.CoverageCancelledAsync("Test execution cancelling - running coverage will be cancelled.", operation);
+            _cancelling = true;
+            await CoverageCancelledAsync("Test execution cancelling - running coverage will be cancelled.", operation);
         }
 
         private async Task TestExecutionCancelAndFinishedAsync(IOperation operation)
         {
-            if (this._cancelling)
+            if (_cancelling)
             {
                 return;
             }
 
-            await this.CoverageCancelledAsync("There has been an issue running tests. See the Tests output window pane.", operation);
+            await CoverageCancelledAsync("There has been an issue running tests. See the Tests output window pane.", operation);
         }
 
         private async Task OperationState_StateChangedAsync(OperationStateChangedEventArgs e)
         {
-            if (!this._testOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
-                || !await this._coverageCollectableFromTestExplorer.IsCollectableAsync()
-                || !await this._testOperationStateInvocationManager.CanInvokeAsync(e.State)
+            if (!_testOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
+                || !await _coverageCollectableFromTestExplorer.IsCollectableAsync()
+                || !await _testOperationStateInvocationManager.CanInvokeAsync(e.State)
             )
             {
                 return;
@@ -284,13 +284,13 @@ namespace FineCodeCoverage.Impl
             }
             catch (Exception exception)
             {
-                await this._logger.LogAsync("Error processing unit test events", exception.ToString());
+                await _logger.LogAsync("Error processing unit test events", exception.ToString());
             }
         }
 
         private void RaiseCoverageStarted(bool pending = false)
-            => this._eventAggregator.SendMessage(new CoverageStartingMessage(pending));
+            => _eventAggregator.SendMessage(new CoverageStartingMessage(pending));
 
-        private void RaiseCoverageEnded() => this._eventAggregator.SendMessage(new CoverageEndedMessage());
+        private void RaiseCoverageEnded() => _eventAggregator.SendMessage(new CoverageEndedMessage());
     }
 }

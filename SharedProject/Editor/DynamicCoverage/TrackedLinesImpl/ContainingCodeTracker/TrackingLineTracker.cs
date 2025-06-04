@@ -7,15 +7,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         private readonly ITrackingLine _trackingLine;
 
-        public TrackingLineTracker(ITrackingLine trackingLine) => this._trackingLine = trackingLine;
+        public TrackingLineTracker(ITrackingLine trackingLine) => _trackingLine = trackingLine;
 
-        public IEnumerable<IDynamicLine> Lines => new List<IDynamicLine> { this._trackingLine.Line };
+        public IEnumerable<IDynamicLine> Lines => new List<IDynamicLine> { _trackingLine.Line };
 
         public void Deleted() { }
 
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
             ITextSnapshot currentSnapshot,
-            List<LineRange> newSpanAndLineRanges) => this._trackingLine.GetUpdatedLineNumbers(currentSnapshot);
+            List<LineRange> newSpanAndLineRanges) => _trackingLine.GetUpdatedLineNumbers(currentSnapshot);
     }
 }

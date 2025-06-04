@@ -15,22 +15,22 @@ namespace FineCodeCoverage.Output
 
         public Report(NewReportMessage message)
         {
-            this.TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
-            this.Assemblies = message.Report.Assemblies;
-            this.MetricTypes = message.Report.MetricTypes;
-            (message.Report as IDynamicReportResult).FileRenamedEvent += this.Report_FileRenamedEvent;
+            TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
+            Assemblies = message.Report.Assemblies;
+            MetricTypes = message.Report.MetricTypes;
+            (message.Report as IDynamicReportResult).FileRenamedEvent += Report_FileRenamedEvent;
         }
 
         private void Report_FileRenamedEvent(object sender, IReadOnlyList<FileRename> fileRenames)
         {
             // only dealing with directories - ReportGeneratorUtil dealing with Assemblies => Class.FileCodeElements
-            _ = fileRenames.TryUpdateDictionary(this._sourceFilesPathsWithNewCode);
-            if (this.Directory == null || this.HasDirectoryStructureChanged(fileRenames))
+            _ = fileRenames.TryUpdateDictionary(_sourceFilesPathsWithNewCode);
+            if (Directory == null || HasDirectoryStructureChanged(fileRenames))
             {
                 return;
             }
 
-            this.UpdateSourceFiles(fileRenames.ToList());
+            UpdateSourceFiles(fileRenames.ToList());
         }
 
         private bool HasDirectoryStructureChanged(IReadOnlyList<FileRename> fileRenames)
@@ -40,14 +40,14 @@ namespace FineCodeCoverage.Output
                 return false;
             }
 
-            this.ClearDirectory();
+            ClearDirectory();
             DirectoryStructureChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
         private void UpdateSourceFiles(List<FileRename> fileRenames)
         {
-            foreach (SourceFile sourceFile in this._sourceFiles)
+            foreach (SourceFile sourceFile in _sourceFiles)
             {
                 foreach (FileRename fileRename in fileRenames)
                 {
@@ -72,16 +72,16 @@ namespace FineCodeCoverage.Output
 
         public IReadOnlyList<MetricType> MetricTypes { get; }
 
-        public IDirectory Directory => this._directory ?? (this._directory = this.CreateDirectory());
+        public IDirectory Directory => _directory ?? (_directory = CreateDirectory());
 
         private void ClearDirectory()
         {
-            this._sourceFiles = null;
-            this._directory = null;
+            _sourceFiles = null;
+            _directory = null;
         }
 
         private List<SourceFile> GetSourceFiles()
-            => this.Assemblies.SelectMany(a => a.Classes.SelectMany(
+            => Assemblies.SelectMany(a => a.Classes.SelectMany(
                     pc => pc.FileCodeElements.Select(
                         kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value }
                     )
@@ -91,13 +91,13 @@ namespace FineCodeCoverage.Output
             {
                 var sourceFileClasses = g.Select(a => new SourceFileClass(a.ClassName, a.SourcePath, a.CodeElements)).ToList();
                 string path = g.Key;
-                bool hasNewCode = this._sourceFilesPathsWithNewCode.ContainsKey(path);
+                bool hasNewCode = _sourceFilesPathsWithNewCode.ContainsKey(path);
                 return new SourceFile(path, sourceFileClasses, hasNewCode);
             }).ToList();
 
-        private List<SourceFile> SourceFiles => this._sourceFiles ?? (this._sourceFiles = this.GetSourceFiles());
+        private List<SourceFile> SourceFiles => _sourceFiles ?? (_sourceFiles = GetSourceFiles());
 
-        private IDirectory CreateDirectory() => CreateDirectory(this.SourceFiles);
+        private IDirectory CreateDirectory() => CreateDirectory(SourceFiles);
 
         private static IDirectory CreateDirectory(IEnumerable<ISourceFile> sourceFiles)
             => DirectoryResultsTreeBuilder.BuildDirectoryTree(sourceFiles.ToList());
@@ -106,14 +106,14 @@ namespace FineCodeCoverage.Output
         {
             if (hasNewCode)
             {
-                this._sourceFilesPathsWithNewCode.Add(path, true);
+                _sourceFilesPathsWithNewCode.Add(path, true);
             }
             else
             {
-                _ = this._sourceFilesPathsWithNewCode.Remove(path);
+                _ = _sourceFilesPathsWithNewCode.Remove(path);
             }
 
-            foreach (SourceFile sourceFile in this.SourceFiles)
+            foreach (SourceFile sourceFile in SourceFiles)
             {
                 if (sourceFile.Path == path)
                 {

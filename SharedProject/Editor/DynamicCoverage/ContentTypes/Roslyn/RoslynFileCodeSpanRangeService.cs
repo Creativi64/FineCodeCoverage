@@ -23,9 +23,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
             )
         {
 
-            this._roslynService = roslynService;
-            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this._threadHelper = threadHelper;
+            _roslynService = roslynService;
+            _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            _threadHelper = threadHelper;
         }
 
         private static CodeSpanRange GetCodeSpanRange(TextSpan span, ITextSnapshot textSnapshot)
@@ -37,8 +37,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 
         public List<CodeSpanRange> GetFileCodeSpanRanges(ITextSnapshot snapshot)
         {
-            List<TextSpan> textSpans = this._threadHelper.JoinableTaskFactory.Run(
-                () => this._roslynService.GetContainingCodeSpansAsync(snapshot)
+            List<TextSpan> textSpans = _threadHelper.JoinableTaskFactory.Run(
+                () => _roslynService.GetContainingCodeSpansAsync(snapshot)
             );
 
             return textSpans.ConvertAll(textSpan => GetCodeSpanRange(textSpan, snapshot));
@@ -47,6 +47,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
         public IFileCodeSpanRangeService FileCodeSpanRangeService => this;
 
         public bool UseFileCodeSpanRangeServiceForChanges
-            => this._editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode != EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges;
+            => _editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode != EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges;
     }
 }

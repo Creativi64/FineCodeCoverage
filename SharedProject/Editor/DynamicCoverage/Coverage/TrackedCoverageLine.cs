@@ -13,32 +13,32 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly DynamicLine _line;
         private readonly Action<int> _updateDynamicCoberturaLine = (_) => { };
 
-        public IDynamicLine Line => this._line;
+        public IDynamicLine Line => _line;
 
         public IDynamicCoberturaLine DynamicCoberturaLine { get; }
 
         public TrackedCoverageLine(ITrackingSpan trackingSpan, ICoberturaLine coberturaLine, ILineTracker lineTracker)
         {
-            this._line = DynamicLine.FromCoberturaLine(coberturaLine);
-            this._trackingSpan = trackingSpan;
-            this._lineTracker = lineTracker;
+            _line = DynamicLine.FromCoberturaLine(coberturaLine);
+            _trackingSpan = trackingSpan;
+            _lineTracker = lineTracker;
             if (!(coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine))
             {
                 return;
             }
 
-            this.DynamicCoberturaLine = dynamicCoberturaLine;
-            this._updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
+            DynamicCoberturaLine = dynamicCoberturaLine;
+            _updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
         }
 
         public List<int> GetUpdateLineNumbers(ITextSnapshot currentSnapshot)
         {
-            int previousLineNumber = this.Line.LineNumber;
-            int newLineNumber = this._lineTracker.GetLineNumber(this._trackingSpan, currentSnapshot, true);
+            int previousLineNumber = Line.LineNumber;
+            int newLineNumber = _lineTracker.GetLineNumber(_trackingSpan, currentSnapshot, true);
             if (newLineNumber != previousLineNumber)
             {
-                this._line.LineNumber = newLineNumber;
-                this._updateDynamicCoberturaLine(newLineNumber);
+                _line.LineNumber = newLineNumber;
+                _updateDynamicCoberturaLine(newLineNumber);
                 return new List<int> { previousLineNumber, newLineNumber };
 
             }

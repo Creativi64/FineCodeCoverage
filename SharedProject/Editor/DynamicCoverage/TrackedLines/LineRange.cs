@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public LineRange(int startLineNumber, int endLineNumber)
         {
-            this.StartLineNumber = startLineNumber;
-            this.EndLineNumber = endLineNumber;
+            StartLineNumber = startLineNumber;
+            EndLineNumber = endLineNumber;
         }
 
         public int StartLineNumber { get; }
@@ -16,14 +16,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         [ExcludeFromCodeCoverage]
         public override bool Equals(object obj)
             => obj is LineRange other &&
-            other.StartLineNumber == this.StartLineNumber && other.EndLineNumber == this.EndLineNumber;
+            other.StartLineNumber == StartLineNumber && other.EndLineNumber == EndLineNumber;
 
         [ExcludeFromCodeCoverage]
         public override int GetHashCode()
         {
             int hashCode = -414942;
-            hashCode = (hashCode * -1521134295) + this.StartLineNumber.GetHashCode();
-            hashCode = (hashCode * -1521134295) + this.EndLineNumber.GetHashCode();
+            hashCode = (hashCode * -1521134295) + StartLineNumber.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EndLineNumber.GetHashCode();
             return hashCode;
         }
     }

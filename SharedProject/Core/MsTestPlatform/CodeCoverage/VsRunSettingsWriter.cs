@@ -26,20 +26,20 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IProjectFilePropertyWriter projectFilePropertyWriter
         )
         {
-            this._serviceProvider = serviceProvider;
-            this._projectSaver = projectSaver;
-            this._projectFilePropertyWriter = projectFilePropertyWriter;
+            _serviceProvider = serviceProvider;
+            _projectSaver = projectSaver;
+            _projectFilePropertyWriter = projectFilePropertyWriter;
         }
 
         public async Task<bool> WriteRunSettingsFilePathAsync(Guid projectGuid, string projectRunSettingsFilePath)
         {
             bool success = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
-                success = await this._projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName, projectRunSettingsFilePath);
+                success = await _projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName, projectRunSettingsFilePath);
             }
 
             return success;
@@ -50,14 +50,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             bool ok = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
-                ok = await this._projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName);
+                ok = await _projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName);
                 if (ok)
                 {
-                    await this._projectSaver.SaveProjectAsync(vsHierarchy);
+                    await _projectSaver.SaveProjectAsync(vsHierarchy);
                 }
             }
 

@@ -19,23 +19,23 @@ namespace FineCodeCoverage.Core.Initialization
             IReportToolWindowOpener toolWindowOpener
         )
         {
-            this._initializedFromTestContainerDiscoverer = initializedFromTestContainerDiscoverer;
-            this._shownToolWindowHistory = shownToolWindowHistory;
-            this._toolWindowOpener = toolWindowOpener;
+            _initializedFromTestContainerDiscoverer = initializedFromTestContainerDiscoverer;
+            _shownToolWindowHistory = shownToolWindowHistory;
+            _toolWindowOpener = toolWindowOpener;
         }
 
         public async Task OpenIfFirstTimeAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (
-                !this._initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer ||
-                this._shownToolWindowHistory.HasShownToolWindow
+                !_initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer ||
+                _shownToolWindowHistory.HasShownToolWindow
             )
             {
                 return;
             }
 
-            await this._toolWindowOpener.TryOpenAsync();
+            await _toolWindowOpener.TryOpenAsync();
         }
     }
 }

@@ -25,83 +25,83 @@ namespace FineCodeCoverage.Output
         {
             VSColorTheme.ThemeChanged += (_) =>
             {
-                if (!this.Monochrome)
+                if (!Monochrome)
                 {
                     return;
                 }
 
-                this.SetIconStyles();
+                SetIconStyles();
             };
             reportOptionsProvider.OptionsChanged += (newAppOptions) =>
             {
-                if (newAppOptions.ShowIcons != this.ShowIcons)
+                if (newAppOptions.ShowIcons != ShowIcons)
                 {
-                    this.ShowIcons = newAppOptions.ShowIcons;
+                    ShowIcons = newAppOptions.ShowIcons;
                     ShowIconsChanged?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (newAppOptions.IconSize != this.IconSize)
+                if (newAppOptions.IconSize != IconSize)
                 {
-                    this.IconSize = newAppOptions.IconSize;
+                    IconSize = newAppOptions.IconSize;
                     IconSizeChanged?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (newAppOptions.ThemedIconStyle == this._themedIconStyle)
+                if (newAppOptions.ThemedIconStyle == _themedIconStyle)
                 {
                     return;
                 }
 
-                this._themedIconStyle = newAppOptions.ThemedIconStyle;
-                this.SetIconStyles();
+                _themedIconStyle = newAppOptions.ThemedIconStyle;
+                SetIconStyles();
             };
             ReportOptions appOptions = reportOptionsProvider.Get();
-            this.ShowIcons = appOptions.ShowIcons;
-            this.IconSize = appOptions.IconSize;
-            this._themedIconStyle = appOptions.ThemedIconStyle;
-            this.SetIconStyles();
+            ShowIcons = appOptions.ShowIcons;
+            IconSize = appOptions.IconSize;
+            _themedIconStyle = appOptions.ThemedIconStyle;
+            SetIconStyles();
         }
 
         private void SetIconStyles()
         {
-            switch (this._themedIconStyle)
+            switch (_themedIconStyle)
             {
                 case ThemedIconStyle.MonochromeGlyph:
-                    this.Monochrome = true;
-                    this.MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.GlyphColorKey).ToMediaColor();
+                    Monochrome = true;
+                    MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.GlyphColorKey).ToMediaColor();
                     break;
                 case ThemedIconStyle.MonochromeText:
-                    this.Monochrome = true;
-                    this.MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.BackgroundTextColorKey).ToMediaColor();
+                    Monochrome = true;
+                    MonochromeColor = VSColorTheme.GetThemedColor(TreeViewColors.BackgroundTextColorKey).ToMediaColor();
                     break;
                 case ThemedIconStyle.Moniker:
-                    this.Monochrome = false;
-                    this.MonochromeColor = Colors.Transparent;
+                    Monochrome = false;
+                    MonochromeColor = Colors.Transparent;
                     break;
             }
         }
 
         public bool ShowIcons
         {
-            get => this._showIcons;
-            private set => this.Set(ref this._showIcons, value);
+            get => _showIcons;
+            private set => Set(ref _showIcons, value);
         }
 
         public int IconSize
         {
-            get => this._iconSize;
-            private set => this.Set(ref this._iconSize, value);
+            get => _iconSize;
+            private set => Set(ref _iconSize, value);
         }
 
         public bool Monochrome
         {
-            get => this._monochrome;
-            private set => this.Set(ref this._monochrome, value);
+            get => _monochrome;
+            private set => Set(ref _monochrome, value);
         }
 
         public Color MonochromeColor
         {
-            get => this._monochromeColor;
-            private set => this.Set(ref this._monochromeColor, value);
+            get => _monochromeColor;
+            private set => Set(ref _monochromeColor, value);
         }
     }
 }

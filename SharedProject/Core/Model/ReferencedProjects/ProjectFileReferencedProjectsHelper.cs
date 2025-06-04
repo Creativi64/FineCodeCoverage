@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
         private readonly ILogger _logger;
 
         [ImportingConstructor]
-        public ProjectFileReferencedProjectsHelper(ILogger logger) => this._logger = logger;
+        public ProjectFileReferencedProjectsHelper(ILogger logger) => _logger = logger;
 
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
             string projectFile, XElement projectFileXElement
@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Engine.Model
                 string referencedProjectProjectFile = xprojectReference.Attribute("Include").Value;
                 if (referencedProjectProjectFile.Contains("$("))
                 {
-                    await this._logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.ExcludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
+                    await _logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.ExcludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
                 }
                 else
                 {

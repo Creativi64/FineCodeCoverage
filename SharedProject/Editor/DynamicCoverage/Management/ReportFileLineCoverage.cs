@@ -24,8 +24,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public ReportFileLineCoverage(IReadOnlyList<IAssembly> assemblies, IDateTimeService dateTimeService)
         {
-            this._assemblies = assemblies;
-            this._dateTimeService = dateTimeService;
+            _assemblies = assemblies;
+            _dateTimeService = dateTimeService;
         }
 
         public static Dictionary<string, List<ICodeElement>> GetCodeElementLookup(IReadOnlyList<IAssembly> assemblies)
@@ -33,37 +33,37 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 .GroupBy(kvp => kvp.Key).ToDictionary(g => g.Key, g => g.SelectMany(kvp => kvp.Value).ToList());
 
         private Dictionary<string, List<ICodeElement>> FileLookup
-            => this._fileLookup ?? (this._fileLookup = GetCodeElementLookup(this._assemblies));
+            => _fileLookup ?? (_fileLookup = GetCodeElementLookup(_assemblies));
 
         public IFileLines GetLines(string filePath)
         {
-            if (this._fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
+            if (_fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
             {
                 return fileLines;
             }
 
-            if (!this.FileLookup.TryGetValue(filePath, out List<ICodeElement> codeElements))
+            if (!FileLookup.TryGetValue(filePath, out List<ICodeElement> codeElements))
             {
                 return null;
             }
 
-            var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this._lineComparer).ToList();
-            fileLines = new FileLines(lines, this._dateTimeService);
-            this._fileLinesLookup.Add(filePath, fileLines);
-            _ = this.FileLookup.Remove(filePath);
+            var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(_lineComparer).ToList();
+            fileLines = new FileLines(lines, _dateTimeService);
+            _fileLinesLookup.Add(filePath, fileLines);
+            _ = FileLookup.Remove(filePath);
             return fileLines;
         }
 
         public void OutOfDate(string filePath)
         {
-            _ = this.FileLookup.Remove(filePath);
-            _ = this._fileLinesLookup.Remove(filePath);
+            _ = FileLookup.Remove(filePath);
+            _ = _fileLinesLookup.Remove(filePath);
         }
 
         internal void FilesRenamed(IReadOnlyList<FileRename> fileRenames)
         {
-            _ = fileRenames.TryUpdateDictionary(this._fileLinesLookup);
-            _ = fileRenames.TryUpdateDictionary(this.FileLookup);
+            _ = fileRenames.TryUpdateDictionary(_fileLinesLookup);
+            _ = fileRenames.TryUpdateDictionary(FileLookup);
         }
     }
 }

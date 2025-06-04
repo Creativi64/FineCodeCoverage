@@ -14,19 +14,19 @@ namespace FineCodeCoverage.Core.Utilities
         public VsOpenFile()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            this._dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
-            Assumes.Present(this._dte);
+            _dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
+            Assumes.Present(_dte);
         }
         public void OpenFileInCodeEditor(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _ = this._dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindCode);
+            _ = _dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindCode);
         }
 
         public void OpenFileInDefaultViewer(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _ = this._dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindPrimary);
+            _ = _dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindPrimary);
         }
     }
 }

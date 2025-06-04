@@ -14,8 +14,8 @@ namespace FineCodeCoverage.Core.Utilities
 
         internal DisposeAwareTaskRunner()
         {
-            this.JoinableTaskCollection = ThreadHelper.JoinableTaskContext.CreateCollection();
-            this.JoinableTaskFactory = ThreadHelper.JoinableTaskContext.CreateFactory(this.JoinableTaskCollection);
+            JoinableTaskCollection = ThreadHelper.JoinableTaskContext.CreateCollection();
+            JoinableTaskFactory = ThreadHelper.JoinableTaskContext.CreateFactory(JoinableTaskCollection);
         }
 
         JoinableTaskFactory JoinableTaskFactory { get; }
@@ -24,17 +24,17 @@ namespace FineCodeCoverage.Core.Utilities
         /// <summary>
         /// Gets a <see cref="CancellationToken"/> that can be used to check if the package has been disposed.
         /// </summary>
-        private CancellationToken DisposalToken => this._disposeCancellationTokenSource.Token;
+        private CancellationToken DisposalToken => _disposeCancellationTokenSource.Token;
 
-        public bool IsVsShutdown => this.DisposalToken.IsCancellationRequested;
+        public bool IsVsShutdown => DisposalToken.IsCancellationRequested;
 
         public ICancellationTokenSource CreateLinkedTokenSource()
             => new CancellationTokenSourceWrapper(
-                CancellationTokenSource.CreateLinkedTokenSource(this.DisposalToken));
+                CancellationTokenSource.CreateLinkedTokenSource(DisposalToken));
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -45,13 +45,13 @@ namespace FineCodeCoverage.Core.Utilities
                 return;
             }
 
-            this._disposeCancellationTokenSource.Cancel();
+            _disposeCancellationTokenSource.Cancel();
 
             try
             {
                 // Block Dispose until all async work has completed.
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-                ThreadHelper.JoinableTaskFactory.Run(this.JoinableTaskCollection.JoinTillEmptyAsync);
+                ThreadHelper.JoinableTaskFactory.Run(JoinableTaskCollection.JoinTillEmptyAsync);
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             }
             catch (OperationCanceledException)
@@ -65,11 +65,11 @@ namespace FineCodeCoverage.Core.Utilities
             }
             finally
             {
-                this._disposeCancellationTokenSource.Dispose();
+                _disposeCancellationTokenSource.Dispose();
             }
         }
 
         public void RunAsyncFunc(Func<Task> taskProvider)
-            => _ = this.JoinableTaskFactory.RunAsync(taskProvider);
+            => _ = JoinableTaskFactory.RunAsync(taskProvider);
     }
 }

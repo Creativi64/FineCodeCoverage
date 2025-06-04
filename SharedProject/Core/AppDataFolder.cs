@@ -24,63 +24,63 @@ namespace FineCodeCoverage.Engine
             IOptionsProvider<MiscOptions> toolsOptionsProvider
         )
         {
-            this._logger = logger;
-            this._environmentVariable = environmentVariable;
-            this._toolsOptionsProvider = toolsOptionsProvider;
+            _logger = logger;
+            _environmentVariable = environmentVariable;
+            _toolsOptionsProvider = toolsOptionsProvider;
         }
         public string DirectoryPath { get; private set; }
 
         public async Task InitializeAsync(CancellationToken camcellationToken)
         {
             camcellationToken.ThrowIfCancellationRequested();
-            await this.CreateAppDataFolderAsync();
+            await CreateAppDataFolderAsync();
 
             camcellationToken.ThrowIfCancellationRequested();
-            this.CleanupLegacyFolders();
+            CleanupLegacyFolders();
         }
 
         private async Task CleanInstallDevAsync()
         {
-            if (this._environmentVariable.Get(FCCDebugCleanInstallEnvironmentVariable) == null)
+            if (_environmentVariable.Get(FCCDebugCleanInstallEnvironmentVariable) == null)
             {
                 return;
             }
 
-            await this._logger.LogAsync("FCCDebugCleanInstall");
-            if (Directory.Exists(this.DirectoryPath))
+            await _logger.LogAsync("FCCDebugCleanInstall");
+            if (Directory.Exists(DirectoryPath))
             {
                 try
                 {
-                    Directory.Delete(this.DirectoryPath, true);
-                    await this._logger.LogAsync("Deleted app data folder");
+                    Directory.Delete(DirectoryPath, true);
+                    await _logger.LogAsync("Deleted app data folder");
                 }
                 catch (Exception exc)
                 {
-                    await this._logger.LogAsync("Error deleting app data folder", exc.ToString());
+                    await _logger.LogAsync("Error deleting app data folder", exc.ToString());
                 }
             }
             else
             {
-                await this._logger.LogAsync("App data folder does not exist");
+                await _logger.LogAsync("App data folder does not exist");
             }
         }
 
         private async Task CreateAppDataFolderAsync()
         {
-            this.DirectoryPath = Path.Combine(this.GetAppDataFolder(), Vsix.Code);
-            await this.CleanInstallDevAsync();
-            _ = Directory.CreateDirectory(this.DirectoryPath);
+            DirectoryPath = Path.Combine(GetAppDataFolder(), Vsix.Code);
+            await CleanInstallDevAsync();
+            _ = Directory.CreateDirectory(DirectoryPath);
         }
 
         private string GetAppDataFolder()
         {
-            string dir = this._toolsOptionsProvider.Get().ToolsDirectory;
+            string dir = _toolsOptionsProvider.Get().ToolsDirectory;
 
             return Directory.Exists(dir) ? dir : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }
 
         private void CleanupLegacyFolders() => Directory
-            .GetDirectories(this.DirectoryPath, "*", SearchOption.TopDirectoryOnly)
+            .GetDirectories(DirectoryPath, "*", SearchOption.TopDirectoryOnly)
             .Where(path =>
             {
                 string name = Path.GetFileName(path);

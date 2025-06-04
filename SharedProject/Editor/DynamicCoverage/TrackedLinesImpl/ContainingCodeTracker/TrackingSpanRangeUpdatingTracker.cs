@@ -14,28 +14,28 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             IUpdatableDynamicLines updatableDynamicLines
         )
         {
-            this._trackingSpanRange = trackingSpanRange;
-            this._updatableDynamicLines = updatableDynamicLines;
+            _trackingSpanRange = trackingSpanRange;
+            _updatableDynamicLines = updatableDynamicLines;
         }
 
-        public IEnumerable<IDynamicLine> Lines => this._updatableDynamicLines.Lines;
+        public IEnumerable<IDynamicLine> Lines => _updatableDynamicLines.Lines;
 
-        public void Deleted() => this._updatableDynamicLines.Deleted();
+        public void Deleted() => _updatableDynamicLines.Deleted();
 
         public ContainingCodeTrackerState GetState()
-            => new ContainingCodeTrackerState(this._trackingSpanRange.ToCodeSpanRange(), this.Lines);
+            => new ContainingCodeTrackerState(_trackingSpanRange.ToCodeSpanRange(), Lines);
 
         public IContainingCodeTrackerProcessResult ProcessChanges(ITextSnapshot currentSnapshot, List<LineRange> newSpanAndLineRanges)
         {
-            TrackingSpanRangeProcessResult trackingSpanRangeProcessResult = this._trackingSpanRange.Process(currentSnapshot, newSpanAndLineRanges);
+            TrackingSpanRangeProcessResult trackingSpanRangeProcessResult = _trackingSpanRange.Process(currentSnapshot, newSpanAndLineRanges);
             List<LineRange> nonIntersectingSpans = trackingSpanRangeProcessResult.NonIntersectingSpans;
             if (trackingSpanRangeProcessResult.IsEmpty)
             {
-                IEnumerable<int> lines = this._updatableDynamicLines.Lines.Select(l => l.LineNumber);
+                IEnumerable<int> lines = _updatableDynamicLines.Lines.Select(l => l.LineNumber);
                 return new ContainingCodeTrackerProcessResult(lines, nonIntersectingSpans, true);
             }
 
-            IEnumerable<int> changedLines = this._updatableDynamicLines.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, currentSnapshot, newSpanAndLineRanges);
+            IEnumerable<int> changedLines = _updatableDynamicLines.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, currentSnapshot, newSpanAndLineRanges);
             return new ContainingCodeTrackerProcessResult(changedLines, nonIntersectingSpans, false);
         }
     }

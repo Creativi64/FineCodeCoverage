@@ -14,11 +14,11 @@ namespace FineCodeCoverage.Engine
         [ImportingConstructor]
         public AppOptionsCoverageToolOutputFolderSolutionProvider(
             IOptionsProvider<OutputOptions> outputOptionsProvider
-        ) => this._outputOptionsProvider = outputOptionsProvider;
+        ) => _outputOptionsProvider = outputOptionsProvider;
 
         public string Provide(Func<string> solutionFolderProvider)
         {
-            OutputOptions appOptions = this._outputOptionsProvider.Get();
+            OutputOptions appOptions = _outputOptionsProvider.Get();
             if (string.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
             {
                 return null;

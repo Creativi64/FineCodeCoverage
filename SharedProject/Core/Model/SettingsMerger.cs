@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Engine.Model
         [ImportingConstructor]
         public SettingsMerger(
             ILogger logger
-        ) => this._logger = logger;
+        ) => _logger = logger;
 
         public async Task MergeAsync(
             CoverageSettings coverageSettings,
@@ -50,8 +50,8 @@ namespace FineCodeCoverage.Engine.Model
             List<XElement> settingsFileElements,
             XElement projectSettingsElement)
         {
-            this._settingsPropertyInfos = coverageSettingsPropertyInfos;
-            await this.MergeAsync(
+            _settingsPropertyInfos = coverageSettingsPropertyInfos;
+            await MergeAsync(
                 coverageSettings,
                 GetElementDefaultMergeStrategies(settingsFileElements, projectSettingsElement)
             );
@@ -85,9 +85,9 @@ namespace FineCodeCoverage.Engine.Model
 
         private async Task MergeAsync(CoverageSettings coverageSettings, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
         {
-            foreach (PropertyInfo settingsProperty in this._settingsPropertyInfos)
+            foreach (PropertyInfo settingsProperty in _settingsPropertyInfos)
             {
-                await this.MergeAsync(coverageSettings, settingsProperty, settingsElementsWithDefaultMergeStrategy);
+                await MergeAsync(coverageSettings, settingsProperty, settingsElementsWithDefaultMergeStrategy);
             }
         }
 
@@ -97,14 +97,14 @@ namespace FineCodeCoverage.Engine.Model
             List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
         )
         {
-            bool canMerge = this._settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
+            bool canMerge = _settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
             if (canMerge)
             {
-                await this.MergeOrOverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
+                await MergeOrOverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
             }
             else
             {
-                await this.OverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
+                await OverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
             }
         }
 
@@ -121,7 +121,7 @@ namespace FineCodeCoverage.Engine.Model
                 XElement propertyElement = GetPropertyElement(settingsElement, settingPropertyInfo.Name);
                 if (propertyElement != null)
                 {
-                    await this.ApplyPropertyElementAsync(
+                    await ApplyPropertyElementAsync(
                         coverageSettings,
                         propertyElement,
                         settingPropertyInfo,
@@ -142,17 +142,17 @@ namespace FineCodeCoverage.Engine.Model
             bool merge = GetMerge(defaultMerge, propertyElement);
             if (merge)
             {
-                await this.MergeAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
+                await MergeAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
             }
             else
             {
-                await this.OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
+                await OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
             }
         }
 
         private async Task MergeAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
         {
-            object value = await this.TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
+            object value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
             if (value == null)
             {
                 return;
@@ -161,7 +161,7 @@ namespace FineCodeCoverage.Engine.Model
             object currentValue = settingPropertyInfo.GetValue(coverageSettings);
             object merged = currentValue == null ?
                 value :
-                this._settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
+                _settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
             settingPropertyInfo.SetValue(coverageSettings, merged);
         }
 
@@ -188,14 +188,14 @@ namespace FineCodeCoverage.Engine.Model
                 XElement propertyElement = GetPropertyElement(settingsElementDefaultMerge.SettingsElement, settingPropertyInfo.Name);
                 if (propertyElement != null)
                 {
-                    await this.OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, settingsElementDefaultMerge.FromProjectSettings);
+                    await OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, settingsElementDefaultMerge.FromProjectSettings);
                 }
             }
         }
 
         private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
         {
-            object value = await this.TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
+            object value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
             if (value == null)
             {
                 return;
@@ -217,7 +217,7 @@ namespace FineCodeCoverage.Engine.Model
             catch (Exception exception)
             {
                 string from = fromProjectSettings ? "project settings" : "settings file";
-                await this._logger.LogAsync($"Failed to get '{property.Name}' setting from {from}", exception.ToString());
+                await _logger.LogAsync($"Failed to get '{property.Name}' setting from {from}", exception.ToString());
             }
 
             return null;

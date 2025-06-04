@@ -4,8 +4,8 @@
     {
         public ElementAndMarker(object element, MarkdownTypeMarker marker)
         {
-            this.Element = element;
-            this.Marker = marker;
+            Element = element;
+            Marker = marker;
         }
 
         public object Element { get; }

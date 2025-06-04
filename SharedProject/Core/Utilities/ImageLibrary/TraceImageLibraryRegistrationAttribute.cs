@@ -19,14 +19,14 @@ namespace FineCodeCoverage.Core.Utilities
 
         public TraceImageLibraryRegistrationAttribute(TraceLevel traceLevel = TraceLevel.Off, string traceFileName = "ImageLibrary.log")
         {
-            this._traceFileName = traceFileName;
-            this._traceLevel = traceLevel;
+            _traceFileName = traceFileName;
+            _traceLevel = traceLevel;
         }
         public override void Register(RegistrationContext context)
         {
             Key key = context.CreateKey("ImageLibrary");
-            key.SetValue("TraceLevel", this._traceLevel.ToString());
-            key.SetValue("TraceFilename", this._traceFileName);
+            key.SetValue("TraceLevel", _traceLevel.ToString());
+            key.SetValue("TraceFilename", _traceFileName);
         }
 
         public override void Unregister(RegistrationContext context)

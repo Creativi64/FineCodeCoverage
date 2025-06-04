@@ -14,8 +14,8 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
 
             public BuildFaultEventNameFromFeatureHierarchy(string product, string entityName)
             {
-                this._product = product;
-                this._entityName = entityName;
+                _product = product;
+                _entityName = entityName;
             }
 
             private static string GetFeatureName(params string[] hierarchy)
@@ -23,22 +23,22 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
                     : string.Join("/", hierarchy);
 
             public FaultEventName BuildFromFeatureNameHierarchy(params string[] hierarchy)
-                => new FaultEventName(this._product, GetFeatureName(hierarchy), this._entityName);
+                => new FaultEventName(_product, GetFeatureName(hierarchy), _entityName);
         }
 
-        private ProductFaultEventNameBuilder(string product) => this._product = product;
+        private ProductFaultEventNameBuilder(string product) => _product = product;
 
         public FaultEventName Build(string featureName, string entityName)
-            => new FaultEventName(this._product, featureName, entityName);
+            => new FaultEventName(_product, featureName, entityName);
 
         public FaultEventName Build<TEntity>(string featureName)
-            => new FaultEventName(this._product, featureName, EntityName<TEntity>());
+            => new FaultEventName(_product, featureName, EntityName<TEntity>());
 
         public IBuildFaultEventNameFromFeatureHierarchy WithEntityName(string entityName)
-            => new BuildFaultEventNameFromFeatureHierarchy(this._product, entityName);
+            => new BuildFaultEventNameFromFeatureHierarchy(_product, entityName);
 
         public IBuildFaultEventNameFromFeatureHierarchy WithEntityName<TEntity>()
-            => this.WithEntityName(EntityName<TEntity>());
+            => WithEntityName(EntityName<TEntity>());
 
         public static ProductFaultEventNameBuilder Create(string productName)
             => new ProductFaultEventNameBuilder(productName);

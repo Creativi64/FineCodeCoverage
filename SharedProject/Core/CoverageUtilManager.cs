@@ -18,14 +18,14 @@ namespace FineCodeCoverage.Engine
         [ImportingConstructor]
         public CoverageUtilManager(IOpenCoverUtil openCoverUtil, ICoverletUtil coverletUtil)
         {
-            this._openCoverUtil = openCoverUtil;
-            this._coverletUtil = coverletUtil;
+            _openCoverUtil = openCoverUtil;
+            _coverletUtil = coverletUtil;
         }
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            this._openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
-            this._coverletUtil.Initialize(appDataFolderPath, cancellationToken);
+            _openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
+            _coverletUtil.Initialize(appDataFolderPath, cancellationToken);
             return Task.CompletedTask;
         }
 
@@ -33,11 +33,11 @@ namespace FineCodeCoverage.Engine
         {
             if (project.IsDotNetSdkStyle())
             {
-                await this._coverletUtil.RunCoverletAsync(project, cancellationToken);
+                await _coverletUtil.RunCoverletAsync(project, cancellationToken);
             }
             else
             {
-                await this._openCoverUtil.RunOpenCoverAsync(project, cancellationToken);
+                await _openCoverUtil.RunOpenCoverAsync(project, cancellationToken);
             }
         }
     }

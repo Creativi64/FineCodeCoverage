@@ -11,10 +11,10 @@ namespace FineCodeCoverage.Readme
         private List<INotifiyingObjectRenderer> _notifyingObjectRenderers;
         private readonly List<ElementAndMarker> _elementAndMarkers = new List<ElementAndMarker>();
 
-        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => this._elementAndMarkers;
+        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => _elementAndMarkers;
 
         private void NotifyingObjectRenderer_CreatedEvent(object sender, List<ElementAndMarker> elementAndMarkers)
-            => this._elementAndMarkers.AddRange(elementAndMarkers);
+            => _elementAndMarkers.AddRange(elementAndMarkers);
 
         public override void LoadDocument(FlowDocument document)
         {
@@ -24,16 +24,16 @@ namespace FineCodeCoverage.Readme
 
         public override object Render(MarkdownObject markdownObject)
         {
-            IEnumerable<INotifiyingObjectRenderer> notifyingObjectRenderers = this.ObjectRenderers.OfType<INotifiyingObjectRenderer>();
+            IEnumerable<INotifiyingObjectRenderer> notifyingObjectRenderers = ObjectRenderers.OfType<INotifiyingObjectRenderer>();
             foreach (INotifiyingObjectRenderer notifyingObjectRenderer in notifyingObjectRenderers)
             {
-                notifyingObjectRenderer.CreatedEvent += this.NotifyingObjectRenderer_CreatedEvent;
+                notifyingObjectRenderer.CreatedEvent += NotifyingObjectRenderer_CreatedEvent;
             }
 
-            this._notifyingObjectRenderers = notifyingObjectRenderers.ToList();
+            _notifyingObjectRenderers = notifyingObjectRenderers.ToList();
             object rendered = base.Render(markdownObject);
-            this._notifyingObjectRenderers.ForEach(notifyingObjectRenderer
-                => notifyingObjectRenderer.CreatedEvent -= this.NotifyingObjectRenderer_CreatedEvent);
+            _notifyingObjectRenderers.ForEach(notifyingObjectRenderer
+                => notifyingObjectRenderer.CreatedEvent -= NotifyingObjectRenderer_CreatedEvent);
             return rendered;
         }
     }

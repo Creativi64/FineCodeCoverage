@@ -16,13 +16,13 @@ namespace FineCodeCoverage.Options
             IMessageBox messageBox
         )
         {
-            this._resetters = resetters;
-            this._messageBox = messageBox;
+            _resetters = resetters;
+            _messageBox = messageBox;
         }
 
         public void Reset()
         {
-            if (!this._messageBox.ShowWarning(
+            if (!_messageBox.ShowWarning(
                 "Are you sure you want to reset all settings to their default values?",
                 "Reset Settings"
             ))
@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Options
                 return;
             }
 
-            foreach (IResetOptions resetter in this._resetters)
+            foreach (IResetOptions resetter in _resetters)
             {
                 resetter.Reset();
             }

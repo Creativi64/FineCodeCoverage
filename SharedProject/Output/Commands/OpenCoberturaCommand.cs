@@ -19,33 +19,33 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public OpenCoberturaCommand(IEventAggregator eventAggregator, IVsOpenFile vsOpenFile, IFileUtil fileUtil)
         {
-            this._eventAggregator = eventAggregator;
-            this._vsOpenFile = vsOpenFile;
-            this._fileUtil = fileUtil;
+            _eventAggregator = eventAggregator;
+            _vsOpenFile = vsOpenFile;
+            _fileUtil = fileUtil;
         }
 
         protected override void Initialized()
         {
-            this.Command.Enabled = false;
-            _ = this._eventAggregator.AddListener(this);
+            Command.Enabled = false;
+            _ = _eventAggregator.AddListener(this);
         }
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (!this._fileUtil.Exists(this._coberturaFile))
+            if (!_fileUtil.Exists(_coberturaFile))
             {
                 return;
             }
 
-            this._vsOpenFile.OpenFileInDefaultViewer(this._coberturaFile);
+            _vsOpenFile.OpenFileInDefaultViewer(_coberturaFile);
         }
 
-        public void Handle(OutdatedOutputMessage message) => this.Command.Enabled = false;
+        public void Handle(OutdatedOutputMessage message) => Command.Enabled = false;
 
         public void Handle(ReportFilesMessage message)
         {
-            this._coberturaFile = message.CoberturaFile;
-            this.Command.Enabled = true;
+            _coberturaFile = message.CoberturaFile;
+            Command.Enabled = true;
         }
     }
 }

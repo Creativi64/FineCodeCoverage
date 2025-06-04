@@ -5,12 +5,12 @@ namespace FineCodeCoverage.Wpf
     public partial class VsPathButton : VsImageButtonX
     {
 
-        public VsPathButton() => this.InitializeComponent();
+        public VsPathButton() => InitializeComponent();
 
         public object Path
         {
-            get => (object)this.GetValue(PathProperty);
-            set => this.SetValue(PathProperty, value);
+            get => (object)GetValue(PathProperty);
+            set => SetValue(PathProperty, value);
         }
 
         public static readonly DependencyProperty PathProperty =

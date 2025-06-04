@@ -9,8 +9,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             IEnumerable<IDynamicLine> lines
         )
         {
-            this.CodeSpanRange = codeSpanRange;
-            this.Lines = lines;
+            CodeSpanRange = codeSpanRange;
+            Lines = lines;
         }
 
         public CodeSpanRange CodeSpanRange { get; }

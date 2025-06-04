@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Output.Pane
         [ImportingConstructor]
         public Logger(
             IFCCOutputWindowPaneCreator fccOutputWindowCreator
-        ) => this._fccOutputWindowCreator = fccOutputWindowCreator;
+        ) => _fccOutputWindowCreator = fccOutputWindowCreator;
 
         private static string GetFormattedNow()
         {
@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Output.Pane
                     return;
                 }
 
-                IFCCOutputWindowPane pane = await this._fccOutputWindowCreator.GetOrCreateAsync();
+                IFCCOutputWindowPane pane = await _fccOutputWindowCreator.GetOrCreateAsync();
                 if (pane == null) return;
 
                 string logs = string.Join(Environment.NewLine, messageList);
@@ -59,11 +59,11 @@ namespace FineCodeCoverage.Output.Pane
             }
         }
 
-        public Task LogAsync(IEnumerable<string> message) => this.LogMessagesAsync(GetMessageList(message));
+        public Task LogAsync(IEnumerable<string> message) => LogMessagesAsync(GetMessageList(message));
 
-        public Task LogAsync(params string[] message) => this.LogAsync(message as IEnumerable<string>);
+        public Task LogAsync(params string[] message) => LogAsync(message as IEnumerable<string>);
 
         public void LogFileAndForget(params string[] message)
-            => this.LogAsync(message).FileAndForget(this._logFaultEventName.ToString());
+            => LogAsync(message).FileAndForget(_logFaultEventName.ToString());
     }
 }

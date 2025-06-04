@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFundingCommand(IFundingService fundingService) => this._fundingService = fundingService;
+        public OpenFundingCommand(IFundingService fundingService) => _fundingService = fundingService;
 
-        protected override void Execute(object sender, EventArgs e) => this._fundingService.Execute();
+        protected override void Execute(object sender, EventArgs e) => _fundingService.Execute();
     }
 }

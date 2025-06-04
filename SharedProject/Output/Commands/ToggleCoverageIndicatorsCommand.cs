@@ -14,9 +14,9 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public ToggleCoverageIndicatorsCommand(IEventAggregator eventAggregator) => this._eventAggregator = eventAggregator;
+        public ToggleCoverageIndicatorsCommand(IEventAggregator eventAggregator) => _eventAggregator = eventAggregator;
 
         protected override void Execute(object sender, EventArgs e)
-            => this._eventAggregator.SendMessage(new ToggleCoverageIndicatorsMessage());
+            => _eventAggregator.SendMessage(new ToggleCoverageIndicatorsMessage());
     }
 }

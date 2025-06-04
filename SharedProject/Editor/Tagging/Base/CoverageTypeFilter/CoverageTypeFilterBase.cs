@@ -21,20 +21,20 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public void Initialize(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            if (!this.ShouldGetShowLookup(editorCoverageColouringOptions))
+            if (!ShouldGetShowLookup(editorCoverageColouringOptions))
             {
                 return;
             }
 
-            this._showLookup = this.GetShowLookup(editorCoverageColouringOptions);
-            this.ThrowIfInvalidShowLookup();
+            _showLookup = GetShowLookup(editorCoverageColouringOptions);
+            ThrowIfInvalidShowLookup();
         }
 
-        private bool ShouldGetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowEditorCoverage && this.EnabledPrivate(editorCoverageColouringOptions);
+        private bool ShouldGetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowEditorCoverage && EnabledPrivate(editorCoverageColouringOptions);
 
         private void ThrowIfInvalidShowLookup()
         {
-            if (this._showLookup?.Count == 6)
+            if (_showLookup?.Count == 6)
             {
                 return;
             }
@@ -44,8 +44,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private bool EnabledPrivate(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            bool enabled = this.Enabled(editorCoverageColouringOptions);
-            this.Disabled = !enabled;
+            bool enabled = Enabled(editorCoverageColouringOptions);
+            Disabled = !enabled;
             return enabled;
         }
 
@@ -56,22 +56,22 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public bool Disabled { get; set; } = true;
 
-        public bool Show(DynamicCoverageType coverageType) => this._showLookup[coverageType];
+        public bool Show(DynamicCoverageType coverageType) => _showLookup[coverageType];
 
         public bool Changed(ICoverageTypeFilter other)
         {
-            this.ThrowIfIncorrectCoverageTypeFilter(other);
+            ThrowIfIncorrectCoverageTypeFilter(other);
 
-            return this.CompareLookups(((CoverageTypeFilterBase)other)._showLookup);
+            return CompareLookups(((CoverageTypeFilterBase)other)._showLookup);
         }
 
         private bool CompareLookups(Dictionary<DynamicCoverageType, bool> otherShowLookup)
             => Enum.GetValues(typeof(DynamicCoverageType)).Cast<DynamicCoverageType>()
-                .Any(coverageType => this._showLookup[coverageType] != otherShowLookup[coverageType]);
+                .Any(coverageType => _showLookup[coverageType] != otherShowLookup[coverageType]);
 
         private void ThrowIfIncorrectCoverageTypeFilter(ICoverageTypeFilter other)
         {
-            if (other.TypeIdentifier == this.TypeIdentifier)
+            if (other.TypeIdentifier == TypeIdentifier)
             {
                 return;
             }

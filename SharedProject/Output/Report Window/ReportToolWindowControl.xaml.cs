@@ -12,8 +12,8 @@ namespace FineCodeCoverage.Output
         /// </summary>
         public ReportToolWindowControl(ReportViewModel reportViewModel)
         {
-            this.DataContext = reportViewModel;
-            this.InitializeComponent();
+            DataContext = reportViewModel;
+            InitializeComponent();
         }
     }
 }

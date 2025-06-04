@@ -9,15 +9,15 @@ namespace FineCodeCoverage.Readme
 
         public TruncateParser(string matchText)
         {
-            this._matchText = matchText;
-            this.OpeningCharacters = new[] { matchText.TrimStart()[0] };
+            _matchText = matchText;
+            OpeningCharacters = new[] { matchText.TrimStart()[0] };
         }
 
         public override BlockState TryOpen(BlockProcessor processor)
         {
             string line = processor.Line.ToString().Trim();
 
-            if (line == this._matchText)
+            if (line == _matchText)
             {
                 var block = new TruncateBlock(this)
                 {

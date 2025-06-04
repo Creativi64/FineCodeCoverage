@@ -9,12 +9,12 @@ namespace FineCodeCoverage.Wpf
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
-            if (this.SizeToContent != SizeToContent.WidthAndHeight)
+            if (SizeToContent != SizeToContent.WidthAndHeight)
             {
                 return;
             }
 
-            this.InvalidateMeasure();
+            InvalidateMeasure();
         }
     }
 }

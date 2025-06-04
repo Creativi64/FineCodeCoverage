@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Editor.Management
     {
         public ItemCoverageColours(Color foreground, Color background)
         {
-            this.Foreground = foreground;
-            this.Background = background;
+            Foreground = foreground;
+            Background = background;
         }
 
         public Color Foreground { get; }
@@ -15,6 +15,6 @@ namespace FineCodeCoverage.Editor.Management
         public Color Background { get; }
 
         public bool Equals(IItemCoverageColours other)
-            => this.Foreground == other.Foreground && this.Background == other.Background;
+            => Foreground == other.Foreground && Background == other.Background;
     }
 }

@@ -28,32 +28,32 @@ namespace FineCodeCoverage.Engine.Model
             IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper
         )
         {
-            this._lazyDTE2 = new AsyncLazy<DTE2>(async () =>
+            _lazyDTE2 = new AsyncLazy<DTE2>(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 return (DTE2)serviceProvider.GetService(typeof(DTE));
             }, ThreadHelper.JoinableTaskFactory);
-            this._cppReferencedProjectsHelper = cppReferencedProjectsHelper;
-            this._dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
+            _cppReferencedProjectsHelper = cppReferencedProjectsHelper;
+            _dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
         }
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            Project project = await this.GetProjectAsync(projectFile);
+            Project project = await GetProjectAsync(projectFile);
 
             return project == null
                 ? null
                 : project.Object is VCProject cppProject
-                ? await this._cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject)
+                ? await _cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject)
                 : project.Object is VSProject vsProject ?
-                await this._dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject)
+                await _dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject)
                 : null;
         }
 
         private async Task<Project> GetProjectAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            DTE2 dte2 = await this._lazyDTE2.GetValueAsync();
+            DTE2 dte2 = await _lazyDTE2.GetValueAsync();
             // note that cannot do dte.Solution.Projects.Item(ProjectFile) - fails when dots in path
             return dte2.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
             {

@@ -11,15 +11,15 @@ namespace FineCodeCoverage.Wpf
 
         public VsImageButtonX()
         {
-            this.Resources.AddFromExecutingAssembly("Wpf/VsImageButtonResourceDictionary.xaml");
-            var style = (Style)this.Resources[typeof(VsImageButtonX)];
-            this.Style = style;
+            Resources.AddFromExecutingAssembly("Wpf/VsImageButtonResourceDictionary.xaml");
+            var style = (Style)Resources[typeof(VsImageButtonX)];
+            Style = style;
         }
 
         public ICommand Command
         {
-            get => (ICommand)this.GetValue(CommandProperty);
-            set => this.SetValue(CommandProperty, value);
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         public static readonly DependencyProperty CommandProperty =

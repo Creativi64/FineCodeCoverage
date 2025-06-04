@@ -36,16 +36,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 bool hasCoverageExtension
             )
             {
-                this.ExePath = exePath;
-                this.CoverageProject = coverageProject;
-                this.VsHierarchy = vsHierarchy;
-                this.CommandLineParseResult = commandLineParseResult;
-                this._configurationProvider = configurationProvider;
-                this.HasCoverageExtension = hasCoverageExtension;
+                ExePath = exePath;
+                CoverageProject = coverageProject;
+                VsHierarchy = vsHierarchy;
+                CommandLineParseResult = commandLineParseResult;
+                _configurationProvider = configurationProvider;
+                HasCoverageExtension = hasCoverageExtension;
             }
             public string ExePath { get; }
             public Task<string> GetConfigurationAsync(CancellationToken cancellationToken)
-                => this._configurationProvider(cancellationToken);
+                => _configurationProvider(cancellationToken);
             public ICoverageProject CoverageProject { get; }
             public IVsHierarchy VsHierarchy { get; }
             public CommandLineParseResult CommandLineParseResult { get; }
@@ -62,11 +62,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IRunSettingsToConfiguration runSettingsToConfiguration
         )
         {
-            this._coverageProjectFactory = coverageProjectFactory;
-            this._templatedRunSettingsService = templatedRunSettingsService;
-            this._serviceProvider = serviceProvider;
-            this._xmlUtils = xmlUtils;
-            this._runSettingsToConfiguration = runSettingsToConfiguration;
+            _coverageProjectFactory = coverageProjectFactory;
+            _templatedRunSettingsService = templatedRunSettingsService;
+            _serviceProvider = serviceProvider;
+            _xmlUtils = xmlUtils;
+            _runSettingsToConfiguration = runSettingsToConfiguration;
         }
 
         private async Task<ICoverageProject> CreateCoverageProjectAsync(
@@ -74,7 +74,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            ICoverageProject coverageProject = this._coverageProjectFactory.Create();
+            ICoverageProject coverageProject = _coverageProjectFactory.Create();
             _ = project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_Name, out object projectName);
             coverageProject.ProjectName = projectName.ToString();
             _ = project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out Guid projectGuid);
@@ -103,7 +103,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<string> GetSolutionDirectoryAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             _ = vsSolution.GetSolutionInfo(out string solutionDirectory, out _, out string __);
             return solutionDirectory;
@@ -111,16 +111,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private async Task<XElement> GetConfigurationElementAsync(ICoverageProject coverageProject, CancellationToken ct)
         {
-            string solutionDirectory = await this.GetSolutionDirectoryAsync(ct);
-            string runSettings = this._templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
-            return this._runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
+            string solutionDirectory = await GetSolutionDirectoryAsync(ct);
+            string runSettings = _templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
+            return _runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
         }
 
         public async Task<ITUnitCoverageProject> CreateTUnitCoverageProjectAsync(
             ITUnitProject tUnitProject,
             CancellationToken cancellationToken)
         {
-            ICoverageProject coverageProject = await this.CreateCoverageProjectAsync(tUnitProject.Hierarchy, cancellationToken);
+            ICoverageProject coverageProject = await CreateCoverageProjectAsync(tUnitProject.Hierarchy, cancellationToken);
             string exePath = Path.ChangeExtension(coverageProject.TestDllFile, ".exe");
 
             return new TUnitCoverageProject(
@@ -130,13 +130,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 tUnitProject.CommandLineParseResult,
                 async (ct) =>
                 {
-                    XElement configurationElement = await this.GetConfigurationElementAsync(coverageProject, ct);
+                    XElement configurationElement = await GetConfigurationElementAsync(coverageProject, ct);
                     if (coverageProject.Settings.IncludeTestAssembly)
                     {
                         configurationElement.Add(new XElement("IncludeTestAssembly", true));
                     }
 
-                    return this._xmlUtils.Serialize(configurationElement);
+                    return _xmlUtils.Serialize(configurationElement);
                 },
                 tUnitProject.HasCoverageExtension);
         }

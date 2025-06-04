@@ -14,14 +14,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
             public TrackedLinesState(ITrackedLines trackedLines, IDateTimeService dateTimeService)
             {
-                this.TrackedLines = trackedLines;
-                this._dateTimeService = dateTimeService;
-                this._lastTracked = this._dateTimeService.Now;
+                TrackedLines = trackedLines;
+                _dateTimeService = dateTimeService;
+                _lastTracked = _dateTimeService.Now;
             }
             public ITrackedLines TrackedLines { get; }
 
-            internal bool IsOutOfDate(DateTime lastWriteTime) => lastWriteTime > this._lastTracked;
-            internal void TextViewClosed() => this._lastTracked = this._dateTimeService.Now;
+            internal bool IsOutOfDate(DateTime lastWriteTime) => lastWriteTime > _lastTracked;
+            internal void TextViewClosed() => _lastTracked = _dateTimeService.Now;
         }
 
         private TrackedLinesState _trackedLinesState;
@@ -30,18 +30,18 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public FileLines(List<ICoberturaLine> Lines, IDateTimeService dateTimeService)
         {
             this.Lines = Lines;
-            this._dateTimeService = dateTimeService;
+            _dateTimeService = dateTimeService;
         }
         public List<ICoberturaLine> Lines { get; }
 
-        public bool HasTrackedLines => this._trackedLinesState != null;
+        public bool HasTrackedLines => _trackedLinesState != null;
 
         public void SetTrackedLines(ITrackedLines trackedLines)
-            => this._trackedLinesState = new TrackedLinesState(trackedLines, this._dateTimeService);
+            => _trackedLinesState = new TrackedLinesState(trackedLines, _dateTimeService);
 
-        public void TextViewClosed() => this._trackedLinesState?.TextViewClosed();
+        public void TextViewClosed() => _trackedLinesState?.TextViewClosed();
 
         public ITrackedLines GetTrackedLinesIfNotOutOfDate(DateTime lastWriteTime)
-            => this._trackedLinesState.IsOutOfDate(lastWriteTime) ? null : this._trackedLinesState.TrackedLines;
+            => _trackedLinesState.IsOutOfDate(lastWriteTime) ? null : _trackedLinesState.TrackedLines;
     }
 }

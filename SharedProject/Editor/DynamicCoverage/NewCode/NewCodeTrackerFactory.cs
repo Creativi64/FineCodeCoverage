@@ -16,11 +16,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITextInfoFactory textInfoFactory
         )
         {
-            this._trackedNewCodeLineFactory = trackedNewCodeLineFactory;
-            this._textInfoFactory = textInfoFactory;
+            _trackedNewCodeLineFactory = trackedNewCodeLineFactory;
+            _textInfoFactory = textInfoFactory;
         }
 
         public INewCodeTracker Create(ILineExcluder lineExcluder)
-            => new NewCodeTracker(this._trackedNewCodeLineFactory, lineExcluder, this._textInfoFactory);
+            => new NewCodeTracker(_trackedNewCodeLineFactory, lineExcluder, _textInfoFactory);
     }
 }

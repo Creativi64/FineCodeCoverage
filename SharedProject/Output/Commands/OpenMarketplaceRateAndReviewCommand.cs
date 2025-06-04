@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenMarketplaceRateAndReviewCommand(IOpenFCCVsMarketplace openFCCVsMarketplace) => this._openFCCVsMarketplace = openFCCVsMarketplace;
+        public OpenMarketplaceRateAndReviewCommand(IOpenFCCVsMarketplace openFCCVsMarketplace) => _openFCCVsMarketplace = openFCCVsMarketplace;
 
-        protected override void Execute(object sender, EventArgs e) => this._openFCCVsMarketplace.OpenRatingAndReview();
+        protected override void Execute(object sender, EventArgs e) => _openFCCVsMarketplace.OpenRatingAndReview();
     }
 }

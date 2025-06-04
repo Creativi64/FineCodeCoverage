@@ -35,17 +35,17 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IDynamicLineFilter dynamicLineFilter
             )
         {
-            this._dynamicCoverageManager = dynamicCoverageManager;
-            this._textInfoFactory = textInfoFactory;
-            this._fileExcluders = fileExcluders;
-            this._fileIndicatorVisibility = fileIndicatorVisibility;
-            this._dynamicLineFilter = dynamicLineFilter;
+            _dynamicCoverageManager = dynamicCoverageManager;
+            _textInfoFactory = textInfoFactory;
+            _fileExcluders = fileExcluders;
+            _fileIndicatorVisibility = fileIndicatorVisibility;
+            _dynamicLineFilter = dynamicLineFilter;
             EditorCoverageColouringOptions appOptions = editorCoverageColouringOptionsProvider.Get();
-            this._coverageTypeFilter = CreateFilter(appOptions);
-            editorCoverageColouringOptionsProvider.OptionsChanged += this.EditorCoverageColouringOptionsProvider_OptionsChanged;
+            _coverageTypeFilter = CreateFilter(appOptions);
+            editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsProvider_OptionsChanged;
             this.eventAggregator = eventAggregator;
-            this._dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
-            this._coverageTagger = coverageTagger;
+            _dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
+            _coverageTagger = coverageTagger;
         }
 
         private static TCoverageTypeFilter CreateFilter(EditorCoverageColouringOptions appOptions)
@@ -58,41 +58,41 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions appOptions)
         {
             TCoverageTypeFilter newCoverageTypeFilter = CreateFilter(appOptions);
-            if (!newCoverageTypeFilter.Changed(this._coverageTypeFilter))
+            if (!newCoverageTypeFilter.Changed(_coverageTypeFilter))
             {
                 return;
             }
 
-            this._coverageTypeFilter = newCoverageTypeFilter;
+            _coverageTypeFilter = newCoverageTypeFilter;
             var message = new CoverageTypeFilterChangedMessage(newCoverageTypeFilter);
-            this.eventAggregator.SendMessage(message);
+            eventAggregator.SendMessage(message);
         }
 
         private bool ExcludeContentTypeFile(string contentType, string filePath)
         {
-            IFileExcluder contentTypeExcluder = this._fileExcluders.FirstOrDefault(fileExcluder => fileExcluder.ContentTypeName == contentType);
+            IFileExcluder contentTypeExcluder = _fileExcluders.FirstOrDefault(fileExcluder => fileExcluder.ContentTypeName == contentType);
             return contentTypeExcluder?.Exclude(filePath) == true;
         }
 
         public ICoverageTagger<TTag> CreateTagger(ITextView textView, ITextBuffer textBuffer)
         {
-            ITextInfo textInfo = this._textInfoFactory.Create(textView, textBuffer);
+            ITextInfo textInfo = _textInfoFactory.Create(textView, textBuffer);
             string filePath = textInfo.FilePath;
-            if (filePath == null || this.ExcludeContentTypeFile(textBuffer.ContentType.TypeName, filePath))
+            if (filePath == null || ExcludeContentTypeFile(textBuffer.ContentType.TypeName, filePath))
             {
                 return null;
             }
 
-            IBufferLineCoverage bufferLineCoverage = this._dynamicCoverageManager.Manage(textInfo);
+            IBufferLineCoverage bufferLineCoverage = _dynamicCoverageManager.Manage(textInfo);
             return new CoverageTagger<TTag>(
                 textInfo,
                 bufferLineCoverage,
-                this._coverageTypeFilter,
-                this.eventAggregator,
-                this._dynamicLineAndSnapshotSpansLogic,
-                this._coverageTagger,
-                this._fileIndicatorVisibility,
-                this._dynamicLineFilter
+                _coverageTypeFilter,
+                eventAggregator,
+                _dynamicLineAndSnapshotSpansLogic,
+                _coverageTagger,
+                _fileIndicatorVisibility,
+                _dynamicLineFilter
                 );
         }
     }

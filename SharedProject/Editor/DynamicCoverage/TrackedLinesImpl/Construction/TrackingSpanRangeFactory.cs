@@ -11,9 +11,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ILineTracker _lineTracker;
 
         [ImportingConstructor]
-        public TrackingSpanRangeFactory(ILineTracker lineTracker) => this._lineTracker = lineTracker;
+        public TrackingSpanRangeFactory(ILineTracker lineTracker) => _lineTracker = lineTracker;
 
         public ITrackingSpanRange Create(ITrackingSpan startTrackingSpan, ITrackingSpan endTrackingSpan, ITextSnapshot currentSnapshot)
-            => new TrackingSpanRange(startTrackingSpan, endTrackingSpan, currentSnapshot, this._lineTracker);
+            => new TrackingSpanRange(startTrackingSpan, endTrackingSpan, currentSnapshot, _lineTracker);
     }
 }

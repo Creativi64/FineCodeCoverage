@@ -13,40 +13,40 @@ namespace FineCodeCoverage.Editor.Roslyn
     {
         private readonly List<SyntaxNode> _nodes = new List<SyntaxNode>();
         public List<TextSpan> GetSpans(SyntaxNode rootNode)
-            => this.GetNodes(rootNode).ConvertAll(node => node.Span);
+            => GetNodes(rootNode).ConvertAll(node => node.Span);
 
         public List<SyntaxNode> GetNodes(SyntaxNode rootNode)
         {
-            this._nodes.Clear();
-            this.Visit(rootNode);
-            return this._nodes;
+            _nodes.Clear();
+            Visit(rootNode);
+            return _nodes;
         }
 
 #if VS2022
         public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
-            => this.VisitMembers(node.Members);
+            => VisitMembers(node.Members);
 #endif
-        public override void VisitCompilationUnit(CompilationUnitSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitCompilationUnit(CompilationUnitSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitClassDeclaration(ClassDeclarationSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitClassDeclaration(ClassDeclarationSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitStructDeclaration(StructDeclarationSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitStructDeclaration(StructDeclarationSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitRecordDeclaration(RecordDeclarationSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitRecordDeclaration(RecordDeclarationSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node) => this.AddIfHasBody(node);
+        public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node) => AddIfHasBody(node);
 
-        public override void VisitConversionOperatorDeclaration(ConversionOperatorDeclarationSyntax node) => this.AddIfHasBody(node);
+        public override void VisitConversionOperatorDeclaration(ConversionOperatorDeclarationSyntax node) => AddIfHasBody(node);
 
-        public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node) => this.AddIfHasBody(node);
+        public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node) => AddIfHasBody(node);
 
-        public override void VisitMethodDeclaration(MethodDeclarationSyntax node) => this.AddIfHasBody(node);
+        public override void VisitMethodDeclaration(MethodDeclarationSyntax node) => AddIfHasBody(node);
 
-        public override void VisitOperatorDeclaration(OperatorDeclarationSyntax node) => this.AddIfHasBody(node);
+        public override void VisitOperatorDeclaration(OperatorDeclarationSyntax node) => AddIfHasBody(node);
 
         private static bool HasBody(BaseMethodDeclarationSyntax node)
             => node.Body != null || node.ExpressionBody != null;
@@ -57,14 +57,14 @@ namespace FineCodeCoverage.Editor.Roslyn
                 return;
             }
 
-            this.AddNode(node);
+            AddNode(node);
         }
 
-        public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node) => this.VisitBasePropertyDeclaration(node);
+        public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node) => VisitBasePropertyDeclaration(node);
 
-        public override void VisitEventDeclaration(EventDeclarationSyntax node) => this.VisitBasePropertyDeclaration(node);
+        public override void VisitEventDeclaration(EventDeclarationSyntax node) => VisitBasePropertyDeclaration(node);
 
-        public override void VisitIndexerDeclaration(IndexerDeclarationSyntax node) => this.VisitBasePropertyDeclaration(node);
+        public override void VisitIndexerDeclaration(IndexerDeclarationSyntax node) => VisitBasePropertyDeclaration(node);
 
         private void VisitBasePropertyDeclaration(BasePropertyDeclarationSyntax node)
         {
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Editor.Roslyn
                 return;
             }
 
-            this.VisitNonAbstractBasePropertyDeclaration(node);
+            VisitNonAbstractBasePropertyDeclaration(node);
         }
 
         private void AddIfPropertyDeclaration(BasePropertyDeclarationSyntax node)
@@ -83,23 +83,23 @@ namespace FineCodeCoverage.Editor.Roslyn
                 return;
             }
 
-            this.AddNode(propertyDeclarationSyntax);
+            AddNode(propertyDeclarationSyntax);
         }
 
         private void VisitNonAbstractBasePropertyDeclaration(BasePropertyDeclarationSyntax node)
         {
             if (node.AccessorList == null)
             {
-                this.AddIfPropertyDeclaration(node);
+                AddIfPropertyDeclaration(node);
             }
             else
             {
-                this.AddAccessors(node.AccessorList.Accessors, node.Parent is InterfaceDeclarationSyntax);
+                AddAccessors(node.AccessorList.Accessors, node.Parent is InterfaceDeclarationSyntax);
             }
         }
 
         private void AddAccessors(SyntaxList<AccessorDeclarationSyntax> accessors, bool typeIsInterface)
-            => accessors.Where(accessor => !typeIsInterface || AccessorHasBody(accessor)).ToList().ForEach(this.AddNode);
+            => accessors.Where(accessor => !typeIsInterface || AccessorHasBody(accessor)).ToList().ForEach(AddNode);
 
         private static bool AccessorHasBody(AccessorDeclarationSyntax accessor)
             => accessor.Body != null || accessor.ExpressionBody != null;
@@ -108,13 +108,13 @@ namespace FineCodeCoverage.Editor.Roslyn
         {
             foreach (MemberDeclarationSyntax member in members)
             {
-                this.Visit(member);
+                Visit(member);
             }
         }
 
         private static bool IsAbstract(SyntaxTokenList modifiers)
             => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.AbstractKeyword));
 
-        private void AddNode(SyntaxNode node) => this._nodes.Add(node);
+        private void AddNode(SyntaxNode node) => _nodes.Add(node);
     }
 }

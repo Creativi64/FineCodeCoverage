@@ -15,13 +15,13 @@ namespace FineCodeCoverage.Core.Initialization
         [ImportingConstructor]
         public PackageLoader(
             IShellPackageLoader shellPackageLoader
-            ) => this._shellPackageLoader = shellPackageLoader;
+            ) => _shellPackageLoader = shellPackageLoader;
 
         public async Task LoadPackageAsync(CancellationToken cancellationToken)
         {
-            this.InitializedFromTestContainerDiscoverer = true;
+            InitializedFromTestContainerDiscoverer = true;
             cancellationToken.ThrowIfCancellationRequested();
-            await this._shellPackageLoader.LoadPackageAsync();
+            await _shellPackageLoader.LoadPackageAsync();
 
         }
     }

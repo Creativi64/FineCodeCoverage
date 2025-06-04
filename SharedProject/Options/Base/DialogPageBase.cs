@@ -7,13 +7,13 @@ namespace FineCodeCoverage.Options
     {
 
         private IDialogPageOptionsProvider<TOptions> _optionsProvider;
-        private IDialogPageOptionsProvider<TOptions> OptionsProvider => this._optionsProvider ??
-            (this._optionsProvider = MefServiceProvider.Get<IDialogPageOptionsProvider<TOptions>>());
+        private IDialogPageOptionsProvider<TOptions> OptionsProvider => _optionsProvider ??
+            (_optionsProvider = MefServiceProvider.Get<IDialogPageOptionsProvider<TOptions>>());
 
-        public override object AutomationObject => this.OptionsProvider.Options;
+        public override object AutomationObject => OptionsProvider.Options;
 
-        public override void SaveSettingsToStorage() => this.OptionsProvider.SaveSettingsToStorage();
+        public override void SaveSettingsToStorage() => OptionsProvider.SaveSettingsToStorage();
 
-        public override void LoadSettingsFromStorage() => this.OptionsProvider.LoadSettingsFromStorage();
+        public override void LoadSettingsFromStorage() => OptionsProvider.LoadSettingsFromStorage();
     }
 }

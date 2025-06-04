@@ -70,7 +70,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 coverletSettings.Add($@"--exclude-by-file ""{value.Replace("\"", "\\\"").Trim(' ', '\'')}""");
             }
 
-            foreach (string value in SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(this.EnsureAttributeTypeUnqualified))
+            foreach (string value in SanitizeExcludesByAttribute(project.Settings.ExcludeByAttribute).Select(EnsureAttributeTypeUnqualified))
             {
                 string withoutAttributeBrackets = value.Trim('[', ']');
                 coverletSettings.Add($"--exclude-by-attribute {value}");

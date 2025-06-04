@@ -9,8 +9,8 @@ namespace FineCodeCoverage.Readme
             FlowDocument flowDocument,
             IReadOnlyList<ElementAndMarker> elementAndMarkers)
         {
-            this.FlowDocument = flowDocument;
-            this.ElementAndMarkers = elementAndMarkers;
+            FlowDocument = flowDocument;
+            ElementAndMarkers = elementAndMarkers;
         }
 
         public FlowDocument FlowDocument { get; }

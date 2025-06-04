@@ -31,18 +31,18 @@ namespace FineCodeCoverage.Engine
             IEventAggregator eventAggregator
             )
         {
-            this._logger = logger;
-            this._eventAggregator = eventAggregator;
-            this._fileUtil = fileUtil;
-            this._outputFolderProviders = outputFolderProviders.OrderBy(p => p.Metadata.Order);
+            _logger = logger;
+            _eventAggregator = eventAggregator;
+            _fileUtil = fileUtil;
+            _outputFolderProviders = outputFolderProviders.OrderBy(p => p.Metadata.Order);
         }
 
         public async Task SetProjectCoverageOutputFolderAsync(List<ICoverageProject> coverageProjects)
         {
-            this._eventAggregator.SendMessage(new OutdatedOutputMessage());
-            this._coverageProjects = coverageProjects;
-            await this.DetermineOutputFolderForAllProjectsAsync();
-            if (this._outputFolderForAllProjects == null)
+            _eventAggregator.SendMessage(new OutdatedOutputMessage());
+            _coverageProjects = coverageProjects;
+            await DetermineOutputFolderForAllProjectsAsync();
+            if (_outputFolderForAllProjects == null)
             {
                 foreach (ICoverageProject coverageProject in coverageProjects)
                 {
@@ -51,26 +51,26 @@ namespace FineCodeCoverage.Engine
             }
             else
             {
-                this._fileUtil.TryEmptyDirectory(this._outputFolderForAllProjects);
+                _fileUtil.TryEmptyDirectory(_outputFolderForAllProjects);
                 foreach (ICoverageProject coverageProject in coverageProjects)
                 {
-                    coverageProject.CoverageOutputFolder = Path.Combine(this._outputFolderForAllProjects, coverageProject.ProjectName);
+                    coverageProject.CoverageOutputFolder = Path.Combine(_outputFolderForAllProjects, coverageProject.ProjectName);
                 }
             }
         }
 
         private async Task DetermineOutputFolderForAllProjectsAsync()
         {
-            this._outputFolderForAllProjects = this._outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(this._coverageProjects));
-            if (this._outputFolderForAllProjects == null)
+            _outputFolderForAllProjects = _outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(_coverageProjects));
+            if (_outputFolderForAllProjects == null)
             {
                 return;
             }
 
-            await this._logger.LogAsync($"FCC output in {this._outputFolderForAllProjects}");
+            await _logger.LogAsync($"FCC output in {_outputFolderForAllProjects}");
         }
 
         public string GetReportOutputFolder()
-            => this._outputFolderForAllProjects ?? this._coverageProjects[0].CoverageOutputFolder;
+            => _outputFolderForAllProjects ?? _coverageProjects[0].CoverageOutputFolder;
     }
 }

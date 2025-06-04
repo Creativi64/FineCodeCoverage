@@ -24,16 +24,16 @@ namespace FineCodeCoverage.Readme
         /// Initializes a new instance of the <see cref="ReadmeToolWindow"/> class.
         /// </summary>
         public ReadmeToolWindow() : base(null)
-            => this.Initialize(
+            => Initialize(
                 ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReadmeToolWindow, ReadmeToolWindowContext>()
             );
 
         public ReadmeToolWindow(ReadmeToolWindowContext context) : base(null)
-            => this.Initialize(context);
+            => Initialize(context);
 
         private void Initialize(ReadmeToolWindowContext context)
         {
-            this.Caption = "Readme";
+            Caption = "Readme";
             /*
                 https://learn.microsoft.com/en-us/visualstudio/extensibility/image-service-and-catalog?view=vs-2022#how-do-i-use-image-monikers-in-a-new-tool-window
                 Note that will only be seen when tabs are too small when docked
@@ -41,13 +41,13 @@ namespace FineCodeCoverage.Readme
                 drop down selector MDI
             */
 
-            this.BitmapImageMoniker = Microsoft.VisualStudio.Imaging.KnownMonikers.WelcomeUserGuide;
+            BitmapImageMoniker = Microsoft.VisualStudio.Imaging.KnownMonikers.WelcomeUserGuide;
 
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
 
-            this.Content = new ReadmeControl()
+            Content = new ReadmeControl()
             {
                 DataContext = context.ReadMeMarkdownViewModel
             };

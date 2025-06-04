@@ -4,8 +4,8 @@
     {
         public FileRename(string oldFilePath, string newFilePath)
         {
-            this.OldFilePath = oldFilePath;
-            this.NewFilePath = newFilePath;
+            OldFilePath = oldFilePath;
+            NewFilePath = newFilePath;
         }
 
         public string OldFilePath { get; }

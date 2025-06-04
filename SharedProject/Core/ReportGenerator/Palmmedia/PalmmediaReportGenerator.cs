@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         [ImportingConstructor]
         public PalmmediaReportGenerator(
             IHtmlFilesToFolder htmlFilesToFolder
-            ) => this._htmlFilesToFolder = htmlFilesToFolder;
+            ) => _htmlFilesToFolder = htmlFilesToFolder;
 
         public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
         {
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 empty,
                 empty,
                 empty,
-                this._verbosityLevel.ToString(),
+                _verbosityLevel.ToString(),
                 ""
                 );
 
@@ -47,16 +47,16 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             var collection = new ReadOnlyCollection<string>(coverageFiles.ToList());
             ParserResult parserResult = parser.ParseFiles(collection);
             new Generator().GenerateReport(config, parserResult);
-            this._htmlFilesToFolder.Collate(reportDirectory);
+            _htmlFilesToFolder.Collate(reportDirectory);
             return new PalmmediaReportResult(parserResult);
         }
 
         public void SetLogger(VerbosityLevel verbosityLevel, Action<VerbosityLevel, string> logger)
         {
-            this._verbosityLevel = verbosityLevel;
+            _verbosityLevel = verbosityLevel;
             LoggerFactory.Configure((palmmediaVerbosityLevel, message) =>
             {
-                bool shouldLog = this.ShouldLog(palmmediaVerbosityLevel, message);
+                bool shouldLog = ShouldLog(palmmediaVerbosityLevel, message);
                 if (!shouldLog)
                 {
                     return;
@@ -72,7 +72,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             bool shouldLog = true;
             if (palmmediaVerbosityLevel != PalmmediaVerbosityLevel.Error)
             {
-                Match matched = this._fileDoesNotExistAnymoreRegex.Match(message);
+                Match matched = _fileDoesNotExistAnymoreRegex.Match(message);
                 shouldLog = !matched.Success;
             }
 

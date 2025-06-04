@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public ColorName(Guid category, string name)
         {
-            this.Category = category;
-            this.Name = name;
+            Category = category;
+            Name = name;
         }
         public Guid Category { get; }
 

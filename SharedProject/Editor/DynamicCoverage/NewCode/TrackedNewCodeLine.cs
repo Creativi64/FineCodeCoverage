@@ -10,23 +10,23 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public TrackedNewCodeLine(ITrackingSpan trackingSpan, int lineNumber, ILineTracker lineTracker)
         {
-            this._line = new DynamicLine(lineNumber, DynamicCoverageType.NewLine);
-            this._lineTracker = lineTracker;
-            this._trackingSpan = trackingSpan;
+            _line = new DynamicLine(lineNumber, DynamicCoverageType.NewLine);
+            _lineTracker = lineTracker;
+            _trackingSpan = trackingSpan;
         }
 
-        public IDynamicLine Line => this._line;
+        public IDynamicLine Line => _line;
 
         public string GetText(ITextSnapshot currentSnapshot)
-            => this._lineTracker.GetTrackedLineInfo(this._trackingSpan, currentSnapshot, true).LineText;
+            => _lineTracker.GetTrackedLineInfo(_trackingSpan, currentSnapshot, true).LineText;
 
         public TrackedNewCodeLineUpdate Update(ITextSnapshot currentSnapshot)
         {
-            int oldLineNumber = this._line.LineNumber;
-            TrackedLineInfo trackedLineInfo = this._lineTracker.GetTrackedLineInfo(
-                this._trackingSpan, currentSnapshot, true);
-            this._line.LineNumber = trackedLineInfo.LineNumber;
-            return new TrackedNewCodeLineUpdate(trackedLineInfo.LineText, this._line.LineNumber, oldLineNumber);
+            int oldLineNumber = _line.LineNumber;
+            TrackedLineInfo trackedLineInfo = _lineTracker.GetTrackedLineInfo(
+                _trackingSpan, currentSnapshot, true);
+            _line.LineNumber = trackedLineInfo.LineNumber;
+            return new TrackedNewCodeLineUpdate(trackedLineInfo.LineText, _line.LineNumber, oldLineNumber);
         }
     }
 }

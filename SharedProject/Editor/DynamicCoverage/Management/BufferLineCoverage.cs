@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private bool _isApplicableContentType = true;
         private IFileLines _fileLines;
         private ITrackedLines _trackedLines;
-        public bool HasCoverage => this._trackedLines != null;
+        public bool HasCoverage => _trackedLines != null;
 
         public BufferLineCoverage(
             ITextInfo textInfo,
@@ -41,39 +41,39 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILogger logger
         )
         {
-            this._textBuffer = textInfo.TextBuffer;
-            this._textBuffer.ContentTypeChanged += this.ContentTypeChanged;
-            this._textInfo = textInfo;
-            this._eventAggregator = eventAggregator;
-            this._trackedLinesFactory = trackedLinesFactory;
-            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this._coverageContentTypes = coverageContentTypes;
-            this._logger = logger;
+            _textBuffer = textInfo.TextBuffer;
+            _textBuffer.ContentTypeChanged += ContentTypeChanged;
+            _textInfo = textInfo;
+            _eventAggregator = eventAggregator;
+            _trackedLinesFactory = trackedLinesFactory;
+            _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            _coverageContentTypes = coverageContentTypes;
+            _logger = logger;
             void EditorCoverageColouringOptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
             {
                 bool newEditorCoverageModeOff = editorCoverageColouringOptions.EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
-                this._editorCoverageModeOff = newEditorCoverageModeOff;
-                if (this._trackedLines == null || !newEditorCoverageModeOff)
+                _editorCoverageModeOff = newEditorCoverageModeOff;
+                if (_trackedLines == null || !newEditorCoverageModeOff)
                 {
                     return;
                 }
 
-                this._trackedLines = null;
-                this.SendCoverageChangedMessage();
+                _trackedLines = null;
+                SendCoverageChangedMessage();
             }
 
             editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsChanged;
             _ = eventAggregator.AddListener(this);
-            this._textBuffer.ChangedOnBackground += this.TextBuffer_ChangedOnBackground;
+            _textBuffer.ChangedOnBackground += TextBuffer_ChangedOnBackground;
             void textViewClosedHandler(object s, EventArgs e)
             {
                 if (s is ITextView textView)
                 {
-                    this._fileLines?.TextViewClosed();
+                    _fileLines?.TextViewClosed();
                 }
 
-                this._textBuffer.ChangedOnBackground -= this.TextBuffer_ChangedOnBackground;
-                this._textBuffer.ContentTypeChanged -= this.ContentTypeChanged;
+                _textBuffer.ChangedOnBackground -= TextBuffer_ChangedOnBackground;
+                _textBuffer.ContentTypeChanged -= ContentTypeChanged;
                 textInfo.TextView.Closed -= textViewClosedHandler;
                 editorCoverageColouringOptionsProvider.OptionsChanged -= EditorCoverageColouringOptionsChanged;
                 _ = eventAggregator.RemoveListener(this);
@@ -84,56 +84,56 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public void SetLastCoverage(ILastCoverage lastCoverage)
         {
-            if (this.EditorCoverageColouringModeOff())
+            if (EditorCoverageColouringModeOff())
             {
                 return;
             }
 
-            this.UseLastCoverageIfHasFileLines(lastCoverage);
+            UseLastCoverageIfHasFileLines(lastCoverage);
         }
 
         private void UseLastCoverageIfHasFileLines(ILastCoverage lastCoverage)
         {
-            this._fileLineCoverage = lastCoverage.FileLineCoverage;
-            this._lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
-            this._fileLines = this._fileLineCoverage.GetLines(this._textInfo.FilePath);
-            if (this._fileLines == null)
+            _fileLineCoverage = lastCoverage.FileLineCoverage;
+            _lastTestExecutionStarting = lastCoverage.TestExecutionStartingDate;
+            _fileLines = _fileLineCoverage.GetLines(_textInfo.FilePath);
+            if (_fileLines == null)
             {
                 return;
             }
 
-            this.UseLastCoverage();
+            UseLastCoverage();
         }
 
         private void UseLastCoverage()
         {
-            bool isOutOfDate = this.FileLinesFromLastCoverageIfNotOutOfDate();
+            bool isOutOfDate = FileLinesFromLastCoverageIfNotOutOfDate();
 
             if (!isOutOfDate)
             {
                 return;
             }
 
-            this._logger.LogFileAndForget($"Not creating editor marks for {this._textInfo.FilePath} as coverage is out of date");
-            this._fileLineCoverage.OutOfDate(this._textInfo.FilePath);
-            this._fileLines = null;
+            _logger.LogFileAndForget($"Not creating editor marks for {_textInfo.FilePath} as coverage is out of date");
+            _fileLineCoverage.OutOfDate(_textInfo.FilePath);
+            _fileLines = null;
         }
 
         private bool FileLinesFromLastCoverageIfNotOutOfDate()
         {
             bool isOutOfDate;
-            DateTime lastWriteTime = this._textInfo.GetLastWriteTime();
-            if (this._fileLines.HasTrackedLines)
+            DateTime lastWriteTime = _textInfo.GetLastWriteTime();
+            if (_fileLines.HasTrackedLines)
             {
-                this._trackedLines = this._fileLines.GetTrackedLinesIfNotOutOfDate(lastWriteTime);
-                isOutOfDate = this._trackedLines == null;
+                _trackedLines = _fileLines.GetTrackedLinesIfNotOutOfDate(lastWriteTime);
+                isOutOfDate = _trackedLines == null;
             }
             else
             {
-                isOutOfDate = lastWriteTime > this._lastTestExecutionStarting;
+                isOutOfDate = lastWriteTime > _lastTestExecutionStarting;
                 if (!isOutOfDate)
                 {
-                    this.TryCreateTrackedLines(this.CreateTrackedLinesFromFileLines);
+                    TryCreateTrackedLines(CreateTrackedLinesFromFileLines);
                 }
             }
 
@@ -143,35 +143,35 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private void ContentTypeChanged(object sender, ContentTypeChangedEventArgs args)
         {
             // purpose is so do not create tracked lines for a content type that is not applicable when new coverage
-            this._isApplicableContentType = this._coverageContentTypes.IsApplicable(args.AfterContentType.TypeName);
-            if (this._isApplicableContentType)
+            _isApplicableContentType = _coverageContentTypes.IsApplicable(args.AfterContentType.TypeName);
+            if (_isApplicableContentType)
             {
                 // this currently does not work as Roslyn is not ready.
                 // could fallback to single lines but would have to look at other uses of IFileCodeSpanRangeService
                 // this is low priority 
-                this.CreateTrackedLinesIfRequired();
+                CreateTrackedLinesIfRequired();
             }
             else
             {
-                this._trackedLines = null;
+                _trackedLines = null;
             }
 
-            this.SendCoverageChangedMessage();
+            SendCoverageChangedMessage();
         }
 
         private void CreateTrackedLinesIfRequired()
         {
-            if (this.EditorCoverageColouringModeOff())
+            if (EditorCoverageColouringModeOff())
             {
-                this._trackedLines = null;
+                _trackedLines = null;
             }
             else
             {
-                this.TryCreateTrackedLines();
+                TryCreateTrackedLines();
             }
         }
 
-        private void TryCreateTrackedLines() => this.TryCreateTrackedLines(this.CreateTrackedLines);
+        private void TryCreateTrackedLines() => TryCreateTrackedLines(CreateTrackedLines);
 
         private void TryCreateTrackedLines(Action action)
         {
@@ -181,95 +181,95 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             }
             catch (Exception e)
             {
-                this._logger.LogFileAndForget($"Error creating tracked lines for {this._textInfo.FilePath}", e.ToString());
+                _logger.LogFileAndForget($"Error creating tracked lines for {_textInfo.FilePath}", e.ToString());
             }
         }
 
         private void CreateTrackedLinesIfRequiredWithMessage()
         {
-            bool hadTrackedLines = this._trackedLines != null;
-            if (!this._textBufferLastChanged.HasValue || this._textBufferLastChanged.Value < this._lastTestExecutionStarting)
+            bool hadTrackedLines = _trackedLines != null;
+            if (!_textBufferLastChanged.HasValue || _textBufferLastChanged.Value < _lastTestExecutionStarting)
             {
-                this.CreateTrackedLinesIfRequired();
+                CreateTrackedLinesIfRequired();
             }
             else
             {
-                this._logger.LogFileAndForget($"Not creating editor marks for {this._textInfo.FilePath} as it was changed after test execution started");
-                this._trackedLines = null;
+                _logger.LogFileAndForget($"Not creating editor marks for {_textInfo.FilePath} as it was changed after test execution started");
+                _trackedLines = null;
             }
 
-            bool hasTrackedLines = this._trackedLines != null;
+            bool hasTrackedLines = _trackedLines != null;
             if (!hadTrackedLines && !hasTrackedLines)
             {
                 return;
             }
 
-            this.SendCoverageChangedMessage();
+            SendCoverageChangedMessage();
         }
 
         private void CreateTrackedLines()
         {
-            this._fileLines = this._fileLineCoverage.GetLines(this._textInfo.FilePath);
-            if (this._fileLines == null)
+            _fileLines = _fileLineCoverage.GetLines(_textInfo.FilePath);
+            if (_fileLines == null)
             {
-                this._trackedLines = null;
+                _trackedLines = null;
             }
             else
             {
-                this.CreateTrackedLinesFromFileLines();
+                CreateTrackedLinesFromFileLines();
             }
         }
 
         private void CreateTrackedLinesFromFileLines()
         {
-            string filePath = this._textInfo.FilePath;
-            ITextSnapshot currentSnapshot = this._textBuffer.CurrentSnapshot;
-            this._trackedLines = this._trackedLinesFactory.Create(this._fileLines.Lines, currentSnapshot, filePath);
-            this._fileLines.SetTrackedLines(this._trackedLines);
+            string filePath = _textInfo.FilePath;
+            ITextSnapshot currentSnapshot = _textBuffer.CurrentSnapshot;
+            _trackedLines = _trackedLinesFactory.Create(_fileLines.Lines, currentSnapshot, filePath);
+            _fileLines.SetTrackedLines(_trackedLines);
         }
 
         private bool EditorCoverageColouringModeOff()
         {
             // as handling the event do not need to check the value again
-            if (this._editorCoverageModeOff.HasValue)
+            if (_editorCoverageModeOff.HasValue)
             {
-                return this._editorCoverageModeOff.Value;
+                return _editorCoverageModeOff.Value;
             }
 
-            this._editorCoverageModeOff = this._editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
-            return this._editorCoverageModeOff.Value;
+            _editorCoverageModeOff = _editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode == EditorCoverageColouringMode.Off;
+            return _editorCoverageModeOff.Value;
         }
 
         private void TextBuffer_ChangedOnBackground(object sender, TextContentChangedEventArgs textContentChangedEventArgs)
         {
-            this._textBufferLastChanged = DateTime.Now;
-            if (this._trackedLines == null)
+            _textBufferLastChanged = DateTime.Now;
+            if (_trackedLines == null)
             {
                 return;
             }
 
-            this.TryUpdateTrackedLines(textContentChangedEventArgs);
+            TryUpdateTrackedLines(textContentChangedEventArgs);
         }
 
         private void TryUpdateTrackedLines(TextContentChangedEventArgs textContentChangedEventArgs)
         {
             try
             {
-                this.UpdateTrackedLines(textContentChangedEventArgs);
+                UpdateTrackedLines(textContentChangedEventArgs);
             }
             catch (Exception e)
             {
-                this._logger.LogFileAndForget($"Error updating tracked lines for {this._textInfo.FilePath}", e.ToString());
+                _logger.LogFileAndForget($"Error updating tracked lines for {_textInfo.FilePath}", e.ToString());
             }
         }
 
         private void UpdateTrackedLines(TextContentChangedEventArgs textContentChangedEventArgs)
         {
-            IEnumerable<int> changedLineNumbers = this._trackedLines.GetChangedLineNumbers(
+            IEnumerable<int> changedLineNumbers = _trackedLines.GetChangedLineNumbers(
                 textContentChangedEventArgs.After,
                 textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList()
             ).Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
-            this.SendCoverageChangedMessageIfChanged(changedLineNumbers);
+            SendCoverageChangedMessageIfChanged(changedLineNumbers);
         }
 
         private void SendCoverageChangedMessageIfChanged(IEnumerable<int> changedLineNumbers)
@@ -279,39 +279,39 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 return;
             }
 
-            this.SendCoverageChangedMessage(changedLineNumbers);
+            SendCoverageChangedMessage(changedLineNumbers);
         }
 
         private void SendCoverageChangedMessage(IEnumerable<int> changedLineNumbers = null)
-            => this._eventAggregator.SendMessage(new CoverageChangedMessage(this._textInfo.FilePath, changedLineNumbers));
+            => _eventAggregator.SendMessage(new CoverageChangedMessage(_textInfo.FilePath, changedLineNumbers));
 
         public IEnumerable<IDynamicLine> GetLines(int startLineNumber, int endLineNumber)
-            => this._trackedLines == null ? Enumerable.Empty<IDynamicLine>() : this._trackedLines.GetLines(startLineNumber, endLineNumber);
+            => _trackedLines == null ? Enumerable.Empty<IDynamicLine>() : _trackedLines.GetLines(startLineNumber, endLineNumber);
 
-        public void Handle(NewCoverageLinesMessage message) => this.UpdateCoverageLines(message.CoverageLines);
+        public void Handle(NewCoverageLinesMessage message) => UpdateCoverageLines(message.CoverageLines);
 
         private void UpdateCoverageLines(IFileLineCoverage fileLineCoverage)
         {
-            if (!this._isApplicableContentType) return;
+            if (!_isApplicableContentType) return;
 
-            this._fileLineCoverage = fileLineCoverage;
+            _fileLineCoverage = fileLineCoverage;
 
-            bool hadTrackedLines = this._trackedLines != null;
-            if (this._fileLineCoverage == null)
+            bool hadTrackedLines = _trackedLines != null;
+            if (_fileLineCoverage == null)
             {
-                this._trackedLines = null;
+                _trackedLines = null;
                 if (hadTrackedLines)
                 {
-                    this.SendCoverageChangedMessage();
+                    SendCoverageChangedMessage();
                 }
             }
             else
             {
-                this.CreateTrackedLinesIfRequiredWithMessage();
+                CreateTrackedLinesIfRequiredWithMessage();
             }
         }
 
-        public void Handle(TestExecutionStartingMessage message) => this._lastTestExecutionStarting = DateTime.Now;
-        public void Handle(ClearLinesMessage message) => this.UpdateCoverageLines(null);
+        public void Handle(TestExecutionStartingMessage message) => _lastTestExecutionStarting = DateTime.Now;
+        public void Handle(ClearLinesMessage message) => UpdateCoverageLines(null);
     }
 }

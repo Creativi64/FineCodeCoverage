@@ -12,9 +12,9 @@ namespace FineCodeCoverage.Readme
 
         protected sealed override void Write(WpfRenderer renderer, TObject obj)
         {
-            ElementAndMarker element = this.WriteAndReturn(renderer, obj);
+            ElementAndMarker element = WriteAndReturn(renderer, obj);
             List<ElementAndMarker> elementMarkers = element != null ?
-                new List<ElementAndMarker> { element } : this.WriteAndReturns(renderer, obj);
+                new List<ElementAndMarker> { element } : WriteAndReturns(renderer, obj);
             if (elementMarkers == null)
             {
                 return;

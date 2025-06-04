@@ -23,30 +23,30 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             IFileRenameListener fileRenameListener
         )
         {
-            this._reportGenerator = reportGenerator;
-            this._logger = logger;
-            this._reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => this._logs.Add(message));
-            fileRenameListener.FileRenamedEvent += this.FileRenameListener_FileRenamedEvent;
+            _reportGenerator = reportGenerator;
+            _logger = logger;
+            _reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => _logs.Add(message));
+            fileRenameListener.FileRenamedEvent += FileRenameListener_FileRenamedEvent;
         }
 
         private void FileRenameListener_FileRenamedEvent(IReadOnlyList<FileRename> fileRenames)
-            => this._dynamicReportResult?.FileRenamed(fileRenames);
+            => _dynamicReportResult?.FileRenamed(fileRenames);
 
         public async Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
             CancellationToken cancellationToken)
         {
-            this._logs = new List<string>
+            _logs = new List<string>
             {
                 "Report Generator - Output"
             };
-            IReportResult reportResult = this._reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
-            await this._logger.LogAsync(this._logs);
-            this._dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
+            IReportResult reportResult = _reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
+            await _logger.LogAsync(_logs);
+            _dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
             return new ReportGeneratorResult
             {
-                ReportResult = this._dynamicReportResult,
+                ReportResult = _dynamicReportResult,
                 UnifiedXmlFile = Path.Combine(reportOutputFolder, "Cobertura.xml"),
             };
         }

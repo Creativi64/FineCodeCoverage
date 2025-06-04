@@ -23,9 +23,9 @@ namespace FineCodeCoverage.ReportGeneration
         {
             public RiskHotspot(string assembly, string @class, IMethodMetric methodMetric)
             {
-                this.Assembly = assembly;
-                this.Class = @class;
-                this.MethodMetric = methodMetric;
+                Assembly = assembly;
+                Class = @class;
+                MethodMetric = methodMetric;
             }
             public string Assembly { get; }
             public string Class { get; }
@@ -38,8 +38,8 @@ namespace FineCodeCoverage.ReportGeneration
             {
                 public Metric(string name, decimal value)
                 {
-                    this.Name = name;
-                    this.Value = value;
+                    Name = name;
+                    Value = value;
                 }
                 public string Name { get; }
                 public decimal Value { get; }
@@ -47,8 +47,8 @@ namespace FineCodeCoverage.ReportGeneration
 
             public MethodMetric(ICodeElement codeElement, HotspotThresholdsOptions riskHotspotsAnalysisThresholds)
             {
-                this.FullName = codeElement.Name;
-                this.Line = codeElement.StartLine;
+                FullName = codeElement.Name;
+                Line = codeElement.StartLine;
                 var metrics = new List<Metric>();
                 if (codeElement.CyclomaticComplexity > riskHotspotsAnalysisThresholds.ThresholdForCyclomaticComplexity)
                 {
@@ -65,8 +65,8 @@ namespace FineCodeCoverage.ReportGeneration
                     metrics.Add(new Metric("NPathComplexity", codeElement.NPathComplexity));
                 }
 
-                this.IsHotspot = metrics.Count != 0;
-                this.Metrics = metrics;
+                IsHotspot = metrics.Count != 0;
+                Metrics = metrics;
 
             }
             public bool IsHotspot { get; }
@@ -85,7 +85,7 @@ namespace FineCodeCoverage.ReportGeneration
         [ImportingConstructor]
         public HotspotsService(
             IOptionsProvider<HotspotThresholdsOptions> hotspotThresholdsOptionsProvider
-        ) => this._hotspotThresholdsOptionsProvider = hotspotThresholdsOptionsProvider;
+        ) => _hotspotThresholdsOptionsProvider = hotspotThresholdsOptionsProvider;
 
         private static void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
@@ -107,7 +107,7 @@ namespace FineCodeCoverage.ReportGeneration
 
         public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
         {
-            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, this._hotspotThresholdsOptionsProvider.Get());
+            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, _hotspotThresholdsOptionsProvider.Get());
             WriteHotspotsToXml(riskHotspots, hotspotsPath);
         }
 

@@ -2,7 +2,7 @@
 {
     internal class BuildStartEndArgs
     {
-        public BuildStartEndArgs(bool isStart) => this.IsStart = isStart;
+        public BuildStartEndArgs(bool isStart) => IsStart = isStart;
 
         public bool IsStart { get; }
     }

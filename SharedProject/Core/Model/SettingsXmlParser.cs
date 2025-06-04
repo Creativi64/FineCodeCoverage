@@ -8,13 +8,13 @@ namespace FineCodeCoverage.Engine.Model
     {
         private readonly TryParseDelegate<T> _tryParse;
 
-        public SettingsXmlParser(TryParseDelegate<T> tryParse) => this._tryParse = tryParse;
+        public SettingsXmlParser(TryParseDelegate<T> tryParse) => _tryParse = tryParse;
 
-        public object Parse(string xml) => this._tryParse(xml, out T result) ? result : (object)null;
+        public object Parse(string xml) => _tryParse(xml, out T result) ? result : (object)null;
 
         public Array ParseArray(string[] xml, bool nullable)
         {
-            IEnumerable<T> valid = ParseValid(xml, this._tryParse);
+            IEnumerable<T> valid = ParseValid(xml, _tryParse);
             return nullable ? valid.Cast<TNullable>().ToArray() : (Array)valid.ToArray();
         }
 

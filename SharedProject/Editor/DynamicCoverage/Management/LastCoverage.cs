@@ -10,13 +10,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public LastCoverage(IFileLineCoverage fileLineCoverage, DateTime testExecutionStartingDate)
         {
-            this.FileLineCoverage = fileLineCoverage;
-            this.TestExecutionStartingDate = testExecutionStartingDate;
+            FileLineCoverage = fileLineCoverage;
+            TestExecutionStartingDate = testExecutionStartingDate;
         }
         public IFileLineCoverage FileLineCoverage { get; }
         public DateTime TestExecutionStartingDate { get; }
 
         [ExcludeFromCodeCoverage]
-        public override bool Equals(object obj) => obj is LastCoverage coverage && this.FileLineCoverage == coverage.FileLineCoverage && this.TestExecutionStartingDate == coverage.TestExecutionStartingDate;
+        public override bool Equals(object obj) => obj is LastCoverage coverage && FileLineCoverage == coverage.FileLineCoverage && TestExecutionStartingDate == coverage.TestExecutionStartingDate;
     }
 }

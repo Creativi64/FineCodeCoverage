@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Output
         #region styling properties
         public CoveragePercentageBarDisplayParts DisplayParts
         {
-            get => (CoveragePercentageBarDisplayParts)this.GetValue(DisplayPartsProperty);
-            set => this.SetValue(DisplayPartsProperty, value);
+            get => (CoveragePercentageBarDisplayParts)GetValue(DisplayPartsProperty);
+            set => SetValue(DisplayPartsProperty, value);
         }
 
         public static readonly DependencyProperty DisplayPartsProperty =
@@ -24,8 +24,8 @@ namespace FineCodeCoverage.Output
 
         public bool UseSolidBrush
         {
-            get => (bool)this.GetValue(UseSolidBrushProperty);
-            set => this.SetValue(UseSolidBrushProperty, value);
+            get => (bool)GetValue(UseSolidBrushProperty);
+            set => SetValue(UseSolidBrushProperty, value);
         }
 
         public static readonly DependencyProperty UseSolidBrushProperty =
@@ -37,8 +37,8 @@ namespace FineCodeCoverage.Output
 
         public ILineBrushCreator LineBrushCreator
         {
-            get => (ILineBrushCreator)this.GetValue(LineBrushCreatorProperty);
-            set => this.SetValue(LineBrushCreatorProperty, value);
+            get => (ILineBrushCreator)GetValue(LineBrushCreatorProperty);
+            set => SetValue(LineBrushCreatorProperty, value);
         }
 
         public static readonly DependencyProperty LineBrushCreatorProperty =
@@ -53,7 +53,7 @@ namespace FineCodeCoverage.Output
         #region coverage values
         public int? Partial
         {
-            get => (int?)this.GetValue(PartialProperty); set => this.SetValue(PartialProperty, value);
+            get => (int?)GetValue(PartialProperty); set => SetValue(PartialProperty, value);
         }
 
         public static readonly DependencyProperty PartialProperty =
@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Output
 
         public double Coverable
         {
-            get => (double)this.GetValue(CoverableProperty); set => this.SetValue(CoverableProperty, value);
+            get => (double)GetValue(CoverableProperty); set => SetValue(CoverableProperty, value);
         }
 
         public static readonly DependencyProperty CoverableProperty =
@@ -69,7 +69,7 @@ namespace FineCodeCoverage.Output
 
         public double Covered
         {
-            get => (double)this.GetValue(CoveredProperty); set => this.SetValue(CoveredProperty, value);
+            get => (double)GetValue(CoveredProperty); set => SetValue(CoveredProperty, value);
         }
 
         public static readonly DependencyProperty CoveredProperty =
@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Output
 
         public bool ShowToolTip
         {
-            get => (bool)this.GetValue(ShowToolTipProperty); set => this.SetValue(ShowToolTipProperty, value);
+            get => (bool)GetValue(ShowToolTipProperty); set => SetValue(ShowToolTipProperty, value);
         }
 
         public static readonly DependencyProperty ShowToolTipProperty =
@@ -86,7 +86,7 @@ namespace FineCodeCoverage.Output
 
         public bool CoveredPercentageIsLeft
         {
-            get => (bool)this.GetValue(CoveredPercentageIsLeftProperty); set => this.SetValue(CoveredPercentageIsLeftProperty, value);
+            get => (bool)GetValue(CoveredPercentageIsLeftProperty); set => SetValue(CoveredPercentageIsLeftProperty, value);
         }
 
         public static readonly DependencyProperty CoveredPercentageIsLeftProperty =
@@ -96,7 +96,7 @@ namespace FineCodeCoverage.Output
 
         public SolidColorBrush SingularPartBrush
         {
-            get => (SolidColorBrush)this.GetValue(SingularPartBrushProperty); set => this.SetValue(SingularPartBrushProperty, value);
+            get => (SolidColorBrush)GetValue(SingularPartBrushProperty); set => SetValue(SingularPartBrushProperty, value);
         }
 
         public static readonly DependencyProperty SingularPartBrushProperty =
@@ -111,13 +111,13 @@ namespace FineCodeCoverage.Output
 
         public Color ThemedBackgroundColor
         {
-            get => (Color)this.GetValue(ThemedBackgroundColorProperty);
-            set => this.SetValue(ThemedBackgroundColorProperty, value);
+            get => (Color)GetValue(ThemedBackgroundColorProperty);
+            set => SetValue(ThemedBackgroundColorProperty, value);
         }
 
         public Color CoveredColor
         {
-            get => (Color)this.GetValue(CoveredColorProperty); set => this.SetValue(CoveredColorProperty, value);
+            get => (Color)GetValue(CoveredColorProperty); set => SetValue(CoveredColorProperty, value);
         }
 
         public static readonly DependencyProperty CoveredColorProperty =
@@ -125,7 +125,7 @@ namespace FineCodeCoverage.Output
 
         public Color NotCoveredColor
         {
-            get => (Color)this.GetValue(NotCoveredColorProperty); set => this.SetValue(NotCoveredColorProperty, value);
+            get => (Color)GetValue(NotCoveredColorProperty); set => SetValue(NotCoveredColorProperty, value);
         }
 
         public static readonly DependencyProperty NotCoveredColorProperty =
@@ -135,7 +135,7 @@ namespace FineCodeCoverage.Output
 
         public double? HeightOrMultiplier
         {
-            get => (double?)this.GetValue(HeightOrMultiplierProperty); set => this.SetValue(HeightOrMultiplierProperty, value);
+            get => (double?)GetValue(HeightOrMultiplierProperty); set => SetValue(HeightOrMultiplierProperty, value);
         }
 
         public static readonly DependencyProperty HeightOrMultiplierProperty =
@@ -145,18 +145,18 @@ namespace FineCodeCoverage.Output
 
         [DependsOnProperty(nameof(ThemedBackgroundColor))]
         [DependsOnProperty(nameof(CoveredColor))]
-        public SolidColorBrush CoveredBrush => this.GetPossiblyThemedBrush(true);
+        public SolidColorBrush CoveredBrush => GetPossiblyThemedBrush(true);
 
         [DependsOnProperty(nameof(ThemedBackgroundColor))]
         [DependsOnProperty(nameof(NotCoveredColor))]
-        public SolidColorBrush NotCoveredBrush => this.GetPossiblyThemedBrush(false);
+        public SolidColorBrush NotCoveredBrush => GetPossiblyThemedBrush(false);
 
         private SolidColorBrush GetPossiblyThemedBrush(bool isCovered)
         {
-            Color baseColor = isCovered ? this.CoveredColor : this.NotCoveredColor;
-            SolidColorBrush brush = this.ThemedBackgroundColor == Colors.Transparent
+            Color baseColor = isCovered ? CoveredColor : NotCoveredColor;
+            SolidColorBrush brush = ThemedBackgroundColor == Colors.Transparent
                 ? new SolidColorBrush(baseColor)
-                : ImageThemingUtilitiesX.ThemeColorToSolidBrush(baseColor, this.ThemedBackgroundColor);
+                : ImageThemingUtilitiesX.ThemeColorToSolidBrush(baseColor, ThemedBackgroundColor);
             brush.Freeze();
             return brush;
         }
@@ -166,33 +166,33 @@ namespace FineCodeCoverage.Output
         [DependsOnProperty(nameof(UseSolidBrush))]
         [DependsOnProperty(nameof(DisplayParts))]
         [DependsOnProperty(nameof(LineBrushCreator))]
-        public Brush StyledCoveredBrush => this.GetStyleBrush(CoveragePercentageBarDisplayParts.NotCovered, this.CoveredBrush);
+        public Brush StyledCoveredBrush => GetStyleBrush(CoveragePercentageBarDisplayParts.NotCovered, CoveredBrush);
 
         [DependsOnProperty(nameof(SingularPartBrush))]
         [DependsOnProperty(nameof(NotCoveredBrush))]
         [DependsOnProperty(nameof(UseSolidBrush))]
         [DependsOnProperty(nameof(DisplayParts))]
         [DependsOnProperty(nameof(LineBrushCreator))]
-        public Brush StyledNotCoveredBrush => this.GetStyleBrush(CoveragePercentageBarDisplayParts.Covered, this.NotCoveredBrush);
+        public Brush StyledNotCoveredBrush => GetStyleBrush(CoveragePercentageBarDisplayParts.Covered, NotCoveredBrush);
 
         private Brush GetStyleBrush(CoveragePercentageBarDisplayParts otherStyle, SolidColorBrush solidColorBrush)
         {
-            if (this.DisplayParts == otherStyle)
+            if (DisplayParts == otherStyle)
             {
                 return Brushes.Transparent;
             }
 
-            if (this.DisplayParts != CoveragePercentageBarDisplayParts.Both && this.SingularPartBrush.Color != Colors.Transparent)
+            if (DisplayParts != CoveragePercentageBarDisplayParts.Both && SingularPartBrush.Color != Colors.Transparent)
             {
-                solidColorBrush = this.SingularPartBrush;
+                solidColorBrush = SingularPartBrush;
             }
 
-            return this.UseSolidBrush ? solidColorBrush : this.LineBrushCreator.Create(solidColorBrush.Color);
+            return UseSolidBrush ? solidColorBrush : LineBrushCreator.Create(solidColorBrush.Color);
         }
 
         [DependsOnProperty(nameof(Covered))]
         [DependsOnProperty(nameof(Coverable))]
-        public double Percentage => this.Coverable != 0 ? this.Covered / this.Coverable : 0;
+        public double Percentage => Coverable != 0 ? Covered / Coverable : 0;
 
         [DependsOnProperty(nameof(CoveredPercentageIsLeft))]
         [DependsOnProperty(nameof(DisplayParts))]
@@ -200,32 +200,32 @@ namespace FineCodeCoverage.Output
         {
             get
             {
-                bool invertRotation = this.DisplayParts == CoveragePercentageBarDisplayParts.NotCovered;
-                bool rotate = invertRotation ? !this.CoveredPercentageIsLeft : this.CoveredPercentageIsLeft;
+                bool invertRotation = DisplayParts == CoveragePercentageBarDisplayParts.NotCovered;
+                bool rotate = invertRotation ? !CoveredPercentageIsLeft : CoveredPercentageIsLeft;
                 return rotate ? 0 : 180;
             }
         }
 
         [DependsOnProperty(nameof(Percentage))]
         [DependsOnProperty(nameof(DisplayParts))]
-        public double ProgressBarValue => this.DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? 1 - this.Percentage : this.Percentage;
+        public double ProgressBarValue => DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? 1 - Percentage : Percentage;
 
         [DependsOnProperty(nameof(DisplayParts))]
         [DependsOnProperty(nameof(StyledCoveredBrush))]
         [DependsOnProperty(nameof(StyledNotCoveredBrush))]
-        public Brush ProgressBarBackgroundBrush => this.DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? this.StyledCoveredBrush : this.StyledNotCoveredBrush;
+        public Brush ProgressBarBackgroundBrush => DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? StyledCoveredBrush : StyledNotCoveredBrush;
 
         [DependsOnProperty(nameof(DisplayParts))]
         [DependsOnProperty(nameof(StyledCoveredBrush))]
         [DependsOnProperty(nameof(StyledNotCoveredBrush))]
-        public Brush ProgressBarForegroundBrush => this.DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? this.StyledNotCoveredBrush : this.StyledCoveredBrush;
+        public Brush ProgressBarForegroundBrush => DisplayParts == CoveragePercentageBarDisplayParts.NotCovered ? StyledNotCoveredBrush : StyledCoveredBrush;
         #endregion
 
         public CoverageTooltipViewModel TooltipModel => new CoverageTooltipViewModel(
-            this.Percentage,
-            this.Covered,
-            this.Coverable,
-            this.Partial
+            Percentage,
+            Covered,
+            Coverable,
+            Partial
         );
     }
 }

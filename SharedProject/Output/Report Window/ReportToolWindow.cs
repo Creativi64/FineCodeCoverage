@@ -27,19 +27,19 @@ namespace FineCodeCoverage.Output
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
         /// </summary>
-        public ReportToolWindow(ReportToolWindowContext context) : base(null) => this.Initialize(context);
+        public ReportToolWindow(ReportToolWindowContext context) : base(null) => Initialize(context);
 
         public ReportToolWindow()
-            => this.Initialize(
+            => Initialize(
                 ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>()
             );
 
         private void Initialize(ReportToolWindowContext context)
         {
-            this.ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
+            ToolBar = new CommandID(PackageGuids.guidFCCPackageCmdSet, PackageIds.ReportToolWindowToolbar);
 
-            this.Caption = Vsix.Name;
-            this.BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };
+            Caption = Vsix.Name;
+            BitmapImageMoniker = new ImageMoniker { Guid = PackageGuids.guidMonikers, Id = 1 };
 
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
@@ -47,12 +47,12 @@ namespace FineCodeCoverage.Output
 
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
-                this.Content = new ReportToolWindowControl(context.ReportViewModel);
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+                Content = new ReportToolWindowControl(context.ReportViewModel);
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
             }
         }
 
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Output
 
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
 
                 // try resolve by name
 
@@ -97,7 +97,7 @@ namespace FineCodeCoverage.Output
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             }
 
             return null;

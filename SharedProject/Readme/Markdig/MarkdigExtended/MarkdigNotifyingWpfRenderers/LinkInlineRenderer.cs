@@ -17,18 +17,18 @@ namespace FineCodeCoverage.Readme
 
         public LinkInlineRenderer(string relativeRoot, string githubRoot, ICommand navigateCommand)
         {
-            this._relativeRoot = relativeRoot;
-            this._githubRoot = githubRoot;
-            this._navigateCommand = navigateCommand;
+            _relativeRoot = relativeRoot;
+            _githubRoot = githubRoot;
+            _navigateCommand = navigateCommand;
         }
 
         private string EnsureAbsolute(string url)
         {
             if (Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
-                string localPath = Path.Combine(this._relativeRoot, url);
+                string localPath = Path.Combine(_relativeRoot, url);
                 return File.Exists(localPath) ?
-                    localPath : new Uri(Path.Combine(this._githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
+                    localPath : new Uri(Path.Combine(_githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
             }
 
             return url;
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Readme
         {
             string url = link.GetDynamicUrl != null ? link.GetDynamicUrl() ?? link.Url : link.Url;
 
-            return !Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ? "#" : this.EnsureAbsolute(url);
+            return !Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ? "#" : EnsureAbsolute(url);
         }
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, LinkInline link)
@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Readme
             if (renderer == null) throw new ArgumentNullException(nameof(renderer));
             if (link == null) throw new ArgumentNullException(nameof(link));
 
-            string url = this.GetUrl(link);
+            string url = GetUrl(link);
             ElementAndMarker elementAndMarker;
             if (link.IsImage)
             {
@@ -59,8 +59,8 @@ namespace FineCodeCoverage.Readme
                 ICommand command = null;
                 if (link.Parent is LinkInline urlLinkInline)
                 {
-                    command = this._navigateCommand;
-                    url = this.GetUrl(urlLinkInline);
+                    command = _navigateCommand;
+                    url = GetUrl(urlLinkInline);
                 }
 
                 var btn = new Button()
@@ -77,7 +77,7 @@ namespace FineCodeCoverage.Readme
             {
                 var hyperlink = new Hyperlink
                 {
-                    Command = this._navigateCommand,
+                    Command = _navigateCommand,
                     CommandParameter = url,
                     NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 };

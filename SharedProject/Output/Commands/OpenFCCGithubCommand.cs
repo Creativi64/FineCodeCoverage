@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFCCGithubCommand(IFCCGithubService fccGithubService) => this._fccGithubService = fccGithubService;
+        public OpenFCCGithubCommand(IFCCGithubService fccGithubService) => _fccGithubService = fccGithubService;
 
-        protected override void Execute(object sender, EventArgs e) => this._fccGithubService.Navigate();
+        protected override void Execute(object sender, EventArgs e) => _fccGithubService.Navigate();
     }
 }

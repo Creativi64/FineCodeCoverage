@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
     {
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(VSProject vsProject)
         {
-            List<ReferencedProject> referencedProjects = (await System.Threading.Tasks.Task.WhenAll(GetReferencedSourceProjects(vsProject).Select(this.GetReferencedProjectAsync))).ToList();
+            List<ReferencedProject> referencedProjects = (await System.Threading.Tasks.Task.WhenAll(GetReferencedSourceProjects(vsProject).Select(GetReferencedProjectAsync))).ToList();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 

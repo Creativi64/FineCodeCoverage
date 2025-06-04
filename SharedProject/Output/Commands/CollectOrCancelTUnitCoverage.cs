@@ -21,15 +21,15 @@ namespace FineCodeCoverage.Output
                 collectTUnitCommand.SetVisible(!collecting);
                 cancelCollectTUnitCommand.SetVisible(collecting);
             };
-            this._collectTUnitCommand = collectTUnitCommand;
-            this._cancelCollectTUnitCommand = cancelCollectTUnitCommand;
+            _collectTUnitCommand = collectTUnitCommand;
+            _cancelCollectTUnitCommand = cancelCollectTUnitCommand;
         }
 
         public async Task InitializeAsync(ICommandPackageServices commandPackageServices)
         {
-            await this._collectTUnitCommand.InitializeAsync(commandPackageServices);
-            await this._cancelCollectTUnitCommand.InitializeAsync(commandPackageServices);
-            this._cancelCollectTUnitCommand.SetVisible(false);
+            await _collectTUnitCommand.InitializeAsync(commandPackageServices);
+            await _cancelCollectTUnitCommand.InitializeAsync(commandPackageServices);
+            _cancelCollectTUnitCommand.SetVisible(false);
         }
     }
 }

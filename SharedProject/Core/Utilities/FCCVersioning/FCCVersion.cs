@@ -13,12 +13,12 @@ namespace FineCodeCoverage.Core.Utilities.FCCVersioning
 
         public string GetVersion()
         {
-            if (this._version == null)
+            if (_version == null)
             {
-                this.SetVsixVersion();
+                SetVsixVersion();
             }
 
-            return this._version;
+            return _version;
         }
 
         private void SetVsixVersion()
@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Core.Utilities.FCCVersioning
             doc.Load(manifestPath);
             XmlElement metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
             XmlElement identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
-            this._version = identity.GetAttribute("Version");
+            _version = identity.GetAttribute("Version");
         }
     }
 }

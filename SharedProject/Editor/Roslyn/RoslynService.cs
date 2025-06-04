@@ -19,19 +19,19 @@ namespace FineCodeCoverage.Editor.Roslyn
             ILanguageContainingCodeVisitorFactory languageContainingCodeVisitorFactory,
             ITextSnapshotToSyntaxService textSnapshotToSyntaxService)
         {
-            this._languageContainingCodeVisitorFactory = languageContainingCodeVisitorFactory;
-            this._textSnapshotToSyntaxService = textSnapshotToSyntaxService;
+            _languageContainingCodeVisitorFactory = languageContainingCodeVisitorFactory;
+            _textSnapshotToSyntaxService = textSnapshotToSyntaxService;
         }
         public async Task<List<TextSpan>> GetContainingCodeSpansAsync(ITextSnapshot textSnapshot)
         {
-            RootNodeAndLanguage rootNodeAndLanguage = await this._textSnapshotToSyntaxService.GetRootAndLanguageAsync(textSnapshot);
+            RootNodeAndLanguage rootNodeAndLanguage = await _textSnapshotToSyntaxService.GetRootAndLanguageAsync(textSnapshot);
             if (rootNodeAndLanguage == null)
             {
                 return Enumerable.Empty<TextSpan>().ToList();
             }
 
             bool isCSharp = rootNodeAndLanguage.Language == LanguageNames.CSharp;
-            ILanguageContainingCodeVisitor languageContainingCodeVisitor = this._languageContainingCodeVisitorFactory.Create(isCSharp);
+            ILanguageContainingCodeVisitor languageContainingCodeVisitor = _languageContainingCodeVisitorFactory.Create(isCSharp);
             return languageContainingCodeVisitor.GetSpans(rootNodeAndLanguage.Root);
         }
     }

@@ -13,11 +13,11 @@ namespace FineCodeCoverage.Output
         public async Task InitializeAsync(ICommandPackageServices commandPackageServices)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(commandPackageServices.DisposalToken);
-            var menuCommandID = new CommandID(this.CommandSet, this.CommandId);
-            this.Command = new MenuCommand(this.Execute, menuCommandID);
-            commandPackageServices.MenuCommandService.AddCommand(this.Command);
-            this.PackageServices = commandPackageServices;
-            this.Initialized();
+            var menuCommandID = new CommandID(CommandSet, CommandId);
+            Command = new MenuCommand(Execute, menuCommandID);
+            commandPackageServices.MenuCommandService.AddCommand(Command);
+            PackageServices = commandPackageServices;
+            Initialized();
         }
 
         protected virtual void Initialized() { }

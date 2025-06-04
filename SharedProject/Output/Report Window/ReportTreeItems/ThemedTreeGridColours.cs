@@ -10,8 +10,8 @@ namespace FineCodeCoverage.Output
     {
         private ThemedTreeGridColours()
         {
-            VSColorTheme.ThemeChanged += (_) => this.PopulateColors();
-            this.PopulateColors();
+            VSColorTheme.ThemeChanged += (_) => PopulateColors();
+            PopulateColors();
         }
 
         public static ThemedTreeGridColours Instance { get; } = new ThemedTreeGridColours();
@@ -38,26 +38,26 @@ namespace FineCodeCoverage.Output
 
         private void SetImageBackgroundColor()
         {
-            this.ImageBackgroundColor = this._imageBackgroundThemeResourceKey.ToColor();
-            if (this.ImageBackgroundColor == Colors.Transparent)
+            ImageBackgroundColor = _imageBackgroundThemeResourceKey.ToColor();
+            if (ImageBackgroundColor == Colors.Transparent)
             {
-                this.ImageBackgroundColor = this._imageBackgroundFallbackThemeResourceKey.ToColor();
+                ImageBackgroundColor = _imageBackgroundFallbackThemeResourceKey.ToColor();
             }
 
-            this.ImageBackgroundBrush = new SolidColorBrush(this.ImageBackgroundColor);
-            this.ImageBackgroundBrush.Freeze();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ImageBackgroundColor)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ImageBackgroundBrush)));
+            ImageBackgroundBrush = new SolidColorBrush(ImageBackgroundColor);
+            ImageBackgroundBrush.Freeze();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBackgroundColor)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBackgroundBrush)));
         }
 
         private void PopulateColors()
         {
-            this.SetImageBackgroundColor();
-            this.SelectedItemActiveBackColor = TreeViewColors.SelectedItemActiveColorKey.ToBrush();
-            this.SelectedItemActiveForeColor = TreeViewColors.SelectedItemActiveTextColorKey.ToBrush();
-            this.SelectedItemInactiveBackColor = TreeViewColors.SelectedItemInactiveColorKey.ToBrush();
-            this.SelectedItemInactiveForeColor = TreeViewColors.SelectedItemInactiveTextColorKey.ToBrush();
-            this.ForegroundColor = TreeViewColors.BackgroundTextColorKey.ToBrush();
+            SetImageBackgroundColor();
+            SelectedItemActiveBackColor = TreeViewColors.SelectedItemActiveColorKey.ToBrush();
+            SelectedItemActiveForeColor = TreeViewColors.SelectedItemActiveTextColorKey.ToBrush();
+            SelectedItemInactiveBackColor = TreeViewColors.SelectedItemInactiveColorKey.ToBrush();
+            SelectedItemInactiveForeColor = TreeViewColors.SelectedItemInactiveTextColorKey.ToBrush();
+            ForegroundColor = TreeViewColors.BackgroundTextColorKey.ToBrush();
         }
     }
 }

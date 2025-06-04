@@ -21,29 +21,29 @@ namespace FineCodeCoverage.Wpf
 
         protected DependentPropertiesChangedUserControl()
         {
-            this._id = s_numInstances++;
-            this._notifier = s_notifierCache.GetOrAdd(typeof(T), () => DependentPropertiesChangedNotifierBuilder.Build<T>());
+            _id = s_numInstances++;
+            _notifier = s_notifierCache.GetOrAdd(typeof(T), () => DependentPropertiesChangedNotifierBuilder.Build<T>());
 
-            this._notifier.NotifyOfChanges((T)this);
-            this.Loaded += this.DependentPropertiesChangedUserControl_Loaded;
-            this.Unloaded += this.OnUnloaded;
+            _notifier.NotifyOfChanges((T)this);
+            Loaded += DependentPropertiesChangedUserControl_Loaded;
+            Unloaded += OnUnloaded;
         }
 
         private void DependentPropertiesChangedUserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (this._listening)
+            if (_listening)
             {
                 return;
             }
 
-            this._notifier.NotifyOfChanges((T)this);
-            this._listening = true;
+            _notifier.NotifyOfChanges((T)this);
+            _listening = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            this._listening = false;
-            this._notifier.RemoveNotificationOfChanges((T)this);
+            _listening = false;
+            _notifier.RemoveNotificationOfChanges((T)this);
         }
 
         public void NotifyDependentPropertyChanged(string propertyName)

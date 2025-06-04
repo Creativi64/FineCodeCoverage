@@ -9,14 +9,14 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     {
         public PalmmediaCodeElement(CodeElement codeElement, CodeFile codeFile)
         {
-            this.CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
-            this.Name = codeElement.Name;
-            this.StartLine = codeElement.FirstLine;
+            CodeElementType = ConvertCodeElementType(codeElement.CodeElementType);
+            Name = codeElement.Name;
+            StartLine = codeElement.FirstLine;
             IEnumerable<LineVisitStatus> lineVisitStatuses = codeFile.LineVisitStatus.Skip(codeElement.FirstLine)
             .Take(codeElement.LastLine - codeElement.FirstLine + 1);
-            this.SetLines(lineVisitStatuses);
+            SetLines(lineVisitStatuses);
 
-            this.Path = codeFile.Path;
+            Path = codeFile.Path;
             MethodMetric methodMetrics = codeFile.MethodMetrics.FirstOrDefault(methodMetric => methodMetric.FullName == codeElement.FullName);
             if (methodMetrics != null)
             {
@@ -30,15 +30,15 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 .ForEach(kvp =>
                 {
                     ICollection<Branch> branches = kvp.Value;
-                    this.TotalBranches += branches.Count;
-                    this.BranchesCovered += branches.Count(b => b.BranchVisits > 0);
+                    TotalBranches += branches.Count;
+                    BranchesCovered += branches.Count(b => b.BranchVisits > 0);
                 });
         }
 
         private void SetLines(IEnumerable<LineVisitStatus> lineVisitStatuses)
         {
             var coberturaLines = new List<ICoberturaLine>();
-            int lineNumber = this.StartLine;
+            int lineNumber = StartLine;
             foreach (LineVisitStatus lineVisitStatus in lineVisitStatuses)
             {
                 if (lineVisitStatus != LineVisitStatus.NotCoverable)
@@ -49,7 +49,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 lineNumber++;
             }
 
-            this.Lines = coberturaLines;
+            Lines = coberturaLines;
         }
 
         private static CoverageType ConvertLineVisitStatus(LineVisitStatus lineVisitStatus)

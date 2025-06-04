@@ -10,21 +10,21 @@ namespace FineCodeCoverage.Output
         {
             foreach (ReportTreeItemBase child in children)
             {
-                this.CoverableLines += child.CoverableLines;
-                this.CoveredLines += child.CoveredLines;
-                this.NotCoveredLines += child.NotCoveredLines;
-                this.PartialLines += child.PartialLines;
+                CoverableLines += child.CoverableLines;
+                CoveredLines += child.CoveredLines;
+                NotCoveredLines += child.NotCoveredLines;
+                PartialLines += child.PartialLines;
 
-                this.NPathComplexity += child.NPathComplexity;
-                this.CrapScore += child.CrapScore;
-                this.CyclomaticComplexity += child.CyclomaticComplexity;
+                NPathComplexity += child.NPathComplexity;
+                CrapScore += child.CrapScore;
+                CyclomaticComplexity += child.CyclomaticComplexity;
 
-                this.TotalBranches += child.TotalBranches;
-                this.CoveredBranches += child.CoveredBranches;
+                TotalBranches += child.TotalBranches;
+                CoveredBranches += child.CoveredBranches;
 
             }
 
-            this.Name = "Total";
+            Name = "Total";
         }
 
         // possibilities: AutoSum, Aggregate, Summary, Statistics

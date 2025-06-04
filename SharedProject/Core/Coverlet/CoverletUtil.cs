@@ -14,23 +14,23 @@ namespace FineCodeCoverage.Engine.Coverlet
         [ImportingConstructor]
         public CoverletUtil(ICoverletDataCollectorUtil coverletDataCollectorUtil, ICoverletConsoleUtil coverletGlobalUtil)
         {
-            this._coverletDataCollectorUtil = coverletDataCollectorUtil;
-            this._coverletGlobalUtil = coverletGlobalUtil;
+            _coverletDataCollectorUtil = coverletDataCollectorUtil;
+            _coverletGlobalUtil = coverletGlobalUtil;
         }
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            this._coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);
-            this._coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
+            _coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);
+            _coverletDataCollectorUtil.Initialize(appDataFolder, cancellationToken);
         }
 
         public async Task RunCoverletAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
-            if (await this._coverletDataCollectorUtil.CanUseDataCollectorAsync(project))
+            if (await _coverletDataCollectorUtil.CanUseDataCollectorAsync(project))
             {
-                await this._coverletDataCollectorUtil.RunAsync(cancellationToken);
+                await _coverletDataCollectorUtil.RunAsync(cancellationToken);
             }
 
-            await this._coverletGlobalUtil.RunAsync(project, cancellationToken);
+            await _coverletGlobalUtil.RunAsync(project, cancellationToken);
         }
     }
 }

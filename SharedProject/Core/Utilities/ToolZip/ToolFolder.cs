@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Core.Utilities
         private readonly IZipFile _zipFile;
 
         [ImportingConstructor]
-        public ToolFolder(IZipFile zipFile) => this._zipFile = zipFile;
+        public ToolFolder(IZipFile zipFile) => _zipFile = zipFile;
 
         public string EnsureUnzipped(
             string appDataFolder,
@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Core.Utilities
                 }
 
                 _ = Directory.CreateDirectory(zipDestination);
-                this._zipFile.ExtractToDirectory(zipDetails.Path, zipDestination);
+                _zipFile.ExtractToDirectory(zipDetails.Path, zipDestination);
             }
 
             return zipDestination;

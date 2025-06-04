@@ -14,11 +14,11 @@ namespace FineCodeCoverage.Output
             SourceFileStructure sourceFileStructure
         ) : base(directory, sourceFileStructure)
         {
-            this._name = this.Name;
-            this._path = path;
-            this.SetName(nameIsPath);
+            _name = Name;
+            _path = path;
+            SetName(nameIsPath);
         }
 
-        public void SetName(bool fromPath) => this.Name = fromPath ? this._path : this._name;
+        public void SetName(bool fromPath) => Name = fromPath ? _path : _name;
     }
 }

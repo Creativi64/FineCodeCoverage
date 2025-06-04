@@ -20,78 +20,78 @@ namespace FineCodeCoverage.Output
 
         protected ObservableCollection<ReportTreeItemBase> ObservableChildren { get; } = new ObservableCollection<ReportTreeItemBase>();
 
-        protected ReportTreeItemBase() => this.Children = this.ObservableChildren;
-        public IReadOnlyList<ReportTreeItemBase> ReportChildren => this.ObservableChildren;
+        protected ReportTreeItemBase() => Children = ObservableChildren;
+        public IReadOnlyList<ReportTreeItemBase> ReportChildren => ObservableChildren;
 
         public abstract ImageMoniker ImageMoniker { get; }
 
         public string Name
         {
-            get => this._name;
-            set => this.Set(ref this._name, value);
+            get => _name;
+            set => Set(ref _name, value);
         }
 
         public int CoverableLines
         {
-            get => this._coverableLines;
-            set => this.Set(ref this._coverableLines, value);
+            get => _coverableLines;
+            set => Set(ref _coverableLines, value);
         }
 
         public int CoveredLines
         {
-            get => this._coveredLines;
-            set => this.Set(ref this._coveredLines, value);
+            get => _coveredLines;
+            set => Set(ref _coveredLines, value);
         }
 
         public int NotCoveredLines
         {
-            get => this._notCoveredLines;
-            set => this.Set(ref this._notCoveredLines, value);
+            get => _notCoveredLines;
+            set => Set(ref _notCoveredLines, value);
         }
 
         public int PartialLines
         {
-            get => this._partialLines;
-            set => this.Set(ref this._partialLines, value);
+            get => _partialLines;
+            set => Set(ref _partialLines, value);
         }
 
         public int CyclomaticComplexity
         {
-            get => this._cyclomaticComplexity;
-            set => this.Set(ref this._cyclomaticComplexity, value);
+            get => _cyclomaticComplexity;
+            set => Set(ref _cyclomaticComplexity, value);
         }
 
         public int NPathComplexity
         {
-            get => this._npathComplexity;
-            set => this.Set(ref this._npathComplexity, value);
+            get => _npathComplexity;
+            set => Set(ref _npathComplexity, value);
         }
 
         public decimal CrapScore
         {
-            get => this._crapScore;
-            set => this.Set(ref this._crapScore, value);
+            get => _crapScore;
+            set => Set(ref _crapScore, value);
         }
 
         public int TotalBranches
         {
-            get => this._totalBranches;
-            set => this.Set(ref this._totalBranches, value);
+            get => _totalBranches;
+            set => Set(ref _totalBranches, value);
         }
 
         public int CoveredBranches
         {
-            get => this._coveredBranches;
-            set => this.Set(ref this._coveredBranches, value);
+            get => _coveredBranches;
+            set => Set(ref _coveredBranches, value);
         }
 
         public override bool IsExpanded
         {
-            get => this._isExpanded;
-            set => this.Set(ref this._isExpanded, value);
+            get => _isExpanded;
+            set => Set(ref _isExpanded, value);
         }
 
-        public int NotCoveredBranches => this.TotalBranches - this.CoveredBranches;
+        public int NotCoveredBranches => TotalBranches - CoveredBranches;
 
         internal static double SharedAdditionalAdjustment { get; set; } = 26;
         // crisp image width and margin

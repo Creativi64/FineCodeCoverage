@@ -24,26 +24,26 @@ namespace FineCodeCoverage.Editor.Management
             IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider
         )
         {
-            editorCoverageColouringOptionsProvider.OptionsChanged += this.EditorCoverageColouringOptionsProvider_OptionsChanged;
-            this._hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();
-            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsProvider_OptionsChanged;
+            _hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();
+            _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
         }
 
         private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            if (!this._initialized)
+            if (!_initialized)
             {
                 return;
             }
 
-            this.ReactToAppOptionsChanging(editorCoverageColouringOptions);
+            ReactToAppOptionsChanging(editorCoverageColouringOptions);
         }
 
         private void ReactToAppOptionsChanging(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            bool preUsingEnterprise = this._usingEnterprise;
-            this.Set(() => editorCoverageColouringOptions.UseEnterpriseFontsAndColors);
-            if (this._usingEnterprise == preUsingEnterprise)
+            bool preUsingEnterprise = _usingEnterprise;
+            Set(() => editorCoverageColouringOptions.UseEnterpriseFontsAndColors);
+            if (_usingEnterprise == preUsingEnterprise)
             {
                 return;
             }
@@ -53,67 +53,67 @@ namespace FineCodeCoverage.Editor.Management
 
         public void Initialize(FCCEditorFormatDefinitionNames fCCEditorFormatDefinitionNames)
         {
-            this._fCCEditorFormatDefinitionNames = fCCEditorFormatDefinitionNames;
-            this.Set();
-            this._initialized = true;
+            _fCCEditorFormatDefinitionNames = fCCEditorFormatDefinitionNames;
+            Set();
+            _initialized = true;
         }
 
-        private void Set() => this.Set(() => this._editorCoverageColouringOptionsProvider.Get().UseEnterpriseFontsAndColors);
+        private void Set() => Set(() => _editorCoverageColouringOptionsProvider.Get().UseEnterpriseFontsAndColors);
 
         private void Set(Func<bool> getUseEnterprise)
         {
-            if (!this._hasCoverageMarkers)
+            if (!_hasCoverageMarkers)
             {
-                this.SetMarkersFromFCC();
+                SetMarkersFromFCC();
             }
             else
             {
 
-                this.SetPossiblyEnterprise(getUseEnterprise());
+                SetPossiblyEnterprise(getUseEnterprise());
             }
 
-            this.SetFCCOnly();
+            SetFCCOnly();
         }
 
         private void SetPossiblyEnterprise(bool useEnterprise)
         {
-            this._usingEnterprise = useEnterprise;
+            _usingEnterprise = useEnterprise;
             if (useEnterprise)
             {
-                this.SetMarkersFromEnterprise();
+                SetMarkersFromEnterprise();
             }
             else
             {
-                this.SetMarkersFromFCC();
+                SetMarkersFromFCC();
             }
         }
 
         private void SetFCCOnly()
         {
-            this.NewLines = this.CreateMef(this._fCCEditorFormatDefinitionNames.NewLines);
-            this.Dirty = this.CreateMef(this._fCCEditorFormatDefinitionNames.Dirty);
-            this.NotIncluded = this.CreateMef(this._fCCEditorFormatDefinitionNames.NotIncluded);
+            NewLines = CreateMef(_fCCEditorFormatDefinitionNames.NewLines);
+            Dirty = CreateMef(_fCCEditorFormatDefinitionNames.Dirty);
+            NotIncluded = CreateMef(_fCCEditorFormatDefinitionNames.NotIncluded);
         }
 
         private void SetMarkersFromFCC()
         {
-            this.Covered = this.CreateMef(this._fCCEditorFormatDefinitionNames.Covered);
-            this.NotCovered = this.CreateMef(this._fCCEditorFormatDefinitionNames.NotCovered);
-            this.PartiallyCovered = this.CreateMef(this._fCCEditorFormatDefinitionNames.PartiallyCovered);
+            Covered = CreateMef(_fCCEditorFormatDefinitionNames.Covered);
+            NotCovered = CreateMef(_fCCEditorFormatDefinitionNames.NotCovered);
+            PartiallyCovered = CreateMef(_fCCEditorFormatDefinitionNames.PartiallyCovered);
         }
 
         private void SetMarkersFromEnterprise()
         {
-            this.Covered = this.CreateEnterprise(MarkerTypeNames.Covered);
-            this.NotCovered = this.CreateEnterprise(MarkerTypeNames.NotCovered);
-            this.PartiallyCovered = this.CreateEnterprise(MarkerTypeNames.PartiallyCovered);
+            Covered = CreateEnterprise(MarkerTypeNames.Covered);
+            NotCovered = CreateEnterprise(MarkerTypeNames.NotCovered);
+            PartiallyCovered = CreateEnterprise(MarkerTypeNames.PartiallyCovered);
         }
 
         private FontAndColorsCategoryItemName CreateMef(string itemName)
-            => new FontAndColorsCategoryItemName(itemName, this._editorMEFCategory);
+            => new FontAndColorsCategoryItemName(itemName, _editorMEFCategory);
 
         private FontAndColorsCategoryItemName CreateEnterprise(string itemName)
-            => new FontAndColorsCategoryItemName(itemName, this._editorTextMarkerFontAndColorCategory);
+            => new FontAndColorsCategoryItemName(itemName, _editorTextMarkerFontAndColorCategory);
 
         public FontAndColorsCategoryItemName Covered { get; private set; }
         public FontAndColorsCategoryItemName NotCovered { get; private set; }

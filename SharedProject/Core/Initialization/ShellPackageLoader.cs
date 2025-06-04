@@ -15,13 +15,13 @@ namespace FineCodeCoverage.Core.Initialization
         public ShellPackageLoader(
             [Import(typeof(SVsServiceProvider))]
              IServiceProvider serviceProvider
-        ) => this._serviceProvider = serviceProvider;
+        ) => _serviceProvider = serviceProvider;
 
         public async Task LoadPackageAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            if (!(this._serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell))
+            if (!(_serviceProvider.GetService(typeof(SVsShell)) is IVsShell shell))
             {
                 return;
             }

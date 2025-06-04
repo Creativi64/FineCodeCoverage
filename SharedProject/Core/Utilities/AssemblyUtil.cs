@@ -13,13 +13,13 @@ namespace FineCodeCoverage.Core.Utilities
         {
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
                 action.Invoke();
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
             }
         }
 
@@ -27,13 +27,13 @@ namespace FineCodeCoverage.Core.Utilities
         {
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
                 return func.Invoke();
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
             }
         }
 
@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Core.Utilities
 
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
 
                 // try resolve by name
 
@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Core.Utilities
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             }
 
             return null;

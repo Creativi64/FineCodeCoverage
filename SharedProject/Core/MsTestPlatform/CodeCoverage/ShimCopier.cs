@@ -13,31 +13,31 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
-        public ShimCopier(IFileUtil fileUtil) => this._fileUtil = fileUtil;
+        public ShimCopier(IFileUtil fileUtil) => _fileUtil = fileUtil;
 
         private void CopyShim(string shimPath, string outputFolder)
         {
             string destination = Path.Combine(outputFolder, Path.GetFileName(shimPath));
-            if (this._fileUtil.Exists(destination))
+            if (_fileUtil.Exists(destination))
             {
                 return;
             }
 
-            this._fileUtil.Copy(shimPath, destination);
+            _fileUtil.Copy(shimPath, destination);
         }
 
         private void CopyShim(string shimPath, IEnumerable<ICoverageProject> coverageProjects)
         {
             foreach (ICoverageProject coverageProject in coverageProjects)
             {
-                this.CopyShim(shimPath, coverageProject.ProjectOutputFolder);
+                CopyShim(shimPath, coverageProject.ProjectOutputFolder);
             }
         }
 
         public void Copy(string shimPath, IEnumerable<ICoverageProject> coverageProjects)
         {
             IEnumerable<ICoverageProject> netFrameworkCoverageProjects = coverageProjects.Where(cp => cp.IsDotNetFramework);
-            this.CopyShim(shimPath, netFrameworkCoverageProjects);
+            CopyShim(shimPath, netFrameworkCoverageProjects);
         }
     }
 }

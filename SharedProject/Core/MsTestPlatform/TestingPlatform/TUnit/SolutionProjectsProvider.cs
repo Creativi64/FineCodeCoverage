@@ -20,19 +20,19 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public SolutionProjectsProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => this._serviceProvider = serviceProvider;
+        ) => _serviceProvider = serviceProvider;
 
         public async Task<List<IVsHierarchy>> GetLoadedProjectsAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             return GetProjects(vsSolution, __VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION);
         }
 
         public async Task<bool> IsSolutionOpenAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             _ = vsSolution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object isSolutionOpen);
             return (bool)isSolutionOpen;

@@ -16,28 +16,28 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             get
             {
-                if (!this._triedGetTextDocumentProperty)
+                if (!_triedGetTextDocumentProperty)
                 {
-                    this._triedGetTextDocumentProperty = true;
-                    if (this.TextBuffer.Properties.TryGetProperty(typeof(ITextDocument), out ITextDocument document))
+                    _triedGetTextDocumentProperty = true;
+                    if (TextBuffer.Properties.TryGetProperty(typeof(ITextDocument), out ITextDocument document))
                     {
-                        this._document = document;
+                        _document = document;
                     }
                 }
 
-                return this._document;
+                return _document;
             }
         }
         public TextInfo(ITextView textView, ITextBuffer textBuffer)
         {
-            this.TextView = textView;
-            this.TextBuffer = textBuffer as ITextBuffer2;
+            TextView = textView;
+            TextBuffer = textBuffer as ITextBuffer2;
         }
 
         public ITextView TextView { get; }
         public ITextBuffer2 TextBuffer { get; }
-        public string FilePath => this.TextDocument?.FilePath;
-        public string GetFileText() => File.Exists(this.FilePath) ? File.ReadAllText(this.FilePath) : null;
-        public DateTime GetLastWriteTime() => new FileInfo(this.FilePath).LastWriteTime;
+        public string FilePath => TextDocument?.FilePath;
+        public string GetFileText() => File.Exists(FilePath) ? File.ReadAllText(FilePath) : null;
+        public DateTime GetLastWriteTime() => new FileInfo(FilePath).LastWriteTime;
     }
 }

@@ -10,6 +10,6 @@ namespace FineCodeCoverage.Output
             ti => ti.Name, ti => ti.IsExpanded, ti => ti.IsExpanded = true, ti => ti.ReportChildren);
 
         public void RestoreExpansionState(IList<ReportTreeItemBase> oldItems, IList<ReportTreeItemBase> newItems)
-            => this._treeExpander.RestoreExpansionState(oldItems, newItems);
+            => _treeExpander.RestoreExpansionState(oldItems, newItems);
     }
 }

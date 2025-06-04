@@ -13,11 +13,11 @@ namespace FineCodeCoverage.Engine.Model
         [ImportingConstructor]
         public CoverageProjectSettingsProvider(
             IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider
-        ) => this._vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
+        ) => _vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
 
         public async Task<XElement> ProvideAsync(ICoverageProject coverageProject)
             => ProjectSettingsElementFromFCCLabelledPropertyGroup(coverageProject) ??
-                await this._vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
+                await _vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
 
         /*
             <PropertyGroup Label="FineCodeCoverage">

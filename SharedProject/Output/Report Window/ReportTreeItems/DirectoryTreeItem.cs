@@ -9,26 +9,26 @@ namespace FineCodeCoverage.Output
     {
         public DirectoryTreeItem(IDirectory directory, SourceFileStructure sourceFileStructure)
         {
-            this.Name = directory.Name;
+            Name = directory.Name;
             foreach (IDirectory subDirectory in directory.SubDirectories)
             {
-                this.ObservableChildren.Add(new DirectoryTreeItem(subDirectory, sourceFileStructure) { Parent = this });
+                ObservableChildren.Add(new DirectoryTreeItem(subDirectory, sourceFileStructure) { Parent = this });
             }
 
             foreach (ISourceFile sourceFile in directory.SourceFiles)
             {
-                this.ObservableChildren.Add(new SourceFileTreeItem(sourceFile, sourceFileStructure) { Parent = this });
+                ObservableChildren.Add(new SourceFileTreeItem(sourceFile, sourceFileStructure) { Parent = this });
             }
 
-            this.CoverableLines = this.ObservableChildren.Sum(c => c.CoverableLines);
-            this.CoveredLines = this.ObservableChildren.Sum(c => c.CoveredLines);
-            this.NotCoveredLines = this.ObservableChildren.Sum(c => c.NotCoveredLines);
-            this.PartialLines = this.ObservableChildren.Sum(c => c.PartialLines);
-            this.NPathComplexity = this.ObservableChildren.Sum(c => c.NPathComplexity);
-            this.CrapScore = this.ObservableChildren.Sum(c => c.CrapScore);
-            this.CyclomaticComplexity = this.ObservableChildren.Sum(c => c.CyclomaticComplexity);
-            this.TotalBranches = this.ObservableChildren.Sum(c => c.TotalBranches);
-            this.CoveredBranches = this.ObservableChildren.Sum(c => c.CoveredBranches);
+            CoverableLines = ObservableChildren.Sum(c => c.CoverableLines);
+            CoveredLines = ObservableChildren.Sum(c => c.CoveredLines);
+            NotCoveredLines = ObservableChildren.Sum(c => c.NotCoveredLines);
+            PartialLines = ObservableChildren.Sum(c => c.PartialLines);
+            NPathComplexity = ObservableChildren.Sum(c => c.NPathComplexity);
+            CrapScore = ObservableChildren.Sum(c => c.CrapScore);
+            CyclomaticComplexity = ObservableChildren.Sum(c => c.CyclomaticComplexity);
+            TotalBranches = ObservableChildren.Sum(c => c.TotalBranches);
+            CoveredBranches = ObservableChildren.Sum(c => c.CoveredBranches);
         }
 
         public override ImageMoniker ImageMoniker => KnownMonikers.FolderClosed;

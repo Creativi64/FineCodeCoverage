@@ -9,10 +9,10 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     {
         public PalmmediaAssembly(Assembly assemblyReport)
         {
-            this.Name = assemblyReport.Name;
-            this.ShortName = assemblyReport.ShortName;
-            this.PalmmediaClasses = assemblyReport.Classes.Select(c => new PalmmediaClass(c)).ToList();
-            this.Classes = this.PalmmediaClasses;
+            Name = assemblyReport.Name;
+            ShortName = assemblyReport.ShortName;
+            PalmmediaClasses = assemblyReport.Classes.Select(c => new PalmmediaClass(c)).ToList();
+            Classes = PalmmediaClasses;
         }
         public List<PalmmediaClass> PalmmediaClasses { get; }
         public string Name { get; }

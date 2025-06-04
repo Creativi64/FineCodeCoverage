@@ -12,14 +12,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         [ImportingConstructor]
         public DirtyLineFactory(ITrackingLineFactory trackingLineFactory)
-            => this._trackingLineFactory = trackingLineFactory;
+            => _trackingLineFactory = trackingLineFactory;
 
         public ITrackingLine Create(
             ITrackingSpan trackingSpan,
             int originalLineNumber,
             IDynamicCoberturaLine dynamicCoberturaLine
         ) => new DirtyTrackingLine(
-                this._trackingLineFactory.Create(trackingSpan, originalLineNumber, DynamicCoverageType.Dirty),
+                _trackingLineFactory.Create(trackingSpan, originalLineNumber, DynamicCoverageType.Dirty),
                 dynamicCoberturaLine);
     }
 }

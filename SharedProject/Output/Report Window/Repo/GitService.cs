@@ -22,11 +22,11 @@ namespace FineCodeCoverage.Output
             IServiceProvider serviceProvider
         )
         {
-            this._gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
-            Assumes.Present(this._gitExt);
+            _gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
+            Assumes.Present(_gitExt);
         }
         public IReadOnlyList<string> GetRepositoryPaths()
-            => this._gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
+            => _gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
 
         public IGitRepo GetRepository(string selectedRepositoryPath)
         {

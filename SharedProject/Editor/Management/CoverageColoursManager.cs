@@ -67,10 +67,10 @@ namespace FineCodeCoverage.Editor.Management
             ICoverageFontAndColorsCategoryItemNamesManager coverageFontAndColorsCategoryItemNamesManager
         )
         {
-            this._coverageClassificationColourService = coverageClassificationColourService;
-            this._fontAndColorsInfosProvider = fontAndColorsInfosProvider;
-            this._editorFormatMapTextSpecificListener = editorFormatMapTextSpecificListener;
-            this._textFormattingRunPropertiesFactory = textFormattingRunPropertiesFactory;
+            _coverageClassificationColourService = coverageClassificationColourService;
+            _fontAndColorsInfosProvider = fontAndColorsInfosProvider;
+            _editorFormatMapTextSpecificListener = editorFormatMapTextSpecificListener;
+            _textFormattingRunPropertiesFactory = textFormattingRunPropertiesFactory;
 
             coverageFontAndColorsCategoryItemNamesManager.Initialize(
                 new FCCEditorFormatDefinitionNames(
@@ -81,10 +81,10 @@ namespace FineCodeCoverage.Editor.Management
                     DirtyEditorFormatDefinitionName,
                     NotIncludedEditorFormatDefintionName
             ));
-            coverageFontAndColorsCategoryItemNamesManager.Changed += (sender, args) => this.Changed();
+            coverageFontAndColorsCategoryItemNamesManager.Changed += (sender, args) => Changed();
             fontAndColorsInfosProvider.CoverageFontAndColorsCategoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
 
-            this._editorFormatMapTextSpecificListener.ListenFor(
+            _editorFormatMapTextSpecificListener.ListenFor(
                 new List<string> {
                     MarkerTypeNames.Covered,
                     MarkerTypeNames.NotCovered,
@@ -97,21 +97,21 @@ namespace FineCodeCoverage.Editor.Management
                     DirtyEditorFormatDefinitionName,
                     NotIncludedEditorFormatDefintionName
                 },
-                () => this.Changed());
+                () => Changed());
 
-            delayedMainThreadInvocation.DelayedInvoke(this.InitializeColours);
+            delayedMainThreadInvocation.DelayedInvoke(InitializeColours);
         }
 
         private void InitializeColours()
         {
-            Dictionary<DynamicCoverageType, IFontAndColorsInfo> coverageColors = this._fontAndColorsInfosProvider.GetFontAndColorsInfos();
-            this.SetClassificationTypeColoursIfChanged(coverageColors);
+            Dictionary<DynamicCoverageType, IFontAndColorsInfo> coverageColors = _fontAndColorsInfosProvider.GetFontAndColorsInfos();
+            SetClassificationTypeColoursIfChanged(coverageColors);
         }
 
         private void Changed()
         {
-            Dictionary<DynamicCoverageType, IFontAndColorsInfo> changedColours = this._fontAndColorsInfosProvider.GetChangedFontAndColorsInfos();
-            this.SetClassificationTypeColoursIfChanged(changedColours);
+            Dictionary<DynamicCoverageType, IFontAndColorsInfo> changedColours = _fontAndColorsInfosProvider.GetChangedFontAndColorsInfos();
+            SetClassificationTypeColoursIfChanged(changedColours);
         }
 
         private void SetClassificationTypeColoursIfChanged(Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes)
@@ -121,17 +121,17 @@ namespace FineCodeCoverage.Editor.Management
                 return;
             }
 
-            this._editorFormatMapTextSpecificListener.PauseListeningWhenExecuting(
-                () => this.SetClassificationTypeColours(changes)
+            _editorFormatMapTextSpecificListener.PauseListeningWhenExecuting(
+                () => SetClassificationTypeColours(changes)
             );
         }
 
         private void SetClassificationTypeColours(Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes)
         {
             IEnumerable<CoverageTypeColour> coverageTypeColours = changes.Select(
-                change => new CoverageTypeColour(change.Key, this._textFormattingRunPropertiesFactory.Create(change.Value))
+                change => new CoverageTypeColour(change.Key, _textFormattingRunPropertiesFactory.Create(change.Value))
             );
-            this._coverageClassificationColourService.SetCoverageColours(coverageTypeColours);
+            _coverageClassificationColourService.SetCoverageColours(coverageTypeColours);
         }
     }
 }

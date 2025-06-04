@@ -34,28 +34,28 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IDynamicLineFilter dynamicLineFilter
         )
         {
-            this._eventAggregator = eventAggregator;
-            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this._dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
-            this._dynamicCoverageManager = dynamicCoverageManager;
-            this._textInfoFactory = textInfoFactory;
-            this._fileExcluders = fileExcluders;
-            this._fileIndicatorVisibility = fileIndicatorVisibility;
-            this._dynamicLineFilter = dynamicLineFilter;
+            _eventAggregator = eventAggregator;
+            _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            _dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
+            _dynamicCoverageManager = dynamicCoverageManager;
+            _textInfoFactory = textInfoFactory;
+            _fileExcluders = fileExcluders;
+            _fileIndicatorVisibility = fileIndicatorVisibility;
+            _dynamicLineFilter = dynamicLineFilter;
         }
         public ICoverageTaggerProvider<TTag> Create<TTag, TCoverageTypeFilter>(ILineSpanTagger<TTag> tagger)
             where TTag : ITag
             where TCoverageTypeFilter : ICoverageTypeFilter, new()
                 => new CoverageTaggerProvider<TCoverageTypeFilter, TTag>(
-                    this._eventAggregator,
-                    this._editorCoverageColouringOptionsProvider,
-                    this._dynamicLineAndSnapshotSpansLogic,
+                    _eventAggregator,
+                    _editorCoverageColouringOptionsProvider,
+                    _dynamicLineAndSnapshotSpansLogic,
                     tagger,
-                    this._dynamicCoverageManager,
-                    this._textInfoFactory,
-                    this._fileExcluders,
-                    this._fileIndicatorVisibility,
-                    this._dynamicLineFilter
+                    _dynamicCoverageManager,
+                    _textInfoFactory,
+                    _fileExcluders,
+                    _fileIndicatorVisibility,
+                    _dynamicLineFilter
                 );
     }
 }

@@ -5,18 +5,18 @@ namespace FineCodeCoverage.Wpf
 {
     internal partial class BaseDialogControl : UserControl
     {
-        public BaseDialogControl() => this.InitializeComponent();
+        public BaseDialogControl() => InitializeComponent();
 
         public string Title
         {
-            get => (string)this.GetValue(TitleProperty);
-            set => this.SetValue(TitleProperty, value);
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         public object CustomContent
         {
-            get => this.GetValue(CustomContentProperty);
-            set => this.SetValue(CustomContentProperty, value);
+            get => GetValue(CustomContentProperty);
+            set => SetValue(CustomContentProperty, value);
         }
 
         public static readonly DependencyProperty CustomContentProperty =

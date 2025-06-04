@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public ShowReportViewCommand(IReportViewService reportViewService) => this._reportViewService = reportViewService;
+        public ShowReportViewCommand(IReportViewService reportViewService) => _reportViewService = reportViewService;
 
-        protected override void Execute(object sender, EventArgs e) => this._reportViewService.Show();
+        protected override void Execute(object sender, EventArgs e) => _reportViewService.Show();
     }
 }

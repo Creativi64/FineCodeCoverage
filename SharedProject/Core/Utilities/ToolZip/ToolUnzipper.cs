@@ -15,18 +15,18 @@ namespace FineCodeCoverage.Core.Utilities
             IToolFolder toolFolder
             )
         {
-            this._toolZipProvider = toolZipProvider;
-            this._toolFolder = toolFolder;
+            _toolZipProvider = toolZipProvider;
+            _toolFolder = toolFolder;
         }
         public string EnsureUnzipped(
             string appDataFolder,
             string ownFolderName,
             string zipPrefix,
             CancellationToken cancellationToken
-        ) => this._toolFolder.EnsureUnzipped(
+        ) => _toolFolder.EnsureUnzipped(
             appDataFolder,
             ownFolderName,
-            this._toolZipProvider.ProvideZip(zipPrefix),
+            _toolZipProvider.ProvideZip(zipPrefix),
             cancellationToken);
     }
 }

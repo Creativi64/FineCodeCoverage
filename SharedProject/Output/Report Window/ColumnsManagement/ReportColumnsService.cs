@@ -12,12 +12,12 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public ReportColumnsService(IReportColumnManager reportColumnsManager, IMessageBox messageBox)
         {
-            this._reportColumnsManager = reportColumnsManager;
-            this._messageBox = messageBox;
+            _reportColumnsManager = reportColumnsManager;
+            _messageBox = messageBox;
         }
         public void ManageColumns()
         {
-            var vm = new ReportColumnsManagementViewModel(this._reportColumnsManager, this._messageBox);
+            var vm = new ReportColumnsManagementViewModel(_reportColumnsManager, _messageBox);
             var columnsManagementWindow = new ColumnsManagementWindow2(vm);
             _ = columnsManagementWindow.ShowModal();
         }

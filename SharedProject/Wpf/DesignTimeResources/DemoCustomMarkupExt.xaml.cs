@@ -4,6 +4,6 @@ namespace FineCodeCoverage.Wpf
 {
     public partial class DemoCustomMarkupExt : UserControl
     {
-        public DemoCustomMarkupExt() => this.InitializeComponent();
+        public DemoCustomMarkupExt() => InitializeComponent();
     }
 }

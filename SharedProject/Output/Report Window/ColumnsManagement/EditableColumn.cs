@@ -18,20 +18,20 @@ namespace FineCodeCoverage.Output
         }
         public EditableColumn(IReportColumnData reportColumnData)
         {
-            this.Column = reportColumnData.ReportColumnType;
-            this.Name = reportColumnData.Name;
-            this.IsVisible = reportColumnData.IsVisible;
-            this.ReportColumnData = reportColumnData;
-            this.CanEditVisible = reportColumnData.DisplayIndex > 0;
-            this.HeaderAlignment = reportColumnData.HeaderAlignment;
-            this.CellAlignment = reportColumnData.CellAlignment;
-            this.CanEditCellAlignment = reportColumnData.CanEditCellAlignment;
+            Column = reportColumnData.ReportColumnType;
+            Name = reportColumnData.Name;
+            IsVisible = reportColumnData.IsVisible;
+            ReportColumnData = reportColumnData;
+            CanEditVisible = reportColumnData.DisplayIndex > 0;
+            HeaderAlignment = reportColumnData.HeaderAlignment;
+            CellAlignment = reportColumnData.CellAlignment;
+            CanEditCellAlignment = reportColumnData.CanEditCellAlignment;
         }
 
         public bool IsVisible
         {
-            get => this._isVisible;
-            set => this.Set(ref this._isVisible, value);
+            get => _isVisible;
+            set => Set(ref _isVisible, value);
         }
 
         public bool CanEditVisible { get; }
@@ -42,32 +42,32 @@ namespace FineCodeCoverage.Output
 
         public string Name
         {
-            get => this._name;
-            set => this.Set(ref this._name, value);
+            get => _name;
+            set => Set(ref _name, value);
         }
 
         public HorizontalAlignment HeaderAlignment
         {
-            get => this._headerAlignment;
-            set => this.Set(ref this._headerAlignment, value);
+            get => _headerAlignment;
+            set => Set(ref _headerAlignment, value);
         }
 
         public HorizontalAlignment CellAlignment
         {
-            get => this._cellAlignment;
-            set => this.Set(ref this._cellAlignment, value);
+            get => _cellAlignment;
+            set => Set(ref _cellAlignment, value);
         }
 
         public bool CanEditCellAlignment
         {
-            get => this._canEditCellAlignment;
-            set => this.Set(ref this._canEditCellAlignment, value);
+            get => _canEditCellAlignment;
+            set => Set(ref _canEditCellAlignment, value);
         }
 
-        public string Error => this[nameof(this.Name)];
+        public string Error => this[nameof(Name)];
 
         public string this[string columnName]
-            => columnName != nameof(this.Name) ? null :
-                this.Name.Trim().Length == 0 ? "Name is required" : null;
+            => columnName != nameof(Name) ? null :
+                Name.Trim().Length == 0 ? "Name is required" : null;
     }
 }

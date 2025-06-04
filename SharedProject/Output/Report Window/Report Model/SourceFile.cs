@@ -12,17 +12,17 @@ namespace FineCodeCoverage.Output
         private string _path;
         public SourceFile(string path, List<SourceFileClass> classes, bool hasNewCode)
         {
-            this.Path = path;
-            this.Classes = classes;
-            this.HasNewCode = hasNewCode;
+            Path = path;
+            Classes = classes;
+            HasNewCode = hasNewCode;
         }
 
         public string Path
         {
-            get => this._path;
+            get => _path;
             set
             {
-                this._path = value;
+                _path = value;
                 PathChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -31,8 +31,8 @@ namespace FineCodeCoverage.Output
 
         internal void SetHasNewCode(bool hasNewCode)
         {
-            this.HasNewCode = hasNewCode;
-            this.HasNewCodeChanged?.Invoke(this, EventArgs.Empty);
+            HasNewCode = hasNewCode;
+            HasNewCodeChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

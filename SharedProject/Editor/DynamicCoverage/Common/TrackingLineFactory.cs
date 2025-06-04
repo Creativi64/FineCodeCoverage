@@ -11,17 +11,17 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         [ImportingConstructor]
         public TrackingLineFactory(
             ILineTracker lineTracker
-        ) => this._lineTracker = lineTracker;
+        ) => _lineTracker = lineTracker;
 
         public ITrackingLine Create(
             ITrackingSpan startTrackingSpan,
             ITextSnapshot currentSnapshot,
             DynamicCoverageType dynamicCoverageType)
-            => new TrackingLine(startTrackingSpan, currentSnapshot, this._lineTracker, dynamicCoverageType);
+            => new TrackingLine(startTrackingSpan, currentSnapshot, _lineTracker, dynamicCoverageType);
 
         public ITrackingLine Create(
             ITrackingSpan startTrackingSpan,
            int originalLineNumber,
-           DynamicCoverageType dynamicCoverageType) => new TrackingLine(startTrackingSpan, this._lineTracker, dynamicCoverageType, originalLineNumber);
+           DynamicCoverageType dynamicCoverageType) => new TrackingLine(startTrackingSpan, _lineTracker, dynamicCoverageType, originalLineNumber);
     }
 }

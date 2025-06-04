@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Wpf
     {
         public class ImageThemingColorChangedEventArgs : EventArgs
         {
-            public ImageThemingColorChangedEventArgs(Color color) => this.Color = color;
+            public ImageThemingColorChangedEventArgs(Color color) => Color = color;
 
             public Color Color { get; }
         }
@@ -60,19 +60,19 @@ namespace FineCodeCoverage.Wpf
 
         public ImageMoniker Moniker
         {
-            get => (ImageMoniker)this.GetValue(Crispy.MonikerProperty);
-            set => this.SetValue(Crispy.MonikerProperty, (object)value);
+            get => (ImageMoniker)GetValue(Crispy.MonikerProperty);
+            set => SetValue(Crispy.MonikerProperty, (object)value);
         }
         public Crispy()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             if (!s_isInDesignMode)
             {
-                this.SetupCrispImage();
+                SetupCrispImage();
                 return;
             }
 
-            this.SetupDesignTimeCrispImage();
+            SetupDesignTimeCrispImage();
         }
 
         private void SetupCrispImage()
@@ -81,20 +81,20 @@ namespace FineCodeCoverage.Wpf
             var crispImage = new CrispImage();
 
             // Bind dependency properties from Crispy to CrispImage
-            this.BindProperty(MonikerProperty, crispImage, CrispImage.MonikerProperty);
-            this.BindProperty(WidthProperty, crispImage, CrispImage.WidthProperty);
-            this.BindProperty(HeightProperty, crispImage, CrispImage.HeightProperty);
+            BindProperty(MonikerProperty, crispImage, CrispImage.MonikerProperty);
+            BindProperty(WidthProperty, crispImage, CrispImage.WidthProperty);
+            BindProperty(HeightProperty, crispImage, CrispImage.HeightProperty);
 
-            this.Content = crispImage;
+            Content = crispImage;
         }
 
         private void SetupDesignTimeCrispImage()
         {
-            WeakEventManager<Crispy, ImageThemingColorChangedEventArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), this.Crispy_ImageThemingColorChanged);
+            WeakEventManager<Crispy, ImageThemingColorChangedEventArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), Crispy_ImageThemingColorChanged);
 
-            this.SetImage();
-            this.SetImageSource();
-            this.Content = this._image;
+            SetImage();
+            SetImageSource();
+            Content = _image;
         }
 
         private void BindProperty(DependencyProperty sourceProperty,
@@ -115,26 +115,26 @@ namespace FineCodeCoverage.Wpf
 
         private void SetImage()
         {
-            this._image = new Image();
+            _image = new Image();
 
-            _ = BindingOperations.SetBinding(this._image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
+            _ = BindingOperations.SetBinding(_image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
             {
                 Source = this,
             });
-            _ = BindingOperations.SetBinding(this._image, Image.HeightProperty, new Binding(nameof(FrameworkElement.Height))
+            _ = BindingOperations.SetBinding(_image, Image.HeightProperty, new Binding(nameof(FrameworkElement.Height))
             {
                 Source = this,
             });
         }
 
-        private Color GetColor() => (Color)this.GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
+        private Color GetColor() => (Color)GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
 
-        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedEventArgs e) => this.SetImageSource();
+        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedEventArgs e) => SetImageSource();
 
         private void SetImageSource()
         {
-            var imageSource = (ImageSource)ImageLibraryLoader.Default.GetImage(this.Moniker, this.GetImageAttributes());
-            this._image.Source = imageSource;
+            var imageSource = (ImageSource)ImageLibraryLoader.Default.GetImage(Moniker, GetImageAttributes());
+            _image.Source = imageSource;
         }
 
         private static uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
@@ -165,13 +165,13 @@ namespace FineCodeCoverage.Wpf
             const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background;// others
             imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
             imageAttributes.StructSize = (int)Marshal.SizeOf<ImageAttributes>();
-            imageAttributes.Background = ConvertColor(this.GetColor());
+            imageAttributes.Background = ConvertColor(GetColor());
             imageAttributes.Dpi = GetDpi();
 
             //var scaleFactor = 1;  
 
-            imageAttributes.LogicalHeight = (int)this.Width;
-            imageAttributes.LogicalWidth = (int)this.Height;
+            imageAttributes.LogicalHeight = (int)Width;
+            imageAttributes.LogicalWidth = (int)Height;
             /*
                 device size
                  double num = dpi / 96.0 * scaleFactor;

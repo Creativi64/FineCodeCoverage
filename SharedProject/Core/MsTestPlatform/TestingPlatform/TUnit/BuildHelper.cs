@@ -28,18 +28,18 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                this._solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
-                Assumes.Present(this._solutionBuildManager2);
-                this._solutionBuildManager3 = this._solutionBuildManager2 as IVsSolutionBuildManager3;
-                this._buildStartEnd = new BuildStartEnd();
-                _ = this._solutionBuildManager2.AdviseUpdateSolutionEvents(this._buildStartEnd, out uint cookie);
-                this._buildStartEnd.BuildEvent += this.BuildStartEnd_BuildEvent;
+                _solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
+                Assumes.Present(_solutionBuildManager2);
+                _solutionBuildManager3 = _solutionBuildManager2 as IVsSolutionBuildManager3;
+                _buildStartEnd = new BuildStartEnd();
+                _ = _solutionBuildManager2.AdviseUpdateSolutionEvents(_buildStartEnd, out uint cookie);
+                _buildStartEnd.BuildEvent += BuildStartEnd_BuildEvent;
             });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private void BuildStartEnd_BuildEvent(object sender, BuildStartEndArgs e)
         {
-            if (this._building)
+            if (_building)
             {
                 return;
             }
@@ -50,34 +50,34 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public async Task<bool> BuildAsync(List<IVsHierarchy> projects, CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            return !await this.RequiresBuildAsync(cancellationToken) || await this.BuildAsync(cancellationToken);
+            return !await RequiresBuildAsync(cancellationToken) || await BuildAsync(cancellationToken);
         }
 
         private async Task<bool> BuildAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var buildHandler = new BuildCompletionHandler(cancellationToken);
-            int hr = this._solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
+            int hr = _solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
             _ = ErrorHandler.ThrowOnFailure(hr);
             bool succeeded = false;
             try
             {
-                this._building = true;
-                int result = this._solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
+                _building = true;
+                int result = _solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
                     (uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD, 0, 1);
                 _ = ErrorHandler.ThrowOnFailure(result);
                 succeeded = await buildHandler.BuildCompleted;
             }
             catch (OperationCanceledException)
             {
-                _ = this._solutionBuildManager2.CancelUpdateSolutionConfiguration();
+                _ = _solutionBuildManager2.CancelUpdateSolutionConfiguration();
                 throw;
             }
             finally
             {
-                this._building = false;
+                _building = false;
                 buildHandler.Dispose();
-                _ = this._solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
+                _ = _solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
             }
 
             return succeeded;
@@ -90,10 +90,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 #pragma warning disable CS0162 // Unreachable code detected
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 #pragma warning restore CS0162 // Unreachable code detected
-            if (this._solutionBuildManager3 == null)
+            if (_solutionBuildManager3 == null)
                 return true;
 
-            int hr = this._solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
+            int hr = _solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
             return hr != VSConstants.S_OK;
         }
     }

@@ -19,13 +19,13 @@ namespace FineCodeCoverage.Engine.Model
         public VsBuildFCCSettingsProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => this._serviceProvider = serviceProvider;
+        ) => _serviceProvider = serviceProvider;
 
         public async Task<XElement> GetSettingsAsync(Guid projectId)
         {
             XElement fccSettingsElement = null;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK
                 && vsHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage

@@ -12,15 +12,15 @@ namespace FineCodeCoverage.Readme
 
         public TableReplacerMarkdownExtension(string marker, Func<Table> tableCreator)
         {
-            this._marker = marker;
-            this._tableCreator = tableCreator;
+            _marker = marker;
+            _tableCreator = tableCreator;
         }
 
         public void Setup(MarkdownPipelineBuilder pipeline) => pipeline.BlockParsers.AddIfNotAlready<MarkerBlockParser>();
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
             => renderer.ObjectRenderers.AddIfNotAlready(
-                () => new MarkerBlockRenderer(this._marker, () => new Block[] { this._tableCreator() })
+                () => new MarkerBlockRenderer(_marker, () => new Block[] { _tableCreator() })
             );
     }
 }

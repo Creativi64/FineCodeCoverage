@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Wpf
         protected ResourceDialogWindowBase(IDialogViewModel dialogViewModel, string resourcePath) : base(dialogViewModel)
         {
             ResourceDictionary resourceDictionary = ResourceDictionaryHelper.FromExecutingAssemembly(resourcePath);
-            this.Resources.MergedDictionaries.Add(resourceDictionary);
+            Resources.MergedDictionaries.Add(resourceDictionary);
         }
     }
 }

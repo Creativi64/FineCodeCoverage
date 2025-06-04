@@ -9,12 +9,12 @@ namespace FineCodeCoverage.Output
 
         [ImportingConstructor]
         public ReportViewService(
-            IReportViewSelectorModel reportViewSelectorModel) => this._reportViewSelectorModel = reportViewSelectorModel;
+            IReportViewSelectorModel reportViewSelectorModel) => _reportViewSelectorModel = reportViewSelectorModel;
 
         public void Show()
         {
             // could import the view model if it has no state
-            var vm = new ReportViewSelectorViewModel(this._reportViewSelectorModel);
+            var vm = new ReportViewSelectorViewModel(_reportViewSelectorModel);
             _ = new ReportViewSelectorWindow(vm).ShowModal();
         }
     }

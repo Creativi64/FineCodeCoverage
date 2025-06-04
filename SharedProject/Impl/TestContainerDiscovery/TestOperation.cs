@@ -12,19 +12,19 @@ namespace FineCodeCoverage.Impl
 
         public TestOperation(TestRunRequest testRunRequest, ICoverageProjectFactory coverageProjectFactory, IRunSettingsRetriever runSettingsRetriever)
         {
-            this._testRunRequest = testRunRequest;
-            this._coverageProjectFactory = coverageProjectFactory;
-            this._runSettingsRetriever = runSettingsRetriever;
+            _testRunRequest = testRunRequest;
+            _coverageProjectFactory = coverageProjectFactory;
+            _runSettingsRetriever = runSettingsRetriever;
         }
 
-        public long FailedTests => this._testRunRequest.Response.FailedTests;
+        public long FailedTests => _testRunRequest.Response.FailedTests;
 
-        public long TotalTests => this._testRunRequest.TotalTests;
+        public long TotalTests => _testRunRequest.TotalTests;
 
-        public string SolutionDirectory => this._testRunRequest.Configuration.SolutionDirectory;
+        public string SolutionDirectory => _testRunRequest.Configuration.SolutionDirectory;
 
         public Task<List<ICoverageProject>> GetCoverageProjectsAsync()
-            => this.GetCoverageProjectsAsync(this._testRunRequest.Configuration);
+            => GetCoverageProjectsAsync(_testRunRequest.Configuration);
 
         private async Task<List<ICoverageProject>> GetCoverageProjectsAsync(TestConfiguration testConfiguration)
         {
@@ -33,7 +33,7 @@ namespace FineCodeCoverage.Impl
             var coverageProjects = new List<ICoverageProject>();
             foreach (Container container in testContainers)
             {
-                ICoverageProject project = this._coverageProjectFactory.Create();
+                ICoverageProject project = _coverageProjectFactory.Create();
                 coverageProjects.Add(project);
                 project.ProjectName = container.ProjectName;
                 project.TestDllFile = container.Source;
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Impl
                 ContainerData containerData = container.ProjectData;
                 project.ProjectFilePath = container.ProjectData.ProjectFilePath;
                 project.Id = containerData.Id;
-                project.RunSettingsFile = await this._runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
+                project.RunSettingsFile = await _runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
             }
 
             return coverageProjects;

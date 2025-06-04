@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Output
     {
         public NewReportMessage(IReportResult report, List<ICoverageProject> coverageProjects)
         {
-            this.Report = report;
-            this.CoverageProjects = coverageProjects;
+            Report = report;
+            CoverageProjects = coverageProjects;
         }
         public IReportResult Report { get; set; }
         public List<ICoverageProject> CoverageProjects { get; }

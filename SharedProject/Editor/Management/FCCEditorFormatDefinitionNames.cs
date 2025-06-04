@@ -6,12 +6,12 @@
             string covered, string notCovered, string partiallyCovered, string newLines, string dirty, string notIncluded
         )
         {
-            this.Covered = covered;
-            this.NotCovered = notCovered;
-            this.PartiallyCovered = partiallyCovered;
-            this.NewLines = newLines;
-            this.Dirty = dirty;
-            this.NotIncluded = notIncluded;
+            Covered = covered;
+            NotCovered = notCovered;
+            PartiallyCovered = partiallyCovered;
+            NewLines = newLines;
+            Dirty = dirty;
+            NotIncluded = notIncluded;
         }
 
         public string Covered { get; }

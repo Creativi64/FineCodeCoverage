@@ -4,8 +4,8 @@
     {
         public TrackedLineInfo(int lineNumber, string lineText)
         {
-            this.LineNumber = lineNumber;
-            this.LineText = lineText;
+            LineNumber = lineNumber;
+            LineText = lineText;
         }
         public int LineNumber { get; }
         public string LineText { get; }

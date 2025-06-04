@@ -45,43 +45,43 @@ namespace FineCodeCoverage.Engine
             IDisposeAwareTaskRunner disposeAwareTaskRunner
             )
         {
-            this._eventAggregator = eventAggregator;
-            this._disposeAwareTaskRunner = disposeAwareTaskRunner;
-            this._coverageOutputManager = coverageOutputManager;
-            this._coverageUtilManager = coverageUtilManager;
-            this._reportGeneratorUtil = reportGeneratorUtil;
-            this._logger = logger;
+            _eventAggregator = eventAggregator;
+            _disposeAwareTaskRunner = disposeAwareTaskRunner;
+            _coverageOutputManager = coverageOutputManager;
+            _coverageUtilManager = coverageUtilManager;
+            _reportGeneratorUtil = reportGeneratorUtil;
+            _logger = logger;
         }
 
         private Task LogCoverageStatusAsync(string reloadCoverageStatus)
-            => this._logger.LogAsync(StatusMarkerProvider.Get(reloadCoverageStatus));
+            => _logger.LogAsync(StatusMarkerProvider.Get(reloadCoverageStatus));
 
         public void StopCoverage()
         {
-            if (this._cancellationTokenSource == null)
+            if (_cancellationTokenSource == null)
             {
                 return;
             }
 
             try
             {
-                this._cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Cancel();
             }
             catch (ObjectDisposedException) { }
         }
 
         private void Reset()
         {
-            this.StopCoverage();
+            StopCoverage();
 
-            this._cancellationTokenSource = this._disposeAwareTaskRunner.CreateLinkedTokenSource();
+            _cancellationTokenSource = _disposeAwareTaskRunner.CreateLinkedTokenSource();
         }
 
         private async Task<string[]> RunCoverageAsync(List<ICoverageProject> coverageProjects, CancellationToken vsShutdownLinkedCancellationToken)
         {
             // process pipeline
 
-            await this.PrepareCoverageProjectsAsync(coverageProjects, vsShutdownLinkedCancellationToken);
+            await PrepareCoverageProjectsAsync(coverageProjects, vsShutdownLinkedCancellationToken);
 
             foreach (ICoverageProject coverageProject in coverageProjects)
             {
@@ -89,11 +89,11 @@ namespace FineCodeCoverage.Engine
                 {
                     DateTime start = DateTime.Now;
 
-                    await this._coverageUtilManager.RunCoverageAsync(project, vsShutdownLinkedCancellationToken);
+                    await _coverageUtilManager.RunCoverageAsync(project, vsShutdownLinkedCancellationToken);
 
                     TimeSpan duration = DateTime.Now - start;
                     string durationMessage = $"Completed coverage for ({coverageProject.ProjectName}) : {duration}";
-                    await this._logger.LogAsync(durationMessage);
+                    await _logger.LogAsync(durationMessage);
 
                 });
 
@@ -101,7 +101,7 @@ namespace FineCodeCoverage.Engine
                 {
                     string coverageStagePrefix = string.IsNullOrEmpty(coverageProject.FailureStage) ? "" : $"{coverageProject.FailureStage} ";
                     string failureMessage = $"{coverageProject.FailureStage}({coverageProject.ProjectName}) Failed.";
-                    await this._logger.LogAsync(failureMessage, coverageProject.FailureDescription);
+                    await _logger.LogAsync(failureMessage, coverageProject.FailureDescription);
                 }
             }
 
@@ -118,12 +118,12 @@ namespace FineCodeCoverage.Engine
             List<ICoverageProject> coverageProjects,
             CancellationToken vsShutdownLinkedCancellationToken)
         {
-            string reportOutputFolder = this._coverageOutputManager.GetReportOutputFolder();
+            string reportOutputFolder = _coverageOutputManager.GetReportOutputFolder();
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
-            ReportGeneratorResult result = await this._reportGeneratorUtil.GenerateAsync(coverOutputFiles, reportOutputFolder, vsShutdownLinkedCancellationToken);
+            ReportGeneratorResult result = await _reportGeneratorUtil.GenerateAsync(coverOutputFiles, reportOutputFolder, vsShutdownLinkedCancellationToken);
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
-            await this._logger.LogAsync("Processing cobertura");
+            await _logger.LogAsync("Processing cobertura");
 
             vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
 
@@ -157,7 +157,7 @@ namespace FineCodeCoverage.Engine
                 {
                     logs.Insert(0, "File synchronization :");
                     logs.Add($"File synchronization duration : {fileSynchronizationDetails.Duration}");
-                    await this._logger.LogAsync(logs);
+                    await _logger.LogAsync(logs);
                 }
             }
         }
@@ -169,17 +169,17 @@ namespace FineCodeCoverage.Engine
                 return;
             }
 
-            this._eventAggregator.SendMessage(new ReportFilesMessage { CoberturaFile = reportResult.CoberturaFile, ReportResult = reportResult.Report });
+            _eventAggregator.SendMessage(new ReportFilesMessage { CoberturaFile = reportResult.CoberturaFile, ReportResult = reportResult.Report });
         }
 
         public void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null)
-            => this.RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
+            => RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
             {
                 var reportResult = new ReportResult();
 
                 if (coberturaFiles.Length != 0)
                 {
-                    reportResult = await this.RunAndProcessReportAsync(coberturaFiles, coverageProjects, vsShutdownLinkedCancellationToken);
+                    reportResult = await RunAndProcessReportAsync(coberturaFiles, coverageProjects, vsShutdownLinkedCancellationToken);
                 }
 
                 return reportResult;
@@ -192,58 +192,58 @@ namespace FineCodeCoverage.Engine
             try
             {
                 ReportResult result = await reportResultProvider(vsShutdownLinkedCancellationToken);
-                await this.LogCoverageStatusAsync("Done");
-                this._eventAggregator.SendMessage(new CoverageEndedMessage());
-                this._eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects));
-                this.RaiseReportFiles(result);
+                await LogCoverageStatusAsync("Done");
+                _eventAggregator.SendMessage(new CoverageEndedMessage());
+                _eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects));
+                RaiseReportFiles(result);
 
             }
             catch (OperationCanceledException)
             {
-                if (!this._disposeAwareTaskRunner.IsVsShutdown)
+                if (!_disposeAwareTaskRunner.IsVsShutdown)
                 {
-                    await this.LogCoverageStatusAsync("Cancelled");
-                    this._eventAggregator.SendMessage(new CoverageEndedMessage());
+                    await LogCoverageStatusAsync("Cancelled");
+                    _eventAggregator.SendMessage(new CoverageEndedMessage());
                 }
             }
             catch (Exception ex)
             {
-                await this._logger.LogAsync(
+                await _logger.LogAsync(
                     StatusMarkerProvider.Get("Error"),
                     ex.ToString()
                 );
-                this._eventAggregator.SendMessage(new CoverageEndedMessage());
+                _eventAggregator.SendMessage(new CoverageEndedMessage());
             }
         }
 
         private void RunCancellableCoverageTask(
             Func<CancellationToken, Task<ReportResult>> reportResultProvider, Action cleanUp)
         {
-            this.Reset();
-            CancellationToken vsShutdownLinkedCancellationToken = this._cancellationTokenSource.Token;
-            this._disposeAwareTaskRunner.RunAsyncFunc(async () =>
+            Reset();
+            CancellationToken vsShutdownLinkedCancellationToken = _cancellationTokenSource.Token;
+            _disposeAwareTaskRunner.RunAsyncFunc(async () =>
             {
                 await TaskScheduler.Default;
-                await this.DoWorkAsync(reportResultProvider, vsShutdownLinkedCancellationToken);
+                await DoWorkAsync(reportResultProvider, vsShutdownLinkedCancellationToken);
                 cleanUp?.Invoke();
-                this._cancellationTokenSource.Dispose();
+                _cancellationTokenSource.Dispose();
             });
         }
 
         public void ReloadCoverage(Func<Task<List<ICoverageProject>>> coverageRequestCallback)
-            => this.RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
+            => RunCancellableCoverageTask(async (vsShutdownLinkedCancellationToken) =>
             {
                 var reportResult = new ReportResult();
 
                 List<ICoverageProject> coverageProjects = await coverageRequestCallback();
                 vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
 
-                await this._coverageOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
+                await _coverageOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 
-                string[] coverOutputFiles = await this.RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
+                string[] coverOutputFiles = await RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
                 if (coverOutputFiles.Length != 0)
                 {
-                    reportResult = await this.RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
+                    reportResult = await RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
                 }
 
                 return reportResult;

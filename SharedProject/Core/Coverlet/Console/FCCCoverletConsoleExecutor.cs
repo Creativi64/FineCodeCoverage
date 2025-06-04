@@ -17,13 +17,13 @@ namespace FineCodeCoverage.Engine.Coverlet
         private string _coverletExePath;
 
         [ImportingConstructor]
-        public FCCCoverletConsoleExecutor(IToolUnzipper toolUnzipper) => this._toolUnzipper = toolUnzipper;
+        public FCCCoverletConsoleExecutor(IToolUnzipper toolUnzipper) => _toolUnzipper = toolUnzipper;
 
         public Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
             => Task.FromResult(
                 new ExecuteRequest
                 {
-                    FilePath = this._coverletExePath,
+                    FilePath = _coverletExePath,
                     Arguments = coverletSettings,
                     WorkingDirectory = coverageProject.ProjectOutputFolder
                 }
@@ -31,8 +31,8 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, ZipDirectoryName, ZipPrefix, cancellationToken);
-            this._coverletExePath = Directory.GetFiles(zipDestination, "coverlet.exe", SearchOption.AllDirectories).FirstOrDefault()
+            string zipDestination = _toolUnzipper.EnsureUnzipped(appDataFolder, ZipDirectoryName, ZipPrefix, cancellationToken);
+            _coverletExePath = Directory.GetFiles(zipDestination, "coverlet.exe", SearchOption.AllDirectories).FirstOrDefault()
                            ?? Directory.GetFiles(zipDestination, "*coverlet*.exe", SearchOption.AllDirectories).FirstOrDefault();
         }
     }

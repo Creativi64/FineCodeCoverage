@@ -23,35 +23,35 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public OpenHotspotsCommand(IEventAggregator eventAggregator, IHotspotsService hotspotsService, IVsOpenFile vsOpenFile)
         {
-            this._eventAggregator = eventAggregator;
-            this._hotspotsService = hotspotsService;
-            this._vsOpenFile = vsOpenFile;
+            _eventAggregator = eventAggregator;
+            _hotspotsService = hotspotsService;
+            _vsOpenFile = vsOpenFile;
         }
 
         protected override void Initialized()
         {
-            this.Command.Enabled = false;
-            _ = this._eventAggregator.AddListener(this);
+            Command.Enabled = false;
+            _ = _eventAggregator.AddListener(this);
         }
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (this._reportResult == null)
+            if (_reportResult == null)
             {
                 return;
             }
 
-            this._hotspotsService.WriteHotspotsToXml(this._reportResult.Assemblies, this._hotspotsPath);
-            this._vsOpenFile.OpenFileInCodeEditor(this._hotspotsPath);
+            _hotspotsService.WriteHotspotsToXml(_reportResult.Assemblies, _hotspotsPath);
+            _vsOpenFile.OpenFileInCodeEditor(_hotspotsPath);
         }
 
-        public void Handle(OutdatedOutputMessage message) => this.Command.Enabled = false;
+        public void Handle(OutdatedOutputMessage message) => Command.Enabled = false;
 
         public void Handle(ReportFilesMessage message)
         {
-            this._reportResult = message.ReportResult;
-            this._hotspotsPath = Path.Combine(Path.GetDirectoryName(message.CoberturaFile), "hotspots.xml");
-            this.Command.Enabled = true;
+            _reportResult = message.ReportResult;
+            _hotspotsPath = Path.Combine(Path.GetDirectoryName(message.CoberturaFile), "hotspots.xml");
+            Command.Enabled = true;
         }
     }
 }

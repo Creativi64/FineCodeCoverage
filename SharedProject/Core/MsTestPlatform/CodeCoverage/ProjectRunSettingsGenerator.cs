@@ -26,16 +26,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             ILogger logger
         )
         {
-            this._fileUtil = fileUtil;
-            this._vsRunSettingsWriter = vsRunSettingsWriter;
-            this._logger = logger;
+            _fileUtil = fileUtil;
+            _vsRunSettingsWriter = vsRunSettingsWriter;
+            _logger = logger;
         }
 
         public Task RemoveGeneratedProjectSettingsAsync(IEnumerable<ICoverageProject> coverageProjects)
             => Task.WhenAll(
                 coverageProjects
                 .Where(coverageProject => IsGeneratedRunSettings(coverageProject.RunSettingsFile))
-                .Select(coverageProjectForRemoval => this._vsRunSettingsWriter.RemoveRunSettingsFilePathAsync(coverageProjectForRemoval.Id))
+                .Select(coverageProjectForRemoval => _vsRunSettingsWriter.RemoveRunSettingsFilePathAsync(coverageProjectForRemoval.Id))
             );
 
         public Task WriteProjectsRunSettingsAsync(IEnumerable<ICoverageProjectRunSettings> coverageProjectsRunSettings)
@@ -44,7 +44,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 {
                     ICoverageProject coverageProject = coverageProjectRunSettings.CoverageProject;
                     string projectRunSettingsFilePath = GeneratedProjectRunSettingsFilePath(coverageProject);
-                    return this.WriteProjectRunSettingsAsync(coverageProject.Id, coverageProject.ProjectName, projectRunSettingsFilePath, coverageProjectRunSettings.RunSettings);
+                    return WriteProjectRunSettingsAsync(coverageProject.Id, coverageProject.ProjectName, projectRunSettingsFilePath, coverageProjectRunSettings.RunSettings);
                 })
             );
 
@@ -55,16 +55,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private async Task WriteProjectRunSettingsAsync(Guid projectGuid, string projectName, string projectRunSettingsFilePath, string projectRunSettings)
         {
-            bool ok = await this._vsRunSettingsWriter.WriteRunSettingsFilePathAsync(projectGuid, projectRunSettingsFilePath);
+            bool ok = await _vsRunSettingsWriter.WriteRunSettingsFilePathAsync(projectGuid, projectRunSettingsFilePath);
             if (ok)
             {
                 projectRunSettings = XDocument.Parse(projectRunSettings).FormatXml();
-                this._fileUtil.WriteAllText(projectRunSettingsFilePath, projectRunSettings);
-                await this._logger.LogAsync($"runsettings written to {projectRunSettingsFilePath}", projectRunSettings);
+                _fileUtil.WriteAllText(projectRunSettingsFilePath, projectRunSettings);
+                await _logger.LogAsync($"runsettings written to {projectRunSettingsFilePath}", projectRunSettings);
             }
             else
             {
-                await this._logger.LogAsync($"Issue writing runsettings for {projectName}");
+                await _logger.LogAsync($"Issue writing runsettings for {projectName}");
             }
         }
 

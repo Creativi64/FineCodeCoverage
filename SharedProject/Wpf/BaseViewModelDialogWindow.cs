@@ -4,8 +4,8 @@
     {
         public BaseViewModelDialogWindow(IDialogViewModel dialogViewModel)
         {
-            this.DataContext = dialogViewModel;
-            dialogViewModel.Done += (_, __) => this.Close();
+            DataContext = dialogViewModel;
+            dialogViewModel.Done += (_, __) => Close();
         }
     }
 }

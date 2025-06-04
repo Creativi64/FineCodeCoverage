@@ -29,11 +29,11 @@ namespace FineCodeCoverage.Core.Utilities
         }
 
         protected sealed override void StartListening(object source)
-            => VSColorTheme.ThemeChanged += this.ThemeChanged;
+            => VSColorTheme.ThemeChanged += ThemeChanged;
 
         protected sealed override void StopListening(object source)
-            => VSColorTheme.ThemeChanged -= this.ThemeChanged;
+            => VSColorTheme.ThemeChanged -= ThemeChanged;
 
-        void ThemeChanged(EventArgs e) => this.DeliverEvent(null, e);
+        void ThemeChanged(EventArgs e) => DeliverEvent(null, e);
     }
 }

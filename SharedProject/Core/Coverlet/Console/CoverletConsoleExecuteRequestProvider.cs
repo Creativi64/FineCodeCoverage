@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             [Import(typeof(ICoverletConsoleDotnetToolsLocalExecutor))]
             ICoverletConsoleExecutor localExecutor,
             IFCCCoverletConsoleExecutor fccExecutor
-        ) => this._executors = new List<ICoverletConsoleExecutor>
+        ) => _executors = new List<ICoverletConsoleExecutor>
             {
                 localExecutor,
                 customPathExecutor,
@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         // for now FCCCoverletConsoleExeProvider can return null for exe path
         public async Task<ExecuteRequest> GetExecuteRequestAsync(ICoverageProject project, string coverletSettings)
         {
-            foreach (ICoverletConsoleExecutor exeProvider in this._executors)
+            foreach (ICoverletConsoleExecutor exeProvider in _executors)
             {
                 ExecuteRequest executeRequest = await exeProvider.GetRequestAsync(project, coverletSettings);
                 if (executeRequest != null)

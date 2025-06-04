@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Engine
 
         [ImportingConstructor]
         public FccOutputExistenceCoverageToolOutputFolderSolutionProvider(IFileUtil fileUtil)
-            => this._fileUtil = fileUtil;
+            => _fileUtil = fileUtil;
 
         public string Provide(Func<string> solutionFolderProvider)
         {
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Engine
             }
 
             string provided = Path.Combine(solutionFolder, FCCOutputFolderName);
-            return this._fileUtil.DirectoryExists(provided) ? provided : null;
+            return _fileUtil.DirectoryExists(provided) ? provided : null;
         }
     }
 }

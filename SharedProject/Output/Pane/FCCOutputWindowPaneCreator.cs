@@ -20,33 +20,33 @@ namespace FineCodeCoverage.Output.Pane
         public FCCOutputWindowPaneCreator(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => this._serviceProvider = serviceProvider;
+        ) => _serviceProvider = serviceProvider;
 
         public async System.Threading.Tasks.Task<IFCCOutputWindowPane> GetOrCreateAsync()
         {
-            if (this._fccOutputWindowPane != null)
+            if (_fccOutputWindowPane != null)
             {
-                return this._fccOutputWindowPane;
+                return _fccOutputWindowPane;
             }
 
-            await this.SetPaneAsync();
-            return this._fccOutputWindowPane;
+            await SetPaneAsync();
+            return _fccOutputWindowPane;
         }
 
         private async System.Threading.Tasks.Task SetPaneAsync()
         {
-            IVsOutputWindowPane pane = await this.CreatePaneAsync();
-            Window outputWindowWindow = await this.GetOutputWindowWindowAsync();
-            TextDocument paneTextDocument = await this.GetPaneTextDocumentAsync(outputWindowWindow);
+            IVsOutputWindowPane pane = await CreatePaneAsync();
+            Window outputWindowWindow = await GetOutputWindowWindowAsync();
+            TextDocument paneTextDocument = await GetPaneTextDocumentAsync(outputWindowWindow);
 
-            this._fccOutputWindowPane = new FCCOutputWindowPane(pane, outputWindowWindow, paneTextDocument);
+            _fccOutputWindowPane = new FCCOutputWindowPane(pane, outputWindowWindow, paneTextDocument);
         }
 
         private async System.Threading.Tasks.Task<IVsOutputWindowPane> CreatePaneAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var fccPaneGuid = Guid.Parse(FCCPaneGuidString);
-            var outputWindow = (IVsOutputWindow)this._serviceProvider.GetService(typeof(SVsOutputWindow));
+            var outputWindow = (IVsOutputWindow)_serviceProvider.GetService(typeof(SVsOutputWindow));
             Assumes.Present(outputWindow);
 
             _ = outputWindow.CreatePane(
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Output.Pane
         private async System.Threading.Tasks.Task<Window> GetOutputWindowWindowAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var dte = (DTE2)this._serviceProvider.GetService(typeof(DTE));
+            var dte = (DTE2)_serviceProvider.GetService(typeof(DTE));
             Assumes.Present(dte);
             return dte.Windows.Item(EnvDTE.Constants.vsWindowKindOutput);
         }
@@ -71,7 +71,7 @@ namespace FineCodeCoverage.Output.Pane
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             return ((OutputWindow)outputWindowWindow.Object).OutputWindowPanes.Cast<OutputWindowPane>()
-                .First(this.IsFCCPane).TextDocument;
+                .First(IsFCCPane).TextDocument;
         }
 
         private bool IsFCCPane(OutputWindowPane owp)

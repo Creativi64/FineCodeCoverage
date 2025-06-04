@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Output
             double minWidth = 100,
             HorizontalAlignment initialAlignment = default
         ) : base(name, displayIndex, isVisible, width, minWidth, initialAlignment, initialAlignment)
-            => this.ReportColumnType = reportColumnType;
+            => ReportColumnType = reportColumnType;
 
         public ReportColumnData(
             string reportColumnType,
@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Output
             double width,
             double minWidth = 100
         ) : base(name, displayIndex, isVisible, width, minWidth, headerAlignment, cellAlignment)
-            => this.ReportColumnType = reportColumnType;
+            => ReportColumnType = reportColumnType;
 
         public string ReportColumnType { get; }
         public bool CanEditCellAlignment { get; set; } = true;

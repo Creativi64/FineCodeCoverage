@@ -18,22 +18,22 @@ namespace FineCodeCoverage.Core.Utilities.Solution
             ISolutionEvents solutionEvents
         )
         {
-            this._options = options;
-            solutionEvents.AfterClosing += this.SolutionEvents_AfterClosing;
+            _options = options;
+            solutionEvents.AfterClosing += SolutionEvents_AfterClosing;
         }
 
         private void SolutionEvents_AfterClosing(object sender, System.EventArgs e)
         {
-            foreach (ISolutionOption option in this._options)
+            foreach (ISolutionOption option in _options)
             {
                 option.Unloaded();
             }
         }
 
-        public Task<IEnumerable<string>> GetKeysAsync() => Task.FromResult(this._options.Select(o => o.Key));
+        public Task<IEnumerable<string>> GetKeysAsync() => Task.FromResult(_options.Select(o => o.Key));
 
-        public void LoadOptions(string key, Stream stream) => this._options.First(o => o.Key == key).Load(stream);
+        public void LoadOptions(string key, Stream stream) => _options.First(o => o.Key == key).Load(stream);
 
-        public void SaveOptions(string key, Stream stream) => this._options.First(o => o.Key == key).Save(stream);
+        public void SaveOptions(string key, Stream stream) => _options.First(o => o.Key == key).Save(stream);
     }
 }

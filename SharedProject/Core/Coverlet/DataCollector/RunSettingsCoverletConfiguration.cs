@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Core.Coverlet
             if (coverletDataCollectorElement != null)
             {
                 XAttribute enabledAttribute = coverletDataCollectorElement.Attribute("enabled");
-                this.CoverletDataCollectorState = enabledAttribute == null
+                CoverletDataCollectorState = enabledAttribute == null
                     ? CoverletDataCollectorState.Enabled
                     : string.Equals(enabledAttribute.Value, "true", System.StringComparison.OrdinalIgnoreCase) ?
                         CoverletDataCollectorState.Enabled :
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Core.Coverlet
             }
 
             bool foundElements = false;
-            this.GetType().GetProperties().ToList().ForEach(p =>
+            GetType().GetProperties().ToList().ForEach(p =>
             {
                 XElement configurationPropertyElement = configurationElements.FirstOrDefault(e => e.Name == p.Name);
                 if (configurationPropertyElement == null)

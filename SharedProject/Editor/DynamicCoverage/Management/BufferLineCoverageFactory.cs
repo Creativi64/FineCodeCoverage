@@ -23,9 +23,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILogger logger
         )
         {
-            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this._logger = logger;
-            this._coverageContentTypes = new CoverageContentTypes(coverageContentTypes);
+            _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            _logger = logger;
+            _coverageContentTypes = new CoverageContentTypes(coverageContentTypes);
         }
 
         public IBufferLineCoverage Create(
@@ -36,9 +36,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 textInfo,
                 eventAggregator,
                 trackedLinesFactory,
-                this._editorCoverageColouringOptionsProvider,
-                this._coverageContentTypes,
-                this._logger
+                _editorCoverageColouringOptionsProvider,
+                _coverageContentTypes,
+                _logger
                 );
     }
 }

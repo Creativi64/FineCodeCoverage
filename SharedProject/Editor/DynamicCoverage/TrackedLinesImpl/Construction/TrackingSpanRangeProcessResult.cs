@@ -11,10 +11,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             bool textChanged
         )
         {
-            this.TrackingSpanRange = trackingSpanRange;
-            this.NonIntersectingSpans = nonIntersectingSpans;
-            this.IsEmpty = isEmpty;
-            this.TextChanged = textChanged;
+            TrackingSpanRange = trackingSpanRange;
+            NonIntersectingSpans = nonIntersectingSpans;
+            IsEmpty = isEmpty;
+            TextChanged = textChanged;
         }
 
         public ITrackingSpanRange TrackingSpanRange { get; }

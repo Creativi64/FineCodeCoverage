@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFCCOutputPaneCommand(IShowFCCOutputPane showFCCOutputPane) => this._showFCCOutputPane = showFCCOutputPane;
+        public OpenFCCOutputPaneCommand(IShowFCCOutputPane showFCCOutputPane) => _showFCCOutputPane = showFCCOutputPane;
 
-        protected override void Execute(object sender, EventArgs e) => _ = this._showFCCOutputPane.ShowAsync();
+        protected override void Execute(object sender, EventArgs e) => _ = _showFCCOutputPane.ShowAsync();
     }
 }

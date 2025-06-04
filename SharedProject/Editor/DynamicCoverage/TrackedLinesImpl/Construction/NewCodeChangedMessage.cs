@@ -4,8 +4,8 @@
     {
         public NewCodeChangedMessage(string path, bool hasNewCode)
         {
-            this.Path = path;
-            this.HasNewCode = hasNewCode;
+            Path = path;
+            HasNewCode = hasNewCode;
         }
 
         public string Path { get; }

@@ -10,19 +10,19 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 
         [ImportingConstructor]
         public VBCoverageContentType(IRoslynFileCodeSpanRangeService roslynFileCodeSpanRangeService)
-            => this._roslynFileCodeSpanRangeService = roslynFileCodeSpanRangeService;
+            => _roslynFileCodeSpanRangeService = roslynFileCodeSpanRangeService;
 
         public const string ContentType = "Basic";
 
         public string ContentTypeName => ContentType;
 
         public IFileCodeSpanRangeService FileCodeSpanRangeService
-            => this._roslynFileCodeSpanRangeService.FileCodeSpanRangeService;
+            => _roslynFileCodeSpanRangeService.FileCodeSpanRangeService;
 
         public bool CoverageOnlyFromFileCodeSpanRangeService => false;
 
         public bool UseFileCodeSpanRangeServiceForChanges
-            => this._roslynFileCodeSpanRangeService.UseFileCodeSpanRangeServiceForChanges;
+            => _roslynFileCodeSpanRangeService.UseFileCodeSpanRangeServiceForChanges;
 
         public ILineExcluder LineExcluder { get; } = new LineExcluder(new string[] { "REM", "'", "#" });
     }

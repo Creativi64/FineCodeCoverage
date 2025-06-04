@@ -10,17 +10,17 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public DirtyTrackingLine(ITrackingLine trackingLine, IDynamicCoberturaLine dynamicCoberturaLine)
         {
-            this._trackingLine = trackingLine;
-            this._dynamicCoberturaLine = dynamicCoberturaLine;
+            _trackingLine = trackingLine;
+            _dynamicCoberturaLine = dynamicCoberturaLine;
         }
-        public IDynamicLine Line => this._trackingLine.Line;
+        public IDynamicLine Line => _trackingLine.Line;
 
         public List<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)
         {
-            List<int> updatedLineNumbers = this._trackingLine.GetUpdatedLineNumbers(currentSnapshot);
-            if (this._dynamicCoberturaLine != null && updatedLineNumbers.Count > 0)
+            List<int> updatedLineNumbers = _trackingLine.GetUpdatedLineNumbers(currentSnapshot);
+            if (_dynamicCoberturaLine != null && updatedLineNumbers.Count > 0)
             {
-                this._dynamicCoberturaLine.LineMoved(this.Line.LineNumber);
+                _dynamicCoberturaLine.LineMoved(Line.LineNumber);
             }
 
             return updatedLineNumbers;

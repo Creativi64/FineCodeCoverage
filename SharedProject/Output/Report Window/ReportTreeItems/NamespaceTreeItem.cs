@@ -8,20 +8,20 @@ namespace FineCodeCoverage.Output
     {
         public NamespaceTreeItem(string namespaceName, IEnumerable<ReportTreeItemBase> children)
         {
-            this.Name = namespaceName;
+            Name = namespaceName;
             foreach (ReportTreeItemBase child in children)
             {
-                this.ObservableChildren.Add(child);
+                ObservableChildren.Add(child);
                 child.Parent = this;
-                this.CoverableLines += child.CoverableLines;
-                this.NotCoveredLines += child.NotCoveredLines;
-                this.PartialLines += child.PartialLines;
-                this.CoveredLines += child.CoveredLines;
-                this.NPathComplexity += child.NPathComplexity;
-                this.CrapScore += child.CrapScore;
-                this.CyclomaticComplexity += child.CyclomaticComplexity;
-                this.TotalBranches += child.TotalBranches;
-                this.CoveredBranches += child.CoveredBranches;
+                CoverableLines += child.CoverableLines;
+                NotCoveredLines += child.NotCoveredLines;
+                PartialLines += child.PartialLines;
+                CoveredLines += child.CoveredLines;
+                NPathComplexity += child.NPathComplexity;
+                CrapScore += child.CrapScore;
+                CyclomaticComplexity += child.CyclomaticComplexity;
+                TotalBranches += child.TotalBranches;
+                CoveredBranches += child.CoveredBranches;
             }
         }
 

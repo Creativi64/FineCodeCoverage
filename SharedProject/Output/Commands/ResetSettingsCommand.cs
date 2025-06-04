@@ -13,9 +13,9 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public ResetSettingsCommand(ResetOptionsService resetOptionsService) => this._resetOptionsService = resetOptionsService;
+        public ResetSettingsCommand(ResetOptionsService resetOptionsService) => _resetOptionsService = resetOptionsService;
 
-        protected override void Execute(object sender, EventArgs e) => this._resetOptionsService.Reset();
+        protected override void Execute(object sender, EventArgs e) => _resetOptionsService.Reset();
 
     }
 }

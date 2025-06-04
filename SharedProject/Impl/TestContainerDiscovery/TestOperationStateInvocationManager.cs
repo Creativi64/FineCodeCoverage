@@ -19,23 +19,23 @@ namespace FineCodeCoverage.Impl
             ILogger logger
         )
         {
-            this._initializeStatusProvider = initializeStatusProvider;
-            this._logger = logger;
+            _initializeStatusProvider = initializeStatusProvider;
+            _logger = logger;
         }
 
         public async Task<bool> CanInvokeAsync(TestOperationStates testOperationState)
         {
             if (testOperationState == TestOperationStates.TestExecutionStarting)
             {
-                this._initializedWhenTestExecutionStarting = this._initializeStatusProvider.InitializeStatus == InitializeStatus.Initialized;
+                _initializedWhenTestExecutionStarting = _initializeStatusProvider.InitializeStatus == InitializeStatus.Initialized;
             }
 
-            if (!this._initializedWhenTestExecutionStarting)
+            if (!_initializedWhenTestExecutionStarting)
             {
-                await this._logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
+                await _logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
             }
 
-            return this._initializedWhenTestExecutionStarting;
+            return _initializedWhenTestExecutionStarting;
         }
     }
 }

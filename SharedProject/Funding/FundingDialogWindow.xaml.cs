@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Funding
     {
         public FundingDialogWindow(IFundingViewModel fundingViewModel)
         {
-            this.DataContext = fundingViewModel;
-            this.InitializeComponent();
+            DataContext = fundingViewModel;
+            InitializeComponent();
         }
     }
 }

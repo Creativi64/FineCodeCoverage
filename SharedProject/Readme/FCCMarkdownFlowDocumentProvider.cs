@@ -18,8 +18,8 @@ namespace FineCodeCoverage.Readme
             IOptionPageTableCreator optionPageTableCreator,
             IReadMePipelineProvider readMePipeLineProvider)
         {
-            this._optionPageTableCreator = optionPageTableCreator;
-            this._readMePipeLineProvider = readMePipeLineProvider;
+            _optionPageTableCreator = optionPageTableCreator;
+            _readMePipeLineProvider = readMePipeLineProvider;
         }
 
         public Func<FlowDocumentElementMarkers> Provide(
@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Readme
             ICommand navigateCommand
             )
         {
-            MarkdownPipeline pipeline = this._readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, this._optionPageTableCreator.Create);
+            MarkdownPipeline pipeline = _readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, _optionPageTableCreator.Create);
             Markdig.Syntax.MarkdownDocument markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);
             return () =>
             {
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Readme
                 fccWpfRenderer.LoadDocument(flowDocument);
                 pipeline.Setup(fccWpfRenderer);
                 _ = fccWpfRenderer.Render(markdownDocument);
-                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(this._optionPageTableCreator.ElementAndMarkers).ToList();
+                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(_optionPageTableCreator.ElementAndMarkers).ToList();
                 elementAndMarkers.Add(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
                 return new FlowDocumentElementMarkers(flowDocument, elementAndMarkers);
             };

@@ -6,9 +6,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         public TUnitInstalledPackageResult(InstalledPackageResultStatus status, bool hasCoverageExtension, bool hasTunit)
         {
-            this.Status = status;
-            this.HasCoverageExtension = hasCoverageExtension;
-            this.HasTUnit = hasTunit;
+            Status = status;
+            HasCoverageExtension = hasCoverageExtension;
+            HasTUnit = hasTunit;
         }
 
         public bool HasTUnit { get; }

@@ -7,10 +7,10 @@ namespace FineCodeCoverage.Output
     {
         private readonly IDictionary<string, HashSet<int>> _changeLookup;
 
-        public Changeset(IDictionary<string, HashSet<int>> changeLookup) => this._changeLookup = changeLookup;
+        public Changeset(IDictionary<string, HashSet<int>> changeLookup) => _changeLookup = changeLookup;
 
         public List<int> GetLineNumbers(string filePath)
-            => this._changeLookup.TryGetValue(filePath, out HashSet<int> lineNumbers)
+            => _changeLookup.TryGetValue(filePath, out HashSet<int> lineNumbers)
                 ? lineNumbers.ToList()
                 : Enumerable.Empty<int>().ToList();
     }

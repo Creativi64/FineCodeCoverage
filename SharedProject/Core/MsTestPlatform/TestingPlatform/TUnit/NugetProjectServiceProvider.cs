@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public NugetProjectServiceProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => this.LazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
+        ) => LazyNugetProjectService = new AsyncLazy<INuGetProjectService>(async () =>
             {
                 IBrokeredServiceContainer brokeredServiceContainer = serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
                 IServiceBroker serviceBroker = brokeredServiceContainer.GetFullAccessServiceBroker();

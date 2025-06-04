@@ -4,7 +4,7 @@ namespace FineCodeCoverage.Readme
 {
     public class MarkerBlockParser : BlockParser
     {
-        public MarkerBlockParser() => this.OpeningCharacters = new[] { '{' }; // trigger on `{`
+        public MarkerBlockParser() => OpeningCharacters = new[] { '{' }; // trigger on `{`
 
         private static string GetMarker(string text)
             => text.StartsWith("{{") && text.EndsWith("}}") ? text.Substring(2, text.Length - 4).Trim() : null;

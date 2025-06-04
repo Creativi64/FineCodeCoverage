@@ -8,11 +8,11 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     {
         public PalmmediaClass(Class classReport)
         {
-            this.DisplayName = classReport.Name;
-            this.FileCodeElements = classReport.Files.ToDictionary(
+            DisplayName = classReport.Name;
+            FileCodeElements = classReport.Files.ToDictionary(
                 cf => cf.Path,
                 f => (IReadOnlyList<ICodeElement>)f.CodeElements.Select(ce => new PalmmediaCodeElement(ce, f) as ICodeElement).ToList());
-            this.CodeElements = this.FileCodeElements.Values.SelectMany(ces => ces).ToList();
+            CodeElements = FileCodeElements.Values.SelectMany(ces => ces).ToList();
         }
 
         public string DisplayName { get; }

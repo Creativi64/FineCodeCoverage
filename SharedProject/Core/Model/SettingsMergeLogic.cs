@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine.Model
         {
             public abstract T Merge(T first, T second);
 
-            public object Merge(object first, object second) => this.Merge((T)first, (T)second);
+            public object Merge(object first, object second) => Merge((T)first, (T)second);
         }
 
         private class StringArrayMerger : TypeMerger<string[]>
@@ -25,13 +25,13 @@ namespace FineCodeCoverage.Engine.Model
 
         private readonly Dictionary<Type, ITypeMerger> _typeMergers;
 
-        public SettingsMergeLogic() => this._typeMergers = new Dictionary<Type, ITypeMerger>
+        public SettingsMergeLogic() => _typeMergers = new Dictionary<Type, ITypeMerger>
             {
                 { typeof(string[]),new StringArrayMerger()}
             };
 
-        public bool CanMerge(Type type) => this._typeMergers.ContainsKey(type);
+        public bool CanMerge(Type type) => _typeMergers.ContainsKey(type);
 
-        public object Merge(Type type, object first, object second) => this._typeMergers[type].Merge(first, second);
+        public object Merge(Type type, object first, object second) => _typeMergers[type].Merge(first, second);
     }
 }

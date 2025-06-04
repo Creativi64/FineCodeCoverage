@@ -15,26 +15,26 @@ namespace FineCodeCoverage.Output
             ICodeElement codeElement
         )
         {
-            this.Name = codeElement.Name;
-            this.ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ?
+            Name = codeElement.Name;
+            ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ?
                 KnownMonikers.Method : KnownMonikers.Property;
-            this._lines = codeElement.Lines;
-            this.CoverableLines = codeElement.Lines.Count;
-            this.CoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Covered);
-            this.NotCoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.NotCovered);
-            this.PartialLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Partial);
-            this.NPathComplexity = codeElement.NPathComplexity;
-            this.CrapScore = codeElement.CrapScore;
-            this.CyclomaticComplexity = codeElement.CyclomaticComplexity;
-            this.TotalBranches = codeElement.TotalBranches;
-            this.CoveredBranches = codeElement.BranchesCovered;
-            this._codeElement = codeElement;
+            _lines = codeElement.Lines;
+            CoverableLines = codeElement.Lines.Count;
+            CoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Covered);
+            NotCoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.NotCovered);
+            PartialLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Partial);
+            NPathComplexity = codeElement.NPathComplexity;
+            CrapScore = codeElement.CrapScore;
+            CyclomaticComplexity = codeElement.CyclomaticComplexity;
+            TotalBranches = codeElement.TotalBranches;
+            CoveredBranches = codeElement.BranchesCovered;
+            _codeElement = codeElement;
         }
 
         public override ImageMoniker ImageMoniker { get; }
 
-        public int FileLine => this._lines[0].Number;
+        public int FileLine => _lines[0].Number;
 
-        public string FilePath => this._codeElement.Path;
+        public string FilePath => _codeElement.Path;
     }
 }

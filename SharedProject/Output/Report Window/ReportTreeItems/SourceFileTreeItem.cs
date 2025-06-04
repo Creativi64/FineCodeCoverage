@@ -15,13 +15,13 @@ namespace FineCodeCoverage.Output
 
         public SourceFileTreeItem(ISourceFile sourceFile, SourceFileStructure sourceFileStructure)
         {
-            this.Name = Path.GetFileName(sourceFile.Path);
+            Name = Path.GetFileName(sourceFile.Path);
             sourceFile.HasNewCodeChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => this.HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
+                    () => HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
             sourceFile.PathChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => this.Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
+                    () => Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
 
             if (sourceFileStructure == SourceFileStructure.AsRequired)
             {
@@ -55,23 +55,23 @@ namespace FineCodeCoverage.Output
             foreach (ReportTreeItemBase child in children)
             {
                 child.Parent = this;
-                this.ObservableChildren.Add(child);
-                this.CoverableLines += child.CoverableLines;
-                this.CoveredLines += child.CoveredLines;
-                this.NotCoveredLines += child.NotCoveredLines;
-                this.PartialLines += child.PartialLines;
-                this.NPathComplexity += child.NPathComplexity;
-                this.CrapScore += child.CrapScore;
-                this.CyclomaticComplexity += child.CyclomaticComplexity;
-                this.TotalBranches += child.TotalBranches;
-                this.CoveredBranches += child.CoveredBranches;
+                ObservableChildren.Add(child);
+                CoverableLines += child.CoverableLines;
+                CoveredLines += child.CoveredLines;
+                NotCoveredLines += child.NotCoveredLines;
+                PartialLines += child.PartialLines;
+                NPathComplexity += child.NPathComplexity;
+                CrapScore += child.CrapScore;
+                CyclomaticComplexity += child.CyclomaticComplexity;
+                TotalBranches += child.TotalBranches;
+                CoveredBranches += child.CoveredBranches;
             }
         }
 
         public bool HasNewCode
         {
-            get => this._hasNewCode;
-            set => this.Set(ref this._hasNewCode, value);
+            get => _hasNewCode;
+            set => Set(ref _hasNewCode, value);
         }
 
         public override ImageMoniker ImageMoniker => KnownMonikers.TextFile;

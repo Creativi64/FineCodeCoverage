@@ -2,7 +2,7 @@
 {
     internal class ReportViewChangedEventArgs
     {
-        public ReportViewChangedEventArgs(bool changeSetChanged) => this.ChangesetChanged = changeSetChanged;
+        public ReportViewChangedEventArgs(bool changeSetChanged) => ChangesetChanged = changeSetChanged;
 
         public bool ChangesetChanged { get; }
     }

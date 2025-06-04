@@ -20,8 +20,8 @@ namespace FineCodeCoverage.Engine.Model
             IProjectFileReferencedProjectsHelper projectFileReferencedProjectsHelper
         )
         {
-            this._vsApiReferencedProjectsHelper = vsApiReferencedProjectsHelper;
-            this._projectFileReferencedProjectsHelper = projectFileReferencedProjectsHelper;
+            _vsApiReferencedProjectsHelper = vsApiReferencedProjectsHelper;
+            _projectFileReferencedProjectsHelper = projectFileReferencedProjectsHelper;
         }
 
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
@@ -29,22 +29,22 @@ namespace FineCodeCoverage.Engine.Model
             Func<XElement> projectFileXElementProvider
         )
         {
-            this._projectFileXElementProvider = projectFileXElementProvider;
-            this._projectFile = projectFile;
-            List<IExcludableReferencedProject> referencedProjects = await this.GetReferencedProjectsAsync();
+            _projectFileXElementProvider = projectFileXElementProvider;
+            _projectFile = projectFile;
+            List<IExcludableReferencedProject> referencedProjects = await GetReferencedProjectsAsync();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 
         private async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync()
-            => await this.SafeGetReferencedProjectsFromVSApiAsync() ??
-            await this._projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(
-                this._projectFile, this._projectFileXElementProvider());
+            => await SafeGetReferencedProjectsFromVSApiAsync() ??
+            await _projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(
+                _projectFile, _projectFileXElementProvider());
 
         private async Task<List<IExcludableReferencedProject>> SafeGetReferencedProjectsFromVSApiAsync()
         {
             try
             {
-                return await this._vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(this._projectFile);
+                return await _vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(_projectFile);
             }
             catch { }
 

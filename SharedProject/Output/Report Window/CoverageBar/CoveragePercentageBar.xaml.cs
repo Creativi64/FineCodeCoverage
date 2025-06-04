@@ -2,6 +2,6 @@
 {
     public partial class CoveragePercentageBar : CoveragePercentageBarBase
     {
-        public CoveragePercentageBar() => this.InitializeComponent();
+        public CoveragePercentageBar() => InitializeComponent();
     }
 }

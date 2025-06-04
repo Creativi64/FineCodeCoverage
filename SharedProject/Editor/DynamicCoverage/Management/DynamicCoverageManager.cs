@@ -32,31 +32,31 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             IReportFileLineCoverageFactory reportFileLineCoverageFactory,
             IDateTimeService dateTimeService)
         {
-            this._bufferLineCoverageFactory = bufferLineCoverageFactory;
-            this._reportFileLineCoverageFactory = reportFileLineCoverageFactory;
-            this._dateTimeService = dateTimeService;
+            _bufferLineCoverageFactory = bufferLineCoverageFactory;
+            _reportFileLineCoverageFactory = reportFileLineCoverageFactory;
+            _dateTimeService = dateTimeService;
             _ = eventAggregator.AddListener(this);
-            this._eventAggregator = eventAggregator;
-            this._trackedLinesFactory = trackedLinesFactory;
+            _eventAggregator = eventAggregator;
+            _trackedLinesFactory = trackedLinesFactory;
         }
 
         public void Handle(NewReportMessage message)
         {
-            IFileLineCoverage fileLineCoverage = this._reportFileLineCoverageFactory.Create(message.Report.Assemblies);
-            this._lastCoverage = new LastCoverage(fileLineCoverage, this._lastTestExecutionStartingDate);
-            this._eventAggregator.SendMessage(new NewCoverageLinesMessage(fileLineCoverage));
+            IFileLineCoverage fileLineCoverage = _reportFileLineCoverageFactory.Create(message.Report.Assemblies);
+            _lastCoverage = new LastCoverage(fileLineCoverage, _lastTestExecutionStartingDate);
+            _eventAggregator.SendMessage(new NewCoverageLinesMessage(fileLineCoverage));
         }
 
-        public void Handle(TestExecutionStartingMessage message) => this._lastTestExecutionStartingDate = this._dateTimeService.Now;
+        public void Handle(TestExecutionStartingMessage message) => _lastTestExecutionStartingDate = _dateTimeService.Now;
 
         public IBufferLineCoverage Manage(ITextInfo textInfo)
             => textInfo.TextBuffer.Properties.GetOrCreateSingletonProperty(
                 () =>
                 {
-                    IBufferLineCoverage bufferLineCoverage = this._bufferLineCoverageFactory.Create(textInfo, this._eventAggregator, this._trackedLinesFactory);
-                    if (this._lastCoverage != null)
+                    IBufferLineCoverage bufferLineCoverage = _bufferLineCoverageFactory.Create(textInfo, _eventAggregator, _trackedLinesFactory);
+                    if (_lastCoverage != null)
                     {
-                        bufferLineCoverage.SetLastCoverage(this._lastCoverage);
+                        bufferLineCoverage.SetLastCoverage(_lastCoverage);
                     }
 
                     return bufferLineCoverage;

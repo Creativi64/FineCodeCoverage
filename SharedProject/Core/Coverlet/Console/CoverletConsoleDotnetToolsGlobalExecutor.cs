@@ -18,8 +18,8 @@ namespace FineCodeCoverage.Engine.Coverlet
             ILogger logger
         )
         {
-            this._dotNetToolListCoverlet = dotNetToolListCoverlet;
-            this._logger = logger;
+            _dotNetToolListCoverlet = dotNetToolListCoverlet;
+            _logger = logger;
         }
         public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
@@ -28,10 +28,10 @@ namespace FineCodeCoverage.Engine.Coverlet
                 return null;
             }
 
-            CoverletDotNetToolDetails details = await this._dotNetToolListCoverlet.GlobalAsync();
+            CoverletDotNetToolDetails details = await _dotNetToolListCoverlet.GlobalAsync();
             if (details == null)
             {
-                await this._logger.LogAsync("Unable to use Coverlet console global tool");
+                await _logger.LogAsync("Unable to use Coverlet console global tool");
                 return null;
             }
 

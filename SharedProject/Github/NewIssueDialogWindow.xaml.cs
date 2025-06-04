@@ -6,10 +6,10 @@ namespace FineCodeCoverage.Github
     {
         public NewIssueDialogWindow(INewIssueViewModel newIssueViewModel)
         {
-            this.HasMaximizeButton = true;
-            this.HasMinimizeButton = true;
-            this.DataContext = newIssueViewModel;
-            this.InitializeComponent();
+            HasMaximizeButton = true;
+            HasMinimizeButton = true;
+            DataContext = newIssueViewModel;
+            InitializeComponent();
         }
     }
 }

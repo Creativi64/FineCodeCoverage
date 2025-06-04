@@ -17,15 +17,15 @@ namespace FineCodeCoverage.Output
 
         public GitRepo(string repository)
         {
-            this._repository = new Repository(repository);
-            this._workingDirectory = this._repository.Info.WorkingDirectory;
+            _repository = new Repository(repository);
+            _workingDirectory = _repository.Info.WorkingDirectory;
         }
 
         // might want a wrapper if FriendlyName is not distinct or expensive to get the branch again
         public IEnumerable<string> GetBranches()
         {
             var branches = new List<string>();
-            foreach (Branch branch in this._repository.Branches)
+            foreach (Branch branch in _repository.Branches)
             {
                 if (branch.Tip != null)
                 {
@@ -45,38 +45,38 @@ namespace FineCodeCoverage.Output
             branch.FriendlyName.StartsWith("origin/main")
             || branch.FriendlyName.StartsWith("origin/master");
 
-        public bool HasBranch(string selectedBranchName) => this.GetBranches().Any(b => b == selectedBranchName);
+        public bool HasBranch(string selectedBranchName) => GetBranches().Any(b => b == selectedBranchName);
 
         protected virtual void Dispose(bool disposing)
         {
-            if (this._disposedValue)
+            if (_disposedValue)
             {
                 return;
             }
 
             if (disposing)
             {
-                this._repository.Dispose();
+                _repository.Dispose();
             }
 
-            this._disposedValue = true;
+            _disposedValue = true;
         }
 
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
+            Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
         public IDictionary<string, HashSet<int>> GetChangeset(string selectedBranchName)
         {
-            Branch selectedBranch = this._repository.Branches.FirstOrDefault(branch => branch.FriendlyName == selectedBranchName);
+            Branch selectedBranch = _repository.Branches.FirstOrDefault(branch => branch.FriendlyName == selectedBranchName);
             if (selectedBranch == null) return null;
 
             var changeset = new Dictionary<string, HashSet<int>>();
-            this.AddChanges(this._repository.Diff.Compare<Patch>(), changeset);
-            this.AddChanges(this._repository.Diff.Compare<Patch>(selectedBranch.Tip.Tree, DiffTargets.Index), changeset);
+            AddChanges(_repository.Diff.Compare<Patch>(), changeset);
+            AddChanges(_repository.Diff.Compare<Patch>(selectedBranch.Tip.Tree, DiffTargets.Index), changeset);
             return changeset;
         }
 
@@ -90,9 +90,9 @@ namespace FineCodeCoverage.Output
                     case ChangeKind.Modified:
                     case ChangeKind.Renamed:
                         string key = patchEntryChanges.Path.Replace("/", "\\");
-                        if (this._workingDirectory != null)
+                        if (_workingDirectory != null)
                         {
-                            key = Path.Combine(this._workingDirectory, key);
+                            key = Path.Combine(_workingDirectory, key);
                         }
 
                         HashSet<int> intSet;
@@ -122,7 +122,7 @@ namespace FineCodeCoverage.Output
         {
             try
             {
-                bool _ = this._repository.Info.IsHeadDetached;
+                bool _ = _repository.Info.IsHeadDetached;
             }
             catch
             {

@@ -10,9 +10,9 @@ namespace FineCodeCoverage.Readme
     {
         public OptionPageInfo(Type optionType, string pageName, List<string> coverageSettingsPropertyNames)
         {
-            this.TypeName = optionType.Name;
-            this.PageName = pageName;
-            this.PropertyCategories = optionType.GetProperties().Select(p =>
+            TypeName = optionType.Name;
+            PageName = pageName;
+            PropertyCategories = optionType.GetProperties().Select(p =>
             {
                 DisplayNameAttribute displayNameAttribute = p.GetCustomAttribute<DisplayNameAttribute>();
                 string displayName = displayNameAttribute == null ? p.Name : displayNameAttribute.DisplayName;

@@ -18,8 +18,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IReportViews reportViews
         )
         {
-            this._reportViews = reportViews;
-            reportViews.Changed += this.ReportViews_Changed;
+            _reportViews = reportViews;
+            reportViews.Changed += ReportViews_Changed;
         }
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
@@ -29,26 +29,26 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 return;
             }
 
-            this._shouldGetChangeset = true;
+            _shouldGetChangeset = true;
             FilterChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private IChangeset GetChangeset()
         {
-            if (this._shouldGetChangeset)
+            if (_shouldGetChangeset)
             {
-                this._changeset = this._reportViews.GetChangeset();
-                this._shouldGetChangeset = false;
+                _changeset = _reportViews.GetChangeset();
+                _shouldGetChangeset = false;
             }
 
-            return this._changeset;
+            return _changeset;
         }
 
         public event EventHandler FilterChanged;
 
         public Func<IDynamicLine, bool> GetFileFilter(string filePath)
         {
-            IChangeset changeset = this.GetChangeset();
+            IChangeset changeset = GetChangeset();
             if (changeset == null)
             {
                 return (_) => true;

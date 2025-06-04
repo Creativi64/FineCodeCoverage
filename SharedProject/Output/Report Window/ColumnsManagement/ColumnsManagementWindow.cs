@@ -10,8 +10,8 @@ namespace FineCodeCoverage.Output
 
         public ColumnsManagementWindow(ReportColumnsManagementViewModel reportColumnsManagmentViewModel) : base(reportColumnsManagmentViewModel, ResourcePath)
         {
-            this.Title = "Report Column Management";
-            this.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            Title = "Report Column Management";
+            SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
         }
     }
 }

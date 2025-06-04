@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Readme
     {
         private readonly ICommand _navigateCommand;
 
-        public AutolinkInlineRenderer(ICommand navigateCommand) => this._navigateCommand = navigateCommand;
+        public AutolinkInlineRenderer(ICommand navigateCommand) => _navigateCommand = navigateCommand;
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, AutolinkInline link)
         {
@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Readme
 
             var hyperlink = new Hyperlink
             {
-                Command = this._navigateCommand,
+                Command = _navigateCommand,
                 CommandParameter = url,
                 NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 ToolTip = link.Url,

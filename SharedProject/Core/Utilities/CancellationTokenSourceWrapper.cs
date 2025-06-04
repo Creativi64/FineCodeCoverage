@@ -7,14 +7,14 @@ namespace FineCodeCoverage.Core.Utilities
         private readonly CancellationTokenSource _cancellationTokenSource;
 
         public CancellationTokenSourceWrapper(CancellationTokenSource cancellationTokenSource)
-            => this._cancellationTokenSource = cancellationTokenSource;
+            => _cancellationTokenSource = cancellationTokenSource;
 
-        public CancellationToken Token => this._cancellationTokenSource.Token;
+        public CancellationToken Token => _cancellationTokenSource.Token;
 
-        public bool IsCancellationRequested => this._cancellationTokenSource.IsCancellationRequested;
+        public bool IsCancellationRequested => _cancellationTokenSource.IsCancellationRequested;
 
-        public void Cancel() => this._cancellationTokenSource.Cancel();
+        public void Cancel() => _cancellationTokenSource.Cancel();
 
-        public void Dispose() => this._cancellationTokenSource.Dispose();
+        public void Dispose() => _cancellationTokenSource.Dispose();
     }
 }

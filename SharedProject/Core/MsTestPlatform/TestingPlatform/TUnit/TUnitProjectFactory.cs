@@ -43,11 +43,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 IVsHierarchy hierarchy
             )
             {
-                this._commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
-                this.Hierarchy = hierarchy;
-                this._tUnitInstalledPackagesService = tUnitInstalledPackagesService;
-                this._commandLineParser = commandLineParser;
-                this._packageChangeSubscription = this.SubscribeToPackageReferenceChanges(configuredProject);
+                _commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
+                Hierarchy = hierarchy;
+                _tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+                _commandLineParser = commandLineParser;
+                _packageChangeSubscription = SubscribeToPackageReferenceChanges(configuredProject);
             }
 
             /*
@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             */
             private async Task<bool?> UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync()
             {
-                System.Collections.Generic.IEnumerable<string> propertyNames = await this._commonProperties.GetPropertyNamesAsync();
+                System.Collections.Generic.IEnumerable<string> propertyNames = await _commonProperties.GetPropertyNamesAsync();
                 bool hasTestingPlatformCommandLineArgumentsPropertyName = false;
                 foreach (string propertyName in propertyNames)
                 {
@@ -75,17 +75,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             private async Task ParseTestingPlatformCommandLineArgumentsAsync()
             {
-                bool? useFCCTestingPlatformCommandLineArgumentsPropertyName = await this.UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
+                bool? useFCCTestingPlatformCommandLineArgumentsPropertyName = await UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync();
                 if (!useFCCTestingPlatformCommandLineArgumentsPropertyName.HasValue)
                 {
-                    this.CommandLineParseResult = CommandLineParseResult.Empty;
+                    CommandLineParseResult = CommandLineParseResult.Empty;
                 }
                 else
                 {
                     string propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
-                    string testingPlatformCommandLineArguments = await this._commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
+                    string testingPlatformCommandLineArguments = await _commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
 
-                    this.CommandLineParseResult = this._commandLineParser.Parse(testingPlatformCommandLineArguments);
+                    CommandLineParseResult = _commandLineParser.Parse(testingPlatformCommandLineArguments);
                 }
             }
 
@@ -93,7 +93,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 // there is ActiveConfiguredProjectSubscription but not available in 2019
                 IProjectSubscriptionService subscriptionService = configuredProject.Services.ProjectSubscription;
-                var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(this.ProjectUpdateAsync);
+                var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(ProjectUpdateAsync);
                 return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: s_packageReferenceRuleNames);
             }
 
@@ -121,8 +121,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 // if need to switch to the main thread will need CPS IThreadHandling 
                 // This runs on a background thread. 
-                this._packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
-                this._requiresUpdate = true;
+                _packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
+                _requiresUpdate = true;
                 return Task.CompletedTask;
             }
             public bool IsTUnit { get; private set; }
@@ -133,23 +133,23 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {
-                if (this._requiresUpdate)
+                if (_requiresUpdate)
                 {
-                    TUnitInstalledPackageResult installedPackagesResult = await this._tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await this.Hierarchy.GetGuidAsync(), cancellationToken);
+                    TUnitInstalledPackageResult installedPackagesResult = await _tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await Hierarchy.GetGuidAsync(), cancellationToken);
                     if (installedPackagesResult.Status != InstalledPackageResultStatus.Successful)
                     {
                         // fallback but not transitive
                         // the data flow block should get data immediately
-                        installedPackagesResult = this._tUnitInstalledPackagesService.GetTUnitInstalledPackages(this._packageReferenceItems);
+                        installedPackagesResult = _tUnitInstalledPackagesService.GetTUnitInstalledPackages(_packageReferenceItems);
                     }
 
-                    this.IsTUnit = installedPackagesResult.HasTUnit;
-                    this.HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
+                    IsTUnit = installedPackagesResult.HasTUnit;
+                    HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
 
-                    this._requiresUpdate = false;
+                    _requiresUpdate = false;
                 }
 
-                if (!this.IsTUnit)
+                if (!IsTUnit)
                 {
                     return;
                 }
@@ -173,28 +173,28 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     return projectSnapshotService.SourceBlock.LinkTo(receivingBlock);
 
                 */
-                await this.ParseTestingPlatformCommandLineArgumentsAsync();
+                await ParseTestingPlatformCommandLineArgumentsAsync();
             }
 
             protected virtual void Dispose(bool disposing)
             {
-                if (this._disposedValue)
+                if (_disposedValue)
                 {
                     return;
                 }
 
                 if (disposing)
                 {
-                    this._packageChangeSubscription.Dispose();
+                    _packageChangeSubscription.Dispose();
                 }
 
-                this._disposedValue = true;
+                _disposedValue = true;
             }
 
             public void Dispose()
             {
                 // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-                this.Dispose(disposing: true);
+                Dispose(disposing: true);
                 GC.SuppressFinalize(this);
             }
         }
@@ -205,10 +205,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ICommandLineParser commandLineParser
         )
         {
-            this._tUnitInstalledPackagesService = tUnitInstalledPackagesService;
-            this._commandLineParser = commandLineParser;
+            _tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+            _commandLineParser = commandLineParser;
         }
         public ITUnitProject Create(IVsHierarchy hierarchy, ConfiguredProject configuredProject)
-            => new TUnitProject(this._tUnitInstalledPackagesService, this._commandLineParser, configuredProject, hierarchy);
+            => new TUnitProject(_tUnitInstalledPackagesService, _commandLineParser, configuredProject, hierarchy);
     }
 }

@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
         private readonly CancellationTokenRegistration _registration;
         public BuildCompletionHandler(CancellationToken cancellationToken)
-            => this._registration = cancellationToken.Register(() => this._tcs.TrySetCanceled());
+            => _registration = cancellationToken.Register(() => _tcs.TrySetCanceled());
 
         /// <summary>
         /// Task that completes when the build finishes.
         /// </summary>
-        public Task<bool> BuildCompleted => this._tcs.Task;
+        public Task<bool> BuildCompleted => _tcs.Task;
 
         public int UpdateSolution_Begin(ref int pfCancelUpdate) => VSConstants.S_OK;
 
@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             // bool anySucceeded = fModified == 1;
 
             // Signal the task completion.
-            _ = this._tcs.TrySetResult(fSucceeded != 0);
+            _ = _tcs.TrySetResult(fSucceeded != 0);
             return VSConstants.S_OK;
         }
 
@@ -37,6 +37,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy) => VSConstants.S_OK;
 
-        public void Dispose() => this._registration.Dispose();
+        public void Dispose() => _registration.Dispose();
     }
 }

@@ -18,12 +18,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
         private const string ZipDirectoryName = "msTestPlatform";
 
         [ImportingConstructor]
-        public MsTestPlatformUtil(IToolUnzipper toolUnzipper) => this._toolUnzipper = toolUnzipper;
+        public MsTestPlatformUtil(IToolUnzipper toolUnzipper) => _toolUnzipper = toolUnzipper;
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolderPath, ZipDirectoryName, ZipPrefix, cancellationToken);
-            this.MsTestPlatformExePath = Directory
+            string zipDestination = _toolUnzipper.EnsureUnzipped(appDataFolderPath, ZipDirectoryName, ZipPrefix, cancellationToken);
+            MsTestPlatformExePath = Directory
                 .GetFiles(zipDestination, "vstest.console.exe", SearchOption.AllDirectories)
                 .FirstOrDefault();
             return Task.CompletedTask;

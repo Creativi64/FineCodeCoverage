@@ -47,92 +47,92 @@ namespace FineCodeCoverage.Output
         )
         {
             ReportOptions reportOptions = reportOptionsProvider.Get();
-            this._sourceFileStructure = reportOptions.SourceFileStructure;
-            this._reportTotalRow = reportOptions.ReportTotalRow;
-            this._rootDirectoryNameFromPath = reportOptions.RootDirectoryNameFromPath;
+            _sourceFileStructure = reportOptions.SourceFileStructure;
+            _reportTotalRow = reportOptions.ReportTotalRow;
+            _rootDirectoryNameFromPath = reportOptions.RootDirectoryNameFromPath;
             reportOptionsProvider.OptionsChanged += (newOptions) =>
             {
-                if (newOptions.ReportTotalRow != this._reportTotalRow)
+                if (newOptions.ReportTotalRow != _reportTotalRow)
                 {
-                    this.UpdateTotalRow(newOptions.ReportTotalRow);
+                    UpdateTotalRow(newOptions.ReportTotalRow);
                 }
 
-                if (newOptions.RootDirectoryNameFromPath != this._rootDirectoryNameFromPath)
+                if (newOptions.RootDirectoryNameFromPath != _rootDirectoryNameFromPath)
                 {
-                    this.UpdateRootDirectoryTreeItemNames(newOptions.RootDirectoryNameFromPath);
+                    UpdateRootDirectoryTreeItemNames(newOptions.RootDirectoryNameFromPath);
                 }
 
-                if (newOptions.SourceFileStructure == this._sourceFileStructure)
+                if (newOptions.SourceFileStructure == _sourceFileStructure)
                 {
                     return;
                 }
 
-                this.UpdateSourceViewStructure(newOptions.SourceFileStructure);
+                UpdateSourceViewStructure(newOptions.SourceFileStructure);
             };
-            this.TreeViewAutomationName = "Coverage Report Tree";
+            TreeViewAutomationName = "Coverage Report Tree";
             _ = eventAggregator.AddListener(this);
-            this.SetItems(this._items);
-            this._sourceFileOpener = sourceFileOpener;
-            this._treeExpander = treeExpander;
-            this.ColumnManagerImpl = reportColumnManager;
-            this._reportViews = reportViews;
-            this._iconsOptions = iconsOptions;
-            reportViews.Changed += this.ReportViews_Changed;
-            this.SetIconsAdjustment();
-            iconsOptions.ShowIconsChanged += this.AdjustIcons;
-            iconsOptions.IconSizeChanged += this.AdjustIcons;
+            SetItems(_items);
+            _sourceFileOpener = sourceFileOpener;
+            _treeExpander = treeExpander;
+            ColumnManagerImpl = reportColumnManager;
+            _reportViews = reportViews;
+            _iconsOptions = iconsOptions;
+            reportViews.Changed += ReportViews_Changed;
+            SetIconsAdjustment();
+            iconsOptions.ShowIconsChanged += AdjustIcons;
+            iconsOptions.IconSizeChanged += AdjustIcons;
         }
 
         private void UpdateSourceViewStructure(SourceFileStructure newSourceFileStructure)
         {
-            this._sourceFileStructure = newSourceFileStructure;
-            if (this._lastReportStyle != ReportStyle.Source)
+            _sourceFileStructure = newSourceFileStructure;
+            if (_lastReportStyle != ReportStyle.Source)
             {
                 return;
             }
 
-            this.GenerateReport(null);
+            GenerateReport(null);
         }
         private void UpdateRootDirectoryTreeItemNames(bool rootDirectoryNameFromPath)
         {
-            this._rootDirectoryNameFromPath = rootDirectoryNameFromPath;
-            if (this._lastReportStyle != ReportStyle.Source)
+            _rootDirectoryNameFromPath = rootDirectoryNameFromPath;
+            if (_lastReportStyle != ReportStyle.Source)
             {
                 return;
             }
 
-            this.Items.OfType<RootDirectoryTreeItem>().ToList().ForEach(d => d.SetName(rootDirectoryNameFromPath));
+            Items.OfType<RootDirectoryTreeItem>().ToList().ForEach(d => d.SetName(rootDirectoryNameFromPath));
         }
 
         private void UpdateTotalRow(ReportTotalRow newReportTotalRow)
         {
-            this._reportTotalRow = newReportTotalRow;
-            if (this._items.Count == 0)
+            _reportTotalRow = newReportTotalRow;
+            if (_items.Count == 0)
             {
                 return;
             }
 
-            bool firstItemIsTotal = this._items[0] is TotalTreeItem;
-            switch (this._reportTotalRow)
+            bool firstItemIsTotal = _items[0] is TotalTreeItem;
+            switch (_reportTotalRow)
             {
                 case ReportTotalRow.Always:
                     if (!firstItemIsTotal)
                     {
-                        this.InsertTotalRow();
+                        InsertTotalRow();
                     }
 
                     break;
                 case ReportTotalRow.WhenRequired:
-                    if (!firstItemIsTotal && this._items.Count > 1)
+                    if (!firstItemIsTotal && _items.Count > 1)
                     {
-                        this.InsertTotalRow();
+                        InsertTotalRow();
                     }
 
                     break;
                 case ReportTotalRow.Never:
                     if (firstItemIsTotal)
                     {
-                        this._items.RemoveAt(0);
+                        _items.RemoveAt(0);
                     }
 
                     break;
@@ -143,19 +143,19 @@ namespace FineCodeCoverage.Output
 
         private void AdjustIcons(object sender, EventArgs e)
         {
-            this.SetIconsAdjustment();
-            this.AdjustWidths(this.Items);
+            SetIconsAdjustment();
+            AdjustWidths(Items);
         }
 
         private void InsertTotalRow()
         {
-            this._items.Insert(0, this._totalTreeItem);
-            this.AdjustWidths(new ITreeItem[] { this._totalTreeItem });
+            _items.Insert(0, _totalTreeItem);
+            AdjustWidths(new ITreeItem[] { _totalTreeItem });
         }
 
         private void AdjustWidths(IEnumerable<ITreeItem> items)
         {
-            double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+            double firstColumnWidth = ColumnManagerImpl.Columns[0].Width.Value;
             foreach (ITreeItem item in items)
             {
                 item.AdjustWidth(firstColumnWidth);
@@ -163,23 +163,23 @@ namespace FineCodeCoverage.Output
         }
 
         private void SetIconsAdjustment()
-            => ReportTreeItemBase.SharedAdditionalAdjustment = this._iconsOptions.ShowIcons ?
-            this._iconsOptions.IconSize + 10 : 0;
+            => ReportTreeItemBase.SharedAdditionalAdjustment = _iconsOptions.ShowIcons ?
+            _iconsOptions.IconSize + 10 : 0;
 
         private void ReportViews_Changed(object sender, ReportViewChangedEventArgs e)
         {
-            if (this._lastReport == null)
+            if (_lastReport == null)
             {
                 return;
             }
 
             if (e.ChangesetChanged)
             {
-                this.GenerateReport(this._reportViews.GetChangeset());
+                GenerateReport(_reportViews.GetChangeset());
             }
             else
             {
-                this.GenerateReport(null);
+                GenerateReport(null);
             }
         }
 
@@ -187,34 +187,34 @@ namespace FineCodeCoverage.Output
 
         public bool CoverageRunning
         {
-            get => this._coverageRunning;
-            set => this.Set(ref this._coverageRunning, value);
+            get => _coverageRunning;
+            set => Set(ref _coverageRunning, value);
         }
 
         private void GenerateReport(IChangeset newChangeset)
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                List<ReportTreeItemBase> newItems = this._reportViews.ReportStyle == ReportStyle.Assembly ? this.CreateAssemblyTreeItems() :
-                    this.CreateSourceTreeItems();
-                this.AddTotalRowIfRequired(newItems);
-                this.RestoreExpansionStateIfRequired(newItems);
-                this.AdjustWidths(newItems);
-                this.AddTreeItems(newItems);
-                this._lastReportStyle = this._reportViews.ReportStyle;
+                List<ReportTreeItemBase> newItems = _reportViews.ReportStyle == ReportStyle.Assembly ? CreateAssemblyTreeItems() :
+                    CreateSourceTreeItems();
+                AddTotalRowIfRequired(newItems);
+                RestoreExpansionStateIfRequired(newItems);
+                AdjustWidths(newItems);
+                AddTreeItems(newItems);
+                _lastReportStyle = _reportViews.ReportStyle;
             });
 
         private void AddTreeItems(IList<ReportTreeItemBase> newItems)
         {
-            this._items.Clear();
-            this._items.AddRange(newItems);
+            _items.Clear();
+            _items.AddRange(newItems);
         }
 
         private List<ReportTreeItemBase> CreateAssemblyTreeItems()
-            => this._lastReport.Assemblies.Select(assembly =>
+            => _lastReport.Assemblies.Select(assembly =>
             {
                 bool isTestAssembly = false;
-                if (this._lastReport.TestAssemblyNames.Contains(assembly.Name))
+                if (_lastReport.TestAssemblyNames.Contains(assembly.Name))
                 {
                     isTestAssembly = true;
                 }
@@ -224,12 +224,12 @@ namespace FineCodeCoverage.Output
 
         private List<ReportTreeItemBase> CreateSourceTreeItems()
         {
-            IDirectory rootDirectory = this._lastReport.Directory;
+            IDirectory rootDirectory = _lastReport.Directory;
             if (rootDirectory != null)
             {
                 if (rootDirectory.SourceFiles.Any())
                 {
-                    var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory, rootDirectory.Name, this._rootDirectoryNameFromPath, this._sourceFileStructure);
+                    var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory, rootDirectory.Name, _rootDirectoryNameFromPath, _sourceFileStructure);
                     return new List<ReportTreeItemBase>
                     {
                         directoryTreeItem
@@ -237,7 +237,7 @@ namespace FineCodeCoverage.Output
                 }
 
                 return rootDirectory.SubDirectories.Select(d => (ReportTreeItemBase)new RootDirectoryTreeItem(
-                    d, Path.Combine(rootDirectory.Name, d.Name), this._rootDirectoryNameFromPath, this._sourceFileStructure)
+                    d, Path.Combine(rootDirectory.Name, d.Name), _rootDirectoryNameFromPath, _sourceFileStructure)
                 ).ToList();
             }
 
@@ -246,26 +246,26 @@ namespace FineCodeCoverage.Output
 
         private void RestoreExpansionStateIfRequired(IList<ReportTreeItemBase> newItems)
         {
-            if (this._items.Count == 0 || this._reportViews.ReportStyle != this._lastReportStyle)
+            if (_items.Count == 0 || _reportViews.ReportStyle != _lastReportStyle)
             {
                 return;
             }
 
-            this._treeExpander.RestoreExpansionState(this._items, newItems);
+            _treeExpander.RestoreExpansionState(_items, newItems);
         }
 
         private void AddTotalRowIfRequired(List<ReportTreeItemBase> newItems)
         {
-            this._totalTreeItem = new TotalTreeItem(newItems);
-            switch (this._reportTotalRow)
+            _totalTreeItem = new TotalTreeItem(newItems);
+            switch (_reportTotalRow)
             {
                 case ReportTotalRow.Always:
-                    newItems.Insert(0, this._totalTreeItem);
+                    newItems.Insert(0, _totalTreeItem);
                     break;
                 case ReportTotalRow.WhenRequired:
                     if (newItems.Count > 1)
                     {
-                        newItems.Insert(0, this._totalTreeItem);
+                        newItems.Insert(0, _totalTreeItem);
                     }
 
                     break;
@@ -278,37 +278,37 @@ namespace FineCodeCoverage.Output
 
         public void Handle(NewReportMessage message)
         {
-            this._lastReport = new Report(message);
-            this._lastReport.DirectoryStructureChanged += this.LastReport_DirectoryStructureChanged;
-            this.ColumnManagerImpl.ShowRelevantColumns(this._lastReport.MetricTypes);
-            this.GenerateReport(this._reportViews.GetChangeset());
+            _lastReport = new Report(message);
+            _lastReport.DirectoryStructureChanged += LastReport_DirectoryStructureChanged;
+            ColumnManagerImpl.ShowRelevantColumns(_lastReport.MetricTypes);
+            GenerateReport(_reportViews.GetChangeset());
         }
 
         private void LastReport_DirectoryStructureChanged(object sender, EventArgs e)
         {
-            if (this._lastReport == null || this._reportViews.ReportStyle != ReportStyle.Source)
+            if (_lastReport == null || _reportViews.ReportStyle != ReportStyle.Source)
             {
                 return;
             }
 
-            this.GenerateReport(null);
+            GenerateReport(null);
         }
 
         public void Handle(ClearReportMessage message)
         {
-            this._lastReport = null;
-            this._lastReportStyle = null;
-            this._totalTreeItem = null;
+            _lastReport = null;
+            _lastReportStyle = null;
+            _totalTreeItem = null;
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
-                double firstColumnWidth = this.ColumnManagerImpl.Columns[0].Width.Value;
+                double firstColumnWidth = ColumnManagerImpl.Columns[0].Width.Value;
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-                this._items.Clear();
+                _items.Clear();
             });
         }
 
-        public override void Sort(int displayIndex) => this.ColumnManagerImpl.SortColumns(displayIndex);
+        public override void Sort(int displayIndex) => ColumnManagerImpl.SortColumns(displayIndex);
 
         protected override void LeafTreeItemDoubleClick(ReportTreeItemBase treeItem)
         {
@@ -318,16 +318,16 @@ namespace FineCodeCoverage.Output
                 return;
             }
 
-            _ = this._sourceFileOpener.OpenAsync(codeElementTreeItem.FilePath, codeElementTreeItem.FileLine);
+            _ = _sourceFileOpener.OpenAsync(codeElementTreeItem.FilePath, codeElementTreeItem.FileLine);
         }
 
         public static bool IsRelativePath(string path) => Uri.IsWellFormedUriString(path, UriKind.Relative);
 
-        public void Handle(CoverageStartingMessage message) => this.CoverageRunning = true;
+        public void Handle(CoverageStartingMessage message) => CoverageRunning = true;
 
-        public void Handle(CoverageEndedMessage message) => this.CoverageRunning = false;
+        public void Handle(CoverageEndedMessage message) => CoverageRunning = false;
 
         public void Handle(NewCodeChangedMessage message)
-            => this._lastReport?.NewCodeChanged(message.Path, message.HasNewCode);
+            => _lastReport?.NewCodeChanged(message.Path, message.HasNewCode);
     }
 }

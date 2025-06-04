@@ -24,18 +24,18 @@ namespace FineCodeCoverage.Output
             IThreadHelper threadHelper
         )
         {
-            this._columnStateStore = columnStateStore;
-            this._jsonConvertService = jsonConvertService;
-            this._threadHelper = threadHelper;
-            string columnStates = threadHelper.JoinableTaskFactory.Run(() => this._columnStateStore.GetColumnStatesAsync());
-            this.SetInitialColumns(this.GetColumnStates(columnStates));
+            _columnStateStore = columnStateStore;
+            _jsonConvertService = jsonConvertService;
+            _threadHelper = threadHelper;
+            string columnStates = threadHelper.JoinableTaskFactory.Run(() => _columnStateStore.GetColumnStatesAsync());
+            SetInitialColumns(GetColumnStates(columnStates));
 
-            vsShutdown.Shutdown += this.VsShutdown_Shutdown;
+            vsShutdown.Shutdown += VsShutdown_Shutdown;
         }
 
         private List<ReportColumnState> GetColumnStates(string jsonColumnStates)
             => jsonColumnStates != null
-                ? this._jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates)
+                ? _jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates)
                 : new List<ReportColumnState>();
 
         #region Columns
@@ -59,11 +59,11 @@ namespace FineCodeCoverage.Output
 
         #endregion
 
-        private void VsShutdown_Shutdown(object sender, System.EventArgs e) => this.SaveColumnStates();
+        private void VsShutdown_Shutdown(object sender, System.EventArgs e) => SaveColumnStates();
 
         private void SaveColumnStates()
         {
-            var reportColumnStates = this.Columns.Select(c =>
+            var reportColumnStates = Columns.Select(c =>
             {
                 var reportColumnData = c as ReportColumnData;
                 return new ReportColumnState
@@ -76,32 +76,32 @@ namespace FineCodeCoverage.Output
                     CellAlignment = c.CellAlignment
                 };
             }).ToList();
-            string jsonColumnStates = this._jsonConvertService.SerializeObject(reportColumnStates);
-            this._threadHelper.JoinableTaskFactory.Run(() => this._columnStateStore.SaveColumnStatesAsync(jsonColumnStates));
+            string jsonColumnStates = _jsonConvertService.SerializeObject(reportColumnStates);
+            _threadHelper.JoinableTaskFactory.Run(() => _columnStateStore.SaveColumnStatesAsync(jsonColumnStates));
         }
 
         private void SetInitialColumns(List<ReportColumnState> reportColumnStates)
         {
             // could reflect 
             var reportColumns = new ReportColumnData[]{
-                this.Name,// must be first
-                this.CoverableLines,
-                this.CoveredLines,
-                this.NotCoveredLines,
-                this.PartialLines,
-                this.LineCoveragePercent,
-                this.LineCoveragePercentBar,
-                this.TotalBranches,
-                this.CoveredBranches,
-                this.NotCoveredBranches,
-                this.BranchCoveragePercent,
-                this.BranchCoveragePercentBar,
-                this.NPathComplexity,
-                this.CyclomaticComplexity,
-                this.CrapScore,
+                Name,// must be first
+                CoverableLines,
+                CoveredLines,
+                NotCoveredLines,
+                PartialLines,
+                LineCoveragePercent,
+                LineCoveragePercentBar,
+                TotalBranches,
+                CoveredBranches,
+                NotCoveredBranches,
+                BranchCoveragePercent,
+                BranchCoveragePercentBar,
+                NPathComplexity,
+                CyclomaticComplexity,
+                CrapScore,
             };
             var originalDisplayIndices = reportColumns.Select(c => c.DisplayIndex).ToList();
-            this.Columns = reportColumns;
+            Columns = reportColumns;
             Dictionary<string, ReportColumnData> columnsLookup = reportColumns.ToDictionary(c => c.ReportColumnType);
 
             reportColumnStates.ForEach(columnState =>
@@ -131,7 +131,7 @@ namespace FineCodeCoverage.Output
 
         public void ShowRelevantColumns(IReadOnlyList<MetricType> metricTypes)
         {
-            foreach (ColumnData column in this.Columns)
+            foreach (ColumnData column in Columns)
             {
                 if (column is MetricColumnData metricColumnData)
                 {
@@ -140,6 +140,6 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        public IEnumerable<IReportColumnData> GetColumns() => this.Columns.OfType<IReportColumnData>();
+        public IEnumerable<IReportColumnData> GetColumns() => Columns.OfType<IReportColumnData>();
     }
 }

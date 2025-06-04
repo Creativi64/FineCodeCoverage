@@ -15,17 +15,17 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         [ImportingConstructor]
         public ReportFileLineCoverageFactory(IDateTimeService dateTimeService, IFileRenameListener fileRenameListener)
         {
-            this._dateTimeService = dateTimeService;
-            fileRenameListener.FileRenamedEvent += this.FileRenameListener_FileRenamedEvent;
+            _dateTimeService = dateTimeService;
+            fileRenameListener.FileRenamedEvent += FileRenameListener_FileRenamedEvent;
         }
 
         private void FileRenameListener_FileRenamedEvent(IReadOnlyList<FileRename> fileRenames)
-            => this._reportFileLineCoverage?.FilesRenamed(fileRenames);
+            => _reportFileLineCoverage?.FilesRenamed(fileRenames);
 
         public IFileLineCoverage Create(IReadOnlyList<IAssembly> assemblies)
         {
-            this._reportFileLineCoverage = new ReportFileLineCoverage(assemblies, this._dateTimeService);
-            return this._reportFileLineCoverage;
+            _reportFileLineCoverage = new ReportFileLineCoverage(assemblies, _dateTimeService);
+            return _reportFileLineCoverage;
         }
     }
 }

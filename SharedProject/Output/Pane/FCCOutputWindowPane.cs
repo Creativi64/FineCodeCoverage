@@ -16,29 +16,29 @@ namespace FineCodeCoverage.Output.Pane
             TextDocument fccPaneTextDocument
         )
         {
-            this._outputWindowPane = outputWindowPane;
-            this._outputWindowWindow = outputWindowWindow;
-            this._fccPaneTextDocument = fccPaneTextDocument;
+            _outputWindowPane = outputWindowPane;
+            _outputWindowWindow = outputWindowWindow;
+            _fccPaneTextDocument = fccPaneTextDocument;
         }
 
         public async System.Threading.Tasks.Task OutputStringThreadSafeAsync(string text)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            this._outputWindowPane.OutputStringNoPump(text);
+            _outputWindowPane.OutputStringNoPump(text);
         }
 
         public async System.Threading.Tasks.Task ShowAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            this._outputWindowWindow.Activate();
-            _ = this._outputWindowPane.Activate();
+            _outputWindowWindow.Activate();
+            _ = _outputWindowPane.Activate();
         }
 
         public async System.Threading.Tasks.Task<string> GetTextAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            EditPoint editPoint = this._fccPaneTextDocument.StartPoint.CreateEditPoint();
-            return editPoint.GetText(this._fccPaneTextDocument.EndPoint);
+            EditPoint editPoint = _fccPaneTextDocument.StartPoint.CreateEditPoint();
+            return editPoint.GetText(_fccPaneTextDocument.EndPoint);
         }
     }
 }

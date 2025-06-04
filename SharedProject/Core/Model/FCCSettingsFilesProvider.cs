@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Engine.Model
         [ImportingConstructor]
         public FCCSettingsFilesProvider(
             IFileUtil fileUtil
-        ) => this._fileUtil = fileUtil;
+        ) => _fileUtil = fileUtil;
 
         public List<XElement> Provide(string projectDirectoryPath)
         {
@@ -25,10 +25,10 @@ namespace FineCodeCoverage.Engine.Model
             bool ascend = true;
             while (ascend)
             {
-                ascend = this.AddFromDirectory(fccOptionsElements, directoryPath);
+                ascend = AddFromDirectory(fccOptionsElements, directoryPath);
                 if (ascend)
                 {
-                    directoryPath = this._fileUtil.DirectoryParentPath(directoryPath);
+                    directoryPath = _fileUtil.DirectoryParentPath(directoryPath);
                     if (directoryPath == null)
                     {
                         ascend = false;
@@ -45,9 +45,9 @@ namespace FineCodeCoverage.Engine.Model
         {
             bool ascend = true;
             string fccOptionsPath = GetFCCOptionsPath(directory);
-            if (this._fileUtil.Exists(fccOptionsPath))
+            if (_fileUtil.Exists(fccOptionsPath))
             {
-                string fccOptions = this._fileUtil.ReadAllText(fccOptionsPath);
+                string fccOptions = _fileUtil.ReadAllText(fccOptionsPath);
                 try
                 {
                     var element = XElement.Parse(fccOptions);

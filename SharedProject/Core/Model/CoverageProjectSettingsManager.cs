@@ -26,26 +26,26 @@ namespace FineCodeCoverage.Engine.Model
             ICoverageSettingsReflectionService coverageSettingsReflectionService
         )
         {
-            this._coveragSettingsOptionsProvider = coveragSettingsOptionsProvider;
-            this._coverageProjectSettingsProvider = coverageProjectSettingsProvider;
-            this._fccSettingsFilesProvider = fccSettingsFilesProvider;
-            this._settingsMerger = settingsMerger;
-            this._coverageSettingsReflectionService = coverageSettingsReflectionService;
+            _coveragSettingsOptionsProvider = coveragSettingsOptionsProvider;
+            _coverageProjectSettingsProvider = coverageProjectSettingsProvider;
+            _fccSettingsFilesProvider = fccSettingsFilesProvider;
+            _settingsMerger = settingsMerger;
+            _coverageSettingsReflectionService = coverageSettingsReflectionService;
         }
 
         private CoverageSettings GetSettingsFromOptions()
-            => this._coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
-                this._coveragSettingsOptionsProvider.Get());
+            => _coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
+                _coveragSettingsOptionsProvider.Get());
 
         public async Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject)
         {
-            List<XElement> settingsFilesElements = this.GetSettingsFilesElements(coverageProject);
-            XElement projectSettingsElement = await this._coverageProjectSettingsProvider.ProvideAsync(coverageProject);
-            CoverageSettings coverageSettings = this.GetSettingsFromOptions();
+            List<XElement> settingsFilesElements = GetSettingsFilesElements(coverageProject);
+            XElement projectSettingsElement = await _coverageProjectSettingsProvider.ProvideAsync(coverageProject);
+            CoverageSettings coverageSettings = GetSettingsFromOptions();
             if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
             {
-                await this._settingsMerger.MergeAsync(
-                    coverageSettings, this._coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
+                await _settingsMerger.MergeAsync(
+                    coverageSettings, _coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
                 );
             }
 
@@ -56,7 +56,7 @@ namespace FineCodeCoverage.Engine.Model
         private List<XElement> GetSettingsFilesElements(ICoverageProject coverageProject)
         {
             string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
-            return this._fccSettingsFilesProvider.Provide(projectDirectory);
+            return _fccSettingsFilesProvider.Provide(projectDirectory);
         }
 
         private static void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)

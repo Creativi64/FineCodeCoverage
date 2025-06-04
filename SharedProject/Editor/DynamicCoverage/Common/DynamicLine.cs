@@ -6,9 +6,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public DynamicLine(int number, DynamicCoverageType coverageType)
         {
-            this.OriginalLineNumber = number;
-            this.LineNumber = number;
-            this.CoverageType = coverageType;
+            OriginalLineNumber = number;
+            LineNumber = number;
+            CoverageType = coverageType;
         }
 
         public static DynamicLine FromCoberturaLine(ICoberturaLine coberturaLine)

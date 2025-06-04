@@ -28,33 +28,33 @@ namespace FineCodeCoverage.Readme
             IOptionsProvider<MiscOptions> miscOptionsProvider
             )
         {
-            this._readmeProvider = readmeProvider;
-            this._fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
-            this._readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
-            this._processStartCommand = new ProcessStartCommand(process);
-            this.ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
-            miscOptionsProvider.OptionsChanged += (newOptions) => this.ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
+            _readmeProvider = readmeProvider;
+            _fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
+            _readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
+            _processStartCommand = new ProcessStartCommand(process);
+            ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
+            miscOptionsProvider.OptionsChanged += (newOptions) => ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
         }
 
         public bool ShowHyperlinkUrlHover
         {
-            get => this._showHyperlinkUrlHover;
-            set => this.Set(ref this._showHyperlinkUrlHover, value);
+            get => _showHyperlinkUrlHover;
+            set => Set(ref _showHyperlinkUrlHover, value);
         }
 
         private FlowDocument GetFlowDocument()
         {
-            TemplatedReadmeInfo templatedReadmeInfo = this._readmeProvider.GetTemplatedReadme();
-            FlowDocumentElementMarkers flowDocumentElementMarkers = this._fccMarkdownFlowDocumentProvider.Provide(
+            TemplatedReadmeInfo templatedReadmeInfo = _readmeProvider.GetTemplatedReadme();
+            FlowDocumentElementMarkers flowDocumentElementMarkers = _fccMarkdownFlowDocumentProvider.Provide(
                 templatedReadmeInfo,
                 ReadMeMarkdownViewModel.OptionsTableReplacementMarker,
                 ReadMeMarkdownViewModel.TruncateMarker,
-                this._processStartCommand
+                _processStartCommand
                 )();
-            this._readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
+            _readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
             return flowDocumentElementMarkers.FlowDocument;
         }
 
-        public FlowDocument FlowDocument => this._flowDocument ?? (this._flowDocument = this.GetFlowDocument());
+        public FlowDocument FlowDocument => _flowDocument ?? (_flowDocument = GetFlowDocument());
     }
 }

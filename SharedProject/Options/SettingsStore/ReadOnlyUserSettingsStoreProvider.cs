@@ -11,14 +11,14 @@ namespace FineCodeCoverage.Options
         private SettingsStore _settingsStore;
         public async System.Threading.Tasks.Task<SettingsStore> ProvideAsync()
         {
-            if (this._settingsStore == null)
+            if (_settingsStore == null)
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-                this._settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
+                _settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
             }
 
-            return this._settingsStore;
+            return _settingsStore;
         }
     }
 }

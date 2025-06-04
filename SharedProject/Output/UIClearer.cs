@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Output
             )
         {
             _ = eventAggregator.AddListener(this);
-            solutionEvents.AfterClosing += (s, args) => this.ClearUI();
+            solutionEvents.AfterClosing += (s, args) => ClearUI();
             runOptionsProvider.OptionsChanged += (runOptions) =>
             {
                 if (runOptions.Enabled)
@@ -27,17 +27,17 @@ namespace FineCodeCoverage.Output
                     return;
                 }
 
-                this.ClearUI();
+                ClearUI();
             };
-            this._eventAggregator = eventAggregator;
+            _eventAggregator = eventAggregator;
         }
 
         public void ClearUI()
         {
-            this._eventAggregator.SendMessage(new ClearReportMessage());
-            this._eventAggregator.SendMessage(new ClearLinesMessage());
+            _eventAggregator.SendMessage(new ClearReportMessage());
+            _eventAggregator.SendMessage(new ClearLinesMessage());
         }
 
-        public void Handle(CoverageStartingMessage message) => this._eventAggregator.SendMessage(new ClearLinesMessage());
+        public void Handle(CoverageStartingMessage message) => _eventAggregator.SendMessage(new ClearLinesMessage());
     }
 }

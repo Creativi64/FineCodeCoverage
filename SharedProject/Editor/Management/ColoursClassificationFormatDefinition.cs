@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Editor.Management
     {
         public ColoursClassificationFormatDefinition(Color foregroundColor, Color backgroundColor)
         {
-            this.ForegroundColor = foregroundColor;
-            this.BackgroundColor = backgroundColor;
+            ForegroundColor = foregroundColor;
+            BackgroundColor = backgroundColor;
         }
     }
 }

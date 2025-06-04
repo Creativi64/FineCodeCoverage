@@ -16,31 +16,31 @@ namespace FineCodeCoverage.Editor.Management
         [ImportingConstructor]
         public EditorFormatMapTextSpecificListener(
             IEditorFormatMapService editorFormatMapService
-        ) => editorFormatMapService.GetEditorFormatMap("text").FormatMappingChanged += this.EditorFormatMap_FormatMappingChanged;
+        ) => editorFormatMapService.GetEditorFormatMap("text").FormatMappingChanged += EditorFormatMap_FormatMappingChanged;
 
         private void EditorFormatMap_FormatMappingChanged(object sender, FormatItemsEventArgs e)
         {
-            var watchedItems = e.ChangedItems.Where(changedItem => this._keys.Contains(changedItem)).ToList();
-            if (!this._listening || watchedItems.Count == 0)
+            var watchedItems = e.ChangedItems.Where(changedItem => _keys.Contains(changedItem)).ToList();
+            if (!_listening || watchedItems.Count == 0)
             {
                 return;
             }
 
-            this._callback();
+            _callback();
         }
 
         public void ListenFor(List<string> keys, Action callback)
         {
-            this._keys = keys;
-            this._callback = callback;
-            this._listening = true;
+            _keys = keys;
+            _callback = callback;
+            _listening = true;
         }
 
         public void PauseListeningWhenExecuting(Action action)
         {
-            this._listening = false;
+            _listening = false;
             action();
-            this._listening = true;
+            _listening = true;
         }
     }
 }

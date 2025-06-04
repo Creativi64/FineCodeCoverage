@@ -14,14 +14,14 @@ namespace FineCodeCoverage.Wpf
 
         public ImageMoniker Moniker
         {
-            get => (ImageMoniker)this.GetValue(MonikerProperty);
-            set => this.SetValue(MonikerProperty, value);
+            get => (ImageMoniker)GetValue(MonikerProperty);
+            set => SetValue(MonikerProperty, value);
         }
 
         public VsCrispImageButton()
         {
             var crispy = new Crispy();
-            _ = crispy.SetBinding(Crispy.MonikerProperty, new Binding(nameof(this.Moniker)) { Source = this });
+            _ = crispy.SetBinding(Crispy.MonikerProperty, new Binding(nameof(Moniker)) { Source = this });
             base.Image = crispy;
         }
     }

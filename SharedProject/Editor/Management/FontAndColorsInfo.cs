@@ -4,13 +4,13 @@
     {
         public FontAndColorsInfo(IItemCoverageColours itemCoverageColours, bool isBold)
         {
-            this.ItemCoverageColours = itemCoverageColours;
-            this.IsBold = isBold;
+            ItemCoverageColours = itemCoverageColours;
+            IsBold = isBold;
         }
 
         public IItemCoverageColours ItemCoverageColours { get; }
         public bool IsBold { get; }
 
-        public bool Equals(IFontAndColorsInfo other) => this.IsBold == other.IsBold && this.ItemCoverageColours.Equals(other.ItemCoverageColours);
+        public bool Equals(IFontAndColorsInfo other) => IsBold == other.IsBold && ItemCoverageColours.Equals(other.ItemCoverageColours);
     }
 }

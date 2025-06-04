@@ -22,29 +22,29 @@ namespace FineCodeCoverage.Readme
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider
         )
         {
-            this._writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
-            this.HasShown = this._writableUserSettingsStore.GetBoolean(ReadMeShowCollection, ReadMeShownProperty, false);
-            this._toolWindowService = toolWindowService;
+            _writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
+            HasShown = _writableUserSettingsStore.GetBoolean(ReadMeShowCollection, ReadMeShownProperty, false);
+            _toolWindowService = toolWindowService;
         }
 
         public bool HasShown { get; private set; }
 
         public void Show()
         {
-            if (!this.HasShown)
+            if (!HasShown)
             {
-                if (!this._writableUserSettingsStore.CollectionExists(ReadMeShowCollection))
+                if (!_writableUserSettingsStore.CollectionExists(ReadMeShowCollection))
                 {
-                    this._writableUserSettingsStore.CreateCollection(ReadMeShowCollection);
+                    _writableUserSettingsStore.CreateCollection(ReadMeShowCollection);
                 }
 
-                this._writableUserSettingsStore.SetBoolean(ReadMeShowCollection, ReadMeShownProperty, true);
+                _writableUserSettingsStore.SetBoolean(ReadMeShowCollection, ReadMeShownProperty, true);
             }
 
-            this.HasShown = true;
+            HasShown = true;
             Shown?.Invoke(this, EventArgs.Empty);
 
-            _ = this._toolWindowService.ShowToolWindowAsync(typeof(ReadmeToolWindow), 0, true);
+            _ = _toolWindowService.ShowToolWindowAsync(typeof(ReadmeToolWindow), 0, true);
         }
     }
 }

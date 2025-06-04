@@ -12,22 +12,22 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         private Dictionary<IVsHierarchy, ITUnitProject> _projectLookup;
         public void Add(ITUnitProject tUnitProject)
-            => this._projectLookup.Add(tUnitProject.Hierarchy, tUnitProject);
+            => _projectLookup.Add(tUnitProject.Hierarchy, tUnitProject);
 
         public void Clear()
         {
-            foreach (ITUnitProject tUnitproject in this._projectLookup.Values)
+            foreach (ITUnitProject tUnitproject in _projectLookup.Values)
             {
                 tUnitproject.Dispose();
             }
 
-            this._projectLookup = null;
+            _projectLookup = null;
         }
 
         public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             var tUnitProjects = new List<ITUnitProject>();
-            foreach (ITUnitProject project in this._projectLookup.Values)
+            foreach (ITUnitProject project in _projectLookup.Values)
             {
                 await project.UpdateStateAsync(cancellationToken);
                 if (project.IsTUnit)
@@ -40,12 +40,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         }
 
         public void Initialize(List<ITUnitProject> tUnitProjects)
-            => this._projectLookup = tUnitProjects.ToDictionary(p => p.Hierarchy);
+            => _projectLookup = tUnitProjects.ToDictionary(p => p.Hierarchy);
 
         public void Remove(IVsHierarchy project)
         {
-            this._projectLookup[project].Dispose();
-            _ = this._projectLookup.Remove(project);
+            _projectLookup[project].Dispose();
+            _ = _projectLookup.Remove(project);
         }
     }
 }

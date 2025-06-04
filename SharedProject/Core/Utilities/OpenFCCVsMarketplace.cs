@@ -16,15 +16,15 @@ namespace FineCodeCoverage.Core.Utilities
             IVsVersion vsVersion
         )
         {
-            this._ratingAndReviewPath = RootPath;
+            _ratingAndReviewPath = RootPath;
             if (vsVersion.Is2022)
             {
-                this._ratingAndReviewPath += "2022";
+                _ratingAndReviewPath += "2022";
             }
 
-            this._ratingAndReviewPath += "&ssr=false#review-details";
-            this._process = process;
+            _ratingAndReviewPath += "&ssr=false#review-details";
+            _process = process;
         }
-        public void OpenRatingAndReview() => this._process.Start(this._ratingAndReviewPath);
+        public void OpenRatingAndReview() => _process.Start(_ratingAndReviewPath);
     }
 }

@@ -16,38 +16,38 @@ namespace FineCodeCoverage.Core.Utilities
         private string _appDataFolderPath;
 
         [ImportingConstructor]
-        public ShownToolWindowHistory(IFileUtil fileUtil) => this._fileUtil = fileUtil;
+        public ShownToolWindowHistory(IFileUtil fileUtil) => _fileUtil = fileUtil;
 
-        private string ShownToolWindowFilePath => Path.Combine(this._appDataFolderPath, "outputWindowInitialized");
+        private string ShownToolWindowFilePath => Path.Combine(_appDataFolderPath, "outputWindowInitialized");
 
         public bool HasShownToolWindow
         {
             get
             {
-                if (!this._hasShownToolWindow && !this._checkedFileExists)
+                if (!_hasShownToolWindow && !_checkedFileExists)
                 {
-                    this._hasShownToolWindow = this._fileUtil.Exists(this.ShownToolWindowFilePath);
-                    this._checkedFileExists = true;
+                    _hasShownToolWindow = _fileUtil.Exists(ShownToolWindowFilePath);
+                    _checkedFileExists = true;
                 }
 
-                return this._hasShownToolWindow;
+                return _hasShownToolWindow;
             }
         }
 
         public void ShowedToolWindow()
         {
-            if (this._hasShownToolWindow)
+            if (_hasShownToolWindow)
             {
                 return;
             }
 
-            this._hasShownToolWindow = true;
-            this._fileUtil.WriteAllText(this.ShownToolWindowFilePath, string.Empty);
+            _hasShownToolWindow = true;
+            _fileUtil.WriteAllText(ShownToolWindowFilePath, string.Empty);
         }
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            this._appDataFolderPath = appDataFolderPath;
+            _appDataFolderPath = appDataFolderPath;
             return Task.CompletedTask;
         }
     }

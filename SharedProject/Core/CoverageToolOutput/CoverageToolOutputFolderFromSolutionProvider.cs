@@ -22,19 +22,19 @@ namespace FineCodeCoverage.Engine
             IEnumerable<Lazy<ICoverageToolOutputFolderSolutionProvider, IOrderMetadata>> solutionFolderProviders
         )
         {
-            this._solutionFolderProvider = solutionFolderProvider;
-            this._solutionFolderProviders = solutionFolderProviders.OrderBy(p => p.Metadata.Order);
+            _solutionFolderProvider = solutionFolderProvider;
+            _solutionFolderProviders = solutionFolderProviders.OrderBy(p => p.Metadata.Order);
         }
 
         public string Provide(List<ICoverageProject> coverageProjects)
         {
             bool provided = false;
             string providedDirectory = null;
-            return this._solutionFolderProviders.SelectFirstNonNull(p => p.Value.Provide(() =>
+            return _solutionFolderProviders.SelectFirstNonNull(p => p.Value.Provide(() =>
             {
                 if (!provided)
                 {
-                    providedDirectory = this._solutionFolderProvider.Provide(coverageProjects[0].ProjectFilePath);
+                    providedDirectory = _solutionFolderProvider.Provide(coverageProjects[0].ProjectFilePath);
                     provided = true;
                 }
 

@@ -12,8 +12,8 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public ClearUICommand(IUIClearer uiClearer) => this._uiClearer = uiClearer;
+        public ClearUICommand(IUIClearer uiClearer) => _uiClearer = uiClearer;
 
-        protected override void Execute(object sender, EventArgs e) => this._uiClearer.ClearUI();
+        protected override void Execute(object sender, EventArgs e) => _uiClearer.ClearUI();
     }
 }

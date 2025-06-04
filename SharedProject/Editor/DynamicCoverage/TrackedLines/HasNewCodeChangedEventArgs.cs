@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public HasNewCodeChangedEventArgs(string filePath, bool hasNewCode)
         {
-            this.FilePath = filePath;
-            this.HasNewCode = hasNewCode;
+            FilePath = filePath;
+            HasNewCode = hasNewCode;
         }
 
         public string FilePath { get; }

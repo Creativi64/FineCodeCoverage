@@ -23,8 +23,8 @@ namespace FineCodeCoverage.Options
 
         [ImportingConstructor]
         public OpenOptionPageTypeProvider(IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider)
-            => this._miscOptionsProvider = miscOptionsProvider;
+            => _miscOptionsProvider = miscOptionsProvider;
 
-        public Type Get() => this._lookup[this._miscOptionsProvider.Options.OpenOptionPage];
+        public Type Get() => _lookup[_miscOptionsProvider.Options.OpenOptionPage];
     }
 }

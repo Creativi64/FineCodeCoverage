@@ -12,28 +12,28 @@ namespace FineCodeCoverage.Editor.Roslyn
         private readonly List<TextSpan> _spans = new List<TextSpan>();
         public List<TextSpan> GetSpans(SyntaxNode rootNode)
         {
-            this.Visit(rootNode);
-            return this._spans;
+            Visit(rootNode);
+            return _spans;
         }
-        public override void VisitCompilationUnit(CompilationUnitSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitCompilationUnit(CompilationUnitSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitNamespaceBlock(NamespaceBlockSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitNamespaceBlock(NamespaceBlockSyntax node) => VisitMembers(node.Members);
 
         private void VisitMembers(SyntaxList<StatementSyntax> members)
         {
             foreach (StatementSyntax member in members)
             {
-                this.Visit(member);
+                Visit(member);
             }
         }
 
-        public override void VisitClassBlock(ClassBlockSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitClassBlock(ClassBlockSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitStructureBlock(StructureBlockSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitStructureBlock(StructureBlockSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitModuleBlock(ModuleBlockSyntax node) => this.VisitMembers(node.Members);
+        public override void VisitModuleBlock(ModuleBlockSyntax node) => VisitMembers(node.Members);
 
-        public override void VisitConstructorBlock(ConstructorBlockSyntax node) => this.AddNode(node);
+        public override void VisitConstructorBlock(ConstructorBlockSyntax node) => AddNode(node);
 
         public override void VisitMethodBlock(MethodBlockSyntax node)
         {
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Editor.Roslyn
                 return;
             }
 
-            this.AddNode(node);
+            AddNode(node);
         }
 
         private static bool IsPartial(SyntaxTokenList modifiers)
@@ -51,9 +51,9 @@ namespace FineCodeCoverage.Editor.Roslyn
         private static bool IsAbstract(SyntaxTokenList modifiers)
             => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.MustOverrideKeyword));
 
-        public override void VisitOperatorBlock(OperatorBlockSyntax node) => this.AddNode(node);
+        public override void VisitOperatorBlock(OperatorBlockSyntax node) => AddNode(node);
 
-        public override void VisitPropertyBlock(PropertyBlockSyntax node) => this.VisitAccessors(node.Accessors);
+        public override void VisitPropertyBlock(PropertyBlockSyntax node) => VisitAccessors(node.Accessors);
 
         // Coverlet instruments C# auto properties but not VB.  May be able to remove this
         public override void VisitPropertyStatement(PropertyStatementSyntax node)
@@ -63,21 +63,21 @@ namespace FineCodeCoverage.Editor.Roslyn
                 return;
             }
 
-            this.AddNode(node);
+            AddNode(node);
         }
 
-        public override void VisitEventBlock(EventBlockSyntax node) => this.VisitAccessors(node.Accessors);
+        public override void VisitEventBlock(EventBlockSyntax node) => VisitAccessors(node.Accessors);
 
         private void VisitAccessors(SyntaxList<AccessorBlockSyntax> accessors)
         {
             foreach (AccessorBlockSyntax accessor in accessors)
             {
-                this.Visit(accessor);
+                Visit(accessor);
             }
         }
 
-        public override void VisitAccessorBlock(AccessorBlockSyntax node) => this.AddNode(node);
+        public override void VisitAccessorBlock(AccessorBlockSyntax node) => AddNode(node);
 
-        private void AddNode(SyntaxNode node) => this._spans.Add(node.Span);
+        private void AddNode(SyntaxNode node) => _spans.Add(node.Span);
     }
 }

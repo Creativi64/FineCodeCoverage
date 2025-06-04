@@ -17,14 +17,14 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenReportWindowCommand(IShownToolWindowHistory shownToolWindowHistory) => this._shownToolWindowHistory = shownToolWindowHistory;
+        public OpenReportWindowCommand(IShownToolWindowHistory shownToolWindowHistory) => _shownToolWindowHistory = shownToolWindowHistory;
 
-        protected override void Execute(object sender, EventArgs e) => this.PackageServices.RunAsyncWithExceptionLogging(this.ShowToolWindowAsync);
+        protected override void Execute(object sender, EventArgs e) => PackageServices.RunAsyncWithExceptionLogging(ShowToolWindowAsync);
 
         public async Task<ToolWindowPane> ShowToolWindowAsync()
         {
-            this._shownToolWindowHistory.ShowedToolWindow();
-            ToolWindowPane window = await this.PackageServices.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, this.PackageServices.DisposalToken);
+            _shownToolWindowHistory.ShowedToolWindow();
+            ToolWindowPane window = await PackageServices.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, PackageServices.DisposalToken);
 
             return ReturnOrThrowIfCannotCreateToolWindow(window);
         }
@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Output
         {
             try
             {
-                _ = await this.ShowToolWindowAsync();
+                _ = await ShowToolWindowAsync();
             }
             catch { }
         }

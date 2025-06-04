@@ -7,6 +7,6 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     {
         public Color Colour { get; }
 
-        public CoverageLineGlyphTag(Color colour) => this.Colour = colour;
+        public CoverageLineGlyphTag(Color colour) => Colour = colour;
     }
 }

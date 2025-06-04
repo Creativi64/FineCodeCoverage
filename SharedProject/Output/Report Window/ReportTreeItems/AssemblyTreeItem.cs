@@ -10,8 +10,8 @@ namespace FineCodeCoverage.Output
     {
         public AssemblyTreeItem(IAssembly assembly, bool isTestAssembly)
         {
-            this.Name = assembly.ShortName;
-            this.ImageMoniker = isTestAssembly ? KnownMonikers.Test : KnownMonikers.Assembly;
+            Name = assembly.ShortName;
+            ImageMoniker = isTestAssembly ? KnownMonikers.Test : KnownMonikers.Assembly;
             IEnumerable<NamespaceTreeItem> namespaceTreeItems = assembly.Classes.GroupBy(clss =>
             {
                 string[] classNameParts = clss.DisplayName.Split('.');
@@ -28,18 +28,18 @@ namespace FineCodeCoverage.Output
 
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)
             {
-                this.ObservableChildren.Add(namespaceTreeItem);
-                this.CoverableLines += namespaceTreeItem.CoverableLines;
-                this.CoveredLines += namespaceTreeItem.CoveredLines;
-                this.NotCoveredLines += namespaceTreeItem.NotCoveredLines;
-                this.PartialLines += namespaceTreeItem.PartialLines;
+                ObservableChildren.Add(namespaceTreeItem);
+                CoverableLines += namespaceTreeItem.CoverableLines;
+                CoveredLines += namespaceTreeItem.CoveredLines;
+                NotCoveredLines += namespaceTreeItem.NotCoveredLines;
+                PartialLines += namespaceTreeItem.PartialLines;
 
-                this.NPathComplexity += namespaceTreeItem.NPathComplexity;
-                this.CrapScore += namespaceTreeItem.CrapScore;
-                this.CyclomaticComplexity += namespaceTreeItem.CyclomaticComplexity;
+                NPathComplexity += namespaceTreeItem.NPathComplexity;
+                CrapScore += namespaceTreeItem.CrapScore;
+                CyclomaticComplexity += namespaceTreeItem.CyclomaticComplexity;
 
-                this.TotalBranches += namespaceTreeItem.TotalBranches;
-                this.CoveredBranches += namespaceTreeItem.CoveredBranches;
+                TotalBranches += namespaceTreeItem.TotalBranches;
+                CoveredBranches += namespaceTreeItem.CoveredBranches;
 
             }
         }

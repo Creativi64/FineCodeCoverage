@@ -14,15 +14,15 @@ namespace FineCodeCoverage.Readme
         [ImportingConstructor]
         public ReadMeFlowDocumentStyleSetter(
             IApplicationResourcesLoader applicationResourcesLoader
-        ) => this._applicationResourcesLoader = applicationResourcesLoader;
+        ) => _applicationResourcesLoader = applicationResourcesLoader;
 
         public static object ReadMeCodeInlineBasedOnStyleKey { get; } = new object();
 
         public void SetStyles(IReadOnlyList<ElementAndMarker> elementAndMarkers)
         {
-            this._applicationResourcesLoader.AddFromExecutingAssembly("Readme/ReadMeResourceDictionary.xaml");
-            this._applicationResourcesLoader.AddFromExecutingAssembly("Readme/VersionedReadMeResourceDictionary.xaml");
-            elementAndMarkers.ForEach(this.SetStyle);
+            _applicationResourcesLoader.AddFromExecutingAssembly("Readme/ReadMeResourceDictionary.xaml");
+            _applicationResourcesLoader.AddFromExecutingAssembly("Readme/VersionedReadMeResourceDictionary.xaml");
+            elementAndMarkers.ForEach(SetStyle);
         }
 
         private void SetStyle(ElementAndMarker elementAndMarker)

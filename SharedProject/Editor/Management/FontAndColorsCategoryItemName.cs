@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Editor.Management
     {
         public FontAndColorsCategoryItemName(string itemName, Guid category)
         {
-            this.Category = category;
-            this.ItemName = itemName;
+            Category = category;
+            ItemName = itemName;
         }
         public Guid Category { get; }
         public string ItemName { get; }

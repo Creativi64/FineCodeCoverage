@@ -20,55 +20,55 @@ namespace FineCodeCoverage.Core.Utilities
             IServiceProvider serviceProvider
         )
         {
-            this.Is2022 = IsVs2022.Value;
-            this._serviceProvider = serviceProvider;
+            Is2022 = IsVs2022.Value;
+            _serviceProvider = serviceProvider;
         }
 
         public bool Is2022 { get; }
 
         public string GetSemanticVersion()
         {
-            if (this._semanticVersion == null)
+            if (_semanticVersion == null)
             {
-                this._semanticVersion = this.GetAppIdStringProperty(-8642);
+                _semanticVersion = GetAppIdStringProperty(-8642);
             }
 
-            return this._semanticVersion;
+            return _semanticVersion;
         }
 
         public string GetReleaseVersion()
         {
-            if (this._releaseVersion == null)
+            if (_releaseVersion == null)
             {
-                this._releaseVersion = this.GetAppIdStringProperty(-8597);
+                _releaseVersion = GetAppIdStringProperty(-8597);
             }
 
-            return this._releaseVersion;
+            return _releaseVersion;
         }
 
         public string GetDisplayVersion()
         {
-            if (this._displayVersion == null)
+            if (_displayVersion == null)
             {
-                this._displayVersion = this.GetAppIdStringProperty(-8641);
+                _displayVersion = GetAppIdStringProperty(-8641);
             }
 
-            return this._displayVersion;
+            return _displayVersion;
         }
 
         public string GetEditionName()
         {
-            if (this._editionName == null)
+            if (_editionName == null)
             {
-                this._editionName = this.GetAppIdStringProperty(-8620);
+                _editionName = GetAppIdStringProperty(-8620);
             }
 
-            return this._editionName;
+            return _editionName;
         }
 
         private string GetAppIdStringProperty(int propId)
         {
-            var vsAppId = this._serviceProvider.GetService(typeof(SVsAppId)) as IVsAppId;
+            var vsAppId = _serviceProvider.GetService(typeof(SVsAppId)) as IVsAppId;
             Assumes.Present(vsAppId);
             _ = vsAppId.GetProperty(propId, out object v);
             return v as string;

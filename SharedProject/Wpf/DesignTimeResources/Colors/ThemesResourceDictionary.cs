@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Wpf
         {
             public ThemeResourceDictionary(string themeName)
                 => ThemeService.GetResources(themeName).ToList()
-                .ForEach(kvp => this.Add(kvp.Key, GetResource(kvp.Value, kvp.Key.KeyType)));
+                .ForEach(kvp => Add(kvp.Key, GetResource(kvp.Value, kvp.Key.KeyType)));
         }
 
         private static object GetResource(Color color, ThemeResourceKeyType themeResourceKeyType)
@@ -19,8 +19,8 @@ namespace FineCodeCoverage.Wpf
 
         internal void SetTheme(string themeName)
         {
-            this.MergedDictionaries.Clear();
-            this.MergedDictionaries.Add(new ThemeResourceDictionary(themeName));
+            MergedDictionaries.Clear();
+            MergedDictionaries.Add(new ThemeResourceDictionary(themeName));
         }
     }
 }

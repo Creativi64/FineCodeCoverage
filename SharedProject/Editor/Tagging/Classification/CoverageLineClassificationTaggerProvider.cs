@@ -30,16 +30,16 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
             ICoverageTaggerProviderFactory coverageTaggerProviderFactory
         )
         {
-            this._coverageTypeService = coverageTypeService;
-            this._coverageTaggerProvider = coverageTaggerProviderFactory.Create<IClassificationTag, CoverageClassificationFilter>(this);
+            _coverageTypeService = coverageTypeService;
+            _coverageTaggerProvider = coverageTaggerProviderFactory.Create<IClassificationTag, CoverageClassificationFilter>(this);
         }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
-            => this._coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
+            => _coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
 
         public TagSpan<IClassificationTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
-            IClassificationType ct = this._coverageTypeService.GetClassificationType(dynamicLineAndSnapshotSpan.Line.CoverageType);
+            IClassificationType ct = _coverageTypeService.GetClassificationType(dynamicLineAndSnapshotSpan.Line.CoverageType);
             return new TagSpan<IClassificationTag>(dynamicLineAndSnapshotSpan.Span, new ClassificationTag(ct));
         }
     }

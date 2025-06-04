@@ -12,10 +12,10 @@ namespace FineCodeCoverage.Wpf
             typeof(VsCrispImageButtonX));
         public ImageMoniker Moniker
         {
-            get => (ImageMoniker)this.GetValue(MonikerProperty);
-            set => this.SetValue(MonikerProperty, value);
+            get => (ImageMoniker)GetValue(MonikerProperty);
+            set => SetValue(MonikerProperty, value);
         }
 
-        public VsCrispImageButtonX() => this.InitializeComponent();
+        public VsCrispImageButtonX() => InitializeComponent();
     }
 }

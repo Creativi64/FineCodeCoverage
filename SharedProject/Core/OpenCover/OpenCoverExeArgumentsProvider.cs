@@ -155,7 +155,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
             AddFilter(project, opencoverSettings);
             AddExcludeByFile(project, opencoverSettings);
-            this.AddExcludeByAttribute(project, opencoverSettings);
+            AddExcludeByAttribute(project, opencoverSettings);
             opencoverSettings.Add($"-register{GetRegister(project)}");
             opencoverSettings.Add("-mergebyhash");
             opencoverSettings.Add("-hideskipped:all");

@@ -19,17 +19,17 @@ namespace FineCodeCoverage.Engine.Model
             ICoverageProjectSettingsManager coverageProjectSettingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
-            this._outputOptionsProvider = outputOptionsProvider;
-            this._fileSynchronizationUtil = fileSynchronizationUtil;
-            this._coverageProjectSettingsManager = coverageProjectSettingsManager;
-            this._referencedProjectsHelper = referencedProjectsHelper;
+            _outputOptionsProvider = outputOptionsProvider;
+            _fileSynchronizationUtil = fileSynchronizationUtil;
+            _coverageProjectSettingsManager = coverageProjectSettingsManager;
+            _referencedProjectsHelper = referencedProjectsHelper;
         }
 
         public ICoverageProject Create()
             => new CoverageProject(
-                this._outputOptionsProvider,
-                this._fileSynchronizationUtil,
-                this._coverageProjectSettingsManager,
-                this._referencedProjectsHelper);
+                _outputOptionsProvider,
+                _fileSynchronizationUtil,
+                _coverageProjectSettingsManager,
+                _referencedProjectsHelper);
     }
 }

@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Output
     {
         public ClassTreeItem(IClass clss)
         {
-            this.Name = clss.DisplayName.Split('.').Last();
+            Name = clss.DisplayName.Split('.').Last();
             IEnumerable<CodeElementTreeItem> codeElements = clss.CodeElements.Select(
                 codeElement => new CodeElementTreeItem(codeElement)
                 {
@@ -19,16 +19,16 @@ namespace FineCodeCoverage.Output
 
             foreach (CodeElementTreeItem codeElement in codeElements)
             {
-                this.ObservableChildren.Add(codeElement);
-                this.CoverableLines += codeElement.CoverableLines;
-                this.CoveredLines += codeElement.CoveredLines;
-                this.NotCoveredLines += codeElement.NotCoveredLines;
-                this.PartialLines += codeElement.PartialLines;
-                this.NPathComplexity += codeElement.NPathComplexity;
-                this.CyclomaticComplexity += codeElement.CyclomaticComplexity;
-                this.CrapScore += codeElement.CrapScore;
-                this.TotalBranches += codeElement.TotalBranches;
-                this.CoveredBranches += codeElement.CoveredBranches;
+                ObservableChildren.Add(codeElement);
+                CoverableLines += codeElement.CoverableLines;
+                CoveredLines += codeElement.CoveredLines;
+                NotCoveredLines += codeElement.NotCoveredLines;
+                PartialLines += codeElement.PartialLines;
+                NPathComplexity += codeElement.NPathComplexity;
+                CyclomaticComplexity += codeElement.CyclomaticComplexity;
+                CrapScore += codeElement.CrapScore;
+                TotalBranches += codeElement.TotalBranches;
+                CoveredBranches += codeElement.CoveredBranches;
             }
         }
 

@@ -20,33 +20,33 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
         {
             ThrowIf.Null(coverageTagger, nameof(coverageTagger));
             _ = eventAggregator.AddListener(this);
-            this._eventAggregator = eventAggregator;
-            this._coverageTagger = coverageTagger;
+            _eventAggregator = eventAggregator;
+            _coverageTagger = coverageTagger;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged
         {
-            add => this._coverageTagger.TagsChanged += value;
-            remove => this._coverageTagger.TagsChanged -= value;
+            add => _coverageTagger.TagsChanged += value;
+            remove => _coverageTagger.TagsChanged -= value;
         }
 
         public void Dispose()
         {
-            this._coverageTagger.Dispose();
-            _ = this._eventAggregator.RemoveListener(this);
+            _coverageTagger.Dispose();
+            _ = _eventAggregator.RemoveListener(this);
         }
 
         public IEnumerable<ITagSpan<CoverageLineGlyphTag>> GetTags(NormalizedSnapshotSpanCollection spans)
-            => this._coverageTagger.GetTags(spans);
+            => _coverageTagger.GetTags(spans);
 
         public void Handle(CoverageColoursChangedMessage message)
         {
-            if (!this._coverageTagger.HasCoverage)
+            if (!_coverageTagger.HasCoverage)
             {
                 return;
             }
 
-            this._coverageTagger.RaiseTagsChanged();
+            _coverageTagger.RaiseTagsChanged();
         }
     }
 }

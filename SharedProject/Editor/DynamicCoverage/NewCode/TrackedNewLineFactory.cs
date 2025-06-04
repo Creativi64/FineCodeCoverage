@@ -17,8 +17,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILineTracker lineTracker
             )
         {
-            this._trackingLineFactory = trackingLineFactory;
-            this._lineTracker = lineTracker;
+            _trackingLineFactory = trackingLineFactory;
+            _lineTracker = lineTracker;
         }
         public ITrackedNewCodeLine Create(
             ITextSnapshot textSnapshot,
@@ -26,9 +26,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             int lineNumber
         )
         {
-            ITrackingSpan trackingSpan = this._trackingLineFactory.CreateTrackingSpan(
+            ITrackingSpan trackingSpan = _trackingLineFactory.CreateTrackingSpan(
                 textSnapshot, lineNumber, spanTrackingMode);
-            return new TrackedNewCodeLine(trackingSpan, lineNumber, this._lineTracker);
+            return new TrackedNewCodeLine(trackingSpan, lineNumber, _lineTracker);
         }
     }
 }

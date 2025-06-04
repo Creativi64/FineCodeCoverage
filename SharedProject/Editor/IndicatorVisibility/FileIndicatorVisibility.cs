@@ -16,10 +16,10 @@ namespace FineCodeCoverage.Editor.IndicatorVisibility
         public FileIndicatorVisibility(IEventAggregator eventAggregator)
             => _ = eventAggregator.AddListener(this);
 
-        public bool IsVisible(string filePath) => this._showIndicators;
+        public bool IsVisible(string filePath) => _showIndicators;
         public void Handle(ToggleCoverageIndicatorsMessage message)
         {
-            this._showIndicators = !this._showIndicators;
+            _showIndicators = !_showIndicators;
             VisibilityChanged?.Invoke(this, EventArgs.Empty);
         }
     }

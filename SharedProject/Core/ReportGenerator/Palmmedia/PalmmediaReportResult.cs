@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 _ = s_staticMetricTypes.Add(MetricType.Branches);
             }
 
-            this.Assemblies = parserResult.Assemblies.Select(a => (IAssembly)new PalmmediaAssembly(a)).ToList();
+            Assemblies = parserResult.Assemblies.Select(a => (IAssembly)new PalmmediaAssembly(a)).ToList();
         }
 
         public IReadOnlyList<MetricType> MetricTypes => s_staticMetricTypes.ToList();

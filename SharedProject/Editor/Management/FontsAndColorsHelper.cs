@@ -27,8 +27,8 @@ namespace FineCodeCoverage.Editor.Management
             IThreadHelper threadHelper
         )
         {
-            this._serviceProvider = serviceProvider;
-            this._threadHelper = threadHelper;
+            _serviceProvider = serviceProvider;
+            _threadHelper = threadHelper;
         }
 
         private static System.Windows.Media.Color ParseColor(uint color)
@@ -36,13 +36,13 @@ namespace FineCodeCoverage.Editor.Management
 
         private async Task<IVsFontAndColorStorage> GetVsFontAndColorStorageAsync()
         {
-            if (this._vsFontAndColorStorage == null)
+            if (_vsFontAndColorStorage == null)
             {
-                await this._threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                this._vsFontAndColorStorage = this._serviceProvider.GetService<IVsFontAndColorStorage>();
+                await _threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                _vsFontAndColorStorage = _serviceProvider.GetService<IVsFontAndColorStorage>();
             }
 
-            return this._vsFontAndColorStorage;
+            return _vsFontAndColorStorage;
         }
 
         private static IFontAndColorsInfo GetInfo(string displayName, IVsFontAndColorStorage fontAndColorStorage)
@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Editor.Management
         public async Task<List<IFontAndColorsInfo>> GetInfosAsync(Guid category, IEnumerable<string> names)
         {
             var infos = new List<IFontAndColorsInfo>();
-            await this.OpenCloseCategoryAsync(
+            await OpenCloseCategoryAsync(
                 category,
                 fontAndColorStorage
                     => infos = names.Select(name => GetInfo(name, fontAndColorStorage))
@@ -76,11 +76,11 @@ namespace FineCodeCoverage.Editor.Management
 
         private async Task OpenCloseCategoryAsync(Guid category, Action<IVsFontAndColorStorage> action)
         {
-            IVsFontAndColorStorage fontAndColorStorage = await this.GetVsFontAndColorStorageAsync();
-            await this._threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            IVsFontAndColorStorage fontAndColorStorage = await GetVsFontAndColorStorageAsync();
+            await _threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
 #pragma warning disable VSTHRD010 // Invoke single-threaded types on Main thread
-            int success = fontAndColorStorage.OpenCategory(ref category, this._storeFlags);
+            int success = fontAndColorStorage.OpenCategory(ref category, _storeFlags);
 
             if (success == VSConstants.S_OK)
             {

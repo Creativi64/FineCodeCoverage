@@ -8,13 +8,13 @@ namespace FineCodeCoverage.Core.Utilities
     public class OrderAttribute : ExportAttribute, IOrderMetadata
     {
         public OrderAttribute(int order, Type contractType)
-            : base(contractType) => this.Order = order;
+            : base(contractType) => Order = order;
 
         public OrderAttribute(int order, string contractName)
-            : base(contractName) => this.Order = order;
+            : base(contractName) => Order = order;
 
         public OrderAttribute(int order, string contractName, Type contractType)
-            : base(contractName, contractType) => this.Order = order;
+            : base(contractName, contractType) => Order = order;
 
         public int Order { get; }
     }

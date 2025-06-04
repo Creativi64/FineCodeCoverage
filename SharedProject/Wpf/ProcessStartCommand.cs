@@ -8,12 +8,12 @@ namespace FineCodeCoverage.Wpf
     {
         private readonly IProcess _process;
 
-        public ProcessStartCommand(IProcess process) => this._process = process;
+        public ProcessStartCommand(IProcess process) => _process = process;
 
         public event EventHandler CanExecuteChanged { add { } remove { } }
 
         public bool CanExecute(object parameter) => true;
 
-        public void Execute(object parameter) => this._process.Start(parameter as string);
+        public void Execute(object parameter) => _process.Start(parameter as string);
     }
 }

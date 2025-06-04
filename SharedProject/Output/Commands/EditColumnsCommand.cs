@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Output
 
         [ImportingConstructor]
         public EditColumnsCommand(IReportColumnsService reportColumnsService)
-            => this._reportColumnsService = reportColumnsService;
+            => _reportColumnsService = reportColumnsService;
 
-        protected override void Execute(object sender, EventArgs e) => this._reportColumnsService.ManageColumns();
+        protected override void Execute(object sender, EventArgs e) => _reportColumnsService.ManageColumns();
     }
 }

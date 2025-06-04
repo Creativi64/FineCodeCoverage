@@ -13,16 +13,16 @@ namespace FineCodeCoverage.Output
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public CollectTUnitCommand(ITUnitCoverage tUnitCoverage) => this._tUnitCoverage = tUnitCoverage;
+        public CollectTUnitCommand(ITUnitCoverage tUnitCoverage) => _tUnitCoverage = tUnitCoverage;
 
         protected override void Initialized()
         {
-            this.Command.Enabled = this._tUnitCoverage.Ready;
-            this._tUnitCoverage.ReadyEvent += (_, __) => this.Command.Enabled = this._tUnitCoverage.Ready;
+            Command.Enabled = _tUnitCoverage.Ready;
+            _tUnitCoverage.ReadyEvent += (_, __) => Command.Enabled = _tUnitCoverage.Ready;
         }
 
-        protected override void Execute(object sender, EventArgs e) => this._tUnitCoverage.CollectCoverage();
+        protected override void Execute(object sender, EventArgs e) => _tUnitCoverage.CollectCoverage();
 
-        public void SetVisible(bool isVisible) => this.Command.Visible = isVisible;
+        public void SetVisible(bool isVisible) => Command.Visible = isVisible;
     }
 }

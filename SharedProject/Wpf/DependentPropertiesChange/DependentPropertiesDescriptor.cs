@@ -13,17 +13,17 @@ namespace FineCodeCoverage.Wpf
             Func<string, IEnumerable<string>> getDependentProperties
             )
         {
-            this._dependencyPropertyDescriptor = dependencyPropertyDescriptor;
-            this._getDependentProperties = getDependentProperties;
+            _dependencyPropertyDescriptor = dependencyPropertyDescriptor;
+            _getDependentProperties = getDependentProperties;
         }
 
         public void AddValueChanged(object instance, EventHandler handler)
-            => this._dependencyPropertyDescriptor.AddValueChanged(instance, handler);
+            => _dependencyPropertyDescriptor.AddValueChanged(instance, handler);
 
         public void RemoveValueChanged(object instance, EventHandler handler)
-            => this._dependencyPropertyDescriptor.RemoveValueChanged(instance, handler);
+            => _dependencyPropertyDescriptor.RemoveValueChanged(instance, handler);
 
         public IEnumerable<string> GetDependentProperties()
-            => this._getDependentProperties(this._dependencyPropertyDescriptor.Name);
+            => _getDependentProperties(_dependencyPropertyDescriptor.Name);
     }
 }

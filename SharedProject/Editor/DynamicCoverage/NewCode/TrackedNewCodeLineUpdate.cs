@@ -4,9 +4,9 @@
     {
         public TrackedNewCodeLineUpdate(string text, int newLineNumber, int oldLineNumber)
         {
-            this.Text = text;
-            this.NewLineNumber = newLineNumber;
-            this.OldLineNumber = oldLineNumber;
+            Text = text;
+            NewLineNumber = newLineNumber;
+            OldLineNumber = oldLineNumber;
         }
         public string Text { get; }
         public int NewLineNumber { get; }

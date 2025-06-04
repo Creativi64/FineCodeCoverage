@@ -10,9 +10,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             bool isEmpty
         )
         {
-            this.ChangedLines = changedLines;
-            this.UnprocessedSpans = unprocessedSpans;
-            this.IsEmpty = isEmpty;
+            ChangedLines = changedLines;
+            UnprocessedSpans = unprocessedSpans;
+            IsEmpty = isEmpty;
         }
 
         public bool IsEmpty { get; }
