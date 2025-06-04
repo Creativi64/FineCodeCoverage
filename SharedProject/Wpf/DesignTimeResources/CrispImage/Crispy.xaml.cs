@@ -41,8 +41,6 @@ namespace FineCodeCoverage.Wpf
                     new ImageThemingColorChangedEventArgs((Color)args.NewValue))));
         }
 
-        
-
         public static readonly DependencyProperty MonikerProperty = CrispImage.MonikerProperty.AddOwner(
             typeof(Crispy),
             new FrameworkPropertyMetadata(OnDependencyPropertyChanged)

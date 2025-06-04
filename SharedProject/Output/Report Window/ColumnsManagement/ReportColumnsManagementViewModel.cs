@@ -8,7 +8,7 @@ using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    internal class ReportColumnsManagementViewModel 
+    internal class ReportColumnsManagementViewModel
         : ObservableBase, IDialogViewModel, ISelectionHandler<EditableColumn>
     {
         private List<EditableColumn> _selectedEditableColumns;
