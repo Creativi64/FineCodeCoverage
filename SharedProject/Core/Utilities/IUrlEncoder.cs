@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    interface IUrlEncoder
+    internal interface IUrlEncoder
     {
         string Encode(string url);
     }

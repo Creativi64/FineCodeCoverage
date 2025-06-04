@@ -34,6 +34,6 @@ namespace FineCodeCoverage.Core.Utilities
         protected sealed override void StopListening(object source)
             => VSColorTheme.ThemeChanged -= ThemeChanged;
 
-        void ThemeChanged(EventArgs e) => DeliverEvent(null, e);
+        private void ThemeChanged(EventArgs e) => DeliverEvent(null, e);
     }
 }

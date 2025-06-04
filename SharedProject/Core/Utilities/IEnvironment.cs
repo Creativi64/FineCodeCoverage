@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    interface IEnvironment
+    internal interface IEnvironment
     {
         string GetEnvironmentVariable(string variable);
     }

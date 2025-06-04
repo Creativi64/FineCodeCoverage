@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    interface ICoverageSettingsReflectionService
+    internal interface ICoverageSettingsReflectionService
     {
         List<PropertyInfo> CoverageSettingsPropertyInfos { get; }
         CoverageSettings CreateCoverageSettingsFromOptions(IEnumerable<object> coverageSettingsOptions);

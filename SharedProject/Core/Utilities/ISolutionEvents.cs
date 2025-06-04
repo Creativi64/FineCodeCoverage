@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    interface ISolutionEvents
+    internal interface ISolutionEvents
     {
         event EventHandler AfterClosing;
         event EventHandler AfterOpen;

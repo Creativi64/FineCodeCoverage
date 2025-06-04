@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
         private readonly ICommandLineParser _commandLineParser;
 
-        class TUnitProject : ITUnitProject, IDisposable
+        private class TUnitProject : ITUnitProject, IDisposable
         {
             private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
             private readonly ICommandLineParser _commandLineParser;

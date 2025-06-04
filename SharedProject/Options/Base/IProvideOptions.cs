@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    interface IProvideOptions
+    internal interface IProvideOptions
     {
         object Options { get; }
     }

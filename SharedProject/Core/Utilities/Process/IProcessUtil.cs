@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    interface IProcessUtil
+    internal interface IProcessUtil
     {
         Task<ExecuteResponse> ExecuteAsync(ExecuteRequest request, CancellationToken cancellationToken);
     }

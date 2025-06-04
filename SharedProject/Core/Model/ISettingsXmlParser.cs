@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.Model
 {
-    interface ISettingsXmlParser
+    internal interface ISettingsXmlParser
     {
         object Parse(string xml);
         Array ParseArray(string[] xml, bool nullable);

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Github
 {
-    interface IFCCGithubService
+    internal interface IFCCGithubService
     {
         void NewIssue();
         void Navigate();

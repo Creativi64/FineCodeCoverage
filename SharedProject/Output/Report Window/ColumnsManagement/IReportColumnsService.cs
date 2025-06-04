@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    interface IReportColumnsService
+    internal interface IReportColumnsService
     {
         void ManageColumns();
     }

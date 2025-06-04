@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly IXmlUtils _xmlUtils;
         private readonly IRunSettingsToConfiguration _runSettingsToConfiguration;
 
-        class TUnitCoverageProject : ITUnitCoverageProject
+        private class TUnitCoverageProject : ITUnitCoverageProject
         {
             private readonly Func<CancellationToken, Task<string>> _configurationProvider;
 

@@ -4,7 +4,7 @@ using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    interface IDynamicReportResult : IReportResult
+    internal interface IDynamicReportResult : IReportResult
     {
         event EventHandler<IReadOnlyList<FileRename>> FileRenamedEvent;
     }

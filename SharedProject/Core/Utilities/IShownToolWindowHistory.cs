@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    interface IShownToolWindowHistory
+    internal interface IShownToolWindowHistory
     {
         bool HasShownToolWindow { get; }
         void ShowedToolWindow();

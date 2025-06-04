@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options.Report
 {
-    interface IIconOptions
+    internal interface IIconOptions
     {
         bool ShowIcons { get; set; }
         int IconSize { get; set; }

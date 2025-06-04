@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    interface IEnabledOption
+    internal interface IEnabledOption
     {
         bool Enabled { get; set; }
     }

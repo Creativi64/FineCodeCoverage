@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 {
-    interface IBlazorGeneratedFilePathMatcher
+    internal interface IBlazorGeneratedFilePathMatcher
     {
         bool IsBlazorGeneratedFilePath(string razorFilePath, string generatedfilePath);
     }

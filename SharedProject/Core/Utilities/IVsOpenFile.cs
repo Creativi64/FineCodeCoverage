@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    interface IVsOpenFile
+    internal interface IVsOpenFile
     {
         void OpenFileInCodeEditor(string path);
         void OpenFileInDefaultViewer(string path);

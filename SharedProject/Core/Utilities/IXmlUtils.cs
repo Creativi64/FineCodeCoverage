@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    interface IXmlUtils
+    internal interface IXmlUtils
     {
         XElement Load(string path);
         string Serialize(XElement xmlElement);

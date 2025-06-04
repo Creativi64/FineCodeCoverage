@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities.Solution
 {
-    interface ISolutionOption
+    internal interface ISolutionOption
     {
         string Key { get; }
 

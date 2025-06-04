@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Initialization
 {
-    interface IInitializable
+    internal interface IInitializable
     {
     }
 }

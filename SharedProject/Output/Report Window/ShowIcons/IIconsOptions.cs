@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {
-    interface IIconsOptions
+    internal interface IIconsOptions
     {
         event EventHandler ShowIconsChanged;
         event EventHandler IconSizeChanged;

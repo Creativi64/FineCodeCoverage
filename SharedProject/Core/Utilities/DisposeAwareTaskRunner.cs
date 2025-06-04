@@ -18,8 +18,8 @@ namespace FineCodeCoverage.Core.Utilities
             JoinableTaskFactory = ThreadHelper.JoinableTaskContext.CreateFactory(JoinableTaskCollection);
         }
 
-        JoinableTaskFactory JoinableTaskFactory { get; }
-        JoinableTaskCollection JoinableTaskCollection { get; }
+        private JoinableTaskFactory JoinableTaskFactory { get; }
+        private JoinableTaskCollection JoinableTaskCollection { get; }
 
         /// <summary>
         /// Gets a <see cref="CancellationToken"/> that can be used to check if the package has been disposed.

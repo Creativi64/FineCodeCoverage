@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    interface IResourceProvider
+    internal interface IResourceProvider
     {
         string ReadResource(string resourceName);
     }

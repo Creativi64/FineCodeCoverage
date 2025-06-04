@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Initialization
 {
-    interface IClearSettingsOnShutdown
+    internal interface IClearSettingsOnShutdown
     {
         AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
     }

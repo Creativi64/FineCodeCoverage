@@ -7,7 +7,7 @@ using FineCodeCoverage.Options;
 namespace FineCodeCoverage.Engine
 {
     [Order(1, typeof(ICoverageToolOutputFolderSolutionProvider))]
-    class AppOptionsCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
+    internal class AppOptionsCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
     {
         private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
 

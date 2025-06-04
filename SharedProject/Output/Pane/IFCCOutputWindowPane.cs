@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output.Pane
 {
-    interface IFCCOutputWindowPane
+    internal interface IFCCOutputWindowPane
     {
         Task ShowAsync();
         Task OutputStringThreadSafeAsync(string text);

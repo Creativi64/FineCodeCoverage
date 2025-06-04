@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace FineCodeCoverage.Readme
 {
-    interface IFCCMarkdownFlowDocumentProvider
+    internal interface IFCCMarkdownFlowDocumentProvider
     {
         Func<FlowDocumentElementMarkers> Provide(
             TemplatedReadmeInfo templatedReadMeInfo,

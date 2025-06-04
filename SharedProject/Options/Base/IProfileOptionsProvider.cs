@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace FineCodeCoverage.Options
 {
-    interface IProfileOptionsProvider : IProvideOptions
+    internal interface IProfileOptionsProvider : IProvideOptions
     {
         void SaveSettingsToStorage();
 

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.Model
 {
-    interface IExcludableReferencedProject : IReferencedProject
+    internal interface IExcludableReferencedProject : IReferencedProject
     {
         bool ExcludeFromCodeCoverage { get; }
     }

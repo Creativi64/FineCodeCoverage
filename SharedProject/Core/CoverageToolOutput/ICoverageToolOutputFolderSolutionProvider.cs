@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine
 {
-    interface ICoverageToolOutputFolderSolutionProvider
+    internal interface ICoverageToolOutputFolderSolutionProvider
     {
         string Provide(Func<string> solutionFolderProvider);
     }

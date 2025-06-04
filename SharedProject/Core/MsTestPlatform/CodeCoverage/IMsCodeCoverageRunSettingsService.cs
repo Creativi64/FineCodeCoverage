@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
-    interface IMsCodeCoverageRunSettingsService
+    internal interface IMsCodeCoverageRunSettingsService
     {
         Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(ITestOperation testOperation);
         Task CollectAsync(IOperation operation, ITestOperation testOperation);

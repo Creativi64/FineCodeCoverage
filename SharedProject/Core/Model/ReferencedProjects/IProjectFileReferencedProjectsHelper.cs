@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    interface IProjectFileReferencedProjectsHelper
+    internal interface IProjectFileReferencedProjectsHelper
     {
         Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile, XElement projectFileXElement);
     }

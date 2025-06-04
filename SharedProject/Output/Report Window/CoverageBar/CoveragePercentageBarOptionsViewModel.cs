@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Output
     [Export(typeof(CoveragePercentageBarOptionsViewModel))]
     internal class CoveragePercentageBarOptionsViewModel : ObservableBase, IListener<CoverageColoursChangedMessage>
     {
-        class FontsAndColorsCoverageBarColours
+        private class FontsAndColorsCoverageBarColours
         {
             public FontsAndColorsCoverageBarColours(Color coveredColor, Color notCoveredColor)
             {

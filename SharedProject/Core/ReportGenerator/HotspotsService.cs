@@ -34,7 +34,7 @@ namespace FineCodeCoverage.ReportGeneration
 
         internal class MethodMetric : IMethodMetric
         {
-            class Metric : IMetric
+            private class Metric : IMetric
             {
                 public Metric(string name, decimal value)
                 {

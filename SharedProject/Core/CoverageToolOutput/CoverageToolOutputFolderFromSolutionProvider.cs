@@ -8,7 +8,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine
 {
     [Order(1, typeof(ICoverageToolOutputFolderProvider))]
-    class CoverageToolOutputFolderFromSolutionProvider : ICoverageToolOutputFolderProvider
+    internal class CoverageToolOutputFolderFromSolutionProvider : ICoverageToolOutputFolderProvider
     {
         private readonly ISolutionFolderProvider _solutionFolderProvider;
         private readonly IOrderedEnumerable<

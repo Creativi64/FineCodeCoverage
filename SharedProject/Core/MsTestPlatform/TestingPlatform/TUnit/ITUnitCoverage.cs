@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    interface ITUnitCoverage
+    internal interface ITUnitCoverage
     {
         bool Ready { get; }
 

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Wpf
 {
-    interface IApplicationResourcesLoader
+    internal interface IApplicationResourcesLoader
     {
         void AddFromExecutingAssembly(string path);
     }

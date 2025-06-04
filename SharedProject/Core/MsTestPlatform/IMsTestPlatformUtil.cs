@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.MsTestPlatform
 {
-    interface IMsTestPlatformUtil
+    internal interface IMsTestPlatformUtil
     {
         string MsTestPlatformExePath { get; }
     }

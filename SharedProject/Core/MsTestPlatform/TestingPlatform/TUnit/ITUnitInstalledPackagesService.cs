@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    interface ITUnitInstalledPackagesService
+    internal interface ITUnitInstalledPackagesService
     {
         TUnitInstalledPackageResult GetTUnitInstalledPackages(IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems);
         Task<TUnitInstalledPackageResult> GetTUnitInstalledPackagesAsync(Guid projectGuid, CancellationToken cancellationToken);
