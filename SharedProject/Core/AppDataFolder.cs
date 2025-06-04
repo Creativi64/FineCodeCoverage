@@ -12,9 +12,9 @@ namespace FineCodeCoverage.Engine
     [Export(typeof(IAppDataFolder))]
     internal class AppDataFolder : IAppDataFolder
     {
-        private readonly ILogger logger;
-        private readonly IEnvironmentVariable environmentVariable;
-        private readonly IOptionsProvider<MiscOptions> toolsOptionsProvider;
+        private readonly ILogger _logger;
+        private readonly IEnvironmentVariable _environmentVariable;
+        private readonly IOptionsProvider<MiscOptions> _toolsOptionsProvider;
         internal const string fccDebugCleanInstallEnvironmentVariable = "FCCDebugCleanInstall";
 
         [ImportingConstructor]
@@ -24,9 +24,9 @@ namespace FineCodeCoverage.Engine
             IOptionsProvider<MiscOptions> toolsOptionsProvider
         )
         {
-            this.logger = logger;
-            this.environmentVariable = environmentVariable;
-            this.toolsOptionsProvider = toolsOptionsProvider;
+            this._logger = logger;
+            this._environmentVariable = environmentVariable;
+            this._toolsOptionsProvider = toolsOptionsProvider;
         }
         public string DirectoryPath { get; private set; }
 
@@ -41,24 +41,24 @@ namespace FineCodeCoverage.Engine
 
         private async Task CleanInstallDevAsync()
         {
-            if (this.environmentVariable.Get(fccDebugCleanInstallEnvironmentVariable) != null)
+            if (this._environmentVariable.Get(fccDebugCleanInstallEnvironmentVariable) != null)
             {
-                await this.logger.LogAsync("FCCDebugCleanInstall");
+                await this._logger.LogAsync("FCCDebugCleanInstall");
                 if (Directory.Exists(this.DirectoryPath))
                 {
                     try
                     {
                         Directory.Delete(this.DirectoryPath, true);
-                        await this.logger.LogAsync("Deleted app data folder");
+                        await this._logger.LogAsync("Deleted app data folder");
                     }
                     catch (Exception exc)
                     {
-                        await this.logger.LogAsync("Error deleting app data folder", exc.ToString());
+                        await this._logger.LogAsync("Error deleting app data folder", exc.ToString());
                     }
                 }
                 else
                 {
-                    await this.logger.LogAsync("App data folder does not exist");
+                    await this._logger.LogAsync("App data folder does not exist");
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace FineCodeCoverage.Engine
 
         private string GetAppDataFolder()
         {
-            string dir = this.toolsOptionsProvider.Get().ToolsDirectory;
+            string dir = this._toolsOptionsProvider.Get().ToolsDirectory;
 
             return Directory.Exists(dir) ? dir : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }

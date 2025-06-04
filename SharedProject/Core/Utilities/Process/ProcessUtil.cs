@@ -12,7 +12,10 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IProcessUtil))]
     internal class ProcessUtil : IProcessUtil
     {
-        public async Task<ExecuteResponse> ExecuteAsync(ExecuteRequest request, CancellationToken cancellationToken)
+        public async Task<ExecuteResponse> ExecuteAsync(
+            ExecuteRequest request,
+            CancellationToken cancellationToken
+        )
         {
             CommandTask<BufferedCommandResult> commandTask = Cli
             .Wrap(request.FilePath)

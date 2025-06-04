@@ -11,11 +11,14 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IIconsOptions))]
     internal class IconsViewModel : ObservableBase, IIconsOptions
     {
-        private bool showIcons;
-        private int iconSize;
+        private bool _showIcons;
+        private int _iconSize;
+        private ThemedIconStyle _themedIconStyle;
+        private bool _monochrome;
+        private Color _monochromeColor;
+
         public event EventHandler ShowIconsChanged;
         public event EventHandler IconSizeChanged;
-        private ThemedIconStyle themedIconStyle;
 
         [ImportingConstructor]
         public IconsViewModel(IOptionsProvider<ReportOptions> reportOptionsProvider)
@@ -41,22 +44,22 @@ namespace FineCodeCoverage.Output
                     IconSizeChanged?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (newAppOptions.ThemedIconStyle != this.themedIconStyle)
+                if (newAppOptions.ThemedIconStyle != this._themedIconStyle)
                 {
-                    this.themedIconStyle = newAppOptions.ThemedIconStyle;
+                    this._themedIconStyle = newAppOptions.ThemedIconStyle;
                     this.SetIconStyles();
                 }
             };
             ReportOptions appOptions = reportOptionsProvider.Get();
             this.ShowIcons = appOptions.ShowIcons;
             this.IconSize = appOptions.IconSize;
-            this.themedIconStyle = appOptions.ThemedIconStyle;
+            this._themedIconStyle = appOptions.ThemedIconStyle;
             this.SetIconStyles();
         }
 
         private void SetIconStyles()
         {
-            switch (this.themedIconStyle)
+            switch (this._themedIconStyle)
             {
                 case ThemedIconStyle.MonochromeGlyph:
                     this.Monochrome = true;
@@ -75,28 +78,26 @@ namespace FineCodeCoverage.Output
 
         public bool ShowIcons
         {
-            get => this.showIcons;
-            private set => this.Set(ref this.showIcons, value);
+            get => this._showIcons;
+            private set => this.Set(ref this._showIcons, value);
         }
 
         public int IconSize
         {
-            get => this.iconSize;
-            private set => this.Set(ref this.iconSize, value);
+            get => this._iconSize;
+            private set => this.Set(ref this._iconSize, value);
         }
 
-        private bool monochrome;
         public bool Monochrome
         {
-            get => this.monochrome;
-            private set => this.Set(ref this.monochrome, value);
+            get => this._monochrome;
+            private set => this.Set(ref this._monochrome, value);
         }
 
-        private Color monochromeColor;
         public Color MonochromeColor
         {
-            get => this.monochromeColor;
-            private set => this.Set(ref this.monochromeColor, value);
+            get => this._monochromeColor;
+            private set => this.Set(ref this._monochromeColor, value);
         }
     }
 }

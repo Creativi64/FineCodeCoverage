@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Wpf
 {
     /*
         Taken from Community.VisualStudio.Toolkit minus the additional resource dictionary
-    https://github.com/VsixCommunity/Community.VisualStudio.Toolkit/blob/2fac3c44fdeff50c93908fe943b34ab194e340e3/src/toolkit/Community.VisualStudio.Toolkit.Shared/Themes/Themes.cs#L131
+        https://github.com/VsixCommunity/Community.VisualStudio.Toolkit/blob/2fac3c44fdeff50c93908fe943b34ab194e340e3/src/toolkit/Community.VisualStudio.Toolkit.Shared/Themes/Themes.cs#L131
     */
     public static class Themes
     {

@@ -4,16 +4,21 @@ namespace FineCodeCoverage.Output
 {
     internal class RootDirectoryTreeItem : DirectoryTreeItem
     {
-        private readonly string name;
-        private readonly string path;
+        private readonly string _name;
+        private readonly string _path;
 
-        public RootDirectoryTreeItem(IDirectory directory, string path, bool nameIsPath, SourceFileStructure sourceFileStructure) : base(directory, sourceFileStructure)
+        public RootDirectoryTreeItem(
+            IDirectory directory,
+            string path,
+            bool nameIsPath,
+            SourceFileStructure sourceFileStructure
+        ) : base(directory, sourceFileStructure)
         {
-            this.name = this.Name;
-            this.path = path;
+            this._name = this.Name;
+            this._path = path;
             this.SetName(nameIsPath);
         }
 
-        public void SetName(bool fromPath) => this.Name = fromPath ? this.path : this.name;
+        public void SetName(bool fromPath) => this.Name = fromPath ? this._path : this._name;
     }
 }

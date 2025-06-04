@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IUIClearer))]
     internal class UIClearer : IUIClearer, IListener<CoverageStartingMessage>
     {
-        private readonly IEventAggregator eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
 
         [ImportingConstructor]
         public UIClearer(
@@ -27,15 +27,15 @@ namespace FineCodeCoverage.Output
                     this.ClearUI();
                 }
             };
-            this.eventAggregator = eventAggregator;
+            this._eventAggregator = eventAggregator;
         }
 
         public void ClearUI()
         {
-            this.eventAggregator.SendMessage(new ClearReportMessage());
-            this.eventAggregator.SendMessage(new ClearLinesMessage());
+            this._eventAggregator.SendMessage(new ClearReportMessage());
+            this._eventAggregator.SendMessage(new ClearLinesMessage());
         }
 
-        public void Handle(CoverageStartingMessage message) => this.eventAggregator.SendMessage(new ClearLinesMessage());
+        public void Handle(CoverageStartingMessage message) => this._eventAggregator.SendMessage(new ClearLinesMessage());
     }
 }

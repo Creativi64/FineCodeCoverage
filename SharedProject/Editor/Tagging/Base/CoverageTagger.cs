@@ -16,17 +16,17 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         where TTag : ITag
 
     {
-        private readonly ITextInfo textInfo;
-        private readonly string originalFilePath;
-        private readonly ITextBuffer textBuffer;
-        private readonly IBufferLineCoverage bufferLineCoverage;
-        private ICoverageTypeFilter coverageTypeFilter;
-        private readonly IEventAggregator eventAggregator;
-        private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
-        private readonly ILineSpanTagger<TTag> lineSpanTagger;
-        private readonly IFileIndicatorVisibility fileIndicatorVisibility;
-        private readonly IDynamicLineFilter dynamicLineFilter;
-        private bool isDisplayingIndicators;
+        private readonly ITextInfo _textInfo;
+        private readonly string _originalFilePath;
+        private readonly ITextBuffer _textBuffer;
+        private readonly IBufferLineCoverage _bufferLineCoverage;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IDynamicLineAndSnapshotSpansLogic _dynamicLineAndSnapshotSpansLogic;
+        private readonly ILineSpanTagger<TTag> _lineSpanTagger;
+        private readonly IFileIndicatorVisibility _fileIndicatorVisibility;
+        private readonly IDynamicLineFilter _dynamicLineFilter;
+        private ICoverageTypeFilter _coverageTypeFilter;
+        private bool _isDisplayingIndicators;
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
@@ -46,40 +46,40 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             ThrowIf.Null(eventAggregator, nameof(eventAggregator));
             ThrowIf.Null(dynamicLineAndSnapshotSpansLogic, nameof(dynamicLineAndSnapshotSpansLogic));
             ThrowIf.Null(lineSpanTagger, nameof(lineSpanTagger));
-            this.textInfo = textInfo;
-            this.originalFilePath = this.textInfo.FilePath;
-            this.textBuffer = textInfo.TextBuffer;
-            this.bufferLineCoverage = bufferLineCoverage;
-            this.coverageTypeFilter = coverageTypeFilter;
-            this.eventAggregator = eventAggregator;
-            this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
-            this.lineSpanTagger = lineSpanTagger;
-            this.fileIndicatorVisibility = fileIndicatorVisibility;
+            this._textInfo = textInfo;
+            this._originalFilePath = this._textInfo.FilePath;
+            this._textBuffer = textInfo.TextBuffer;
+            this._bufferLineCoverage = bufferLineCoverage;
+            this._coverageTypeFilter = coverageTypeFilter;
+            this._eventAggregator = eventAggregator;
+            this._dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
+            this._lineSpanTagger = lineSpanTagger;
+            this._fileIndicatorVisibility = fileIndicatorVisibility;
             dynamicLineFilter.FilterChanged += (_, __) => this.RaiseTagsChanged();
-            this.dynamicLineFilter = dynamicLineFilter;
-            this.isDisplayingIndicators = fileIndicatorVisibility.IsVisible(textInfo.FilePath);
+            this._dynamicLineFilter = dynamicLineFilter;
+            this._isDisplayingIndicators = fileIndicatorVisibility.IsVisible(textInfo.FilePath);
             fileIndicatorVisibility.VisibilityChanged += this.FileIndicatorVisibility_VisibilityChanged;
             _ = eventAggregator.AddListener(this);
         }
 
         private void FileIndicatorVisibility_VisibilityChanged(object sender, EventArgs e)
         {
-            bool newIsDisplayingIndicators = this.fileIndicatorVisibility.IsVisible(this.textInfo.FilePath);
-            bool visibilityChanged = newIsDisplayingIndicators != this.isDisplayingIndicators;
+            bool newIsDisplayingIndicators = this._fileIndicatorVisibility.IsVisible(this._textInfo.FilePath);
+            bool visibilityChanged = newIsDisplayingIndicators != this._isDisplayingIndicators;
             if (visibilityChanged)
             {
-                this.isDisplayingIndicators = newIsDisplayingIndicators;
+                this._isDisplayingIndicators = newIsDisplayingIndicators;
                 this.RaiseTagsChanged();
             }
         }
 
-        public bool HasCoverage => this.bufferLineCoverage.HasCoverage;
+        public bool HasCoverage => this._bufferLineCoverage.HasCoverage;
 
         public void RaiseTagsChanged() => this.RaiseTagsChangedLinesOrAll();
 
         private void RaiseTagsChangedLinesOrAll(IEnumerable<int> changedLines = null)
         {
-            ITextSnapshot currentSnapshot = this.textBuffer.CurrentSnapshot;
+            ITextSnapshot currentSnapshot = this._textBuffer.CurrentSnapshot;
             SnapshotSpan snapshotSpan;
             if (changedLines != null)
             {
@@ -102,11 +102,11 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 : Enumerable.Empty<ITagSpan<TTag>>();
 
         private bool CanGetTagsFromCoverageLines
-            => this.bufferLineCoverage.HasCoverage && !this.coverageTypeFilter.Disabled && this.isDisplayingIndicators;
+            => this._bufferLineCoverage.HasCoverage && !this._coverageTypeFilter.Disabled && this._isDisplayingIndicators;
 
         private IEnumerable<ITagSpan<TTag>> GetTagsFromCoverageLines(NormalizedSnapshotSpanCollection spans)
         {
-            List<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans = this.dynamicLineAndSnapshotSpansLogic.Apply(this.bufferLineCoverage, spans);
+            List<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans = this._dynamicLineAndSnapshotSpansLogic.Apply(this._bufferLineCoverage, spans);
             return this.GetTags(dynamicLineAndSnapshotSpans);
         }
 
@@ -119,17 +119,17 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private IEnumerable<ITagSpan<TTag>> GetTags(List<IDynamicLineAndSnapshotSpan> dynamicLineAndSnapshotSpans)
         {
             Func<IDynamicLine, bool> fileFilter = dynamicLineAndSnapshotSpans.Any() ?
-                this.dynamicLineFilter.GetFileFilter(this.originalFilePath) : (_) => true;
+                this._dynamicLineFilter.GetFileFilter(this._originalFilePath) : (_) => true;
             return dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot
-                => this.coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType) &&
+                => this._coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType) &&
                 (IsNewOrDirty(dynamicLineAndSnapshot) || fileFilter(dynamicLineAndSnapshot.Line))
-            ).Select(dynamicLineAndSnapshot => this.lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
+            ).Select(dynamicLineAndSnapshot => this._lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
         }
 
         public void Dispose()
         {
-            _ = this.eventAggregator.RemoveListener(this);
-            this.fileIndicatorVisibility.VisibilityChanged -= this.FileIndicatorVisibility_VisibilityChanged;
+            _ = this._eventAggregator.RemoveListener(this);
+            this._fileIndicatorVisibility.VisibilityChanged -= this.FileIndicatorVisibility_VisibilityChanged;
         }
 
         public void Handle(CoverageChangedMessage message)
@@ -140,15 +140,15 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             }
         }
 
-        private bool IsOwnChange(CoverageChangedMessage message) => message.FilePath == this.textInfo.FilePath;
+        private bool IsOwnChange(CoverageChangedMessage message) => message.FilePath == this._textInfo.FilePath;
 
         private void HandleOwnChange(CoverageChangedMessage message) => this.RaiseTagsChangedLinesOrAll(message.ChangedLineNumbers);
 
         public void Handle(CoverageTypeFilterChangedMessage message)
         {
-            if (message.Filter.TypeIdentifier == this.coverageTypeFilter.TypeIdentifier)
+            if (message.Filter.TypeIdentifier == this._coverageTypeFilter.TypeIdentifier)
             {
-                this.coverageTypeFilter = message.Filter;
+                this._coverageTypeFilter = message.Filter;
                 if (this.HasCoverage)
                 {
                     this.RaiseTagsChanged();

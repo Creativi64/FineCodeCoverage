@@ -10,14 +10,14 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ReportHeaderBrushesViewModel))]
     internal class ReportHeaderBrushesViewModel : ObservableBase
     {
-        private ThemeResourceKey gridLinesBrushKey;
-        private ThemeResourceKey backgroundBrushKey;
-        private ThemeResourceKey backgroundIsMouseOverBrushKey;
-        private ThemeResourceKey backgroundIsPressedBrushKey;
-        private ThemeResourceKey foregroundBrushKey;
-        private ThemeResourceKey foregroundIsMouseOverBrushKey;
-        private ThemeResourceKey foregroundIsPressedBrushKey;
-        private bool headerUseTabularSharedColors;
+        private ThemeResourceKey _gridLinesBrushKey;
+        private ThemeResourceKey _backgroundBrushKey;
+        private ThemeResourceKey _backgroundIsMouseOverBrushKey;
+        private ThemeResourceKey _backgroundIsPressedBrushKey;
+        private ThemeResourceKey _foregroundBrushKey;
+        private ThemeResourceKey _foregroundIsMouseOverBrushKey;
+        private ThemeResourceKey _foregroundIsPressedBrushKey;
+        private bool _headerUseTabularSharedColors;
 
         [ImportingConstructor]
         public ReportHeaderBrushesViewModel(
@@ -30,13 +30,13 @@ namespace FineCodeCoverage.Output
             this.BackgroundIsMouseOverBrushKey = HeaderColors.MouseOverBrushKey;
             this.BackgroundIsPressedBrushKey = HeaderColors.MouseDownBrushKey;
 
-            this.headerUseTabularSharedColors = reportOptionsProvider.Get().HeaderUseTabularSharedColors;
+            this._headerUseTabularSharedColors = reportOptionsProvider.Get().HeaderUseTabularSharedColors;
             reportOptionsProvider.OptionsChanged += (newOptions) =>
             {
                 bool newHeaderUseTabularSharedColors = newOptions.HeaderUseTabularSharedColors;
-                if (this.headerUseTabularSharedColors != newHeaderUseTabularSharedColors)
+                if (this._headerUseTabularSharedColors != newHeaderUseTabularSharedColors)
                 {
-                    this.headerUseTabularSharedColors = newHeaderUseTabularSharedColors;
+                    this._headerUseTabularSharedColors = newHeaderUseTabularSharedColors;
                     this.SetHeaderForegroundColors();
                     this.OnPropertyChanged(nameof(this.ForegroundBrushKey));
                     this.OnPropertyChanged(nameof(this.ForegroundIsMouseOverBrushKey));
@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Output
 
         private void SetHeaderForegroundColors()
         {
-            if (this.headerUseTabularSharedColors)
+            if (this._headerUseTabularSharedColors)
             {
                 this.ForegroundBrushKey = EnvironmentColors.CommandBarTextActiveBrushKey;
                 this.ForegroundIsMouseOverBrushKey = EnvironmentColors.CommandBarTextHoverBrushKey;
@@ -75,44 +75,44 @@ namespace FineCodeCoverage.Output
 
         public ThemeResourceKey GridLinesBrushKey
         {
-            get => this.gridLinesBrushKey;
-            set => this.Set(ref this.gridLinesBrushKey, value);
+            get => this._gridLinesBrushKey;
+            set => this.Set(ref this._gridLinesBrushKey, value);
         }
 
         public ThemeResourceKey BackgroundBrushKey
         {
-            get => this.backgroundBrushKey;
-            set => this.Set(ref this.backgroundBrushKey, value);
+            get => this._backgroundBrushKey;
+            set => this.Set(ref this._backgroundBrushKey, value);
         }
 
         public ThemeResourceKey BackgroundIsMouseOverBrushKey
         {
-            get => this.backgroundIsMouseOverBrushKey;
-            set => this.Set(ref this.backgroundIsMouseOverBrushKey, value);
+            get => this._backgroundIsMouseOverBrushKey;
+            set => this.Set(ref this._backgroundIsMouseOverBrushKey, value);
         }
 
         public ThemeResourceKey BackgroundIsPressedBrushKey
         {
-            get => this.backgroundIsPressedBrushKey;
-            set => this.Set(ref this.backgroundIsPressedBrushKey, value);
+            get => this._backgroundIsPressedBrushKey;
+            set => this.Set(ref this._backgroundIsPressedBrushKey, value);
         }
 
         public ThemeResourceKey ForegroundBrushKey
         {
-            get => this.foregroundBrushKey;
-            set => this.Set(ref this.foregroundBrushKey, value);
+            get => this._foregroundBrushKey;
+            set => this.Set(ref this._foregroundBrushKey, value);
         }
 
         public ThemeResourceKey ForegroundIsMouseOverBrushKey
         {
-            get => this.foregroundIsMouseOverBrushKey;
-            set => this.Set(ref this.foregroundIsMouseOverBrushKey, value);
+            get => this._foregroundIsMouseOverBrushKey;
+            set => this.Set(ref this._foregroundIsMouseOverBrushKey, value);
         }
 
         public ThemeResourceKey ForegroundIsPressedBrushKey
         {
-            get => this.foregroundIsPressedBrushKey;
-            set => this.Set(ref this.foregroundIsPressedBrushKey, value);
+            get => this._foregroundIsPressedBrushKey;
+            set => this.Set(ref this._foregroundIsPressedBrushKey, value);
         }
     }
 }

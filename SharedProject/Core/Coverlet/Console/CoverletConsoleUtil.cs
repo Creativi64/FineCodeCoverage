@@ -11,11 +11,11 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(ICoverletConsoleUtil))]
     internal class CoverletConsoleUtil : ICoverletConsoleUtil
     {
-        private readonly IProcessUtil processUtil;
-        private readonly ILogger logger;
-        private readonly ICoverletConsoleExecuteRequestProvider coverletConsoleExecuteRequestProvider;
-        private readonly IFCCCoverletConsoleExecutor fccExecutor;
-        private readonly ICoverletExeArgumentsProvider coverletExeArgumentsProvider;
+        private readonly IProcessUtil _processUtil;
+        private readonly ILogger _logger;
+        private readonly ICoverletConsoleExecuteRequestProvider _coverletConsoleExecuteRequestProvider;
+        private readonly IFCCCoverletConsoleExecutor _fccExecutor;
+        private readonly ICoverletExeArgumentsProvider _coverletExeArgumentsProvider;
 
         [ImportingConstructor]
         public CoverletConsoleUtil(
@@ -26,27 +26,27 @@ namespace FineCodeCoverage.Engine.Coverlet
             ICoverletExeArgumentsProvider coverletExeArgumentsProvider
             )
         {
-            this.processUtil = processUtil;
-            this.logger = logger;
-            this.coverletConsoleExecuteRequestProvider = coverletConsoleExecuteRequestProvider;
-            this.fccExecutor = fccExecutor;
-            this.coverletExeArgumentsProvider = coverletExeArgumentsProvider;
+            this._processUtil = processUtil;
+            this._logger = logger;
+            this._coverletConsoleExecuteRequestProvider = coverletConsoleExecuteRequestProvider;
+            this._fccExecutor = fccExecutor;
+            this._coverletExeArgumentsProvider = coverletExeArgumentsProvider;
         }
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
-            => this.fccExecutor.Initialize(appDataFolder, cancellationToken);
+            => this._fccExecutor.Initialize(appDataFolder, cancellationToken);
 
         public async Task RunAsync(ICoverageProject project, CancellationToken cancellationToken)
         {
             string title = $"Coverlet Run ({project.ProjectName})";
 
-            List<string> coverletSettings = this.coverletExeArgumentsProvider.GetArguments(project);
+            List<string> coverletSettings = this._coverletExeArgumentsProvider.GetArguments(project);
 
             var executingLogLines = new List<string> { $"{title} - Arguments" };
             executingLogLines.AddRange(coverletSettings);
-            await this.logger.LogAsync(executingLogLines);
+            await this._logger.LogAsync(executingLogLines);
 
-            ExecuteResponse result = await this.processUtil.ExecuteAsync(
-                await this.coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
+            ExecuteResponse result = await this._processUtil.ExecuteAsync(
+                await this._coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
                 cancellationToken
             );
 
@@ -59,12 +59,12 @@ namespace FineCodeCoverage.Engine.Coverlet
             if (result.ExitCode > 3)
             {
                 string errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";
-                await this.logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
+                await this._logger.LogAsync($"{title} {errorExitCodeMessage}", result.Output);
 
                 throw new CoverletExitCodeFailureException(errorExitCodeMessage);
             }
 
-            await this.logger.LogAsync($"{title} - Output", result.Output);
+            await this._logger.LogAsync($"{title} - Output", result.Output);
         }
     }
 }

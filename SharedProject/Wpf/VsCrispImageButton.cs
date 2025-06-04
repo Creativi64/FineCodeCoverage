@@ -7,10 +7,10 @@ namespace FineCodeCoverage.Wpf
     public class VsCrispImageButton : VsImageButton
     {
         public static readonly DependencyProperty MonikerProperty =
-DependencyProperty.Register(
-nameof(Moniker),
-typeof(ImageMoniker),
-typeof(VsCrispImageButton));
+            DependencyProperty.Register(
+                nameof(Moniker),
+                typeof(ImageMoniker),
+                typeof(VsCrispImageButton));
 
         public ImageMoniker Moniker
         {

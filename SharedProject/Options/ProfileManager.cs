@@ -10,37 +10,37 @@ namespace FineCodeCoverage.Options
 {
     internal class ProfileManager : Component, IProfileManager
     {
-        private readonly List<IProfileOptionsProvider> optionsProviders;
-        private readonly IJsonConvertService jsonConvertService;
-        private List<object> allSettings;
+        private readonly List<IProfileOptionsProvider> _optionsProviders;
+        private readonly IJsonConvertService _jsonConvertService;
+        private List<object> _allSettings;
         private List<object> AllSettings
         {
             get
             {
                 this.LoadSettingsFromStorage();
-                return this.allSettings;
+                return this._allSettings;
             }
 
-            set => this.allSettings = value;
+            set => this._allSettings = value;
         }
 
         public ProfileManager()
         {
-            this.optionsProviders = MefServiceProvider.GetAll<IProfileOptionsProvider>().ToList();
-            this.jsonConvertService = MefServiceProvider.Get<IJsonConvertService>();
+            this._optionsProviders = MefServiceProvider.GetAll<IProfileOptionsProvider>().ToList();
+            this._jsonConvertService = MefServiceProvider.Get<IJsonConvertService>();
         }
 
         // may be called by VS prior to LoadSettingsFromXML and SaveSettingsToStorage
         public void LoadSettingsFromStorage()
         {
-            if (this.allSettings == null)
+            if (this._allSettings == null)
             {
-                this.allSettings = this.optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
+                this._allSettings = this._optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
             }
         }
 
         private object DeserializeStringArray(string value, PropertyDescriptor _)
-            => this.jsonConvertService.DeserializeObject<string[]>(value);
+            => this._jsonConvertService.DeserializeObject<string[]>(value);
 
         private object DeserializeFromPropertyDescriptor(string value, PropertyDescriptor propertyDescriptor)
         {
@@ -56,7 +56,7 @@ namespace FineCodeCoverage.Options
             int index = 0;
             foreach (object setting in this.AllSettings)
             {
-                IProfileOptionsProvider optionProvider = this.optionsProviders[index];
+                IProfileOptionsProvider optionProvider = this._optionsProviders[index];
                 optionProvider.Initializing = true;
                 foreach (PropertyDescriptor propertyDescriptor in optionProvider.LazyOptionsPropertyDescriptorCollection.Value)
                 {
@@ -91,10 +91,10 @@ namespace FineCodeCoverage.Options
         }
 
         public void SaveSettingsToStorage()
-            => this.optionsProviders.ForEach(optionProvider => optionProvider.SaveSettingsToStorage());
+            => this._optionsProviders.ForEach(optionProvider => optionProvider.SaveSettingsToStorage());
 
         private string SerializeStringArray(object value, PropertyDescriptor _)
-            => this.jsonConvertService.SerializeObject(value);
+            => this._jsonConvertService.SerializeObject(value);
 
         private string SerializeFromPropertyDescriptor(object value, PropertyDescriptor propertyDescriptor)
         {
@@ -110,7 +110,7 @@ namespace FineCodeCoverage.Options
             int index = 0;
             foreach (object setting in this.AllSettings)
             {
-                IProfileOptionsProvider optionProvider = this.optionsProviders[index];
+                IProfileOptionsProvider optionProvider = this._optionsProviders[index];
                 foreach (PropertyDescriptor propertyDescriptor in optionProvider.LazyOptionsPropertyDescriptorCollection.Value)
                 {
                     object propertyValue = propertyDescriptor.GetValue(setting);

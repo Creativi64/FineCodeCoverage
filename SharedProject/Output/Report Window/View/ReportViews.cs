@@ -9,10 +9,10 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IReportViewSelectorModel))]
     internal class ReportViews : IReportViews, IReportViewSelectorModel, IDisposable
     {
-        private readonly IReportViewSolutionOption reportViewSolutionOption;
-        private readonly IGitService gitService;
-        private SelectedGitRepo selectedGitRepo;
-        private IReadOnlyList<string> repositoryPaths = new List<string>();
+        private readonly IReportViewSolutionOption _reportViewSolutionOption;
+        private readonly IGitService _gitService;
+        private SelectedGitRepo _selectedGitRepo;
+        private IReadOnlyList<string> _repositoryPaths = new List<string>();
 
         private class SelectedGitRepo : IDisposable
         {
@@ -41,8 +41,8 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public ReportViews(IReportViewSolutionOption reportViewSolutionOption, IGitService gitService)
         {
-            this.reportViewSolutionOption = reportViewSolutionOption;
-            this.gitService = gitService;
+            this._reportViewSolutionOption = reportViewSolutionOption;
+            this._gitService = gitService;
             reportViewSolutionOption.UnloadedEvent += this.ReportViewSolutionOption_UnloadedEvent;
         }
 
@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Output
         public ReportViewState GetState()
         {
             this.Initialize();
-            return new ReportViewState(this.reportViewSolutionOption.Value, this.repositoryPaths, this.gitService.CanUseChangeset);
+            return new ReportViewState(this._reportViewSolutionOption.Value, this._repositoryPaths, this._gitService.CanUseChangeset);
         }
 
         private void Initialize()
@@ -62,31 +62,31 @@ namespace FineCodeCoverage.Output
 
         private void UpdateOptionValueFromSelectedGitRepo()
         {
-            ReportViewSolutionOptionValue optionValue = this.reportViewSolutionOption.Value;
-            optionValue.SelectedBranchName = this.selectedGitRepo?.SelectedBranchName;
-            optionValue.SelectedRepository = this.selectedGitRepo?.RepositoryPath;
+            ReportViewSolutionOptionValue optionValue = this._reportViewSolutionOption.Value;
+            optionValue.SelectedBranchName = this._selectedGitRepo?.SelectedBranchName;
+            optionValue.SelectedRepository = this._selectedGitRepo?.RepositoryPath;
         }
 
         private void DisposeSelectedGitRepo()
         {
-            this.selectedGitRepo?.Dispose();
-            this.selectedGitRepo = null;
+            this._selectedGitRepo?.Dispose();
+            this._selectedGitRepo = null;
         }
 
         private void InitializeGit()
         {
-            if (this.gitService.CanUseChangeset)
+            if (this._gitService.CanUseChangeset)
             {
-                ReportViewSolutionOptionValue optionValue = this.reportViewSolutionOption.Value;
+                ReportViewSolutionOptionValue optionValue = this._reportViewSolutionOption.Value;
                 string selectedRepositoryPath = optionValue.SelectedRepository;
 
-                var possibleRepositoryPaths = new List<string>(this.gitService.GetRepositoryPaths());
+                var possibleRepositoryPaths = new List<string>(this._gitService.GetRepositoryPaths());
                 if (possibleRepositoryPaths.Contains(selectedRepositoryPath))
                 {
                     this.EnsureSelectedGitRepo(selectedRepositoryPath);
-                    if (this.selectedGitRepo != null)
+                    if (this._selectedGitRepo != null)
                     {
-                        this.selectedGitRepo.SetSelectedBranchIfExists(optionValue.SelectedBranchName);
+                        this._selectedGitRepo.SetSelectedBranchIfExists(optionValue.SelectedBranchName);
                     }
                     else
                     {
@@ -98,7 +98,7 @@ namespace FineCodeCoverage.Output
                     this.DisposeSelectedGitRepo();
                 }
 
-                this.repositoryPaths = possibleRepositoryPaths;
+                this._repositoryPaths = possibleRepositoryPaths;
             }
         }
 
@@ -108,12 +108,12 @@ namespace FineCodeCoverage.Output
             string selectedBranchName,
             string selectedRepositoryPath)
         {
-            ReportViewSolutionOptionValue oldValue = this.reportViewSolutionOption.Value;
+            ReportViewSolutionOptionValue oldValue = this._reportViewSolutionOption.Value;
             bool oldHasChangeset = this.HasChangeSet();
             if (selectedRepositoryPath != null)
             {
                 this.EnsureSelectedGitRepo(selectedRepositoryPath);
-                this.selectedGitRepo?.SetSelectedBranchIfExists(selectedBranchName);
+                this._selectedGitRepo?.SetSelectedBranchIfExists(selectedBranchName);
             }
             else
             {
@@ -134,7 +134,7 @@ namespace FineCodeCoverage.Output
             ReportContentType reportContentType
         )
         {
-            this.reportViewSolutionOption.Value = new ReportViewSolutionOptionValue
+            this._reportViewSolutionOption.Value = new ReportViewSolutionOptionValue
             {
                 ReportStyle = reportStyle,
                 ReportContent = reportContentType,
@@ -152,7 +152,7 @@ namespace FineCodeCoverage.Output
             bool changesetChanged = hasChangeSetChanged;
             if (!changesetChanged && hasChangeset)
             {
-                ReportViewSolutionOptionValue newValue = this.reportViewSolutionOption.Value;
+                ReportViewSolutionOptionValue newValue = this._reportViewSolutionOption.Value;
                 changesetChanged = oldValue.SelectedRepository != newValue.SelectedRepository
                     || oldValue.SelectedBranchName != newValue.SelectedBranchName;
             }
@@ -162,19 +162,19 @@ namespace FineCodeCoverage.Output
 
         private void EnsureSelectedGitRepo(string selectedRepositoryPath)
         {
-            if (this.selectedGitRepo?.Deleted() == true)
+            if (this._selectedGitRepo?.Deleted() == true)
             {
                 this.DisposeSelectedGitRepo();
                 return;
             }
 
-            if (this.selectedGitRepo == null || this.selectedGitRepo.RepositoryPath != selectedRepositoryPath)
+            if (this._selectedGitRepo == null || this._selectedGitRepo.RepositoryPath != selectedRepositoryPath)
             {
-                this.selectedGitRepo?.Dispose();
-                IGitRepo gitRepo = this.gitService.GetRepository(selectedRepositoryPath);
+                this._selectedGitRepo?.Dispose();
+                IGitRepo gitRepo = this._gitService.GetRepository(selectedRepositoryPath);
                 if (gitRepo != null)
                 {
-                    this.selectedGitRepo = new SelectedGitRepo(gitRepo, selectedRepositoryPath, null);
+                    this._selectedGitRepo = new SelectedGitRepo(gitRepo, selectedRepositoryPath, null);
                 }
             }
         }
@@ -182,29 +182,29 @@ namespace FineCodeCoverage.Output
         public IEnumerable<string> GetBranches(string selectedRepositoryPath)
         {
             this.EnsureSelectedGitRepo(selectedRepositoryPath);
-            return this.selectedGitRepo != null ? this.selectedGitRepo.GitRepo.GetBranches() : Enumerable.Empty<string>();
+            return this._selectedGitRepo != null ? this._selectedGitRepo.GitRepo.GetBranches() : Enumerable.Empty<string>();
         }
 
         public IChangeset GetChangeset()
         {
-            if (this.gitService.CanUseChangeset)
+            if (this._gitService.CanUseChangeset)
             {
                 this.Initialize();
                 if (this.HasChangeSet())
                 {
-                    IDictionary<string, HashSet<int>> cs = this.selectedGitRepo.GitRepo.GetChangeset(this.selectedGitRepo.SelectedBranchName);
-                    return this.gitService.GetChangeset(cs);
+                    IDictionary<string, HashSet<int>> cs = this._selectedGitRepo.GitRepo.GetChangeset(this._selectedGitRepo.SelectedBranchName);
+                    return this._gitService.GetChangeset(cs);
                 }
             }
 
             return null;
         }
 
-        private bool HasChangeSet() => this.reportViewSolutionOption.Value.ReportContent == ReportContentType.Changeset
-            && this.selectedGitRepo?.SelectedBranchName != null;
+        private bool HasChangeSet() => this._reportViewSolutionOption.Value.ReportContent == ReportContentType.Changeset
+            && this._selectedGitRepo?.SelectedBranchName != null;
         public void Dispose() => this.DisposeSelectedGitRepo();
 
-        public ReportStyle ReportStyle => this.reportViewSolutionOption.Value.ReportStyle;
+        public ReportStyle ReportStyle => this._reportViewSolutionOption.Value.ReportStyle;
 
         public event EventHandler<ReportViewChangedEventArgs> Changed;
     }

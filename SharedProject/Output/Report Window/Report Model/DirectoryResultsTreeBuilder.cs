@@ -78,12 +78,12 @@ namespace FineCodeCoverage.Output
         {
             public string Name { get; set; }
             public Dictionary<string, DirectoryNode> SubDirectoryParts { get; set; } = new Dictionary<string, DirectoryNode>();
-            private readonly List<ISourceFile> sourceFiles = new List<ISourceFile>();
-            public IReadOnlyList<ISourceFile> SourceFiles => this.sourceFiles;
-            public void AddSourceFile(ISourceFile sourceFile) => this.sourceFiles.Add(sourceFile);
-            private List<IDirectory> subDirectories;
+            private readonly List<ISourceFile> _sourceFiles = new List<ISourceFile>();
+            public IReadOnlyList<ISourceFile> SourceFiles => this._sourceFiles;
+            public void AddSourceFile(ISourceFile sourceFile) => this._sourceFiles.Add(sourceFile);
+            private List<IDirectory> _subDirectories;
             public IReadOnlyList<IDirectory> SubDirectories
-                => this.subDirectories ?? (this.subDirectories = this.SubDirectoryParts.Values.ToList<IDirectory>());
+                => this._subDirectories ?? (this._subDirectories = this.SubDirectoryParts.Values.ToList<IDirectory>());
 
             public DirectoryNode(string name) => this.Name = name;
         }

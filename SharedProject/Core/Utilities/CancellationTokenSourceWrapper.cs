@@ -4,17 +4,17 @@ namespace FineCodeCoverage.Core.Utilities
 {
     internal class CancellationTokenSourceWrapper : ICancellationTokenSource
     {
-        private readonly CancellationTokenSource cancellationTokenSource;
+        private readonly CancellationTokenSource _cancellationTokenSource;
 
         public CancellationTokenSourceWrapper(CancellationTokenSource cancellationTokenSource)
-            => this.cancellationTokenSource = cancellationTokenSource;
+            => this._cancellationTokenSource = cancellationTokenSource;
 
-        public CancellationToken Token => this.cancellationTokenSource.Token;
+        public CancellationToken Token => this._cancellationTokenSource.Token;
 
-        public bool IsCancellationRequested => this.cancellationTokenSource.IsCancellationRequested;
+        public bool IsCancellationRequested => this._cancellationTokenSource.IsCancellationRequested;
 
-        public void Cancel() => this.cancellationTokenSource.Cancel();
+        public void Cancel() => this._cancellationTokenSource.Cancel();
 
-        public void Dispose() => this.cancellationTokenSource.Dispose();
+        public void Dispose() => this._cancellationTokenSource.Dispose();
     }
 }

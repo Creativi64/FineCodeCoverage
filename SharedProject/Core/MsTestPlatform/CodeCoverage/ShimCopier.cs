@@ -10,17 +10,17 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     [Export(typeof(IShimCopier))]
     internal class ShimCopier : IShimCopier
     {
-        private readonly IFileUtil fileUtil;
+        private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
-        public ShimCopier(IFileUtil fileUtil) => this.fileUtil = fileUtil;
+        public ShimCopier(IFileUtil fileUtil) => this._fileUtil = fileUtil;
 
         private void CopyShim(string shimPath, string outputFolder)
         {
             string destination = Path.Combine(outputFolder, Path.GetFileName(shimPath));
-            if (!this.fileUtil.Exists(destination))
+            if (!this._fileUtil.Exists(destination))
             {
-                this.fileUtil.Copy(shimPath, destination);
+                this._fileUtil.Copy(shimPath, destination);
             }
         }
 

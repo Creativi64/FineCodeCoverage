@@ -13,16 +13,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
     internal class MsTestPlatformUtil : IMsTestPlatformUtil, IAppDataFolderPathDependent
     {
         public string MsTestPlatformExePath { get; private set; }
-        private readonly IToolUnzipper toolUnzipper;
+        private readonly IToolUnzipper _toolUnzipper;
         private const string zipPrefix = "microsoft.testplatform";
         private const string zipDirectoryName = "msTestPlatform";
 
         [ImportingConstructor]
-        public MsTestPlatformUtil(IToolUnzipper toolUnzipper) => this.toolUnzipper = toolUnzipper;
+        public MsTestPlatformUtil(IToolUnzipper toolUnzipper) => this._toolUnzipper = toolUnzipper;
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            string zipDestination = this.toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
             this.MsTestPlatformExePath = Directory
                 .GetFiles(zipDestination, "vstest.console.exe", SearchOption.AllDirectories)
                 .FirstOrDefault();

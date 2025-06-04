@@ -7,21 +7,21 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICollectTUnitCommand))]
     internal sealed class CollectTUnitCommand : CommandInitializerBase, ICollectTUnitCommand
     {
-        private readonly ITUnitCoverage tUnitCoverage;
+        private readonly ITUnitCoverage _tUnitCoverage;
 
         protected override int CommandId { get; } = PackageIds.cmdidCollectTUnitCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public CollectTUnitCommand(ITUnitCoverage tUnitCoverage) => this.tUnitCoverage = tUnitCoverage;
+        public CollectTUnitCommand(ITUnitCoverage tUnitCoverage) => this._tUnitCoverage = tUnitCoverage;
 
         protected override void Initialized()
         {
-            this.Command.Enabled = this.tUnitCoverage.Ready;
-            this.tUnitCoverage.ReadyEvent += (_, __) => this.Command.Enabled = this.tUnitCoverage.Ready;
+            this.Command.Enabled = this._tUnitCoverage.Ready;
+            this._tUnitCoverage.ReadyEvent += (_, __) => this.Command.Enabled = this._tUnitCoverage.Ready;
         }
 
-        protected override void Execute(object sender, EventArgs e) => this.tUnitCoverage.CollectCoverage();
+        protected override void Execute(object sender, EventArgs e) => this._tUnitCoverage.CollectCoverage();
 
         public void SetVisible(bool isVisible) => this.Command.Visible = isVisible;
     }

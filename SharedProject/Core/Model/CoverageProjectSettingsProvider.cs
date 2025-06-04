@@ -8,16 +8,16 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ICoverageProjectSettingsProvider))]
     internal class CoverageProjectSettingsProvider : ICoverageProjectSettingsProvider
     {
-        private readonly IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider;
+        private readonly IVsBuildFCCSettingsProvider _vsBuildFCCSettingsProvider;
 
         [ImportingConstructor]
         public CoverageProjectSettingsProvider(
             IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider
-        ) => this.vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
+        ) => this._vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
 
         public async Task<XElement> ProvideAsync(ICoverageProject coverageProject)
             => ProjectSettingsElementFromFCCLabelledPropertyGroup(coverageProject) ??
-                await this.vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
+                await this._vsBuildFCCSettingsProvider.GetSettingsAsync(coverageProject.Id);
 
         /*
             <PropertyGroup Label="FineCodeCoverage">

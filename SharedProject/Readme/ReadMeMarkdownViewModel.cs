@@ -10,12 +10,12 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(ReadMeMarkdownViewModel))]
     internal class ReadMeMarkdownViewModel : ObservableBase
     {
-        private readonly ITemplatedReadmeProvider readmeProvider;
-        private readonly IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider;
-        private readonly IReadMeFlowDocumentStylesSetter readMeFlowDocumentStyleSetter;
-        private readonly ProcessStartCommand processStartCommand;
-        private bool showHyperlinkUrlHover;
-        private FlowDocument flowDocument;
+        private readonly ITemplatedReadmeProvider _readmeProvider;
+        private readonly IFCCMarkdownFlowDocumentProvider _fccMarkdownFlowDocumentProvider;
+        private readonly IReadMeFlowDocumentStylesSetter _readMeFlowDocumentStyleSetter;
+        private readonly ProcessStartCommand _processStartCommand;
+        private bool _showHyperlinkUrlHover;
+        private FlowDocument _flowDocument;
         public const string OptionsTableReplacementMarker = "FCCOptionsTable";
         public const string TruncateMarker = "## Please support the project";
 
@@ -28,33 +28,33 @@ namespace FineCodeCoverage.Readme
             IOptionsProvider<MiscOptions> miscOptionsProvider
             )
         {
-            this.readmeProvider = readmeProvider;
-            this.fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
-            this.readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
-            this.processStartCommand = new ProcessStartCommand(process);
+            this._readmeProvider = readmeProvider;
+            this._fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
+            this._readMeFlowDocumentStyleSetter = readMeFlowDocumentStyleSetter;
+            this._processStartCommand = new ProcessStartCommand(process);
             this.ShowHyperlinkUrlHover = miscOptionsProvider.Get().ShowHyperlinkUrlHover;
             miscOptionsProvider.OptionsChanged += (newOptions) => this.ShowHyperlinkUrlHover = newOptions.ShowHyperlinkUrlHover;
         }
 
         public bool ShowHyperlinkUrlHover
         {
-            get => this.showHyperlinkUrlHover;
-            set => this.Set(ref this.showHyperlinkUrlHover, value);
+            get => this._showHyperlinkUrlHover;
+            set => this.Set(ref this._showHyperlinkUrlHover, value);
         }
 
         private FlowDocument GetFlowDocument()
         {
-            TemplatedReadmeInfo templatedReadmeInfo = this.readmeProvider.GetTemplatedReadme();
-            FlowDocumentElementMarkers flowDocumentElementMarkers = this.fccMarkdownFlowDocumentProvider.Provide(
+            TemplatedReadmeInfo templatedReadmeInfo = this._readmeProvider.GetTemplatedReadme();
+            FlowDocumentElementMarkers flowDocumentElementMarkers = this._fccMarkdownFlowDocumentProvider.Provide(
                 templatedReadmeInfo,
                 ReadMeMarkdownViewModel.OptionsTableReplacementMarker,
                 ReadMeMarkdownViewModel.TruncateMarker,
-                this.processStartCommand
+                this._processStartCommand
                 )();
-            this.readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
+            this._readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
             return flowDocumentElementMarkers.FlowDocument;
         }
 
-        public FlowDocument FlowDocument => this.flowDocument ?? (this.flowDocument = this.GetFlowDocument());
+        public FlowDocument FlowDocument => this._flowDocument ?? (this._flowDocument = this.GetFlowDocument());
     }
 }

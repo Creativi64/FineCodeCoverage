@@ -17,13 +17,13 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             { DynamicCoverageType.NewLine, false },
             { DynamicCoverageType.NotIncluded, false }
         };
-        private Dictionary<DynamicCoverageType, bool> showLookup = doNotShowLookup;
+        private Dictionary<DynamicCoverageType, bool> _showLookup = doNotShowLookup;
 
         public void Initialize(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
             if (this.ShouldGetShowLookup(editorCoverageColouringOptions))
             {
-                this.showLookup = this.GetShowLookup(editorCoverageColouringOptions);
+                this._showLookup = this.GetShowLookup(editorCoverageColouringOptions);
                 this.ThrowIfInvalidShowLookup();
             }
         }
@@ -32,7 +32,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private void ThrowIfInvalidShowLookup()
         {
-            if (this.showLookup == null || this.showLookup.Count != 6)
+            if (this._showLookup == null || this._showLookup.Count != 6)
             {
                 throw new InvalidOperationException("Invalid showLookup");
             }
@@ -52,18 +52,18 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         public bool Disabled { get; set; } = true;
 
-        public bool Show(DynamicCoverageType coverageType) => this.showLookup[coverageType];
+        public bool Show(DynamicCoverageType coverageType) => this._showLookup[coverageType];
 
         public bool Changed(ICoverageTypeFilter other)
         {
             this.ThrowIfIncorrectCoverageTypeFilter(other);
 
-            return this.CompareLookups(((CoverageTypeFilterBase)other).showLookup);
+            return this.CompareLookups(((CoverageTypeFilterBase)other)._showLookup);
         }
 
         private bool CompareLookups(Dictionary<DynamicCoverageType, bool> otherShowLookup)
             => Enum.GetValues(typeof(DynamicCoverageType)).Cast<DynamicCoverageType>()
-                .Any(coverageType => this.showLookup[coverageType] != otherShowLookup[coverageType]);
+                .Any(coverageType => this._showLookup[coverageType] != otherShowLookup[coverageType]);
 
         private void ThrowIfIncorrectCoverageTypeFilter(ICoverageTypeFilter other)
         {

@@ -8,27 +8,27 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IVsColorTheme))]
     public class VsColorTheme : IVsColorTheme
     {
-        private object currentTheme;
-        private readonly object colorThemeService;
+        private object _currentTheme;
+        private readonly object _colorThemeService;
 
-        private PropertyInfo indexer;
-        private Type colorNameType;
+        private PropertyInfo _indexer;
+        private Type _colorNameType;
 
         [ImportingConstructor]
         public VsColorTheme(
         [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
-        ) => this.colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
+        ) => this._colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
 
         private object CurrentTheme
         {
             get
             {
-                if (this.currentTheme == null)
+                if (this._currentTheme == null)
                 {
                     this.SetCurrentTheme();
                 }
 
-                return this.currentTheme;
+                return this._currentTheme;
             }
         }
         public string CurrentThemeName => ((dynamic)this.CurrentTheme).Name;
@@ -53,21 +53,21 @@ namespace FineCodeCoverage.Core.Utilities
             remove => themeChanged = null;
         }
 
-        private void SetCurrentTheme() => this.currentTheme = ((dynamic)this.colorThemeService).CurrentTheme;
+        private void SetCurrentTheme() => this._currentTheme = ((dynamic)this._colorThemeService).CurrentTheme;
 
         public VsColorEntry GetColorEntry(ColorName colorName)
         {
-            if (this.indexer == null)
+            if (this._indexer == null)
             {
-                this.indexer = this.CurrentTheme.GetType().GetProperty("Item");
-                this.colorNameType = this.indexer.GetIndexParameters()[0].ParameterType;
+                this._indexer = this.CurrentTheme.GetType().GetProperty("Item");
+                this._colorNameType = this._indexer.GetIndexParameters()[0].ParameterType;
             }
 
-            object vsColorName = Activator.CreateInstance(this.colorNameType, true);
+            object vsColorName = Activator.CreateInstance(this._colorNameType, true);
             ((dynamic)vsColorName).Category = colorName.Category;
             ((dynamic)vsColorName).Name = colorName.Name;
 
-            object colorEntry = this.indexer.GetValue(this.CurrentTheme, new object[] { vsColorName });
+            object colorEntry = this._indexer.GetValue(this.CurrentTheme, new object[] { vsColorName });
             return colorEntry == null ? null : new VsColorEntry(colorEntry, colorName);
         }
     }

@@ -9,14 +9,16 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     [Export(typeof(IDynamicLineFilter))]
     internal class DynamicLineFilter : IDynamicLineFilter
     {
-        private readonly IReportViews reportViews;
+        private readonly IReportViews _reportViews;
+        private IChangeset _changeset = null;
+        private bool _shouldGetChangeset = true;
 
         [ImportingConstructor]
         public DynamicLineFilter(
             IReportViews reportViews
         )
         {
-            this.reportViews = reportViews;
+            this._reportViews = reportViews;
             reportViews.Changed += this.ReportViews_Changed;
         }
 
@@ -24,23 +26,20 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         {
             if (e.ChangesetChanged)
             {
-                this.shouldGetChangeset = true;
+                this._shouldGetChangeset = true;
                 FilterChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private IChangeset changeset = null;
-        private bool shouldGetChangeset = true;
-
         private IChangeset GetChangeset()
         {
-            if (this.shouldGetChangeset)
+            if (this._shouldGetChangeset)
             {
-                this.changeset = this.reportViews.GetChangeset();
-                this.shouldGetChangeset = false;
+                this._changeset = this._reportViews.GetChangeset();
+                this._shouldGetChangeset = false;
             }
 
-            return this.changeset;
+            return this._changeset;
         }
 
         public event EventHandler FilterChanged;

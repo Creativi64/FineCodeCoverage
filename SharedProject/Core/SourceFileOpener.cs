@@ -10,13 +10,13 @@ namespace FineCodeCoverage.Engine
     [Export(typeof(ISourceFileOpener))]
     internal class SourceFileOpener : ISourceFileOpener
     {
-        private readonly AsyncLazy<DTE2> lazyDTE2;
+        private readonly AsyncLazy<DTE2> _lazyDTE2;
 
         [ImportingConstructor]
         public SourceFileOpener(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => this.lazyDTE2 = new AsyncLazy<DTE2>(async () =>
+        ) => this._lazyDTE2 = new AsyncLazy<DTE2>(async () =>
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             return (DTE2)serviceProvider.GetService(typeof(DTE));
@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Engine
         public async System.Threading.Tasks.Task OpenAsync(string sourceFilePath, int line)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            DTE2 dte = await this.lazyDTE2.GetValueAsync();
+            DTE2 dte = await this._lazyDTE2.GetValueAsync();
             dte.MainWindow.Activate();
 
             _ = dte.ItemOperations.OpenFile(sourceFilePath, Constants.vsViewKindCode);

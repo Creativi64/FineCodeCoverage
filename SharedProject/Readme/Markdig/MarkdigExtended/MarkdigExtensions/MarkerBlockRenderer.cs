@@ -8,10 +8,10 @@ namespace FineCodeCoverage.Readme
 {
     public class MarkerBlockRenderer : WpfObjectRenderer<MarkerBlock>
     {
-        private readonly IDictionary<string, Func<IEnumerable<Block>>> blockCreators;
+        private readonly IDictionary<string, Func<IEnumerable<Block>>> _blockCreators;
 
         public MarkerBlockRenderer(IDictionary<string, Func<IEnumerable<Block>>> blockCreators)
-            => this.blockCreators = blockCreators;
+            => this._blockCreators = blockCreators;
 
         public MarkerBlockRenderer(string marker, Func<IEnumerable<Block>> creator)
             : this(new Dictionary<string, Func<IEnumerable<Block>>> {
@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Readme
 
         protected override void Write(WpfRenderer renderer, MarkerBlock markerBlock)
         {
-            if (this.blockCreators.TryGetValue(markerBlock.Marker, out Func<IEnumerable<Block>> creator))
+            if (this._blockCreators.TryGetValue(markerBlock.Marker, out Func<IEnumerable<Block>> creator))
             {
                 IEnumerable<Block> blocks = creator();
                 if (blocks != null)

@@ -12,10 +12,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     [Export(typeof(ITemplatedRunSettingsService))]
     internal class TemplatedRunSettingsService : ITemplatedRunSettingsService
     {
-        private readonly IRunSettingsTemplate runSettingsTemplate;
-        private readonly ICustomRunSettingsTemplateProvider customRunSettingsTemplateProvider;
-        private readonly IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory;
-        private readonly IProjectRunSettingsGenerator projectRunSettingsGenerator;
+        private readonly IRunSettingsTemplate _runSettingsTemplate;
+        private readonly ICustomRunSettingsTemplateProvider _customRunSettingsTemplateProvider;
+        private readonly IRunSettingsTemplateReplacementsFactory _runSettingsTemplateReplacementsFactory;
+        private readonly IProjectRunSettingsGenerator _projectRunSettingsGenerator;
 
         private class ProjectRunSettingsFromTemplateResult : IProjectRunSettingsFromTemplateResult
         {
@@ -52,10 +52,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IProjectRunSettingsGenerator projectRunSettingsGenerator
         )
         {
-            this.runSettingsTemplate = runSettingsTemplate;
-            this.customRunSettingsTemplateProvider = customRunSettingsTemplateProvider;
-            this.runSettingsTemplateReplacementsFactory = runSettingsTemplateReplacementsFactory;
-            this.projectRunSettingsGenerator = projectRunSettingsGenerator;
+            this._runSettingsTemplate = runSettingsTemplate;
+            this._customRunSettingsTemplateProvider = customRunSettingsTemplateProvider;
+            this._runSettingsTemplateReplacementsFactory = runSettingsTemplateReplacementsFactory;
+            this._projectRunSettingsGenerator = projectRunSettingsGenerator;
         }
 
         public async Task<IProjectRunSettingsFromTemplateResult> GenerateAsync(IEnumerable<ICoverageProject> coverageProjectsWithoutRunSettings, string solutionDirectory, string fccMsTestAdapterPath)
@@ -73,12 +73,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             try
             {
-                await this.projectRunSettingsGenerator.WriteProjectsRunSettingsAsync(projectsRunSettings);
+                await this._projectRunSettingsGenerator.WriteProjectsRunSettingsAsync(projectsRunSettings);
             }
             catch (Exception exc)
             {
                 await Tryer.TryAsync(
-                    () => this.projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings)
+                    () => this._projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings)
                 );
 
                 return ProjectRunSettingsFromTemplateResult.FromException(exc, "Exception writing templated runsettings");
@@ -139,15 +139,15 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             string customPath = null;
             string replaceableTemplate;
-            CustomRunSettingsTemplateDetails customRunSettingsTemplateDetails = this.customRunSettingsTemplateProvider.Provide(projectDirectory, solutionDirectory);
+            CustomRunSettingsTemplateDetails customRunSettingsTemplateDetails = this._customRunSettingsTemplateProvider.Provide(projectDirectory, solutionDirectory);
             if (customRunSettingsTemplateDetails != null)
             {
                 customPath = customRunSettingsTemplateDetails.Path;
-                replaceableTemplate = this.runSettingsTemplate.ConfigureCustom(customRunSettingsTemplateDetails.Template);
+                replaceableTemplate = this._runSettingsTemplate.ConfigureCustom(customRunSettingsTemplateDetails.Template);
             }
             else
             {
-                replaceableTemplate = this.runSettingsTemplate.Get();
+                replaceableTemplate = this._runSettingsTemplate.Get();
             }
 
             return (replaceableTemplate, customPath);
@@ -155,12 +155,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private ITemplateReplacementResult ReplaceTemplate(ICoverageProject coverageProject, string replaceableTemplate, string fccMsTestAdapterPath)
         {
-            IRunSettingsTemplateReplacements replacements = this.runSettingsTemplateReplacementsFactory.Create(coverageProject, fccMsTestAdapterPath);
+            IRunSettingsTemplateReplacements replacements = this._runSettingsTemplateReplacementsFactory.Create(coverageProject, fccMsTestAdapterPath);
 
-            return this.runSettingsTemplate.ReplaceTemplate(replaceableTemplate, replacements, coverageProject.IsDotNetFramework);
+            return this._runSettingsTemplate.ReplaceTemplate(replaceableTemplate, replacements, coverageProject.IsDotNetFramework);
         }
 
         public Task CleanUpAsync(List<ICoverageProject> coverageProjects)
-            => this.projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects);
+            => this._projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjects);
     }
 }

@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Options
     [Export(typeof(ResetOptionsService))]
     internal class ResetOptionsService
     {
-        private readonly IEnumerable<IResetOptions> resetters;
-        private readonly IMessageBox messageBox;
+        private readonly IEnumerable<IResetOptions> _resetters;
+        private readonly IMessageBox _messageBox;
 
         [ImportingConstructor]
         public ResetOptionsService(
@@ -16,17 +16,18 @@ namespace FineCodeCoverage.Options
             IMessageBox messageBox
         )
         {
-            this.resetters = resetters;
-            this.messageBox = messageBox;
+            this._resetters = resetters;
+            this._messageBox = messageBox;
         }
+
         public void Reset()
         {
-            if (this.messageBox.ShowWarning(
+            if (this._messageBox.ShowWarning(
                 "Are you sure you want to reset all settings to their default values?",
                 "Reset Settings"
             ))
             {
-                foreach (IResetOptions resetter in this.resetters)
+                foreach (IResetOptions resetter in this._resetters)
                 {
                     resetter.Reset();
                 }

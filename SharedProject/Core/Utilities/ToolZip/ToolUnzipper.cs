@@ -6,8 +6,8 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IToolUnzipper))]
     internal class ToolUnzipper : IToolUnzipper
     {
-        private readonly IToolZipProvider toolZipProvider;
-        private readonly IToolFolder toolFolder;
+        private readonly IToolZipProvider _toolZipProvider;
+        private readonly IToolFolder _toolFolder;
 
         [ImportingConstructor]
         public ToolUnzipper(
@@ -15,18 +15,18 @@ namespace FineCodeCoverage.Core.Utilities
             IToolFolder toolFolder
             )
         {
-            this.toolZipProvider = toolZipProvider;
-            this.toolFolder = toolFolder;
+            this._toolZipProvider = toolZipProvider;
+            this._toolFolder = toolFolder;
         }
         public string EnsureUnzipped(
             string appDataFolder,
             string ownFolderName,
             string zipPrefix,
             CancellationToken cancellationToken
-        ) => this.toolFolder.EnsureUnzipped(
+        ) => this._toolFolder.EnsureUnzipped(
             appDataFolder,
             ownFolderName,
-            this.toolZipProvider.ProvideZip(zipPrefix),
+            this._toolZipProvider.ProvideZip(zipPrefix),
             cancellationToken);
     }
 }

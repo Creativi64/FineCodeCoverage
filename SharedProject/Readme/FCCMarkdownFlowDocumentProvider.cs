@@ -10,15 +10,16 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(IFCCMarkdownFlowDocumentProvider))]
     internal class FCCMarkdownFlowDocumentProvider : IFCCMarkdownFlowDocumentProvider
     {
-        private readonly IOptionPageTableCreator optionPageTableCreator;
-        private readonly IReadMePipelineProvider readMePipeLineProvider;
+        private readonly IOptionPageTableCreator _optionPageTableCreator;
+        private readonly IReadMePipelineProvider _readMePipeLineProvider;
+
         [ImportingConstructor]
         public FCCMarkdownFlowDocumentProvider(
             IOptionPageTableCreator optionPageTableCreator,
             IReadMePipelineProvider readMePipeLineProvider)
         {
-            this.optionPageTableCreator = optionPageTableCreator;
-            this.readMePipeLineProvider = readMePipeLineProvider;
+            this._optionPageTableCreator = optionPageTableCreator;
+            this._readMePipeLineProvider = readMePipeLineProvider;
         }
 
         public Func<FlowDocumentElementMarkers> Provide(
@@ -28,7 +29,7 @@ namespace FineCodeCoverage.Readme
             ICommand navigateCommand
             )
         {
-            MarkdownPipeline pipeline = this.readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, this.optionPageTableCreator.Create);
+            MarkdownPipeline pipeline = this._readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, this._optionPageTableCreator.Create);
             Markdig.Syntax.MarkdownDocument markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);
             return () =>
             {
@@ -37,7 +38,7 @@ namespace FineCodeCoverage.Readme
                 fccWpfRenderer.LoadDocument(flowDocument);
                 pipeline.Setup(fccWpfRenderer);
                 _ = fccWpfRenderer.Render(markdownDocument);
-                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(this.optionPageTableCreator.ElementAndMarkers).ToList();
+                var elementAndMarkers = fccWpfRenderer.ElementAndMarkers.Concat(this._optionPageTableCreator.ElementAndMarkers).ToList();
                 elementAndMarkers.Add(new ElementAndMarker(flowDocument, MarkdownTypeMarker.FlowDocument));
                 return new FlowDocumentElementMarkers(flowDocument, elementAndMarkers);
             };

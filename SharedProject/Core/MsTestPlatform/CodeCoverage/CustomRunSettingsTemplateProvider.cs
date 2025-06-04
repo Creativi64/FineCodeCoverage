@@ -8,10 +8,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     internal class CustomRunSettingsTemplateProvider : ICustomRunSettingsTemplateProvider
     {
         private const string TemplateName = "fcc-ms-runsettings-template.xml";
-        private readonly IFileUtil fileUtil;
+        private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
-        public CustomRunSettingsTemplateProvider(IFileUtil fileUtil) => this.fileUtil = fileUtil;
+        public CustomRunSettingsTemplateProvider(IFileUtil fileUtil) => this._fileUtil = fileUtil;
 
         public CustomRunSettingsTemplateDetails Provide(string projectDirectory, string solutionDirectory)
         {
@@ -27,10 +27,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
 
             string templatePath = Path.Combine(directory, TemplateName);
-            return this.fileUtil.Exists(templatePath)
+            return this._fileUtil.Exists(templatePath)
                 ? new CustomRunSettingsTemplateDetails
                 {
-                    Template = this.fileUtil.ReadAllText(templatePath),
+                    Template = this._fileUtil.ReadAllText(templatePath),
                     Path = templatePath
                 }
                 : null;

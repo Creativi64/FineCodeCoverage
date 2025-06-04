@@ -9,10 +9,10 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(IReferencedProjectsHelper))]
     internal class ReferencedProjectsHelper : IReferencedProjectsHelper
     {
-        private readonly IVsApiReferencedProjectsHelper vsApiReferencedProjectsHelper;
-        private readonly IProjectFileReferencedProjectsHelper projectFileReferencedProjectsHelper;
-        private string projectFile;
-        private Func<XElement> projectFileXElementProvider;
+        private readonly IVsApiReferencedProjectsHelper _vsApiReferencedProjectsHelper;
+        private readonly IProjectFileReferencedProjectsHelper _projectFileReferencedProjectsHelper;
+        private string _projectFile;
+        private Func<XElement> _projectFileXElementProvider;
 
         [ImportingConstructor]
         public ReferencedProjectsHelper(
@@ -20,28 +20,31 @@ namespace FineCodeCoverage.Engine.Model
             IProjectFileReferencedProjectsHelper projectFileReferencedProjectsHelper
         )
         {
-            this.vsApiReferencedProjectsHelper = vsApiReferencedProjectsHelper;
-            this.projectFileReferencedProjectsHelper = projectFileReferencedProjectsHelper;
+            this._vsApiReferencedProjectsHelper = vsApiReferencedProjectsHelper;
+            this._projectFileReferencedProjectsHelper = projectFileReferencedProjectsHelper;
         }
 
-        public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile, Func<XElement> projectFileXElementProvider)
+        public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
+            string projectFile,
+            Func<XElement> projectFileXElementProvider
+        )
         {
-            this.projectFileXElementProvider = projectFileXElementProvider;
-            this.projectFile = projectFile;
+            this._projectFileXElementProvider = projectFileXElementProvider;
+            this._projectFile = projectFile;
             List<IExcludableReferencedProject> referencedProjects = await this.GetReferencedProjectsAsync();
             return new List<IExcludableReferencedProject>(referencedProjects);
         }
 
         private async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync()
             => await this.SafeGetReferencedProjectsFromVSApiAsync() ??
-            await this.projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(
-                this.projectFile, this.projectFileXElementProvider());
+            await this._projectFileReferencedProjectsHelper.GetReferencedProjectsAsync(
+                this._projectFile, this._projectFileXElementProvider());
 
         private async Task<List<IExcludableReferencedProject>> SafeGetReferencedProjectsFromVSApiAsync()
         {
             try
             {
-                return await this.vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(this.projectFile);
+                return await this._vsApiReferencedProjectsHelper.GetReferencedProjectsAsync(this._projectFile);
             }
             catch { }
 

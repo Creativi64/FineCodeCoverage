@@ -8,7 +8,8 @@ namespace FineCodeCoverage.Output
 {
     public class CodeElementTreeItem : ReportTreeItemBase
     {
-        private readonly ICodeElement codeElement;
+        private readonly ICodeElement _codeElement;
+        private readonly IReadOnlyList<ICoberturaLine> _lines;
 
         public CodeElementTreeItem(
             ICodeElement codeElement
@@ -17,7 +18,7 @@ namespace FineCodeCoverage.Output
             this.Name = codeElement.Name;
             this.ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ?
                 KnownMonikers.Method : KnownMonikers.Property;
-            this.lines = codeElement.Lines;
+            this._lines = codeElement.Lines;
             this.CoverableLines = codeElement.Lines.Count;
             this.CoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Covered);
             this.NotCoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.NotCovered);
@@ -27,11 +28,13 @@ namespace FineCodeCoverage.Output
             this.CyclomaticComplexity = codeElement.CyclomaticComplexity;
             this.TotalBranches = codeElement.TotalBranches;
             this.CoveredBranches = codeElement.BranchesCovered;
-            this.codeElement = codeElement;
+            this._codeElement = codeElement;
         }
-        private readonly IReadOnlyList<ICoberturaLine> lines;
+
         public override ImageMoniker ImageMoniker { get; }
-        public int FileLine => this.lines[0].Number;
-        public string FilePath => this.codeElement.Path;
+
+        public int FileLine => this._lines[0].Number;
+
+        public string FilePath => this._codeElement.Path;
     }
 }

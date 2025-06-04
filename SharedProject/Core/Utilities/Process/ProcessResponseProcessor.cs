@@ -8,10 +8,10 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IProcessResponseProcessor))]
     internal class ProcessResponseProcessor : IProcessResponseProcessor
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
         [ImportingConstructor]
-        public ProcessResponseProcessor(ILogger logger) => this.logger = logger;
+        public ProcessResponseProcessor(ILogger logger) => this._logger = logger;
 
         public async Task<bool> ProcessAsync(ExecuteResponse result, Func<int, bool> exitCodeSuccessPredicate, bool throwError, string title, Action successCallback = null)
         {
@@ -22,11 +22,11 @@ namespace FineCodeCoverage.Core.Utilities
                     throw new ProcessResponseException(result.Output);
                 }
 
-                await this.logger.LogAsync($"{title} Error", result.Output);
+                await this._logger.LogAsync($"{title} Error", result.Output);
                 return false;
             }
 
-            await this.logger.LogAsync(title, result.Output);
+            await this._logger.LogAsync(title, result.Output);
             successCallback?.Invoke();
             return true;
         }

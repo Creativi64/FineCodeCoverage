@@ -11,19 +11,19 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IReportToolWindowOpener))]
     internal sealed class OpenReportWindowCommand : CommandInitializerBase, IReportToolWindowOpener
     {
-        private readonly IShownToolWindowHistory shownToolWindowHistory;
+        private readonly IShownToolWindowHistory _shownToolWindowHistory;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenReportWindowCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenReportWindowCommand(IShownToolWindowHistory shownToolWindowHistory) => this.shownToolWindowHistory = shownToolWindowHistory;
+        public OpenReportWindowCommand(IShownToolWindowHistory shownToolWindowHistory) => this._shownToolWindowHistory = shownToolWindowHistory;
 
         protected override void Execute(object sender, EventArgs e) => this.PackageServices.RunAsyncWithExceptionLogging(this.ShowToolWindowAsync);
 
         public async Task<ToolWindowPane> ShowToolWindowAsync()
         {
-            this.shownToolWindowHistory.ShowedToolWindow();
+            this._shownToolWindowHistory.ShowedToolWindow();
             ToolWindowPane window = await this.PackageServices.ShowToolWindowAsync(typeof(ReportToolWindow), 0, true, this.PackageServices.DisposalToken);
 
             return ReturnOrThrowIfCannotCreateToolWindow(window);

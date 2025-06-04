@@ -8,16 +8,16 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(IVsHasCoverageMarkersLogic))]
     internal class VsHasCoverageMarkersLogic : IVsHasCoverageMarkersLogic
     {
-        private readonly IReadOnlyConfigSettingsStoreProvider readOnlyConfigSettingsStoreProvider;
+        private readonly IReadOnlyConfigSettingsStoreProvider _readOnlyConfigSettingsStoreProvider;
 
         [ImportingConstructor]
         public VsHasCoverageMarkersLogic(
             IReadOnlyConfigSettingsStoreProvider readOnlyConfigSettingsStoreProvider
-        ) => this.readOnlyConfigSettingsStoreProvider = readOnlyConfigSettingsStoreProvider;
+        ) => this._readOnlyConfigSettingsStoreProvider = readOnlyConfigSettingsStoreProvider;
 
         public bool HasCoverageMarkers()
         {
-            Microsoft.VisualStudio.Settings.SettingsStore readOnlySettingsStore = this.readOnlyConfigSettingsStoreProvider.LazySettingsStore.GetValue();
+            Microsoft.VisualStudio.Settings.SettingsStore readOnlySettingsStore = this._readOnlyConfigSettingsStoreProvider.LazySettingsStore.GetValue();
             return readOnlySettingsStore.CollectionExists(@"Text Editor\External Markers\{b4ee9ead-e105-11d7-8a44-00065bbd20a4}");
         }
     }

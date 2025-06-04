@@ -12,25 +12,26 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
     [Export(typeof(IFileExcluder))]
     internal class BlazorCoverageContentType : ICoverageContentType, IFileExcluder
     {
+        private readonly IBlazorFileCodeSpanRangeService _blazorFileCodeSpanRangeService;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;
+
         [ImportingConstructor]
         public BlazorCoverageContentType(
             IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService,
             IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider
         )
         {
-            this.blazorFileCodeSpanRangeService = blazorFileCodeSpanRangeService;
-            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            this._blazorFileCodeSpanRangeService = blazorFileCodeSpanRangeService;
+            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
         }
 
         public const string ContentType = "Razor";
-        private readonly IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService;
-        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
 
         public string ContentTypeName => ContentType;
 
-        public IFileCodeSpanRangeService FileCodeSpanRangeService => this.blazorFileCodeSpanRangeService;
+        public IFileCodeSpanRangeService FileCodeSpanRangeService => this._blazorFileCodeSpanRangeService;
 
-        public bool CoverageOnlyFromFileCodeSpanRangeService => this.editorCoverageColouringOptionsProvider.Get().BlazorCoverageLinesFromGeneratedSource;
+        public bool CoverageOnlyFromFileCodeSpanRangeService => this._editorCoverageColouringOptionsProvider.Get().BlazorCoverageLinesFromGeneratedSource;
 
         // Unfortunately, the generated docuent from the workspace is not up to date
         public bool UseFileCodeSpanRangeServiceForChanges => false;

@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Output
         public event EventHandler HasNewCodeChanged;
         public event EventHandler PathChanged;
 
-        private string path;
+        private string _path;
         public SourceFile(string path, List<SourceFileClass> classes, bool hasNewCode)
         {
             this.Path = path;
@@ -19,10 +19,10 @@ namespace FineCodeCoverage.Output
 
         public string Path
         {
-            get => this.path;
+            get => this._path;
             set
             {
-                this.path = value;
+                this._path = value;
                 PathChanged?.Invoke(this, EventArgs.Empty);
             }
         }

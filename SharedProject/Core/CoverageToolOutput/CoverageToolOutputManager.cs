@@ -13,32 +13,36 @@ namespace FineCodeCoverage.Engine
     [Export(typeof(ICoverageToolOutputManager))]
     internal class CoverageToolOutputManager : ICoverageToolOutputManager
     {
-        private readonly ILogger logger;
-        private readonly IEventAggregator eventAggregator;
-        private readonly IFileUtil fileUtil;
-        private string outputFolderForAllProjects;
-        private List<ICoverageProject> coverageProjects;
-        private readonly IOrderedEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders;
+        private readonly ILogger _logger;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IFileUtil _fileUtil;
+        private string _outputFolderForAllProjects;
+        private List<ICoverageProject> _coverageProjects;
+        private readonly IOrderedEnumerable<
+            Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>
+        > _outputFolderProviders;
 
         [ImportingConstructor]
         public CoverageToolOutputManager(
             IFileUtil fileUtil,
-            ILogger logger, [ImportMany] IEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders,
+            ILogger logger,
+            [ImportMany]
+            IEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders,
             IEventAggregator eventAggregator
             )
         {
-            this.logger = logger;
-            this.eventAggregator = eventAggregator;
-            this.fileUtil = fileUtil;
-            this.outputFolderProviders = outputFolderProviders.OrderBy(p => p.Metadata.Order);
+            this._logger = logger;
+            this._eventAggregator = eventAggregator;
+            this._fileUtil = fileUtil;
+            this._outputFolderProviders = outputFolderProviders.OrderBy(p => p.Metadata.Order);
         }
 
         public async Task SetProjectCoverageOutputFolderAsync(List<ICoverageProject> coverageProjects)
         {
-            this.eventAggregator.SendMessage(new OutdatedOutputMessage());
-            this.coverageProjects = coverageProjects;
+            this._eventAggregator.SendMessage(new OutdatedOutputMessage());
+            this._coverageProjects = coverageProjects;
             await this.DetermineOutputFolderForAllProjectsAsync();
-            if (this.outputFolderForAllProjects == null)
+            if (this._outputFolderForAllProjects == null)
             {
                 foreach (ICoverageProject coverageProject in coverageProjects)
                 {
@@ -47,24 +51,24 @@ namespace FineCodeCoverage.Engine
             }
             else
             {
-                this.fileUtil.TryEmptyDirectory(this.outputFolderForAllProjects);
+                this._fileUtil.TryEmptyDirectory(this._outputFolderForAllProjects);
                 foreach (ICoverageProject coverageProject in coverageProjects)
                 {
-                    coverageProject.CoverageOutputFolder = Path.Combine(this.outputFolderForAllProjects, coverageProject.ProjectName);
+                    coverageProject.CoverageOutputFolder = Path.Combine(this._outputFolderForAllProjects, coverageProject.ProjectName);
                 }
             }
         }
 
         private async Task DetermineOutputFolderForAllProjectsAsync()
         {
-            this.outputFolderForAllProjects = this.outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(this.coverageProjects));
-            if (this.outputFolderForAllProjects != null)
+            this._outputFolderForAllProjects = this._outputFolderProviders.SelectFirstNonNull(p => p.Value.Provide(this._coverageProjects));
+            if (this._outputFolderForAllProjects != null)
             {
-                await this.logger.LogAsync($"FCC output in {this.outputFolderForAllProjects}");
+                await this._logger.LogAsync($"FCC output in {this._outputFolderForAllProjects}");
             }
         }
 
         public string GetReportOutputFolder()
-            => this.outputFolderForAllProjects ?? this.coverageProjects[0].CoverageOutputFolder;
+            => this._outputFolderForAllProjects ?? this._coverageProjects[0].CoverageOutputFolder;
     }
 }

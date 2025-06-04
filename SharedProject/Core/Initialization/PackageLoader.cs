@@ -8,20 +8,20 @@ namespace FineCodeCoverage.Core.Initialization
     [Export(typeof(IInitializedFromTestContainerDiscoverer))]
     internal class PackageLoader : IPackageLoader, IInitializedFromTestContainerDiscoverer
     {
-        private readonly IShellPackageLoader shellPackageLoader;
+        private readonly IShellPackageLoader _shellPackageLoader;
 
         public bool InitializedFromTestContainerDiscoverer { get; private set; }
 
         [ImportingConstructor]
         public PackageLoader(
             IShellPackageLoader shellPackageLoader
-            ) => this.shellPackageLoader = shellPackageLoader;
+            ) => this._shellPackageLoader = shellPackageLoader;
 
         public async Task LoadPackageAsync(CancellationToken cancellationToken)
         {
             this.InitializedFromTestContainerDiscoverer = true;
             cancellationToken.ThrowIfCancellationRequested();
-            await this.shellPackageLoader.LoadPackageAsync();
+            await this._shellPackageLoader.LoadPackageAsync();
 
         }
     }

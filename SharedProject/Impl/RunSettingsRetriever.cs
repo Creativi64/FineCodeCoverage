@@ -7,11 +7,11 @@ namespace FineCodeCoverage.Impl
     [Export(typeof(IRunSettingsRetriever))]
     internal class RunSettingsRetriever : IRunSettingsRetriever
     {
-        private object userSettings;
+        private object _userSettings;
 
         public async Task<string> GetRunSettingsFileAsync(object userSettings, ContainerData projectData)
         {
-            this.userSettings = userSettings;
+            this._userSettings = userSettings;
 
             string runSettingsFile = this.GetDefaultRunSettingsFilePath();
             string projectRunSettingsFile = await projectData.GetBuildPropertyAsync("RunSettingsFilePath", (string)null);
@@ -20,23 +20,23 @@ namespace FineCodeCoverage.Impl
         }
 
         private string GetAndUpdateSolutionRunSettingsFilePath()
-            => this.userSettings.GetType()
+            => this._userSettings.GetType()
                 .GetMethod(
                     "GetAndUpdateSolutionRunSettingsFilePath",
                     BindingFlags.Public | BindingFlags.Instance
-                ).Invoke(this.userSettings, new object[] { }) as string;
+                ).Invoke(this._userSettings, new object[] { }) as string;
 
         private string LastRunSettingsFilePath()
-            => this.userSettings.GetType()
+            => this._userSettings.GetType()
                 .GetProperty(
                     "LastRunSettingsFilePath",
                     BindingFlags.Public | BindingFlags.Instance
-                ).GetValue(this.userSettings) as string;
+                ).GetValue(this._userSettings) as string;
 
         private bool AutomaticallyDetectRunSettings()
-            => (bool)this.userSettings.GetType()
+            => (bool)this._userSettings.GetType()
             .GetProperty("AutomaticallyDetectRunSettings", BindingFlags.Public | BindingFlags.Instance)
-            .GetValue(this.userSettings);
+            .GetValue(this._userSettings);
 
         private string GetDefaultRunSettingsFilePath()
         {

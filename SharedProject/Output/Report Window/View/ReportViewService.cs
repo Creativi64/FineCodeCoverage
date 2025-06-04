@@ -5,15 +5,16 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IReportViewService))]
     internal class ReportViewService : IReportViewService
     {
-        private readonly IReportViewSelectorModel reportViewSelectorModel;
+        private readonly IReportViewSelectorModel _reportViewSelectorModel;
 
         [ImportingConstructor]
         public ReportViewService(
-            IReportViewSelectorModel reportViewSelectorModel) => this.reportViewSelectorModel = reportViewSelectorModel;
+            IReportViewSelectorModel reportViewSelectorModel) => this._reportViewSelectorModel = reportViewSelectorModel;
+
         public void Show()
         {
             // could import the view model if it has no state
-            var vm = new ReportViewSelectorViewModel(this.reportViewSelectorModel);
+            var vm = new ReportViewSelectorViewModel(this._reportViewSelectorModel);
             _ = new ReportViewSelectorWindow(vm).ShowModal();
         }
     }

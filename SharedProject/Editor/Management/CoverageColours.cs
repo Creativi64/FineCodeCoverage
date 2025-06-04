@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Editor.Management
 {
     internal class CoverageColours : ICoverageColours
     {
-        private readonly Dictionary<DynamicCoverageType, IFontAndColorsInfo> coverageTypeToFontAndColorsInfo;
+        private readonly Dictionary<DynamicCoverageType, IFontAndColorsInfo> _coverageTypeToFontAndColorsInfo;
         public CoverageColours(
             IFontAndColorsInfo coverageTouchedInfo,
             IFontAndColorsInfo coverageNotTouchedInfo,
@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Editor.Management
             IFontAndColorsInfo dirtyInfo,
             IFontAndColorsInfo newLineInfo,
             IFontAndColorsInfo notIncludedInfo
-        ) => this.coverageTypeToFontAndColorsInfo = new Dictionary<DynamicCoverageType, IFontAndColorsInfo>
+        ) => this._coverageTypeToFontAndColorsInfo = new Dictionary<DynamicCoverageType, IFontAndColorsInfo>
             {
                 { DynamicCoverageType.Covered, coverageTouchedInfo},
                 { DynamicCoverageType.NotCovered, coverageNotTouchedInfo },
@@ -25,17 +25,17 @@ namespace FineCodeCoverage.Editor.Management
 
         internal Dictionary<DynamicCoverageType, IFontAndColorsInfo> GetChanges(CoverageColours lastCoverageColours)
             => lastCoverageColours == null
-                ? this.coverageTypeToFontAndColorsInfo
-                : this.GetChanges(lastCoverageColours.coverageTypeToFontAndColorsInfo);
+                ? this._coverageTypeToFontAndColorsInfo
+                : this.GetChanges(lastCoverageColours._coverageTypeToFontAndColorsInfo);
 
         private Dictionary<DynamicCoverageType, IFontAndColorsInfo> GetChanges(Dictionary<DynamicCoverageType, IFontAndColorsInfo> lastCoverageTypeToFontAndColorsInfo)
         {
             var changes = new Dictionary<DynamicCoverageType, IFontAndColorsInfo>();
             foreach (KeyValuePair<DynamicCoverageType, IFontAndColorsInfo> kvp in lastCoverageTypeToFontAndColorsInfo)
             {
-                if (!this.coverageTypeToFontAndColorsInfo[kvp.Key].Equals(kvp.Value))
+                if (!this._coverageTypeToFontAndColorsInfo[kvp.Key].Equals(kvp.Value))
                 {
-                    changes.Add(kvp.Key, this.coverageTypeToFontAndColorsInfo[kvp.Key]);
+                    changes.Add(kvp.Key, this._coverageTypeToFontAndColorsInfo[kvp.Key]);
                 }
             }
 
@@ -43,6 +43,6 @@ namespace FineCodeCoverage.Editor.Management
         }
 
         public IItemCoverageColours GetColour(DynamicCoverageType coverageType)
-            => this.coverageTypeToFontAndColorsInfo[coverageType].ItemCoverageColours;
+            => this._coverageTypeToFontAndColorsInfo[coverageType].ItemCoverageColours;
     }
 }

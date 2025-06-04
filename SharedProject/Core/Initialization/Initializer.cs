@@ -11,10 +11,10 @@ namespace FineCodeCoverage.Core.Initialization
     [Export(typeof(IInitializeStatusProvider))]
     internal class Initializer : IInitializer
     {
-        private readonly IAppDataFolder appDataFolder;
-        private readonly IAppDataFolderPathDependent[] appDataFolderPathDependents;
-        private readonly ILogger logger;
-        private readonly IFirstTimeToolWindowOpener firstTimeToolWindowOpener;
+        private readonly IAppDataFolder _appDataFolder;
+        private readonly IAppDataFolderPathDependent[] _appDataFolderPathDependents;
+        private readonly ILogger _logger;
+        private readonly IFirstTimeToolWindowOpener _firstTimeToolWindowOpener;
 
         public InitializeStatus InitializeStatus { get; set; } = InitializeStatus.Initializing;
         public string InitializeExceptionMessage { get; set; }
@@ -32,29 +32,29 @@ namespace FineCodeCoverage.Core.Initialization
 #pragma warning restore RCS1163 // Unused parameter
         )
         {
-            this.appDataFolder = appDataFolder;
-            this.appDataFolderPathDependents = appDataFolderPathDependents;
-            this.logger = logger;
-            this.firstTimeToolWindowOpener = firstTimeToolWindowOpener;
+            this._appDataFolder = appDataFolder;
+            this._appDataFolderPathDependents = appDataFolderPathDependents;
+            this._logger = logger;
+            this._firstTimeToolWindowOpener = firstTimeToolWindowOpener;
         }
         public async Task InitializeAsync(CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await this.logger.LogAsync("Initializing");
+                await this._logger.LogAsync("Initializing");
 
                 cancellationToken.ThrowIfCancellationRequested();
-                await this.appDataFolder.InitializeAsync(cancellationToken);
-                foreach (IAppDataFolderPathDependent appDataPathDependent in this.appDataFolderPathDependents)
+                await this._appDataFolder.InitializeAsync(cancellationToken);
+                foreach (IAppDataFolderPathDependent appDataPathDependent in this._appDataFolderPathDependents)
                 {
-                    await appDataPathDependent.InitializeAsync(this.appDataFolder.DirectoryPath, cancellationToken);
+                    await appDataPathDependent.InitializeAsync(this._appDataFolder.DirectoryPath, cancellationToken);
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
-                await this.logger.LogAsync("Initialized");
+                await this._logger.LogAsync("Initialized");
 
-                await this.firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
+                await this._firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken);
             }
             catch (Exception exception)
             {
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Core.Initialization
                 this.InitializeExceptionMessage = exception.Message;
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    await this.logger.LogAsync("Failed Initialization", exception.ToString());
+                    await this._logger.LogAsync("Failed Initialization", exception.ToString());
                 }
             }
 

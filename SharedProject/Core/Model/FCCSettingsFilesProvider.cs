@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Engine.Model
     {
         internal const string fccOptionsFileName = "finecodecoverage-settings.xml";
         private const string topLevelAttributeName = "topLevel";
-        private readonly IFileUtil fileUtil;
+        private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
         public FCCSettingsFilesProvider(
             IFileUtil fileUtil
-        ) => this.fileUtil = fileUtil;
+        ) => this._fileUtil = fileUtil;
 
         public List<XElement> Provide(string projectDirectoryPath)
         {
@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.Model
                 ascend = this.AddFromDirectory(fccOptionsElements, directoryPath);
                 if (ascend)
                 {
-                    directoryPath = this.fileUtil.DirectoryParentPath(directoryPath);
+                    directoryPath = this._fileUtil.DirectoryParentPath(directoryPath);
                     if (directoryPath == null)
                     {
                         ascend = false;
@@ -45,9 +45,9 @@ namespace FineCodeCoverage.Engine.Model
         {
             bool ascend = true;
             string fccOptionsPath = GetFCCOptionsPath(directory);
-            if (this.fileUtil.Exists(fccOptionsPath))
+            if (this._fileUtil.Exists(fccOptionsPath))
             {
-                string fccOptions = this.fileUtil.ReadAllText(fccOptionsPath);
+                string fccOptions = this._fileUtil.ReadAllText(fccOptionsPath);
                 try
                 {
                     var element = XElement.Parse(fccOptions);

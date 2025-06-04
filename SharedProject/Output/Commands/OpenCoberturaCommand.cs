@@ -8,10 +8,10 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenCoberturaCommand : CommandInitializerBase, IListener<ReportFilesMessage>, IListener<OutdatedOutputMessage>
     {
-        private readonly IEventAggregator eventAggregator;
-        private readonly IVsOpenFile vsOpenFile;
-        private readonly IFileUtil fileUtil;
-        private string coberturaFile;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IVsOpenFile _vsOpenFile;
+        private readonly IFileUtil _fileUtil;
+        private string _coberturaFile;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenCoberturaCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
@@ -19,22 +19,22 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public OpenCoberturaCommand(IEventAggregator eventAggregator, IVsOpenFile vsOpenFile, IFileUtil fileUtil)
         {
-            this.eventAggregator = eventAggregator;
-            this.vsOpenFile = vsOpenFile;
-            this.fileUtil = fileUtil;
+            this._eventAggregator = eventAggregator;
+            this._vsOpenFile = vsOpenFile;
+            this._fileUtil = fileUtil;
         }
 
         protected override void Initialized()
         {
             this.Command.Enabled = false;
-            _ = this.eventAggregator.AddListener(this);
+            _ = this._eventAggregator.AddListener(this);
         }
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (this.fileUtil.Exists(this.coberturaFile))
+            if (this._fileUtil.Exists(this._coberturaFile))
             {
-                this.vsOpenFile.OpenFileInDefaultViewer(this.coberturaFile);
+                this._vsOpenFile.OpenFileInDefaultViewer(this._coberturaFile);
             }
         }
 
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Output
 
         public void Handle(ReportFilesMessage message)
         {
-            this.coberturaFile = message.CoberturaFile;
+            this._coberturaFile = message.CoberturaFile;
             this.Command.Enabled = true;
         }
     }

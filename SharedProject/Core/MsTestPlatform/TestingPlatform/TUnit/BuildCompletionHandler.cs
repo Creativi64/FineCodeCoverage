@@ -9,9 +9,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class BuildCompletionHandler : IVsUpdateSolutionEvents, IDisposable
     {
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
-        private readonly CancellationTokenRegistration registration;
+        private readonly CancellationTokenRegistration _registration;
         public BuildCompletionHandler(CancellationToken cancellationToken)
-            => this.registration = cancellationToken.Register(() => this._tcs.TrySetCanceled());
+            => this._registration = cancellationToken.Register(() => this._tcs.TrySetCanceled());
 
         /// <summary>
         /// Task that completes when the build finishes.
@@ -37,6 +37,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy) => VSConstants.S_OK;
 
-        public void Dispose() => this.registration.Dispose();
+        public void Dispose() => this._registration.Dispose();
     }
 }

@@ -13,16 +13,15 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(IFontAndColorsInfosProvider))]
     internal class FontAndColorsInfosProvider : ICoverageColoursProvider, IFontAndColorsInfosProvider
     {
-        private readonly IEventAggregator eventAggregator;
-        private readonly IFontsAndColorsHelper fontsAndColorsHelper;
-
-        private readonly IThreadHelper threadHelper;
-        private CoverageColours lastCoverageColours;
-        private ICoverageFontAndColorsCategoryItemNames coverageFontAndColorsCategoryItemNames;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IFontsAndColorsHelper _fontsAndColorsHelper;
+        private readonly IThreadHelper _threadHelper;
+        private CoverageColours _lastCoverageColours;
+        private ICoverageFontAndColorsCategoryItemNames _coverageFontAndColorsCategoryItemNames;
 
         public ICoverageFontAndColorsCategoryItemNames CoverageFontAndColorsCategoryItemNames
         {
-            set => this.coverageFontAndColorsCategoryItemNames = value;
+            set => this._coverageFontAndColorsCategoryItemNames = value;
         }
 
         private readonly struct NameIndex
@@ -50,20 +49,20 @@ namespace FineCodeCoverage.Editor.Management
             IThreadHelper threadHelper
         )
         {
-            this.eventAggregator = eventAggregator;
-            this.fontsAndColorsHelper = fontsAndColorsHelper;
-            this.threadHelper = threadHelper;
+            this._eventAggregator = eventAggregator;
+            this._fontsAndColorsHelper = fontsAndColorsHelper;
+            this._threadHelper = threadHelper;
         }
 
         private List<(FontAndColorsCategoryItemName, int)> IndexedFontAndColorsCategoryItemNames()
             => new List<(FontAndColorsCategoryItemName, int)>
                 {
-                    (this.coverageFontAndColorsCategoryItemNames.Covered, 0),
-                    (this.coverageFontAndColorsCategoryItemNames.NotCovered, 1),
-                    (this.coverageFontAndColorsCategoryItemNames.PartiallyCovered, 2),
-                    (this.coverageFontAndColorsCategoryItemNames.Dirty,3),
-                    (this.coverageFontAndColorsCategoryItemNames.NewLines,4),
-                    (this.coverageFontAndColorsCategoryItemNames.NotIncluded,5)
+                    (this._coverageFontAndColorsCategoryItemNames.Covered, 0),
+                    (this._coverageFontAndColorsCategoryItemNames.NotCovered, 1),
+                    (this._coverageFontAndColorsCategoryItemNames.PartiallyCovered, 2),
+                    (this._coverageFontAndColorsCategoryItemNames.Dirty,3),
+                    (this._coverageFontAndColorsCategoryItemNames.NewLines,4),
+                    (this._coverageFontAndColorsCategoryItemNames.NotIncluded,5)
                 };
 
         private List<CategoryNameIndices> GetCategoryNameIndices()
@@ -89,7 +88,7 @@ namespace FineCodeCoverage.Editor.Management
         public ICoverageColours GetCoverageColours() => this.GetCoverageColoursIfRequired();
 
         private CoverageColours GetCoverageColoursIfRequired()
-            => this.lastCoverageColours ?? (this.lastCoverageColours = this.GetCoverageColoursFromFontsAndColors());
+            => this._lastCoverageColours ?? (this._lastCoverageColours = this.GetCoverageColoursFromFontsAndColors());
 
         private CoverageColours GetCoverageColoursFromFontsAndColors()
         {
@@ -105,7 +104,7 @@ namespace FineCodeCoverage.Editor.Management
         }
 
         private List<IFontAndColorsInfo> GetItemCoverageInfosFromFontsAndColors()
-            => this.threadHelper.JoinableTaskFactory.Run(() => this.GetItemCoverageInfosFromFontsAndColorsAsync());
+            => this._threadHelper.JoinableTaskFactory.Run(() => this.GetItemCoverageInfosFromFontsAndColorsAsync());
 
         private async Task<List<IFontAndColorsInfo>> GetItemCoverageInfosFromFontsAndColorsAsync()
         {
@@ -123,7 +122,7 @@ namespace FineCodeCoverage.Editor.Management
 
         private async Task<List<(IFontAndColorsInfo, int)>> GetAsync(CategoryNameIndices categoryNameIndices)
         {
-            List<IFontAndColorsInfo> fontAndColorsInfos = await this.fontsAndColorsHelper.GetInfosAsync(
+            List<IFontAndColorsInfo> fontAndColorsInfos = await this._fontsAndColorsHelper.GetInfosAsync(
                     categoryNameIndices.Category,
                     categoryNameIndices.NameIndices.Select(ni => ni.Name).ToArray());
             return fontAndColorsInfos.Select((fontAndColorsInfo, i) => (fontAndColorsInfo, categoryNameIndices.NameIndices[i].Index)).ToList();
@@ -132,11 +131,11 @@ namespace FineCodeCoverage.Editor.Management
         public Dictionary<DynamicCoverageType, IFontAndColorsInfo> GetChangedFontAndColorsInfos()
         {
             CoverageColours currentColors = this.GetCoverageColoursFromFontsAndColors();
-            Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes = currentColors.GetChanges(this.lastCoverageColours);
-            this.lastCoverageColours = currentColors;
+            Dictionary<DynamicCoverageType, IFontAndColorsInfo> changes = currentColors.GetChanges(this._lastCoverageColours);
+            this._lastCoverageColours = currentColors;
             if (changes.Any())
             {
-                this.eventAggregator.SendMessage(new CoverageColoursChangedMessage());
+                this._eventAggregator.SendMessage(new CoverageColoursChangedMessage());
             }
 
             return changes;

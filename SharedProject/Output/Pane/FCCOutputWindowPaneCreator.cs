@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Output.Pane
     {
         private const string fccPaneGuidString = "{3B3C775A-0050-445D-9022-0230957805B2}";
         private readonly IServiceProvider _serviceProvider;
-        private IFCCOutputWindowPane fccOutputWindowPane;
+        private IFCCOutputWindowPane _fccOutputWindowPane;
 
         [ImportingConstructor]
         public FCCOutputWindowPaneCreator(
@@ -24,13 +24,13 @@ namespace FineCodeCoverage.Output.Pane
 
         public async System.Threading.Tasks.Task<IFCCOutputWindowPane> GetOrCreateAsync()
         {
-            if (this.fccOutputWindowPane != null)
+            if (this._fccOutputWindowPane != null)
             {
-                return this.fccOutputWindowPane;
+                return this._fccOutputWindowPane;
             }
 
             await this.SetPaneAsync();
-            return this.fccOutputWindowPane;
+            return this._fccOutputWindowPane;
         }
 
         private async System.Threading.Tasks.Task SetPaneAsync()
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Output.Pane
             Window outputWindowWindow = await this.GetOutputWindowWindowAsync();
             TextDocument paneTextDocument = await this.GetPaneTextDocumentAsync(outputWindowWindow);
 
-            this.fccOutputWindowPane = new FCCOutputWindowPane(pane, outputWindowWindow, paneTextDocument);
+            this._fccOutputWindowPane = new FCCOutputWindowPane(pane, outputWindowWindow, paneTextDocument);
         }
 
         private async System.Threading.Tasks.Task<IVsOutputWindowPane> CreatePaneAsync()

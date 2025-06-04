@@ -33,13 +33,13 @@ namespace FineCodeCoverage.Engine.Model
             public List<PropertyInfo> PropertyInfos { get; }
         }
 
-        private readonly Dictionary<Type, PropertyInfo[]> coverageSettingsInterfacesPropertyInfosLookup;
-        private Dictionary<Type, List<PropertyInfo>> optionsTypeCoverageSettingsInterfacesPropertyLookup;
+        private readonly Dictionary<Type, PropertyInfo[]> _coverageSettingsInterfacesPropertyInfosLookup;
+        private Dictionary<Type, List<PropertyInfo>> _optionsTypeCoverageSettingsInterfacesPropertyLookup;
         public CoverageSettingsReflectionService()
         {
             Type[] interfaces = typeof(CoverageSettings).FindInterfaces((type, _) => type != typeof(ICoverageSettings), null);
-            this.coverageSettingsInterfacesPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace, iFace => iFace.GetProperties());
-            this.CoverageSettingsPropertyInfos = this.coverageSettingsInterfacesPropertyInfosLookup.Values.SelectMany(v => v).ToList();
+            this._coverageSettingsInterfacesPropertyInfosLookup = interfaces.ToDictionary(iFace => iFace, iFace => iFace.GetProperties());
+            this.CoverageSettingsPropertyInfos = this._coverageSettingsInterfacesPropertyInfosLookup.Values.SelectMany(v => v).ToList();
         }
 
         private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
@@ -54,30 +54,30 @@ namespace FineCodeCoverage.Engine.Model
             IEnumerable<OptionInfo> optionInfos
         )
         {
-            if (this.optionsTypeCoverageSettingsInterfacesPropertyLookup == null)
+            if (this._optionsTypeCoverageSettingsInterfacesPropertyLookup == null)
             {
                 this.CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(optionInfos);
             }
 
             return optionInfos.Select(o => new OptionCoverageSettingsInterfacesPropertyInfos(
-                o.Option, this.optionsTypeCoverageSettingsInterfacesPropertyLookup[o.Type]));
+                o.Option, this._optionsTypeCoverageSettingsInterfacesPropertyLookup[o.Type]));
         }
 
         private void CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(IEnumerable<OptionInfo> optionInfos)
         {
-            this.optionsTypeCoverageSettingsInterfacesPropertyLookup = new Dictionary<Type, List<PropertyInfo>>();
+            this._optionsTypeCoverageSettingsInterfacesPropertyLookup = new Dictionary<Type, List<PropertyInfo>>();
             foreach (OptionInfo optionInfo in optionInfos)
             {
                 var optionInterfacesPropertyInfos = new List<PropertyInfo>();
                 foreach (Type optionInterfaceType in optionInfo.InterfaceTypes)
                 {
-                    if (this.coverageSettingsInterfacesPropertyInfosLookup.TryGetValue(optionInterfaceType, out PropertyInfo[] optionInterfacePropertyInfos))
+                    if (this._coverageSettingsInterfacesPropertyInfosLookup.TryGetValue(optionInterfaceType, out PropertyInfo[] optionInterfacePropertyInfos))
                     {
                         optionInterfacesPropertyInfos.AddRange(optionInterfacePropertyInfos);
                     }
                 }
 
-                this.optionsTypeCoverageSettingsInterfacesPropertyLookup[optionInfo.Type] = optionInterfacesPropertyInfos;
+                this._optionsTypeCoverageSettingsInterfacesPropertyLookup[optionInfo.Type] = optionInterfacesPropertyInfos;
             }
         }
 

@@ -9,24 +9,24 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IVsOpenFile))]
     internal class VsOpenFile : IVsOpenFile
     {
-        private readonly DTE2 dte;
+        private readonly DTE2 _dte;
 
         public VsOpenFile()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            this.dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
-            Assumes.Present(this.dte);
+            this._dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
+            Assumes.Present(this._dte);
         }
         public void OpenFileInCodeEditor(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _ = this.dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindCode);
+            _ = this._dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindCode);
         }
 
         public void OpenFileInDefaultViewer(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _ = this.dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindPrimary);
+            _ = this._dte.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindPrimary);
         }
     }
 }

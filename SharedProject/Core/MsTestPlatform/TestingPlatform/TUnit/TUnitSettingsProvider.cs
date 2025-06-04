@@ -13,13 +13,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(ITUnitSettingsProvider))]
     internal class TUnitSettingsProvider : ITUnitSettingsProvider
     {
-        private readonly IFileUtil fileUtil;
-        private readonly IXmlUtils xmlUtils;
-        private readonly IRunSettingsToConfiguration runSettingsToConfiguration;
-        private readonly IOptionsProvider<RunOptions> runOptionsProvider;
-        private readonly IEnvironment environment;
-        private int fccRunWhenTestsExceed;
-        private bool fccRunWhenTestsFail;
+        private readonly IFileUtil _fileUtil;
+        private readonly IXmlUtils _xmlUtils;
+        private readonly IRunSettingsToConfiguration _runSettingsToConfiguration;
+        private readonly IOptionsProvider<RunOptions> _runOptionsProvider;
+        private readonly IEnvironment _environment;
+        private int _fccRunWhenTestsExceed;
+        private bool _fccRunWhenTestsFail;
 
         [ImportingConstructor]
         public TUnitSettingsProvider(
@@ -30,19 +30,19 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IEnvironment environment
         )
         {
-            this.fileUtil = fileUtil;
-            this.xmlUtils = xmlUtils;
-            this.runSettingsToConfiguration = runSettingsToConfiguration;
-            this.runOptionsProvider = runOptionsProvider;
-            this.environment = environment;
+            this._fileUtil = fileUtil;
+            this._xmlUtils = xmlUtils;
+            this._runSettingsToConfiguration = runSettingsToConfiguration;
+            this._runOptionsProvider = runOptionsProvider;
+            this._environment = environment;
             this.TakeFCCOptions(runOptionsProvider.Get());
-            this.runOptionsProvider.OptionsChanged += this.TakeFCCOptions;
+            this._runOptionsProvider.OptionsChanged += this.TakeFCCOptions;
         }
 
         private void TakeFCCOptions(RunOptions appOptions)
         {
-            this.fccRunWhenTestsExceed = appOptions.RunWhenTestsExceed;
-            this.fccRunWhenTestsFail = appOptions.RunWhenTestsFail;
+            this._fccRunWhenTestsExceed = appOptions.RunWhenTestsExceed;
+            this._fccRunWhenTestsFail = appOptions.RunWhenTestsFail;
         }
 
         public async Task<TUnitSettings> ProvideAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
@@ -104,7 +104,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             bool ConfigurationPathArgExists(string pathArg)
             {
                 pathArg = pathArg.Replace("\"", "").Replace("'", "");
-                return this.fileUtil.Exists(pathArg);
+                return this._fileUtil.Exists(pathArg);
             }
 
             void AddToAdditionalArgs(string part)
@@ -119,9 +119,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private string GetMinimumExpectedTestsPart(int? minimumExpectedTestsArg)
         {
             // non zero positive integer
-            if (!minimumExpectedTestsArg.HasValue && this.fccRunWhenTestsExceed > 1)
+            if (!minimumExpectedTestsArg.HasValue && this._fccRunWhenTestsExceed > 1)
             {
-                minimumExpectedTestsArg = this.fccRunWhenTestsExceed - 1;
+                minimumExpectedTestsArg = this._fccRunWhenTestsExceed - 1;
             }
 
             return minimumExpectedTestsArg.HasValue ? $"--minimum-expected-tests {minimumExpectedTestsArg}" : null;
@@ -131,7 +131,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             string ignoreExitCodeString = this.GetIgnoreExitCodeString(ignoreExitCodeArg);
             List<int> ignoredExitCodes = GetIgnoredExitCodes(ignoreExitCodeString);
-            if (!ignoredExitCodes.Contains(2) && this.fccRunWhenTestsFail)
+            if (!ignoredExitCodes.Contains(2) && this._fccRunWhenTestsFail)
             {
                 ignoredExitCodes.Add(2);
             }
@@ -141,7 +141,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)
         {
-            string environmentVariableValue = this.environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
+            string environmentVariableValue = this._environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
             return environmentVariableValue ?? ignoreExitCodesArg ?? "";
         }
 
@@ -176,15 +176,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     return configurationPathArgument;
                 }
 
-                System.Xml.Linq.XElement configurationOrRunSettingsElement = this.xmlUtils.Load(configurationPathArgument);
+                System.Xml.Linq.XElement configurationOrRunSettingsElement = this._xmlUtils.Load(configurationPathArgument);
                 string name = configurationOrRunSettingsElement.Name.LocalName;
                 if (name == "Configuration") return configurationPathArgument;
                 if (name == "RunSettings")
                 {
-                    System.Xml.Linq.XElement configurationElement = this.runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
+                    System.Xml.Linq.XElement configurationElement = this._runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
                     if (configurationElement != null)
                     {
-                        return this.WriteConfiguration(tUnitCoverageProject, this.xmlUtils.Serialize(configurationElement));
+                        return this.WriteConfiguration(tUnitCoverageProject, this._xmlUtils.Serialize(configurationElement));
                     }
                 }
             }
@@ -202,7 +202,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
             string configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
-            this.fileUtil.WriteAllText(configurationPath, configuration);
+            this._fileUtil.WriteAllText(configurationPath, configuration);
             return configurationPath;
         }
 

@@ -8,24 +8,24 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class ReportFileLineCoverage : IFileLineCoverage
     {
-        private Dictionary<string, List<ICodeElement>> fileLookup;
-        private readonly Dictionary<string, FileLines> fileLinesLookup = new Dictionary<string, FileLines>();
-        private readonly IReadOnlyList<IAssembly> assemblies;
-        private readonly IDateTimeService dateTimeService;
+        private Dictionary<string, List<ICodeElement>> _fileLookup;
+        private readonly Dictionary<string, FileLines> _fileLinesLookup = new Dictionary<string, FileLines>();
+        private readonly IReadOnlyList<IAssembly> _assemblies;
+        private readonly IDateTimeService _dateTimeService;
 
-        class LineComparer : IEqualityComparer<ICoberturaLine>
+        private class LineComparer : IEqualityComparer<ICoberturaLine>
         {
             public bool Equals(ICoberturaLine x, ICoberturaLine y) => x.Number == y.Number;
 
             public int GetHashCode(ICoberturaLine obj) => obj.Number;
         }
 
-        private readonly LineComparer lineComparer = new LineComparer();
+        private readonly LineComparer _lineComparer = new LineComparer();
 
         public ReportFileLineCoverage(IReadOnlyList<IAssembly> assemblies, IDateTimeService dateTimeService)
         {
-            this.assemblies = assemblies;
-            this.dateTimeService = dateTimeService;
+            this._assemblies = assemblies;
+            this._dateTimeService = dateTimeService;
         }
 
         public static Dictionary<string, List<ICodeElement>> GetCodeElementLookup(IReadOnlyList<IAssembly> assemblies)
@@ -33,11 +33,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 .GroupBy(kvp => kvp.Key).ToDictionary(g => g.Key, g => g.SelectMany(kvp => kvp.Value).ToList());
 
         private Dictionary<string, List<ICodeElement>> FileLookup
-            => this.fileLookup ?? (this.fileLookup = GetCodeElementLookup(this.assemblies));
+            => this._fileLookup ?? (this._fileLookup = GetCodeElementLookup(this._assemblies));
 
         public IFileLines GetLines(string filePath)
         {
-            if (this.fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
+            if (this._fileLinesLookup.TryGetValue(filePath, out FileLines fileLines))
             {
                 return fileLines;
             }
@@ -47,9 +47,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 return null;
             }
 
-            var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this.lineComparer).ToList();
-            fileLines = new FileLines(lines, this.dateTimeService);
-            this.fileLinesLookup.Add(filePath, fileLines);
+            var lines = codeElements.SelectMany(codeElement => codeElement.Lines).OrderBy(l => l.Number).Distinct(this._lineComparer).ToList();
+            fileLines = new FileLines(lines, this._dateTimeService);
+            this._fileLinesLookup.Add(filePath, fileLines);
             _ = this.FileLookup.Remove(filePath);
             return fileLines;
         }
@@ -57,12 +57,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public void OutOfDate(string filePath)
         {
             _ = this.FileLookup.Remove(filePath);
-            _ = this.fileLinesLookup.Remove(filePath);
+            _ = this._fileLinesLookup.Remove(filePath);
         }
 
         internal void FilesRenamed(IReadOnlyList<FileRename> fileRenames)
         {
-            _ = fileRenames.TryUpdateDictionary(this.fileLinesLookup);
+            _ = fileRenames.TryUpdateDictionary(this._fileLinesLookup);
             _ = fileRenames.TryUpdateDictionary(this.FileLookup);
         }
     }

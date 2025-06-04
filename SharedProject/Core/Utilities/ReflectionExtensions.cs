@@ -6,7 +6,10 @@ namespace FineCodeCoverage.Core.Utilities
 {
     public static class ReflectionExtensions
     {
-        public static TCustomAttribute[] GetTypedCustomAttributes<TCustomAttribute>(this ICustomAttributeProvider customAttributeProvider, bool inherit) where TCustomAttribute : Attribute
+        public static TCustomAttribute[] GetTypedCustomAttributes<TCustomAttribute>(
+            this ICustomAttributeProvider customAttributeProvider,
+            bool inherit
+        ) where TCustomAttribute : Attribute
         {
             object[] attributes = customAttributeProvider.GetCustomAttributes(typeof(TCustomAttribute), inherit);
             return attributes as TCustomAttribute[];

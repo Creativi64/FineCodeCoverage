@@ -16,9 +16,9 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(IVsApiReferencedProjectsHelper))]
     internal class VsApiReferencedProjectsHelper : IVsApiReferencedProjectsHelper
     {
-        private readonly ICPPReferencedProjectsHelper cppReferencedProjectsHelper;
-        private readonly IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper;
-        private readonly AsyncLazy<DTE2> lazyDTE2;
+        private readonly ICPPReferencedProjectsHelper _cppReferencedProjectsHelper;
+        private readonly IDotNetReferencedProjectsHelper _dotNetReferencedProjectsHelper;
+        private readonly AsyncLazy<DTE2> _lazyDTE2;
 
         [ImportingConstructor]
         public VsApiReferencedProjectsHelper(
@@ -28,13 +28,13 @@ namespace FineCodeCoverage.Engine.Model
             IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper
         )
         {
-            this.lazyDTE2 = new AsyncLazy<DTE2>(async () =>
+            this._lazyDTE2 = new AsyncLazy<DTE2>(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 return (DTE2)serviceProvider.GetService(typeof(DTE));
             }, ThreadHelper.JoinableTaskFactory);
-            this.cppReferencedProjectsHelper = cppReferencedProjectsHelper;
-            this.dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
+            this._cppReferencedProjectsHelper = cppReferencedProjectsHelper;
+            this._dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
         }
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile)
         {
@@ -44,16 +44,16 @@ namespace FineCodeCoverage.Engine.Model
             return project == null
                 ? null
                 : project.Object is VCProject cppProject
-                ? await this.cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject)
+                ? await this._cppReferencedProjectsHelper.GetInstrumentableReferencedProjectsAsync(cppProject)
                 : project.Object is VSProject vsProject ?
-                await this.dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject)
+                await this._dotNetReferencedProjectsHelper.GetReferencedProjectsAsync(vsProject)
                 : null;
         }
 
         private async Task<Project> GetProjectAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            DTE2 dte2 = await this.lazyDTE2.GetValueAsync();
+            DTE2 dte2 = await this._lazyDTE2.GetValueAsync();
             // note that cannot do dte.Solution.Projects.Item(ProjectFile) - fails when dots in path
             return dte2.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
             {

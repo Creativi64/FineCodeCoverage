@@ -6,9 +6,9 @@ namespace FineCodeCoverage.Output.Pane
 {
     internal class FCCOutputWindowPane : IFCCOutputWindowPane
     {
-        private readonly IVsOutputWindowPane outputWindowPane;
-        private readonly Window outputWindowWindow;
-        private readonly TextDocument fccPaneTextDocument;
+        private readonly IVsOutputWindowPane _outputWindowPane;
+        private readonly Window _outputWindowWindow;
+        private readonly TextDocument _fccPaneTextDocument;
 
         public FCCOutputWindowPane(
             IVsOutputWindowPane outputWindowPane,
@@ -16,29 +16,29 @@ namespace FineCodeCoverage.Output.Pane
             TextDocument fccPaneTextDocument
         )
         {
-            this.outputWindowPane = outputWindowPane;
-            this.outputWindowWindow = outputWindowWindow;
-            this.fccPaneTextDocument = fccPaneTextDocument;
+            this._outputWindowPane = outputWindowPane;
+            this._outputWindowWindow = outputWindowWindow;
+            this._fccPaneTextDocument = fccPaneTextDocument;
         }
 
         public async System.Threading.Tasks.Task OutputStringThreadSafeAsync(string text)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            this.outputWindowPane.OutputStringNoPump(text);
+            this._outputWindowPane.OutputStringNoPump(text);
         }
 
         public async System.Threading.Tasks.Task ShowAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            this.outputWindowWindow.Activate();
-            _ = this.outputWindowPane.Activate();
+            this._outputWindowWindow.Activate();
+            _ = this._outputWindowPane.Activate();
         }
 
         public async System.Threading.Tasks.Task<string> GetTextAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            EditPoint editPoint = this.fccPaneTextDocument.StartPoint.CreateEditPoint();
-            return editPoint.GetText(this.fccPaneTextDocument.EndPoint);
+            EditPoint editPoint = this._fccPaneTextDocument.StartPoint.CreateEditPoint();
+            return editPoint.GetText(this._fccPaneTextDocument.EndPoint);
         }
     }
 }

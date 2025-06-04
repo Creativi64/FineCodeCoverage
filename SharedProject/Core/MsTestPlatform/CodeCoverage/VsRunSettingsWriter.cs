@@ -14,9 +14,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     internal class VsRunSettingsWriter : IVsRunSettingsWriter
     {
         private const string projectRunSettingsFilePathElementName = "RunSettingsFilePath";
-        private readonly IServiceProvider serviceProvider;
-        private readonly IProjectSaver projectSaver;
-        private readonly IProjectFilePropertyWriter projectFilePropertyWriter;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IProjectSaver _projectSaver;
+        private readonly IProjectFilePropertyWriter _projectFilePropertyWriter;
 
         [ImportingConstructor]
         public VsRunSettingsWriter(
@@ -26,20 +26,20 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IProjectFilePropertyWriter projectFilePropertyWriter
         )
         {
-            this.serviceProvider = serviceProvider;
-            this.projectSaver = projectSaver;
-            this.projectFilePropertyWriter = projectFilePropertyWriter;
+            this._serviceProvider = serviceProvider;
+            this._projectSaver = projectSaver;
+            this._projectFilePropertyWriter = projectFilePropertyWriter;
         }
 
         public async Task<bool> WriteRunSettingsFilePathAsync(Guid projectGuid, string projectRunSettingsFilePath)
         {
             bool success = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
-                success = await this.projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName, projectRunSettingsFilePath);
+                success = await this._projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName, projectRunSettingsFilePath);
             }
 
             return success;
@@ -50,14 +50,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             bool ok = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
-                ok = await this.projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName);
+                ok = await this._projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName);
                 if (ok)
                 {
-                    await this.projectSaver.SaveProjectAsync(vsHierarchy);
+                    await this._projectSaver.SaveProjectAsync(vsHierarchy);
                 }
             }
 

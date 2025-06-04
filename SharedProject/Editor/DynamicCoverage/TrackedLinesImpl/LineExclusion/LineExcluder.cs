@@ -4,9 +4,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class LineExcluder : ILineExcluder
     {
-        private readonly string[] startsWithExclusions;
+        private readonly string[] _startsWithExclusions;
 
-        public LineExcluder(string[] startsWithExclusions) => this.startsWithExclusions = startsWithExclusions;
+        public LineExcluder(string[] startsWithExclusions) => this._startsWithExclusions = startsWithExclusions;
 
         public bool ExcludeIfNotCode(string text)
         {
@@ -15,6 +15,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private bool StartsWithExclusion(string text)
-            => this.startsWithExclusions.Any(languageExclusion => text.StartsWith(languageExclusion));
+            => this._startsWithExclusions.Any(languageExclusion => text.StartsWith(languageExclusion));
     }
 }

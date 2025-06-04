@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Core.Utilities
     internal class OpenFCCVsMarketplace : IOpenFCCVsMarketplace
     {
         private const string rootPath = "https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage";
-        private readonly string ratingAndReviewPath;
-        private readonly IProcess process;
+        private readonly string _ratingAndReviewPath;
+        private readonly IProcess _process;
 
         [ImportingConstructor]
         public OpenFCCVsMarketplace(
@@ -16,15 +16,15 @@ namespace FineCodeCoverage.Core.Utilities
             IVsVersion vsVersion
         )
         {
-            this.ratingAndReviewPath = rootPath;
+            this._ratingAndReviewPath = rootPath;
             if (vsVersion.Is2022)
             {
-                this.ratingAndReviewPath += "2022";
+                this._ratingAndReviewPath += "2022";
             }
 
-            this.ratingAndReviewPath += "&ssr=false#review-details";
-            this.process = process;
+            this._ratingAndReviewPath += "&ssr=false#review-details";
+            this._process = process;
         }
-        public void OpenRatingAndReview() => this.process.Start(this.ratingAndReviewPath);
+        public void OpenRatingAndReview() => this._process.Start(this._ratingAndReviewPath);
     }
 }

@@ -12,13 +12,13 @@ namespace FineCodeCoverage.Output
     internal class GitRepo : IGitRepo
     {
         private readonly Repository _repository;
-        private readonly string workingDirectory;
-        private bool disposedValue;
+        private readonly string _workingDirectory;
+        private bool _disposedValue;
 
         public GitRepo(string repository)
         {
             this._repository = new Repository(repository);
-            this.workingDirectory = this._repository.Info.WorkingDirectory;
+            this._workingDirectory = this._repository.Info.WorkingDirectory;
         }
 
         // might want a wrapper if FriendlyName is not distinct or expensive to get the branch again
@@ -49,14 +49,14 @@ namespace FineCodeCoverage.Output
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposedValue)
+            if (!this._disposedValue)
             {
                 if (disposing)
                 {
                     this._repository.Dispose();
                 }
 
-                this.disposedValue = true;
+                this._disposedValue = true;
             }
         }
 
@@ -88,9 +88,9 @@ namespace FineCodeCoverage.Output
                     case ChangeKind.Modified:
                     case ChangeKind.Renamed:
                         string key = patchEntryChanges.Path.Replace("/", "\\");
-                        if (this.workingDirectory != null)
+                        if (this._workingDirectory != null)
                         {
-                            key = Path.Combine(this.workingDirectory, key);
+                            key = Path.Combine(this._workingDirectory, key);
                         }
 
                         HashSet<int> intSet;

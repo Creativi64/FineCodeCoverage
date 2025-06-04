@@ -11,11 +11,11 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ICoverageProjectSettingsManager))]
     internal class CoverageProjectSettingsManager : ICoverageProjectSettingsManager
     {
-        private readonly ICoverageSettingsOptionsProvider coveragSettingsOptionsProvider;
-        private readonly ICoverageProjectSettingsProvider coverageProjectSettingsProvider;
-        private readonly IFCCSettingsFilesProvider fccSettingsFilesProvider;
-        private readonly ISettingsMerger settingsMerger;
-        private readonly ICoverageSettingsReflectionService coverageSettingsReflectionService;
+        private readonly ICoverageSettingsOptionsProvider _coveragSettingsOptionsProvider;
+        private readonly ICoverageProjectSettingsProvider _coverageProjectSettingsProvider;
+        private readonly IFCCSettingsFilesProvider _fccSettingsFilesProvider;
+        private readonly ISettingsMerger _settingsMerger;
+        private readonly ICoverageSettingsReflectionService _coverageSettingsReflectionService;
 
         [ImportingConstructor]
         public CoverageProjectSettingsManager(
@@ -26,26 +26,26 @@ namespace FineCodeCoverage.Engine.Model
             ICoverageSettingsReflectionService coverageSettingsReflectionService
         )
         {
-            this.coveragSettingsOptionsProvider = coveragSettingsOptionsProvider;
-            this.coverageProjectSettingsProvider = coverageProjectSettingsProvider;
-            this.fccSettingsFilesProvider = fccSettingsFilesProvider;
-            this.settingsMerger = settingsMerger;
-            this.coverageSettingsReflectionService = coverageSettingsReflectionService;
+            this._coveragSettingsOptionsProvider = coveragSettingsOptionsProvider;
+            this._coverageProjectSettingsProvider = coverageProjectSettingsProvider;
+            this._fccSettingsFilesProvider = fccSettingsFilesProvider;
+            this._settingsMerger = settingsMerger;
+            this._coverageSettingsReflectionService = coverageSettingsReflectionService;
         }
 
         private CoverageSettings GetSettingsFromOptions()
-            => this.coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
-                this.coveragSettingsOptionsProvider.Get());
+            => this._coverageSettingsReflectionService.CreateCoverageSettingsFromOptions(
+                this._coveragSettingsOptionsProvider.Get());
 
         public async Task<ICoverageSettings> GetSettingsAsync(ICoverageProject coverageProject)
         {
             List<XElement> settingsFilesElements = this.GetSettingsFilesElements(coverageProject);
-            XElement projectSettingsElement = await this.coverageProjectSettingsProvider.ProvideAsync(coverageProject);
+            XElement projectSettingsElement = await this._coverageProjectSettingsProvider.ProvideAsync(coverageProject);
             CoverageSettings coverageSettings = this.GetSettingsFromOptions();
             if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
             {
-                await this.settingsMerger.MergeAsync(
-                    coverageSettings, this.coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
+                await this._settingsMerger.MergeAsync(
+                    coverageSettings, this._coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
                 );
             }
 
@@ -56,7 +56,7 @@ namespace FineCodeCoverage.Engine.Model
         private List<XElement> GetSettingsFilesElements(ICoverageProject coverageProject)
         {
             string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
-            return this.fccSettingsFilesProvider.Provide(projectDirectory);
+            return this._fccSettingsFilesProvider.Provide(projectDirectory);
         }
 
         private static void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)

@@ -6,7 +6,9 @@ namespace FineCodeCoverage.Core.Utilities
 {
     public static class ThemeResourceKeyExtensions
     {
-        public static SolidColorBrush ToBrush(this ThemeResourceKey themeResourceKey) => VSColorTheme.GetThemedColor(themeResourceKey).ToMediaBrush();
-        public static Color ToColor(this ThemeResourceKey themeResourceKey) => VSColorTheme.GetThemedColor(themeResourceKey).ToMediaColor();
+        public static SolidColorBrush ToBrush(this ThemeResourceKey themeResourceKey)
+            => VSColorTheme.GetThemedColor(themeResourceKey).ToMediaBrush();
+        public static Color ToColor(this ThemeResourceKey themeResourceKey)
+            => VSColorTheme.GetThemedColor(themeResourceKey).ToMediaColor();
     }
 }

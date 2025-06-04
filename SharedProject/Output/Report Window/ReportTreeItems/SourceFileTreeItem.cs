@@ -11,10 +11,10 @@ namespace FineCodeCoverage.Output
 {
     internal class SourceFileTreeItem : ReportTreeItemBase
     {
-        private readonly ISourceFile sourceFile;
+        private bool _hasNewCode;
+
         public SourceFileTreeItem(ISourceFile sourceFile, SourceFileStructure sourceFileStructure)
         {
-            this.sourceFile = sourceFile;
             this.Name = Path.GetFileName(sourceFile.Path);
             sourceFile.HasNewCodeChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
@@ -23,7 +23,6 @@ namespace FineCodeCoverage.Output
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
                     () => this.Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
 
-            this.ImageMoniker = KnownMonikers.TextFile;
             if (sourceFileStructure == SourceFileStructure.AsRequired)
             {
                 sourceFileStructure = sourceFile.Classes.Count > 1 ?
@@ -69,12 +68,12 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        private bool hasNewCode;
         public bool HasNewCode
         {
-            get => this.hasNewCode;
-            set => this.Set(ref this.hasNewCode, value);
+            get => this._hasNewCode;
+            set => this.Set(ref this._hasNewCode, value);
         }
-        public override ImageMoniker ImageMoniker { get; }
+
+        public override ImageMoniker ImageMoniker => KnownMonikers.TextFile;
     }
 }

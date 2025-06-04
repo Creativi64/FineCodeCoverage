@@ -4,28 +4,29 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class TrackedNewCodeLine : ITrackedNewCodeLine
     {
-        private readonly ITrackingSpan trackingSpan;
-        private readonly DynamicLine line;
-        private readonly ILineTracker lineTracker;
+        private readonly ITrackingSpan _trackingSpan;
+        private readonly DynamicLine _line;
+        private readonly ILineTracker _lineTracker;
 
         public TrackedNewCodeLine(ITrackingSpan trackingSpan, int lineNumber, ILineTracker lineTracker)
         {
-            this.line = new DynamicLine(lineNumber, DynamicCoverageType.NewLine);
-            this.lineTracker = lineTracker;
-            this.trackingSpan = trackingSpan;
+            this._line = new DynamicLine(lineNumber, DynamicCoverageType.NewLine);
+            this._lineTracker = lineTracker;
+            this._trackingSpan = trackingSpan;
         }
 
-        public IDynamicLine Line => this.line;
+        public IDynamicLine Line => this._line;
 
         public string GetText(ITextSnapshot currentSnapshot)
-            => this.lineTracker.GetTrackedLineInfo(this.trackingSpan, currentSnapshot, true).LineText;
+            => this._lineTracker.GetTrackedLineInfo(this._trackingSpan, currentSnapshot, true).LineText;
 
         public TrackedNewCodeLineUpdate Update(ITextSnapshot currentSnapshot)
         {
-            int oldLineNumber = this.line.LineNumber;
-            TrackedLineInfo trackedLineInfo = this.lineTracker.GetTrackedLineInfo(this.trackingSpan, currentSnapshot, true);
-            this.line.LineNumber = trackedLineInfo.LineNumber;
-            return new TrackedNewCodeLineUpdate(trackedLineInfo.LineText, this.line.LineNumber, oldLineNumber);
+            int oldLineNumber = this._line.LineNumber;
+            TrackedLineInfo trackedLineInfo = this._lineTracker.GetTrackedLineInfo(
+                this._trackingSpan, currentSnapshot, true);
+            this._line.LineNumber = trackedLineInfo.LineNumber;
+            return new TrackedNewCodeLineUpdate(trackedLineInfo.LineText, this._line.LineNumber, oldLineNumber);
         }
     }
 }

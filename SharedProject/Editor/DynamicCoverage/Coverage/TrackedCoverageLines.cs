@@ -6,16 +6,22 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class TrackedCoverageLines : ITrackedCoverageLines
     {
-        private readonly List<ITrackedCoverageLine> trackedCoverageLines;
+        private readonly List<ITrackedCoverageLine> _trackedCoverageLines;
 
-        public IEnumerable<IDynamicLine> Lines => this.trackedCoverageLines.Select(coverageLine => coverageLine.Line);
-        public TrackedCoverageLines(List<ITrackedCoverageLine> coverageLines) => this.trackedCoverageLines = coverageLines;
+        public IEnumerable<IDynamicLine> Lines
+            => this._trackedCoverageLines.Select(coverageLine => coverageLine.Line);
+
+        public TrackedCoverageLines(List<ITrackedCoverageLine> coverageLines)
+            => this._trackedCoverageLines = coverageLines;
 
         public IEnumerable<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)
-            => this.trackedCoverageLines.SelectMany(trackedCoverageLine => trackedCoverageLine.GetUpdateLineNumbers(currentSnapshot));
+            => this._trackedCoverageLines.SelectMany(
+                trackedCoverageLine => trackedCoverageLine.GetUpdateLineNumbers(currentSnapshot)
+            );
+
         public FirstTrackedCoverageLineInfo GetFirstTrackedCoverageLineInfo()
         {
-            ITrackedCoverageLine first = this.trackedCoverageLines[0];
+            ITrackedCoverageLine first = this._trackedCoverageLines[0];
             return new FirstTrackedCoverageLineInfo(first.Line.OriginalLineNumber, first.DynamicCoberturaLine);
         }
     }

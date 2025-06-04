@@ -11,38 +11,37 @@ namespace FineCodeCoverage.Wpf
        where T : DependentPropertiesChangedUserControl<T>
     {
         private static readonly Dictionary<Type, DependentPropertiesChangedNotifier<T>> NotifierCache = new Dictionary<Type, DependentPropertiesChangedNotifier<T>>();
+        private static int numInstances;
 
-        private readonly DependentPropertiesChangedNotifier<T> notifier;
+        private readonly DependentPropertiesChangedNotifier<T> _notifier;
+        private readonly int _id;
+        private bool _listening = true;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private bool listening = true;
-
-        private static int numInstances;
-        private readonly int id;
 
         protected DependentPropertiesChangedUserControl()
         {
-            this.id = numInstances++;
-            this.notifier = NotifierCache.GetOrAdd(typeof(T), () => DependentPropertiesChangedNotifierBuilder.Build<T>());
+            this._id = numInstances++;
+            this._notifier = NotifierCache.GetOrAdd(typeof(T), () => DependentPropertiesChangedNotifierBuilder.Build<T>());
 
-            this.notifier.NotifyOfChanges((T)this);
+            this._notifier.NotifyOfChanges((T)this);
             this.Loaded += this.DependentPropertiesChangedUserControl_Loaded;
             this.Unloaded += this.OnUnloaded;
         }
 
         private void DependentPropertiesChangedUserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!this.listening)
+            if (!this._listening)
             {
-                this.notifier.NotifyOfChanges((T)this);
-                this.listening = true;
+                this._notifier.NotifyOfChanges((T)this);
+                this._listening = true;
             }
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            this.listening = false;
-            this.notifier.RemoveNotificationOfChanges((T)this);
+            this._listening = false;
+            this._notifier.RemoveNotificationOfChanges((T)this);
         }
 
         public void NotifyDependentPropertyChanged(string propertyName)

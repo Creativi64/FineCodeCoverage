@@ -7,14 +7,14 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenFCCOutputPaneCommand : CommandInitializerBase
     {
-        private readonly IShowFCCOutputPane showFCCOutputPane;
+        private readonly IShowFCCOutputPane _showFCCOutputPane;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenFCCOutputPaneCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenFCCOutputPaneCommand(IShowFCCOutputPane showFCCOutputPane) => this.showFCCOutputPane = showFCCOutputPane;
+        public OpenFCCOutputPaneCommand(IShowFCCOutputPane showFCCOutputPane) => this._showFCCOutputPane = showFCCOutputPane;
 
-        protected override void Execute(object sender, EventArgs e) => _ = this.showFCCOutputPane.ShowAsync();
+        protected override void Execute(object sender, EventArgs e) => _ = this._showFCCOutputPane.ShowAsync();
     }
 }

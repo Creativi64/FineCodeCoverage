@@ -9,17 +9,17 @@ namespace FineCodeCoverage.Editor.IndicatorVisibility
     [Export(typeof(IFileIndicatorVisibility))]
     internal class FileIndicatorVisibility : IFileIndicatorVisibility, IListener<ToggleCoverageIndicatorsMessage>, IInitializable
     {
-        private bool showIndicators = true;
+        private bool _showIndicators = true;
         public event EventHandler VisibilityChanged;
 
         [ImportingConstructor]
         public FileIndicatorVisibility(IEventAggregator eventAggregator)
             => _ = eventAggregator.AddListener(this);
 
-        public bool IsVisible(string filePath) => this.showIndicators;
+        public bool IsVisible(string filePath) => this._showIndicators;
         public void Handle(ToggleCoverageIndicatorsMessage message)
         {
-            this.showIndicators = !this.showIndicators;
+            this._showIndicators = !this._showIndicators;
             VisibilityChanged?.Invoke(this, EventArgs.Empty);
         }
     }

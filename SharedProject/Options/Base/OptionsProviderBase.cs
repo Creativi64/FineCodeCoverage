@@ -12,11 +12,11 @@ namespace FineCodeCoverage.Options
         IOptionsProvider<TOptions>,
         IDialogPageOptionsProvider<TOptions> where TOptions : class, new()
     {
-        private readonly ILogger logger;
-        private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
-        private readonly IJsonConvertService jsonConvertService;
-        private readonly IDefaultOptionsSetter<TOptions> defaultOptionsSetter;
-        private readonly TOptions options;
+        private readonly ILogger _logger;
+        private readonly IWritableUserSettingsStoreProvider _writableUserSettingsStoreProvider;
+        private readonly IJsonConvertService _jsonConvertService;
+        private readonly IDefaultOptionsSetter<TOptions> _defaultOptionsSetter;
+        private readonly TOptions _options;
         public Lazy<PropertyDescriptorCollection> LazyOptionsPropertyDescriptorCollection { get; }
 
         public event Action<TOptions> OptionsChanged;
@@ -29,22 +29,22 @@ namespace FineCodeCoverage.Options
             IJsonConvertService jsonConvertService,
             IDefaultOptionsSetter<TOptions> defaultOptionsSetter)
         {
-            this.logger = logger;
-            this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
-            this.jsonConvertService = jsonConvertService;
-            this.defaultOptionsSetter = defaultOptionsSetter;
-            this.options = new TOptions();
-            defaultOptionsSetter.Set(this.options);
+            this._logger = logger;
+            this._writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
+            this._jsonConvertService = jsonConvertService;
+            this._defaultOptionsSetter = defaultOptionsSetter;
+            this._options = new TOptions();
+            defaultOptionsSetter.Set(this._options);
             this.LazyOptionsPropertyDescriptorCollection = new Lazy<PropertyDescriptorCollection>(() => TypeDescriptor.GetProperties(typeof(TOptions)));
         }
 
         private void RaiseOptionsChanged(TOptions options) => OptionsChanged?.Invoke(options);
 
-        public TOptions Get() => this.options;
+        public TOptions Get() => this._options;
 
         private WritableSettingsStore EnsureStore()
         {
-            WritableSettingsStore settingsStore = this.writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
+            WritableSettingsStore settingsStore = this._writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
             if (!settingsStore.CollectionExists(Vsix.Code))
             {
                 settingsStore.CreateCollection(Vsix.Code);
@@ -74,12 +74,12 @@ namespace FineCodeCoverage.Options
                         continue;
                     }
 
-                    object objValue = this.jsonConvertService.DeserializeObject(strValue, property.PropertyType);
-                    property.SetValue(this.options, objValue);
+                    object objValue = this._jsonConvertService.DeserializeObject(strValue, property.PropertyType);
+                    property.SetValue(this._options, objValue);
                 }
                 catch (Exception exception)
                 {
-                    this.logger.LogFileAndForget($"Failed to load '{property.Name}' setting", exception.ToString());
+                    this._logger.LogFileAndForget($"Failed to load '{property.Name}' setting", exception.ToString());
                 }
             }
 
@@ -88,11 +88,11 @@ namespace FineCodeCoverage.Options
 
         void IDialogPageOptionsProvider<TOptions>.SaveSettingsToStorage() => this.SaveSettingsToStorage();
 
-        TOptions IDialogPageOptionsProvider<TOptions>.Options => this.options;
+        TOptions IDialogPageOptionsProvider<TOptions>.Options => this._options;
 
         void IProfileOptionsProvider.SaveSettingsToStorage() => this.SaveSettingsToStorage();
 
-        public object Options => this.options;
+        public object Options => this._options;
 
         private void SaveSettingsToStorage()
         {
@@ -110,18 +110,18 @@ namespace FineCodeCoverage.Options
             {
                 try
                 {
-                    object objValue = property.GetValue(this.options);
-                    string strValue = this.jsonConvertService.SerializeObject(objValue);
+                    object objValue = property.GetValue(this._options);
+                    string strValue = this._jsonConvertService.SerializeObject(objValue);
 
                     settingsStore.SetString(Vsix.Code, property.Name, strValue);
                 }
                 catch (Exception exception)
                 {
-                    this.logger.LogFileAndForget($"Failed to save '{property.Name}' setting", exception.ToString());
+                    this._logger.LogFileAndForget($"Failed to save '{property.Name}' setting", exception.ToString());
                 }
             }
 
-            this.RaiseOptionsChanged(this.options);
+            this.RaiseOptionsChanged(this._options);
         }
 
         public void Reset()
@@ -133,10 +133,10 @@ namespace FineCodeCoverage.Options
                     ? Activator.CreateInstance(property.PropertyType)
                     : null;
 
-                property.SetValue(this.options, defaultValue);
+                property.SetValue(this._options, defaultValue);
             }
 
-            this.defaultOptionsSetter.Set(this.options);
+            this._defaultOptionsSetter.Set(this._options);
             this.Initializing = false;
             this.SaveSettingsToStorage();
         }

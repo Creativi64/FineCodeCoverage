@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IOpenOptionPageTypeProvider))]
     internal class OpenOptionPageTypeProvider : IOpenOptionPageTypeProvider
     {
-        private readonly Dictionary<OpenOptionPage, Type> lookup = new Dictionary<OpenOptionPage, Type>
+        private readonly Dictionary<OpenOptionPage, Type> _lookup = new Dictionary<OpenOptionPage, Type>
         {
             {OpenOptionPage.Run, typeof(RunOptionsPage)},
             {OpenOptionPage.IncludesExcludes, typeof(IncludesExcludesOptionsPage)},
@@ -19,11 +19,12 @@ namespace FineCodeCoverage.Options
             {OpenOptionPage.HotspotThresholds, typeof(HotspotThresholdsOptionsPage)},
             {OpenOptionPage.Misc, typeof(MiscOptionsPage)}
         };
-        private readonly IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider;
+        private readonly IDialogPageOptionsProvider<MiscOptions> _miscOptionsProvider;
 
         [ImportingConstructor]
-        public OpenOptionPageTypeProvider(IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider) => this.miscOptionsProvider = miscOptionsProvider;
+        public OpenOptionPageTypeProvider(IDialogPageOptionsProvider<MiscOptions> miscOptionsProvider)
+            => this._miscOptionsProvider = miscOptionsProvider;
 
-        public Type Get() => this.lookup[this.miscOptionsProvider.Options.OpenOptionPage];
+        public Type Get() => this._lookup[this._miscOptionsProvider.Options.OpenOptionPage];
     }
 }

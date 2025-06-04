@@ -9,8 +9,10 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(IEditorFormatMapTextSpecificListener))]
     internal class EditorFormatMapTextSpecificListener : IEditorFormatMapTextSpecificListener
     {
-        private List<string> keys;
-        private Action callback;
+        private List<string> _keys;
+        private Action _callback;
+        private bool _listening;
+
         [ImportingConstructor]
         public EditorFormatMapTextSpecificListener(
             IEditorFormatMapService editorFormatMapService
@@ -18,27 +20,25 @@ namespace FineCodeCoverage.Editor.Management
 
         private void EditorFormatMap_FormatMappingChanged(object sender, FormatItemsEventArgs e)
         {
-            var watchedItems = e.ChangedItems.Where(changedItem => this.keys.Contains(changedItem)).ToList();
-            if (this.listening && watchedItems.Any())
+            var watchedItems = e.ChangedItems.Where(changedItem => this._keys.Contains(changedItem)).ToList();
+            if (this._listening && watchedItems.Any())
             {
-                this.callback();
+                this._callback();
             }
         }
 
-        private bool listening;
-
         public void ListenFor(List<string> keys, Action callback)
         {
-            this.keys = keys;
-            this.callback = callback;
-            this.listening = true;
+            this._keys = keys;
+            this._callback = callback;
+            this._listening = true;
         }
 
         public void PauseListeningWhenExecuting(Action action)
         {
-            this.listening = false;
+            this._listening = false;
             action();
-            this.listening = true;
+            this._listening = true;
         }
     }
 }

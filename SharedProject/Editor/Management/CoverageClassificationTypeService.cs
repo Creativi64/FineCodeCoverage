@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Editor.Management
         public const string FCCDirtyClassificationTypeName = "FCCDirty";
         public const string FCCNewLineClassificationTypeName = "FCCNewLine";
         public const string FCCNotIncludedClassificationTypeName = "FCCNotIncluded";
-        private readonly Dictionary<DynamicCoverageType, string> editorFormatNames = new Dictionary<DynamicCoverageType, string>
+        private readonly Dictionary<DynamicCoverageType, string> _editorFormatNames = new Dictionary<DynamicCoverageType, string>
         {
             {DynamicCoverageType.Partial, FCCPartiallyCoveredClassificationTypeName },
             {DynamicCoverageType.NotCovered, FCCNotCoveredClassificationTypeName },
@@ -32,9 +32,9 @@ namespace FineCodeCoverage.Editor.Management
             {DynamicCoverageType.NotIncluded, FCCNotIncludedClassificationTypeName }
         };
 
-        private readonly IClassificationFormatMap classificationFormatMap;
-        private readonly ReadOnlyDictionary<DynamicCoverageType, IClassificationType> classificationTypes;
-        private readonly IClassificationType highestPriorityClassificationType;
+        private readonly IClassificationFormatMap _classificationFormatMap;
+        private readonly ReadOnlyDictionary<DynamicCoverageType, IClassificationType> _classificationTypes;
+        private readonly IClassificationType _highestPriorityClassificationType;
 
         [ExcludeFromCodeCoverage]
         [Export]
@@ -72,8 +72,8 @@ namespace FineCodeCoverage.Editor.Management
             IClassificationTypeRegistryService classificationTypeRegistryService
         )
         {
-            this.classificationFormatMap = classificationFormatMapService.GetClassificationFormatMap("text");
-            this.highestPriorityClassificationType = this.classificationFormatMap.CurrentPriorityOrder.Last(ct => ct != null);
+            this._classificationFormatMap = classificationFormatMapService.GetClassificationFormatMap("text");
+            this._highestPriorityClassificationType = this._classificationFormatMap.CurrentPriorityOrder.Last(ct => ct != null);
 
             IClassificationType notCoveredClassificationType = classificationTypeRegistryService.GetClassificationType(FCCNotCoveredClassificationTypeName);
             IClassificationType coveredClassificationType = classificationTypeRegistryService.GetClassificationType(FCCCoveredClassificationTypeName);
@@ -82,7 +82,7 @@ namespace FineCodeCoverage.Editor.Management
             IClassificationType newCodeClassificationType = classificationTypeRegistryService.GetClassificationType(FCCNewLineClassificationTypeName);
             IClassificationType notIncludedClassificationType = classificationTypeRegistryService.GetClassificationType(FCCNotIncludedClassificationTypeName);
 
-            this.classificationTypes = new ReadOnlyDictionary<DynamicCoverageType, IClassificationType>(
+            this._classificationTypes = new ReadOnlyDictionary<DynamicCoverageType, IClassificationType>(
                 new Dictionary<DynamicCoverageType, IClassificationType>
                 {
                     { DynamicCoverageType.Covered, coveredClassificationType },
@@ -96,21 +96,21 @@ namespace FineCodeCoverage.Editor.Management
 
         private void BatchUpdateIfRequired(Action action)
         {
-            if (this.classificationFormatMap.IsInBatchUpdate)
+            if (this._classificationFormatMap.IsInBatchUpdate)
             {
                 action();
             }
             else
             {
-                this.classificationFormatMap.BeginBatchUpdate();
+                this._classificationFormatMap.BeginBatchUpdate();
                 action();
-                this.classificationFormatMap.EndBatchUpdate();
+                this._classificationFormatMap.EndBatchUpdate();
             }
         }
 
-        public string GetEditorFormatDefinitionName(DynamicCoverageType coverageType) => this.editorFormatNames[coverageType];
+        public string GetEditorFormatDefinitionName(DynamicCoverageType coverageType) => this._editorFormatNames[coverageType];
 
-        public IClassificationType GetClassificationType(DynamicCoverageType coverageType) => this.classificationTypes[coverageType];
+        public IClassificationType GetClassificationType(DynamicCoverageType coverageType) => this._classificationTypes[coverageType];
 
         public void SetCoverageColours(IEnumerable<ICoverageTypeColour> coverageTypeColours)
             => this.BatchUpdateIfRequired(() =>
@@ -123,9 +123,9 @@ namespace FineCodeCoverage.Editor.Management
 
         private void SetCoverageColour(ICoverageTypeColour coverageTypeColour)
         {
-            IClassificationType classificationType = this.classificationTypes[coverageTypeColour.CoverageType];
-            this.classificationFormatMap.AddExplicitTextProperties(
-                classificationType, coverageTypeColour.TextFormattingRunProperties, this.highestPriorityClassificationType);
+            IClassificationType classificationType = this._classificationTypes[coverageTypeColour.CoverageType];
+            this._classificationFormatMap.AddExplicitTextProperties(
+                classificationType, coverageTypeColour.TextFormattingRunProperties, this._highestPriorityClassificationType);
         }
     }
 }

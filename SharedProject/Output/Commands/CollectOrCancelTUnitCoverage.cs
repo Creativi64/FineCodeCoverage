@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICommandInitializer))]
     internal class CollectOrCancelTUnitCoverage : ICommandInitializer
     {
-        private readonly ICollectTUnitCommand collectTUnitCommand;
-        private readonly ICancelCollectTUnitCommand cancelCollectTUnitCommand;
+        private readonly ICollectTUnitCommand _collectTUnitCommand;
+        private readonly ICancelCollectTUnitCommand _cancelCollectTUnitCommand;
 
         [ImportingConstructor]
         public CollectOrCancelTUnitCoverage(
@@ -21,15 +21,15 @@ namespace FineCodeCoverage.Output
                 collectTUnitCommand.SetVisible(!collecting);
                 cancelCollectTUnitCommand.SetVisible(collecting);
             };
-            this.collectTUnitCommand = collectTUnitCommand;
-            this.cancelCollectTUnitCommand = cancelCollectTUnitCommand;
+            this._collectTUnitCommand = collectTUnitCommand;
+            this._cancelCollectTUnitCommand = cancelCollectTUnitCommand;
         }
 
         public async Task InitializeAsync(ICommandPackageServices commandPackageServices)
         {
-            await this.collectTUnitCommand.InitializeAsync(commandPackageServices);
-            await this.cancelCollectTUnitCommand.InitializeAsync(commandPackageServices);
-            this.cancelCollectTUnitCommand.SetVisible(false);
+            await this._collectTUnitCommand.InitializeAsync(commandPackageServices);
+            await this._cancelCollectTUnitCommand.InitializeAsync(commandPackageServices);
+            this._cancelCollectTUnitCommand.SetVisible(false);
         }
     }
 }

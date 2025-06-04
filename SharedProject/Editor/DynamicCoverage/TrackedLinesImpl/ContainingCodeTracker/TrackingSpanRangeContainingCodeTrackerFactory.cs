@@ -7,15 +7,15 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(ITrackingSpanRangeContainingCodeTrackerFactory))]
     internal class TrackingSpanRangeContainingCodeTrackerFactory : ITrackingSpanRangeContainingCodeTrackerFactory
     {
-        private readonly IDirtyLineFactory dirtyLineFactory;
+        private readonly IDirtyLineFactory _dirtyLineFactory;
 
         [ImportingConstructor]
         public TrackingSpanRangeContainingCodeTrackerFactory(
             IDirtyLineFactory dirtyLineFactory
-        ) => this.dirtyLineFactory = dirtyLineFactory;
+        ) => this._dirtyLineFactory = dirtyLineFactory;
 
         public IContainingCodeTracker CreateCoverageLines(ITrackingSpanRange trackingSpanRange, ITrackedCoverageLines trackedCoverageLines)
-            => Wrap(trackingSpanRange, new CoverageCodeTracker(trackedCoverageLines, this.dirtyLineFactory));
+            => Wrap(trackingSpanRange, new CoverageCodeTracker(trackedCoverageLines, this._dirtyLineFactory));
 
         public IContainingCodeTracker CreateNotIncluded(ITrackingLine trackingLine, ITrackingSpanRange trackingSpanRange)
             => Wrap(trackingSpanRange, new TrackingLineTracker(trackingLine));

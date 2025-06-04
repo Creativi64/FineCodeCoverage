@@ -8,17 +8,17 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IReadOnlyUserSettingsStoreProvider))]
     internal class ReadOnlyUserSettingsStoreProvider : IReadOnlyUserSettingsStoreProvider
     {
-        private SettingsStore settingsStore;
+        private SettingsStore _settingsStore;
         public async System.Threading.Tasks.Task<SettingsStore> ProvideAsync()
         {
-            if (this.settingsStore == null)
+            if (this._settingsStore == null)
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-                this.settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
+                this._settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
             }
 
-            return this.settingsStore;
+            return this._settingsStore;
         }
     }
 }

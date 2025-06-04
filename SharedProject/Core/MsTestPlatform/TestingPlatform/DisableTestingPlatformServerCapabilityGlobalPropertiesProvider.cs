@@ -29,10 +29,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
     [AppliesTo("TestContainer")]
     internal class DisableTestingPlatformServerCapabilityGlobalPropertiesProvider : StaticGlobalPropertiesProviderBase
     {
-        private readonly UnconfiguredProject unconfiguredProject;
-        private readonly IOptionsProvider<RunOptions> runOptionsProvider;
-        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
-        private readonly ICoverageProjectSettingsManager coverageProjectSettingsManager;
+        private readonly UnconfiguredProject _unconfiguredProject;
+        private readonly IOptionsProvider<RunOptions> _runOptionsProvider;
+        private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
+        private readonly ICoverageProjectSettingsManager _coverageProjectSettingsManager;
 
         [ImportingConstructor]
         public DisableTestingPlatformServerCapabilityGlobalPropertiesProvider(
@@ -44,15 +44,15 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         )
           : base(projectService.Services)
         {
-            this.unconfiguredProject = unconfiguredProject;
-            this.runOptionsProvider = runOptionsProvider;
-            this.outputOptionsProvider = outputOptionsProvider;
-            this.coverageProjectSettingsManager = coverageProjectSettingsManager;
+            this._unconfiguredProject = unconfiguredProject;
+            this._runOptionsProvider = runOptionsProvider;
+            this._outputOptionsProvider = outputOptionsProvider;
+            this._coverageProjectSettingsManager = coverageProjectSettingsManager;
         }
 
         private bool AllProjectsDisabled()
         {
-            RunOptions appOptions = this.runOptionsProvider.Get();
+            RunOptions appOptions = this._runOptionsProvider.Get();
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
@@ -75,7 +75,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         {
             try
             {
-                ConfiguredProject configuredProject = await this.unconfiguredProject.GetSuggestedConfiguredProjectAsync();
+                ConfiguredProject configuredProject = await this._unconfiguredProject.GetSuggestedConfiguredProjectAsync();
                 return await IsTestProjectAsync(configuredProject) && await NoTUnitPackageReferenceAsync(configuredProject);
             }
             catch { }
@@ -89,14 +89,14 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             if (!projectGuid.HasValue) return false;
 
             CoverageProject coverageProject = this.GetCoverageProject(projectGuid.Value);
-            ICoverageSettings projectSettings = await this.coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
+            ICoverageSettings projectSettings = await this._coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
             return projectSettings.Enabled;
         }
 
         private async Task<Guid?> GetProjectGuidAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            object hostObject = this.unconfiguredProject.Services.HostObject;
+            object hostObject = this._unconfiguredProject.Services.HostObject;
 
             var vsHierarchy = (IVsHierarchy)hostObject;
             if (vsHierarchy != null)
@@ -113,10 +113,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         }
 
         private CoverageProject GetCoverageProject(Guid projectGuid)
-            => new CoverageProject(this.outputOptionsProvider, null, this.coverageProjectSettingsManager, null)
+            => new CoverageProject(this._outputOptionsProvider, null, this._coverageProjectSettingsManager, null)
             {
                 Id = projectGuid,
-                ProjectFilePath = this.unconfiguredProject.FullPath
+                ProjectFilePath = this._unconfiguredProject.FullPath
             };
 
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)

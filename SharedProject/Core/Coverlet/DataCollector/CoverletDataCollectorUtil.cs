@@ -18,15 +18,15 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(ICoverletDataCollectorUtil))]
     internal class CoverletDataCollectorUtil : ICoverletDataCollectorUtil
     {
-        private readonly IFileUtil fileUtil;
-        private readonly IRunSettingsCoverletConfigurationFactory runSettingsCoverletConfigurationFactory;
-        private readonly ILogger logger;
-        private readonly IProcessUtil processUtil;
-        private readonly IDataCollectorSettingsBuilderFactory dataCollectorSettingsBuilderFactory;
-        private readonly ICoverletDataCollectorGeneratedCobertura coverletDataCollectorGeneratedCobertura;
-        private readonly IProcessResponseProcessor processResponseProcessor;
-        private readonly IToolUnzipper toolUnzipper;
-        private readonly IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider;
+        private readonly IFileUtil _fileUtil;
+        private readonly IRunSettingsCoverletConfigurationFactory _runSettingsCoverletConfigurationFactory;
+        private readonly ILogger _logger;
+        private readonly IProcessUtil _processUtil;
+        private readonly IDataCollectorSettingsBuilderFactory _dataCollectorSettingsBuilderFactory;
+        private readonly ICoverletDataCollectorGeneratedCobertura _coverletDataCollectorGeneratedCobertura;
+        private readonly IProcessResponseProcessor _processResponseProcessor;
+        private readonly IToolUnzipper _toolUnzipper;
+        private readonly IVsBuildFCCSettingsProvider _vsBuildFCCSettingsProvider;
 
         //for tests
         internal IRunSettingsCoverletConfiguration runSettingsCoverletConfiguration;
@@ -49,15 +49,15 @@ namespace FineCodeCoverage.Engine.Coverlet
             IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider
             )
         {
-            this.fileUtil = fileUtil;
-            this.runSettingsCoverletConfigurationFactory = runSettingsCoverletConfigurationFactory;
-            this.logger = logger;
-            this.processUtil = processUtil;
-            this.dataCollectorSettingsBuilderFactory = dataCollectorSettingsBuilderFactory;
-            this.coverletDataCollectorGeneratedCobertura = coverletDataCollectorGeneratedCobertura;
-            this.processResponseProcessor = processResponseProcessor;
-            this.toolUnzipper = toolUnzipper;
-            this.vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
+            this._fileUtil = fileUtil;
+            this._runSettingsCoverletConfigurationFactory = runSettingsCoverletConfigurationFactory;
+            this._logger = logger;
+            this._processUtil = processUtil;
+            this._dataCollectorSettingsBuilderFactory = dataCollectorSettingsBuilderFactory;
+            this._coverletDataCollectorGeneratedCobertura = coverletDataCollectorGeneratedCobertura;
+            this._processResponseProcessor = processResponseProcessor;
+            this._toolUnzipper = toolUnzipper;
+            this._vsBuildFCCSettingsProvider = vsBuildFCCSettingsProvider;
         }
 
         private bool? GetUseDataCollectorFromProjectFile()
@@ -94,7 +94,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             bool? useDataCollector = this.GetUseDataCollectorFromProjectFile();
             if (!useDataCollector.HasValue)
             {
-                XElement importedSettings = await this.vsBuildFCCSettingsProvider.GetSettingsAsync(this.coverageProject.Id);
+                XElement importedSettings = await this._vsBuildFCCSettingsProvider.GetSettingsAsync(this.coverageProject.Id);
                 if (importedSettings != null)
                 {
                     useDataCollector = UseDataCollector(importedSettings);
@@ -118,12 +118,12 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public async Task<bool> CanUseDataCollectorAsync(ICoverageProject coverageProject)
         {
-            this.runSettingsCoverletConfiguration = this.runSettingsCoverletConfigurationFactory.Create();
+            this.runSettingsCoverletConfiguration = this._runSettingsCoverletConfigurationFactory.Create();
             this.coverageProject = coverageProject;
 
             if (coverageProject.RunSettingsFile != null)
             {
-                string runSettingsXml = this.fileUtil.ReadAllText(coverageProject.RunSettingsFile);
+                string runSettingsXml = this._fileUtil.ReadAllText(coverageProject.RunSettingsFile);
 
                 _ = this.runSettingsCoverletConfiguration.Read(runSettingsXml);
                 switch (this.runSettingsCoverletConfiguration.CoverletDataCollectorState)
@@ -140,7 +140,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private string GetSettings()
         {
-            IDataCollectorSettingsBuilder dataCollectorSettingsBuilder = this.dataCollectorSettingsBuilderFactory.Create();
+            IDataCollectorSettingsBuilder dataCollectorSettingsBuilder = this._dataCollectorSettingsBuilderFactory.Create();
             dataCollectorSettingsBuilder
                 .Initialize(this.coverageProject.Settings.RunSettingsOnly, this.coverageProject.RunSettingsFile, Path.Combine(this.coverageProject.CoverageOutputFolder, "FCC.runsettings"));
 
@@ -218,7 +218,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 string directoryPath = this.coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
                 if (Directory.Exists(directoryPath))
                 {
-                    await this.logger.LogAsync($"Using custom coverlet data collector : {directoryPath}");
+                    await this._logger.LogAsync($"Using custom coverlet data collector : {directoryPath}");
                     return $@"""{directoryPath}""";
                 }
             }
@@ -232,7 +232,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             await this.LogRunAsync(settings);
 
-            ExecuteResponse result = await this.processUtil
+            ExecuteResponse result = await this._processUtil
             .ExecuteAsync(new ExecuteRequest
             {
                 FilePath = "dotnet",
@@ -250,12 +250,12 @@ namespace FineCodeCoverage.Engine.Coverlet
             // https://github.com/dotnet/sdk/blob/936935f18c3540ed77c97e392780a9dd82aca441/src/Cli/dotnet/commands/dotnet-test/Program.cs#L86
 
             // test failure has exit code 1 
-            _ = await this.processResponseProcessor.ProcessAsync(
+            _ = await this._processResponseProcessor.ProcessAsync(
                 result,
                 code => code == 0 || code == 1,
                 true,
                 $"{this.GetLogTitle()} - Output",
-                () => this.coverletDataCollectorGeneratedCobertura.CorrectPath(
+                () => this._coverletDataCollectorGeneratedCobertura.CorrectPath(
                     this.coverageProject.CoverageOutputFolder, this.coverageProject.CoverageOutputFile));
 
         }
@@ -264,11 +264,11 @@ namespace FineCodeCoverage.Engine.Coverlet
         internal string LogRunMessage(string coverletSettings)
             => $"{this.GetLogTitle()} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", coverletSettings)}";
 
-        private Task LogRunAsync(string coverletSettings) => this.logger.LogAsync(this.LogRunMessage(coverletSettings));
+        private Task LogRunAsync(string coverletSettings) => this._logger.LogAsync(this.LogRunMessage(coverletSettings));
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = this.toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
             string testAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             this.TestAdapterPathArg = $@"""{testAdapterPath}""";
         }

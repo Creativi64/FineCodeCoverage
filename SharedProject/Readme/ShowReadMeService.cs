@@ -9,8 +9,8 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(IShowReadMeService))]
     internal class ShowReadMeService : IShowReadMeService
     {
-        private readonly WritableSettingsStore writableUserSettingsStore;
-        private readonly IToolWindowService toolWindowService;
+        private readonly WritableSettingsStore _writableUserSettingsStore;
+        private readonly IToolWindowService _toolWindowService;
         private const string readMeShowCollection = "FCCReadmeShowCollection";
         private const string readMeShownProperty = "FCCReadmeShown";
 
@@ -22,9 +22,9 @@ namespace FineCodeCoverage.Readme
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider
         )
         {
-            this.writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
-            this.HasShown = this.writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
-            this.toolWindowService = toolWindowService;
+            this._writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
+            this.HasShown = this._writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
+            this._toolWindowService = toolWindowService;
         }
 
         public bool HasShown { get; private set; }
@@ -33,18 +33,18 @@ namespace FineCodeCoverage.Readme
         {
             if (!this.HasShown)
             {
-                if (!this.writableUserSettingsStore.CollectionExists(readMeShowCollection))
+                if (!this._writableUserSettingsStore.CollectionExists(readMeShowCollection))
                 {
-                    this.writableUserSettingsStore.CreateCollection(readMeShowCollection);
+                    this._writableUserSettingsStore.CreateCollection(readMeShowCollection);
                 }
 
-                this.writableUserSettingsStore.SetBoolean(readMeShowCollection, readMeShownProperty, true);
+                this._writableUserSettingsStore.SetBoolean(readMeShowCollection, readMeShownProperty, true);
             }
 
             this.HasShown = true;
             Shown?.Invoke(this, EventArgs.Empty);
 
-            _ = this.toolWindowService.ShowToolWindowAsync(typeof(ReadmeToolWindow), 0, true);
+            _ = this._toolWindowService.ShowToolWindowAsync(typeof(ReadmeToolWindow), 0, true);
         }
     }
 }

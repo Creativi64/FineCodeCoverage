@@ -11,9 +11,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(IBufferLineCoverageFactory))]
     internal class BufferLineCoverageFactory : IBufferLineCoverageFactory
     {
-        private readonly ICoverageContentTypes coverageContentTypes;
-        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
-        private readonly ILogger logger;
+        private readonly ICoverageContentTypes _coverageContentTypes;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;
+        private readonly ILogger _logger;
 
         [ImportingConstructor]
         public BufferLineCoverageFactory(
@@ -23,9 +23,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILogger logger
         )
         {
-            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this.logger = logger;
-            this.coverageContentTypes = new CoverageContentTypes(coverageContentTypes);
+            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            this._logger = logger;
+            this._coverageContentTypes = new CoverageContentTypes(coverageContentTypes);
         }
 
         public IBufferLineCoverage Create(
@@ -36,9 +36,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 textInfo,
                 eventAggregator,
                 trackedLinesFactory,
-                this.editorCoverageColouringOptionsProvider,
-                this.coverageContentTypes,
-                this.logger
+                this._editorCoverageColouringOptionsProvider,
+                this._coverageContentTypes,
+                this._logger
                 );
     }
 }

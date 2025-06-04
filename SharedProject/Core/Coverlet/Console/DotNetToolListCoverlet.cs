@@ -12,36 +12,40 @@ namespace FineCodeCoverage.Engine.Coverlet
     internal class DotNetToolListCoverlet : IDotNetToolListCoverlet
     {
         private const string CoverletPackageId = "coverlet.console";
-        private readonly ILogger logger;
-        private readonly IDotNetToolListExecutor executor;
-        private readonly IDotNetToolListParser parser;
+        private readonly ILogger _logger;
+        private readonly IDotNetToolListExecutor _executor;
+        private readonly IDotNetToolListParser _parser;
 
         [ImportingConstructor]
-        public DotNetToolListCoverlet(ILogger logger, IDotNetToolListExecutor executor, IDotNetToolListParser parser)
+        public DotNetToolListCoverlet(
+            ILogger logger,
+            IDotNetToolListExecutor executor,
+            IDotNetToolListParser parser
+        )
         {
-            this.logger = logger;
-            this.executor = executor;
-            this.parser = parser;
+            this._logger = logger;
+            this._executor = executor;
+            this._parser = parser;
         }
 
         private async Task<CoverletDotNetToolDetails> ExecuteAndParseAsync(Func<IDotNetToolListExecutor, DotNetToolListExecutionResult> execution)
         {
             const string title = "Dotnet tool list Coverlet";
-            DotNetToolListExecutionResult result = execution(this.executor);
+            DotNetToolListExecutionResult result = execution(this._executor);
             if (result.ExitCode != 0)
             {
-                await this.logger.LogAsync($"{title} Error", result.Output);
+                await this._logger.LogAsync($"{title} Error", result.Output);
                 return null;
             }
 
             List<DotNetToolInfo> tools = null;
             try
             {
-                tools = this.parser.Parse(result.Output);
+                tools = this._parser.Parse(result.Output);
             }
             catch (Exception)
             {
-                await this.logger.LogAsync($"{title} Error parsing", result.Output);
+                await this._logger.LogAsync($"{title} Error parsing", result.Output);
                 return null;
             }
 

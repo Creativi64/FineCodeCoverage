@@ -13,10 +13,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(IBuildHelper))]
     internal class BuildHelper : IBuildHelper
     {
-        private IVsSolutionBuildManager2 solutionBuildManager2;
-        private IVsSolutionBuildManager3 solutionBuildManager3;
-        private BuildStartEnd buildStartEnd;
-        private bool building;
+        private IVsSolutionBuildManager2 _solutionBuildManager2;
+        private IVsSolutionBuildManager3 _solutionBuildManager3;
+        private BuildStartEnd _buildStartEnd;
+        private bool _building;
         public event EventHandler<BuildStartEndArgs> ExternalBuildEvent;
 
         [ImportingConstructor]
@@ -28,18 +28,18 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                this.solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
-                Assumes.Present(this.solutionBuildManager2);
-                this.solutionBuildManager3 = this.solutionBuildManager2 as IVsSolutionBuildManager3;
-                this.buildStartEnd = new BuildStartEnd();
-                _ = this.solutionBuildManager2.AdviseUpdateSolutionEvents(this.buildStartEnd, out uint cookie);
-                this.buildStartEnd.BuildEvent += this.BuildStartEnd_BuildEvent;
+                this._solutionBuildManager2 = serviceProvider.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager2;
+                Assumes.Present(this._solutionBuildManager2);
+                this._solutionBuildManager3 = this._solutionBuildManager2 as IVsSolutionBuildManager3;
+                this._buildStartEnd = new BuildStartEnd();
+                _ = this._solutionBuildManager2.AdviseUpdateSolutionEvents(this._buildStartEnd, out uint cookie);
+                this._buildStartEnd.BuildEvent += this.BuildStartEnd_BuildEvent;
             });
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private void BuildStartEnd_BuildEvent(object sender, BuildStartEndArgs e)
         {
-            if (!this.building)
+            if (!this._building)
             {
                 ExternalBuildEvent?.Invoke(this, e);
             }
@@ -55,27 +55,27 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             var buildHandler = new BuildCompletionHandler(cancellationToken);
-            int hr = this.solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
+            int hr = this._solutionBuildManager2.AdviseUpdateSolutionEvents(buildHandler, out uint cookie);
             _ = ErrorHandler.ThrowOnFailure(hr);
             bool succeeded = false;
             try
             {
-                this.building = true;
-                int result = this.solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
+                this._building = true;
+                int result = this._solutionBuildManager2.StartSimpleUpdateSolutionConfiguration(
                     (uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD, 0, 1);
                 _ = ErrorHandler.ThrowOnFailure(result);
                 succeeded = await buildHandler.BuildCompleted;
             }
             catch (OperationCanceledException)
             {
-                _ = this.solutionBuildManager2.CancelUpdateSolutionConfiguration();
+                _ = this._solutionBuildManager2.CancelUpdateSolutionConfiguration();
                 throw;
             }
             finally
             {
-                this.building = false;
+                this._building = false;
                 buildHandler.Dispose();
-                _ = this.solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
+                _ = this._solutionBuildManager2.UnadviseUpdateSolutionEvents(cookie);
             }
 
             return succeeded;
@@ -88,10 +88,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 #pragma warning disable CS0162 // Unreachable code detected
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 #pragma warning restore CS0162 // Unreachable code detected
-            if (this.solutionBuildManager3 == null)
+            if (this._solutionBuildManager3 == null)
                 return true;
 
-            int hr = this.solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
+            int hr = this._solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
             return hr != VSConstants.S_OK;
         }
     }

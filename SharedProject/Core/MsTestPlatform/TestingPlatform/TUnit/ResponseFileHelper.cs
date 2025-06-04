@@ -14,7 +14,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             QuoteEnd,
         }
 
-        internal static bool TryReadResponseFile(string rspFilePath, ICollection<string> errors, out string[] newArguments)
+        internal static bool TryReadResponseFile(
+            string rspFilePath,
+            ICollection<string> errors,
+            out string[] newArguments
+        )
         {
             try
             {

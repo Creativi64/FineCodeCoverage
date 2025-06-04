@@ -3,7 +3,9 @@
     internal class FirstTrackedCoverageLineInfo
     {
         public FirstTrackedCoverageLineInfo(
-            int originalLineNumber, IDynamicCoberturaLine dynamicCoberturaLine)
+            int originalLineNumber,
+            IDynamicCoberturaLine dynamicCoberturaLine
+        )
         {
             this.OriginalLineNumber = originalLineNumber;
             this.DynamicCoberturaLine = dynamicCoberturaLine;

@@ -13,15 +13,15 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         where TCoverageTypeFilter : ICoverageTypeFilter, new()
         where TTag : ITag
     {
+        private readonly IDynamicLineAndSnapshotSpansLogic _dynamicLineAndSnapshotSpansLogic;
+        private readonly ILineSpanTagger<TTag> _coverageTagger;
+        private readonly IDynamicCoverageManager _dynamicCoverageManager;
+        private readonly ITextInfoFactory _textInfoFactory;
+        private readonly IFileExcluder[] _fileExcluders;
+        private readonly IFileIndicatorVisibility _fileIndicatorVisibility;
+        private readonly IDynamicLineFilter _dynamicLineFilter;
+        private TCoverageTypeFilter _coverageTypeFilter;
         protected readonly IEventAggregator eventAggregator;
-        private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
-        private readonly ILineSpanTagger<TTag> coverageTagger;
-        private readonly IDynamicCoverageManager dynamicCoverageManager;
-        private readonly ITextInfoFactory textInfoFactory;
-        private readonly IFileExcluder[] fileExcluders;
-        private readonly IFileIndicatorVisibility fileIndicatorVisibility;
-        private readonly IDynamicLineFilter dynamicLineFilter;
-        private TCoverageTypeFilter coverageTypeFilter;
 
         public CoverageTaggerProvider(
             IEventAggregator eventAggregator,
@@ -35,17 +35,17 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IDynamicLineFilter dynamicLineFilter
             )
         {
-            this.dynamicCoverageManager = dynamicCoverageManager;
-            this.textInfoFactory = textInfoFactory;
-            this.fileExcluders = fileExcluders;
-            this.fileIndicatorVisibility = fileIndicatorVisibility;
-            this.dynamicLineFilter = dynamicLineFilter;
+            this._dynamicCoverageManager = dynamicCoverageManager;
+            this._textInfoFactory = textInfoFactory;
+            this._fileExcluders = fileExcluders;
+            this._fileIndicatorVisibility = fileIndicatorVisibility;
+            this._dynamicLineFilter = dynamicLineFilter;
             EditorCoverageColouringOptions appOptions = editorCoverageColouringOptionsProvider.Get();
-            this.coverageTypeFilter = CreateFilter(appOptions);
+            this._coverageTypeFilter = CreateFilter(appOptions);
             editorCoverageColouringOptionsProvider.OptionsChanged += this.EditorCoverageColouringOptionsProvider_OptionsChanged;
             this.eventAggregator = eventAggregator;
-            this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
-            this.coverageTagger = coverageTagger;
+            this._dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
+            this._coverageTagger = coverageTagger;
         }
 
         private static TCoverageTypeFilter CreateFilter(EditorCoverageColouringOptions appOptions)
@@ -58,9 +58,9 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions appOptions)
         {
             TCoverageTypeFilter newCoverageTypeFilter = CreateFilter(appOptions);
-            if (newCoverageTypeFilter.Changed(this.coverageTypeFilter))
+            if (newCoverageTypeFilter.Changed(this._coverageTypeFilter))
             {
-                this.coverageTypeFilter = newCoverageTypeFilter;
+                this._coverageTypeFilter = newCoverageTypeFilter;
                 var message = new CoverageTypeFilterChangedMessage(newCoverageTypeFilter);
                 this.eventAggregator.SendMessage(message);
             }
@@ -68,29 +68,29 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private bool ExcludeContentTypeFile(string contentType, string filePath)
         {
-            IFileExcluder contentTypeExcluder = this.fileExcluders.FirstOrDefault(fileExcluder => fileExcluder.ContentTypeName == contentType);
+            IFileExcluder contentTypeExcluder = this._fileExcluders.FirstOrDefault(fileExcluder => fileExcluder.ContentTypeName == contentType);
             return contentTypeExcluder?.Exclude(filePath) == true;
         }
 
         public ICoverageTagger<TTag> CreateTagger(ITextView textView, ITextBuffer textBuffer)
         {
-            ITextInfo textInfo = this.textInfoFactory.Create(textView, textBuffer);
+            ITextInfo textInfo = this._textInfoFactory.Create(textView, textBuffer);
             string filePath = textInfo.FilePath;
             if (filePath == null || this.ExcludeContentTypeFile(textBuffer.ContentType.TypeName, filePath))
             {
                 return null;
             }
 
-            IBufferLineCoverage bufferLineCoverage = this.dynamicCoverageManager.Manage(textInfo);
+            IBufferLineCoverage bufferLineCoverage = this._dynamicCoverageManager.Manage(textInfo);
             return new CoverageTagger<TTag>(
                 textInfo,
                 bufferLineCoverage,
-                this.coverageTypeFilter,
+                this._coverageTypeFilter,
                 this.eventAggregator,
-                this.dynamicLineAndSnapshotSpansLogic,
-                this.coverageTagger,
-                this.fileIndicatorVisibility,
-                this.dynamicLineFilter
+                this._dynamicLineAndSnapshotSpansLogic,
+                this._coverageTagger,
+                this._fileIndicatorVisibility,
+                this._dynamicLineFilter
                 );
         }
     }

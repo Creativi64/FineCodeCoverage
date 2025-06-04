@@ -14,12 +14,12 @@ namespace FineCodeCoverage.Output.Pane
     [Export(typeof(ILogger))]
     internal class Logger : ILogger
     {
-        private readonly IFCCOutputWindowPaneCreator fccOutputWindowCreator;
+        private readonly IFCCOutputWindowPaneCreator _fccOutputWindowCreator;
 
         [ImportingConstructor]
         public Logger(
             IFCCOutputWindowPaneCreator fccOutputWindowCreator
-        ) => this.fccOutputWindowCreator = fccOutputWindowCreator;
+        ) => this._fccOutputWindowCreator = fccOutputWindowCreator;
 
         private static string GetFormattedNow()
         {
@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Output.Pane
                     return;
                 }
 
-                IFCCOutputWindowPane pane = await this.fccOutputWindowCreator.GetOrCreateAsync();
+                IFCCOutputWindowPane pane = await this._fccOutputWindowCreator.GetOrCreateAsync();
                 if (pane == null) return;
 
                 string logs = string.Join(Environment.NewLine, messageList);

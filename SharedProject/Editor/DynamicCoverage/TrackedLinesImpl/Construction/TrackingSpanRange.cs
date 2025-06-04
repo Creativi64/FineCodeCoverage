@@ -6,11 +6,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class TrackingSpanRange : ITrackingSpanRange
     {
-        private readonly ITrackingSpan startTrackingSpan;
-        private readonly ITrackingSpan endTrackingSpan;
-        private readonly ILineTracker lineTracker;
-        private string lastRangeText;
-        private CodeSpanRange codeSpanRange;
+        private readonly ITrackingSpan _startTrackingSpan;
+        private readonly ITrackingSpan _endTrackingSpan;
+        private readonly ILineTracker _lineTracker;
+        private string _lastRangeText;
+        private CodeSpanRange _codeSpanRange;
 
         public TrackingSpanRange(
             ITrackingSpan startTrackingSpan,
@@ -19,25 +19,25 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILineTracker lineTracker
         )
         {
-            this.startTrackingSpan = startTrackingSpan;
-            this.endTrackingSpan = endTrackingSpan;
-            this.lineTracker = lineTracker;
+            this._startTrackingSpan = startTrackingSpan;
+            this._endTrackingSpan = endTrackingSpan;
+            this._lineTracker = lineTracker;
             (SnapshotSpan currentStartSpan, SnapshotSpan currentEndSpan) = this.GetCurrentRange(currentSnapshot);
             this.SetRangeText(currentSnapshot, currentStartSpan, currentEndSpan);
         }
 
         private (SnapshotSpan, SnapshotSpan) GetCurrentRange(ITextSnapshot currentSnapshot)
         {
-            SnapshotSpan currentStartSpan = this.startTrackingSpan.GetSpan(currentSnapshot);
-            SnapshotSpan currentEndSpan = this.endTrackingSpan.GetSpan(currentSnapshot);
-            int startLineNumber = this.lineTracker.GetLineNumber(this.startTrackingSpan, currentSnapshot, false);
-            int endLineNumber = this.lineTracker.GetLineNumber(this.endTrackingSpan, currentSnapshot, true);
-            this.codeSpanRange = new CodeSpanRange(startLineNumber, endLineNumber);
+            SnapshotSpan currentStartSpan = this._startTrackingSpan.GetSpan(currentSnapshot);
+            SnapshotSpan currentEndSpan = this._endTrackingSpan.GetSpan(currentSnapshot);
+            int startLineNumber = this._lineTracker.GetLineNumber(this._startTrackingSpan, currentSnapshot, false);
+            int endLineNumber = this._lineTracker.GetLineNumber(this._endTrackingSpan, currentSnapshot, true);
+            this._codeSpanRange = new CodeSpanRange(startLineNumber, endLineNumber);
             return (currentStartSpan, currentEndSpan);
         }
 
         private void SetRangeText(ITextSnapshot currentSnapshot, SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan)
-            => this.lastRangeText = currentSnapshot.GetText(new Span(currentFirstSpan.Start, currentEndSpan.End - currentFirstSpan.Start));
+            => this._lastRangeText = currentSnapshot.GetText(new Span(currentFirstSpan.Start, currentEndSpan.End - currentFirstSpan.Start));
 
         public TrackingSpanRangeProcessResult Process(ITextSnapshot currentSnapshot, List<LineRange> newSpanAndLineRanges)
         {
@@ -49,12 +49,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private (bool isEmpty, bool textChanged) GetTextChangeInfo(ITextSnapshot currentSnapshot, SnapshotSpan currentFirstSpan, SnapshotSpan currentEndSpan)
         {
-            string previousRangeText = this.lastRangeText;
+            string previousRangeText = this._lastRangeText;
             this.SetRangeText(currentSnapshot, currentFirstSpan, currentEndSpan);
-            bool textChanged = previousRangeText != this.lastRangeText;
-            bool isEmpty = string.IsNullOrWhiteSpace(this.lastRangeText);
+            bool textChanged = previousRangeText != this._lastRangeText;
+            bool isEmpty = string.IsNullOrWhiteSpace(this._lastRangeText);
             return (isEmpty, textChanged);
-
         }
 
         private static List<LineRange> GetNonIntersecting(
@@ -74,9 +73,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private static bool IsOutsideRange(int firstLineNumber, int endLineNumber, int spanLineNumber)
             => spanLineNumber < firstLineNumber || spanLineNumber > endLineNumber;
 
-        public ITrackingSpan GetFirstTrackingSpan() => this.startTrackingSpan;
+        public ITrackingSpan GetFirstTrackingSpan() => this._startTrackingSpan;
 
-        public CodeSpanRange ToCodeSpanRange() => this.codeSpanRange;
+        public CodeSpanRange ToCodeSpanRange() => this._codeSpanRange;
 
     }
 }

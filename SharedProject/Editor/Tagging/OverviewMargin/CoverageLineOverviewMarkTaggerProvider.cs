@@ -20,8 +20,8 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
     [Export(typeof(IViewTaggerProvider))]
     internal class CoverageLineOverviewMarkTaggerProvider : IViewTaggerProvider, ILineSpanTagger<OverviewMarkTag>
     {
-        private readonly ICoverageTaggerProvider<OverviewMarkTag> coverageTaggerProvider;
-        private readonly ICoverageColoursEditorFormatMapNames coverageColoursEditorFormatMapNames;
+        private readonly ICoverageTaggerProvider<OverviewMarkTag> _coverageTaggerProvider;
+        private readonly ICoverageColoursEditorFormatMapNames _coverageColoursEditorFormatMapNames;
 
         [ImportingConstructor]
         public CoverageLineOverviewMarkTaggerProvider(
@@ -29,16 +29,16 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
             ICoverageColoursEditorFormatMapNames coverageColoursEditorFormatMapNames
         )
         {
-            this.coverageTaggerProvider = coverageTaggerProviderFactory.Create<OverviewMarkTag, CoverageOverviewMarginFilter>(this);
-            this.coverageColoursEditorFormatMapNames = coverageColoursEditorFormatMapNames;
+            this._coverageTaggerProvider = coverageTaggerProviderFactory.Create<OverviewMarkTag, CoverageOverviewMarginFilter>(this);
+            this._coverageColoursEditorFormatMapNames = coverageColoursEditorFormatMapNames;
         }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
-            => this.coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
+            => this._coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
 
         public TagSpan<OverviewMarkTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
-            string editorFormatDefinitionName = this.coverageColoursEditorFormatMapNames.GetEditorFormatDefinitionName(
+            string editorFormatDefinitionName = this._coverageColoursEditorFormatMapNames.GetEditorFormatDefinitionName(
                 dynamicLineAndSnapshotSpan.Line.CoverageType);
             return new TagSpan<OverviewMarkTag>(dynamicLineAndSnapshotSpan.Span, new OverviewMarkTag(editorFormatDefinitionName));
         }

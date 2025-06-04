@@ -15,44 +15,42 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal class CoverageProject : ICoverageProject
     {
-        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
-        private readonly IFileSynchronizationUtil fileSynchronizationUtil;
-        private readonly ICoverageProjectSettingsManager settingsManager;
-        private readonly IReferencedProjectsHelper referencedProjectsHelper;
-        private XElement projectFileXElement;
-        private ICoverageSettings settings;
-        private string targetFramework;
-        private readonly string fccFolderName = "fine-code-coverage";
-        private readonly string buildOutputFolderName = "build-output";
-        private string buildOutputPath;
+        private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
+        private readonly IFileSynchronizationUtil _fileSynchronizationUtil;
+        private readonly ICoverageProjectSettingsManager _settingsManager;
+        private readonly IReferencedProjectsHelper _referencedProjectsHelper;
+        private XElement _projectFileXElement;
+        private ICoverageSettings _settings;
+        private string _targetFramework;
+        private readonly string _fccFolderName = "fine-code-coverage";
+        private readonly string _buildOutputFolderName = "build-output";
+        private string _buildOutputPath;
         private string BuildOutputPath
         {
             get
             {
-                if (this.buildOutputPath == null)
+                if (this._buildOutputPath == null)
                 {
-                    bool adjacentBuildOutput = this.outputOptionsProvider.Get().AdjacentBuildOutput;
+                    bool adjacentBuildOutput = this._outputOptionsProvider.Get().AdjacentBuildOutput;
                     if (adjacentBuildOutput)
                     {
-                        // Net framework - Debug | Debug-NET45
-                        // SDK style - Debug/netcoreapp3.1 etc
                         var projectOutputDirectory = new DirectoryInfo(this.ProjectOutputFolder);
                         string projectOutputDirectoryName = projectOutputDirectory.Name;
                         string containingDirectoryPath = projectOutputDirectory.Parent.FullName;
-                        this.buildOutputPath = Path.Combine(containingDirectoryPath, $"{this.fccFolderName}-{projectOutputDirectoryName}");
+                        this._buildOutputPath = Path.Combine(containingDirectoryPath, $"{this._fccFolderName}-{projectOutputDirectoryName}");
                     }
                     else
                     {
-                        this.buildOutputPath = Path.Combine(this.FCCOutputFolder, this.buildOutputFolderName);
+                        this._buildOutputPath = Path.Combine(this.FCCOutputFolder, this._buildOutputFolderName);
                     }
                 }
 
-                return this.buildOutputPath;
+                return this._buildOutputPath;
             }
         }
 
-        private readonly string coverageToolOutputFolderName = "coverage-tool-output";
-        private bool? isDotNetSdkStyle;
+        private readonly string _coverageToolOutputFolderName = "coverage-tool-output";
+        private bool? _isDotNetSdkStyle;
 
         public CoverageProject(
             IOptionsProvider<OutputOptions> outputOptionsProvider,
@@ -60,30 +58,29 @@ namespace FineCodeCoverage.Engine.Model
             ICoverageProjectSettingsManager settingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
-            this.outputOptionsProvider = outputOptionsProvider;
-            this.fileSynchronizationUtil = fileSynchronizationUtil;
-            this.settingsManager = settingsManager;
-            this.referencedProjectsHelper = referencedProjectsHelper;
+            this._outputOptionsProvider = outputOptionsProvider;
+            this._fileSynchronizationUtil = fileSynchronizationUtil;
+            this._settingsManager = settingsManager;
+            this._referencedProjectsHelper = referencedProjectsHelper;
         }
 
-        public string FCCOutputFolder => Path.Combine(this.ProjectOutputFolder, this.fccFolderName);
+        public string FCCOutputFolder => Path.Combine(this.ProjectOutputFolder, this._fccFolderName);
 
         public bool IsDotNetSdkStyle()
         {
-            if (this.isDotNetSdkStyle.HasValue)
+            if (this._isDotNetSdkStyle.HasValue)
             {
-                return this.isDotNetSdkStyle.Value;
+                return this._isDotNetSdkStyle.Value;
             }
 
-            this.isDotNetSdkStyle = this.ProjectFileXElement
+            this._isDotNetSdkStyle = this.ProjectFileXElement
             .DescendantsAndSelf()
             .Any(x =>
-                //https://docs.microsoft.com/en-us/visualstudio/msbuild/how-to-use-project-sdk?view=vs-2019
                 IsRootProjectElementWithSdkAttribute(x) ||
                 IsRootProjectElementSdkElementChild(x) ||
                 IsRootImportElementWithSdkAttribute(x));
 
-            return this.isDotNetSdkStyle.Value;
+            return this._isDotNetSdkStyle.Value;
         }
 
         private static bool HasSdkAttribute(XElement x)
@@ -119,23 +116,23 @@ namespace FineCodeCoverage.Engine.Model
         {
             get
             {
-                if (this.settings == null)
+                if (this._settings == null)
                 {
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
-                    this.settings = ThreadHelper.JoinableTaskFactory.Run(
-                        async () => await this.settingsManager.GetSettingsAsync(this)
+                    this._settings = ThreadHelper.JoinableTaskFactory.Run(
+                        async () => await this._settingsManager.GetSettingsAsync(this)
                     );
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
                 }
 
-                return this.settings;
+                return this._settings;
             }
         }
         public string CoverageOutputFolder { get; set; }
-        public string DefaultCoverageOutputFolder => Path.Combine(this.FCCOutputFolder, this.coverageToolOutputFolderName);
+        public string DefaultCoverageOutputFolder => Path.Combine(this.FCCOutputFolder, this._coverageToolOutputFolderName);
 
-        public XElement ProjectFileXElement => this.projectFileXElement ??
-            (this.projectFileXElement = LinqToXmlUtil.Load(this.ProjectFilePath, true));
+        public XElement ProjectFileXElement => this._projectFileXElement ??
+            (this._projectFileXElement = LinqToXmlUtil.Load(this.ProjectFilePath, true));
 
         public List<IReferencedProject> ExcludedReferencedProjects { get; } = new List<IReferencedProject>();
         public List<IReferencedProject> IncludedReferencedProjects { get; set; } = new List<IReferencedProject>();
@@ -144,11 +141,11 @@ namespace FineCodeCoverage.Engine.Model
         public bool IsDotNetFramework { get; private set; }
         public string TargetFramework
         {
-            get => this.targetFramework;
+            get => this._targetFramework;
             set
             {
-                this.targetFramework = value;
-                switch (this.targetFramework)
+                this._targetFramework = value;
+                switch (this._targetFramework)
                 {
                     case "Framework35":
                     case "Framework40":
@@ -208,7 +205,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private async Task SetIncludedExcludedReferencedProjectsAsync()
         {
-            List<IExcludableReferencedProject> referencedProjects = await this.referencedProjectsHelper.GetReferencedProjectsAsync(this.ProjectFilePath, () => this.ProjectFileXElement);
+            List<IExcludableReferencedProject> referencedProjects = await this._referencedProjectsHelper.GetReferencedProjectsAsync(this.ProjectFilePath, () => this.ProjectFileXElement);
             this.SetExcludedReferencedProjects(referencedProjects);
             this.SetIncludedReferencedProjects(referencedProjects);
         }
@@ -251,9 +248,6 @@ namespace FineCodeCoverage.Engine.Model
             }
         }
 
-        /// <summary>
-        /// Delete all files and sub-directories from the output folder if it exists, or creates the directory if it does not exist.
-        /// </summary>
         private void EnsureEmptyOutputFolder()
         {
             var directoryInfo = new DirectoryInfo(this.CoverageOutputFolder);
@@ -276,7 +270,7 @@ namespace FineCodeCoverage.Engine.Model
         }
         private void CleanFCCDirectory()
         {
-            var exclusions = new List<string> { this.buildOutputFolderName, this.coverageToolOutputFolderName };
+            var exclusions = new List<string> { this._buildOutputFolderName, this._coverageToolOutputFolderName };
             var fccDirectory = new DirectoryInfo(this.FCCOutputFolder);
 
             fccDirectory.EnumerateFileSystemInfos().AsParallel().ForAll(fileOrDirectory =>
@@ -303,7 +297,7 @@ namespace FineCodeCoverage.Engine.Model
         private CoverageProjectFileSynchronizationDetails SynchronizeBuildOutput()
         {
             DateTime start = DateTime.Now;
-            List<string> logs = this.fileSynchronizationUtil.Synchronize(this.ProjectOutputFolder, this.BuildOutputPath, this.fccFolderName);
+            List<string> logs = this._fileSynchronizationUtil.Synchronize(this.ProjectOutputFolder, this.BuildOutputPath, this._fccFolderName);
             TimeSpan duration = DateTime.Now - start;
             this.TestDllFile = Path.Combine(this.BuildOutputPath, Path.GetFileName(this.TestDllFile));
             return new CoverageProjectFileSynchronizationDetails

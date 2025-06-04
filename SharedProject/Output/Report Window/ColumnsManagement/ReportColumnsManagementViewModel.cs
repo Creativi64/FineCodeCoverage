@@ -8,17 +8,21 @@ using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    internal class ReportColumnsManagementViewModel : ObservableBase, IDialogViewModel, ISelectionHandler<EditableColumn>
+    internal class ReportColumnsManagementViewModel 
+        : ObservableBase, IDialogViewModel, ISelectionHandler<EditableColumn>
     {
-        private List<EditableColumn> selectedEditableColumns;
-        private bool canMoveDown = false;
-        private bool canMoveUp = false;
-        private readonly IReportColumnManager reportColumnsManager;
-        private readonly IMessageBox messageBox;
+        private List<EditableColumn> _selectedEditableColumns;
+        private bool _canMoveDown = false;
+        private bool _canMoveUp = false;
+        private readonly IReportColumnManager _reportColumnsManager;
+        private readonly IMessageBox _messageBox;
 
         public event EventHandler Done;
 
-        public ReportColumnsManagementViewModel(IReportColumnManager reportColumnsManager, IMessageBox messageBox)
+        public ReportColumnsManagementViewModel(
+            IReportColumnManager reportColumnsManager,
+            IMessageBox messageBox
+        )
         {
             this.Columns = new ObservableCollection<EditableColumn>(reportColumnsManager.GetColumns().Select(rcd => new EditableColumn(rcd)));
             this.OkCommand = new RelayCommand(() =>
@@ -45,15 +49,15 @@ namespace FineCodeCoverage.Output
             {
                 this.GetSelectedIndices().OrderByDescending(i => i).ToList().ForEach(i => this.Columns.Move(i, i + 1));
                 this.SetCanMove();
-            }, () => this.canMoveDown);
+            }, () => this._canMoveDown);
 
             this.UpCommand = new RelayCommand(() =>
             {
                 this.GetAscendingSelectedIndices().ToList().ForEach(i => this.Columns.Move(i, i - 1));
                 this.SetCanMove();
-            }, () => this.canMoveUp);
-            this.reportColumnsManager = reportColumnsManager;
-            this.messageBox = messageBox;
+            }, () => this._canMoveUp);
+            this._reportColumnsManager = reportColumnsManager;
+            this._messageBox = messageBox;
         }
         public System.Windows.Input.ICommand OkCommand { get; }
         public System.Windows.Input.ICommand CancelCommand { get; }
@@ -73,7 +77,7 @@ namespace FineCodeCoverage.Output
                 message = $"Column {columnsInError[0].Column} has no Display Name";
             }
 
-            this.messageBox.ShowError(message, caption);
+            this._messageBox.ShowError(message, caption);
         }
 
         private void UpdateReportColumnData()
@@ -98,12 +102,12 @@ namespace FineCodeCoverage.Output
 
             if (displayIndicesChanged)
             {
-                this.reportColumnsManager.SortColumnsArray();
+                this._reportColumnsManager.SortColumnsArray();
             }
         }
 
         private IEnumerable<int> GetSelectedIndices()
-            => this.selectedEditableColumns.Select(demoCol => this.Columns.IndexOf(demoCol));
+            => this._selectedEditableColumns.Select(demoCol => this.Columns.IndexOf(demoCol));
         private IEnumerable<int> GetAscendingSelectedIndices()
             => this.GetSelectedIndices().OrderBy(i => i);
 
@@ -114,23 +118,23 @@ namespace FineCodeCoverage.Output
             var ascendingOrderedSelectedIndices = this.GetAscendingSelectedIndices().ToList();
             int first = ascendingOrderedSelectedIndices[0];
             bool newCanMoveUp = first > 1;
-            if (newCanMoveUp != this.canMoveUp)
+            if (newCanMoveUp != this._canMoveUp)
             {
-                this.canMoveUp = newCanMoveUp;
+                this._canMoveUp = newCanMoveUp;
                 this.UpCommand.NotifyCanExecuteChanged();
             }
 
             bool newCanMoveDown = first > 0 && ascendingOrderedSelectedIndices.Last() < this.Columns.Count - 1;
-            if (newCanMoveDown != this.canMoveDown)
+            if (newCanMoveDown != this._canMoveDown)
             {
-                this.canMoveDown = newCanMoveDown;
+                this._canMoveDown = newCanMoveDown;
                 this.DownCommand.NotifyCanExecuteChanged();
             }
         }
 
         public void SelectionChanged(List<EditableColumn> selectedItems)
         {
-            this.selectedEditableColumns = selectedItems;
+            this._selectedEditableColumns = selectedItems;
             if (selectedItems.Count > 0)
             {
                 this.SetCanMove();

@@ -26,6 +26,7 @@ namespace FineCodeCoverage.Engine
             return provided;
         }
 
-        private bool IsSolutionFile(FileInfo fileInfo) => fileInfo.Name.EndsWith(".sln") || fileInfo.Name.EndsWith(".slnx");
+        private bool IsSolutionFile(FileInfo fileInfo)
+            => fileInfo.Name.EndsWith(".sln") || fileInfo.Name.EndsWith(".slnx");
     }
 }

@@ -11,11 +11,11 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenHotspotsCommand : CommandInitializerBase, IListener<ReportFilesMessage>, IListener<OutdatedOutputMessage>
     {
-        private readonly IEventAggregator eventAggregator;
-        private readonly IHotspotsService hotspotsService;
-        private readonly IVsOpenFile vsOpenFile;
-        private IReportResult reportResult;
-        private string hotspotsPath;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IHotspotsService _hotspotsService;
+        private readonly IVsOpenFile _vsOpenFile;
+        private IReportResult _reportResult;
+        private string _hotspotsPath;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenHotspotsCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
@@ -23,23 +23,23 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public OpenHotspotsCommand(IEventAggregator eventAggregator, IHotspotsService hotspotsService, IVsOpenFile vsOpenFile)
         {
-            this.eventAggregator = eventAggregator;
-            this.hotspotsService = hotspotsService;
-            this.vsOpenFile = vsOpenFile;
+            this._eventAggregator = eventAggregator;
+            this._hotspotsService = hotspotsService;
+            this._vsOpenFile = vsOpenFile;
         }
 
         protected override void Initialized()
         {
             this.Command.Enabled = false;
-            _ = this.eventAggregator.AddListener(this);
+            _ = this._eventAggregator.AddListener(this);
         }
 
         protected override void Execute(object sender, EventArgs e)
         {
-            if (this.reportResult != null)
+            if (this._reportResult != null)
             {
-                this.hotspotsService.WriteHotspotsToXml(this.reportResult.Assemblies, this.hotspotsPath);
-                this.vsOpenFile.OpenFileInCodeEditor(this.hotspotsPath);
+                this._hotspotsService.WriteHotspotsToXml(this._reportResult.Assemblies, this._hotspotsPath);
+                this._vsOpenFile.OpenFileInCodeEditor(this._hotspotsPath);
             }
         }
 
@@ -47,8 +47,8 @@ namespace FineCodeCoverage.Output
 
         public void Handle(ReportFilesMessage message)
         {
-            this.reportResult = message.ReportResult;
-            this.hotspotsPath = Path.Combine(Path.GetDirectoryName(message.CoberturaFile), "hotspots.xml");
+            this._reportResult = message.ReportResult;
+            this._hotspotsPath = Path.Combine(Path.GetDirectoryName(message.CoberturaFile), "hotspots.xml");
             this.Command.Enabled = true;
         }
     }

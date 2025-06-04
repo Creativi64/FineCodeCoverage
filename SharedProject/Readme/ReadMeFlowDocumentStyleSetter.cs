@@ -9,19 +9,19 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(IReadMeFlowDocumentStylesSetter))]
     internal class ReadMeFlowDocumentStyleSetter : IReadMeFlowDocumentStylesSetter
     {
-        private readonly IApplicationResourcesLoader applicationResourcesLoader;
+        private readonly IApplicationResourcesLoader _applicationResourcesLoader;
 
         [ImportingConstructor]
         public ReadMeFlowDocumentStyleSetter(
             IApplicationResourcesLoader applicationResourcesLoader
-        ) => this.applicationResourcesLoader = applicationResourcesLoader;
+        ) => this._applicationResourcesLoader = applicationResourcesLoader;
 
         public static object ReadMeCodeInlineBasedOnStyleKey { get; } = new object();
 
         public void SetStyles(IReadOnlyList<ElementAndMarker> elementAndMarkers)
         {
-            this.applicationResourcesLoader.AddFromExecutingAssembly("Readme/ReadMeResourceDictionary.xaml");
-            this.applicationResourcesLoader.AddFromExecutingAssembly("Readme/VersionedReadMeResourceDictionary.xaml");
+            this._applicationResourcesLoader.AddFromExecutingAssembly("Readme/ReadMeResourceDictionary.xaml");
+            this._applicationResourcesLoader.AddFromExecutingAssembly("Readme/VersionedReadMeResourceDictionary.xaml");
             elementAndMarkers.ForEach(this.SetStyle);
         }
 

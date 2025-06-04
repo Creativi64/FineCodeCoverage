@@ -290,6 +290,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\IRunSettingsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestContainerDiscoveryReflectionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\CoverletOpenCoverCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProvideOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IResetOptions.cs" />

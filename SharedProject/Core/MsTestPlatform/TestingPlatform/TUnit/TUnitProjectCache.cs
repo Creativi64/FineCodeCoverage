@@ -10,23 +10,24 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(ITUnitProjectCache))]
     internal class TUnitProjectCache : ITUnitProjectCache
     {
-        private Dictionary<IVsHierarchy, ITUnitProject> projectLookup;
-        public void Add(ITUnitProject tUnitProject) => this.projectLookup.Add(tUnitProject.Hierarchy, tUnitProject);
+        private Dictionary<IVsHierarchy, ITUnitProject> _projectLookup;
+        public void Add(ITUnitProject tUnitProject)
+            => this._projectLookup.Add(tUnitProject.Hierarchy, tUnitProject);
 
         public void Clear()
         {
-            foreach (ITUnitProject tUnitproject in this.projectLookup.Values)
+            foreach (ITUnitProject tUnitproject in this._projectLookup.Values)
             {
                 tUnitproject.Dispose();
             }
 
-            this.projectLookup = null;
+            this._projectLookup = null;
         }
 
         public async Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken)
         {
             var tUnitProjects = new List<ITUnitProject>();
-            foreach (ITUnitProject project in this.projectLookup.Values)
+            foreach (ITUnitProject project in this._projectLookup.Values)
             {
                 await project.UpdateStateAsync(cancellationToken);
                 if (project.IsTUnit)
@@ -36,16 +37,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
 
             return tUnitProjects;
-
         }
 
         public void Initialize(List<ITUnitProject> tUnitProjects)
-            => this.projectLookup = tUnitProjects.ToDictionary(p => p.Hierarchy);
+            => this._projectLookup = tUnitProjects.ToDictionary(p => p.Hierarchy);
 
         public void Remove(IVsHierarchy project)
         {
-            this.projectLookup[project].Dispose();
-            _ = this.projectLookup.Remove(project);
+            this._projectLookup[project].Dispose();
+            _ = this._projectLookup.Remove(project);
         }
     }
 }

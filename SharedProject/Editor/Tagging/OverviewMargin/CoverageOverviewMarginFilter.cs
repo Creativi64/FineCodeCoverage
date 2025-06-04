@@ -9,10 +9,12 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
     {
         public override string TypeIdentifier => "OverviewMargin";
 
-        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowCoverageInOverviewMargin;
+        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions)
+            => editorCoverageColouringOptions.ShowCoverageInOverviewMargin;
 
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions)
-            => new Dictionary<DynamicCoverageType, bool>
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(
+            EditorCoverageColouringOptions editorCoverageColouringOptions
+        ) => new Dictionary<DynamicCoverageType, bool>
             {
                 { DynamicCoverageType.Covered, editorCoverageColouringOptions.ShowCoveredInOverviewMargin },
                 { DynamicCoverageType.NotCovered, editorCoverageColouringOptions.ShowUncoveredInOverviewMargin },

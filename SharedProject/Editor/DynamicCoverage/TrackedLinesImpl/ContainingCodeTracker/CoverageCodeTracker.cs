@@ -6,17 +6,17 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class CoverageCodeTracker : IUpdatableDynamicLines
     {
-        private readonly ITrackedCoverageLines trackedCoverageLines;
-        private readonly IDirtyLineFactory dirtyLineFactory;
-        private ITrackingLine dirtyLine;
+        private readonly ITrackedCoverageLines _trackedCoverageLines;
+        private readonly IDirtyLineFactory _dirtyLineFactory;
+        private ITrackingLine _dirtyLine;
 
         public CoverageCodeTracker(
             ITrackedCoverageLines trackedCoverageLines,
             IDirtyLineFactory dirtyLineFactory
         )
         {
-            this.trackedCoverageLines = trackedCoverageLines;
-            this.dirtyLineFactory = dirtyLineFactory;
+            this._trackedCoverageLines = trackedCoverageLines;
+            this._dirtyLineFactory = dirtyLineFactory;
         }
 
         private List<int> CreateDirtyLineIfRequired(
@@ -24,18 +24,18 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<LineRange> nonIntersecting,
             bool textChanged,
             ITrackingSpanRange trackingSpanRange
-        ) => this.dirtyLine == null && textChanged && Intersected(newSpanChanges, nonIntersecting)
+        ) => this._dirtyLine == null && textChanged && Intersected(newSpanChanges, nonIntersecting)
                 ? this.CreateDirtyLine(trackingSpanRange)
                 : null;
 
         private List<int> CreateDirtyLine(ITrackingSpanRange trackingSpanRange)
         {
-            FirstTrackedCoverageLineInfo firstTrackedCoverageLineInfo = this.trackedCoverageLines.GetFirstTrackedCoverageLineInfo();
+            FirstTrackedCoverageLineInfo firstTrackedCoverageLineInfo = this._trackedCoverageLines.GetFirstTrackedCoverageLineInfo();
             IDynamicCoberturaLine dynamicCoberturaLine = firstTrackedCoverageLineInfo.DynamicCoberturaLine;
             ITrackingSpan firstTrackingSpan = trackingSpanRange.GetFirstTrackingSpan();
-            this.dirtyLine = this.dirtyLineFactory.Create(firstTrackingSpan, firstTrackedCoverageLineInfo.OriginalLineNumber, dynamicCoberturaLine);
+            this._dirtyLine = this._dirtyLineFactory.Create(firstTrackingSpan, firstTrackedCoverageLineInfo.OriginalLineNumber, dynamicCoberturaLine);
             dynamicCoberturaLine?.CodeElement.IsDirty();
-            return new int[] { this.dirtyLine.Line.LineNumber }.Concat(this.trackedCoverageLines.Lines.Select(l => l.LineNumber)).ToList();
+            return new int[] { this._dirtyLine.Line.LineNumber }.Concat(this._trackedCoverageLines.Lines.Select(l => l.LineNumber)).ToList();
         }
 
         private static bool Intersected(
@@ -59,12 +59,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private IEnumerable<int> UpdateLines(ITextSnapshot currentSnapshot)
-            => this.dirtyLine != null
-                ? this.dirtyLine.GetUpdatedLineNumbers(currentSnapshot)
-                : this.trackedCoverageLines.GetUpdatedLineNumbers(currentSnapshot);
+            => this._dirtyLine != null
+                ? this._dirtyLine.GetUpdatedLineNumbers(currentSnapshot)
+                : this._trackedCoverageLines.GetUpdatedLineNumbers(currentSnapshot);
 
-        public void Deleted() => this.trackedCoverageLines.GetFirstTrackedCoverageLineInfo().DynamicCoberturaLine?.CodeElement.Deleted();
+        public void Deleted() => this._trackedCoverageLines.GetFirstTrackedCoverageLineInfo().DynamicCoberturaLine?.CodeElement.Deleted();
 
-        public IEnumerable<IDynamicLine> Lines => this.dirtyLine != null ? new List<IDynamicLine> { this.dirtyLine.Line } : this.trackedCoverageLines.Lines;
+        public IEnumerable<IDynamicLine> Lines => this._dirtyLine != null ? new List<IDynamicLine> { this._dirtyLine.Line } : this._trackedCoverageLines.Lines;
     }
 }

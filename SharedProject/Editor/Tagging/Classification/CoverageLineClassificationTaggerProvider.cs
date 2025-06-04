@@ -21,8 +21,8 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
     [Export(typeof(IViewTaggerProvider))]
     internal class CoverageLineClassificationTaggerProvider : IViewTaggerProvider, ILineSpanTagger<IClassificationTag>
     {
-        private readonly ICoverageTypeService coverageTypeService;
-        private readonly ICoverageTaggerProvider<IClassificationTag> coverageTaggerProvider;
+        private readonly ICoverageTypeService _coverageTypeService;
+        private readonly ICoverageTaggerProvider<IClassificationTag> _coverageTaggerProvider;
 
         [ImportingConstructor]
         public CoverageLineClassificationTaggerProvider(
@@ -30,16 +30,16 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
             ICoverageTaggerProviderFactory coverageTaggerProviderFactory
         )
         {
-            this.coverageTypeService = coverageTypeService;
-            this.coverageTaggerProvider = coverageTaggerProviderFactory.Create<IClassificationTag, CoverageClassificationFilter>(this);
+            this._coverageTypeService = coverageTypeService;
+            this._coverageTaggerProvider = coverageTaggerProviderFactory.Create<IClassificationTag, CoverageClassificationFilter>(this);
         }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
-            => this.coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
+            => this._coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
 
         public TagSpan<IClassificationTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
-            IClassificationType ct = this.coverageTypeService.GetClassificationType(dynamicLineAndSnapshotSpan.Line.CoverageType);
+            IClassificationType ct = this._coverageTypeService.GetClassificationType(dynamicLineAndSnapshotSpan.Line.CoverageType);
             return new TagSpan<IClassificationTag>(dynamicLineAndSnapshotSpan.Span, new ClassificationTag(ct));
         }
     }

@@ -16,7 +16,8 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(VsCrispImageButton2), new PropertyMetadata(null));
+            DependencyProperty.Register(
+                nameof(Command), typeof(ICommand), typeof(VsCrispImageButton2), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ImageMonikerProperty =
             DependencyProperty.Register(

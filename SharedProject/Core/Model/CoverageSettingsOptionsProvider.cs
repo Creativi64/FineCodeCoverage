@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Core.Model
     [Export(typeof(ICoverageSettingsOptionsProvider))]
     internal class CoverageSettingsOptionsProvider : ICoverageSettingsOptionsProvider
     {
-        private readonly List<IProvideOptions> optionsProviders = new List<IProvideOptions>();
+        private readonly List<IProvideOptions> _optionsProviders = new List<IProvideOptions>();
         [ImportingConstructor]
         public CoverageSettingsOptionsProvider(
             IOptionsProvider<IncludesExcludesOptions> includesExcludesOptionsProvider,
@@ -18,12 +18,12 @@ namespace FineCodeCoverage.Core.Model
             IOptionsProvider<OpenCoverOptions> openCoverOptionsProvider
         )
         {
-            this.optionsProviders.Add(includesExcludesOptionsProvider);
-            this.optionsProviders.Add(runOptionsProvider);
-            this.optionsProviders.Add(coverletOptionsProvider);
-            this.optionsProviders.Add(openCoverOptionsProvider);
+            this._optionsProviders.Add(includesExcludesOptionsProvider);
+            this._optionsProviders.Add(runOptionsProvider);
+            this._optionsProviders.Add(coverletOptionsProvider);
+            this._optionsProviders.Add(openCoverOptionsProvider);
         }
 
-        public IEnumerable<object> Get() => this.optionsProviders.Select(g => g.Options);
+        public IEnumerable<object> Get() => this._optionsProviders.Select(g => g.Options);
     }
 }

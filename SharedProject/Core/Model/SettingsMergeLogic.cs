@@ -23,15 +23,15 @@ namespace FineCodeCoverage.Engine.Model
             public override string[] Merge(string[] first, string[] second) => first.Concat(second).ToArray();
         }
 
-        private readonly Dictionary<Type, ITypeMerger> typeMergers;
+        private readonly Dictionary<Type, ITypeMerger> _typeMergers;
 
-        public SettingsMergeLogic() => this.typeMergers = new Dictionary<Type, ITypeMerger>
+        public SettingsMergeLogic() => this._typeMergers = new Dictionary<Type, ITypeMerger>
             {
                 { typeof(string[]),new StringArrayMerger()}
             };
 
-        public bool CanMerge(Type type) => this.typeMergers.ContainsKey(type);
+        public bool CanMerge(Type type) => this._typeMergers.ContainsKey(type);
 
-        public object Merge(Type type, object first, object second) => this.typeMergers[type].Merge(first, second);
+        public object Merge(Type type, object first, object second) => this._typeMergers[type].Merge(first, second);
     }
 }

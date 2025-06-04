@@ -5,11 +5,11 @@ namespace FineCodeCoverage.Readme
 {
     public class TruncateParser : BlockParser
     {
-        private readonly string matchText;
+        private readonly string _matchText;
 
         public TruncateParser(string matchText)
         {
-            this.matchText = matchText;
+            this._matchText = matchText;
             this.OpeningCharacters = new[] { matchText.TrimStart()[0] };
         }
 
@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Readme
         {
             string line = processor.Line.ToString().Trim();
 
-            if (line == this.matchText)
+            if (line == this._matchText)
             {
                 var block = new TruncateBlock(this)
                 {

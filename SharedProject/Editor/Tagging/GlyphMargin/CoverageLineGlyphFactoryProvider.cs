@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     [Export(typeof(IGlyphFactoryProvider))]
     internal class CoverageLineGlyphFactoryProvider : IGlyphFactoryProvider
     {
-        public IGlyphFactory GetGlyphFactory(IWpfTextView textView, IWpfTextViewMargin textViewMargin) => new CoverageLineGlyphFactory();
-
+        public IGlyphFactory GetGlyphFactory(IWpfTextView textView, IWpfTextViewMargin textViewMargin)
+            => new CoverageLineGlyphFactory();
     }
 }

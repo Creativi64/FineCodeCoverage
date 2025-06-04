@@ -6,22 +6,22 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(ITrackingLineFactory))]
     internal class TrackingLineFactory : ITrackingLineFactory
     {
-        private readonly ILineTracker lineTracker;
+        private readonly ILineTracker _lineTracker;
 
         [ImportingConstructor]
         public TrackingLineFactory(
             ILineTracker lineTracker
-        ) => this.lineTracker = lineTracker;
+        ) => this._lineTracker = lineTracker;
 
         public ITrackingLine Create(
             ITrackingSpan startTrackingSpan,
             ITextSnapshot currentSnapshot,
             DynamicCoverageType dynamicCoverageType)
-            => new TrackingLine(startTrackingSpan, currentSnapshot, this.lineTracker, dynamicCoverageType);
+            => new TrackingLine(startTrackingSpan, currentSnapshot, this._lineTracker, dynamicCoverageType);
 
         public ITrackingLine Create(
             ITrackingSpan startTrackingSpan,
            int originalLineNumber,
-           DynamicCoverageType dynamicCoverageType) => new TrackingLine(startTrackingSpan, this.lineTracker, dynamicCoverageType, originalLineNumber);
+           DynamicCoverageType dynamicCoverageType) => new TrackingLine(startTrackingSpan, this._lineTracker, dynamicCoverageType, originalLineNumber);
     }
 }

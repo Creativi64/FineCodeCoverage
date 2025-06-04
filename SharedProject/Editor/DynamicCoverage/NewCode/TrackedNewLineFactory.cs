@@ -8,8 +8,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     [Export(typeof(ITrackedNewCodeLineFactory))]
     internal class TrackedNewLineFactory : ITrackedNewCodeLineFactory
     {
-        private readonly ITrackingSpanFactory trackingLineFactory;
-        private readonly ILineTracker lineTracker;
+        private readonly ITrackingSpanFactory _trackingLineFactory;
+        private readonly ILineTracker _lineTracker;
 
         [ImportingConstructor]
         public TrackedNewLineFactory(
@@ -17,13 +17,18 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILineTracker lineTracker
             )
         {
-            this.trackingLineFactory = trackingLineFactory;
-            this.lineTracker = lineTracker;
+            this._trackingLineFactory = trackingLineFactory;
+            this._lineTracker = lineTracker;
         }
-        public ITrackedNewCodeLine Create(ITextSnapshot textSnapshot, SpanTrackingMode spanTrackingMode, int lineNumber)
+        public ITrackedNewCodeLine Create(
+            ITextSnapshot textSnapshot,
+            SpanTrackingMode spanTrackingMode,
+            int lineNumber
+        )
         {
-            ITrackingSpan trackingSpan = this.trackingLineFactory.CreateTrackingSpan(textSnapshot, lineNumber, spanTrackingMode);
-            return new TrackedNewCodeLine(trackingSpan, lineNumber, this.lineTracker);
+            ITrackingSpan trackingSpan = this._trackingLineFactory.CreateTrackingSpan(
+                textSnapshot, lineNumber, spanTrackingMode);
+            return new TrackedNewCodeLine(trackingSpan, lineNumber, this._lineTracker);
         }
     }
 }

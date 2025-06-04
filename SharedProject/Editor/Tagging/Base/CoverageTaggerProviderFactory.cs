@@ -12,14 +12,14 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     [Export(typeof(ICoverageTaggerProviderFactory))]
     internal class CoverageTaggerProviderFactory : ICoverageTaggerProviderFactory
     {
-        private readonly IEventAggregator eventAggregator;
-        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
-        private readonly IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic;
-        private readonly IDynamicCoverageManager dynamicCoverageManager;
-        private readonly ITextInfoFactory textInfoFactory;
-        private readonly IFileExcluder[] fileExcluders;
-        private readonly IFileIndicatorVisibility fileIndicatorVisibility;
-        private readonly IDynamicLineFilter dynamicLineFilter;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;
+        private readonly IDynamicLineAndSnapshotSpansLogic _dynamicLineAndSnapshotSpansLogic;
+        private readonly IDynamicCoverageManager _dynamicCoverageManager;
+        private readonly ITextInfoFactory _textInfoFactory;
+        private readonly IFileExcluder[] _fileExcluders;
+        private readonly IFileIndicatorVisibility _fileIndicatorVisibility;
+        private readonly IDynamicLineFilter _dynamicLineFilter;
 
         [ImportingConstructor]
         public CoverageTaggerProviderFactory(
@@ -34,28 +34,28 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IDynamicLineFilter dynamicLineFilter
         )
         {
-            this.eventAggregator = eventAggregator;
-            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this.dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
-            this.dynamicCoverageManager = dynamicCoverageManager;
-            this.textInfoFactory = textInfoFactory;
-            this.fileExcluders = fileExcluders;
-            this.fileIndicatorVisibility = fileIndicatorVisibility;
-            this.dynamicLineFilter = dynamicLineFilter;
+            this._eventAggregator = eventAggregator;
+            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            this._dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
+            this._dynamicCoverageManager = dynamicCoverageManager;
+            this._textInfoFactory = textInfoFactory;
+            this._fileExcluders = fileExcluders;
+            this._fileIndicatorVisibility = fileIndicatorVisibility;
+            this._dynamicLineFilter = dynamicLineFilter;
         }
         public ICoverageTaggerProvider<TTag> Create<TTag, TCoverageTypeFilter>(ILineSpanTagger<TTag> tagger)
             where TTag : ITag
             where TCoverageTypeFilter : ICoverageTypeFilter, new()
                 => new CoverageTaggerProvider<TCoverageTypeFilter, TTag>(
-                    this.eventAggregator,
-                    this.editorCoverageColouringOptionsProvider,
-                    this.dynamicLineAndSnapshotSpansLogic,
+                    this._eventAggregator,
+                    this._editorCoverageColouringOptionsProvider,
+                    this._dynamicLineAndSnapshotSpansLogic,
                     tagger,
-                    this.dynamicCoverageManager,
-                    this.textInfoFactory,
-                    this.fileExcluders,
-                    this.fileIndicatorVisibility,
-                    this.dynamicLineFilter
+                    this._dynamicCoverageManager,
+                    this._textInfoFactory,
+                    this._fileExcluders,
+                    this._fileIndicatorVisibility,
+                    this._dynamicLineFilter
                 );
     }
 }

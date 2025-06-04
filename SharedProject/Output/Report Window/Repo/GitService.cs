@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IGitService))]
     internal class GitService : IGitService
     {
-        private readonly IGitExt gitExt;
+        private readonly IGitExt _gitExt;
 
         [ImportingConstructor]
         public GitService(
@@ -22,11 +22,11 @@ namespace FineCodeCoverage.Output
             IServiceProvider serviceProvider
         )
         {
-            this.gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
-            Assumes.Present(this.gitExt);
+            this._gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
+            Assumes.Present(this._gitExt);
         }
         public IReadOnlyList<string> GetRepositoryPaths()
-            => this.gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
+            => this._gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
 
         public IGitRepo GetRepository(string selectedRepositoryPath)
         {

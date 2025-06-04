@@ -8,11 +8,11 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IVsVersion))]
     internal class VsVersion : IVsVersion
     {
-        private readonly IServiceProvider serviceProvider;
-        private string semanticVersion;
-        private string releaseVersion;
-        private string displayVersion;
-        private string editionName;
+        private readonly IServiceProvider _serviceProvider;
+        private string _semanticVersion;
+        private string _releaseVersion;
+        private string _displayVersion;
+        private string _editionName;
 
         [ImportingConstructor]
         public VsVersion(
@@ -21,54 +21,54 @@ namespace FineCodeCoverage.Core.Utilities
         )
         {
             this.Is2022 = IsVs2022.Value;
-            this.serviceProvider = serviceProvider;
+            this._serviceProvider = serviceProvider;
         }
 
         public bool Is2022 { get; }
 
         public string GetSemanticVersion()
         {
-            if (this.semanticVersion == null)
+            if (this._semanticVersion == null)
             {
-                this.semanticVersion = this.GetAppIdStringProperty(-8642);
+                this._semanticVersion = this.GetAppIdStringProperty(-8642);
             }
 
-            return this.semanticVersion;
+            return this._semanticVersion;
         }
 
         public string GetReleaseVersion()
         {
-            if (this.releaseVersion == null)
+            if (this._releaseVersion == null)
             {
-                this.releaseVersion = this.GetAppIdStringProperty(-8597);
+                this._releaseVersion = this.GetAppIdStringProperty(-8597);
             }
 
-            return this.releaseVersion;
+            return this._releaseVersion;
         }
 
         public string GetDisplayVersion()
         {
-            if (this.displayVersion == null)
+            if (this._displayVersion == null)
             {
-                this.displayVersion = this.GetAppIdStringProperty(-8641);
+                this._displayVersion = this.GetAppIdStringProperty(-8641);
             }
 
-            return this.displayVersion;
+            return this._displayVersion;
         }
 
         public string GetEditionName()
         {
-            if (this.editionName == null)
+            if (this._editionName == null)
             {
-                this.editionName = this.GetAppIdStringProperty(-8620);
+                this._editionName = this.GetAppIdStringProperty(-8620);
             }
 
-            return this.editionName;
+            return this._editionName;
         }
 
         private string GetAppIdStringProperty(int propId)
         {
-            var vsAppId = this.serviceProvider.GetService(typeof(SVsAppId)) as IVsAppId;
+            var vsAppId = this._serviceProvider.GetService(typeof(SVsAppId)) as IVsAppId;
             Assumes.Present(vsAppId);
             _ = vsAppId.GetProperty(propId, out object v);
             return v as string;

@@ -7,14 +7,14 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenMarketplaceRateAndReviewCommand : CommandInitializerBase
     {
-        private readonly IOpenFCCVsMarketplace openFCCVsMarketplace;
+        private readonly IOpenFCCVsMarketplace _openFCCVsMarketplace;
 
         protected override int CommandId { get; } = PackageIds.cmdidMarketplaceRateAndReviewCommand;
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]
-        public OpenMarketplaceRateAndReviewCommand(IOpenFCCVsMarketplace openFCCVsMarketplace) => this.openFCCVsMarketplace = openFCCVsMarketplace;
+        public OpenMarketplaceRateAndReviewCommand(IOpenFCCVsMarketplace openFCCVsMarketplace) => this._openFCCVsMarketplace = openFCCVsMarketplace;
 
-        protected override void Execute(object sender, EventArgs e) => this.openFCCVsMarketplace.OpenRatingAndReview();
+        protected override void Execute(object sender, EventArgs e) => this._openFCCVsMarketplace.OpenRatingAndReview();
     }
 }

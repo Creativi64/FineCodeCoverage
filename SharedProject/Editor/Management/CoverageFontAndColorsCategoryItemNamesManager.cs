@@ -8,13 +8,13 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(ICoverageFontAndColorsCategoryItemNamesManager))]
     internal class CoverageFontAndColorsCategoryItemNamesManager : ICoverageFontAndColorsCategoryItemNames, ICoverageFontAndColorsCategoryItemNamesManager
     {
-        private readonly Guid EditorTextMarkerFontAndColorCategory = new Guid("FF349800-EA43-46C1-8C98-878E78F46501");
-        private readonly Guid EditorMEFCategory = new Guid("75A05685-00A8-4DED-BAE5-E7A50BFA929A");
-        private readonly bool hasCoverageMarkers;
-        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
-        private FCCEditorFormatDefinitionNames fCCEditorFormatDefinitionNames;
-        private bool usingEnterprise = false;
-        private bool initialized = false;
+        private readonly Guid _editorTextMarkerFontAndColorCategory = new Guid("FF349800-EA43-46C1-8C98-878E78F46501");
+        private readonly Guid _editorMEFCategory = new Guid("75A05685-00A8-4DED-BAE5-E7A50BFA929A");
+        private readonly bool _hasCoverageMarkers;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;
+        private FCCEditorFormatDefinitionNames _fCCEditorFormatDefinitionNames;
+        private bool _usingEnterprise = false;
+        private bool _initialized = false;
 
         public event EventHandler Changed;
 
@@ -25,13 +25,13 @@ namespace FineCodeCoverage.Editor.Management
         )
         {
             editorCoverageColouringOptionsProvider.OptionsChanged += this.EditorCoverageColouringOptionsProvider_OptionsChanged;
-            this.hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();
-            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            this._hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();
+            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
         }
 
         private void EditorCoverageColouringOptionsProvider_OptionsChanged(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            if (this.initialized)
+            if (this._initialized)
             {
                 this.ReactToAppOptionsChanging(editorCoverageColouringOptions);
             }
@@ -39,9 +39,9 @@ namespace FineCodeCoverage.Editor.Management
 
         private void ReactToAppOptionsChanging(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
-            bool preUsingEnterprise = this.usingEnterprise;
+            bool preUsingEnterprise = this._usingEnterprise;
             this.Set(() => editorCoverageColouringOptions.UseEnterpriseFontsAndColors);
-            if (this.usingEnterprise != preUsingEnterprise)
+            if (this._usingEnterprise != preUsingEnterprise)
             {
                 Changed?.Invoke(this, EventArgs.Empty);
             }
@@ -49,16 +49,16 @@ namespace FineCodeCoverage.Editor.Management
 
         public void Initialize(FCCEditorFormatDefinitionNames fCCEditorFormatDefinitionNames)
         {
-            this.fCCEditorFormatDefinitionNames = fCCEditorFormatDefinitionNames;
+            this._fCCEditorFormatDefinitionNames = fCCEditorFormatDefinitionNames;
             this.Set();
-            this.initialized = true;
+            this._initialized = true;
         }
 
-        private void Set() => this.Set(() => this.editorCoverageColouringOptionsProvider.Get().UseEnterpriseFontsAndColors);
+        private void Set() => this.Set(() => this._editorCoverageColouringOptionsProvider.Get().UseEnterpriseFontsAndColors);
 
         private void Set(Func<bool> getUseEnterprise)
         {
-            if (!this.hasCoverageMarkers)
+            if (!this._hasCoverageMarkers)
             {
                 this.SetMarkersFromFCC();
             }
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Editor.Management
 
         private void SetPossiblyEnterprise(bool useEnterprise)
         {
-            this.usingEnterprise = useEnterprise;
+            this._usingEnterprise = useEnterprise;
             if (useEnterprise)
             {
                 this.SetMarkersFromEnterprise();
@@ -86,16 +86,16 @@ namespace FineCodeCoverage.Editor.Management
 
         private void SetFCCOnly()
         {
-            this.NewLines = this.CreateMef(this.fCCEditorFormatDefinitionNames.NewLines);
-            this.Dirty = this.CreateMef(this.fCCEditorFormatDefinitionNames.Dirty);
-            this.NotIncluded = this.CreateMef(this.fCCEditorFormatDefinitionNames.NotIncluded);
+            this.NewLines = this.CreateMef(this._fCCEditorFormatDefinitionNames.NewLines);
+            this.Dirty = this.CreateMef(this._fCCEditorFormatDefinitionNames.Dirty);
+            this.NotIncluded = this.CreateMef(this._fCCEditorFormatDefinitionNames.NotIncluded);
         }
 
         private void SetMarkersFromFCC()
         {
-            this.Covered = this.CreateMef(this.fCCEditorFormatDefinitionNames.Covered);
-            this.NotCovered = this.CreateMef(this.fCCEditorFormatDefinitionNames.NotCovered);
-            this.PartiallyCovered = this.CreateMef(this.fCCEditorFormatDefinitionNames.PartiallyCovered);
+            this.Covered = this.CreateMef(this._fCCEditorFormatDefinitionNames.Covered);
+            this.NotCovered = this.CreateMef(this._fCCEditorFormatDefinitionNames.NotCovered);
+            this.PartiallyCovered = this.CreateMef(this._fCCEditorFormatDefinitionNames.PartiallyCovered);
         }
 
         private void SetMarkersFromEnterprise()
@@ -106,10 +106,10 @@ namespace FineCodeCoverage.Editor.Management
         }
 
         private FontAndColorsCategoryItemName CreateMef(string itemName)
-            => new FontAndColorsCategoryItemName(itemName, this.EditorMEFCategory);
+            => new FontAndColorsCategoryItemName(itemName, this._editorMEFCategory);
 
         private FontAndColorsCategoryItemName CreateEnterprise(string itemName)
-            => new FontAndColorsCategoryItemName(itemName, this.EditorTextMarkerFontAndColorCategory);
+            => new FontAndColorsCategoryItemName(itemName, this._editorTextMarkerFontAndColorCategory);
 
         public FontAndColorsCategoryItemName Covered { get; private set; }
         public FontAndColorsCategoryItemName NotCovered { get; private set; }

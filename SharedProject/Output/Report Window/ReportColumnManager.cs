@@ -12,9 +12,9 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IReportColumnManager))]
     internal class ReportColumnManager : ColumnManagerBase, IReportColumnManager
     {
-        private readonly IColumnStatesStore columnStateStore;
-        private readonly IJsonConvertService jsonConvertService;
-        private readonly IThreadHelper threadHelper;
+        private readonly IColumnStatesStore _columnStateStore;
+        private readonly IJsonConvertService _jsonConvertService;
+        private readonly IThreadHelper _threadHelper;
 
         [ImportingConstructor]
         public ReportColumnManager(
@@ -24,10 +24,10 @@ namespace FineCodeCoverage.Output
             IThreadHelper threadHelper
         )
         {
-            this.columnStateStore = columnStateStore;
-            this.jsonConvertService = jsonConvertService;
-            this.threadHelper = threadHelper;
-            string columnStates = threadHelper.JoinableTaskFactory.Run(() => this.columnStateStore.GetColumnStatesAsync());
+            this._columnStateStore = columnStateStore;
+            this._jsonConvertService = jsonConvertService;
+            this._threadHelper = threadHelper;
+            string columnStates = threadHelper.JoinableTaskFactory.Run(() => this._columnStateStore.GetColumnStatesAsync());
             this.SetInitialColumns(this.GetColumnStates(columnStates));
 
             vsShutdown.Shutdown += this.VsShutdown_Shutdown;
@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Output
 
         private List<ReportColumnState> GetColumnStates(string jsonColumnStates)
             => jsonColumnStates != null
-                ? this.jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates)
+                ? this._jsonConvertService.DeserializeObject<List<ReportColumnState>>(jsonColumnStates)
                 : new List<ReportColumnState>();
 
         #region Columns
@@ -76,8 +76,8 @@ namespace FineCodeCoverage.Output
                     CellAlignment = c.CellAlignment
                 };
             }).ToList();
-            string jsonColumnStates = this.jsonConvertService.SerializeObject(reportColumnStates);
-            this.threadHelper.JoinableTaskFactory.Run(() => this.columnStateStore.SaveColumnStatesAsync(jsonColumnStates));
+            string jsonColumnStates = this._jsonConvertService.SerializeObject(reportColumnStates);
+            this._threadHelper.JoinableTaskFactory.Run(() => this._columnStateStore.SaveColumnStatesAsync(jsonColumnStates));
         }
 
         private void SetInitialColumns(List<ReportColumnState> reportColumnStates)

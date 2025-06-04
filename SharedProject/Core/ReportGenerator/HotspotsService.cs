@@ -80,12 +80,12 @@ namespace FineCodeCoverage.ReportGeneration
             decimal Value { get; }
         }
 
-        private readonly IOptionsProvider<HotspotThresholdsOptions> hotspotThresholdsOptionsProvider;
+        private readonly IOptionsProvider<HotspotThresholdsOptions> _hotspotThresholdsOptionsProvider;
 
         [ImportingConstructor]
         public HotspotsService(
             IOptionsProvider<HotspotThresholdsOptions> hotspotThresholdsOptionsProvider
-        ) => this.hotspotThresholdsOptionsProvider = hotspotThresholdsOptionsProvider;
+        ) => this._hotspotThresholdsOptionsProvider = hotspotThresholdsOptionsProvider;
 
         private static void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
@@ -107,7 +107,7 @@ namespace FineCodeCoverage.ReportGeneration
 
         public void WriteHotspotsToXml(IEnumerable<IAssembly> reportAssemblies, string hotspotsPath)
         {
-            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, this.hotspotThresholdsOptionsProvider.Get());
+            IEnumerable<RiskHotspot> riskHotspots = GetRiskhotspots(reportAssemblies, this._hotspotThresholdsOptionsProvider.Get());
             WriteHotspotsToXml(riskHotspots, hotspotsPath);
         }
 

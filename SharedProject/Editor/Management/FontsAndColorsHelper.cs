@@ -16,9 +16,10 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(IFontsAndColorsHelper))]
     internal class FontsAndColorsHelper : IFontsAndColorsHelper
     {
-        private readonly uint storeFlags = (uint)(__FCSTORAGEFLAGS.FCSF_READONLY | __FCSTORAGEFLAGS.FCSF_LOADDEFAULTS | __FCSTORAGEFLAGS.FCSF_NOAUTOCOLORS | __FCSTORAGEFLAGS.FCSF_PROPAGATECHANGES);
-        private readonly IServiceProvider serviceProvider;
-        private readonly IThreadHelper threadHelper;
+        private readonly uint _storeFlags = (uint)(__FCSTORAGEFLAGS.FCSF_READONLY | __FCSTORAGEFLAGS.FCSF_LOADDEFAULTS | __FCSTORAGEFLAGS.FCSF_NOAUTOCOLORS | __FCSTORAGEFLAGS.FCSF_PROPAGATECHANGES);
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IThreadHelper _threadHelper;
+        private IVsFontAndColorStorage _vsFontAndColorStorage;
 
         [ImportingConstructor]
         public FontsAndColorsHelper(
@@ -26,23 +27,22 @@ namespace FineCodeCoverage.Editor.Management
             IThreadHelper threadHelper
         )
         {
-            this.serviceProvider = serviceProvider;
-            this.threadHelper = threadHelper;
+            this._serviceProvider = serviceProvider;
+            this._threadHelper = threadHelper;
         }
 
         private static System.Windows.Media.Color ParseColor(uint color)
             => System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(color)).ToMediaColor();
 
-        private IVsFontAndColorStorage vsFontAndColorStorage;
         private async Task<IVsFontAndColorStorage> GetVsFontAndColorStorageAsync()
         {
-            if (this.vsFontAndColorStorage == null)
+            if (this._vsFontAndColorStorage == null)
             {
-                await this.threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                this.vsFontAndColorStorage = this.serviceProvider.GetService<IVsFontAndColorStorage>();
+                await this._threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                this._vsFontAndColorStorage = this._serviceProvider.GetService<IVsFontAndColorStorage>();
             }
 
-            return this.vsFontAndColorStorage;
+            return this._vsFontAndColorStorage;
         }
 
         private static IFontAndColorsInfo GetInfo(string displayName, IVsFontAndColorStorage fontAndColorStorage)
@@ -77,10 +77,10 @@ namespace FineCodeCoverage.Editor.Management
         private async Task OpenCloseCategoryAsync(Guid category, Action<IVsFontAndColorStorage> action)
         {
             IVsFontAndColorStorage fontAndColorStorage = await this.GetVsFontAndColorStorageAsync();
-            await this.threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await this._threadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
 #pragma warning disable VSTHRD010 // Invoke single-threaded types on Main thread
-            int success = fontAndColorStorage.OpenCategory(ref category, this.storeFlags);
+            int success = fontAndColorStorage.OpenCategory(ref category, this._storeFlags);
 
             if (success == VSConstants.S_OK)
             {

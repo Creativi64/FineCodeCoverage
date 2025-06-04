@@ -28,23 +28,23 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         }
         public class DynamicCodeElement : IDynamicCodeElement
         {
-            public CodeElementType CodeElementType => this.codeElement.CodeElementType;
-            public string Name => this.codeElement.Name;
-            public int StartLine => this.codeElement.StartLine;
+            public CodeElementType CodeElementType => this._codeElement.CodeElementType;
+            public string Name => this._codeElement.Name;
+            public int StartLine => this._codeElement.StartLine;
             public string Path { get; set; }
             public IReadOnlyList<ICoberturaLine> Lines { get; }
-            public int BlocksCovered => this.codeElement.BlocksCovered;
-            public int BlocksNotCovered => this.codeElement.BlocksNotCovered;
-            public int CyclomaticComplexity => this.codeElement.CyclomaticComplexity;
-            public int NPathComplexity => this.codeElement.NPathComplexity;
-            public int TotalBranches => this.codeElement.TotalBranches;
-            public int BranchesCovered => this.codeElement.BranchesCovered;
-            public decimal CrapScore => this.codeElement.CrapScore;
-            private readonly ICodeElement codeElement;
+            public int BlocksCovered => this._codeElement.BlocksCovered;
+            public int BlocksNotCovered => this._codeElement.BlocksNotCovered;
+            public int CyclomaticComplexity => this._codeElement.CyclomaticComplexity;
+            public int NPathComplexity => this._codeElement.NPathComplexity;
+            public int TotalBranches => this._codeElement.TotalBranches;
+            public int BranchesCovered => this._codeElement.BranchesCovered;
+            public decimal CrapScore => this._codeElement.CrapScore;
+            private readonly ICodeElement _codeElement;
 
             public DynamicCodeElement(ICodeElement codeElement)
             {
-                this.codeElement = codeElement;
+                this._codeElement = codeElement;
                 this.Path = codeElement.Path;
                 this.Lines = codeElement.Lines.Select(l => new DynamicCoberturaLine(l, this)).ToList();
             }
@@ -59,25 +59,25 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public DynamicClass(IClass clss)
             {
                 this.DisplayName = clss.DisplayName;
-                this.fileCodeElements = clss.FileCodeElements.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyList<DynamicCodeElement>)kvp.Value.Select(ce => new DynamicCodeElement(ce)).ToList());
+                this._fileCodeElements = clss.FileCodeElements.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyList<DynamicCodeElement>)kvp.Value.Select(ce => new DynamicCodeElement(ce)).ToList());
                 this.SetFileCodeElements();
-                this.CodeElements = this.fileCodeElements.Values.SelectMany(ces => ces).ToList();
+                this.CodeElements = this._fileCodeElements.Values.SelectMany(ces => ces).ToList();
             }
 
-            private void SetFileCodeElements() => this.FileCodeElements = this.fileCodeElements.ToDictionary(
+            private void SetFileCodeElements() => this.FileCodeElements = this._fileCodeElements.ToDictionary(
                    kvp => kvp.Key,
                    kvp => (IReadOnlyList<ICodeElement>)kvp.Value.Cast<ICodeElement>().ToList()
                );
 
             public string DisplayName { get; }
 
-            private readonly Dictionary<string, IReadOnlyList<DynamicCodeElement>> fileCodeElements;
+            private readonly Dictionary<string, IReadOnlyList<DynamicCodeElement>> _fileCodeElements;
             public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; private set; }
             public IReadOnlyList<ICodeElement> CodeElements { get; }
 
             internal void FileRenamed(IReadOnlyList<FileRename> fileRenames)
             {
-                fileRenames = fileRenames.TryUpdateDictionary(this.fileCodeElements);
+                fileRenames = fileRenames.TryUpdateDictionary(this._fileCodeElements);
                 if (fileRenames.Count > 0)
                 {
                     this.SetFileCodeElements();
@@ -85,7 +85,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
                 foreach (FileRename fileRename in fileRenames)
                 {
-                    IReadOnlyList<DynamicCodeElement> codeElements = this.fileCodeElements[fileRename.NewFilePath];
+                    IReadOnlyList<DynamicCodeElement> codeElements = this._fileCodeElements[fileRename.NewFilePath];
                     foreach (DynamicCodeElement dynamicCodeElement in codeElements)
                     {
                         dynamicCodeElement.Path = fileRename.NewFilePath;

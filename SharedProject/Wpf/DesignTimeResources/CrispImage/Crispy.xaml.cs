@@ -24,6 +24,8 @@ namespace FineCodeCoverage.Wpf
 
         public static event EventHandler<ImageThemingColorChangedEventArgs> ImageThemingColorChanged;
         private static readonly bool isInDesignMode;
+        private Image _image;
+
         static Crispy()
         {
             isInDesignMode = DesignModeHelper.IsInDesignMode;
@@ -39,7 +41,7 @@ namespace FineCodeCoverage.Wpf
                     new ImageThemingColorChangedEventArgs((Color)args.NewValue))));
         }
 
-        private Image image;
+        
 
         public static readonly DependencyProperty MonikerProperty = CrispImage.MonikerProperty.AddOwner(
             typeof(Crispy),
@@ -92,7 +94,7 @@ namespace FineCodeCoverage.Wpf
 
             this.SetImage();
             this.SetImageSource();
-            this.Content = this.image;
+            this.Content = this._image;
         }
 
         private void BindProperty(DependencyProperty sourceProperty,
@@ -113,13 +115,13 @@ namespace FineCodeCoverage.Wpf
 
         private void SetImage()
         {
-            this.image = new Image();
+            this._image = new Image();
 
-            _ = BindingOperations.SetBinding(this.image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
+            _ = BindingOperations.SetBinding(this._image, Image.WidthProperty, new Binding(nameof(FrameworkElement.Width))
             {
                 Source = this,
             });
-            _ = BindingOperations.SetBinding(this.image, Image.HeightProperty, new Binding(nameof(FrameworkElement.Height))
+            _ = BindingOperations.SetBinding(this._image, Image.HeightProperty, new Binding(nameof(FrameworkElement.Height))
             {
                 Source = this,
             });
@@ -132,7 +134,7 @@ namespace FineCodeCoverage.Wpf
         private void SetImageSource()
         {
             var imageSource = (ImageSource)ImageLibraryLoader.Default.GetImage(this.Moniker, this.GetImageAttributes());
-            this.image.Source = imageSource;
+            this._image.Source = imageSource;
         }
 
         private static uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));

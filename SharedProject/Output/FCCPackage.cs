@@ -57,7 +57,7 @@ namespace FineCodeCoverage.Output
     [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption, typeof(FCCPackage), Arguments = "0")]
     public sealed class FCCPackage : AsyncPackage
     {
-        private ISolutionOptions solutionOptions;
+        private ISolutionOptions _solutionOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FCCPackage"/> class.
@@ -106,8 +106,8 @@ namespace FineCodeCoverage.Output
         private async Task InitializeSolutionOptionsAsync(IComponentModel componentModel)
         {
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(this.DisposalToken);
-            this.solutionOptions = componentModel.GetService<ISolutionOptions>();
-            System.Collections.Generic.IEnumerable<string> keys = await this.solutionOptions.GetKeysAsync();
+            this._solutionOptions = componentModel.GetService<ISolutionOptions>();
+            System.Collections.Generic.IEnumerable<string> keys = await this._solutionOptions.GetKeysAsync();
             foreach (string key in keys)
             {
                 this.AddOptionKey(key);
@@ -121,9 +121,9 @@ namespace FineCodeCoverage.Output
             }
         }
 
-        protected override void OnLoadOptions(string key, Stream stream) => this.solutionOptions.LoadOptions(key, stream);
+        protected override void OnLoadOptions(string key, Stream stream) => this._solutionOptions.LoadOptions(key, stream);
 
-        protected override void OnSaveOptions(string key, Stream stream) => this.solutionOptions.SaveOptions(key, stream);
+        protected override void OnSaveOptions(string key, Stream stream) => this._solutionOptions.SaveOptions(key, stream);
 
         private async Task InitializeCommandsAsync(IComponentModel componentModel)
         {

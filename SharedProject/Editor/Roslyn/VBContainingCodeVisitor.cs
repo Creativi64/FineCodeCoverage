@@ -9,11 +9,11 @@ namespace FineCodeCoverage.Editor.Roslyn
 {
     internal class VBContainingCodeVisitor : VisualBasicSyntaxVisitor, ILanguageContainingCodeVisitor
     {
-        private readonly List<TextSpan> spans = new List<TextSpan>();
+        private readonly List<TextSpan> _spans = new List<TextSpan>();
         public List<TextSpan> GetSpans(SyntaxNode rootNode)
         {
             this.Visit(rootNode);
-            return this.spans;
+            return this._spans;
         }
         public override void VisitCompilationUnit(CompilationUnitSyntax node) => this.VisitMembers(node.Members);
 
@@ -74,6 +74,6 @@ namespace FineCodeCoverage.Editor.Roslyn
 
         public override void VisitAccessorBlock(AccessorBlockSyntax node) => this.AddNode(node);
 
-        private void AddNode(SyntaxNode node) => this.spans.Add(node.Span);
+        private void AddNode(SyntaxNode node) => this._spans.Add(node.Span);
     }
 }

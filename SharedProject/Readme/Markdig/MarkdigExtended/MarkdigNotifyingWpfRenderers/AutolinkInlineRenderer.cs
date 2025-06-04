@@ -8,9 +8,9 @@ namespace FineCodeCoverage.Readme
 {
     public class AutolinkInlineRenderer : NotifyingObjectRenderer<AutolinkInline>
     {
-        private readonly ICommand navigateCommand;
+        private readonly ICommand _navigateCommand;
 
-        public AutolinkInlineRenderer(ICommand navigateCommand) => this.navigateCommand = navigateCommand;
+        public AutolinkInlineRenderer(ICommand navigateCommand) => this._navigateCommand = navigateCommand;
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, AutolinkInline link)
         {
@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Readme
 
             var hyperlink = new Hyperlink
             {
-                Command = this.navigateCommand,
+                Command = this._navigateCommand,
                 CommandParameter = url,
                 NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 ToolTip = link.Url,

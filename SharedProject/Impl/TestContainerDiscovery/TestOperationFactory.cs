@@ -1,30 +1,15 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Engine.Model;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ReflectObject;
 
 namespace FineCodeCoverage.Impl
 {
-    internal class TestContainerDiscoveryReflectionException : Exception
-    {
-        public TestContainerDiscoveryReflectionException(string message) : base(message)
-        {
-        }
-
-        public TestContainerDiscoveryReflectionException() : base()
-        {
-        }
-
-        public TestContainerDiscoveryReflectionException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-    }
     [Export(typeof(ITestOperationFactory))]
     internal class TestOperationFactory : ITestOperationFactory
     {
-        private readonly ICoverageProjectFactory coverageProjectFactory;
-        private readonly IRunSettingsRetriever runSettingsRetriever;
+        private readonly ICoverageProjectFactory _coverageProjectFactory;
+        private readonly IRunSettingsRetriever _runSettingsRetriever;
 
         [ImportingConstructor]
         public TestOperationFactory(
@@ -32,14 +17,14 @@ namespace FineCodeCoverage.Impl
             IRunSettingsRetriever runSettingsRetriever
             )
         {
-            this.coverageProjectFactory = coverageProjectFactory;
-            this.runSettingsRetriever = runSettingsRetriever;
+            this._coverageProjectFactory = coverageProjectFactory;
+            this._runSettingsRetriever = runSettingsRetriever;
         }
         public ITestOperation Create(IOperation operation)
         {
             try
             {
-                return new TestOperation(new TestRunRequest(operation), this.coverageProjectFactory, this.runSettingsRetriever);
+                return new TestOperation(new TestRunRequest(operation), this._coverageProjectFactory, this._runSettingsRetriever);
             }
             catch (PropertyDoesNotExistException propertyDoesNotExistException)
             {

@@ -6,14 +6,14 @@ namespace FineCodeCoverage.Wpf
 {
     internal class ProcessStartCommand : ICommand
     {
-        private readonly IProcess process;
+        private readonly IProcess _process;
 
-        public ProcessStartCommand(IProcess process) => this.process = process;
+        public ProcessStartCommand(IProcess process) => this._process = process;
 
         public event EventHandler CanExecuteChanged { add { } remove { } }
 
         public bool CanExecute(object parameter) => true;
 
-        public void Execute(object parameter) => this.process.Start(parameter as string);
+        public void Execute(object parameter) => this._process.Start(parameter as string);
     }
 }

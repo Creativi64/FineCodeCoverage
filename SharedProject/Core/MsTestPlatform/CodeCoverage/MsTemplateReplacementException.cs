@@ -5,12 +5,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     public class MsTemplateReplacementException : Exception
     {
-        private readonly XmlException innerException;
-        private readonly string replacedRunSettingsTemplate;
+        private readonly XmlException _innerException;
+        private readonly string _replacedRunSettingsTemplate;
         public MsTemplateReplacementException(XmlException innerException, string replacedRunSettingsTemplate)
         {
-            this.innerException = innerException;
-            this.replacedRunSettingsTemplate = replacedRunSettingsTemplate;
+            this._innerException = innerException;
+            this._replacedRunSettingsTemplate = replacedRunSettingsTemplate;
         }
 
         public MsTemplateReplacementException() : base()
@@ -25,9 +25,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
         }
 
-        public override string ToString() => $@"${this.innerException} 
+        public override string ToString() => $@"${this._innerException} 
 Replaced template :
-${this.replacedRunSettingsTemplate}
+${this._replacedRunSettingsTemplate}
 ";
     }
 }

@@ -5,12 +5,12 @@ namespace FineCodeCoverage.Output
 {
     internal class Changeset : IChangeset
     {
-        private readonly IDictionary<string, HashSet<int>> changeLookup;
+        private readonly IDictionary<string, HashSet<int>> _changeLookup;
 
-        public Changeset(IDictionary<string, HashSet<int>> changeLookup) => this.changeLookup = changeLookup;
+        public Changeset(IDictionary<string, HashSet<int>> changeLookup) => this._changeLookup = changeLookup;
 
         public List<int> GetLineNumbers(string filePath)
-            => this.changeLookup.TryGetValue(filePath, out HashSet<int> lineNumbers)
+            => this._changeLookup.TryGetValue(filePath, out HashSet<int> lineNumbers)
                 ? lineNumbers.ToList()
                 : Enumerable.Empty<int>().ToList();
     }

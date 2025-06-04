@@ -9,9 +9,11 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
     {
         public override string TypeIdentifier => "Classification";
 
-        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowLineCoverageHighlighting;
+        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions)
+            => editorCoverageColouringOptions.ShowLineCoverageHighlighting;
 
-        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions)
+        protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(
+            EditorCoverageColouringOptions editorCoverageColouringOptions)
             => new Dictionary<DynamicCoverageType, bool>()
             {
                 { DynamicCoverageType.Covered, editorCoverageColouringOptions.ShowLineCoveredHighlighting },

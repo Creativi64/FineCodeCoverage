@@ -6,6 +6,8 @@ namespace FineCodeCoverage.Editor.Roslyn
     internal class LanguageContainingCodeVisitorFactory : ILanguageContainingCodeVisitorFactory
     {
         public ILanguageContainingCodeVisitor Create(bool isCSharp)
-            => isCSharp ? new CSharpContainingCodeVisitor() as ILanguageContainingCodeVisitor : new VBContainingCodeVisitor();
+            => isCSharp ?
+            new CSharpContainingCodeVisitor() as ILanguageContainingCodeVisitor :
+            new VBContainingCodeVisitor();
     }
 }

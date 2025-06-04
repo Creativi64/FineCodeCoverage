@@ -22,9 +22,9 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     [Export(typeof(IViewTaggerProvider))]
     internal class CoverageLineGlyphTaggerProvider : IViewTaggerProvider, ILineSpanTagger<CoverageLineGlyphTag>
     {
-        private readonly ICoverageTaggerProvider<CoverageLineGlyphTag> coverageTaggerProvider;
-        private readonly IEventAggregator eventAggregator;
-        private readonly ICoverageColoursProvider coverageColoursProvider;
+        private readonly ICoverageTaggerProvider<CoverageLineGlyphTag> _coverageTaggerProvider;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ICoverageColoursProvider _coverageColoursProvider;
 
         [ImportingConstructor]
         public CoverageLineGlyphTaggerProvider(
@@ -33,20 +33,20 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
             ICoverageTaggerProviderFactory coverageTaggerProviderFactory
         )
         {
-            this.coverageTaggerProvider = coverageTaggerProviderFactory.Create<CoverageLineGlyphTag, GlyphFilter>(this);
-            this.eventAggregator = eventAggregator;
-            this.coverageColoursProvider = coverageColoursProvider;
+            this._coverageTaggerProvider = coverageTaggerProviderFactory.Create<CoverageLineGlyphTag, GlyphFilter>(this);
+            this._eventAggregator = eventAggregator;
+            this._coverageColoursProvider = coverageColoursProvider;
         }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
-            ICoverageTagger<CoverageLineGlyphTag> coverageTagger = this.coverageTaggerProvider.CreateTagger(textView, buffer);
-            return coverageTagger == null ? null : new CoverageLineGlyphTagger(this.eventAggregator, coverageTagger) as ITagger<T>;
+            ICoverageTagger<CoverageLineGlyphTag> coverageTagger = this._coverageTaggerProvider.CreateTagger(textView, buffer);
+            return coverageTagger == null ? null : new CoverageLineGlyphTagger(this._eventAggregator, coverageTagger) as ITagger<T>;
         }
 
         public TagSpan<CoverageLineGlyphTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)
         {
-            ICoverageColours coverageColours = this.coverageColoursProvider.GetCoverageColours();
+            ICoverageColours coverageColours = this._coverageColoursProvider.GetCoverageColours();
             Color colour = coverageColours.GetColour(dynamicLineAndSnapshotSpan.Line.CoverageType).Background;
             return new TagSpan<CoverageLineGlyphTag>(dynamicLineAndSnapshotSpan.Span, new CoverageLineGlyphTag(colour));
         }

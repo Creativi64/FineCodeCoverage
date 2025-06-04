@@ -11,10 +11,10 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     [Export(typeof(IReportGeneratorUtil))]
     internal class ReportGeneratorUtil : IReportGeneratorUtil
     {
-        private readonly IFCCReportGenerator reportGenerator;
-        private readonly ILogger logger;
-        private List<string> logs;
-        private DynamicReportResult dynamicReportResult;
+        private readonly IFCCReportGenerator _reportGenerator;
+        private readonly ILogger _logger;
+        private List<string> _logs;
+        private DynamicReportResult _dynamicReportResult;
 
         [ImportingConstructor]
         public ReportGeneratorUtil(
@@ -23,30 +23,30 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             IFileRenameListener fileRenameListener
         )
         {
-            this.reportGenerator = reportGenerator;
-            this.logger = logger;
-            this.reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => this.logs.Add(message));
+            this._reportGenerator = reportGenerator;
+            this._logger = logger;
+            this._reportGenerator.SetLogger(VerbosityLevel.Info, (_, message) => this._logs.Add(message));
             fileRenameListener.FileRenamedEvent += this.FileRenameListener_FileRenamedEvent;
         }
 
         private void FileRenameListener_FileRenamedEvent(IReadOnlyList<FileRename> fileRenames)
-            => this.dynamicReportResult?.FileRenamed(fileRenames);
+            => this._dynamicReportResult?.FileRenamed(fileRenames);
 
         public async Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
             CancellationToken cancellationToken)
         {
-            this.logs = new List<string>
+            this._logs = new List<string>
             {
                 "Report Generator - Output"
             };
-            IReportResult reportResult = this.reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
-            await this.logger.LogAsync(this.logs);
-            this.dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
+            IReportResult reportResult = this._reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
+            await this._logger.LogAsync(this._logs);
+            this._dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
             return new ReportGeneratorResult
             {
-                ReportResult = this.dynamicReportResult,
+                ReportResult = this._dynamicReportResult,
                 UnifiedXmlFile = Path.Combine(reportOutputFolder, "Cobertura.xml"),
             };
         }

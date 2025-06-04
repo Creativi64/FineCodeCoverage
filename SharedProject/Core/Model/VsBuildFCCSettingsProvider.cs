@@ -12,20 +12,20 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(IVsBuildFCCSettingsProvider))]
     internal class VsBuildFCCSettingsProvider : IVsBuildFCCSettingsProvider
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         private const string FCCSettingsElementName = "FineCodeCoverage";
 
         [ImportingConstructor]
         public VsBuildFCCSettingsProvider(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => this.serviceProvider = serviceProvider;
+        ) => this._serviceProvider = serviceProvider;
 
         public async Task<XElement> GetSettingsAsync(Guid projectId)
         {
             XElement fccSettingsElement = null;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {

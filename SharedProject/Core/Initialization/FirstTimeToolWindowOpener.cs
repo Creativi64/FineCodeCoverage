@@ -8,9 +8,9 @@ namespace FineCodeCoverage.Core.Initialization
     [Export(typeof(IFirstTimeToolWindowOpener))]
     internal class FirstTimeToolWindowOpener : IFirstTimeToolWindowOpener
     {
-        private readonly IInitializedFromTestContainerDiscoverer initializedFromTestContainerDiscoverer;
-        private readonly IShownToolWindowHistory shownToolWindowHistory;
-        private readonly IReportToolWindowOpener toolWindowOpener;
+        private readonly IInitializedFromTestContainerDiscoverer _initializedFromTestContainerDiscoverer;
+        private readonly IShownToolWindowHistory _shownToolWindowHistory;
+        private readonly IReportToolWindowOpener _toolWindowOpener;
 
         [ImportingConstructor]
         public FirstTimeToolWindowOpener(
@@ -19,20 +19,20 @@ namespace FineCodeCoverage.Core.Initialization
             IReportToolWindowOpener toolWindowOpener
         )
         {
-            this.initializedFromTestContainerDiscoverer = initializedFromTestContainerDiscoverer;
-            this.shownToolWindowHistory = shownToolWindowHistory;
-            this.toolWindowOpener = toolWindowOpener;
+            this._initializedFromTestContainerDiscoverer = initializedFromTestContainerDiscoverer;
+            this._shownToolWindowHistory = shownToolWindowHistory;
+            this._toolWindowOpener = toolWindowOpener;
         }
 
         public async Task OpenIfFirstTimeAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (
-                this.initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer &&
-                !this.shownToolWindowHistory.HasShownToolWindow
+                this._initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer &&
+                !this._shownToolWindowHistory.HasShownToolWindow
             )
             {
-                await this.toolWindowOpener.TryOpenAsync();
+                await this._toolWindowOpener.TryOpenAsync();
             }
         }
     }

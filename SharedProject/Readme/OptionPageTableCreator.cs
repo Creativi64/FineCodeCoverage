@@ -8,25 +8,25 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(IOptionPageTableCreator))]
     internal class OptionPageTableCreator : IOptionPageTableCreator
     {
-        private readonly List<ElementAndMarker> elementAndMarkers = new List<ElementAndMarker>();
-        private readonly IFCCOptionPageInfoProvider fccOptionPageInfoProvider;
-        private Table table;
-        private TableRowGroup tableRowGroup;
+        private readonly List<ElementAndMarker> _elementAndMarkers = new List<ElementAndMarker>();
+        private readonly IFCCOptionPageInfoProvider _fccOptionPageInfoProvider;
+        private Table _table;
+        private TableRowGroup _tableRowGroup;
 
         [ImportingConstructor]
         public OptionPageTableCreator(
             IFCCOptionPageInfoProvider fccOptionPageInfoProvider
-        ) => this.fccOptionPageInfoProvider = fccOptionPageInfoProvider;
+        ) => this._fccOptionPageInfoProvider = fccOptionPageInfoProvider;
 
-        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => this.elementAndMarkers;
+        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => this._elementAndMarkers;
 
         private void AddElementAndMarker(TextElement element, MarkdownTypeMarker marker)
-            => this.elementAndMarkers.Add(new ElementAndMarker(element, marker));
+            => this._elementAndMarkers.Add(new ElementAndMarker(element, marker));
 
         public Table Create()
         {
             this.InitializeTable();
-            foreach (OptionPageInfo optionPageInfo in this.fccOptionPageInfoProvider.Provide())
+            foreach (OptionPageInfo optionPageInfo in this._fccOptionPageInfoProvider.Provide())
             {
                 foreach (CategorizedOptionPropertyInfos propertyCategory in optionPageInfo.PropertyCategories)
                 {
@@ -44,18 +44,18 @@ namespace FineCodeCoverage.Readme
                 }
             }
 
-            return this.table;
+            return this._table;
         }
 
         private void InitializeTable()
         {
-            this.table = new Table();
-            this.AddElementAndMarker(this.table, MarkdownTypeMarker.Table);
-            this.table.Columns.Add(new TableColumn());
-            this.table.Columns.Add(new TableColumn());
-            this.table.Columns.Add(new TableColumn());
-            this.tableRowGroup = new TableRowGroup();
-            this.table.RowGroups.Add(this.tableRowGroup);
+            this._table = new Table();
+            this.AddElementAndMarker(this._table, MarkdownTypeMarker.Table);
+            this._table.Columns.Add(new TableColumn());
+            this._table.Columns.Add(new TableColumn());
+            this._table.Columns.Add(new TableColumn());
+            this._tableRowGroup = new TableRowGroup();
+            this._table.RowGroups.Add(this._tableRowGroup);
             this.AddRow(
                 OptionPageTableDisplayInfo.OptionHeader,
                 OptionPageTableDisplayInfo.DescriptionHeader,
@@ -71,7 +71,7 @@ namespace FineCodeCoverage.Readme
                 this.AddElementAndMarker(row, MarkdownTypeMarker.TableHeader);
             }
 
-            this.tableRowGroup.Rows.Add(row);
+            this._tableRowGroup.Rows.Add(row);
 
             this.AddCell(row, cell1, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.OptionCellAlignment);
             this.AddCell(row, cell2, isHeaderRow ? OptionPageTableCellAlignment.Left : OptionPageTableDisplayInfo.DescriptionCellAlignment);

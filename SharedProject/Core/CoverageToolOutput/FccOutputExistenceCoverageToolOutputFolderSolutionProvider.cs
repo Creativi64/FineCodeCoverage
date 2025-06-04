@@ -9,11 +9,11 @@ namespace FineCodeCoverage.Engine
     class FccOutputExistenceCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
     {
         private const string fccOutputFolderName = "fcc-output";
-        private readonly IFileUtil fileUtil;
+        private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
         public FccOutputExistenceCoverageToolOutputFolderSolutionProvider(IFileUtil fileUtil)
-            => this.fileUtil = fileUtil;
+            => this._fileUtil = fileUtil;
 
         public string Provide(Func<string> solutionFolderProvider)
         {
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Engine
             if (solutionFolder != null)
             {
                 string provided = Path.Combine(solutionFolder, fccOutputFolderName);
-                if (this.fileUtil.DirectoryExists(provided))
+                if (this._fileUtil.DirectoryExists(provided))
                 {
                     return provided;
                 }

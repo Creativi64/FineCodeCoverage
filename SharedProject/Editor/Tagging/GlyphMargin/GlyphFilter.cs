@@ -9,7 +9,8 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     {
         public override string TypeIdentifier => "Glyph";
 
-        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions) => editorCoverageColouringOptions.ShowCoverageInGlyphMargin;
+        protected override bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions)
+            => editorCoverageColouringOptions.ShowCoverageInGlyphMargin;
 
         protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions)
             => new Dictionary<DynamicCoverageType, bool>

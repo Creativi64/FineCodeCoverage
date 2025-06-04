@@ -11,27 +11,27 @@ namespace FineCodeCoverage.Editor.Roslyn
     [Export(typeof(IRoslynService))]
     internal class RoslynService : IRoslynService
     {
-        private readonly ILanguageContainingCodeVisitorFactory languageContainingCodeVisitorFactory;
-        private readonly ITextSnapshotToSyntaxService textSnapshotToSyntaxService;
+        private readonly ILanguageContainingCodeVisitorFactory _languageContainingCodeVisitorFactory;
+        private readonly ITextSnapshotToSyntaxService _textSnapshotToSyntaxService;
 
         [ImportingConstructor]
         public RoslynService(
             ILanguageContainingCodeVisitorFactory languageContainingCodeVisitorFactory,
             ITextSnapshotToSyntaxService textSnapshotToSyntaxService)
         {
-            this.languageContainingCodeVisitorFactory = languageContainingCodeVisitorFactory;
-            this.textSnapshotToSyntaxService = textSnapshotToSyntaxService;
+            this._languageContainingCodeVisitorFactory = languageContainingCodeVisitorFactory;
+            this._textSnapshotToSyntaxService = textSnapshotToSyntaxService;
         }
         public async Task<List<TextSpan>> GetContainingCodeSpansAsync(ITextSnapshot textSnapshot)
         {
-            RootNodeAndLanguage rootNodeAndLanguage = await this.textSnapshotToSyntaxService.GetRootAndLanguageAsync(textSnapshot);
+            RootNodeAndLanguage rootNodeAndLanguage = await this._textSnapshotToSyntaxService.GetRootAndLanguageAsync(textSnapshot);
             if (rootNodeAndLanguage == null)
             {
                 return Enumerable.Empty<TextSpan>().ToList();
             }
 
             bool isCSharp = rootNodeAndLanguage.Language == LanguageNames.CSharp;
-            ILanguageContainingCodeVisitor languageContainingCodeVisitor = this.languageContainingCodeVisitorFactory.Create(isCSharp);
+            ILanguageContainingCodeVisitor languageContainingCodeVisitor = this._languageContainingCodeVisitorFactory.Create(isCSharp);
             return languageContainingCodeVisitor.GetSpans(rootNodeAndLanguage.Root);
         }
     }

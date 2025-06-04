@@ -8,14 +8,13 @@ namespace FineCodeCoverage.Readme
 {
     public abstract class NotifyingWpfRenderer : WpfRenderer
     {
-        private readonly List<ElementAndMarker> elementAndMarkers = new List<ElementAndMarker>();
+        private List<INotifiyingObjectRenderer> _notifyingObjectRenderers;
+        private readonly List<ElementAndMarker> _elementAndMarkers = new List<ElementAndMarker>();
 
-        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => this.elementAndMarkers;
-
-        private List<INotifiyingObjectRenderer> notifyingObjectRenderers;
+        public IReadOnlyList<ElementAndMarker> ElementAndMarkers => this._elementAndMarkers;
 
         private void NotifyingObjectRenderer_CreatedEvent(object sender, List<ElementAndMarker> elementAndMarkers)
-            => this.elementAndMarkers.AddRange(elementAndMarkers);
+            => this._elementAndMarkers.AddRange(elementAndMarkers);
 
         public override void LoadDocument(FlowDocument document)
         {
@@ -31,9 +30,9 @@ namespace FineCodeCoverage.Readme
                 notifyingObjectRenderer.CreatedEvent += this.NotifyingObjectRenderer_CreatedEvent;
             }
 
-            this.notifyingObjectRenderers = notifyingObjectRenderers.ToList();
+            this._notifyingObjectRenderers = notifyingObjectRenderers.ToList();
             object rendered = base.Render(markdownObject);
-            this.notifyingObjectRenderers.ForEach(notifyingObjectRenderer
+            this._notifyingObjectRenderers.ForEach(notifyingObjectRenderer
                 => notifyingObjectRenderer.CreatedEvent -= this.NotifyingObjectRenderer_CreatedEvent);
             return rendered;
         }

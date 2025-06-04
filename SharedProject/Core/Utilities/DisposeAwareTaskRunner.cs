@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IDisposeAwareTaskRunner))]
     internal class DisposeAwareTaskRunner : IDisposable, IDisposeAwareTaskRunner
     {
-        private readonly CancellationTokenSource disposeCancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _disposeCancellationTokenSource = new CancellationTokenSource();
 
         internal DisposeAwareTaskRunner()
         {
@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Core.Utilities
         /// <summary>
         /// Gets a <see cref="CancellationToken"/> that can be used to check if the package has been disposed.
         /// </summary>
-        private CancellationToken DisposalToken => this.disposeCancellationTokenSource.Token;
+        private CancellationToken DisposalToken => this._disposeCancellationTokenSource.Token;
 
         public bool IsVsShutdown => this.DisposalToken.IsCancellationRequested;
 
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             if (disposing)
             {
-                this.disposeCancellationTokenSource.Cancel();
+                this._disposeCancellationTokenSource.Cancel();
 
                 try
                 {
@@ -62,7 +62,7 @@ namespace FineCodeCoverage.Core.Utilities
                 }
                 finally
                 {
-                    this.disposeCancellationTokenSource.Dispose();
+                    this._disposeCancellationTokenSource.Dispose();
                 }
             }
         }

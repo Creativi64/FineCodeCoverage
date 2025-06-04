@@ -5,15 +5,15 @@ namespace FineCodeCoverage.Core.Utilities
 {
     internal class ComparableFile : IEquatable<ComparableFile>
     {
-        private readonly int hashCode;
+        private readonly int _hashCode;
 
         public FileInfo FileInfo { get; }
 
         public string RelativePath { get; }
 
-        public override int GetHashCode() => this.hashCode;
+        public override int GetHashCode() => this._hashCode;
 
-        public bool Equals(ComparableFile other) => this.hashCode.Equals(other.hashCode);
+        public bool Equals(ComparableFile other) => this._hashCode.Equals(other._hashCode);
 
         public override bool Equals(object obj) => obj is ComparableFile other && this.Equals(other);
 
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Core.Utilities
         {
             this.FileInfo = fileInfo;
             this.RelativePath = relativePath;
-            this.hashCode = string.Format("{0}|{1}|{2}", this.RelativePath, this.FileInfo.Length, this.FileInfo.LastWriteTimeUtc.Ticks).GetHashCode();
+            this._hashCode = string.Format("{0}|{1}|{2}", this.RelativePath, this.FileInfo.Length, this.FileInfo.LastWriteTimeUtc.Ticks).GetHashCode();
         }
     }
 }

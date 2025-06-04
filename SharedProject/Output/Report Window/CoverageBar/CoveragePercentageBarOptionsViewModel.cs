@@ -22,19 +22,20 @@ namespace FineCodeCoverage.Output
             public Color NotCoveredColor { get; }
         }
 
-        private CoveragePercentageBarDisplayParts displayParts;
-        private bool coveredPercentageIsLeft;
-        private bool isThemed;
-        private bool useContrastThemeWhenSingularDisplay;
-        private double? heightOrMultiplier;
-        private bool useSolidBrush;
-        private bool showToolTip;
-        private Color coveredColor;
-        private Color notCoveredColor;
-        private readonly ICoverageColoursProvider coverageColoursProvider;
-        private FontsAndColorsCoverageBarColours fontsAndColorsCoverageBarColours;
-        private bool coverageColoursDirty = true;
-        private bool lastCoveragePercentageBarColorsFromFontsAndColors;
+        private CoveragePercentageBarDisplayParts _displayParts;
+        private bool _coveredPercentageIsLeft;
+        private bool _isThemed;
+        private bool _useContrastThemeWhenSingularDisplay;
+        private double? _heightOrMultiplier;
+        private bool _useSolidBrush;
+        private bool _showToolTip;
+        private Color _coveredColor;
+        private Color _notCoveredColor;
+        private readonly ICoverageColoursProvider _coverageColoursProvider;
+        private FontsAndColorsCoverageBarColours _fontsAndColorsCoverageBarColours;
+        private bool _coverageColoursDirty = true;
+        private bool _lastCoveragePercentageBarColorsFromFontsAndColors;
+
         [ImportingConstructor]
         public CoveragePercentageBarOptionsViewModel(
             IOptionsProvider<ReportOptions> reportOptionsProvider,
@@ -42,11 +43,11 @@ namespace FineCodeCoverage.Output
             ICoverageColoursProvider coverageColoursProvider
         )
         {
-            this.coverageColoursProvider = coverageColoursProvider;
+            this._coverageColoursProvider = coverageColoursProvider;
             _ = eventAggregator.AddListener(this);
             reportOptionsProvider.OptionsChanged += this.SetOptions;
             ReportOptions reportOptions = reportOptionsProvider.Get();
-            this.lastCoveragePercentageBarColorsFromFontsAndColors = !reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
+            this._lastCoveragePercentageBarColorsFromFontsAndColors = !reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
             this.SetOptions(reportOptions);
         }
 
@@ -59,10 +60,10 @@ namespace FineCodeCoverage.Output
             this.UseContrastedThemeWhenSingularDisplay = reportOptions.CoveragePercentageUseContrastedThemeWhenSingularDisplay;
             this.HeightOrMultiplier = reportOptions.CoveragePercentageHeightOrMultiplier;
             this.ShowToolTip = reportOptions.CoveragePercentageShowTooltip;
-            if (reportOptions.CoveragePercentageUseColorsFromFontsAndColors != this.lastCoveragePercentageBarColorsFromFontsAndColors)
+            if (reportOptions.CoveragePercentageUseColorsFromFontsAndColors != this._lastCoveragePercentageBarColorsFromFontsAndColors)
             {
                 this.SetCoverageColours(reportOptions.CoveragePercentageUseColorsFromFontsAndColors);
-                this.lastCoveragePercentageBarColorsFromFontsAndColors = reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
+                this._lastCoveragePercentageBarColorsFromFontsAndColors = reportOptions.CoveragePercentageUseColorsFromFontsAndColors;
             }
         }
 
@@ -88,22 +89,22 @@ namespace FineCodeCoverage.Output
 
         private FontsAndColorsCoverageBarColours GetFontsAndColorsCoverageColours()
         {
-            if (this.fontsAndColorsCoverageBarColours == null || this.coverageColoursDirty)
+            if (this._fontsAndColorsCoverageBarColours == null || this._coverageColoursDirty)
             {
-                ICoverageColours coverageColours = this.coverageColoursProvider.GetCoverageColours();
+                ICoverageColours coverageColours = this._coverageColoursProvider.GetCoverageColours();
                 Color coveredColor = coverageColours.GetColour(Editor.DynamicCoverage.DynamicCoverageType.Covered).Background;
                 Color notCoveredColor = coverageColours.GetColour(Editor.DynamicCoverage.DynamicCoverageType.NotCovered).Background;
-                this.fontsAndColorsCoverageBarColours = new FontsAndColorsCoverageBarColours(coveredColor, notCoveredColor);
-                this.coverageColoursDirty = false;
+                this._fontsAndColorsCoverageBarColours = new FontsAndColorsCoverageBarColours(coveredColor, notCoveredColor);
+                this._coverageColoursDirty = false;
             }
 
-            return this.fontsAndColorsCoverageBarColours;
+            return this._fontsAndColorsCoverageBarColours;
         }
 
         public void Handle(CoverageColoursChangedMessage message)
         {
-            this.coverageColoursDirty = true;
-            if (this.lastCoveragePercentageBarColorsFromFontsAndColors)
+            this._coverageColoursDirty = true;
+            if (this._lastCoveragePercentageBarColorsFromFontsAndColors)
             {
                 this.SetCoverageColoursFromFontsAndColors();
             }
@@ -111,56 +112,56 @@ namespace FineCodeCoverage.Output
 
         public CoveragePercentageBarDisplayParts DisplayParts
         {
-            get => this.displayParts;
-            set => this.Set(ref this.displayParts, value);
+            get => this._displayParts;
+            set => this.Set(ref this._displayParts, value);
         }
 
         public bool CoveredPercentageIsLeft
         {
-            get => this.coveredPercentageIsLeft;
-            set => this.Set(ref this.coveredPercentageIsLeft, value);
+            get => this._coveredPercentageIsLeft;
+            set => this.Set(ref this._coveredPercentageIsLeft, value);
         }
 
         public bool IsThemed
         {
-            get => this.isThemed;
-            set => this.Set(ref this.isThemed, value);
+            get => this._isThemed;
+            set => this.Set(ref this._isThemed, value);
         }
 
         public Color CoveredColor
         {
-            get => this.coveredColor;
-            set => this.Set(ref this.coveredColor, value);
+            get => this._coveredColor;
+            set => this.Set(ref this._coveredColor, value);
         }
 
         public Color NotCoveredColor
         {
-            get => this.notCoveredColor;
-            set => this.Set(ref this.notCoveredColor, value);
+            get => this._notCoveredColor;
+            set => this.Set(ref this._notCoveredColor, value);
         }
 
         public bool UseSolidBrush
         {
-            get => this.useSolidBrush;
-            set => this.Set(ref this.useSolidBrush, value);
+            get => this._useSolidBrush;
+            set => this.Set(ref this._useSolidBrush, value);
         }
 
         public bool UseContrastedThemeWhenSingularDisplay
         {
-            get => this.useContrastThemeWhenSingularDisplay;
-            set => this.Set(ref this.useContrastThemeWhenSingularDisplay, value);
+            get => this._useContrastThemeWhenSingularDisplay;
+            set => this.Set(ref this._useContrastThemeWhenSingularDisplay, value);
         }
 
         public double? HeightOrMultiplier
         {
-            get => this.heightOrMultiplier;
-            set => this.Set(ref this.heightOrMultiplier, value);
+            get => this._heightOrMultiplier;
+            set => this.Set(ref this._heightOrMultiplier, value);
         }
 
         public bool ShowToolTip
         {
-            get => this.showToolTip;
-            set => this.Set(ref this.showToolTip, value);
+            get => this._showToolTip;
+            set => this.Set(ref this._showToolTip, value);
         }
     }
 }

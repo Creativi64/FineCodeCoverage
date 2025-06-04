@@ -9,9 +9,9 @@ namespace FineCodeCoverage.Impl
     [Export(typeof(ITestOperationStateInvocationManager))]
     internal class TestOperationStateInvocationManager : ITestOperationStateInvocationManager
     {
-        private readonly IInitializeStatusProvider initializeStatusProvider;
-        private readonly ILogger logger;
-        private bool initializedWhenTestExecutionStarting;
+        private readonly IInitializeStatusProvider _initializeStatusProvider;
+        private readonly ILogger _logger;
+        private bool _initializedWhenTestExecutionStarting;
 
         [ImportingConstructor]
         public TestOperationStateInvocationManager(
@@ -19,22 +19,23 @@ namespace FineCodeCoverage.Impl
             ILogger logger
         )
         {
-            this.initializeStatusProvider = initializeStatusProvider;
-            this.logger = logger;
+            this._initializeStatusProvider = initializeStatusProvider;
+            this._logger = logger;
         }
+
         public async Task<bool> CanInvokeAsync(TestOperationStates testOperationState)
         {
             if (testOperationState == TestOperationStates.TestExecutionStarting)
             {
-                this.initializedWhenTestExecutionStarting = this.initializeStatusProvider.InitializeStatus == InitializeStatus.Initialized;
+                this._initializedWhenTestExecutionStarting = this._initializeStatusProvider.InitializeStatus == InitializeStatus.Initialized;
             }
 
-            if (!this.initializedWhenTestExecutionStarting)
+            if (!this._initializedWhenTestExecutionStarting)
             {
-                await this.logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
+                await this._logger.LogAsync($"Skipping {testOperationState} as FCC not initialized");
             }
 
-            return this.initializedWhenTestExecutionStarting;
+            return this._initializedWhenTestExecutionStarting;
         }
     }
 }

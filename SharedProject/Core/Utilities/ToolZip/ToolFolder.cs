@@ -8,12 +8,17 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IToolFolder))]
     internal class ToolFolder : IToolFolder
     {
-        private readonly IZipFile zipFile;
+        private readonly IZipFile _zipFile;
 
         [ImportingConstructor]
-        public ToolFolder(IZipFile zipFile) => this.zipFile = zipFile;
+        public ToolFolder(IZipFile zipFile) => this._zipFile = zipFile;
 
-        public string EnsureUnzipped(string appDataFolder, string toolFolderName, ZipDetails zipDetails, CancellationToken cancellationToken)
+        public string EnsureUnzipped(
+            string appDataFolder,
+            string toolFolderName,
+            ZipDetails zipDetails,
+            CancellationToken cancellationToken
+        )
         {
             cancellationToken.ThrowIfCancellationRequested();
             string version = zipDetails.Version;
@@ -40,7 +45,7 @@ namespace FineCodeCoverage.Core.Utilities
                 }
 
                 _ = Directory.CreateDirectory(zipDestination);
-                this.zipFile.ExtractToDirectory(zipDetails.Path, zipDestination);
+                this._zipFile.ExtractToDirectory(zipDetails.Path, zipDestination);
             }
 
             return zipDestination;

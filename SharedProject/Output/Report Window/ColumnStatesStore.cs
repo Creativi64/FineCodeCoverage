@@ -10,9 +10,9 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IColumnStatesStore))]
     internal class ColumnStatesStore : IColumnStatesStore
     {
-        private readonly IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider;
-        private readonly IClearSettingsOnShutdown clearSettingsOnShutdown;
-        private readonly AsyncLazy<WritableSettingsStore> lazyUserSettingsStore;
+        private readonly IWritableUserSettingsStoreProvider _writableUserSettingsStoreProvider;
+        private readonly IClearSettingsOnShutdown _clearSettingsOnShutdown;
+        private readonly AsyncLazy<WritableSettingsStore> _lazyUserSettingsStore;
         private const string ColumnStatesCollectionName = "FCCColumnStates";
         private const string ColumnStatesPropertyName = "FCCColumnStates";
 
@@ -24,26 +24,26 @@ namespace FineCodeCoverage.Output
             IClearSettingsOnShutdown clearSettingsOnShutdown
             )
         {
-            this.writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
-            this.clearSettingsOnShutdown = clearSettingsOnShutdown;
-            this.lazyUserSettingsStore = this.writableUserSettingsStoreProvider.LazySettingsStore;
+            this._writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
+            this._clearSettingsOnShutdown = clearSettingsOnShutdown;
+            this._lazyUserSettingsStore = this._writableUserSettingsStoreProvider.LazySettingsStore;
         }
 
         private async Task DeleteCollectionAsync()
         {
-            WritableSettingsStore store = await this.lazyUserSettingsStore.GetValueAsync();
+            WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
             _ = store.DeleteCollection(ColumnStatesCollectionName);
         }
         public async Task SaveColumnStatesAsync(string columnStates)
         {
-            if (await this.clearSettingsOnShutdown.LazyShouldClearSettingsOnShutdown.GetValueAsync())
+            if (await this._clearSettingsOnShutdown.LazyShouldClearSettingsOnShutdown.GetValueAsync())
             {
                 await this.DeleteCollectionAsync();
                 return;
             }
 
             await this.EnsureCollectionAsync();
-            WritableSettingsStore store = await this.lazyUserSettingsStore.GetValueAsync();
+            WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
             store.SetString(ColumnStatesCollectionName, ColumnStatesPropertyName, columnStates);
         }
 
@@ -51,20 +51,20 @@ namespace FineCodeCoverage.Output
         {
             if (!await this.CollectionExistsAsync())
             {
-                WritableSettingsStore store = await this.lazyUserSettingsStore.GetValueAsync();
+                WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
                 store.CreateCollection(ColumnStatesCollectionName);
             }
         }
         private async Task<bool> CollectionExistsAsync()
         {
-            WritableSettingsStore store = await this.lazyUserSettingsStore.GetValueAsync();
+            WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
             return store.CollectionExists(ColumnStatesCollectionName);
         }
         public async Task<string> GetColumnStatesAsync()
         {
             if (await this.CollectionExistsAsync())
             {
-                WritableSettingsStore store = await this.lazyUserSettingsStore.GetValueAsync();
+                WritableSettingsStore store = await this._lazyUserSettingsStore.GetValueAsync();
                 return store.GetString(ColumnStatesCollectionName, ColumnStatesPropertyName);
             }
 

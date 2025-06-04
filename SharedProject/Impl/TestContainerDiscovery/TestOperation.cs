@@ -6,24 +6,25 @@ namespace FineCodeCoverage.Impl
 {
     internal class TestOperation : ITestOperation
     {
-        private readonly TestRunRequest testRunRequest;
-        private readonly ICoverageProjectFactory coverageProjectFactory;
-        private readonly IRunSettingsRetriever runSettingsRetriever;
+        private readonly TestRunRequest _testRunRequest;
+        private readonly ICoverageProjectFactory _coverageProjectFactory;
+        private readonly IRunSettingsRetriever _runSettingsRetriever;
 
         public TestOperation(TestRunRequest testRunRequest, ICoverageProjectFactory coverageProjectFactory, IRunSettingsRetriever runSettingsRetriever)
         {
-            this.testRunRequest = testRunRequest;
-            this.coverageProjectFactory = coverageProjectFactory;
-            this.runSettingsRetriever = runSettingsRetriever;
+            this._testRunRequest = testRunRequest;
+            this._coverageProjectFactory = coverageProjectFactory;
+            this._runSettingsRetriever = runSettingsRetriever;
         }
-        public long FailedTests => this.testRunRequest.Response.FailedTests;
 
-        public long TotalTests => this.testRunRequest.TotalTests;
+        public long FailedTests => this._testRunRequest.Response.FailedTests;
 
-        public string SolutionDirectory => this.testRunRequest.Configuration.SolutionDirectory;
+        public long TotalTests => this._testRunRequest.TotalTests;
+
+        public string SolutionDirectory => this._testRunRequest.Configuration.SolutionDirectory;
 
         public Task<List<ICoverageProject>> GetCoverageProjectsAsync()
-            => this.GetCoverageProjectsAsync(this.testRunRequest.Configuration);
+            => this.GetCoverageProjectsAsync(this._testRunRequest.Configuration);
 
         private async Task<List<ICoverageProject>> GetCoverageProjectsAsync(TestConfiguration testConfiguration)
         {
@@ -32,7 +33,7 @@ namespace FineCodeCoverage.Impl
             var coverageProjects = new List<ICoverageProject>();
             foreach (Container container in testContainers)
             {
-                ICoverageProject project = this.coverageProjectFactory.Create();
+                ICoverageProject project = this._coverageProjectFactory.Create();
                 coverageProjects.Add(project);
                 project.ProjectName = container.ProjectName;
                 project.TestDllFile = container.Source;
@@ -41,7 +42,7 @@ namespace FineCodeCoverage.Impl
                 ContainerData containerData = container.ProjectData;
                 project.ProjectFilePath = container.ProjectData.ProjectFilePath;
                 project.Id = containerData.Id;
-                project.RunSettingsFile = await this.runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
+                project.RunSettingsFile = await this._runSettingsRetriever.GetRunSettingsFileAsync(userRunSettings, containerData);
             }
 
             return coverageProjects;

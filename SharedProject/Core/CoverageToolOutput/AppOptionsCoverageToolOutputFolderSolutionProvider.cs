@@ -9,16 +9,16 @@ namespace FineCodeCoverage.Engine
     [Order(1, typeof(ICoverageToolOutputFolderSolutionProvider))]
     class AppOptionsCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
     {
-        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
+        private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
 
         [ImportingConstructor]
         public AppOptionsCoverageToolOutputFolderSolutionProvider(
             IOptionsProvider<OutputOptions> outputOptionsProvider
-        ) => this.outputOptionsProvider = outputOptionsProvider;
+        ) => this._outputOptionsProvider = outputOptionsProvider;
 
         public string Provide(Func<string> solutionFolderProvider)
         {
-            OutputOptions appOptions = this.outputOptionsProvider.Get();
+            OutputOptions appOptions = this._outputOptionsProvider.Get();
             if (!string.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
             {
                 string solutionFolder = solutionFolderProvider();

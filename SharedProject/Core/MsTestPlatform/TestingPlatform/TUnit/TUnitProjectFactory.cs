@@ -14,18 +14,18 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(ITUnitProjectFactory))]
     internal class TUnitProjectFactory : ITUnitProjectFactory
     {
-        private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
-        private readonly ICommandLineParser commandLineParser;
+        private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
+        private readonly ICommandLineParser _commandLineParser;
 
         class TUnitProject : ITUnitProject, IDisposable
         {
-            private readonly ITUnitInstalledPackagesService tUnitInstalledPackagesService;
-            private readonly ICommandLineParser commandLineParser;
-            private IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems;
-            private bool requiresUpdate = true;
-            private bool disposedValue;
-            private readonly IProjectProperties commonProperties;
-            private readonly IDisposable packageChangeSubscription;
+            private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
+            private readonly ICommandLineParser _commandLineParser;
+            private IImmutableDictionary<string, IImmutableDictionary<string, string>> _packageReferenceItems;
+            private bool _requiresUpdate = true;
+            private bool _disposedValue;
+            private readonly IProjectProperties _commonProperties;
+            private readonly IDisposable _packageChangeSubscription;
             private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
             private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
 
@@ -42,11 +42,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 IVsHierarchy hierarchy
             )
             {
-                this.commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
+                this._commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
                 this.Hierarchy = hierarchy;
-                this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
-                this.commandLineParser = commandLineParser;
-                this.packageChangeSubscription = this.SubscribeToPackageReferenceChanges(configuredProject);
+                this._tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+                this._commandLineParser = commandLineParser;
+                this._packageChangeSubscription = this.SubscribeToPackageReferenceChanges(configuredProject);
             }
 
             /*
@@ -54,7 +54,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             */
             private async Task<bool?> UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync()
             {
-                System.Collections.Generic.IEnumerable<string> propertyNames = await this.commonProperties.GetPropertyNamesAsync();
+                System.Collections.Generic.IEnumerable<string> propertyNames = await this._commonProperties.GetPropertyNamesAsync();
                 bool hasTestingPlatformCommandLineArgumentsPropertyName = false;
                 foreach (string propertyName in propertyNames)
                 {
@@ -82,9 +82,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 else
                 {
                     string propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
-                    string testingPlatformCommandLineArguments = await this.commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
+                    string testingPlatformCommandLineArguments = await this._commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
 
-                    this.CommandLineParseResult = this.commandLineParser.Parse(testingPlatformCommandLineArguments);
+                    this.CommandLineParseResult = this._commandLineParser.Parse(testingPlatformCommandLineArguments);
                 }
             }
 
@@ -120,8 +120,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             {
                 // if need to switch to the main thread will need CPS IThreadHandling 
                 // This runs on a background thread. 
-                this.packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
-                this.requiresUpdate = true;
+                this._packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
+                this._requiresUpdate = true;
                 return Task.CompletedTask;
             }
             public bool IsTUnit { get; private set; }
@@ -131,20 +131,20 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             public CommandLineParseResult CommandLineParseResult { get; private set; } = CommandLineParseResult.Empty;
             public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {
-                if (this.requiresUpdate)
+                if (this._requiresUpdate)
                 {
-                    TUnitInstalledPackageResult installedPackagesResult = await this.tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await this.Hierarchy.GetGuidAsync(), cancellationToken);
+                    TUnitInstalledPackageResult installedPackagesResult = await this._tUnitInstalledPackagesService.GetTUnitInstalledPackagesAsync(await this.Hierarchy.GetGuidAsync(), cancellationToken);
                     if (installedPackagesResult.Status != InstalledPackageResultStatus.Successful)
                     {
                         // fallback but not transitive
                         // the data flow block should get data immediately
-                        installedPackagesResult = this.tUnitInstalledPackagesService.GetTUnitInstalledPackages(this.packageReferenceItems);
+                        installedPackagesResult = this._tUnitInstalledPackagesService.GetTUnitInstalledPackages(this._packageReferenceItems);
                     }
 
                     this.IsTUnit = installedPackagesResult.HasTUnit;
                     this.HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
 
-                    this.requiresUpdate = false;
+                    this._requiresUpdate = false;
                 }
 
                 if (this.IsTUnit)
@@ -175,14 +175,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             protected virtual void Dispose(bool disposing)
             {
-                if (!this.disposedValue)
+                if (!this._disposedValue)
                 {
                     if (disposing)
                     {
-                        this.packageChangeSubscription.Dispose();
+                        this._packageChangeSubscription.Dispose();
                     }
 
-                    this.disposedValue = true;
+                    this._disposedValue = true;
                 }
             }
 
@@ -200,10 +200,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ICommandLineParser commandLineParser
         )
         {
-            this.tUnitInstalledPackagesService = tUnitInstalledPackagesService;
-            this.commandLineParser = commandLineParser;
+            this._tUnitInstalledPackagesService = tUnitInstalledPackagesService;
+            this._commandLineParser = commandLineParser;
         }
         public ITUnitProject Create(IVsHierarchy hierarchy, ConfiguredProject configuredProject)
-            => new TUnitProject(this.tUnitInstalledPackagesService, this.commandLineParser, configuredProject, hierarchy);
+            => new TUnitProject(this._tUnitInstalledPackagesService, this._commandLineParser, configuredProject, hierarchy);
     }
 }

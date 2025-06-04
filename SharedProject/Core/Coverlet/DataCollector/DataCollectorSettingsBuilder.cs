@@ -8,9 +8,9 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(IDataCollectorSettingsBuilder))]
     internal class DataCollectorSettingsBuilder : IDataCollectorSettingsBuilder
     {
-        private string generatedRunSettingsPath;
-        private string existingRunSettings;
-        private bool runSettingsOnly;
+        private string _generatedRunSettingsPath;
+        private string _existingRunSettings;
+        private bool _runSettingsOnly;
 
         #region Arguments
         internal string ProjectDll { get; set; }
@@ -61,8 +61,8 @@ namespace FineCodeCoverage.Engine.Coverlet
         #region run settings xml generation
         private void GenerateRunSettings()
         {
-            XDocument runSettingsDocument = this.existingRunSettings == null ? this.GenerateFullRunSettings() : this.GenerateRunSettingsFromExisting();
-            runSettingsDocument.Save(this.generatedRunSettingsPath);
+            XDocument runSettingsDocument = this._existingRunSettings == null ? this.GenerateFullRunSettings() : this.GenerateRunSettingsFromExisting();
+            runSettingsDocument.Save(this._generatedRunSettingsPath);
         }
 
         private XDocument GenerateFullRunSettings() => new XDocument(
@@ -75,7 +75,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private XDocument GenerateRunSettingsFromExisting()
         {
-            var existingRunSettingsDocument = XDocument.Load(this.existingRunSettings);
+            var existingRunSettingsDocument = XDocument.Load(this._existingRunSettings);
             XElement existingRunSettingsElement = existingRunSettingsDocument.Root;
             XElement dataCollectionRunSettings = existingRunSettingsElement.Element("DataCollectionRunSettings");
             if (dataCollectionRunSettings == null)
@@ -155,9 +155,9 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public void Initialize(bool runSettingsOnly, string runSettingsPath, string generatedRunSettingsPath)
         {
-            this.runSettingsOnly = runSettingsOnly;
-            this.generatedRunSettingsPath = generatedRunSettingsPath;
-            this.existingRunSettings = runSettingsPath;
+            this._runSettingsOnly = runSettingsOnly;
+            this._generatedRunSettingsPath = generatedRunSettingsPath;
+            this._existingRunSettings = runSettingsPath;
             this.RunSettings = $"--settings {Quote(generatedRunSettingsPath)}";
         }
         #endregion
@@ -167,9 +167,9 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             string DelimitProject() => project == null ? null : string.Join(",", project);
 
-            return this.existingRunSettings == null ?
+            return this._existingRunSettings == null ?
                 DelimitProject() :
-                runSettings ?? (!this.runSettingsOnly ? DelimitProject() : null);
+                runSettings ?? (!this._runSettingsOnly ? DelimitProject() : null);
         }
 
         public void WithExclude(string[] projectExclude, string runSettingsExclude)
@@ -200,7 +200,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             string ProjectInclude() => projectIncludeTestAssembly.ToString().ToLower();
 
             string includeTestAssembly = null;
-            if (this.existingRunSettings == null)
+            if (this._existingRunSettings == null)
             {
                 includeTestAssembly = ProjectInclude();
             }
@@ -212,7 +212,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 }
                 else
                 {
-                    if (!this.runSettingsOnly) // default true
+                    if (!this._runSettingsOnly) // default true
                     {
                         includeTestAssembly = ProjectInclude();
                     }

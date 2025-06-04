@@ -12,20 +12,20 @@ namespace FineCodeCoverage.Engine
     [Export(typeof(IAppDataFolderPathDependent))]
     internal class CoverageUtilManager : ICoverageUtilManager, IAppDataFolderPathDependent
     {
-        private readonly IOpenCoverUtil openCoverUtil;
-        private readonly ICoverletUtil coverletUtil;
+        private readonly IOpenCoverUtil _openCoverUtil;
+        private readonly ICoverletUtil _coverletUtil;
 
         [ImportingConstructor]
         public CoverageUtilManager(IOpenCoverUtil openCoverUtil, ICoverletUtil coverletUtil)
         {
-            this.openCoverUtil = openCoverUtil;
-            this.coverletUtil = coverletUtil;
+            this._openCoverUtil = openCoverUtil;
+            this._coverletUtil = coverletUtil;
         }
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            this.openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
-            this.coverletUtil.Initialize(appDataFolderPath, cancellationToken);
+            this._openCoverUtil.Initialize(appDataFolderPath, cancellationToken);
+            this._coverletUtil.Initialize(appDataFolderPath, cancellationToken);
             return Task.CompletedTask;
         }
 
@@ -33,11 +33,11 @@ namespace FineCodeCoverage.Engine
         {
             if (project.IsDotNetSdkStyle())
             {
-                await this.coverletUtil.RunCoverletAsync(project, cancellationToken);
+                await this._coverletUtil.RunCoverletAsync(project, cancellationToken);
             }
             else
             {
-                await this.openCoverUtil.RunOpenCoverAsync(project, cancellationToken);
+                await this._openCoverUtil.RunOpenCoverAsync(project, cancellationToken);
             }
         }
     }

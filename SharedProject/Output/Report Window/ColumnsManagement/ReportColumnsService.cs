@@ -6,18 +6,18 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IReportColumnsService))]
     class ReportColumnsService : IReportColumnsService
     {
-        private readonly IReportColumnManager reportColumnsManager;
-        private readonly IMessageBox messageBox;
+        private readonly IReportColumnManager _reportColumnsManager;
+        private readonly IMessageBox _messageBox;
 
         [ImportingConstructor]
         public ReportColumnsService(IReportColumnManager reportColumnsManager, IMessageBox messageBox)
         {
-            this.reportColumnsManager = reportColumnsManager;
-            this.messageBox = messageBox;
+            this._reportColumnsManager = reportColumnsManager;
+            this._messageBox = messageBox;
         }
         public void ManageColumns()
         {
-            var vm = new ReportColumnsManagementViewModel(this.reportColumnsManager, this.messageBox);
+            var vm = new ReportColumnsManagementViewModel(this._reportColumnsManager, this._messageBox);
             var columnsManagementWindow = new ColumnsManagementWindow2(vm);
             _ = columnsManagementWindow.ShowModal();
         }

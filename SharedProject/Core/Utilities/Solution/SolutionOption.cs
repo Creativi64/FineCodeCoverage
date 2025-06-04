@@ -6,12 +6,12 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 {
     internal abstract class SolutionOption<T> : ISolutionOption
     {
-        private readonly IJsonConvertService jsonConvertService;
+        private readonly IJsonConvertService _jsonConvertService;
         public event EventHandler UnloadedEvent;
 
         protected SolutionOption(IJsonConvertService jsonConvertService)
         {
-            this.jsonConvertService = jsonConvertService;
+            this._jsonConvertService = jsonConvertService;
             this.Value = this.GetDefaultValue();
         }
 
@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
                     this.Value = (T)(object)optionAsString;
                 }
 
-                this.Value = this.jsonConvertService.DeserializeObject<T>(optionAsString);
+                this.Value = this._jsonConvertService.DeserializeObject<T>(optionAsString);
             }
 
             this.Loaded();
@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         {
             using (var sw = new StreamWriter(stream, Encoding.UTF8, 1024, leaveOpen: true))
             {
-                sw.Write(this.jsonConvertService.SerializeObject(this.Value));
+                sw.Write(this._jsonConvertService.SerializeObject(this.Value));
                 sw.Flush();
             }
 

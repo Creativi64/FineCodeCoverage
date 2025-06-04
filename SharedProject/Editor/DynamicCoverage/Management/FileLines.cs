@@ -7,35 +7,41 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class FileLines : IFileLines
     {
-        internal class TrackedLinesState
+        private class TrackedLinesState
         {
-            private readonly IDateTimeService dateTimeService;
-            private DateTime lastTracked;
+            private readonly IDateTimeService _dateTimeService;
+            private DateTime _lastTracked;
+
             public TrackedLinesState(ITrackedLines trackedLines, IDateTimeService dateTimeService)
             {
                 this.TrackedLines = trackedLines;
-                this.dateTimeService = dateTimeService;
-                this.lastTracked = this.dateTimeService.Now;
+                this._dateTimeService = dateTimeService;
+                this._lastTracked = this._dateTimeService.Now;
             }
             public ITrackedLines TrackedLines { get; }
 
-            internal bool IsOutOfDate(DateTime lastWriteTime) => lastWriteTime > this.lastTracked;
-            internal void TextViewClosed() => this.lastTracked = this.dateTimeService.Now;
+            internal bool IsOutOfDate(DateTime lastWriteTime) => lastWriteTime > this._lastTracked;
+            internal void TextViewClosed() => this._lastTracked = this._dateTimeService.Now;
         }
+
+        private TrackedLinesState _trackedLinesState;
+        private readonly IDateTimeService _dateTimeService;
+
         public FileLines(List<ICoberturaLine> Lines, IDateTimeService dateTimeService)
         {
             this.Lines = Lines;
-            this.dateTimeService = dateTimeService;
+            this._dateTimeService = dateTimeService;
         }
         public List<ICoberturaLine> Lines { get; }
-        private TrackedLinesState trackedLinesState;
-        private readonly IDateTimeService dateTimeService;
 
-        public bool HasTrackedLines => this.trackedLinesState != null;
+        public bool HasTrackedLines => this._trackedLinesState != null;
 
-        public void SetTrackedLines(ITrackedLines trackedLines) => this.trackedLinesState = new TrackedLinesState(trackedLines, this.dateTimeService);
-        public void TextViewClosed() => this.trackedLinesState?.TextViewClosed();
+        public void SetTrackedLines(ITrackedLines trackedLines)
+            => this._trackedLinesState = new TrackedLinesState(trackedLines, this._dateTimeService);
+
+        public void TextViewClosed() => this._trackedLinesState?.TextViewClosed();
+
         public ITrackedLines GetTrackedLinesIfNotOutOfDate(DateTime lastWriteTime)
-            => this.trackedLinesState.IsOutOfDate(lastWriteTime) ? null : this.trackedLinesState.TrackedLines;
+            => this._trackedLinesState.IsOutOfDate(lastWriteTime) ? null : this._trackedLinesState.TrackedLines;
     }
 }

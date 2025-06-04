@@ -11,15 +11,15 @@ namespace FineCodeCoverage.Editor.Roslyn
     [Export(typeof(ICSharpCodeCoverageNodeVisitor))]
     internal class CSharpContainingCodeVisitor : CSharpSyntaxVisitor, ILanguageContainingCodeVisitor, ICSharpCodeCoverageNodeVisitor
     {
-        private readonly List<SyntaxNode> nodes = new List<SyntaxNode>();
+        private readonly List<SyntaxNode> _nodes = new List<SyntaxNode>();
         public List<TextSpan> GetSpans(SyntaxNode rootNode)
             => this.GetNodes(rootNode).ConvertAll(node => node.Span);
 
         public List<SyntaxNode> GetNodes(SyntaxNode rootNode)
         {
-            this.nodes.Clear();
+            this._nodes.Clear();
             this.Visit(rootNode);
-            return this.nodes;
+            return this._nodes;
         }
 
 #if VS2022
@@ -109,6 +109,6 @@ namespace FineCodeCoverage.Editor.Roslyn
         private static bool IsAbstract(SyntaxTokenList modifiers)
             => modifiers.Any(modifier => modifier.IsKind(SyntaxKind.AbstractKeyword));
 
-        private void AddNode(SyntaxNode node) => this.nodes.Add(node);
+        private void AddNode(SyntaxNode node) => this._nodes.Add(node);
     }
 }

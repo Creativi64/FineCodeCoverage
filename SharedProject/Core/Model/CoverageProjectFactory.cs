@@ -7,10 +7,10 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ICoverageProjectFactory))]
     internal class CoverageProjectFactory : ICoverageProjectFactory
     {
-        private readonly IOptionsProvider<OutputOptions> outputOptionsProvider;
-        private readonly IFileSynchronizationUtil fileSynchronizationUtil;
-        private readonly ICoverageProjectSettingsManager coverageProjectSettingsManager;
-        private readonly IReferencedProjectsHelper referencedProjectsHelper;
+        private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
+        private readonly IFileSynchronizationUtil _fileSynchronizationUtil;
+        private readonly ICoverageProjectSettingsManager _coverageProjectSettingsManager;
+        private readonly IReferencedProjectsHelper _referencedProjectsHelper;
 
         [ImportingConstructor]
         public CoverageProjectFactory(
@@ -19,16 +19,17 @@ namespace FineCodeCoverage.Engine.Model
             ICoverageProjectSettingsManager coverageProjectSettingsManager,
             IReferencedProjectsHelper referencedProjectsHelper)
         {
-            this.outputOptionsProvider = outputOptionsProvider;
-            this.fileSynchronizationUtil = fileSynchronizationUtil;
-            this.coverageProjectSettingsManager = coverageProjectSettingsManager;
-            this.referencedProjectsHelper = referencedProjectsHelper;
+            this._outputOptionsProvider = outputOptionsProvider;
+            this._fileSynchronizationUtil = fileSynchronizationUtil;
+            this._coverageProjectSettingsManager = coverageProjectSettingsManager;
+            this._referencedProjectsHelper = referencedProjectsHelper;
         }
 
-        public ICoverageProject Create() => new CoverageProject(
-                this.outputOptionsProvider,
-                this.fileSynchronizationUtil,
-                this.coverageProjectSettingsManager,
-                this.referencedProjectsHelper);
+        public ICoverageProject Create()
+            => new CoverageProject(
+                this._outputOptionsProvider,
+                this._fileSynchronizationUtil,
+                this._coverageProjectSettingsManager,
+                this._referencedProjectsHelper);
     }
 }

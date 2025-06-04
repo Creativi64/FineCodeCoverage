@@ -67,10 +67,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private class MergedIncludesExcludesOptions : IMsCodeCoverageIncludesExcludesOptions
         {
-            private readonly List<ICoverageSettings> allOptions;
+            private readonly List<ICoverageSettings> _allOptions;
             public MergedIncludesExcludesOptions(IEnumerable<ICoverageSettings> allOptions)
             {
-                this.allOptions = allOptions.ToList();
+                this._allOptions = allOptions.ToList();
 
                 this.ModulePathsExclude = this.Merge(options => options.ModulePathsExclude);
                 this.ModulePathsInclude = this.Merge(options => options.ModulePathsInclude);
@@ -87,7 +87,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
 
             private string[] Merge(Func<ICoverageSettings, string[]> selector)
-                => this.allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
+                => this._allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
 
             public string[] ModulePathsExclude { get; set; }
             public string[] ModulePathsInclude { get; set; }

@@ -8,35 +8,35 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class TrackedCoverageLine : ITrackedCoverageLine
     {
-        private readonly ITrackingSpan trackingSpan;
-        private readonly ILineTracker lineTracker;
-        private readonly DynamicLine line;
-        public IDynamicLine Line => this.line;
+        private readonly ITrackingSpan _trackingSpan;
+        private readonly ILineTracker _lineTracker;
+        private readonly DynamicLine _line;
+        private readonly Action<int> _updateDynamicCoberturaLine = (_) => { };
+
+        public IDynamicLine Line => this._line;
 
         public IDynamicCoberturaLine DynamicCoberturaLine { get; }
 
-        private readonly Action<int> updateDynamicCoberturaLine = (_) => { };
-
         public TrackedCoverageLine(ITrackingSpan trackingSpan, ICoberturaLine coberturaLine, ILineTracker lineTracker)
         {
-            this.line = DynamicLine.FromCoberturaLine(coberturaLine);
-            this.trackingSpan = trackingSpan;
-            this.lineTracker = lineTracker;
+            this._line = DynamicLine.FromCoberturaLine(coberturaLine);
+            this._trackingSpan = trackingSpan;
+            this._lineTracker = lineTracker;
             if (coberturaLine is IDynamicCoberturaLine dynamicCoberturaLine)
             {
                 this.DynamicCoberturaLine = dynamicCoberturaLine;
-                this.updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
+                this._updateDynamicCoberturaLine = (newLineNumber) => dynamicCoberturaLine.LineMoved(newLineNumber);
             }
         }
 
         public List<int> GetUpdateLineNumbers(ITextSnapshot currentSnapshot)
         {
             int previousLineNumber = this.Line.LineNumber;
-            int newLineNumber = this.lineTracker.GetLineNumber(this.trackingSpan, currentSnapshot, true);
+            int newLineNumber = this._lineTracker.GetLineNumber(this._trackingSpan, currentSnapshot, true);
             if (newLineNumber != previousLineNumber)
             {
-                this.line.LineNumber = newLineNumber;
-                this.updateDynamicCoberturaLine(newLineNumber);
+                this._line.LineNumber = newLineNumber;
+                this._updateDynamicCoberturaLine(newLineNumber);
                 return new List<int> { previousLineNumber, newLineNumber };
 
             }

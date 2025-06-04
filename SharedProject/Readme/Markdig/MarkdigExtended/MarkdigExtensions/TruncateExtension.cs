@@ -5,11 +5,11 @@ namespace FineCodeCoverage.Readme
 {
     public class TruncateExtension : IMarkdownExtension
     {
-        private readonly string matchText;
+        private readonly string _matchText;
 
-        public TruncateExtension(string matchText) => this.matchText = matchText;
+        public TruncateExtension(string matchText) => this._matchText = matchText;
         public void Setup(MarkdownPipelineBuilder pipeline)
-            => pipeline.BlockParsers.Insert(0, new TruncateParser(this.matchText));
+            => pipeline.BlockParsers.Insert(0, new TruncateParser(this._matchText));
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer) { }
     }

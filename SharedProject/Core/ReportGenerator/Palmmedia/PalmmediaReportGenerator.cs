@@ -16,13 +16,14 @@ namespace FineCodeCoverage.Engine.ReportGenerator
     internal class PalmmediaReportGenerator
         : IFCCReportGenerator
     {
-        private readonly Regex fileDoesNotExistAnymoreRegex = new Regex(@"File '.*' does not exist \(any more\)\.", RegexOptions.Compiled);
-        private readonly IHtmlFilesToFolder htmlFilesToFolder;
+        private readonly Regex _fileDoesNotExistAnymoreRegex = new Regex(@"File '.*' does not exist \(any more\)\.", RegexOptions.Compiled);
+        private readonly IHtmlFilesToFolder _htmlFilesToFolder;
+        private VerbosityLevel _verbosityLevel;
 
         [ImportingConstructor]
         public PalmmediaReportGenerator(
             IHtmlFilesToFolder htmlFilesToFolder
-            ) => this.htmlFilesToFolder = htmlFilesToFolder;
+            ) => this._htmlFilesToFolder = htmlFilesToFolder;
 
         public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
         {
@@ -38,7 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 empty,
                 empty,
                 empty,
-                this.verbosityLevel.ToString(),
+                this._verbosityLevel.ToString(),
                 ""
                 );
 
@@ -46,20 +47,19 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             var collection = new ReadOnlyCollection<string>(coverageFiles.ToList());
             ParserResult parserResult = parser.ParseFiles(collection);
             new Generator().GenerateReport(config, parserResult);
-            this.htmlFilesToFolder.Collate(reportDirectory);
+            this._htmlFilesToFolder.Collate(reportDirectory);
             return new PalmmediaReportResult(parserResult);
         }
 
-        private VerbosityLevel verbosityLevel;
         public void SetLogger(VerbosityLevel verbosityLevel, Action<VerbosityLevel, string> logger)
         {
-            this.verbosityLevel = verbosityLevel;
+            this._verbosityLevel = verbosityLevel;
             LoggerFactory.Configure((palmmediaVerbosityLevel, message) =>
             {
                 bool shouldLog = true;
                 if (palmmediaVerbosityLevel != PalmmediaVerbosityLevel.Error)
                 {
-                    Match matched = this.fileDoesNotExistAnymoreRegex.Match(message);
+                    Match matched = this._fileDoesNotExistAnymoreRegex.Match(message);
                     shouldLog = !matched.Success;
                 }
 

@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Wpf
     public static class ImageLibraryLoader
     {
         private static ImageLibrary defaultImageLibrary;
-        private static List<string> _defaultDirectories;
+        private static List<string> defaultDirectories;
 
         public static ImageLibrary Default => defaultImageLibrary ?? (defaultImageLibrary = GetImageLibrary(""));
 
@@ -18,18 +18,18 @@ namespace FineCodeCoverage.Wpf
         {
             get
             {
-                if (_defaultDirectories == null)
+                if (defaultDirectories == null)
                 {
-                    _defaultDirectories = new List<string>();
+                    defaultDirectories = new List<string>();
                     string installationPath = VsHelper.GetAVsInstallationPath();
                     if (installationPath != null)
                     {
                         //Path.Combine(installationPath, "Common7\\IDE")
-                        _defaultDirectories.Add(Path.Combine(installationPath, "Common7\\IDE\\CommonExtensions\\Platform\\Shell"));
+                        defaultDirectories.Add(Path.Combine(installationPath, "Common7\\IDE\\CommonExtensions\\Platform\\Shell"));
                     }
                 }
 
-                return _defaultDirectories;
+                return defaultDirectories;
             }
         }
 

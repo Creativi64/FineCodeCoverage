@@ -16,8 +16,8 @@ namespace FineCodeCoverage.Engine.Model
         private const bool settingsFileDefaultMerge = false;
         private const string defaultMergeAttributeName = "defaultMerge";
         private const string mergeAttributeName = "merge";
-        private readonly ILogger logger;
-        private readonly SettingsMergeLogic settingsMergeLogic = new SettingsMergeLogic();
+        private readonly ILogger _logger;
+        private readonly SettingsMergeLogic _settingsMergeLogic = new SettingsMergeLogic();
         private static readonly Dictionary<Type, ISettingsXmlParser> parsers = new Dictionary<Type, ISettingsXmlParser>()
         {
             { typeof(bool), new SettingsXmlParser<bool,bool?>(bool.TryParse)},
@@ -37,12 +37,12 @@ namespace FineCodeCoverage.Engine.Model
             public bool FromProjectSettings { get; internal set; }
         }
 
-        private List<PropertyInfo> settingsPropertyInfos;
+        private List<PropertyInfo> _settingsPropertyInfos;
 
         [ImportingConstructor]
         public SettingsMerger(
             ILogger logger
-        ) => this.logger = logger;
+        ) => this._logger = logger;
 
         public async Task MergeAsync(
             CoverageSettings coverageSettings,
@@ -50,7 +50,7 @@ namespace FineCodeCoverage.Engine.Model
             List<XElement> settingsFileElements,
             XElement projectSettingsElement)
         {
-            this.settingsPropertyInfos = coverageSettingsPropertyInfos;
+            this._settingsPropertyInfos = coverageSettingsPropertyInfos;
             await this.MergeAsync(
                 coverageSettings,
                 GetElementDefaultMergeStrategies(settingsFileElements, projectSettingsElement)
@@ -85,7 +85,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private async Task MergeAsync(CoverageSettings coverageSettings, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
         {
-            foreach (PropertyInfo settingsProperty in this.settingsPropertyInfos)
+            foreach (PropertyInfo settingsProperty in this._settingsPropertyInfos)
             {
                 await this.MergeAsync(coverageSettings, settingsProperty, settingsElementsWithDefaultMergeStrategy);
             }
@@ -97,7 +97,7 @@ namespace FineCodeCoverage.Engine.Model
             List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
         )
         {
-            bool canMerge = this.settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
+            bool canMerge = this._settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
             if (canMerge)
             {
                 await this.MergeOrOverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
@@ -158,7 +158,7 @@ namespace FineCodeCoverage.Engine.Model
                 object currentValue = settingPropertyInfo.GetValue(coverageSettings);
                 object merged = currentValue == null ?
                     value :
-                    this.settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
+                    this._settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
                 settingPropertyInfo.SetValue(coverageSettings, merged);
             }
         }
@@ -213,7 +213,7 @@ namespace FineCodeCoverage.Engine.Model
             catch (Exception exception)
             {
                 string from = fromProjectSettings ? "project settings" : "settings file";
-                await this.logger.LogAsync($"Failed to get '{property.Name}' setting from {from}", exception.ToString());
+                await this._logger.LogAsync($"Failed to get '{property.Name}' setting from {from}", exception.ToString());
             }
 
             return null;

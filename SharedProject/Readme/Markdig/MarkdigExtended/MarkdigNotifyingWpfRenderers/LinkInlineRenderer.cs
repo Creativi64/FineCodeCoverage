@@ -11,24 +11,24 @@ namespace FineCodeCoverage.Readme
 {
     public class LinkInlineRenderer : NotifyingObjectRenderer<LinkInline>
     {
-        private readonly string relativeRoot;
-        private readonly string githubRoot;
-        private readonly ICommand navigateCommand;
+        private readonly string _relativeRoot;
+        private readonly string _githubRoot;
+        private readonly ICommand _navigateCommand;
 
         public LinkInlineRenderer(string relativeRoot, string githubRoot, ICommand navigateCommand)
         {
-            this.relativeRoot = relativeRoot;
-            this.githubRoot = githubRoot;
-            this.navigateCommand = navigateCommand;
+            this._relativeRoot = relativeRoot;
+            this._githubRoot = githubRoot;
+            this._navigateCommand = navigateCommand;
         }
 
         private string EnsureAbsolute(string url)
         {
             if (Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
-                string localPath = Path.Combine(this.relativeRoot, url);
+                string localPath = Path.Combine(this._relativeRoot, url);
                 return File.Exists(localPath) ?
-                    localPath : new Uri(Path.Combine(this.githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
+                    localPath : new Uri(Path.Combine(this._githubRoot, url), UriKind.RelativeOrAbsolute).ToString();
             }
 
             return url;
@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Readme
                 ICommand command = null;
                 if (link.Parent is LinkInline urlLinkInline)
                 {
-                    command = this.navigateCommand;
+                    command = this._navigateCommand;
                     url = this.GetUrl(urlLinkInline);
                 }
 
@@ -77,7 +77,7 @@ namespace FineCodeCoverage.Readme
             {
                 var hyperlink = new Hyperlink
                 {
-                    Command = this.navigateCommand,
+                    Command = this._navigateCommand,
                     CommandParameter = url,
                     NavigateUri = new Uri(url, UriKind.RelativeOrAbsolute),
                 };

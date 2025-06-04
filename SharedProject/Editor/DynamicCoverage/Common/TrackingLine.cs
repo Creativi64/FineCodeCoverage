@@ -5,8 +5,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class TrackingLine : ITrackingLine
     {
-        private readonly ITrackingSpan startTrackingSpan;
-        private readonly ILineTracker lineTracker;
+        private readonly ITrackingSpan _startTrackingSpan;
+        private readonly ILineTracker _lineTracker;
 
         public IDynamicLine Line { get; }
         public TrackingLine(
@@ -15,9 +15,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ILineTracker lineTracker,
             DynamicCoverageType dynamicCoverageType)
         {
-            this.startTrackingSpan = startTrackingSpan;
-            this.lineTracker = lineTracker;
-            int lineNumber = this.lineTracker.GetLineNumber(this.startTrackingSpan, currentSnapshot, false);
+            this._startTrackingSpan = startTrackingSpan;
+            this._lineTracker = lineTracker;
+            int lineNumber = this._lineTracker.GetLineNumber(this._startTrackingSpan, currentSnapshot, false);
             this.Line = new DynamicLine(lineNumber, dynamicCoverageType);
         }
 
@@ -27,14 +27,14 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             DynamicCoverageType dynamicCoverageType,
             int originalLineNumber)
         {
-            this.lineTracker = lineTracker;
-            this.startTrackingSpan = startTrackingSpan;
+            this._lineTracker = lineTracker;
+            this._startTrackingSpan = startTrackingSpan;
             this.Line = new DynamicLine(originalLineNumber, dynamicCoverageType);
         }
 
         private void UpdateLineNumber(ITextSnapshot currentSnapshot)
         {
-            int lineNumber = this.lineTracker.GetLineNumber(this.startTrackingSpan, currentSnapshot, false);
+            int lineNumber = this._lineTracker.GetLineNumber(this._startTrackingSpan, currentSnapshot, false);
             (this.Line as DynamicLine).LineNumber = lineNumber;
         }
 

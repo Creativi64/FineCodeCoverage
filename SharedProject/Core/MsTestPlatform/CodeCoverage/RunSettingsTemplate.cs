@@ -30,9 +30,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public string PublicKeyTokensInclude { get; } = "%fcc_publickeytokens_include%";
         }
 
-        private readonly ReplacementLookups replacementLookups = new ReplacementLookups();
+        private readonly ReplacementLookups _replacementLookups = new ReplacementLookups();
 
-        private readonly string template;
+        private readonly string _template;
 
         public string RunConfigurationElement { get; }
 
@@ -43,10 +43,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public string MsDataCollectorElement { get; }
 
         private const string fccMarkerElementName = "FCCGenerated";
-        private readonly string msDataCollectorConfigurationElement;
-        private readonly string msDataCollectorCodeCoverageElement;
+        private readonly string _msDataCollectorConfigurationElement;
+        private readonly string _msDataCollectorCodeCoverageElement;
 
-        private readonly List<(string elementName, string value)> recommendedYouDoNotChangeElementsNetCore = new List<(string elementName, string value)>
+        private readonly List<(string elementName, string value)> _recommendedYouDoNotChangeElementsNetCore = new List<(string elementName, string value)>
         {
             ("UseVerifiableInstrumentation", "True"),
             ("AllowLowIntegrityProcesses", "True"),
@@ -54,7 +54,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             ("CollectAspDotNet", "False")
         };
 
-        private readonly List<(string elementName, string value)> recommendedYouDoNotChangeElementsNetFramework = new List<(string elementName, string value)>
+        private readonly List<(string elementName, string value)> _recommendedYouDoNotChangeElementsNetFramework = new List<(string elementName, string value)>
         {
             ("UseVerifiableInstrumentation", "False"),
             ("AllowLowIntegrityProcesses", "True"),
@@ -71,8 +71,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public RunSettingsTemplate()
         {
-            this.ResultsDirectoryElement = $"<ResultsDirectory>{this.replacementLookups.ResultsDirectory}</ResultsDirectory>";
-            this.TestAdaptersPathElement = $"<TestAdaptersPaths>{this.replacementLookups.TestAdapter}</TestAdaptersPaths>";
+            this.ResultsDirectoryElement = $"<ResultsDirectory>{this._replacementLookups.ResultsDirectory}</ResultsDirectory>";
+            this.TestAdaptersPathElement = $"<TestAdaptersPaths>{this._replacementLookups.TestAdapter}</TestAdaptersPaths>";
             this.RunConfigurationElement = $@"
   <RunConfiguration>
     {this.ResultsDirectoryElement}
@@ -80,68 +80,68 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     <CollectSourceInformation>False</CollectSourceInformation>
   </RunConfiguration>
 ";
-            this.msDataCollectorCodeCoverageElement = $@"
+            this._msDataCollectorCodeCoverageElement = $@"
         <CodeCoverage>
             <ModulePaths>
               <Exclude>
-                {this.replacementLookups.ModulePathsExclude}
+                {this._replacementLookups.ModulePathsExclude}
               </Exclude>
               <Include>
-                {this.replacementLookups.ModulePathsInclude}
+                {this._replacementLookups.ModulePathsInclude}
               </Include>
             </ModulePaths>
             <Functions>
               <Exclude>
-                {this.replacementLookups.FunctionsExclude}
+                {this._replacementLookups.FunctionsExclude}
               </Exclude>
               <Include>
-                {this.replacementLookups.FunctionsInclude}
+                {this._replacementLookups.FunctionsInclude}
               </Include>
             </Functions>
             <Attributes>
               <Exclude>
-                {this.replacementLookups.AttributesExclude}
+                {this._replacementLookups.AttributesExclude}
               </Exclude>
               <Include>
-                {this.replacementLookups.AttributesInclude}
+                {this._replacementLookups.AttributesInclude}
               </Include>
             </Attributes>
             <Sources>
               <Exclude>
-                {this.replacementLookups.SourcesExclude}
+                {this._replacementLookups.SourcesExclude}
               </Exclude>
               <Include>
-                {this.replacementLookups.SourcesInclude}
+                {this._replacementLookups.SourcesInclude}
               </Include>
             </Sources>
             <CompanyNames>
               <Exclude>
-                {this.replacementLookups.CompanyNamesExclude}
+                {this._replacementLookups.CompanyNamesExclude}
               </Exclude>
               <Include>
-                {this.replacementLookups.CompanyNamesInclude}
+                {this._replacementLookups.CompanyNamesInclude}
               </Include>
             </CompanyNames>
             <PublicKeyTokens>
               <Exclude>
-                {this.replacementLookups.PublicKeyTokensExclude}
+                {this._replacementLookups.PublicKeyTokensExclude}
               </Exclude>
               <Include>
-                {this.replacementLookups.PublicKeyTokensInclude}
+                {this._replacementLookups.PublicKeyTokensInclude}
               </Include>
             </PublicKeyTokens>
           </CodeCoverage>
 ";
-            this.msDataCollectorConfigurationElement = $@"
+            this._msDataCollectorConfigurationElement = $@"
         <Configuration>
-          {this.msDataCollectorCodeCoverageElement}
+          {this._msDataCollectorCodeCoverageElement}
           <Format>Cobertura</Format>
           <{fccMarkerElementName}/>
         </Configuration>
 ";
             this.MsDataCollectorElement = $@"
-      <DataCollector friendlyName='Code Coverage' enabled='{this.replacementLookups.Enabled}'>
-        {this.msDataCollectorConfigurationElement}
+      <DataCollector friendlyName='Code Coverage' enabled='{this._replacementLookups.Enabled}'>
+        {this._msDataCollectorConfigurationElement}
       </DataCollector>
 ";
             this.DataCollectorsElement = $@"
@@ -155,7 +155,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
   </DataCollectionRunSettings>
 ";
 
-            this.template = $@"<?xml version='1.0' encoding='utf-8'?>
+            this._template = $@"<?xml version='1.0' encoding='utf-8'?>
 <RunSettings>
 {this.RunConfigurationElement}
 {this.DataCollectionRunSettingsElement}
@@ -163,7 +163,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 ";
         }
 
-        public string Get() => this.template;
+        public string Get() => this._template;
 
         public ITemplateReplacementResult ReplaceTemplate(
             string runSettingsTemplate,
@@ -196,7 +196,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             XElement msDataCollectorCodeCoverageElement = GetMsDataCollectorCodeCoverageElement(templateDocument);
             if (msDataCollectorCodeCoverageElement != null)
             {
-                List<(string elementName, string value)> recommendedYouDoNotChangeElementsDetails = isNetFramework ? this.recommendedYouDoNotChangeElementsNetFramework : this.recommendedYouDoNotChangeElementsNetCore;
+                List<(string elementName, string value)> recommendedYouDoNotChangeElementsDetails = isNetFramework ? this._recommendedYouDoNotChangeElementsNetFramework : this._recommendedYouDoNotChangeElementsNetCore;
                 foreach ((string elementName, string value) recommendedYouDoNotChangeElementDetails in recommendedYouDoNotChangeElementsDetails)
                 {
                     string elementName = recommendedYouDoNotChangeElementDetails.elementName;
@@ -224,21 +224,21 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public string Replace(string templatedXml, IRunSettingsTemplateReplacements replacements)
             => templatedXml
-                .Replace(this.replacementLookups.ResultsDirectory, SafeFilePathEscape(replacements.ResultsDirectory))
-                .Replace(this.replacementLookups.TestAdapter, SafeFilePathEscape(replacements.TestAdapter))
-                .Replace(this.replacementLookups.Enabled, replacements.Enabled)
-                .Replace(this.replacementLookups.ModulePathsExclude, replacements.ModulePathsExclude)
-                .Replace(this.replacementLookups.ModulePathsInclude, replacements.ModulePathsInclude)
-                .Replace(this.replacementLookups.FunctionsExclude, replacements.FunctionsExclude)
-                .Replace(this.replacementLookups.FunctionsInclude, replacements.FunctionsInclude)
-                .Replace(this.replacementLookups.AttributesExclude, replacements.AttributesExclude)
-                .Replace(this.replacementLookups.AttributesInclude, replacements.AttributesInclude)
-                .Replace(this.replacementLookups.SourcesExclude, replacements.SourcesExclude)
-                .Replace(this.replacementLookups.SourcesInclude, replacements.SourcesInclude)
-                .Replace(this.replacementLookups.CompanyNamesExclude, replacements.CompanyNamesExclude)
-                .Replace(this.replacementLookups.CompanyNamesInclude, replacements.CompanyNamesInclude)
-                .Replace(this.replacementLookups.PublicKeyTokensExclude, replacements.PublicKeyTokensExclude)
-                .Replace(this.replacementLookups.PublicKeyTokensInclude, replacements.PublicKeyTokensInclude);
+                .Replace(this._replacementLookups.ResultsDirectory, SafeFilePathEscape(replacements.ResultsDirectory))
+                .Replace(this._replacementLookups.TestAdapter, SafeFilePathEscape(replacements.TestAdapter))
+                .Replace(this._replacementLookups.Enabled, replacements.Enabled)
+                .Replace(this._replacementLookups.ModulePathsExclude, replacements.ModulePathsExclude)
+                .Replace(this._replacementLookups.ModulePathsInclude, replacements.ModulePathsInclude)
+                .Replace(this._replacementLookups.FunctionsExclude, replacements.FunctionsExclude)
+                .Replace(this._replacementLookups.FunctionsInclude, replacements.FunctionsInclude)
+                .Replace(this._replacementLookups.AttributesExclude, replacements.AttributesExclude)
+                .Replace(this._replacementLookups.AttributesInclude, replacements.AttributesInclude)
+                .Replace(this._replacementLookups.SourcesExclude, replacements.SourcesExclude)
+                .Replace(this._replacementLookups.SourcesInclude, replacements.SourcesInclude)
+                .Replace(this._replacementLookups.CompanyNamesExclude, replacements.CompanyNamesExclude)
+                .Replace(this._replacementLookups.CompanyNamesInclude, replacements.CompanyNamesInclude)
+                .Replace(this._replacementLookups.PublicKeyTokensExclude, replacements.PublicKeyTokensExclude)
+                .Replace(this._replacementLookups.PublicKeyTokensInclude, replacements.PublicKeyTokensInclude);
 
         #region custom
         private void EnsureRunConfigurationEssentials(XElement runConfiguration)
@@ -297,19 +297,19 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private XElement GetOrAddConfigurationElement(XElement msDataCollector)
         {
-            AddIfNotPresent(msDataCollector, "Configuration", this.msDataCollectorConfigurationElement, this.AddCodeCoverageIfNotPresent, false);
+            AddIfNotPresent(msDataCollector, "Configuration", this._msDataCollectorConfigurationElement, this.AddCodeCoverageIfNotPresent, false);
             return msDataCollector.Element("Configuration");
         }
 
         private void AddCodeCoverageIfNotPresent(XElement configurationElement)
-            => AddIfNotPresent(configurationElement, "CodeCoverage", this.msDataCollectorCodeCoverageElement, null, true);
+            => AddIfNotPresent(configurationElement, "CodeCoverage", this._msDataCollectorCodeCoverageElement, null, true);
 
         private void AddEnabledReplacementAttributeIfNotPresent(XElement msDataCollector)
         {
             XAttribute enabledAttribute = msDataCollector.Attribute("enabled");
             if (enabledAttribute == null)
             {
-                msDataCollector.Add(new XAttribute("enabled", this.replacementLookups.Enabled));
+                msDataCollector.Add(new XAttribute("enabled", this._replacementLookups.Enabled));
             }
         }
 
@@ -368,6 +368,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         }
 
-        public bool HasReplaceableTestAdapter(string replaceable) => replaceable.Contains(this.replacementLookups.TestAdapter);
+        public bool HasReplaceableTestAdapter(string replaceable) => replaceable.Contains(this._replacementLookups.TestAdapter);
     }
 }
