@@ -11,9 +11,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
     [Export(typeof(IRoslynFileCodeSpanRangeService))]
     internal class RoslynFileCodeSpanRangeService : IFileCodeSpanRangeService, IRoslynFileCodeSpanRangeService
     {
-        private readonly IRoslynService roslynService;
-        private readonly IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider;
-        private readonly IThreadHelper threadHelper;
+        private readonly IRoslynService _roslynService;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;
+        private readonly IThreadHelper _threadHelper;
 
         [ImportingConstructor]
         public RoslynFileCodeSpanRangeService(
@@ -23,9 +23,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
             )
         {
 
-            this.roslynService = roslynService;
-            this.editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
-            this.threadHelper = threadHelper;
+            this._roslynService = roslynService;
+            this._editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+            this._threadHelper = threadHelper;
         }
 
         private static CodeSpanRange GetCodeSpanRange(TextSpan span, ITextSnapshot textSnapshot)
@@ -37,8 +37,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 
         public List<CodeSpanRange> GetFileCodeSpanRanges(ITextSnapshot snapshot)
         {
-            List<TextSpan> textSpans = this.threadHelper.JoinableTaskFactory.Run(
-                () => this.roslynService.GetContainingCodeSpansAsync(snapshot)
+            List<TextSpan> textSpans = this._threadHelper.JoinableTaskFactory.Run(
+                () => this._roslynService.GetContainingCodeSpansAsync(snapshot)
             );
 
             return textSpans.ConvertAll(textSpan => GetCodeSpanRange(textSpan, snapshot));
@@ -47,6 +47,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
         public IFileCodeSpanRangeService FileCodeSpanRangeService => this;
 
         public bool UseFileCodeSpanRangeServiceForChanges
-            => this.editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode != EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges;
+            => this._editorCoverageColouringOptionsProvider.Get().EditorCoverageColouringMode != EditorCoverageColouringMode.DoNotUseRoslynWhenTextChanges;
     }
 }

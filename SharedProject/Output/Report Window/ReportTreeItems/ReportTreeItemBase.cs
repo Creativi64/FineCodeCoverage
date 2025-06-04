@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
@@ -17,9 +18,10 @@ namespace FineCodeCoverage.Output
         private int _coveredBranches;
         private int _notCoveredLines;
 
-        internal readonly ObservableCollection<ReportTreeItemBase> observableChildren = new ObservableCollection<ReportTreeItemBase>();
+        protected ObservableCollection<ReportTreeItemBase> ObservableChildren { get; } = new ObservableCollection<ReportTreeItemBase>();
 
-        protected ReportTreeItemBase() => this.Children = this.observableChildren;
+        protected ReportTreeItemBase() => this.Children = this.ObservableChildren;
+        public IReadOnlyList<ReportTreeItemBase> ReportChildren => this.ObservableChildren;
 
         public abstract ImageMoniker ImageMoniker { get; }
 

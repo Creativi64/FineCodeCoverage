@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Output
 
             foreach (CodeElementTreeItem codeElement in codeElements)
             {
-                this.observableChildren.Add(codeElement);
+                this.ObservableChildren.Add(codeElement);
                 this.CoverableLines += codeElement.CoverableLines;
                 this.CoveredLines += codeElement.CoveredLines;
                 this.NotCoveredLines += codeElement.NotCoveredLines;

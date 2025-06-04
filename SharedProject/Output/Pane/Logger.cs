@@ -15,6 +15,7 @@ namespace FineCodeCoverage.Output.Pane
     internal class Logger : ILogger
     {
         private readonly IFCCOutputWindowPaneCreator _fccOutputWindowCreator;
+        private readonly FaultEventName _logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
 
         [ImportingConstructor]
         public Logger(
@@ -62,8 +63,7 @@ namespace FineCodeCoverage.Output.Pane
 
         public Task LogAsync(params string[] message) => this.LogAsync(message as IEnumerable<string>);
 
-        private readonly FaultEventName logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
         public void LogFileAndForget(params string[] message)
-            => this.LogAsync(message).FileAndForget(this.logFaultEventName.ToString());
+            => this.LogAsync(message).FileAndForget(this._logFaultEventName.ToString());
     }
 }

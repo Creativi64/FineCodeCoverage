@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Output
             foreach (ReportTreeItemBase child in children)
             {
                 child.Parent = this;
-                this.observableChildren.Add(child);
+                this.ObservableChildren.Add(child);
                 this.CoverableLines += child.CoverableLines;
                 this.CoveredLines += child.CoveredLines;
                 this.NotCoveredLines += child.NotCoveredLines;

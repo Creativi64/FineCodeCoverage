@@ -10,28 +10,27 @@ namespace FineCodeCoverage.Output
         public DirectoryTreeItem(IDirectory directory, SourceFileStructure sourceFileStructure)
         {
             this.Name = directory.Name;
-            this.ImageMoniker = KnownMonikers.FolderClosed;
             foreach (IDirectory subDirectory in directory.SubDirectories)
             {
-                this.observableChildren.Add(new DirectoryTreeItem(subDirectory, sourceFileStructure) { Parent = this });
+                this.ObservableChildren.Add(new DirectoryTreeItem(subDirectory, sourceFileStructure) { Parent = this });
             }
 
             foreach (ISourceFile sourceFile in directory.SourceFiles)
             {
-                this.observableChildren.Add(new SourceFileTreeItem(sourceFile, sourceFileStructure) { Parent = this });
+                this.ObservableChildren.Add(new SourceFileTreeItem(sourceFile, sourceFileStructure) { Parent = this });
             }
 
-            this.CoverableLines = this.observableChildren.Sum(c => c.CoverableLines);
-            this.CoveredLines = this.observableChildren.Sum(c => c.CoveredLines);
-            this.NotCoveredLines = this.observableChildren.Sum(c => c.NotCoveredLines);
-            this.PartialLines = this.observableChildren.Sum(c => c.PartialLines);
-            this.NPathComplexity = this.observableChildren.Sum(c => c.NPathComplexity);
-            this.CrapScore = this.observableChildren.Sum(c => c.CrapScore);
-            this.CyclomaticComplexity = this.observableChildren.Sum(c => c.CyclomaticComplexity);
-            this.TotalBranches = this.observableChildren.Sum(c => c.TotalBranches);
-            this.CoveredBranches = this.observableChildren.Sum(c => c.CoveredBranches);
+            this.CoverableLines = this.ObservableChildren.Sum(c => c.CoverableLines);
+            this.CoveredLines = this.ObservableChildren.Sum(c => c.CoveredLines);
+            this.NotCoveredLines = this.ObservableChildren.Sum(c => c.NotCoveredLines);
+            this.PartialLines = this.ObservableChildren.Sum(c => c.PartialLines);
+            this.NPathComplexity = this.ObservableChildren.Sum(c => c.NPathComplexity);
+            this.CrapScore = this.ObservableChildren.Sum(c => c.CrapScore);
+            this.CyclomaticComplexity = this.ObservableChildren.Sum(c => c.CyclomaticComplexity);
+            this.TotalBranches = this.ObservableChildren.Sum(c => c.TotalBranches);
+            this.CoveredBranches = this.ObservableChildren.Sum(c => c.CoveredBranches);
         }
 
-        public override ImageMoniker ImageMoniker { get; }
+        public override ImageMoniker ImageMoniker => KnownMonikers.FolderClosed;
     }
 }

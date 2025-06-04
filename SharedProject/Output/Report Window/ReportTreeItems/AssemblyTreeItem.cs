@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Output
 
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)
             {
-                this.observableChildren.Add(namespaceTreeItem);
+                this.ObservableChildren.Add(namespaceTreeItem);
                 this.CoverableLines += namespaceTreeItem.CoverableLines;
                 this.CoveredLines += namespaceTreeItem.CoveredLines;
                 this.NotCoveredLines += namespaceTreeItem.NotCoveredLines;
