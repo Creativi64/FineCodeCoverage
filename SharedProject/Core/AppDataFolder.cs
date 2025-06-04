@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Engine
         private readonly ILogger _logger;
         private readonly IEnvironmentVariable _environmentVariable;
         private readonly IOptionsProvider<MiscOptions> _toolsOptionsProvider;
-        internal const string fccDebugCleanInstallEnvironmentVariable = "FCCDebugCleanInstall";
+        internal const string FCCDebugCleanInstallEnvironmentVariable = "FCCDebugCleanInstall";
 
         [ImportingConstructor]
         public AppDataFolder(
@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine
 
         private async Task CleanInstallDevAsync()
         {
-            if (this._environmentVariable.Get(fccDebugCleanInstallEnvironmentVariable) == null)
+            if (this._environmentVariable.Get(FCCDebugCleanInstallEnvironmentVariable) == null)
             {
                 return;
             }

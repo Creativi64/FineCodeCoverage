@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Wpf
     */
     public static class Themes
     {
-        private static readonly DependencyProperty _originalBackgroundProperty = DependencyProperty.RegisterAttached("OriginalBackground", typeof(object), typeof(Themes));
-        private static readonly DependencyProperty _originalForegroundProperty = DependencyProperty.RegisterAttached("OriginalForeground", typeof(object), typeof(Themes));
+        private static readonly DependencyProperty s_originalBackgroundProperty = DependencyProperty.RegisterAttached("OriginalBackground", typeof(object), typeof(Themes));
+        private static readonly DependencyProperty s_originalForegroundProperty = DependencyProperty.RegisterAttached("OriginalForeground", typeof(object), typeof(Themes));
 
         /// <summary>
         /// The property to add to your XAML control.
@@ -38,8 +38,8 @@ namespace FineCodeCoverage.Wpf
 
             if ((bool)e.NewValue)
             {
-                OverrideProperty(element, Control.BackgroundProperty, _originalBackgroundProperty, ThemedDialogColors.WindowPanelBrushKey);
-                OverrideProperty(element, Control.ForegroundProperty, _originalForegroundProperty, ThemedDialogColors.WindowPanelTextBrushKey);
+                OverrideProperty(element, Control.BackgroundProperty, s_originalBackgroundProperty, ThemedDialogColors.WindowPanelBrushKey);
+                OverrideProperty(element, Control.ForegroundProperty, s_originalForegroundProperty, ThemedDialogColors.WindowPanelTextBrushKey);
                 ThemedDialogStyleLoader.SetUseDefaultThemedDialogStyles(element, true);
                 ImageThemingUtilities.SetThemeScrollBars(element, true);
             }
@@ -47,8 +47,8 @@ namespace FineCodeCoverage.Wpf
             {
                 ImageThemingUtilities.SetThemeScrollBars(element, null);
                 ThemedDialogStyleLoader.SetUseDefaultThemedDialogStyles(element, false);
-                RestoreProperty(element, Control.ForegroundProperty, _originalForegroundProperty);
-                RestoreProperty(element, Control.BackgroundProperty, _originalBackgroundProperty);
+                RestoreProperty(element, Control.ForegroundProperty, s_originalForegroundProperty);
+                RestoreProperty(element, Control.BackgroundProperty, s_originalBackgroundProperty);
             }
         }
 

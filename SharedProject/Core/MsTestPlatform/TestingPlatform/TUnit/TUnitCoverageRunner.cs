@@ -17,9 +17,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(IAppDataFolderPathDependent))]
     internal class TUnitCoverageRunner : ITUnitCoverageRunner, IAppDataFolderPathDependent
     {
-        private const string zipDirectoryName = "dotnet-coverage";
-        private const string zipPrefix = "dotnet-coverage";
-        private const int successExitCode = 0;
+        private const string ZipDirectoryName = "dotnet-coverage";
+        private const string ZipPrefix = "dotnet-coverage";
+        private const int SuccessExitCode = 0;
         private readonly ILogger _logger;
         private readonly IToolUnzipper _toolUnzipper;
         private readonly Dictionary<int, string> _nonSuccessExitCodeMessages = new Dictionary<int, string>
@@ -105,13 +105,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 */
                 await this.LogNonSuccessExitCodeAsync(process.ExitCode);
                 await this._logger.LogAsync("-----------");
-                return process.ExitCode == successExitCode;
+                return process.ExitCode == SuccessExitCode;
             }
         }
 
         private async Task LogNonSuccessExitCodeAsync(int exitCode)
         {
-            if (exitCode == successExitCode)
+            if (exitCode == SuccessExitCode)
             {
                 return;
             }
@@ -147,7 +147,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         public Task InitializeAsync(string appDataFolderPath, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolderPath, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolderPath, ZipDirectoryName, ZipPrefix, cancellationToken);
             this._dotnetCoverageExePath = Directory.GetFiles(zipDestination, "dotnet-coverage.exe", SearchOption.AllDirectories).First();
             ReadyEvent?.Invoke(this, EventArgs.Empty);
             return Task.CompletedTask;

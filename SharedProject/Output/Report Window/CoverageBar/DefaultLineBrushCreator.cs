@@ -6,10 +6,12 @@ namespace FineCodeCoverage.Output
 {
     internal sealed class DefaultLineBrushCreator : ILineBrushCreator
     {
-        private static readonly VsThemeLifetimeCache<Color, Brush> _cache = new VsThemeLifetimeCache<Color, Brush>();
+        private static readonly VsThemeLifetimeCache<Color, Brush> s_cache = new VsThemeLifetimeCache<Color, Brush>();
+
         private DefaultLineBrushCreator() { }
+
         public Brush Create(Color penColor)
-            => _cache.GetOrAdd(penColor, () =>
+            => s_cache.GetOrAdd(penColor, () =>
             {
                 const int tile = 10;
                 const bool hash = false;

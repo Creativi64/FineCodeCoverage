@@ -39,19 +39,19 @@ namespace FineCodeCoverageTests
         {
             var projectPath = "projectPath";
             var mockFileUtil = new Mock<IFileUtil>();
-            var projectDirectoryFCCOptionsPath = Path.Combine(projectPath, FCCSettingsFilesProvider.fccOptionsFileName);
+            var projectDirectoryFCCOptionsPath = Path.Combine(projectPath, FCCSettingsFilesProvider.FCCOptionsFileName);
             mockFileUtil.Setup(fileUtil => fileUtil.Exists(projectDirectoryFCCOptionsPath)).Returns(true);
             mockFileUtil.Setup(fileUtil => fileUtil.ReadAllText(projectDirectoryFCCOptionsPath)).Returns(projectDirectoryFCCOptions);
             
             var solutionPath = "Solution";
-            var solutionDirectoryFCCOptionsPath = Path.Combine(solutionPath, FCCSettingsFilesProvider.fccOptionsFileName);
+            var solutionDirectoryFCCOptionsPath = Path.Combine(solutionPath, FCCSettingsFilesProvider.FCCOptionsFileName);
             mockFileUtil.Setup(fileUtil => fileUtil.DirectoryParentPath(projectPath)).Returns(solutionPath);
 
             // will want a gap where it does not exist
             mockFileUtil.Setup(fileUtil => fileUtil.Exists(solutionDirectoryFCCOptionsPath)).Returns(false);
 
             var solutionParentPath = "SolutionParent";
-            var solutionParentDirectoryFCCOptionsPath = Path.Combine(solutionParentPath, FCCSettingsFilesProvider.fccOptionsFileName);
+            var solutionParentDirectoryFCCOptionsPath = Path.Combine(solutionParentPath, FCCSettingsFilesProvider.FCCOptionsFileName);
             mockFileUtil.Setup(fileUtil => fileUtil.DirectoryParentPath(solutionPath)).Returns(solutionParentPath);
 
             mockFileUtil.Setup(fileUtil => fileUtil.Exists(solutionParentDirectoryFCCOptionsPath)).Returns(true);

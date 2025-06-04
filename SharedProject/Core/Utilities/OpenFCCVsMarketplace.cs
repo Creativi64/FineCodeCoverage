@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IOpenFCCVsMarketplace))]
     internal class OpenFCCVsMarketplace : IOpenFCCVsMarketplace
     {
-        private const string rootPath = "https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage";
+        private const string RootPath = "https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage";
         private readonly string _ratingAndReviewPath;
         private readonly IProcess _process;
 
@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Core.Utilities
             IVsVersion vsVersion
         )
         {
-            this._ratingAndReviewPath = rootPath;
+            this._ratingAndReviewPath = RootPath;
             if (vsVersion.Is2022)
             {
                 this._ratingAndReviewPath += "2022";

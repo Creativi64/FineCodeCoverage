@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal class ReferencedProject : IExcludableReferencedProject
     {
-        internal const string excludeFromCodeCoveragePropertyName = "FCCExcludeFromCodeCoverage";
+        internal const string ExcludeFromCodeCoveragePropertyName = "FCCExcludeFromCodeCoverage";
         private readonly string _projectPath;
 
         public ReferencedProject(string projectPath, string assemblyName, bool isDll)
@@ -70,7 +70,7 @@ namespace FineCodeCoverage.Engine.Model
 					...
 				 */
                 XElement projectFileXElement = LinqToXmlUtil.Load(this._projectPath, true);
-                XElement excludeFromCodeCoverageProperty = projectFileXElement.XPathSelectElement($"/PropertyGroup/{excludeFromCodeCoveragePropertyName}");
+                XElement excludeFromCodeCoverageProperty = projectFileXElement.XPathSelectElement($"/PropertyGroup/{ExcludeFromCodeCoveragePropertyName}");
 
                 return excludeFromCodeCoverageProperty != null;
             }

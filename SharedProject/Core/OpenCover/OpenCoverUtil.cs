@@ -21,8 +21,8 @@ namespace FineCodeCoverage.Engine.OpenCover
         private readonly IToolUnzipper _toolUnzipper;
         private readonly IFileUtil _fileUtil;
         private readonly IOpenCoverExeArgumentsProvider _openCoverExeArgumentsProvider;
-        private const string zipPrefix = "openCover";
-        private const string zipDirectoryName = "openCover";
+        private const string ZipPrefix = "openCover";
+        private const string ZipDirectoryName = "openCover";
 
         [ImportingConstructor]
         public OpenCoverUtil(
@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, ZipDirectoryName, ZipPrefix, cancellationToken);
             this._openCoverExePath = this._fileUtil.GetFiles(zipDestination, "OpenCover.Console.exe", SearchOption.AllDirectories).First();
         }
 

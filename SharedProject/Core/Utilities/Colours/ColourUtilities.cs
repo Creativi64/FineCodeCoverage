@@ -9,17 +9,17 @@ namespace FineCodeCoverage.Core.Utilities
 {
     public static class ColorUtilities
     {
-        private static readonly double WhiteLuminance = Colors.White.GetLuminance();
-        private static readonly double BlackLuminance = Colors.Black.GetLuminance();
-        private static readonly WeakValueDictionary<Color, SolidColorBrush> BrushCache = new WeakValueDictionary<Color, SolidColorBrush>();
+        private static readonly double s_whiteLuminance = Colors.White.GetLuminance();
+        private static readonly double s_blackLuminance = Colors.Black.GetLuminance();
+        private static readonly WeakValueDictionary<Color, SolidColorBrush> s_brushCache = new WeakValueDictionary<Color, SolidColorBrush>();
 
         public static double GetContrastRatio(Color foreground, Color background) => ColorUtilities.GetContrastRatio(ColorUtilities.Blend(foreground, background).GetLuminance(), background.GetLuminance());
 
         public static ContrastComparisonResult CompareContrastWithBlackAndWhite(Color color)
         {
             double luminance = color.GetLuminance();
-            double contrastRatio1 = ColorUtilities.GetContrastRatio(ColorUtilities.WhiteLuminance, luminance);
-            double contrastRatio2 = ColorUtilities.GetContrastRatio(ColorUtilities.BlackLuminance, luminance);
+            double contrastRatio1 = ColorUtilities.GetContrastRatio(ColorUtilities.s_whiteLuminance, luminance);
+            double contrastRatio2 = ColorUtilities.GetContrastRatio(ColorUtilities.s_blackLuminance, luminance);
             return contrastRatio1 > contrastRatio2
                 ? ContrastComparisonResult.ContrastHigherWithWhite
                 : contrastRatio2 <= contrastRatio1 ?
@@ -60,11 +60,11 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static SolidColorBrush GetBrushFromCache(Color color)
         {
-            if (ColorUtilities.BrushCache.TryGetValue(color, out SolidColorBrush brushFromCache1))
+            if (ColorUtilities.s_brushCache.TryGetValue(color, out SolidColorBrush brushFromCache1))
                 return brushFromCache1;
             var brushFromCache2 = new SolidColorBrush(color);
             brushFromCache2.Freeze();
-            ColorUtilities.BrushCache[color] = brushFromCache2;
+            ColorUtilities.s_brushCache[color] = brushFromCache2;
             return brushFromCache2;
         }
     }

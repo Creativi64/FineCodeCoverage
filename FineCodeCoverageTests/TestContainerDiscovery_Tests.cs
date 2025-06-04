@@ -124,7 +124,7 @@ namespace Test
             var mockCoverageCollectableFromTestExplorer = mocker.GetMock<ICoverageCollectableFromTestExplorer>();
             mockCoverageCollectableFromTestExplorer.Setup(coverageCollectableFromTestExplorer => coverageCollectableFromTestExplorer.IsCollectableAsync()).ReturnsAsync(true);
             testContainerDiscoverer = mocker.Create<TestContainerDiscoverer>();
-            testContainerDiscoverer.RunAsync = (taskProvider) =>
+            testContainerDiscoverer._runAsync = (taskProvider) =>
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                 taskProvider().Wait();
@@ -361,7 +361,7 @@ namespace Test
         public void Should_Not_Handle_OperationState_Changes_When_The_testOperationStateInvocationManager_Cannot_Invoke(bool canInvoke)
         {
             var invoked = false;
-            testContainerDiscoverer.testOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
+            testContainerDiscoverer._testOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
             {
                 {TestOperationStates.TestExecutionCanceling, (_) => {invoked = true; return Task.CompletedTask; } }
             };
@@ -449,7 +449,7 @@ namespace Test
             mockCoverageCollectableFromTestExplorer.Setup(coverageCollectableFromTestExplorer => coverageCollectableFromTestExplorer.IsCollectableAsync()).ReturnsAsync(false);
 
             var testContainerDiscoverer = mocker.Create<TestContainerDiscoverer>();
-            testContainerDiscoverer.RunAsync = (taskProvider) =>
+            testContainerDiscoverer._runAsync = (taskProvider) =>
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                 taskProvider().Wait();

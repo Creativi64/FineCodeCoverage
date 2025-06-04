@@ -13,6 +13,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(ICommandLineParser))]
     internal class CommandLineParser : ICommandLineParser
     {
+        private static readonly char[] s_delimiters = new char[] { ':', '=', ' ' };
+
         public CommandLineParseResult Parse(string argumentsString)
         {
             var args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
@@ -100,7 +102,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private static void ParseOptionAndSeparators(string arg, out string currentOption, out string currentArg)
         {
-            int delimiterIndex = arg.IndexOfAny(new char[] { ':', '=', ' ' });
+            int delimiterIndex = arg.IndexOfAny(s_delimiters);
             if (delimiterIndex == -1)
             {
                 currentOption = arg;

@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Engine
     [Order(2, typeof(ICoverageToolOutputFolderSolutionProvider))]
     class FccOutputExistenceCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
     {
-        private const string fccOutputFolderName = "fcc-output";
+        private const string FCCOutputFolderName = "fcc-output";
         private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Engine
                 return null;
             }
 
-            string provided = Path.Combine(solutionFolder, fccOutputFolderName);
+            string provided = Path.Combine(solutionFolder, FCCOutputFolderName);
             return this._fileUtil.DirectoryExists(provided) ? provided : null;
         }
     }

@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 {
     internal abstract class CoverageTypeFilterBase : ICoverageTypeFilter
     {
-        private static readonly Dictionary<DynamicCoverageType, bool> doNotShowLookup = new Dictionary<DynamicCoverageType, bool>()
+        private static readonly Dictionary<DynamicCoverageType, bool> s_doNotShowLookup = new Dictionary<DynamicCoverageType, bool>()
         {
             { DynamicCoverageType.Covered, false },
             { DynamicCoverageType.Partial, false },
@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             { DynamicCoverageType.NewLine, false },
             { DynamicCoverageType.NotIncluded, false }
         };
-        private Dictionary<DynamicCoverageType, bool> _showLookup = doNotShowLookup;
+        private Dictionary<DynamicCoverageType, bool> _showLookup = s_doNotShowLookup;
 
         public void Initialize(EditorCoverageColouringOptions editorCoverageColouringOptions)
         {
@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         private void ThrowIfInvalidShowLookup()
         {
-            if (this._showLookup != null && this._showLookup.Count == 6)
+            if (this._showLookup?.Count == 6)
             {
                 return;
             }

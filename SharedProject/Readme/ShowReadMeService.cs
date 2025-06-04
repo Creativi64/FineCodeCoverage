@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Readme
     {
         private readonly WritableSettingsStore _writableUserSettingsStore;
         private readonly IToolWindowService _toolWindowService;
-        private const string readMeShowCollection = "FCCReadmeShowCollection";
-        private const string readMeShownProperty = "FCCReadmeShown";
+        private const string ReadMeShowCollection = "FCCReadmeShowCollection";
+        private const string ReadMeShownProperty = "FCCReadmeShown";
 
         public event EventHandler Shown;
 
@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Readme
         )
         {
             this._writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
-            this.HasShown = this._writableUserSettingsStore.GetBoolean(readMeShowCollection, readMeShownProperty, false);
+            this.HasShown = this._writableUserSettingsStore.GetBoolean(ReadMeShowCollection, ReadMeShownProperty, false);
             this._toolWindowService = toolWindowService;
         }
 
@@ -33,12 +33,12 @@ namespace FineCodeCoverage.Readme
         {
             if (!this.HasShown)
             {
-                if (!this._writableUserSettingsStore.CollectionExists(readMeShowCollection))
+                if (!this._writableUserSettingsStore.CollectionExists(ReadMeShowCollection))
                 {
-                    this._writableUserSettingsStore.CreateCollection(readMeShowCollection);
+                    this._writableUserSettingsStore.CreateCollection(ReadMeShowCollection);
                 }
 
-                this._writableUserSettingsStore.SetBoolean(readMeShowCollection, readMeShownProperty, true);
+                this._writableUserSettingsStore.SetBoolean(ReadMeShowCollection, ReadMeShownProperty, true);
             }
 
             this.HasShown = true;

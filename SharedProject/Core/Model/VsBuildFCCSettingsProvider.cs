@@ -27,22 +27,17 @@ namespace FineCodeCoverage.Engine.Model
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var vsSolution = this._serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
             Assumes.Present(vsSolution);
-            if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
+            if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK
+                && vsHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage
+                && vsBuildPropertyStorage.GetPropertyValue(FCCSettingsElementName, null, 1, out string value) == VSConstants.S_OK
+                && !string.IsNullOrEmpty(value)
+            )
             {
-                if (vsHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage)
+                try
                 {
-                    if (vsBuildPropertyStorage.GetPropertyValue(FCCSettingsElementName, null, 1, out string value) == VSConstants.S_OK)
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            try
-                            {
-                                fccSettingsElement = XElement.Parse($"<FineCodeCoverage>{value}</FineCodeCoverage>");
-                            }
-                            catch { }
-                        }
-                    }
+                    fccSettingsElement = XElement.Parse($"<FineCodeCoverage>{value}</FineCodeCoverage>");
                 }
+                catch { }
             }
 
             return fccSettingsElement;

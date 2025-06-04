@@ -28,6 +28,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             private readonly IDisposable _packageChangeSubscription;
             private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
             private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
+            private static readonly string[] s_packageReferenceRuleNames = new string[] { "PackageReference" };
 
             /*
                 in VS2022 there is also
@@ -93,7 +94,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 // there is ActiveConfiguredProjectSubscription but not available in 2019
                 IProjectSubscriptionService subscriptionService = configuredProject.Services.ProjectSubscription;
                 var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSubscriptionUpdate>>(this.ProjectUpdateAsync);
-                return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: packageReferenceRuleNames);
+                return subscriptionService.JointRuleSource.SourceBlock.LinkTo(receivingBlock, ruleNames: s_packageReferenceRuleNames);
             }
 
             /*
@@ -129,7 +130,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             public IVsHierarchy Hierarchy { get; }
 
             public CommandLineParseResult CommandLineParseResult { get; private set; } = CommandLineParseResult.Empty;
-            private static readonly string[] packageReferenceRuleNames = new string[] { "PackageReference" };
 
             public async Task UpdateStateAsync(CancellationToken cancellationToken)
             {

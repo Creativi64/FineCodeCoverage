@@ -23,13 +23,13 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static event EventHandler<ImageThemingColorChangedEventArgs> ImageThemingColorChanged;
-        private static readonly bool isInDesignMode;
+        private static readonly bool s_isInDesignMode;
         private Image _image;
 
         static Crispy()
         {
-            isInDesignMode = DesignModeHelper.IsInDesignMode;
-            if (!isInDesignMode)
+            s_isInDesignMode = DesignModeHelper.IsInDesignMode;
+            if (!s_isInDesignMode)
             {
                 return;
             }
@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Wpf
 
         private static void OnDependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!isInDesignMode) return;
+            if (!s_isInDesignMode) return;
 
             if (!(d is Crispy crispy))
             {
@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Wpf
         public Crispy()
         {
             this.InitializeComponent();
-            if (!isInDesignMode)
+            if (!s_isInDesignMode)
             {
                 this.SetupCrispImage();
                 return;

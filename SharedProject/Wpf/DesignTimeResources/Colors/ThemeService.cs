@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Wpf
 {
     public static class ThemeService
     {
-        private static readonly Dictionary<string, Dictionary<ThemeResourceKey, Color>> _themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
+        private static readonly Dictionary<string, Dictionary<ThemeResourceKey, Color>> s_themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
 
         static ThemeService() => LoadThemes(@"C:\Users\tonyh\Downloads\themes.xml");
 
@@ -29,12 +29,12 @@ namespace FineCodeCoverage.Wpf
                     themeColors.Add(themeResourceKey, color);
                 }
 
-                _themeColors.Add(themeName, themeColors);
+                s_themeColors.Add(themeName, themeColors);
             }
         }
 
-        public static bool IsTheme(string themeName) => _themeColors.ContainsKey(themeName);
+        public static bool IsTheme(string themeName) => s_themeColors.ContainsKey(themeName);
 
-        public static Dictionary<ThemeResourceKey, Color> GetResources(string themeName) => _themeColors[themeName];
+        public static Dictionary<ThemeResourceKey, Color> GetResources(string themeName) => s_themeColors[themeName];
     }
 }

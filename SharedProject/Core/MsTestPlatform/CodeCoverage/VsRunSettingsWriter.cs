@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     [Export(typeof(IVsRunSettingsWriter))]
     internal class VsRunSettingsWriter : IVsRunSettingsWriter
     {
-        private const string projectRunSettingsFilePathElementName = "RunSettingsFilePath";
+        private const string ProjectRunSettingsFilePathElementName = "RunSettingsFilePath";
         private readonly IServiceProvider _serviceProvider;
         private readonly IProjectSaver _projectSaver;
         private readonly IProjectFilePropertyWriter _projectFilePropertyWriter;
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
-                success = await this._projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName, projectRunSettingsFilePath);
+                success = await this._projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName, projectRunSettingsFilePath);
             }
 
             return success;
@@ -54,7 +54,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             Assumes.Present(vsSolution);
             if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
             {
-                ok = await this._projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, projectRunSettingsFilePathElementName);
+                ok = await this._projectFilePropertyWriter.RemovePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName);
                 if (ok)
                 {
                     await this._projectSaver.SaveProjectAsync(vsHierarchy);

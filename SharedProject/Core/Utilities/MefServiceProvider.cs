@@ -7,8 +7,8 @@ namespace FineCodeCoverage.Core.Utilities
 {
     internal static class MefServiceProvider
     {
-        private static IComponentModel vsComponentModel;
-        private static bool triedGetVsComponentModel;
+        private static IComponentModel s_vsComponentModel;
+        private static bool s_triedGetVsComponentModel;
 
         // Property to override the default IComponentModel for testing purposes
         public static IComponentModel TestComponentModel { get; set; }
@@ -17,14 +17,14 @@ namespace FineCodeCoverage.Core.Utilities
         {
             get
             {
-                if (triedGetVsComponentModel)
+                if (s_triedGetVsComponentModel)
                 {
-                    return vsComponentModel;
+                    return s_vsComponentModel;
                 }
 
-                vsComponentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
-                triedGetVsComponentModel = true;
-                return vsComponentModel;
+                s_vsComponentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
+                s_triedGetVsComponentModel = true;
+                return s_vsComponentModel;
             }
         }
 

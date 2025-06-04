@@ -18,40 +18,40 @@ namespace FineCodeCoverage.Editor.Management
         private readonly ITextFormattingRunPropertiesFactory _textFormattingRunPropertiesFactory;
 
         #region format definitions
-        private const string partiallyCoveredEditorFormatDefinitionName = "Coverage Partially Touched Area FCC";
-        private const string notCoveredEditorFormatDefinitionName = "Coverage Not Touched Area FCC";
-        private const string coveredEditorFormatDefinitionName = "Coverage Touched Area FCC";
-        private const string newLinesEditorFormatDefinitionName = "Coverage New Lines Area FCC";
-        private const string dirtyEditorFormatDefinitionName = "Coverage Dirty Area FCC";
-        private const string notIncludedEditorFormatDefintionName = "Coverage Not Included Area FCC";
+        private const string PartiallyCoveredEditorFormatDefinitionName = "Coverage Partially Touched Area FCC";
+        private const string NotCoveredEditorFormatDefinitionName = "Coverage Not Touched Area FCC";
+        private const string CoveredEditorFormatDefinitionName = "Coverage Touched Area FCC";
+        private const string NewLinesEditorFormatDefinitionName = "Coverage New Lines Area FCC";
+        private const string DirtyEditorFormatDefinitionName = "Coverage Dirty Area FCC";
+        private const string NotIncludedEditorFormatDefintionName = "Coverage Not Included Area FCC";
 
         [Export]
-        [Name(notIncludedEditorFormatDefintionName)]
+        [Name(NotIncludedEditorFormatDefintionName)]
         [UserVisible(true)]
         public EditorFormatDefinition NotIncludedEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Colors.LightPink);
 
         [Export]
-        [Name(newLinesEditorFormatDefinitionName)]
+        [Name(NewLinesEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition NewLinesEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Colors.Yellow);
 
         [Export]
-        [Name(dirtyEditorFormatDefinitionName)]
+        [Name(DirtyEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition DirtyEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.White, Colors.Brown);
 
         [Export]
-        [Name(coveredEditorFormatDefinitionName)]
+        [Name(CoveredEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition CoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Color.FromRgb(16, 135, 24));
 
         [Export]
-        [Name(notCoveredEditorFormatDefinitionName)]
+        [Name(NotCoveredEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition NotCoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.White, Colors.Red);
 
         [Export]
-        [Name(partiallyCoveredEditorFormatDefinitionName)]
+        [Name(PartiallyCoveredEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition PartiallyCoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Color.FromRgb(255, 165, 0));
 
@@ -74,12 +74,12 @@ namespace FineCodeCoverage.Editor.Management
 
             coverageFontAndColorsCategoryItemNamesManager.Initialize(
                 new FCCEditorFormatDefinitionNames(
-                    coveredEditorFormatDefinitionName,
-                    notCoveredEditorFormatDefinitionName,
-                    partiallyCoveredEditorFormatDefinitionName,
-                    newLinesEditorFormatDefinitionName,
-                    dirtyEditorFormatDefinitionName,
-                    notIncludedEditorFormatDefintionName
+                    CoveredEditorFormatDefinitionName,
+                    NotCoveredEditorFormatDefinitionName,
+                    PartiallyCoveredEditorFormatDefinitionName,
+                    NewLinesEditorFormatDefinitionName,
+                    DirtyEditorFormatDefinitionName,
+                    NotIncludedEditorFormatDefintionName
             ));
             coverageFontAndColorsCategoryItemNamesManager.Changed += (sender, args) => this.Changed();
             fontAndColorsInfosProvider.CoverageFontAndColorsCategoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
@@ -89,13 +89,13 @@ namespace FineCodeCoverage.Editor.Management
                     MarkerTypeNames.Covered,
                     MarkerTypeNames.NotCovered,
                     MarkerTypeNames.PartiallyCovered,
-                    coveredEditorFormatDefinitionName,
-                    notCoveredEditorFormatDefinitionName,
-                    partiallyCoveredEditorFormatDefinitionName,
+                    CoveredEditorFormatDefinitionName,
+                    NotCoveredEditorFormatDefinitionName,
+                    PartiallyCoveredEditorFormatDefinitionName,
 
-                    newLinesEditorFormatDefinitionName,
-                    dirtyEditorFormatDefinitionName,
-                    notIncludedEditorFormatDefintionName
+                    NewLinesEditorFormatDefinitionName,
+                    DirtyEditorFormatDefinitionName,
+                    NotIncludedEditorFormatDefintionName
                 },
                 () => this.Changed());
 

@@ -8,33 +8,32 @@ namespace FineCodeCoverage.Options
     */
     internal class IncludesExcludesOptions : IIncludesExcludesOptions
     {
-        private const string commonCategory = "Common";
-        private const string msExcludeIncludeCategory = "Microsoft";
+        private const string MsExcludeIncludeCategory = "Microsoft";
 
         #region common category
-        [Category(commonCategory)]
+        [Category(CommonCategories.Common)]
         [Description("Set to true to add all referenced projects to Include.")]
         [DisplayName("Include Referenced Projects")]
         public bool IncludeReferencedProjects { get; set; }
 
-        [Category(commonCategory)]
+        [Category(CommonCategories.Common)]
         [Description("Specifies whether to report code coverage of the test assembly")]
         [DisplayName("Include Test Assembly")]
         public bool IncludeTestAssembly { get; set; }
 
-        [Category(commonCategory)]
+        [Category(CommonCategories.Common)]
         [Description("Provide a list of assemblies to exclude from coverage.  The dll name without extension is used for matching.")]
         [DisplayName("Exclude Assemblies")]
         public string[] ExcludeAssemblies { get; set; }
 
-        [Category(commonCategory)]
+        [Category(CommonCategories.Common)]
         [Description("Provide a list of assemblies to include in coverage. The dll name without extension is used for matching.")]
         [DisplayName("Include Assemblies")]
         public string[] IncludeAssemblies { get; set; }
         #endregion
 
         #region coverlet opencover category
-        [Category(CoverletOpenCoverCategory.Name)]
+        [Category(CommonCategories.CoverletOpenCover)]
         [Description("Filter expressions to exclude specific modules and types (multiple)")]
         //      [Description(
         //      @"Filter expressions to exclude specific modules and types (multiple)
@@ -52,7 +51,7 @@ namespace FineCodeCoverage.Options
         //")]
         public string[] Exclude { get; set; }
 
-        [Category(CoverletOpenCoverCategory.Name)]
+        [Category(CommonCategories.CoverletOpenCover)]
         [Description("Filter expressions to include specific modules and types (multiple)")]
         //      [Description(
         //      @"Filter expressions to include specific modules and types (multiple)
@@ -70,7 +69,7 @@ namespace FineCodeCoverage.Options
         //")]
         public string[] Include { get; set; }
 
-        [Category(CoverletOpenCoverCategory.Name)]
+        [Category(CommonCategories.CoverletOpenCover)]
         //      [Description(
         //      @"Glob patterns specifying source files to exclude (multiple)
         //Use file path or directory path with globbing (e.g. **/Migrations/*)
@@ -79,7 +78,7 @@ namespace FineCodeCoverage.Options
         [DisplayName("Exclude By File")]
         public string[] ExcludeByFile { get; set; }
 
-        [Category(CoverletOpenCoverCategory.Name)]
+        [Category(CommonCategories.CoverletOpenCover)]
         [Description("Attributes to exclude from code coverage (multiple)")]
         //      [Description(
         //      @"Attributes to exclude from code coverage (multiple)
@@ -94,62 +93,62 @@ namespace FineCodeCoverage.Options
         #endregion
 
         #region microsoft category
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match assemblies specified by assembly name or file path - for exclusion")]
         [DisplayName("Module Paths Exclude")]
         public string[] ModulePathsExclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match assemblies specified by assembly name or file path - for inclusion")]
         [DisplayName("Module Paths Include")]
         public string[] ModulePathsInclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match assemblies by the Company attribute - for exclusion")]
         [DisplayName("Company Names Exclude")]
         public string[] CompanyNamesExclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match assemblies by the Company attribute - for inclusion")]
         [DisplayName("Company Names Include")]
         public string[] CompanyNamesInclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match assemblies by the public key token - for exclusion")]
         [DisplayName("Public Key Tokens Exclude")]
         public string[] PublicKeyTokensExclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match assemblies by the public key token - for inclusion")]
         [DisplayName("Public Key Tokens Include")]
         public string[] PublicKeyTokensInclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match elements by the path name of the source file in which they're defined - for exclusion")]
         [DisplayName("Sources Exclude")]
         public string[] SourcesExclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match elements by the path name of the source file in which they're defined - for inclusion")]
         [DisplayName("Sources Include")]
         public string[] SourcesInclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match elements that have the specified attribute by full name - for exclusion")]
         [DisplayName("Attributes Exclude")]
         public string[] AttributesExclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match elements that have the specified attribute by full name - for inclusion")]
         [DisplayName("Attributes Include")]
         public string[] AttributesInclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match procedures, functions, or methods by fully qualified name, including the parameter list. - for exclusion")]
         [DisplayName("Functions Exclude")]
         public string[] FunctionsExclude { get; set; }
 
-        [Category(msExcludeIncludeCategory)]
+        [Category(MsExcludeIncludeCategory)]
         [Description("Multiple regexes that match procedures, functions, or methods by fully qualified name, including the parameter list. - for inclusion")]
         [DisplayName("Functions Include")]
         public string[] FunctionsInclude { get; set; }

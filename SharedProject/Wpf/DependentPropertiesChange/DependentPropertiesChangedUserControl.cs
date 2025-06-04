@@ -10,8 +10,8 @@ namespace FineCodeCoverage.Wpf
     public abstract class DependentPropertiesChangedUserControl<T> : UserControl, INotifyPropertyChanged, IPropertyDependencyChanged
        where T : DependentPropertiesChangedUserControl<T>
     {
-        private static readonly Dictionary<Type, DependentPropertiesChangedNotifier<T>> NotifierCache = new Dictionary<Type, DependentPropertiesChangedNotifier<T>>();
-        private static int numInstances;
+        private static readonly Dictionary<Type, DependentPropertiesChangedNotifier<T>> s_notifierCache = new Dictionary<Type, DependentPropertiesChangedNotifier<T>>();
+        private static int s_numInstances;
 
         private readonly DependentPropertiesChangedNotifier<T> _notifier;
         private readonly int _id;
@@ -21,8 +21,8 @@ namespace FineCodeCoverage.Wpf
 
         protected DependentPropertiesChangedUserControl()
         {
-            this._id = numInstances++;
-            this._notifier = NotifierCache.GetOrAdd(typeof(T), () => DependentPropertiesChangedNotifierBuilder.Build<T>());
+            this._id = s_numInstances++;
+            this._notifier = s_notifierCache.GetOrAdd(typeof(T), () => DependentPropertiesChangedNotifierBuilder.Build<T>());
 
             this._notifier.NotifyOfChanges((T)this);
             this.Loaded += this.DependentPropertiesChangedUserControl_Loaded;

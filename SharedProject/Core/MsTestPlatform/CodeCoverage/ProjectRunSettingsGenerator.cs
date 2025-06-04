@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly IFileUtil _fileUtil;
         private readonly IVsRunSettingsWriter _vsRunSettingsWriter;
         private readonly ILogger _logger;
-        private const string fccGeneratedRunSettingsSuffix = "fcc-mscodecoverage-generated";
+        private const string FCCGeneratedRunSettingsSuffix = "fcc-mscodecoverage-generated";
 
         [ImportingConstructor]
         public ProjectRunSettingsGenerator(
@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         internal static string GeneratedProjectRunSettingsFilePath(ICoverageProject coverageProject)
             => Path.Combine(
                 coverageProject.CoverageOutputFolder,
-                $"{coverageProject.ProjectName}-{fccGeneratedRunSettingsSuffix}.runsettings");
+                $"{coverageProject.ProjectName}-{FCCGeneratedRunSettingsSuffix}.runsettings");
 
         private async Task WriteProjectRunSettingsAsync(Guid projectGuid, string projectName, string projectRunSettingsFilePath, string projectRunSettings)
         {
@@ -69,6 +69,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private static bool IsGeneratedRunSettings(string runSettingsFile)
-            => runSettingsFile != null && Path.GetFileNameWithoutExtension(runSettingsFile).EndsWith(fccGeneratedRunSettingsSuffix);
+            => runSettingsFile != null && Path.GetFileNameWithoutExtension(runSettingsFile).EndsWith(FCCGeneratedRunSettingsSuffix);
     }
 }

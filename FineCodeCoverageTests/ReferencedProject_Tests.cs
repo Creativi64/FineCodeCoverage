@@ -22,7 +22,7 @@ namespace Test
         [TestCase(false)]
         public void Should_ExcludeFromCodeCoverage_If_Has_Project_Property_FCCExcludeFromCodeCoverage(bool addProperty)
         {
-            var property = addProperty ? $"<{ReferencedProject.excludeFromCodeCoveragePropertyName}/>" : "";
+            var property = addProperty ? $"<{ReferencedProject.ExcludeFromCodeCoveragePropertyName}/>" : "";
             WriteProperty(property);
             var referencedProject = new ReferencedProject(tempProjectFilePath, "",true);
             Assert.AreEqual(addProperty, referencedProject.ExcludeFromCodeCoverage);

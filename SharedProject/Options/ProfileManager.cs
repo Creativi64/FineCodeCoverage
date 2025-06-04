@@ -69,10 +69,10 @@ namespace FineCodeCoverage.Options
                     object obj = null;
                     try
                     {
-                        if (reader.ReadSettingString(propertyDescriptor.Name, out string pbstrSettingValue) >= 0)
+                        if (reader.ReadSettingString(propertyDescriptor.Name, out string pbstrSettingValue) >= 0
+                            && pbstrSettingValue != null)
                         {
-                            if (pbstrSettingValue != null)
-                                obj = deserialize(pbstrSettingValue, propertyDescriptor);
+                            obj = deserialize(pbstrSettingValue, propertyDescriptor);
                         }
                     }
                     catch { }

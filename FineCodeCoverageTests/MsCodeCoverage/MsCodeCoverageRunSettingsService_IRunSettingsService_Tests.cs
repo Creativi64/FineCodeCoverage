@@ -34,7 +34,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public void Should_Not_Delegate_To_UserRunSettingsService_When_Not_Test_Execution(RunSettingConfigurationInfoState state)
         {
             SetuserRunSettingsProjectDetailsLookup(false);
-            msCodeCoverageRunSettingsService.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService._collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
 
             ShouldNotDelegateToUserRunSettingsService(state);
         }
@@ -43,7 +43,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         [TestCase(MsCodeCoverageCollectionStatus.Error)]
         public void Should_Not_Delegate_To_UserRunSettingsService_When_Is_Not_Collecting(MsCodeCoverageCollectionStatus status)
         {
-            msCodeCoverageRunSettingsService.collectionStatus = status;
+            msCodeCoverageRunSettingsService._collectionStatus = status;
             SetuserRunSettingsProjectDetailsLookup(false);
             
             ShouldNotDelegateToUserRunSettingsService(RunSettingConfigurationInfoState.Execution);
@@ -52,7 +52,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         [Test]
         public void Should_Not_Delegate_To_UserRunSettingsService_When_No_User_RunSettings()
         {
-            msCodeCoverageRunSettingsService.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService._collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
             SetuserRunSettingsProjectDetailsLookup(true);
 
             ShouldNotDelegateToUserRunSettingsService(RunSettingConfigurationInfoState.Execution);
@@ -82,7 +82,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             {
                 userRunSettingsProjectDetailsLookup.Add("", null); // an entry
             }
-            msCodeCoverageRunSettingsService.userRunSettingsProjectDetailsLookup = userRunSettingsProjectDetailsLookup;
+            msCodeCoverageRunSettingsService._userRunSettingsProjectDetailsLookup = userRunSettingsProjectDetailsLookup;
         }
 
         [Test]
@@ -101,8 +101,8 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             {
                 { "",null} // an entry
             };
-            msCodeCoverageRunSettingsService.userRunSettingsProjectDetailsLookup = userRunSettingsProjectDetailsLookup;
-            msCodeCoverageRunSettingsService.collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService._userRunSettingsProjectDetailsLookup = userRunSettingsProjectDetailsLookup;
+            msCodeCoverageRunSettingsService._collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
 
 
             var mockUserRunSettingsService = autoMocker.GetMock<IUserRunSettingsService>();

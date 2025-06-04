@@ -8,7 +8,8 @@ namespace FineCodeCoverage.Options
     */
     internal class OpenCoverOptions : IOpenCoverOptions
     {
-        private const string customTargetCategory = "Custom target";
+        private const string CustomTargetCategory = "Custom target";
+
         [Description("Specify path to open cover exe if you need functionality that the FCC version does not provide.")]
         [DisplayName("Custom Path")]
         public string OpenCoverCustomPath { get; set; }
@@ -17,12 +18,12 @@ namespace FineCodeCoverage.Options
         [DisplayName("Register")]
         public OpenCoverRegister OpenCoverRegister { get; set; }
 
-        [Category(customTargetCategory)]
+        [Category(CustomTargetCategory)]
         [Description("Supply your own target if required.")]
         [DisplayName("Target")]
         public string OpenCoverTarget { get; set; }
 
-        [Category(customTargetCategory)]
+        [Category(CustomTargetCategory)]
         [Description("If supplying your own target you can also supply additional arguments.  FCC supplies the test dll path.")]
         [DisplayName("Target Args")]
         public string OpenCoverTargetArgs { get; set; }

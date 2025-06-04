@@ -66,12 +66,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     case "coverage-settings":
                     case "settings":
                         string arg = option.Arguments.FirstOrDefault();
-                        if (arg != null)
+                        if (arg != null && ConfigurationPathArgExists(arg))
                         {
-                            if (ConfigurationPathArgExists(arg))
-                            {
-                                configurationPathArgument = arg;
-                            }
+                            configurationPathArgument = arg;
                         }
 
                         break;
@@ -80,12 +77,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                         break;
                     case "minimum-expected-tests":
                         string minExpectedTestsArg = option.Arguments.FirstOrDefault();
-                        if (minExpectedTestsArg != null)
+                        if (minExpectedTestsArg != null && int.TryParse(minExpectedTestsArg, out int result))
                         {
-                            if (int.TryParse(minExpectedTestsArg, out int result))
-                            {
-                                minimumExpectedTests = result;
-                            }
+                            minimumExpectedTests = result;
                         }
 
                         break;

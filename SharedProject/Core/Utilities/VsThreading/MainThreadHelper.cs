@@ -49,13 +49,12 @@ namespace FineCodeCoverage.Core.Utilities
                 }
             }, faultDescription);
 
-        // given that catches and does not rethrow should be unnecessary
-        private static readonly FaultEventName switchAndCatchFaultEventName
+        private static readonly FaultEventName s_switchAndCatchFaultEventName
             = FCCFaultEventName.WithEntityName(nameof(MainThreadHelper))
               .BuildFromFeatureNameHierarchy("Utilities", "SwitchAndCatch");
 
         public static void SwitchAndLogException(Action action)
-            => SwitchAndLogException(switchAndCatchFaultEventName, action, false);
+            => SwitchAndLogException(s_switchAndCatchFaultEventName, action, false);
 
         public static void SwitchLogExceptionRethrow(
             FaultEventName faultEventName,

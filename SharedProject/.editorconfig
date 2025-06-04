@@ -10,14 +10,16 @@ dotnet_diagnostic.RCS1036.severity = none
 dotnet_diagnostic.RCS1265.severity = warning # Remove redundant catch block
 dotnet_diagnostic.RCS1208.severity = warning # Reduce 'if' nesting
 dotnet_diagnostic.RCS1218.severity = warning # Simplify code branching
+dotnet_diagnostic.RCS0054.severity = warning # Fix formatting of a call chain
+dotnet_diagnostic.RCS1201.severity = warning # Use method chaining
+dotnet_diagnostic.RCS1061.severity = warning # Merge 'if' with nested 'if'
+dotnet_diagnostic.RCS1015.severity = warning # Use nameof operator
 
 dotnet_diagnostic.IDE0001.severity = error # simplify name
 #dotnet_diagnostic.IDE0004.severity = error # remove unnecessary cast
 #dotnet_diagnostic.IDE0005.severity = error # remove unnecessary import 
 
-#dotnet_diagnostic.IDE1006.severity = error # naming styles that you specify
 dotnet_analyzer_diagnostic.category-Naming.severity = error # code analysis - naming conventions 
-#dotnet_analyzer_diagnostic.category-Style.severity = error
 dotnet_analyzer_diagnostic.category-Design.severity = error
 # maintainability
 # does not work - dotnet_analyzer_diagnostic.category-Maintainability.severity
@@ -35,10 +37,13 @@ dotnet_diagnostic.CA1513.severity = error
 dotnet_diagnostic.CA1514.severity = error
 dotnet_diagnostic.CA1515.severity = error
 dotnet_diagnostic.CA1860.severity = error # Avoid using 'Enumerable.Any()'
+dotnet_diagnostic.CA1715.severity = error # Identifiers should have correct prefix
 dotnet_diagnostic.CA1822.severity = error # Mark members as static
 dotnet_code_quality.CA1822.api_surface = private, internal
 
 #### Core EditorConfig Options ####
+
+trim_trailing_whitespace = true
 
 # Indentation and spacing
 indent_size = 4
@@ -47,7 +52,7 @@ tab_width = 4
 
 # New line preferences
 end_of_line = crlf
-insert_final_newline = false
+insert_final_newline = true
 
 #### .NET Coding Conventions ####
 
@@ -236,11 +241,11 @@ csharp_preserve_single_line_statements = true
 
 # Naming rules
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.severity = warning
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
@@ -248,15 +253,21 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-# Define the 'private_fields_underscored' naming rule
-dotnet_naming_rule.private_fields_underscored.symbols = private_fields
-dotnet_naming_rule.private_fields_underscored.style = underscored
-dotnet_naming_rule.private_fields_underscored.severity = error
+# name all constant fields using PascalCase
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case
 
-# Define the 'private_static_fields_none' naming rule
-dotnet_naming_rule.private_static_fields_none.symbols = private_static_fields
-dotnet_naming_rule.private_static_fields_none.style = underscored
-dotnet_naming_rule.private_static_fields_none.severity = none
+# Define the 'private_fields_underscored' naming rule
+dotnet_naming_rule.camel_case_for_private_internal_fields.severity = warning
+dotnet_naming_rule.camel_case_for_private_internal_fields.symbols  = private_internal_fields
+dotnet_naming_rule.camel_case_for_private_internal_fields.style    = camel_case_underscore_style
+
+# static fields should have a prefix 's_'
+dotnet_naming_rule.static_fields_should_have_prefix.severity = warning
+dotnet_naming_rule.static_fields_should_have_prefix.symbols  = static_fields
+dotnet_naming_rule.static_fields_should_have_prefix.style    = static_prefix_style
+
 
 # Symbol specifications
 
@@ -272,14 +283,18 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
-# Define the 'private_fields' symbol group:
-dotnet_naming_symbols.private_fields.applicable_kinds = field
-dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+# private internal fields
+dotnet_naming_symbols.private_internal_fields.applicable_kinds = field
+dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = private, internal
 
-# Define the 'private_static_fields' symbol group
-dotnet_naming_symbols.private_static_fields.applicable_kinds = field
-dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_static_fields.required_modifiers = static
+# const fields
+dotnet_naming_symbols.constant_fields.applicable_kinds   = field
+dotnet_naming_symbols.constant_fields.required_modifiers = const
+
+# Define the 'static_fields' symbol group
+dotnet_naming_symbols.static_fields.applicable_kinds   = field
+dotnet_naming_symbols.static_fields.required_modifiers = static
+dotnet_naming_symbols.static_fields.applicable_accessibilities = private, internal, private_protected
 
 # Naming styles
 
@@ -293,6 +308,10 @@ dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator = 
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
-# Define the 'underscored' naming style
-dotnet_naming_style.underscored.capitalization = camel_case
-dotnet_naming_style.underscored.required_prefix = _
+# ( for private internal fields )
+dotnet_naming_style.camel_case_underscore_style.required_prefix = _
+dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
+
+# ( for static fields )
+dotnet_naming_style.static_prefix_style.required_prefix = s_
+dotnet_naming_style.static_prefix_style.capitalization = camel_case

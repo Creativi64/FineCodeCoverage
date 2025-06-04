@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Engine
         }
 
         internal int InitializeWait { get; set; } = 5000;
-        internal const string initializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
+        internal const string InitializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
         private ICancellationTokenSource _cancellationTokenSource;
 
         private readonly ICoverageUtilManager _coverageUtilManager;

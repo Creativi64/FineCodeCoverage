@@ -12,13 +12,13 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(ISettingsMerger))]
     internal class SettingsMerger : ISettingsMerger
     {
-        private const bool projectSettingsDefaultMerge = false;
-        private const bool settingsFileDefaultMerge = false;
-        private const string defaultMergeAttributeName = "defaultMerge";
-        private const string mergeAttributeName = "merge";
+        private const bool ProjectSettingsDefaultMerge = false;
+        private const bool SettingsFileDefaultMerge = false;
+        private const string DefaultMergeAttributeName = "defaultMerge";
+        private const string MergeAttributeName = "merge";
         private readonly ILogger _logger;
         private readonly SettingsMergeLogic _settingsMergeLogic = new SettingsMergeLogic();
-        private static readonly Dictionary<Type, ISettingsXmlParser> parsers = new Dictionary<Type, ISettingsXmlParser>()
+        private static readonly Dictionary<Type, ISettingsXmlParser> s_parsers = new Dictionary<Type, ISettingsXmlParser>()
         {
             { typeof(bool), new SettingsXmlParser<bool,bool?>(bool.TryParse)},
             { typeof(int), new SettingsXmlParser<int,int?>(int.TryParse)},
@@ -64,7 +64,7 @@ namespace FineCodeCoverage.Engine.Model
                 settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge
                 {
                     SettingsElement = e,
-                    DefaultMerge = settingsFileDefaultMerge,
+                    DefaultMerge = SettingsFileDefaultMerge,
                     FromProjectSettings = false
                 });
 
@@ -74,7 +74,7 @@ namespace FineCodeCoverage.Engine.Model
                     new SettingsElementDefaultMerge
                     {
                         SettingsElement = projectSettingsElement,
-                        DefaultMerge = projectSettingsDefaultMerge,
+                        DefaultMerge = ProjectSettingsDefaultMerge,
                         FromProjectSettings = true
                     }
                 );
@@ -167,7 +167,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private static bool GetMerge(bool defaultMerge, XElement propertyElement)
         {
-            XAttribute mergeAttribute = propertyElement.Attribute(mergeAttributeName);
+            XAttribute mergeAttribute = propertyElement.Attribute(MergeAttributeName);
             return mergeAttribute == null ?
                 defaultMerge :
                 string.Equals(mergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
@@ -175,7 +175,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private static bool GetDefaultMerge(bool defaultDefaultMerge, XElement root)
         {
-            XAttribute defaultMergeAttribute = root.Attribute(defaultMergeAttributeName);
+            XAttribute defaultMergeAttribute = root.Attribute(DefaultMergeAttributeName);
             return defaultMergeAttribute == null
                 ? defaultDefaultMerge
                 : string.Equals(defaultMergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
@@ -265,7 +265,7 @@ namespace FineCodeCoverage.Engine.Model
             {
                 Type elementType = type.GetElementType();
                 (Type lookupType, bool isNullable) = GetLookupTypeInfo(elementType);
-                if (parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
+                if (s_parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
                 {
                     return parser.ParseArray(strValueArr, isNullable);
                 }
@@ -273,7 +273,7 @@ namespace FineCodeCoverage.Engine.Model
             else
             {
                 (Type lookupType, bool _) = GetLookupTypeInfo(type);
-                if (parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
+                if (s_parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
                 {
                     return parser.Parse(strValueArr.FirstOrDefault());
                 }

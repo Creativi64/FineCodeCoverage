@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public string DataCollectorsElement { get; }
         public string MsDataCollectorElement { get; }
 
-        private const string fccMarkerElementName = "FCCGenerated";
+        private const string FCCGeneratedMarkerElementName = "FCCGenerated";
         private readonly string _msDataCollectorConfigurationElement;
         private readonly string _msDataCollectorCodeCoverageElement;
 
@@ -136,7 +136,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         <Configuration>
           {this._msDataCollectorCodeCoverageElement}
           <Format>Cobertura</Format>
-          <{fccMarkerElementName}/>
+          <{FCCGeneratedMarkerElementName}/>
         </Configuration>
 ";
             this.MsDataCollectorElement = $@"
@@ -317,12 +317,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private static void AddFCCGeneratedIfNotPresent(XElement msDataCollectorConfiguration)
         {
-            if (msDataCollectorConfiguration.Element(fccMarkerElementName) != null)
+            if (msDataCollectorConfiguration.Element(FCCGeneratedMarkerElementName) != null)
             {
                 return;
             }
 
-            msDataCollectorConfiguration.Add(XElement.Parse($"<{fccMarkerElementName}/>"));
+            msDataCollectorConfiguration.Add(XElement.Parse($"<{FCCGeneratedMarkerElementName}/>"));
         }
 
         private static void AddOrCorrectFormat(XElement configuration)
@@ -368,7 +368,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public bool FCCGenerated(IXPathNavigable inputRunSettingDocument)
         {
             XPathNavigator navigator = inputRunSettingDocument.CreateNavigator();
-            return navigator.SelectSingleNode($"//{fccMarkerElementName}") != null;
+            return navigator.SelectSingleNode($"//{FCCGeneratedMarkerElementName}") != null;
 
         }
 

@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Engine.Coverlet
     [Export(typeof(IFCCCoverletConsoleExecutor))]
     internal class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor
     {
-        private const string zipPrefix = "coverlet.console";
-        private const string zipDirectoryName = "coverlet"; //backwards compatibility
+        private const string ZipPrefix = "coverlet.console";
+        private const string ZipDirectoryName = "coverlet"; //backwards compatibility
         private readonly IToolUnzipper _toolUnzipper;
         private string _coverletExePath;
 
@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, ZipDirectoryName, ZipPrefix, cancellationToken);
             this._coverletExePath = Directory.GetFiles(zipDestination, "coverlet.exe", SearchOption.AllDirectories).FirstOrDefault()
                            ?? Directory.GetFiles(zipDestination, "*coverlet*.exe", SearchOption.AllDirectories).FirstOrDefault();
         }

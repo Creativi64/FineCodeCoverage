@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
         {
             IEnumerable<string> empty = Enumerable.Empty<string>();
-            var defaultFilter = new DefaultFilter(new string[] { });
+            var defaultFilter = new DefaultFilter(Array.Empty<string>());
             var config = new ReportConfiguration(
                 new ReadOnlyCollection<string>(coverageFiles.ToList()),
                 reportDirectory,
@@ -75,6 +75,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 Match matched = this._fileDoesNotExistAnymoreRegex.Match(message);
                 shouldLog = !matched.Success;
             }
+
             return shouldLog;
         }
     }

@@ -9,8 +9,8 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(IFCCSettingsFilesProvider))]
     internal class FCCSettingsFilesProvider : IFCCSettingsFilesProvider
     {
-        internal const string fccOptionsFileName = "finecodecoverage-settings.xml";
-        private const string topLevelAttributeName = "topLevel";
+        internal const string FCCOptionsFileName = "finecodecoverage-settings.xml";
+        private const string TopLevelAttributeName = "topLevel";
         private readonly IFileUtil _fileUtil;
 
         [ImportingConstructor]
@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Engine.Model
         private static bool IsTopLevel(XElement root)
         {
             bool topLevel = false;
-            XAttribute topLevelAttribute = root.Attribute(topLevelAttributeName);
+            XAttribute topLevelAttribute = root.Attribute(TopLevelAttributeName);
             if (topLevelAttribute?.Value.ToLower() == "true")
             {
                 topLevel = true;
@@ -75,6 +75,6 @@ namespace FineCodeCoverage.Engine.Model
             return topLevel;
         }
 
-        private static string GetFCCOptionsPath(string directory) => Path.Combine(directory, fccOptionsFileName);
+        private static string GetFCCOptionsPath(string directory) => Path.Combine(directory, FCCOptionsFileName);
     }
 }

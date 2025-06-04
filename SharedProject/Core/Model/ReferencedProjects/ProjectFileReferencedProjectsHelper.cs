@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Engine.Model
                 string referencedProjectProjectFile = xprojectReference.Attribute("Include").Value;
                 if (referencedProjectProjectFile.Contains("$("))
                 {
-                    await this._logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.excludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
+                    await this._logger.LogAsync($"Cannot exclude referenced project {referencedProjectProjectFile} of {projectFile} with {ReferencedProject.ExcludeFromCodeCoveragePropertyName}.  Cannot use MSBuildWorkspace");
                 }
                 else
                 {

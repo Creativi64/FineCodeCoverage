@@ -78,7 +78,7 @@ namespace Test
         private void WriteGeneratedCobertura(string directory, bool last)
         {
             Directory.CreateDirectory(directory);
-            var generatedPath = Path.Combine(directory, CoverletDataCollectorGeneratedCobertura.collectorGeneratedCobertura);
+            var generatedPath = Path.Combine(directory, CoverletDataCollectorGeneratedCobertura.GeneratedCoberturaFileName);
             File.WriteAllText(generatedPath, last ? "last" : "first");
         }
         

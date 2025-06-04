@@ -9,33 +9,34 @@ namespace FineCodeCoverage.Wpf
 {
     public static class ImageLibraryLoader
     {
-        private static ImageLibrary defaultImageLibrary;
-        private static List<string> defaultDirectories;
+        private static ImageLibrary s_defaultImageLibrary;
+        private static List<string> s_defaultDirectories;
+        private static readonly string[] s_separator = new string[] { "|" };
 
-        public static ImageLibrary Default => defaultImageLibrary ?? (defaultImageLibrary = GetImageLibrary(""));
+        public static ImageLibrary Default => s_defaultImageLibrary ?? (s_defaultImageLibrary = GetImageLibrary(""));
 
         private static List<string> DefaultDirectories
         {
             get
             {
-                if (defaultDirectories == null)
+                if (s_defaultDirectories == null)
                 {
-                    defaultDirectories = new List<string>();
+                    s_defaultDirectories = new List<string>();
                     string installationPath = VsHelper.GetAVsInstallationPath();
                     if (installationPath != null)
                     {
                         //Path.Combine(installationPath, "Common7\\IDE")
-                        defaultDirectories.Add(Path.Combine(installationPath, "Common7\\IDE\\CommonExtensions\\Platform\\Shell"));
+                        s_defaultDirectories.Add(Path.Combine(installationPath, "Common7\\IDE\\CommonExtensions\\Platform\\Shell"));
                     }
                 }
 
-                return defaultDirectories;
+                return s_defaultDirectories;
             }
         }
 
         private static ImageLibrary GetImageLibrary(string manifestsOrDirectories)
         {
-            string[] manifests = manifestsOrDirectories.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] manifests = manifestsOrDirectories.Split(s_separator, StringSplitOptions.RemoveEmptyEntries);
             var imageManifests = manifests.Where(m => m.EndsWith(".imagemanifest")).ToList();
             List<string> directories = string.IsNullOrEmpty(manifestsOrDirectories) ?
                 DefaultDirectories : manifests.Except(imageManifests).ToList();

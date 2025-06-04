@@ -4,69 +4,74 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 {
     internal static class MetricNames
     {
-        private static string crap;
+        private static string s_crap;
+        private static string s_nPath;
+        private static string s_cyclomaticComplexity;
+        private static string s_blocksCovered;
+        private static string s_blocksNotCovered;
+
         public static string Crap
         {
             get
             {
-                if (crap == null)
+                if (s_crap == null)
                 {
-                    crap = PalmmediaMetric.CrapScore(0).Name;
+                    s_crap = PalmmediaMetric.CrapScore(0).Name;
                 }
 
-                return crap;
+                return s_crap;
             }
         }
-        private static string nPath;
+
         public static string NPath
         {
             get
             {
-                if (nPath == null)
+                if (s_nPath == null)
                 {
-                    nPath = PalmmediaMetric.NPathComplexity(0).Name;
+                    s_nPath = PalmmediaMetric.NPathComplexity(0).Name;
                 }
 
-                return nPath;
+                return s_nPath;
             }
         }
-        private static string cyclomaticComplexity;
+
         public static string CyclomaticComplexity
         {
             get
             {
-                if (cyclomaticComplexity == null)
+                if (s_cyclomaticComplexity == null)
                 {
-                    cyclomaticComplexity = PalmmediaMetric.CyclomaticComplexity(0).Name;
+                    s_cyclomaticComplexity = PalmmediaMetric.CyclomaticComplexity(0).Name;
                 }
 
-                return cyclomaticComplexity;
+                return s_cyclomaticComplexity;
             }
         }
-        private static string blocksCovered;
+
         public static string BlocksCovered
         {
             get
             {
-                if (blocksCovered == null)
+                if (s_blocksCovered == null)
                 {
-                    blocksCovered = PalmmediaMetric.BlocksCovered(0).Name;
+                    s_blocksCovered = PalmmediaMetric.BlocksCovered(0).Name;
                 }
 
-                return blocksCovered;
+                return s_blocksCovered;
             }
         }
-        private static string blocksNotCovered;
+
         public static string BlocksNotCovered
         {
             get
             {
-                if (blocksNotCovered == null)
+                if (s_blocksNotCovered == null)
                 {
-                    blocksNotCovered = PalmmediaMetric.BlocksNotCovered(0).Name;
+                    s_blocksNotCovered = PalmmediaMetric.BlocksNotCovered(0).Name;
                 }
 
-                return blocksNotCovered;
+                return s_blocksNotCovered;
             }
         }
     }

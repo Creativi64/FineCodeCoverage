@@ -29,12 +29,12 @@ namespace FineCodeCoverage.Engine.Coverlet
         private readonly IVsBuildFCCSettingsProvider _vsBuildFCCSettingsProvider;
 
         //for tests
-        internal IRunSettingsCoverletConfiguration runSettingsCoverletConfiguration;
-        internal ICoverageProject coverageProject;
+        internal IRunSettingsCoverletConfiguration _runSettingsCoverletConfiguration;
+        internal ICoverageProject _coverageProject;
         private const string LogPrefix = "Coverlet Collector Run";
+        private const string ZipPrefix = "coverlet.collector";
+        private const string ZipDirectoryName = "coverletCollector";
         internal string TestAdapterPathArg { get; set; }
-        private const string zipPrefix = "coverlet.collector";
-        private const string zipDirectoryName = "coverletCollector";
 
         [ImportingConstructor]
         public CoverletDataCollectorUtil(
@@ -63,7 +63,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         private bool? GetUseDataCollectorFromProjectFile()
         {
             bool? useDataCollector = null;
-            XElement root = this.coverageProject.ProjectFileXElement;
+            XElement root = this._coverageProject.ProjectFileXElement;
             IEnumerable<XElement> propertyGroups = root.Elements().Where(el => el.Name.LocalName == "PropertyGroup");
             foreach (XElement propertyGroup in propertyGroups)
             {
@@ -94,7 +94,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             bool? useDataCollector = this.GetUseDataCollectorFromProjectFile();
             if (!useDataCollector.HasValue)
             {
-                XElement importedSettings = await this._vsBuildFCCSettingsProvider.GetSettingsAsync(this.coverageProject.Id);
+                XElement importedSettings = await this._vsBuildFCCSettingsProvider.GetSettingsAsync(this._coverageProject.Id);
                 if (importedSettings != null)
                 {
                     useDataCollector = UseDataCollector(importedSettings);
@@ -118,15 +118,15 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public async Task<bool> CanUseDataCollectorAsync(ICoverageProject coverageProject)
         {
-            this.runSettingsCoverletConfiguration = this._runSettingsCoverletConfigurationFactory.Create();
-            this.coverageProject = coverageProject;
+            this._runSettingsCoverletConfiguration = this._runSettingsCoverletConfigurationFactory.Create();
+            this._coverageProject = coverageProject;
 
             if (coverageProject.RunSettingsFile != null)
             {
                 string runSettingsXml = this._fileUtil.ReadAllText(coverageProject.RunSettingsFile);
 
-                _ = this.runSettingsCoverletConfiguration.Read(runSettingsXml);
-                switch (this.runSettingsCoverletConfiguration.CoverletDataCollectorState)
+                _ = this._runSettingsCoverletConfiguration.Read(runSettingsXml);
+                switch (this._runSettingsCoverletConfiguration.CoverletDataCollectorState)
                 {
                     case CoverletDataCollectorState.Disabled:
                         return false;
@@ -142,63 +142,63 @@ namespace FineCodeCoverage.Engine.Coverlet
         {
             IDataCollectorSettingsBuilder dataCollectorSettingsBuilder = this._dataCollectorSettingsBuilderFactory.Create();
             dataCollectorSettingsBuilder
-                .Initialize(this.coverageProject.Settings.RunSettingsOnly, this.coverageProject.RunSettingsFile, Path.Combine(this.coverageProject.CoverageOutputFolder, "FCC.runsettings"));
+                .Initialize(this._coverageProject.Settings.RunSettingsOnly, this._coverageProject.RunSettingsFile, Path.Combine(this._coverageProject.CoverageOutputFolder, "FCC.runsettings"));
 
             // command arguments
             dataCollectorSettingsBuilder
-                .WithProjectDll(this.coverageProject.TestDllFile);
+                .WithProjectDll(this._coverageProject.TestDllFile);
             dataCollectorSettingsBuilder
                 .WithBlame();
             dataCollectorSettingsBuilder
                 .WithNoLogo();
             dataCollectorSettingsBuilder
-                .WithDiagnostics($"{this.coverageProject.CoverageOutputFolder}/diagnostics.log");
+                .WithDiagnostics($"{this._coverageProject.CoverageOutputFolder}/diagnostics.log");
 
             dataCollectorSettingsBuilder
-                .WithResultsDirectory(this.coverageProject.CoverageOutputFolder);
+                .WithResultsDirectory(this._coverageProject.CoverageOutputFolder);
 
-            string[] projectExcludes = this.coverageProject.ExcludedReferencedProjects.Select(erp => $"[{erp.AssemblyName}]*").ToArray();
-            if (this.coverageProject.Settings.Exclude != null)
+            string[] projectExcludes = this._coverageProject.ExcludedReferencedProjects.Select(erp => $"[{erp.AssemblyName}]*").ToArray();
+            if (this._coverageProject.Settings.Exclude != null)
             {
-                projectExcludes = projectExcludes.Concat(SanitizeExcludesOrIncludes(this.coverageProject.Settings.Exclude)).ToArray();
+                projectExcludes = projectExcludes.Concat(SanitizeExcludesOrIncludes(this._coverageProject.Settings.Exclude)).ToArray();
             }
 
             //DataCollector Configuration
             dataCollectorSettingsBuilder
-                .WithExclude(projectExcludes, this.runSettingsCoverletConfiguration.Exclude);
+                .WithExclude(projectExcludes, this._runSettingsCoverletConfiguration.Exclude);
             dataCollectorSettingsBuilder
                 .WithExcludeByFile(
-                    SanitizeExcludesOrIncludes(this.coverageProject.Settings.ExcludeByFile),
-                    this.runSettingsCoverletConfiguration.ExcludeByFile);
+                    SanitizeExcludesOrIncludes(this._coverageProject.Settings.ExcludeByFile),
+                    this._runSettingsCoverletConfiguration.ExcludeByFile);
             dataCollectorSettingsBuilder
                 .WithExcludeByAttribute(
-                    SanitizeExcludesOrIncludes(this.coverageProject.Settings.ExcludeByAttribute),
-                    this.runSettingsCoverletConfiguration.ExcludeByAttribute);
+                    SanitizeExcludesOrIncludes(this._coverageProject.Settings.ExcludeByAttribute),
+                    this._runSettingsCoverletConfiguration.ExcludeByAttribute);
 
-            IEnumerable<string> projectIncludes = this.coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*");
-            if (this.coverageProject.Settings.Include != null)
+            IEnumerable<string> projectIncludes = this._coverageProject.IncludedReferencedProjects.Select(irp => $"[{irp.AssemblyName}]*");
+            if (this._coverageProject.Settings.Include != null)
             {
-                projectIncludes = projectIncludes.Concat(SanitizeExcludesOrIncludes(this.coverageProject.Settings.Include));
+                projectIncludes = projectIncludes.Concat(SanitizeExcludesOrIncludes(this._coverageProject.Settings.Include));
             }
 
-            if (this.coverageProject.Settings.IncludeTestAssembly && projectIncludes.Any())
+            if (this._coverageProject.Settings.IncludeTestAssembly && projectIncludes.Any())
             {
-                projectIncludes = projectIncludes.Concat(new string[] { $"[{this.coverageProject.ProjectName}]*" });
+                projectIncludes = projectIncludes.Concat(new string[] { $"[{this._coverageProject.ProjectName}]*" });
             }
 
             dataCollectorSettingsBuilder
-                .WithInclude(projectIncludes.ToArray(), this.runSettingsCoverletConfiguration.Include);
+                .WithInclude(projectIncludes.ToArray(), this._runSettingsCoverletConfiguration.Include);
             dataCollectorSettingsBuilder
-                .WithIncludeTestAssembly(this.coverageProject.Settings.IncludeTestAssembly, this.runSettingsCoverletConfiguration.IncludeTestAssembly);
+                .WithIncludeTestAssembly(this._coverageProject.Settings.IncludeTestAssembly, this._runSettingsCoverletConfiguration.IncludeTestAssembly);
 
             dataCollectorSettingsBuilder
-                .WithIncludeDirectory(this.runSettingsCoverletConfiguration.IncludeDirectory);
+                .WithIncludeDirectory(this._runSettingsCoverletConfiguration.IncludeDirectory);
             dataCollectorSettingsBuilder
-                .WithSingleHit(this.runSettingsCoverletConfiguration.SingleHit);
+                .WithSingleHit(this._runSettingsCoverletConfiguration.SingleHit);
             dataCollectorSettingsBuilder
-                .WithUseSourceLink(this.runSettingsCoverletConfiguration.UseSourceLink);
+                .WithUseSourceLink(this._runSettingsCoverletConfiguration.UseSourceLink);
             dataCollectorSettingsBuilder
-                .WithSkipAutoProps(this.runSettingsCoverletConfiguration.SkipAutoProps);
+                .WithSkipAutoProps(this._runSettingsCoverletConfiguration.SkipAutoProps);
 
             return dataCollectorSettingsBuilder
                 .Build();
@@ -213,9 +213,9 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         private async Task<string> GetTestAdapterPathArgAsync()
         {
-            if (!string.IsNullOrWhiteSpace(this.coverageProject.Settings.CoverletCollectorDirectoryPath))
+            if (!string.IsNullOrWhiteSpace(this._coverageProject.Settings.CoverletCollectorDirectoryPath))
             {
-                string directoryPath = this.coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
+                string directoryPath = this._coverageProject.Settings.CoverletCollectorDirectoryPath.Trim();
                 if (Directory.Exists(directoryPath))
                 {
                     await this._logger.LogAsync($"Using custom coverlet data collector : {directoryPath}");
@@ -237,7 +237,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             {
                 FilePath = "dotnet",
                 Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {await this.GetTestAdapterPathArgAsync()}",
-                WorkingDirectory = this.coverageProject.ProjectOutputFolder
+                WorkingDirectory = this._coverageProject.ProjectOutputFolder
             }, cancellationToken);
             // this is how coverlet console determines exit code
             // https://github.com/coverlet-coverage/coverlet/blob/ac0e0fad2f0301a3fe9a3de9f8cdb32f406ce6d8/src/coverlet.console/Program.cs
@@ -256,10 +256,10 @@ namespace FineCodeCoverage.Engine.Coverlet
                 true,
                 $"{this.GetLogTitle()} - Output",
                 () => this._coverletDataCollectorGeneratedCobertura.CorrectPath(
-                    this.coverageProject.CoverageOutputFolder, this.coverageProject.CoverageOutputFile));
+                    this._coverageProject.CoverageOutputFolder, this._coverageProject.CoverageOutputFile));
 
         }
-        private string GetLogTitle() => $"{LogPrefix} ({this.coverageProject.ProjectName})";
+        private string GetLogTitle() => $"{LogPrefix} ({this._coverageProject.ProjectName})";
 
         internal string LogRunMessage(string coverletSettings)
             => $"{this.GetLogTitle()} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", coverletSettings)}";
@@ -268,7 +268,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
-            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
+            string zipDestination = this._toolUnzipper.EnsureUnzipped(appDataFolder, ZipDirectoryName, ZipPrefix, cancellationToken);
             string testAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
             this.TestAdapterPathArg = $@"""{testAdapterPath}""";
         }

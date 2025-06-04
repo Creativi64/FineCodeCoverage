@@ -6,30 +6,31 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 {
     internal static class MetricSetter
     {
-        private static readonly Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>> metricSetters = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
-        {
-            { MetricNames.BlocksCovered, (pce,value) => {
-                    pce.BlocksCovered = (int)value;
-                    return MetricType.BlocksCovered;
-                }
-            },
-            { MetricNames.BlocksNotCovered, (pce,value) => {
-                pce.BlocksNotCovered = (int)value;
-                return MetricType.BlocksNotCovered;
-            } },
-            { MetricNames.Crap, (pce,value) => {
-                pce.CrapScore = (int)value;
-                return MetricType.Crap;
-            } },
-            { MetricNames.NPath, (pce,value) => {
-                pce.NPathComplexity = (int)value;
-                return MetricType.NPath;
-            } },
-            { MetricNames.CyclomaticComplexity, (pce,value) => {
-                pce.CyclomaticComplexity = (int)value;
-                return MetricType.CyclomaticComplexity;
-            }}
-        };
+        private static readonly Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>> s_metricSetters
+            = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
+            {
+                { MetricNames.BlocksCovered, (pce,value) => {
+                        pce.BlocksCovered = (int)value;
+                        return MetricType.BlocksCovered;
+                    }
+                },
+                { MetricNames.BlocksNotCovered, (pce,value) => {
+                    pce.BlocksNotCovered = (int)value;
+                    return MetricType.BlocksNotCovered;
+                } },
+                { MetricNames.Crap, (pce,value) => {
+                    pce.CrapScore = (int)value;
+                    return MetricType.Crap;
+                } },
+                { MetricNames.NPath, (pce,value) => {
+                    pce.NPathComplexity = (int)value;
+                    return MetricType.NPath;
+                } },
+                { MetricNames.CyclomaticComplexity, (pce,value) => {
+                    pce.CyclomaticComplexity = (int)value;
+                    return MetricType.CyclomaticComplexity;
+                }}
+            };
 
         public static List<MetricType> SetMetricProperties(
             this PalmmediaCodeElement palmmediaCodeElement,
@@ -38,7 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             var metricTypes = new List<MetricType>();
             foreach (PalmmediaMetric metric in metrics)
             {
-                _ = metricSetters.TryGetValue(metric.Name, out Func<PalmmediaCodeElement, decimal?, MetricType> setter);
+                _ = s_metricSetters.TryGetValue(metric.Name, out Func<PalmmediaCodeElement, decimal?, MetricType> setter);
                 if (setter != null)
                 {
 
