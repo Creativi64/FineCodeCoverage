@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public ITrackingLine Create(
             ITrackingSpan trackingSpan,
             int originalLineNumber,
-            IDynamicCoberturaLine dynamicCoberturaLine
+            IDynamicCoberturaLine dynamicCoberturaLine) => new DirtyTrackingLine(
         ) => new DirtyTrackingLine(
                 _trackingLineFactory.Create(trackingSpan, originalLineNumber, DynamicCoverageType.Dirty),
                 dynamicCoberturaLine);
