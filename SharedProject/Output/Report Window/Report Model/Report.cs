@@ -83,8 +83,13 @@ namespace FineCodeCoverage.Output
 
         private List<SourceFile> GetSourceFiles()
             => Assemblies.SelectMany(a => a.Classes.SelectMany(
-                    pc => pc.FileCodeElements.Select(
-                        kvp => new { SourcePath = kvp.Key, ClassName = pc.DisplayName, CodeElements = kvp.Value })))
+                c => c.FileCodeElements.Select(
+                    kvp => new
+                    {
+                        SourcePath = kvp.Key,
+                        ClassName = c.DisplayName,
+                        CodeElements = kvp.Value,
+                    })))
             .GroupBy(a => a.SourcePath)
             .Select(g =>
             {

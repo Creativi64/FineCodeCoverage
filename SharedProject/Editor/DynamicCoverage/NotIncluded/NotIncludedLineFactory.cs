@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         [ImportingConstructor]
         public NotIncludedLineFactory(
-             ITrackingLineFactory lineTracker) => _trackingLineFactory = lineTracker;
+             ITrackingLineFactory trackingLineFactory) => _trackingLineFactory = trackingLineFactory;
 
         public ITrackingLine Create(ITrackingSpan startTrackingSpan, ITextSnapshot currentSnapshot)
             => _trackingLineFactory.Create(startTrackingSpan, currentSnapshot, DynamicCoverageType.NotIncluded);

@@ -44,8 +44,11 @@ dotnet_diagnostic.CA1822.severity = error # Mark members as static
 dotnet_code_quality.CA1822.api_surface = private, internal
 
 # StyleCop
+# disagrees with the C# coding conventions
 # A call to an instance member of the local class or a base class is not prefixed with 'this.', within a C# code file.
 dotnet_diagnostic.SA1101.severity = none
+
+# disagrees with the C# coding conventions - csharp_using_directive_placement = outside_namespace:error
 # A C# using directive is placed outside of a namespace element.
 dotnet_diagnostic.SA1200.severity = none
 
@@ -59,7 +62,7 @@ dotnet_diagnostic.SA1602.severity = none
 # A C# partial element is missing a documentation header.
 dotnet_diagnostic.SA1602.severity = none
 
-# naming
+# naming - "none" as they disagree with the C# coding conventions
 # A field name in C# begins with an underscore.
 dotnet_diagnostic.SA1309.severity = none
 # A field name in C# is prefixed with m_, s_, or t_.
@@ -70,7 +73,7 @@ dotnet_diagnostic.SA1311.severity = none
 dotnet_diagnostic.SA1312.severity = none
 
 
-# ordering
+# ordering - todo
 # An element within a C# code file is out of order in relation to the other elements in the code.
 dotnet_diagnostic.SA1201.severity = none
 # An element within a C# code file is out of order within regard to access level, in relation to other elements in the code.
@@ -78,16 +81,8 @@ dotnet_diagnostic.SA1202.severity = none
 # A static element is positioned beneath an instance element of the same type.
 dotnet_diagnostic.SA1204.severity = none
 
-# The C# code contains a region.
+# The C# code contains a region - todo
 dotnet_diagnostic.SA1124.severity = none
-
-#tbd
-# A closing parenthesis within a C# statement is not spaced correctly.
-# dotnet_diagnostic.SA1009.severity = none
-# The closing parenthesis or bracket in a call to a C# method or indexer, or the declaration of a method or indexer, is not placed on the same line as the last parameter.
-dotnet_diagnostic.SA1111.severity = none
-
-
 
 # A closing brace within a C# element, statement, or expression is preceded by a blank line.
 # disagrees with - insert_final_line = true
