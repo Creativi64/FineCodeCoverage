@@ -12,12 +12,12 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     [Export(typeof(ITUnitProjectsProvider))]
     internal class TUnitProjectsProvider : ITUnitProjectsProvider
     {
+        private readonly List<IVsHierarchy> _addedProjects = new List<IVsHierarchy>();
         private readonly ISolutionProjectsProvider _solutionProjectsProvider;
         private readonly ICPSTestProjectService _cpsTestProjectService;
         private readonly ITUnitProjectFactory _tUnitProjectFactory;
         private readonly ITUnitProjectCache _tUnitProjectCache;
         private bool _initializedCache;
-        private readonly List<IVsHierarchy> _addedProjects = new List<IVsHierarchy>();
 
         public event EventHandler ReadyEvent;
 

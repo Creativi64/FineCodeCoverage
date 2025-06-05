@@ -32,8 +32,8 @@ namespace FineCodeCoverage.Readme
                 {
                     AddRow(
                         OptionPageTableDisplayInfo.PageNameCategoryDisplay(optionPageInfo.PageName, propertyCategory.Category),
-                        "",
-                        ""
+                        string.Empty,
+                        string.Empty
                     );
                     foreach (OptionPropertyInfo optionPropertyInfo in propertyCategory.OptionPropertyInfos)
                     {
@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Readme
                 OptionPageTableDisplayInfo.OptionHeader,
                 OptionPageTableDisplayInfo.DescriptionHeader,
                 OptionPageTableDisplayInfo.IsCoverageSettingHeader,
-            true);
+                true);
         }
 
         private void AddRow(string cell1, string cell2, string cell3, bool isHeaderRow = false)
@@ -80,7 +80,11 @@ namespace FineCodeCoverage.Readme
 
         private void AddCell(TableRow row, string cellStr, OptionPageTableCellAlignment alignment)
         {
-            if (cellStr == null) return;
+            if (cellStr == null)
+            {
+                return;
+            }
+
             var cell = new TableCell() { TextAlignment = GetTextAlignment(alignment) };
             var cellParagraph = new Paragraph(new Run(cellStr));
             cell.Blocks.Add(cellParagraph);

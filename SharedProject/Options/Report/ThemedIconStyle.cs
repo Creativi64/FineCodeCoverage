@@ -1,4 +1,9 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal enum ThemedIconStyle { MonochromeGlyph, MonochromeText, Moniker }
+    internal enum ThemedIconStyle
+    {
+        MonochromeGlyph,
+        MonochromeText,
+        Moniker,
+    }
 }

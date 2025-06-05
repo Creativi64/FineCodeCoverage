@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-
     [Export(typeof(IVsShutdown))]
     public class VsShutdown : IVsShutdown, IVsShellPropertyEvents
     {

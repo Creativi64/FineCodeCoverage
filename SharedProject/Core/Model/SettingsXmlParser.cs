@@ -23,7 +23,9 @@ namespace FineCodeCoverage.Engine.Model
             foreach (string s in input)
             {
                 if (tryParse(s, out T val))
+                {
                     yield return val;
+                }
             }
         }
     }

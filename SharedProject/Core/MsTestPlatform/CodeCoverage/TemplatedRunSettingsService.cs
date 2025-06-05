@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public static ProjectRunSettingsFromTemplateResult FromException(Exception exception, string reason)
                 => new ProjectRunSettingsFromTemplateResult
                 {
-                    ExceptionReason = new ExceptionReasonImpl(exception, reason)
+                    ExceptionReason = new ExceptionReasonImpl(exception, reason),
                 };
         }
 
@@ -110,7 +110,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return new ProjectRunSettingsFromTemplateResult
             {
                 CustomTemplatePaths = customTemplatePaths,
-                CoverageProjectsWithFCCMsTestAdapter = coverageProjectsWithFCCMsTestAdapter
+                CoverageProjectsWithFCCMsTestAdapter = coverageProjectsWithFCCMsTestAdapter,
             };
         }
 
@@ -131,9 +131,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                     CoverageProject = coverageProject,
                     RunSettings = templateReplaceResult.Replaced,
                     CustomTemplatePath = customTemplatePath,
-                    ReplacedTestAdapter = templateReplaceResult.ReplacedTestAdapter
+                    ReplacedTestAdapter = templateReplaceResult.ReplacedTestAdapter,
                 };
-
             }).ToList();
 
         private (string ReplaceableTemplate, string CustomPath) GetRunSettingsTemplate(string projectDirectory, string solutionDirectory)

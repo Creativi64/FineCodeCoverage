@@ -47,7 +47,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public async Task<bool> RemoveRunSettingsFilePathAsync(Guid projectGuid)
         {
-
             bool ok = false;
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;

@@ -19,15 +19,16 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private class TUnitProject : ITUnitProject, IDisposable
         {
+            private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
+            private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
             private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
             private readonly ICommandLineParser _commandLineParser;
+            private readonly IProjectProperties _commonProperties;
+            private readonly IDisposable _packageChangeSubscription;
             private IImmutableDictionary<string, IImmutableDictionary<string, string>> _packageReferenceItems;
             private bool _requiresUpdate = true;
             private bool _disposedValue;
-            private readonly IProjectProperties _commonProperties;
-            private readonly IDisposable _packageChangeSubscription;
-            private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
-            private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
+
             private static readonly string[] s_packageReferenceRuleNames = new string[] { "PackageReference" };
 
             /*
@@ -100,7 +101,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             /*
                 Idea was to use Nuget api, but
                 IVsPackageInstallerEvents
-                These events are only raised for packages.config projects. 
+                These events are only raised for packages.config projects.
                 To get updates for both packages.config and PackageReference use IVsNuGetProjectUpdateEvents instead.
 
                 But IVsNuGetProjectUpdateEvents shipped in version 6.2 - Visual Studio 2022
@@ -114,13 +115,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 if did not want real-time changes then could have used configuredProject.Services.PackageReferences
                 public interface IPackageReference : IReference
                 {
-                } 
+                }
             */
 
             private Task ProjectUpdateAsync(IProjectVersionedValue<IProjectSubscriptionUpdate> update)
             {
-                // if need to switch to the main thread will need CPS IThreadHandling 
-                // This runs on a background thread. 
+                // if need to switch to the main thread will need CPS IThreadHandling
+                // This runs on a background thread.
                 _packageReferenceItems = update.Value.CurrentState["PackageReference"].Items;
                 _requiresUpdate = true;
                 return Task.CompletedTask;
@@ -157,7 +158,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     return;
                 }
                 /*
-                    alternative is 
+                    alternative is
                     var projectSnapshotService = configuredProject.Services.ProjectSnapshotService;
                     var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSnapshot>>((pvv) =>
                     {

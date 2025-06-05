@@ -11,7 +11,8 @@ namespace FineCodeCoverage.Wpf
 {
     public static class DependentPropertiesChangedNotifierBuilder
     {
-        public static DependentPropertiesChangedNotifier<T> Build<T>() where T : FrameworkElement, IPropertyDependencyChanged
+        public static DependentPropertiesChangedNotifier<T> Build<T>()
+            where T : FrameworkElement, IPropertyDependencyChanged
         {
             Type type = typeof(T);
             IDictionary<string, OneOrMany<string>> dependencies = BuildPropertyDependencies(type);
@@ -19,7 +20,11 @@ namespace FineCodeCoverage.Wpf
             var allDescriptorDependents = dependencies.Select(kvp =>
             {
                 DependencyProperty dependedUponDp = dependencyProperties.FirstOrDefault(dp => dp.Name == kvp.Key);
-                if (dependedUponDp == null) return null;
+                if (dependedUponDp == null)
+                {
+                    return null;
+                }
+
                 var descriptor = DependencyPropertyDescriptor.FromProperty(dependedUponDp, type);
                 return new DependentPropertiesDescriptor(descriptor, (changedPropertyName) => GetDependentProperties(changedPropertyName, dependencies));
             }).Where(dpd => dpd != null).ToList();
@@ -42,7 +47,10 @@ namespace FineCodeCoverage.Wpf
                 foreach (string str in propertyInfo.GetCustomAttributes(typeof(DependsOnPropertyAttribute), true).Cast<DependsOnPropertyAttribute>().Select(attr => attr.PropertyName))
                 {
                     if (!stringSet.Contains(str))
+                    {
                         throw new DependsOnPropertyNotFoundException(propertyInfo.DeclaringType, propertyInfo.Name, str);
+                    }
+
                     AddToMapValues(ref map2, str, propertyInfo.Name);
                     AddToMapValues(ref map1, propertyInfo.Name, str);
                 }
@@ -67,7 +75,10 @@ namespace FineCodeCoverage.Wpf
   IDictionary<string, OneOrMany<string>> propertyDependencies)
         {
             if (propertyDependencies == null)
+            {
                 return;
+            }
+
             var allDependentProperties = new List<string>();
             foreach (string key in (IEnumerable<string>)propertyDependencies.Keys)
             {
@@ -83,16 +94,25 @@ namespace FineCodeCoverage.Wpf
           ref List<string> allDependentProperties)
         {
             if (propertyDependencies == null || !propertyDependencies.TryGetValue(property, out OneOrMany<string> oneOrMany))
+            {
                 return false;
+            }
+
             foreach (string str in oneOrMany)
             {
                 if (allDependentProperties == null)
+                {
                     allDependentProperties = new List<string>();
+                }
+
                 if (!allDependentProperties.Contains(str))
                 {
                     allDependentProperties.Add(str);
                     if (str == rootProperty)
+                    {
                         throw new CircularPropertyDependencyException(str, allDependentProperties.ToArray());
+                    }
+
                     _ = AddDependentProperties(rootProperty, str, propertyDependencies, ref allDependentProperties);
                 }
                 else
@@ -105,10 +125,10 @@ namespace FineCodeCoverage.Wpf
         }
 
         private static IEnumerable<string> GetDependentProperties(
-            string property, IDictionary<string, OneOrMany<string>> _propertyDependencies)
+            string property, IDictionary<string, OneOrMany<string>> propertyDependencies)
         {
             List<string> allDependentProperties = null;
-            return !AddDependentProperties(property, property, _propertyDependencies, ref allDependentProperties) ? Enumerable.Empty<string>() : allDependentProperties;
+            return !AddDependentProperties(property, property, propertyDependencies, ref allDependentProperties) ? Enumerable.Empty<string>() : allDependentProperties;
         }
     }
 }

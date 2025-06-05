@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal interface ICollectTUnitCommand : ITUnitCommand { }
+    internal interface ICollectTUnitCommand : ITUnitCommand
+    {
+    }
 }

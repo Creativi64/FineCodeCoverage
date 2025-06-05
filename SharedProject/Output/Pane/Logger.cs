@@ -47,11 +47,13 @@ namespace FineCodeCoverage.Output.Pane
                 }
 
                 IFCCOutputWindowPane pane = await _fccOutputWindowCreator.GetOrCreateAsync();
-                if (pane == null) return;
+                if (pane == null)
+                {
+                    return;
+                }
 
                 string logs = string.Join(Environment.NewLine, messageList);
                 await pane.OutputStringThreadSafeAsync($"{GetFormattedNow()}: {logs}{Environment.NewLine}");
-
             }
             catch (Exception ex)
             {

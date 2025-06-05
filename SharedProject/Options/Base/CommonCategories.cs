@@ -2,7 +2,9 @@
 {
     internal abstract class CommonCategories
     {
-        private CommonCategories() { }
+        private CommonCategories()
+        {
+        }
 
         public const string CoverletOpenCover = "Coverlet / OpenCover";
         public const string Common = "Common";

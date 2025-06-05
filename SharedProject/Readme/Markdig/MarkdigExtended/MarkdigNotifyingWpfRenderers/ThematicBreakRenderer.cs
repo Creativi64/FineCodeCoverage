@@ -9,8 +9,15 @@ namespace FineCodeCoverage.Readme
     {
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, ThematicBreakBlock obj)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
 
             var line = new System.Windows.Shapes.Line { X2 = 1 };
 

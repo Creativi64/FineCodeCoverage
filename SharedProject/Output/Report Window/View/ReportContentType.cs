@@ -1,4 +1,8 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal enum ReportContentType { Full, Changeset }
+    internal enum ReportContentType
+    {
+        Full,
+        Changeset,
+    }
 }

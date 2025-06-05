@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Core.Utilities
 {
     /*
         https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.shell.vstasklibraryhelper.fileandforget?view=visualstudiosdk-2022
-        FileAndForget will 
+        FileAndForget will
         https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.telemetry.telemetrysession.postevent?view=visualstudiosdk-2022#microsoft-visualstudio-telemetry-telemetrysession-postevent(microsoft-visualstudio-telemetry-telemetryevent)
         Microsoft.VisualStudio.Telemetry.TelemetryService.DefaultSession.PostEvent - a FaultEvent but not to Watson, to AI
         and

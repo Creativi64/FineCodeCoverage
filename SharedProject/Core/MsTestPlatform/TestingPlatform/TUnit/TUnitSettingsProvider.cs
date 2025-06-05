@@ -50,6 +50,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             _ = await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken, false);
             string coberturaPath = GetCoberturaPath(tUnitCoverageProject);
             CommandLineParseResult commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
+
             // todo commandLineParseResult.HasError
             string configurationPathArgument = null;
             var additionalArgsStringBuilder = new StringBuilder();
@@ -97,7 +98,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
             bool ConfigurationPathArgExists(string pathArg)
             {
-                pathArg = pathArg.Replace("\"", "").Replace("'", "");
+                pathArg = pathArg.Replace("\"", string.Empty).Replace("'", string.Empty);
                 return _fileUtil.Exists(pathArg);
             }
 
@@ -138,7 +139,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private string GetIgnoreExitCodeString(string ignoreExitCodesArg)
         {
             string environmentVariableValue = _environment.GetEnvironmentVariable("TESTINGPLATFORM_EXITCODE_IGNORE");
-            return environmentVariableValue ?? ignoreExitCodesArg ?? "";
+            return environmentVariableValue ?? ignoreExitCodesArg ?? string.Empty;
         }
 
         private static List<int> GetIgnoredExitCodes(string exitCodes)
@@ -174,7 +175,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
                 System.Xml.Linq.XElement configurationOrRunSettingsElement = _xmlUtils.Load(configurationPathArgument);
                 string name = configurationOrRunSettingsElement.Name.LocalName;
-                if (name == "Configuration") return configurationPathArgument;
+                if (name == "Configuration")
+                {
+                    return configurationPathArgument;
+                }
+
                 if (name == "RunSettings")
                 {
                     System.Xml.Linq.XElement configurationElement = _runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);

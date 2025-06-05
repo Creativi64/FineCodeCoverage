@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class EditorCoverageColouringOptionsPage : DialogPageBase<EditorCoverageColouringOptions> { }
+    internal class EditorCoverageColouringOptionsPage : DialogPageBase<EditorCoverageColouringOptions>
+    {
+    }
 }

@@ -10,11 +10,11 @@ namespace FineCodeCoverage.Output
     [Export(typeof(IColumnStatesStore))]
     internal class ColumnStatesStore : IColumnStatesStore
     {
+        private const string ColumnStatesCollectionName = "FCCColumnStates";
+        private const string ColumnStatesPropertyName = "FCCColumnStates";
         private readonly IWritableUserSettingsStoreProvider _writableUserSettingsStoreProvider;
         private readonly IClearSettingsOnShutdown _clearSettingsOnShutdown;
         private readonly AsyncLazy<WritableSettingsStore> _lazyUserSettingsStore;
-        private const string ColumnStatesCollectionName = "FCCColumnStates";
-        private const string ColumnStatesPropertyName = "FCCColumnStates";
 
         public bool ClearSettingsOnShutdown { get; set; }
 

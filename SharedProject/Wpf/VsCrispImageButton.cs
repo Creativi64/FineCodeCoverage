@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Wpf
         {
             var crispy = new Crispy();
             _ = crispy.SetBinding(Crispy.MonikerProperty, new Binding(nameof(Moniker)) { Source = this });
-            base.Image = crispy;
+            Image = crispy;
         }
     }
 }

@@ -74,7 +74,6 @@ namespace FineCodeCoverage.ReportGeneration
 
                 IsHotspot = metrics.Count != 0;
                 Metrics = metrics;
-
             }
 
             public bool IsHotspot { get; }

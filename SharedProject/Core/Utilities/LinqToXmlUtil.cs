@@ -10,7 +10,9 @@ namespace FineCodeCoverage.Core.Utilities
     {
         private class Utf8StringWriter : StringWriter
         {
-            public Utf8StringWriter(StringBuilder sb) : base(sb) { }
+            public Utf8StringWriter(StringBuilder sb) : base(sb)
+            {
+            }
 
             public override Encoding Encoding => Encoding.UTF8;
         }
@@ -50,7 +52,9 @@ namespace FineCodeCoverage.Core.Utilities
         {
             string[] names = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             if (names.Length == 0)
+            {
                 throw new ArgumentException("Empty path", nameof(path));
+            }
 
             XContainer result = element;
             foreach (string name in names)

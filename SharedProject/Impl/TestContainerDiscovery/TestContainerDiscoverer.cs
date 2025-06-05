@@ -22,6 +22,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Impl
 {
     [Name(Vsix.TestContainerDiscovererName)]
+
     // Both exports necessary !
     [Export(typeof(TestContainerDiscoverer))]
     [Export(typeof(ITestContainerDiscoverer))]
@@ -57,11 +58,9 @@ namespace FineCodeCoverage.Impl
         public bool MsCodeCoverageErrored => _msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Error;
 
         [ImportingConstructor]
-        public TestContainerDiscoverer
-        (
+        public TestContainerDiscoverer(
             [Import(typeof(IOperationState))]
             IOperationState operationState,
-
             IFCCEngine fccEngine,
             ITestOperationStateInvocationManager testOperationStateInvocationManager,
             IPackageLoader packageLoader,
@@ -204,7 +203,9 @@ namespace FineCodeCoverage.Impl
 
             long totalTests = testOperation.TotalTests;
             int runWhenTestsExceed = _runOptions.RunWhenTestsExceed;
-            if (totalTests <= 0 || totalTests > runWhenTestsExceed) // in case this changes to not reporting total tests
+
+            // in case this changes to not reporting total tests
+            if (totalTests <= 0 || totalTests > runWhenTestsExceed)
             {
                 return true;
             }
@@ -283,7 +284,6 @@ namespace FineCodeCoverage.Impl
             try
             {
                 await action();
-
             }
             catch (Exception exception)
             {

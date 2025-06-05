@@ -56,7 +56,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 {
                     All = coverageProjects,
                     RunSettings = coverageProjectsWithRunSettings,
-                    Templated = coverageProjectsWithoutRunSettings
+                    Templated = coverageProjectsWithoutRunSettings,
                 };
             }
         }
@@ -298,7 +298,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                     CoverageOutputFolder = coverageProjectWithRunSettings.CoverageOutputFolder,
                     TestDllFile = coverageProjectWithRunSettings.TestDllFile,
                     ExcludedReferencedProjects = coverageProjectWithRunSettings.ExcludedReferencedProjects,
-                    IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects
+                    IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects,
                 };
                 _userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
             }

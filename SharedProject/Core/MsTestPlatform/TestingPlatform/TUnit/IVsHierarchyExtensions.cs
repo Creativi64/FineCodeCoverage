@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal static class IVsHierarchyExtensions
     {
         // https://github.com/microsoft/VSProjectSystem/blob/master/doc/automation/finding_CPS_in_a_VS_project.md
-        public async static Task<UnconfiguredProject> AsUnconfiguredProjectAsync(this IVsHierarchy hier)
+        public static async Task<UnconfiguredProject> AsUnconfiguredProjectAsync(this IVsHierarchy hier)
         {
             if (hier is IVsBrowseObjectContext context)
             {
@@ -34,6 +34,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public static Project ToProject(this IVsHierarchy hierarchy)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+
             // Retrieve the automation object from the root of the hierarchy.
             int hr = hierarchy.GetProperty(
                 VSConstants.VSITEMID_ROOT,
@@ -54,7 +55,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             return projectGuid;
         }
 
-        public async static Task<Guid> GetGuidAsync(this IVsHierarchy hierarchy)
+        public static async Task<Guid> GetGuidAsync(this IVsHierarchy hierarchy)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             return GetGuid(hierarchy);

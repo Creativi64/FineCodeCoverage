@@ -10,7 +10,9 @@ namespace FineCodeCoverage.Output
         public static DirectoryNode BuildDirectoryTree(List<ISourceFile> codeFiles)
         {
             if (codeFiles == null || codeFiles.Count == 0)
+            {
                 return null;
+            }
 
             // Determine the common root directory
             string rootPath = FindCommonRootPath(codeFiles.ConvertAll(cf => cf.Path));
@@ -32,7 +34,9 @@ namespace FineCodeCoverage.Output
             try
             {
                 if (!enumerator.MoveNext())
+                {
                     yield break;
+                }
 
                 T previous = enumerator.Current;
 
@@ -59,7 +63,9 @@ namespace FineCodeCoverage.Output
         private static void AddFileToTree(DirectoryNode currentNode, string relativePath, ISourceFile file)
         {
             string[] parts = relativePath.Split(Path.DirectorySeparatorChar);
-            for (int i = 0; i < parts.Length - 1; i++) // Traverse directories
+
+            // Traverse directories
+            for (int i = 0; i < parts.Length - 1; i++)
             {
                 string part = parts[i];
                 if (!currentNode.SubDirectoryParts.TryGetValue(part, out DirectoryNode value))

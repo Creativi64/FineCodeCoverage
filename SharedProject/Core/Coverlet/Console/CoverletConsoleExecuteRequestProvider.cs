@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 localExecutor,
                 customPathExecutor,
                 globalExecutor,
-                fccExecutor
+                fccExecutor,
             };
 
         // for now FCCCoverletConsoleExeProvider can return null for exe path
@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 }
             }
 
-            return null; //todo change to throw when using zip file
+            return null; // todo change to throw when using zip file
         }
     }
 }

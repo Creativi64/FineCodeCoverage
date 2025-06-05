@@ -60,7 +60,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             var coverletSettings = new List<string>
             {
                 $@"""{project.TestDllFile}""",
-                @"--format ""cobertura"""
+                @"--format ""cobertura""",
             };
 
             AddExcludesIncludes(coverletSettings, project);

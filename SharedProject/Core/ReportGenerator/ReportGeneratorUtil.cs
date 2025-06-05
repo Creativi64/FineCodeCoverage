@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         {
             _logs = new List<string>
             {
-                "Report Generator - Output"
+                "Report Generator - Output",
             };
             IReportResult reportResult = _reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
             await _logger.LogAsync(_logs);

@@ -12,18 +12,17 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(IInitializable))]
     internal class CoverageColoursManager : IInitializable
     {
-        private readonly ICoverageClassificationColourService _coverageClassificationColourService;
-        private readonly IFontAndColorsInfosProvider _fontAndColorsInfosProvider;
-        private readonly IEditorFormatMapTextSpecificListener _editorFormatMapTextSpecificListener;
-        private readonly ITextFormattingRunPropertiesFactory _textFormattingRunPropertiesFactory;
-
-        #region format definitions
         private const string PartiallyCoveredEditorFormatDefinitionName = "Coverage Partially Touched Area FCC";
         private const string NotCoveredEditorFormatDefinitionName = "Coverage Not Touched Area FCC";
         private const string CoveredEditorFormatDefinitionName = "Coverage Touched Area FCC";
         private const string NewLinesEditorFormatDefinitionName = "Coverage New Lines Area FCC";
         private const string DirtyEditorFormatDefinitionName = "Coverage Dirty Area FCC";
         private const string NotIncludedEditorFormatDefintionName = "Coverage Not Included Area FCC";
+
+        private readonly ICoverageClassificationColourService _coverageClassificationColourService;
+        private readonly IFontAndColorsInfosProvider _fontAndColorsInfosProvider;
+        private readonly IEditorFormatMapTextSpecificListener _editorFormatMapTextSpecificListener;
+        private readonly ITextFormattingRunPropertiesFactory _textFormattingRunPropertiesFactory;
 
         [Export]
         [Name(NotIncludedEditorFormatDefintionName)]
@@ -54,8 +53,6 @@ namespace FineCodeCoverage.Editor.Management
         [Name(PartiallyCoveredEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition PartiallyCoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Color.FromRgb(255, 165, 0));
-
-        #endregion
 
         [ImportingConstructor]
         public CoverageColoursManager(
@@ -95,7 +92,7 @@ namespace FineCodeCoverage.Editor.Management
 
                     NewLinesEditorFormatDefinitionName,
                     DirtyEditorFormatDefinitionName,
-                    NotIncludedEditorFormatDefintionName
+                    NotIncludedEditorFormatDefintionName,
                 },
                 () => Changed());
 

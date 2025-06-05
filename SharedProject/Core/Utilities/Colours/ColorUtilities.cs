@@ -4,7 +4,6 @@ using Microsoft.Internal.VisualStudio.PlatformUI;
 
 // taken from https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.platformui.colorutilities?view=visualstudiosdk-2022
 // not available in 2019
-
 namespace FineCodeCoverage.Core.Utilities
 {
     public static class ColorUtilities
@@ -30,9 +29,15 @@ namespace FineCodeCoverage.Core.Utilities
         public static Color Blend(Color foreground, Color background)
         {
             if (foreground.A == byte.MaxValue)
+            {
                 return foreground;
+            }
+
             if (foreground.A == (byte)0)
+            {
                 return background;
+            }
+
             double unitScaledForegroundAlpha = (double)foreground.A / (double)byte.MaxValue;
             return Color.FromArgb(byte.MaxValue, BlendChannel((int)foreground.R, (int)background.R), BlendChannel((int)foreground.G, (int)background.G), BlendChannel((int)foreground.B, (int)background.B));
 
@@ -61,7 +66,10 @@ namespace FineCodeCoverage.Core.Utilities
         public static SolidColorBrush GetBrushFromCache(Color color)
         {
             if (ColorUtilities.s_brushCache.TryGetValue(color, out SolidColorBrush brushFromCache1))
+            {
                 return brushFromCache1;
+            }
+
             var brushFromCache2 = new SolidColorBrush(color);
             brushFromCache2.Freeze();
             ColorUtilities.s_brushCache[color] = brushFromCache2;

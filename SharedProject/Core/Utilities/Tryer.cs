@@ -11,7 +11,9 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 await func();
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
 }

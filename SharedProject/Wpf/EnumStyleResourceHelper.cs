@@ -7,7 +7,8 @@ namespace FineCodeCoverage.Wpf
 {
     internal static class EnumStyleResourceHelper
     {
-        public static Dictionary<TEnum, Style> GetEnumKeyedStyles<TEnum>(this FrameworkElement frameworkElement) where TEnum : Enum
+        public static Dictionary<TEnum, Style> GetEnumKeyedStyles<TEnum>(this FrameworkElement frameworkElement)
+            where TEnum : Enum
         {
             var styleDictionary = new Dictionary<TEnum, Style>();
             Enum.GetValues(typeof(TEnum)).OfType<TEnum>().ToList().ForEach(enumValue =>

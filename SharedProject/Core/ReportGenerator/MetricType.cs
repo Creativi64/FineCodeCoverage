@@ -8,6 +8,6 @@
         CyclomaticComplexity,
         BlocksCovered,
         BlocksNotCovered,
-        Branches
+        Branches,
     }
 }

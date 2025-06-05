@@ -30,13 +30,14 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             { 5, "Command line arguments are invalid."},
             { 6, "Test session is using a non-implemented feature." },
             { 7, "Test session was unable to complete successfully, and likely crashed. It's possible that this was caused by a test session that was run via a test controller's extension point."},
+
             // todo check the source for this one as may be the minimum expected tests setting
             { 8, "Test session ran 0 tests." },
             { 9, "Minimum execution policy for the executed tests was violated." },
             { 10, "The test adapter failed to run tests for an infrastructure reason unrelated to the test's self.  An example is failing to create a fixture needed by tests." },
             { 11, "The test process will exit if dependent process exits" },
             { 12, "Test session was unable to run because the client does not support any of the supported protocol versions." },
-            { 13, "Test session was stopped due to reaching the specified number of maximum failed tests using --maximum-failed-tests command-line option." }
+            { 13, "Test session was stopped due to reaching the specified number of maximum failed tests using --maximum-failed-tests command-line option." },
         };
 
         private CancellationToken _cancellationToken;
@@ -74,6 +75,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             _cancellationToken = cancellationToken;
             (string path, string args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
+
             // could have FCC option - hide-test-output or just allow them to supply their own
             await _logger.LogAsync("Executing TUnit", path, "Arguments", args);
             using (var process = new Process())
@@ -99,9 +101,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
                 /*
                     from https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-intro?tabs=dotnetcli#run-and-debug-tests
-                	The app exits with a nonzero exit code if there's an error, which is typical for most executables. For more information on the known exit codes, see Microsoft.Testing.Platform exit codes.
-					Tip
-				    You can ignore a specific exit code using the --ignore-exit-code command line option.
+                    The app exits with a nonzero exit code if there's an error, which is typical for most executables. For more information on the known exit codes, see Microsoft.Testing.Platform exit codes.
+                    Tip
+                    You can ignore a specific exit code using the --ignore-exit-code command line option.
 
                 */
                 await LogNonSuccessExitCodeAsync(process.ExitCode);

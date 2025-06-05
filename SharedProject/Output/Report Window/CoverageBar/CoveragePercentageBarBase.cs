@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Output
         }
 
         public static readonly DependencyProperty CoverableProperty =
-            DependencyProperty.Register(nameof(Coverable), typeof(double), typeof(CoveragePercentageBarBase), new PropertyMetadata((double)0));
+            DependencyProperty.Register(nameof(Coverable), typeof(double), typeof(CoveragePercentageBarBase), new PropertyMetadata(0D));
 
         public double Covered
         {
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Output
         }
 
         public static readonly DependencyProperty CoveredProperty =
-            DependencyProperty.Register(nameof(Covered), typeof(double), typeof(CoveragePercentageBarBase), new PropertyMetadata((double)0));
+            DependencyProperty.Register(nameof(Covered), typeof(double), typeof(CoveragePercentageBarBase), new PropertyMetadata(0D));
         #endregion
 
         public bool ShowToolTip

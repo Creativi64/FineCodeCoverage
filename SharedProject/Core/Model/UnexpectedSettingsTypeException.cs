@@ -4,7 +4,9 @@ namespace FineCodeCoverage.Engine.Model
 {
     internal class UnexpectedSettingsTypeException : Exception
     {
-        public UnexpectedSettingsTypeException(string message) : base(message) { }
+        public UnexpectedSettingsTypeException(string message) : base(message)
+        {
+        }
 
         public UnexpectedSettingsTypeException() : base()
         {

@@ -9,7 +9,10 @@ namespace FineCodeCoverage.Readme
     {
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, CodeBlock obj)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
 
             var paragraph = new Paragraph();
 

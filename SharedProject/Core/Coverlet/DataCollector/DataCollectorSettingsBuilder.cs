@@ -59,7 +59,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 NoLogo,
                 Diagnostics,
                 RunSettings,
-                ResultsDirectory
+                ResultsDirectory,
             }.Where(a => !string.IsNullOrEmpty(a));
             return string.Join(" ", args);
         }
@@ -121,7 +121,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
 
         private static string GetElementIfNotNull(string elementName, string value)
-            => value == null ? "" : $"<{elementName}>{value}</{elementName}>";
+            => value == null ? string.Empty : $"<{elementName}>{value}</{elementName}>";
 
         private XElement GenerateDataCollectorElement()
         {
@@ -139,9 +139,10 @@ namespace FineCodeCoverage.Engine.Coverlet
 </Configuration>
 ";
 
-            return new XElement("DataCollector", new XAttribute("friendlyName", "XPlat Code Coverage"),
+            return new XElement(
+                "DataCollector",
+                new XAttribute("friendlyName", "XPlat Code Coverage"),
                 XElement.Parse(configurationElement));
-
         }
         #endregion
 
@@ -218,7 +219,8 @@ namespace FineCodeCoverage.Engine.Coverlet
                 }
                 else
                 {
-                    if (!_runSettingsOnly) // default true
+                    // default true
+                    if (!_runSettingsOnly)
                     {
                         includeTestAssembly = ProjectInclude();
                     }

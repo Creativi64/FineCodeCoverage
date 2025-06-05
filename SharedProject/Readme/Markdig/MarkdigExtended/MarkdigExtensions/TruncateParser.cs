@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Readme
                 {
                     Line = processor.LineIndex,
                     Column = processor.Column,
-                    Span = new SourceSpan(processor.Start, processor.Line.End)
+                    Span = new SourceSpan(processor.Start, processor.Line.End),
                 };
                 processor.NewBlocks.Push(block);
                 processor.NoFurtherProcessing();

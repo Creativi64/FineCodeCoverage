@@ -8,7 +8,9 @@ namespace FineCodeCoverage.Output
     {
         private static readonly VsThemeLifetimeCache<Color, Brush> s_cache = new VsThemeLifetimeCache<Color, Brush>();
 
-        private DefaultLineBrushCreator() { }
+        private DefaultLineBrushCreator()
+        {
+        }
 
         public Brush Create(Color penColor)
             => s_cache.GetOrAdd(penColor, () =>
@@ -37,7 +39,7 @@ namespace FineCodeCoverage.Output
                 {
                     Brush = Brushes.Transparent,
                     Pen = new Pen(new SolidColorBrush(penColor), 1),
-                    Geometry = geometryGroup
+                    Geometry = geometryGroup,
                 };
 
                 var brush = new DrawingBrush(geometryDrawing)
@@ -45,7 +47,7 @@ namespace FineCodeCoverage.Output
                     TileMode = TileMode.Tile,
                     Viewport = new Rect(0, 0, tile, tile),
                     ViewportUnits = BrushMappingMode.Absolute,
-                    Stretch = Stretch.None
+                    Stretch = Stretch.None,
                 };
                 brush.Freeze();
                 return brush;

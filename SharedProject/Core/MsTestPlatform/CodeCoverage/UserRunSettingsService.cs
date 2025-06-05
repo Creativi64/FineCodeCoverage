@@ -71,6 +71,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private bool ProjectHasFCCMsTestAdapter()
         {
             XElement testAdaptersPathElement = _runSettingsDoc.GetStrictDescendant("RunSettings/RunConfiguration/TestAdaptersPaths");
+
             // given that add a replaceable
             if (testAdaptersPathElement == null)
             {
@@ -142,7 +143,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         )
         {
             XPathNavigator navigator = inputRunSettingDocument.CreateNavigator();
-            _ = navigator.MoveToChild("RunSettings", "");
+            _ = navigator.MoveToChild("RunSettings", string.Empty);
             XPathNavigator clonedNavigator = navigator.Clone();
             IRunSettingsTemplateReplacements replacements = _runSettingsTemplateReplacementsFactory.Create(
                 configurationInfo.TestContainers,
@@ -157,20 +158,20 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void EnsureTestAdaptersPathsAndReplace(XPathNavigator xpathNavigator, IRunSettingsTemplateReplacements replacements)
         {
-            bool movedToRunConfiguration = xpathNavigator.MoveToChild("RunConfiguration", "");
+            bool movedToRunConfiguration = xpathNavigator.MoveToChild("RunConfiguration", string.Empty);
             if (movedToRunConfiguration)
             {
                 if (!xpathNavigator.HasChild("TestAdaptersPaths"))
                 {
                     xpathNavigator.AppendChild(_runSettingsTemplate.TestAdaptersPathElement);
                 }
-                // todo ResultsDirectory ?
 
+                // todo ResultsDirectory ?
             }
             else
             {
                 xpathNavigator.PrependChild(_runSettingsTemplate.RunConfigurationElement);
-                _ = xpathNavigator.MoveToChild("RunConfiguration", "");
+                _ = xpathNavigator.MoveToChild("RunConfiguration", string.Empty);
             }
 
             string replaced = _runSettingsTemplate.Replace(xpathNavigator.OuterXml, replacements);
@@ -180,10 +181,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private void EnsureCorrectMsDataCollectorAndReplace(XPathNavigator xpathNavigator, IRunSettingsTemplateReplacements replacements)
         {
             bool addedMsDataCollector = true;
-            bool movedToDataCollectionRunSettings = xpathNavigator.MoveToChild("DataCollectionRunSettings", "");
+            bool movedToDataCollectionRunSettings = xpathNavigator.MoveToChild("DataCollectionRunSettings", string.Empty);
             if (movedToDataCollectionRunSettings)
             {
-                bool movedToDataCollectors = xpathNavigator.MoveToChild("DataCollectors", "");
+                bool movedToDataCollectors = xpathNavigator.MoveToChild("DataCollectors", string.Empty);
                 if (movedToDataCollectors)
                 {
                     XPathNavigator msDataCollectorNavigator = MoveToMsDataCollectorFromDataCollectors(xpathNavigator);
@@ -210,7 +211,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 xpathNavigator.AppendChild(_runSettingsTemplate.DataCollectionRunSettingsElement);
             }
 
-            // todo - improve this 
+            // todo - improve this
             bool disableMsDataCollector = replacements.Enabled == "false";
             if (addedMsDataCollector || disableMsDataCollector)
             {
@@ -253,10 +254,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private static void EnsureCorrectCoberturaFormat(XPathNavigator msDataCollectorNavigator)
         {
-            bool movedToConfiguration = msDataCollectorNavigator.MoveToChild("Configuration", "");
+            bool movedToConfiguration = msDataCollectorNavigator.MoveToChild("Configuration", string.Empty);
             if (movedToConfiguration)
             {
-                bool movedToFormat = msDataCollectorNavigator.MoveToChild("Format", "");
+                bool movedToFormat = msDataCollectorNavigator.MoveToChild("Format", string.Empty);
                 if (movedToFormat)
                 {
                     if (msDataCollectorNavigator.InnerXml != "Cobertura")

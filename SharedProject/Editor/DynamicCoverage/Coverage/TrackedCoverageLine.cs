@@ -40,7 +40,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 _line.LineNumber = newLineNumber;
                 _updateDynamicCoberturaLine(newLineNumber);
                 return new List<int> { previousLineNumber, newLineNumber };
-
             }
 
             return Enumerable.Empty<int>().ToList();

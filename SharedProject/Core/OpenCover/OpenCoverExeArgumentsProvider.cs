@@ -10,7 +10,11 @@ namespace FineCodeCoverage.Engine.OpenCover
     [Export(typeof(IOpenCoverExeArgumentsProvider))]
     internal class OpenCoverExeArgumentsProvider : IOpenCoverExeArgumentsProvider
     {
-        private enum Delimiter { Semicolon, Space }
+        private enum Delimiter
+        {
+            Semicolon,
+            Space,
+        }
 
         private static void AddFilter(ICoverageProject project, List<string> opencoverSettings)
         {
@@ -91,11 +95,11 @@ namespace FineCodeCoverage.Engine.OpenCover
         private void AddExcludeByAttribute(ICoverageProject project, List<string> opencoverSettings)
         {
             var excludeFromCodeCoverageAttributes = new List<string>()
-                {
-					// coverlet knows these implicitly
-					"ExcludeFromCoverage",
-                    "ExcludeFromCodeCoverage"
-                };
+            {
+                // coverlet knows these implicitly
+                "ExcludeFromCoverage",
+                "ExcludeFromCodeCoverage",
+            };
 
             IEnumerable<string> excludes = SanitizeExcludesOrIncludes(project.Settings.ExcludeByAttribute)
                 .Concat(excludeFromCodeCoverageAttributes)
@@ -142,7 +146,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             OpenCoverRegister openCoverRegister = project.Settings.OpenCoverRegister;
             return openCoverRegister == OpenCoverRegister.Default
                 ? $":path{(project.Is64Bit ? "64" : "32")}"
-                : openCoverRegister == OpenCoverRegister.NoArg ? "" :
+                : openCoverRegister == OpenCoverRegister.NoArg ? string.Empty :
                 $":{project.Settings.OpenCoverRegister.ToString().ToLower()}";
         }
 

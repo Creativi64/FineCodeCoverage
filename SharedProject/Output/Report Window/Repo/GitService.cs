@@ -1,8 +1,8 @@
 ﻿#if VS2022
+using System.Linq;
+using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TeamFoundation.Git.Extensibility;
-using Microsoft;
-using System.Linq;
 #endif
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Output
 
         [ImportingConstructor]
         public GitService(
-             [Import(typeof(SVsServiceProvider))]
+            [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
         )
         {

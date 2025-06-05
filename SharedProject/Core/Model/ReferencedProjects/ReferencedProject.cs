@@ -29,12 +29,12 @@ namespace FineCodeCoverage.Engine.Model
         private static string GetAssemblyName(XElement projectFileXElement, string fallbackName = null)
         {
             /*
-			<PropertyGroup>
-				...
-				<AssemblyName>Branch_Coverage.Tests</AssemblyName>
-				...
-			</PropertyGroup>
-			 */
+            <PropertyGroup>
+                ...
+                <AssemblyName>Branch_Coverage.Tests</AssemblyName>
+                ...
+            </PropertyGroup>
+             */
 
             XElement xassemblyName = projectFileXElement.XPathSelectElement("/PropertyGroup/AssemblyName");
 
@@ -53,22 +53,22 @@ namespace FineCodeCoverage.Engine.Model
         public bool IsDll { get; } = true;
 
         /*
-			Annoyingly by allowing <FCCExcludeFromCodeCoverage /> and not <FCCExcludeFromCodeCoverage>true</FCCExcludeFromCodeCoverage>
-			it is not possible to use IVsBuildPropertyStorage.
-			Todo - consider breaking change to <FCCExcludeFromCodeCoverage>true</FCCExcludeFromCodeCoverage>
-			Given that purpose is for dotnet framework.....
-		*/
+            Annoyingly by allowing <FCCExcludeFromCodeCoverage /> and not <FCCExcludeFromCodeCoverage>true</FCCExcludeFromCodeCoverage>
+            it is not possible to use IVsBuildPropertyStorage.
+            Todo - consider breaking change to <FCCExcludeFromCodeCoverage>true</FCCExcludeFromCodeCoverage>
+            Given that purpose is for dotnet framework.....
+        */
         public bool ExcludeFromCodeCoverage
         {
             get
             {
                 /*
-					 ...
-					<PropertyGroup>
-						<FCCExcludeFromCodeCoverage />
-					</PropertyGroup>
-					...
-				 */
+                     ...
+                    <PropertyGroup>
+                        <FCCExcludeFromCodeCoverage />
+                    </PropertyGroup>
+                    ...
+                 */
                 XElement projectFileXElement = LinqToXmlUtil.Load(_projectPath, true);
                 XElement excludeFromCodeCoverageProperty = projectFileXElement.XPathSelectElement($"/PropertyGroup/{ExcludeFromCodeCoveragePropertyName}");
 

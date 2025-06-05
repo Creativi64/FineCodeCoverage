@@ -2,7 +2,8 @@
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal interface ILineSpanTagger<TTag> where TTag : ITag
+    internal interface ILineSpanTagger<TTag>
+        where TTag : ITag
     {
         TagSpan<TTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan);
     }

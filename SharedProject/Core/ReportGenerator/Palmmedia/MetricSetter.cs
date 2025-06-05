@@ -9,27 +9,41 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         private static readonly Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>> s_metricSetters
             = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
             {
-                { MetricNames.BlocksCovered, (pce,value) => {
+                {
+                    MetricNames.BlocksCovered,
+                    (pce,value) => {
                         pce.BlocksCovered = (int)value;
                         return MetricType.BlocksCovered;
                     }
                 },
-                { MetricNames.BlocksNotCovered, (pce,value) => {
-                    pce.BlocksNotCovered = (int)value;
-                    return MetricType.BlocksNotCovered;
-                } },
-                { MetricNames.Crap, (pce,value) => {
-                    pce.CrapScore = (int)value;
-                    return MetricType.Crap;
-                } },
-                { MetricNames.NPath, (pce,value) => {
-                    pce.NPathComplexity = (int)value;
-                    return MetricType.NPath;
-                } },
-                { MetricNames.CyclomaticComplexity, (pce,value) => {
-                    pce.CyclomaticComplexity = (int)value;
-                    return MetricType.CyclomaticComplexity;
-                }}
+                {
+                    MetricNames.BlocksNotCovered,
+                    (pce,value) => {
+                        pce.BlocksNotCovered = (int)value;
+                        return MetricType.BlocksNotCovered;
+                    }
+                },
+                {
+                    MetricNames.Crap,
+                    (pce,value) => {
+                        pce.CrapScore = (int)value;
+                        return MetricType.Crap;
+                    }
+                },
+                {
+                    MetricNames.NPath,
+                    (pce,value) => {
+                        pce.NPathComplexity = (int)value;
+                        return MetricType.NPath;
+                    }
+                },
+                {
+                    MetricNames.CyclomaticComplexity,
+                    (pce,value) => {
+                        pce.CyclomaticComplexity = (int)value;
+                        return MetricType.CyclomaticComplexity;
+                    }
+                },
             };
 
         public static List<MetricType> SetMetricProperties(
@@ -42,7 +56,6 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 _ = s_metricSetters.TryGetValue(metric.Name, out Func<PalmmediaCodeElement, decimal?, MetricType> setter);
                 if (setter != null)
                 {
-
                     MetricType metricType = setter(palmmediaCodeElement, metric.Value);
                     metricTypes.Add(metricType);
                 }

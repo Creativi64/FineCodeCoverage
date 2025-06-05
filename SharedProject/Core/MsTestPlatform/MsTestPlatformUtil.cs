@@ -12,11 +12,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
     [Export(typeof(IAppDataFolderPathDependent))]
     internal class MsTestPlatformUtil : IMsTestPlatformUtil, IAppDataFolderPathDependent
     {
-        public string MsTestPlatformExePath { get; private set; }
-
-        private readonly IToolUnzipper _toolUnzipper;
         private const string ZipPrefix = "microsoft.testplatform";
         private const string ZipDirectoryName = "msTestPlatform";
+        private readonly IToolUnzipper _toolUnzipper;
+
+        public string MsTestPlatformExePath { get; private set; }
 
         [ImportingConstructor]
         public MsTestPlatformUtil(IToolUnzipper toolUnzipper) => _toolUnzipper = toolUnzipper;

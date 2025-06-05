@@ -12,18 +12,20 @@ namespace FineCodeCoverage.Editor.Management
         {
             IItemCoverageColours coverageColours = fontAndColorsInfo.ItemCoverageColours;
             return TextFormattingRunProperties.CreateTextFormattingRunProperties(
-                new SolidColorBrush(coverageColours.Foreground), new SolidColorBrush(coverageColours.Background),
+                new SolidColorBrush(coverageColours.Foreground),
+                new SolidColorBrush(coverageColours.Background),
                 null, // Typeface
                 null, // size
                 null, // hinting size
-               /*
-                   TextDecorationCollection
+                /*
+                    TextDecorationCollection
                     https://docs.microsoft.com/en-us/dotnet/api/system.windows.textdecorations?view=windowsdesktop-8.0
                     https://learn.microsoft.com/en-us/dotnet/api/system.windows.textdecorations?view=windowsdesktop-8.0
-               */
-               null,
+                */
+                null,
+
                 // TextEffectCollection https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.texteffect?view=windowsdesktop-8.0
-                null, // 
+                null,
                 null // CultureInfo
                 ).SetBold(fontAndColorsInfo.IsBold);
         }

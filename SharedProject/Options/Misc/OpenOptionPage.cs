@@ -10,6 +10,6 @@
         OpenCover,
         EditorCoverageColouring,
         HotspotThresholds,
-        Misc
+        Misc,
     }
 }

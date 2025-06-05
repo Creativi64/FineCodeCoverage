@@ -3,6 +3,6 @@
     public enum CodeElementType
     {
         Property,
-        Method
+        Method,
     }
 }

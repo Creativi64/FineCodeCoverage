@@ -2,7 +2,6 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-
     [Export(typeof(IOpenFCCVsMarketplace))]
     internal class OpenFCCVsMarketplace : IOpenFCCVsMarketplace
     {

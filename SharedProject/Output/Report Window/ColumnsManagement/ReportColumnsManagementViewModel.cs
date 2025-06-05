@@ -11,11 +11,11 @@ namespace FineCodeCoverage.Output
     internal class ReportColumnsManagementViewModel
         : ObservableBase, IDialogViewModel, ISelectionHandler<EditableColumn>
     {
+        private readonly IReportColumnManager _reportColumnsManager;
+        private readonly IMessageBox _messageBox;
         private List<EditableColumn> _selectedEditableColumns;
         private bool _canMoveDown = false;
         private bool _canMoveUp = false;
-        private readonly IReportColumnManager _reportColumnsManager;
-        private readonly IMessageBox _messageBox;
 
         public event EventHandler Done;
 

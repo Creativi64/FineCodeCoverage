@@ -38,7 +38,6 @@ namespace FineCodeCoverage.Core.Utilities.Solution
 
         protected virtual void Loaded()
         {
-
         }
 
         protected abstract T GetDefaultValue();
@@ -54,7 +53,9 @@ namespace FineCodeCoverage.Core.Utilities.Solution
             Saved();
         }
 
-        protected virtual void Saved() { }
+        protected virtual void Saved()
+        {
+        }
 
         public void Unloaded()
         {

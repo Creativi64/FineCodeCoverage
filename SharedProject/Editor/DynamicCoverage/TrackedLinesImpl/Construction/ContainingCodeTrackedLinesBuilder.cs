@@ -56,7 +56,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private INewCodeTracker GetNewCodeTrackerIfProvidesLineExcluder(ILineExcluder lineExcluder)
         {
-            if (lineExcluder == null) return null;
+            if (lineExcluder == null)
+            {
+                return null;
+            }
+
             INewCodeTracker newCodeTracker = _newCodeTrackerFactory.Create(lineExcluder);
             newCodeTracker.HasNewCodeChanged += (_, args)
                 => _eventAggregator.SendMessage(new NewCodeChangedMessage(args.FilePath, args.HasNewCode), null);

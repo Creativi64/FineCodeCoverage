@@ -3,7 +3,8 @@ using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    public class VsThemeLifetimeCache<TKey, TValue> where TValue : class
+    public class VsThemeLifetimeCache<TKey, TValue>
+        where TValue : class
     {
         private readonly WeakCache<TKey, TValue> _cache = new WeakCache<TKey, TValue>();
 

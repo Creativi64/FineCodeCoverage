@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Engine.Model
 
         public SettingsMergeLogic() => _typeMergers = new Dictionary<Type, ITypeMerger>
             {
-                { typeof(string[]),new StringArrayMerger()}
+                { typeof(string[]), new StringArrayMerger()},
             };
 
         public bool CanMerge(Type type) => _typeMergers.ContainsKey(type);

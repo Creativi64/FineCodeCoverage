@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             { DynamicCoverageType.NotCovered, false },
             { DynamicCoverageType.Dirty, false },
             { DynamicCoverageType.NewLine, false },
-            { DynamicCoverageType.NotIncluded, false }
+            { DynamicCoverageType.NotIncluded, false },
         };
 
         private Dictionary<DynamicCoverageType, bool> _showLookup = s_doNotShowLookup;

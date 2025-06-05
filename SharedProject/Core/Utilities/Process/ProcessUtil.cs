@@ -29,7 +29,9 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 result = await commandTask;
             }
-            catch (OperationCanceledException) // CliWrap does not use the same ct
+
+            // CliWrap does not use the same ct
+            catch (OperationCanceledException)
             {
                 cancellationToken.ThrowIfCancellationRequested();
             }
@@ -42,7 +44,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 result.StandardOutput,
                 Environment.NewLine,
-                result.StandardError
+                result.StandardError,
             }
             .Where(x => !string.IsNullOrWhiteSpace(x)))
             .Trim('\r', '\n')
@@ -63,7 +65,7 @@ namespace FineCodeCoverage.Core.Utilities
                 ExitTime = result.ExitTime,
                 RunTime = result.RunTime,
                 StartTime = result.StartTime,
-                Output = output
+                Output = output,
             };
         }
     }

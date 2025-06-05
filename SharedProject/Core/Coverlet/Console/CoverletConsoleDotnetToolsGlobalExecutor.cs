@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             {
                 FilePath = details.Command,
                 Arguments = coverletSettings,
-                WorkingDirectory = coverageProject.ProjectOutputFolder
+                WorkingDirectory = coverageProject.ProjectOutputFolder,
             };
         }
     }

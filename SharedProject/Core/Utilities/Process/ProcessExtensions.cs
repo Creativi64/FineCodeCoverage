@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Core.Utilities
                 new[]
                 {
                     process.StandardOutput?.ReadToEnd(),
-                    process.StandardError?.ReadToEnd()
+                    process.StandardError?.ReadToEnd(),
                 }.Where(x => !string.IsNullOrWhiteSpace(x))
             );
     }

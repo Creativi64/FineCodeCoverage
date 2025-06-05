@@ -9,16 +9,16 @@ namespace FineCodeCoverage.Output
 {
     internal class ReportViewSelectorViewModel : ObservableBase, IDialogViewModel
     {
-        private string _selectedBranch;
-        private ReportContentTypeViewModel _selectedReportContentType;
-        private ReportStyleViewModel _selectedReportStyle;
-        private bool _changed;
+        private readonly IReportViewSelectorModel _reportViewSelectorModel;
         private readonly Action _notifyOkCommandCanExecuteChanged;
         private readonly bool _initializing = true;
         private readonly bool _hasRepositories;
         private readonly ReportViewState _initialReportViewState;
+        private string _selectedBranch;
+        private ReportContentTypeViewModel _selectedReportContentType;
+        private ReportStyleViewModel _selectedReportStyle;
+        private bool _changed;
         private string _selectedRepositoryPath;
-        private readonly IReportViewSelectorModel _reportViewSelectorModel;
 
         public event EventHandler Done;
 

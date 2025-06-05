@@ -4,7 +4,6 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
-
     internal interface IProjectRunSettingsGenerator
     {
         Task RemoveGeneratedProjectSettingsAsync(IEnumerable<ICoverageProject> coverageProjects);

@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 empty,
                 empty,
                 _verbosityLevel.ToString(),
-                ""
+                string.Empty
                 );
 
             var parser = new CoverageReportParser(1, 1, Enumerable.Empty<string>(), defaultFilter, defaultFilter, defaultFilter);

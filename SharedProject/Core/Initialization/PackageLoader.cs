@@ -22,7 +22,6 @@ namespace FineCodeCoverage.Core.Initialization
             InitializedFromTestContainerDiscoverer = true;
             cancellationToken.ThrowIfCancellationRequested();
             await _shellPackageLoader.LoadPackageAsync();
-
         }
     }
 }

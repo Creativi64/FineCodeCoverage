@@ -6,7 +6,6 @@ namespace FineCodeCoverage.Wpf
     {
         public BaseDialogWindowTemplated(IDialogViewModel dialogViewModel) : base(dialogViewModel)
         {
-
             Resources.AddFromExecutingAssembly("Wpf/BaseDialogWindowTemplatedResourceDictionary.xaml");
             var style = (Style)Resources[typeof(BaseDialogWindowTemplated)];
             Style = style;

@@ -246,7 +246,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
 
             return additionalReferenced;
-
         }
 
         private static IEnumerable<string> GetAdditionalModulePathsExclude(
@@ -263,7 +262,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             List<IReferencedProject> includedReferencedProjects,
             string testDllFile,
             bool includeTestAssembly)
-
         {
             includeTestAssembly = includeTestAssembly && hasIncludes;
             return GetAdditionalModulePaths(
@@ -271,7 +269,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 testDllFile,
                 includeTestAssembly,
                 true);
-
         }
 
         public IRunSettingsTemplateReplacements Create(ICoverageProject coverageProject, string testAdapter)

@@ -5,7 +5,11 @@ namespace FineCodeCoverage.Core.Utilities
 {
     internal static class LinqExtensions
     {
-        public static TTransformed SelectFirstNonNull<T, TTransformed>(this IEnumerable<T> source, Func<T, TTransformed> select) where TTransformed : class
+        public static TTransformed SelectFirstNonNull<T, TTransformed>(
+            this IEnumerable<T> source,
+            Func<T, TTransformed> select
+        )
+            where TTransformed : class
         {
             foreach (T element in source)
             {
@@ -31,7 +35,9 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 yield return item;
                 if (predicate(item))
+                {
                     yield break;
+                }
             }
         }
     }

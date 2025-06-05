@@ -86,34 +86,24 @@ dotnet_diagnostic.SA1124.severity = none
 dotnet_diagnostic.SA1009.severity = none
 # The closing parenthesis or bracket in a call to a C# method or indexer, or the declaration of a method or indexer, is not placed on the same line as the last parameter.
 dotnet_diagnostic.SA1111.severity = none
-# A closing brace within a C# element, statement, or expression is not followed by a blank line.
-dotnet_diagnostic.SA1513.severity = none
-# The opening and closing braces for a C# statement have been omitted.
-dotnet_diagnostic.SA1503.severity = none
-# The last statement in a multi-line C# initializer or list is missing a trailing comma.
-dotnet_diagnostic.SA1413.severity = none
-# A C# element containing opening and closing braces is written completely on a single line.
-dotnet_diagnostic.SA1502.severity = none
+
 # A constructor initializer is on the same line as the constructor declaration, within a C# code file.
 dotnet_diagnostic.SA1128.severity = none
-# The code contains a tab or space character which is not consistent with the current project settings.
-dotnet_diagnostic.SA1027.severity = none
+
 # A closing brace within a C# element is not spaced correctly.
 dotnet_diagnostic.SA1013.severity = none
+
+
+# An opening brace within a C# element is not spaced correctly.
+dotnet_diagnostic.SA1012.severity = none
+
+
 # A closing brace within a C# element, statement, or expression is preceded by a blank line.
+# disagrees with - insert_final_line = true
 dotnet_diagnostic.SA1508.severity = none
-# A single-line comment within a C# code file does not begin with a single space.
-dotnet_diagnostic.SA1005.severity = none
-# Multiple enum values are placed on the same line of code.
-dotnet_diagnostic.SA1136.severity = none
-# A single-line comment within C# code is not preceded by a blank line.
-dotnet_diagnostic.SA1515.severity = none
 
-
-
-
-
-
+# The opening or closing brace within a C# statement, element, or expression is not placed on its own line.
+# dotnet_diagnostic.SA1500.severity = none
 
 
 #### Core EditorConfig Options ####

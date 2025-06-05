@@ -4,6 +4,6 @@
     {
         WhenRequired,
         Always,
-        Never
+        Never,
     }
 }

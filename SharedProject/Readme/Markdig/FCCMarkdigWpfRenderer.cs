@@ -33,7 +33,7 @@ namespace FineCodeCoverage.Readme
             );
             ObjectRenderers.Add(new AutolinkInlineRenderer(_navigateCommand));
 
-            //markdig
+            // markdig
             ObjectRenderers.Add(new ListRenderer());
             ObjectRenderers.Add(new LiteralInlineRenderer());
             ObjectRenderers.Add(new DelimiterInlineRenderer());

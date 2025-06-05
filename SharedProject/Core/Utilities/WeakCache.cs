@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    public class WeakCache<TKey, TValue> where TValue : class
+    public class WeakCache<TKey, TValue>
+        where TValue : class
     {
         private readonly Dictionary<TKey, WeakReference<TValue>> _cache = new Dictionary<TKey, WeakReference<TValue>>();
 

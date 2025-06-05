@@ -87,12 +87,17 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<bool> RequiresBuildAsync(CancellationToken cancellationToken)
         {
             const bool respectOnlyBuildStartupProjectsAndDependenciesOnRun = false;
-            if (!respectOnlyBuildStartupProjectsAndDependenciesOnRun) return true;
+            if (!respectOnlyBuildStartupProjectsAndDependenciesOnRun)
+            {
+                return true;
+            }
 #pragma warning disable CS0162 // Unreachable code detected
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 #pragma warning restore CS0162 // Unreachable code detected
             if (_solutionBuildManager3 == null)
+            {
                 return true;
+            }
 
             int hr = _solutionBuildManager3.AreProjectsUpToDate((uint)VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
             return hr != VSConstants.S_OK;

@@ -28,15 +28,14 @@ namespace FineCodeCoverage.Engine
         internal int InitializeWait { get; set; } = 5000;
 
         internal const string InitializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
-        private ICancellationTokenSource _cancellationTokenSource;
 
         private readonly ICoverageUtilManager _coverageUtilManager;
         private readonly IReportGeneratorUtil _reportGeneratorUtil;
         private readonly ILogger _logger;
-
         private readonly ICoverageToolOutputManager _coverageOutputManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly IDisposeAwareTaskRunner _disposeAwareTaskRunner;
+        private ICancellationTokenSource _cancellationTokenSource;
 
         [ImportingConstructor]
         public FCCEngine(
@@ -70,7 +69,9 @@ namespace FineCodeCoverage.Engine
             {
                 _cancellationTokenSource.Cancel();
             }
-            catch (ObjectDisposedException) { }
+            catch (ObjectDisposedException)
+            {
+            }
         }
 
         private void Reset()
@@ -83,7 +84,6 @@ namespace FineCodeCoverage.Engine
         private async Task<string[]> RunCoverageAsync(List<ICoverageProject> coverageProjects, CancellationToken vsShutdownLinkedCancellationToken)
         {
             // process pipeline
-
             await PrepareCoverageProjectsAsync(coverageProjects, vsShutdownLinkedCancellationToken);
 
             foreach (ICoverageProject coverageProject in coverageProjects)
@@ -97,12 +97,11 @@ namespace FineCodeCoverage.Engine
                     TimeSpan duration = DateTime.Now - start;
                     string durationMessage = $"Completed coverage for ({coverageProject.ProjectName}) : {duration}";
                     await _logger.LogAsync(durationMessage);
-
                 });
 
                 if (coverageProject.HasFailed)
                 {
-                    string coverageStagePrefix = string.IsNullOrEmpty(coverageProject.FailureStage) ? "" : $"{coverageProject.FailureStage} ";
+                    string coverageStagePrefix = string.IsNullOrEmpty(coverageProject.FailureStage) ? string.Empty : $"{coverageProject.FailureStage} ";
                     string failureMessage = $"{coverageProject.FailureStage}({coverageProject.ProjectName}) Failed.";
                     await _logger.LogAsync(failureMessage, coverageProject.FailureDescription);
                 }
@@ -113,7 +112,6 @@ namespace FineCodeCoverage.Engine
             return passedProjects
                     .Select(x => x.CoverageOutputFile)
                     .ToArray();
-
         }
 
         private async Task<ReportResult> RunAndProcessReportAsync(
@@ -134,7 +132,7 @@ namespace FineCodeCoverage.Engine
             {
                 CoberturaFile = result.UnifiedXmlFile,
                 Report = result.ReportResult,
-                CoverageProjects = coverageProjects
+                CoverageProjects = coverageProjects,
             };
         }
 
@@ -201,7 +199,6 @@ namespace FineCodeCoverage.Engine
                 _eventAggregator.SendMessage(new CoverageEndedMessage());
                 _eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects));
                 RaiseReportFiles(result);
-
             }
             catch (OperationCanceledException)
             {

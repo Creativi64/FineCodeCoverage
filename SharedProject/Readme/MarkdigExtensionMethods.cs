@@ -7,7 +7,9 @@ namespace FineCodeCoverage.Readme
     {
         public static void AddIfNotAlready<TItem, TCreated>(
             this OrderedList<TItem> list,
-            Func<TCreated> creator) where TItem : class where TCreated : class, TItem
+            Func<TCreated> creator)
+            where TItem : class
+            where TCreated : class, TItem
         {
             if (list.Contains<TCreated>())
             {

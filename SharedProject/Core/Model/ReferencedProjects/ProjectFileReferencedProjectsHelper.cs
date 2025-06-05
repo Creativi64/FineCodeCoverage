@@ -22,11 +22,11 @@ namespace FineCodeCoverage.Engine.Model
         )
         {
             /*
-			<ItemGroup>
-				<ProjectReference Include="..\BranchCoverage\Branch_Coverage.csproj" />
-				<ProjectReference Include="..\FxClassLibrary1\FxClassLibrary1.csproj"></ProjectReference>
-			</ItemGroup>
-			 */
+            <ItemGroup>
+                <ProjectReference Include="..\BranchCoverage\Branch_Coverage.csproj" />
+                <ProjectReference Include="..\FxClassLibrary1\FxClassLibrary1.csproj"></ProjectReference>
+            </ItemGroup>
+             */
 
             IEnumerable<XElement> xprojectReferences = projectFileXElement.XPathSelectElements("/ItemGroup/ProjectReference[@Include]");
             var referencedProjectFiles = new List<string>();

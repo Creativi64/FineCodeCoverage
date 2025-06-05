@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Engine.Model
             { typeof(decimal), new SettingsXmlParser<decimal,decimal?>(decimal.TryParse)},
             { typeof(double), new SettingsXmlParser<double,double?>(double.TryParse)},
             { typeof(float), new SettingsXmlParser<float,float?>(float.TryParse)},
-            { typeof(char), new SettingsXmlParser<char,char?>(char.TryParse)}
+            { typeof(char), new SettingsXmlParser<char,char?>(char.TryParse)},
         };
 
         private class SettingsElementDefaultMerge
@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Engine.Model
                 {
                     SettingsElement = e,
                     DefaultMerge = SettingsFileDefaultMerge,
-                    FromProjectSettings = false
+                    FromProjectSettings = false,
                 });
 
             if (projectSettingsElement != null)
@@ -77,7 +77,7 @@ namespace FineCodeCoverage.Engine.Model
                     {
                         SettingsElement = projectSettingsElement,
                         DefaultMerge = ProjectSettingsDefaultMerge,
-                        FromProjectSettings = true
+                        FromProjectSettings = true,
                     }
                 );
             }
@@ -244,7 +244,7 @@ namespace FineCodeCoverage.Engine.Model
             if (type == typeof(string))
             {
                 string value = strValueArr.FirstOrDefault();
-                return value ?? "";
+                return value ?? string.Empty;
             }
 
             return type.IsEnum

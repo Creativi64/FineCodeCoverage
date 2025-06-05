@@ -9,11 +9,11 @@ namespace FineCodeCoverage.Wpf
 {
     public static class ImageLibraryLoader
     {
+        private static readonly string[] s_separator = new string[] { "|" };
         private static ImageLibrary s_defaultImageLibrary;
         private static List<string> s_defaultDirectories;
-        private static readonly string[] s_separator = new string[] { "|" };
 
-        public static ImageLibrary Default => s_defaultImageLibrary ?? (s_defaultImageLibrary = GetImageLibrary(""));
+        public static ImageLibrary Default => s_defaultImageLibrary ?? (s_defaultImageLibrary = GetImageLibrary(string.Empty));
 
         private static List<string> DefaultDirectories
         {
@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Wpf
                     string installationPath = VsHelper.GetAVsInstallationPath();
                     if (installationPath != null)
                     {
-                        //Path.Combine(installationPath, "Common7\\IDE")
+                        // Path.Combine(installationPath, "Common7\\IDE")
                         s_defaultDirectories.Add(Path.Combine(installationPath, "Common7\\IDE\\CommonExtensions\\Platform\\Shell"));
                     }
                 }
@@ -62,7 +62,6 @@ namespace FineCodeCoverage.Wpf
                 }
                 catch
                 {
-
                 }
             }
         }

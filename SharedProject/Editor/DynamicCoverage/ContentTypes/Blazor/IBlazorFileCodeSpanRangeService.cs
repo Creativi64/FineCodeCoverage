@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 {
-    internal interface IBlazorFileCodeSpanRangeService : IFileCodeSpanRangeService { }
+    internal interface IBlazorFileCodeSpanRangeService : IFileCodeSpanRangeService
+    {
+    }
 }

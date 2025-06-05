@@ -25,7 +25,9 @@ namespace FineCodeCoverage.Output
             Initialized();
         }
 
-        protected virtual void Initialized() { }
+        protected virtual void Initialized()
+        {
+        }
 
         protected abstract void Execute(object sender, EventArgs e);
     }

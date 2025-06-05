@@ -39,6 +39,7 @@ namespace FineCodeCoverage.Output
                 : new List<ReportColumnState>();
 
         #region Columns
+
         // note that the control uses reflection to create bindings - these properties are required
         public ReportColumnData Name { get; } = new ReportColumnData(ReportColumnData.NameColumnType, "Name", 0, true, 450, 100);
 
@@ -86,7 +87,7 @@ namespace FineCodeCoverage.Output
                     DisplayIndex = c.DisplayIndex,
                     Width = c.ActualWidth,// rather than the getter that is dependent upon visibility / validity
                     HeaderAlignment = c.HeaderAlignment,
-                    CellAlignment = c.CellAlignment
+                    CellAlignment = c.CellAlignment,
                 };
             }).ToList();
             string jsonColumnStates = _jsonConvertService.SerializeObject(reportColumnStates);
@@ -95,8 +96,8 @@ namespace FineCodeCoverage.Output
 
         private void SetInitialColumns(List<ReportColumnState> reportColumnStates)
         {
-            // could reflect 
-            var reportColumns = new ReportColumnData[]{
+            // could reflect
+            var reportColumns = new ReportColumnData[] {
                 Name,// must be first
                 CoverableLines,
                 CoveredLines,
@@ -135,6 +136,7 @@ namespace FineCodeCoverage.Output
             {
                 return;
             }
+
             // there are duplicates - reset to original display indices
             for (int i = 0; i < reportColumns.Length; i++)
             {

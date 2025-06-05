@@ -16,6 +16,8 @@ namespace FineCodeCoverage.Options
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
             IJsonConvertService jsonConvertService,
             IDefaultOptionsSetter<IncludesExcludesOptions> defaultOptionsSetter
-        ) : base(logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter) { }
+        ) : base(logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter)
+        {
+        }
     }
 }

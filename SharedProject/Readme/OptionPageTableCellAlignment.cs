@@ -1,4 +1,9 @@
 ﻿namespace FineCodeCoverage.Readme
 {
-    internal enum OptionPageTableCellAlignment { Left, Center, Right }
+    internal enum OptionPageTableCellAlignment
+    {
+        Left,
+        Center,
+        Right,
+    }
 }

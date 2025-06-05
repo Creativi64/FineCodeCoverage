@@ -5,7 +5,7 @@
         public static ReportViewSolutionOptionValue Default => new ReportViewSolutionOptionValue
         {
             ReportStyle = ReportStyle.Assembly,
-            ReportContent = ReportContentType.Full
+            ReportContent = ReportContentType.Full,
         };
 
         public ReportStyle ReportStyle { get; set; }

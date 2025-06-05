@@ -14,7 +14,6 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         IListener<CoverageTypeFilterChangedMessage>,
         IListener<CoverageChangedMessage>
         where TTag : ITag
-
     {
         private readonly ITextInfo _textInfo;
         private readonly string _originalFilePath;

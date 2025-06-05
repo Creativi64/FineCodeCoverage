@@ -38,7 +38,8 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
             _coverageColoursProvider = coverageColoursProvider;
         }
 
-        public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
+        public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer)
+            where T : ITag
         {
             ICoverageTagger<CoverageLineGlyphTag> coverageTagger = _coverageTaggerProvider.CreateTagger(textView, buffer);
             return coverageTagger == null ? null : new CoverageLineGlyphTagger(_eventAggregator, coverageTagger) as ITagger<T>;

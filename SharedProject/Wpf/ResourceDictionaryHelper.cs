@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Wpf
             string name = executingAssembly.GetName().Name;
             return new ResourceDictionary
             {
-                Source = new Uri($"pack://application:,,,/{name};component/{resourcePath}", UriKind.Absolute)
+                Source = new Uri($"pack://application:,,,/{name};component/{resourcePath}", UriKind.Absolute),
             };
         }
 

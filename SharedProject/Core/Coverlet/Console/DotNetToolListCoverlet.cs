@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 : new CoverletDotNetToolDetails
                 {
                     Version = coverletConsoleTool.Version,
-                    Command = coverletConsoleTool.Commands
+                    Command = coverletConsoleTool.Commands,
                 };
         }
 

@@ -41,7 +41,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     {
                         FilePath = "dotnet",
                         Arguments = coverletToolDetails.Command + " " + coverletSettings,
-                        WorkingDirectory = configContainingDirectory
+                        WorkingDirectory = configContainingDirectory,
                     };
                 }
             }

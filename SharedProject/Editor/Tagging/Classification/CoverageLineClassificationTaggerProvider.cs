@@ -34,7 +34,8 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
             _coverageTaggerProvider = coverageTaggerProviderFactory.Create<IClassificationTag, CoverageClassificationFilter>(this);
         }
 
-        public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
+        public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer)
+            where T : ITag
             => _coverageTaggerProvider.CreateTagger(textView, buffer) as ITagger<T>;
 
         public TagSpan<IClassificationTag> GetTagSpan(IDynamicLineAndSnapshotSpan dynamicLineAndSnapshotSpan)

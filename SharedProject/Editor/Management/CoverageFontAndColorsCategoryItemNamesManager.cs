@@ -68,7 +68,6 @@ namespace FineCodeCoverage.Editor.Management
             }
             else
             {
-
                 SetPossiblyEnterprise(getUseEnterprise());
             }
 

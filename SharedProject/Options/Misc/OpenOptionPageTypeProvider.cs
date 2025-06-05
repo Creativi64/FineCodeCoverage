@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Options
             {OpenOptionPage.OpenCover, typeof(OpenCoverOptionsPage)},
             {OpenOptionPage.EditorCoverageColouring, typeof(EditorCoverageColouringOptionsPage)},
             {OpenOptionPage.HotspotThresholds, typeof(HotspotThresholdsOptionsPage)},
-            {OpenOptionPage.Misc, typeof(MiscOptionsPage)}
+            {OpenOptionPage.Misc, typeof(MiscOptionsPage)},
         };
 
         private readonly IDialogPageOptionsProvider<MiscOptions> _miscOptionsProvider;

@@ -27,6 +27,5 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
         public static string[] Exclusions { get; } = new string[] { "//", "#", "using" };
 
         public ILineExcluder LineExcluder { get; } = new LineExcluder(Exclusions);
-
     }
 }

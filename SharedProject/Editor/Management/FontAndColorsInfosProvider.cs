@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Editor.Management
                     (_coverageFontAndColorsCategoryItemNames.PartiallyCovered, 2),
                     (_coverageFontAndColorsCategoryItemNames.Dirty,3),
                     (_coverageFontAndColorsCategoryItemNames.NewLines,4),
-                    (_coverageFontAndColorsCategoryItemNames.NotIncluded,5)
+                    (_coverageFontAndColorsCategoryItemNames.NotIncluded,5),
                 };
 
         private List<CategoryNameIndices> GetCategoryNameIndices()

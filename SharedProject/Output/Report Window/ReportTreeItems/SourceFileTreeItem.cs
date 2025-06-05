@@ -18,10 +18,12 @@ namespace FineCodeCoverage.Output
             Name = Path.GetFileName(sourceFile.Path);
             sourceFile.HasNewCodeChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => HasNewCode = sourceFile.HasNewCode, "sourceFile.HasNewCodeChanged");
+                    () => HasNewCode = sourceFile.HasNewCode,
+                    "sourceFile.HasNewCodeChanged");
             sourceFile.PathChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
                     FCCFaultEventName.Create<SourceFileTreeItem>("Report"),
-                    () => Name = Path.GetFileName(sourceFile.Path), "sourceFile.PathChanged");
+                    () => Name = Path.GetFileName(sourceFile.Path),
+                    "sourceFile.PathChanged");
 
             if (sourceFileStructure == SourceFileStructure.AsRequired)
             {

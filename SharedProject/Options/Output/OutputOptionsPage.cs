@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class OutputOptionsPage : DialogPageBase<OutputOptions> { }
+    internal class OutputOptionsPage : DialogPageBase<OutputOptions>
+    {
+    }
 }

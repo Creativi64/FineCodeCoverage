@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Options
             ) : base(
                 logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter
             )
-        { }
+        {
+        }
     }
 }

@@ -16,7 +16,11 @@ namespace FineCodeCoverage.Wpf
 
         private static void OnImageBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!DesignerProperties.GetIsInDesignMode(d)) return;
+            if (!DesignerProperties.GetIsInDesignMode(d))
+            {
+                return;
+            }
+
             var newColor = (Color)e.NewValue;
             ImageThemingUtilities.SetImageBackgroundColor(d, newColor);
         }

@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Editor.Management
                 { DynamicCoverageType.Partial, coveragePartiallyTouchedInfo},
                 { DynamicCoverageType.Dirty, dirtyInfo},
                 { DynamicCoverageType.NewLine, newLineInfo},
-                { DynamicCoverageType.NotIncluded, notIncludedInfo}
+                { DynamicCoverageType.NotIncluded, notIncludedInfo},
             };
 
         internal Dictionary<DynamicCoverageType, IFontAndColorsInfo> GetChanges(CoverageColours lastCoverageColours)

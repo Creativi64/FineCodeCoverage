@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 {
                     FilePath = _coverletExePath,
                     Arguments = coverletSettings,
-                    WorkingDirectory = coverageProject.ProjectOutputFolder
+                    WorkingDirectory = coverageProject.ProjectOutputFolder,
                 }
             );
 

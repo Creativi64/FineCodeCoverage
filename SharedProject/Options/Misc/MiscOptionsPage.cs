@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class MiscOptionsPage : DialogPageBase<MiscOptions> { }
+    internal class MiscOptionsPage : DialogPageBase<MiscOptions>
+    {
+    }
 }

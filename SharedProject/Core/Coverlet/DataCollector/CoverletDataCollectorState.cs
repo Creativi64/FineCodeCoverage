@@ -1,4 +1,9 @@
 ﻿namespace FineCodeCoverage.Core.Coverlet
 {
-    internal enum CoverletDataCollectorState { NotPresent, Enabled, Disabled }
+    internal enum CoverletDataCollectorState
+    {
+        NotPresent,
+        Enabled,
+        Disabled,
+    }
 }

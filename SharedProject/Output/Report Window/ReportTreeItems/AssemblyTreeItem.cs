@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Output
                 namespaceGroup.Select(clss => new ClassTreeItem(clss))
                 )
             {
-                Parent = this
+                Parent = this,
             }
             );
 
@@ -40,7 +40,6 @@ namespace FineCodeCoverage.Output
 
                 TotalBranches += namespaceTreeItem.TotalBranches;
                 CoveredBranches += namespaceTreeItem.CoveredBranches;
-
             }
         }
 

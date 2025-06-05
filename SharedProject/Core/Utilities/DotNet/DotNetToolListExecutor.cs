@@ -42,9 +42,8 @@ namespace FineCodeCoverage.Core.Utilities
             return new DotNetToolListExecutionResult
             {
                 Output = process.GetOutput(),
-                ExitCode = process.ExitCode
+                ExitCode = process.ExitCode,
             };
-
         }
     }
 }

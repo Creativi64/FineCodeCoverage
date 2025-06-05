@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Options
             _allSettings = _optionsProviders.ConvertAll(optionsProvider => optionsProvider.Options);
         }
 
-        private object DeserializeStringArray(string value, PropertyDescriptor _)
+        private object DeserializeStringArray(string value, PropertyDescriptor propertyDescriptor)
             => _jsonConvertService.DeserializeObject<string[]>(value);
 
         private object DeserializeFromPropertyDescriptor(string value, PropertyDescriptor propertyDescriptor)
@@ -76,10 +76,14 @@ namespace FineCodeCoverage.Options
                             obj = deserialize(pbstrSettingValue, propertyDescriptor);
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     if (obj != null)
+                    {
                         propertyDescriptor.SetValue(setting, obj);
+                    }
                 }
 
                 optionProvider.Initializing = false;
@@ -96,7 +100,7 @@ namespace FineCodeCoverage.Options
         public void SaveSettingsToStorage()
             => _optionsProviders.ForEach(optionProvider => optionProvider.SaveSettingsToStorage());
 
-        private string SerializeStringArray(object value, PropertyDescriptor _)
+        private string SerializeStringArray(object value, PropertyDescriptor propertyDescriptor)
             => _jsonConvertService.SerializeObject(value);
 
         private string SerializeFromPropertyDescriptor(object value, PropertyDescriptor propertyDescriptor)

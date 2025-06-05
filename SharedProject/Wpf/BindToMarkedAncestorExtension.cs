@@ -15,10 +15,14 @@ namespace FineCodeCoverage.Wpf
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt))
+            {
                 return null;
+            }
 
             if (!(pvt.TargetObject is FrameworkElement targetElement))
+            {
                 return this;
+            }
 
             void ApplyBinding()
             {
@@ -31,7 +35,7 @@ namespace FineCodeCoverage.Wpf
                 var binding = new Binding(Path)
                 {
                     Source = fe.DataContext,
-                    Mode = BindingMode.OneWay
+                    Mode = BindingMode.OneWay,
                 };
 
                 _ = BindingOperations.SetBinding(
@@ -41,9 +45,13 @@ namespace FineCodeCoverage.Wpf
             }
 
             if (!targetElement.IsLoaded)
+            {
                 targetElement.Loaded += (_, __) => ApplyBinding();
+            }
             else
+            {
                 ApplyBinding();
+            }
 
             return DependencyProperty.UnsetValue;
         }
@@ -54,7 +62,9 @@ namespace FineCodeCoverage.Wpf
             while (current != null)
             {
                 if (AncestorLocator.GetMarker(current) == Marker)
+                {
                     return current;
+                }
 
                 current = LogicalTreeHelper.GetParent(current)
                        ?? VisualTreeHelper.GetParent(current);

@@ -23,6 +23,7 @@ namespace FineCodeCoverage.Output
             public Color NotCoveredColor { get; }
         }
 
+        private readonly ICoverageColoursProvider _coverageColoursProvider;
         private CoveragePercentageBarDisplayParts _displayParts;
         private bool _coveredPercentageIsLeft;
         private bool _isThemed;
@@ -32,7 +33,6 @@ namespace FineCodeCoverage.Output
         private bool _showToolTip;
         private Color _coveredColor;
         private Color _notCoveredColor;
-        private readonly ICoverageColoursProvider _coverageColoursProvider;
         private FontsAndColorsCoverageBarColours _fontsAndColorsCoverageBarColours;
         private bool _coverageColoursDirty = true;
         private bool _lastCoveragePercentageBarColorsFromFontsAndColors;

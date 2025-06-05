@@ -12,8 +12,8 @@ namespace FineCodeCoverage.Engine.Model
     [Export(typeof(IVsBuildFCCSettingsProvider))]
     internal class VsBuildFCCSettingsProvider : IVsBuildFCCSettingsProvider
     {
-        private readonly IServiceProvider _serviceProvider;
         private const string FCCSettingsElementName = "FineCodeCoverage";
+        private readonly IServiceProvider _serviceProvider;
 
         [ImportingConstructor]
         public VsBuildFCCSettingsProvider(
@@ -37,7 +37,9 @@ namespace FineCodeCoverage.Engine.Model
                 {
                     fccSettingsElement = XElement.Parse($"<FineCodeCoverage>{value}</FineCodeCoverage>");
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             return fccSettingsElement;

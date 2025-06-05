@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Core.Utilities
             string zipPath = matchingZipFiles[0];
 
             string zipFileName = Path.GetFileName(zipPath);
-            string version = zipFileName.Replace($"{zipPrefix}.", "").Replace(".zip", "");
+            string version = zipFileName.Replace($"{zipPrefix}.", string.Empty).Replace(".zip", string.Empty);
 
             return new ZipDetails { Path = zipPath, Version = version };
         }

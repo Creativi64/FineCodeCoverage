@@ -5,6 +5,6 @@
         Method,
         Class,
         NamespaceAndClass,
-        AsRequired
+        AsRequired,
     }
 }

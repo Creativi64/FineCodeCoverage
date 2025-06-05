@@ -9,10 +9,10 @@ namespace FineCodeCoverage.Readme
     [Export(typeof(IShowReadMeService))]
     internal class ShowReadMeService : IShowReadMeService
     {
-        private readonly WritableSettingsStore _writableUserSettingsStore;
-        private readonly IToolWindowService _toolWindowService;
         private const string ReadMeShowCollection = "FCCReadmeShowCollection";
         private const string ReadMeShownProperty = "FCCReadmeShown";
+        private readonly WritableSettingsStore _writableUserSettingsStore;
+        private readonly IToolWindowService _toolWindowService;
 
         public event EventHandler Shown;
 

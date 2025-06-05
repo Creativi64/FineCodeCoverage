@@ -14,10 +14,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     [Export(typeof(IProjectRunSettingsGenerator))]
     internal class ProjectRunSettingsGenerator : IProjectRunSettingsGenerator
     {
+        private const string FCCGeneratedRunSettingsSuffix = "fcc-mscodecoverage-generated";
         private readonly IFileUtil _fileUtil;
         private readonly IVsRunSettingsWriter _vsRunSettingsWriter;
         private readonly ILogger _logger;
-        private const string FCCGeneratedRunSettingsSuffix = "fcc-mscodecoverage-generated";
 
         [ImportingConstructor]
         public ProjectRunSettingsGenerator(

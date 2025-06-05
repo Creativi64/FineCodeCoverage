@@ -14,8 +14,15 @@ namespace FineCodeCoverage.Readme
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, AutolinkInline link)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (link == null) throw new ArgumentNullException(nameof(link));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (link == null)
+            {
+                throw new ArgumentNullException(nameof(link));
+            }
 
             string url = link.Url;
             if (link.IsEmail)

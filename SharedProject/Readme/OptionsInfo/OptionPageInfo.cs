@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Readme
                 string category = categoryAttribute == null ? "Misc" : categoryAttribute.Category;
                 bool isCoverageSetting = coverageSettingsPropertyNames.Contains(p.Name);
                 return new OptionPropertyInfoWithCategory(displayName, description, category, p.Name, isCoverageSetting);
-            }).GroupBy(PropertyCategoryDisplayNameDescription => PropertyCategoryDisplayNameDescription.Category)
+            }).GroupBy(propertyCategoryDisplayNameDescription => propertyCategoryDisplayNameDescription.Category)
             .Select(g => new CategorizedOptionPropertyInfos(g.Key, g));
         }
 

@@ -43,8 +43,15 @@ namespace FineCodeCoverage.Readme
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, LinkInline link)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (link == null) throw new ArgumentNullException(nameof(link));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (link == null)
+            {
+                throw new ArgumentNullException(nameof(link));
+            }
 
             string url = GetUrl(link);
             ElementAndMarker elementAndMarker;
@@ -54,7 +61,7 @@ namespace FineCodeCoverage.Readme
                 var image = new Image
                 {
                     Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)),
-                    Tag = altText
+                    Tag = altText,
                 };
                 ICommand command = null;
                 if (link.Parent is LinkInline urlLinkInline)

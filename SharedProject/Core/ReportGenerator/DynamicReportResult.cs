@@ -156,7 +156,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public static DynamicReportResult FromReportResult(IReportResult reportResult) => new DynamicReportResult
         {
             Assemblies = reportResult.Assemblies.Select(assembly => new DynamicAssembly(assembly)).ToList(),
-            MetricTypes = reportResult.MetricTypes
+            MetricTypes = reportResult.MetricTypes,
         };
     }
 }

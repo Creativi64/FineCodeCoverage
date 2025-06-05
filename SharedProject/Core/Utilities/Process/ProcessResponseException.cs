@@ -4,7 +4,9 @@ namespace FineCodeCoverage.Core.Utilities
 {
     internal class ProcessResponseException : Exception
     {
-        public ProcessResponseException(string message) : base(message) { }
+        public ProcessResponseException(string message) : base(message)
+        {
+        }
 
         public ProcessResponseException() : base()
         {

@@ -6,6 +6,6 @@
         Error,
         Warning,
         Info,
-        Verbose
+        Verbose,
     }
 }

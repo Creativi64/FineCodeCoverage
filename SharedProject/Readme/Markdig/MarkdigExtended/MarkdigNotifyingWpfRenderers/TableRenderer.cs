@@ -16,8 +16,15 @@ namespace FineCodeCoverage.Readme
         protected override List<ElementAndMarker> WriteAndReturns(WpfRenderer renderer, Table table)
         {
             var elementsAndMarkers = new List<ElementAndMarker>();
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (table == null) throw new ArgumentNullException(nameof(table));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (table == null)
+            {
+                throw new ArgumentNullException(nameof(table));
+            }
 
             var wpfTable = new WpfTable();
             elementsAndMarkers.Add(new ElementAndMarker(wpfTable, MarkdownTypeMarker.Table));

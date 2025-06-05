@@ -3,14 +3,20 @@ using System.Collections.Generic;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    public static class List
+    public static class ListExtensions
     {
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)
         {
             if (list == null)
+            {
                 throw new ArgumentNullException(nameof(list));
+            }
+
             if (items == null)
+            {
                 throw new ArgumentNullException(nameof(items));
+            }
+
             foreach (T item in items)
             {
                 list.Add(item);
@@ -32,12 +38,14 @@ namespace FineCodeCoverage.Core.Utilities
         // Returns -1 for empty list or when all elements are outside the lower bounds
         // Compare fn to return 0 for element considered the lower bound
         // > 0 for lower bound greater than element
-
         public static int LowerBound<T>(this IList<T> list, Func<T, int> compare)
         {
             int first = 0;
             int count = list.Count;
-            if (count == 0) return -1;
+            if (count == 0)
+            {
+                return -1;
+            }
 
             while (count > 0)
             {

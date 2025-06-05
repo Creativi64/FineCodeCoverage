@@ -49,7 +49,10 @@ namespace FineCodeCoverage.Wpf
 
         private static void OnDependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!s_isInDesignMode) return;
+            if (!s_isInDesignMode)
+            {
+                return;
+            }
 
             if (!(d is Crispy crispy))
             {
@@ -109,13 +112,15 @@ namespace FineCodeCoverage.Wpf
             {
                 Source = this,
                 Path = new PropertyPath(sourceProperty),
-                Mode = BindingMode.OneWay
+                Mode = BindingMode.OneWay,
             };
             _ = BindingOperations.SetBinding(targetObject, targetProperty, binding);
         }
 
-        // could do this but it's not necessary
-        // protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        /*
+             could do this but it's not necessary
+             protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        */
 
         private void SetImage()
         {
@@ -164,7 +169,7 @@ namespace FineCodeCoverage.Wpf
             {
                 // imageAttributes.HighContrast = 1;
                 Format = (uint)_UIDataFormat.DF_WPF,
-                ImageType = (uint)_UIImageType.IT_Bitmap
+                ImageType = (uint)_UIImageType.IT_Bitmap,
             };
             const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background; // others
             imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
@@ -172,8 +177,7 @@ namespace FineCodeCoverage.Wpf
             imageAttributes.Background = ConvertColor(GetColor());
             imageAttributes.Dpi = GetDpi();
 
-            // var scaleFactor = 1;  
-
+            // var scaleFactor = 1;
             imageAttributes.LogicalHeight = (int)Width;
             imageAttributes.LogicalWidth = (int)Height;
             /*

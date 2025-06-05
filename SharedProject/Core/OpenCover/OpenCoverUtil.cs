@@ -14,15 +14,15 @@ namespace FineCodeCoverage.Engine.OpenCover
     [Export(typeof(IOpenCoverUtil))]
     internal class OpenCoverUtil : IOpenCoverUtil
     {
-        private string _openCoverExePath;
+        private const string ZipPrefix = "openCover";
+        private const string ZipDirectoryName = "openCover";
         private readonly IMsTestPlatformUtil _msTestPlatformUtil;
         private readonly IProcessUtil _processUtil;
         private readonly ILogger _logger;
         private readonly IToolUnzipper _toolUnzipper;
         private readonly IFileUtil _fileUtil;
         private readonly IOpenCoverExeArgumentsProvider _openCoverExeArgumentsProvider;
-        private const string ZipPrefix = "openCover";
-        private const string ZipDirectoryName = "openCover";
+        private string _openCoverExePath;
 
         [ImportingConstructor]
         public OpenCoverUtil(
@@ -61,6 +61,7 @@ namespace FineCodeCoverage.Engine.OpenCover
 
             string testDllPdbFile = Path.Combine(project.ProjectOutputFolder, Path.GetFileNameWithoutExtension(project.TestDllFile)) + ".pdb";
             _fileUtil.DeleteFile(testDllPdbFile);
+
             // deleting the pdb of the test assembly seems to work; this is a VERY VERY shameful hack :(
             // filtering out the test-assembly blows up the entire process and nothing gets instrumented or analysed
 
@@ -84,7 +85,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                 {
                     FilePath = GetOpenCoverExePath(project.Settings.OpenCoverCustomPath),
                     Arguments = string.Join(" ", openCoverSettings),
-                    WorkingDirectory = project.ProjectOutputFolder
+                    WorkingDirectory = project.ProjectOutputFolder,
                 },
                 cancellationToken
             );

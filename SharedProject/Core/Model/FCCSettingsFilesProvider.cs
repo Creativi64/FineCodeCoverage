@@ -38,7 +38,6 @@ namespace FineCodeCoverage.Engine.Model
 
             fccOptionsElements.Reverse();
             return fccOptionsElements;
-
         }
 
         private bool AddFromDirectory(List<XElement> fccOptionsElements, string directory)
@@ -56,7 +55,6 @@ namespace FineCodeCoverage.Engine.Model
                 }
                 catch
                 {
-
                 }
             }
 

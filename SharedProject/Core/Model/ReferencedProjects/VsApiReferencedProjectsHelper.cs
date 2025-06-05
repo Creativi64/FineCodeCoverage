@@ -12,7 +12,6 @@ using VSLangProj;
 
 namespace FineCodeCoverage.Engine.Model
 {
-
     [Export(typeof(IVsApiReferencedProjectsHelper))]
     internal class VsApiReferencedProjectsHelper : IVsApiReferencedProjectsHelper
     {
@@ -57,17 +56,21 @@ namespace FineCodeCoverage.Engine.Model
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             DTE2 dte2 = await _lazyDTE2.GetValueAsync();
+
             // note that cannot do dte.Solution.Projects.Item(ProjectFile) - fails when dots in path
             return dte2.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
+
                 // have to try here as unloaded projects will throw
-                string projectFullName = "";
+                string projectFullName = string.Empty;
                 try
                 {
                     projectFullName = p.FullName;
                 }
-                catch { }
+                catch
+                {
+                }
 
                 return projectFullName == projectFile;
             });

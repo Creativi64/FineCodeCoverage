@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Options
 {
-    internal abstract class DialogPageBase<TOptions> : DialogPage where TOptions : class
+    internal abstract class DialogPageBase<TOptions> : DialogPage
+        where TOptions : class
     {
-
         private IDialogPageOptionsProvider<TOptions> _optionsProvider;
 
         private IDialogPageOptionsProvider<TOptions> OptionsProvider => _optionsProvider ??

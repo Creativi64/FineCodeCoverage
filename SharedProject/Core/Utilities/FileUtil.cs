@@ -85,6 +85,7 @@ namespace FineCodeCoverage.Core.Utilities
             {
                 path = path.Insert(2, "\\");
             }
+
             // Ensure the directory path ends with a separator
             return path.EndsWith(Path.DirectorySeparatorChar.ToString()) ? path : path + Path.DirectorySeparatorChar;
         }

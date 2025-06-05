@@ -1,6 +1,7 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    public interface IDialogPageOptionsProvider<TOptions> where TOptions : class
+    public interface IDialogPageOptionsProvider<TOptions>
+        where TOptions : class
     {
         void SaveSettingsToStorage();
 

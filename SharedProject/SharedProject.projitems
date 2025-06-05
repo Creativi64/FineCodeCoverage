@@ -28,7 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\ISolutionFolderProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\OutdatedOutputMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\SolutionFolderProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageUIEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageUtilManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleCustomPathExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleDotnetToolsGlobalExecutor.cs" />
@@ -87,7 +86,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\ShellPackageLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ISourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MessageBoxWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Messages\CoverageEndingMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Messages\CoverageEndedMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Messages\CoverageStartingMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectFactory.cs" />
@@ -240,7 +239,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\VerbosityLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\CancellationTokenSourceWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ColorConversionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Colours\ColourUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Colours\ColorUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\Colours\ContrastComparisonResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\DotNetToolInfo.cs" />

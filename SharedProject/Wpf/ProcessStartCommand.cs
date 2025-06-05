@@ -10,7 +10,11 @@ namespace FineCodeCoverage.Wpf
 
         public ProcessStartCommand(IProcess process) => _process = process;
 
-        public event EventHandler CanExecuteChanged { add { } remove { } }
+        public event EventHandler CanExecuteChanged
+        {
+            add { }
+            remove { }
+        }
 
         public bool CanExecute(object parameter) => true;
 

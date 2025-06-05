@@ -152,6 +152,7 @@ namespace FineCodeCoverage.Output
         {
             bool hasChangeset = HasChangeSet();
             bool hasChangeSetChanged = oldHasChangeset != hasChangeset;
+
             // if both false then the change set would be null and not changed
             // if one false and one true then one would be null and the other not
             // if both true the changeset will have changed if different repo/branch combo

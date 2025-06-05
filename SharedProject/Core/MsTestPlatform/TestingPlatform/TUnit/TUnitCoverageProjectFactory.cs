@@ -85,6 +85,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             coverageProject.ProjectName = projectName.ToString();
             _ = project.GetGuidProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_CmdUIGuid, out Guid projectGuid);
             coverageProject.Id = projectGuid;
+
             // _ = project.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID4.VSHPROPID_TargetFrameworkMoniker, out object targetFrameworkMoniker);
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsBuildPropertyStorage buildPropertyStorage)
@@ -118,7 +119,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<XElement> GetConfigurationElementAsync(ICoverageProject coverageProject, CancellationToken ct)
         {
             string solutionDirectory = await GetSolutionDirectoryAsync(ct);
-            string runSettings = _templatedRunSettingsService.CreateProjectsRunSettings(new ICoverageProject[] { coverageProject }, solutionDirectory, "")[0].RunSettings;
+            string runSettings = _templatedRunSettingsService.CreateProjectsRunSettings(
+                new ICoverageProject[] { coverageProject },
+                solutionDirectory,
+                string.Empty)[0].RunSettings;
             return _runSettingsToConfiguration.ConvertToConfiguration(XElement.Parse(runSettings));
         }
 

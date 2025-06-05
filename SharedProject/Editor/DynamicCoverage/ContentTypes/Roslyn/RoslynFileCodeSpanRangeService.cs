@@ -22,7 +22,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
             IThreadHelper threadHelper
             )
         {
-
             _roslynService = roslynService;
             _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
             _threadHelper = threadHelper;

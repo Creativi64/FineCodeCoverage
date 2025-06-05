@@ -21,7 +21,6 @@ namespace FineCodeCoverage.Output
 
                 TotalBranches += child.TotalBranches;
                 CoveredBranches += child.CoveredBranches;
-
             }
 
             Name = "Total";

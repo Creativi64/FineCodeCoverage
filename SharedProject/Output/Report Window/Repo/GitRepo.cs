@@ -30,9 +30,13 @@ namespace FineCodeCoverage.Output
                 if (branch.Tip != null)
                 {
                     if (IsMain(branch))
+                    {
                         branches.Insert(0, branch.FriendlyName);
+                    }
                     else
+                    {
                         branches.Add(branch.FriendlyName);
+                    }
                 }
             }
 
@@ -72,7 +76,10 @@ namespace FineCodeCoverage.Output
         public IDictionary<string, HashSet<int>> GetChangeset(string selectedBranchName)
         {
             Branch selectedBranch = _repository.Branches.FirstOrDefault(branch => branch.FriendlyName == selectedBranchName);
-            if (selectedBranch == null) return null;
+            if (selectedBranch == null)
+            {
+                return null;
+            }
 
             var changeset = new Dictionary<string, HashSet<int>>();
             AddChanges(_repository.Diff.Compare<Patch>(), changeset);

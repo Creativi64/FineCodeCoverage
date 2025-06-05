@@ -4,7 +4,6 @@ namespace FineCodeCoverage.Wpf
 {
     public partial class VsPathButton : VsImageButtonX
     {
-
         public VsPathButton() => InitializeComponent();
 
         public object Path

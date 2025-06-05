@@ -26,12 +26,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             internal void TextViewClosed() => _lastTracked = _dateTimeService.Now;
         }
 
-        private TrackedLinesState _trackedLinesState;
         private readonly IDateTimeService _dateTimeService;
+        private TrackedLinesState _trackedLinesState;
 
-        public FileLines(List<ICoberturaLine> Lines, IDateTimeService dateTimeService)
+        public FileLines(List<ICoberturaLine> lines, IDateTimeService dateTimeService)
         {
-            this.Lines = Lines;
+            Lines = lines;
             _dateTimeService = dateTimeService;
         }
 

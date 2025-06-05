@@ -25,6 +25,6 @@
         /// <summary>
         /// Nothing is logged.
         /// </summary>
-        Off
+        Off,
     }
 }

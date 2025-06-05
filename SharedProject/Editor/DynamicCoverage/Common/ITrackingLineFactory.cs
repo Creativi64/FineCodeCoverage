@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         ITrackingLine Create(
             ITrackingSpan startTrackingSpan,
-           int originalLineNumber,
-           DynamicCoverageType dynamicCoverageType);
+            int originalLineNumber,
+            DynamicCoverageType dynamicCoverageType);
     }
 }

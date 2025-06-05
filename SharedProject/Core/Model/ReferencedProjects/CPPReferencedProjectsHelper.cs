@@ -22,11 +22,15 @@ namespace FineCodeCoverage.Engine.Model
         private static bool? IsDll(VCProject vcProject)
         {
             if (!(vcProject.Configurations is IEnumerable configurations))
+            {
                 return null;
+            }
 
             VCConfiguration configuration = configurations.Cast<VCConfiguration>().FirstOrDefault();
             if (configuration == null)
+            {
                 return null;
+            }
 
             bool isDll = configuration.ConfigurationType == ConfigurationTypes.typeDynamicLibrary;
             bool isApplication = configuration.ConfigurationType == ConfigurationTypes.typeApplication;

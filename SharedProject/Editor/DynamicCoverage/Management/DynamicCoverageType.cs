@@ -2,9 +2,14 @@
 {
     internal enum DynamicCoverageType
     {
-        Covered, Partial, NotCovered,
+        // Coverage type
+        Covered,
+        Partial,
+        NotCovered,
+
+        // dynamic specific
         Dirty,
         NewLine,
-        NotIncluded
+        NotIncluded,
     }
 }

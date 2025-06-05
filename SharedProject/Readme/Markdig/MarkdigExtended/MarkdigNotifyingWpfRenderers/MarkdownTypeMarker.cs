@@ -33,6 +33,6 @@
 
         Table, // Table
         TableHeader, // TableRow
-        TableCell // TableCell
+        TableCell, // TableCell
     }
 }

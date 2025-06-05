@@ -18,7 +18,6 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
 {
-
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -71,9 +70,9 @@ namespace FineCodeCoverage.Output
         }
 
         /*
-			Hack necessary for debugging in 2022 !
-			https://developercommunity.visualstudio.com/t/vsix-tool-window-vs2022-different-instantiation-wh/1663280
-		*/
+            Hack necessary for debugging in 2022 !
+            https://developercommunity.visualstudio.com/t/vsix-tool-window-vs2022-different-instantiation-wh/1663280
+        */
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -92,6 +91,7 @@ namespace FineCodeCoverage.Output
             await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
             await InitializeCommandsAsync(componentModel);
+
             // note that exporting the package does not work
             componentModel.GetService<IToolWindowServiceInit>().Package = this;
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);

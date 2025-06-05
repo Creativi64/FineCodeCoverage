@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 ? new CustomRunSettingsTemplateDetails
                 {
                     Template = _fileUtil.ReadAllText(templatePath),
-                    Path = templatePath
+                    Path = templatePath,
                 }
                 : null;
         }

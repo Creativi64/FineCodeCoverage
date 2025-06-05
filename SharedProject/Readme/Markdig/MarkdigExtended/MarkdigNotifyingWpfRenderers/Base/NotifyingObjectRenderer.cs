@@ -6,7 +6,8 @@ using Markdig.Syntax;
 
 namespace FineCodeCoverage.Readme
 {
-    public class NotifyingObjectRenderer<TObject> : WpfObjectRenderer<TObject>, INotifiyingObjectRenderer where TObject : MarkdownObject
+    public class NotifyingObjectRenderer<TObject> : WpfObjectRenderer<TObject>, INotifiyingObjectRenderer
+        where TObject : MarkdownObject
     {
         public event EventHandler<List<ElementAndMarker>> CreatedEvent;
 

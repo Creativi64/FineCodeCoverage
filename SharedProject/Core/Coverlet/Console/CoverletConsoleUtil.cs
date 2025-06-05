@@ -52,11 +52,11 @@ namespace FineCodeCoverage.Engine.Coverlet
             );
 
             /*
-			0 - Success.
-			1 - If any test fails.
-			2 - Coverage percentage is below threshold.
-			3 - Test fails and also coverage percentage is below threshold.
-			*/
+                0 - Success.
+                1 - If any test fails.
+                2 - Coverage percentage is below threshold.
+                3 - Test fails and also coverage percentage is below threshold.
+            */
             if (result.ExitCode > 3)
             {
                 string errorExitCodeMessage = $"Error. Exit code: {result.ExitCode}";

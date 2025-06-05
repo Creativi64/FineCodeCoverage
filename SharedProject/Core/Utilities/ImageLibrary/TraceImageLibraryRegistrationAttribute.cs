@@ -2,13 +2,12 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-
     /*
         If there are issues with .imagemanifest files - for use with CrispImage and when referenced in vsct
         This attribute can be used to register the trace level and trace file name for the ImageLibrary.
         If not absolute the trace file name will be relative to the %UserProfile%
 
-        When changing .imagemanifest and vsct 
+        When changing .imagemanifest and vsct
         devenv.exe /rootSuffix Exp /updateconfiguration
     */
 
@@ -32,7 +31,6 @@ namespace FineCodeCoverage.Core.Utilities
 
         public override void Unregister(RegistrationContext context)
         {
-
         }
     }
 }

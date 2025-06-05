@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal interface ICancelCollectTUnitCommand : ITUnitCommand { }
+    internal interface ICancelCollectTUnitCommand : ITUnitCommand
+    {
+    }
 }

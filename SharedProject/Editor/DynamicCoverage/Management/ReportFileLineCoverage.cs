@@ -8,10 +8,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal class ReportFileLineCoverage : IFileLineCoverage
     {
-        private Dictionary<string, List<ICodeElement>> _fileLookup;
         private readonly Dictionary<string, FileLines> _fileLinesLookup = new Dictionary<string, FileLines>();
         private readonly IReadOnlyList<IAssembly> _assemblies;
         private readonly IDateTimeService _dateTimeService;
+        private Dictionary<string, List<ICodeElement>> _fileLookup;
 
         private class LineComparer : IEqualityComparer<ICoberturaLine>
         {

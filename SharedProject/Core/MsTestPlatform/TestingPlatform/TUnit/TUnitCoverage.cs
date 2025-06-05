@@ -101,7 +101,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     _cancellationTokenSource.Cancel();
                 }
             }
-            catch (ObjectDisposedException) { }
+            catch (ObjectDisposedException)
+            {
+            }
         }
 
         public void CollectCoverage()

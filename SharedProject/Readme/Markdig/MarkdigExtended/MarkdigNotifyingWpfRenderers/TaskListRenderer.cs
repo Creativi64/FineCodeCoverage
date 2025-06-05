@@ -10,14 +10,20 @@ namespace FineCodeCoverage.Readme
     {
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, TaskList taskList)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (taskList == null) throw new ArgumentNullException(nameof(taskList));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (taskList == null)
+            {
+                throw new ArgumentNullException(nameof(taskList));
+            }
 
             var checkBox = new CheckBox
             {
                 IsEnabled = false,
                 IsChecked = taskList.Checked,
-
             };
             var inlineUIContainer = new InlineUIContainer(checkBox);
             renderer.WriteInline(inlineUIContainer);

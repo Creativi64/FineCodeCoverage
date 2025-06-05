@@ -22,15 +22,15 @@ namespace FineCodeCoverage.Output
         IListener<ClearReportMessage>,
         IListener<NewCodeChangedMessage>
     {
-        private bool _coverageRunning;
-        private ReportTotalRow _reportTotalRow;
-        private bool _rootDirectoryNameFromPath;
-        private Report _lastReport;
         private readonly ObservableCollection<ReportTreeItemBase> _items = new ObservableCollection<ReportTreeItemBase>();
         private readonly ISourceFileOpener _sourceFileOpener;
         private readonly IReportTreeExpander _treeExpander;
         private readonly IReportViews _reportViews;
         private readonly IIconsOptions _iconsOptions;
+        private bool _coverageRunning;
+        private ReportTotalRow _reportTotalRow;
+        private bool _rootDirectoryNameFromPath;
+        private Report _lastReport;
         private ReportStyle? _lastReportStyle = null;
         private TotalTreeItem _totalTreeItem;
         private SourceFileStructure _sourceFileStructure;
@@ -233,7 +233,7 @@ namespace FineCodeCoverage.Output
                     var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory, rootDirectory.Name, _rootDirectoryNameFromPath, _sourceFileStructure);
                     return new List<ReportTreeItemBase>
                     {
-                        directoryTreeItem
+                        directoryTreeItem,
                     };
                 }
 

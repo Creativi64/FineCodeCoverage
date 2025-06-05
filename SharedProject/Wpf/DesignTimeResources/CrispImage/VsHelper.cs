@@ -20,7 +20,9 @@ namespace FineCodeCoverage.Wpf
 
         private static string GetVsWherePath() => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
-            "Microsoft Visual Studio", "Installer", "vswhere.exe"
+            "Microsoft Visual Studio",
+            "Installer",
+            "vswhere.exe"
             );
 
         private static string GetInstallPath(string vswherePath, string version)
@@ -31,7 +33,7 @@ namespace FineCodeCoverage.Wpf
                 Arguments = $"-latest -products * -requires Microsoft.Component.MSBuild -version [{version}.0,{version}.99] -property installationPath",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = true,
             };
 
             using (var process = Process.Start(processStartInfo))

@@ -4,7 +4,8 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal interface ICoverageTaggerProvider<TTag> where TTag : ITag
+    internal interface ICoverageTaggerProvider<TTag>
+        where TTag : ITag
     {
         ICoverageTagger<TTag> CreateTagger(ITextView textView, ITextBuffer textBuffer);
     }

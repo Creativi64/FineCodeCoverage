@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsChanged;
             _ = eventAggregator.AddListener(this);
             _textBuffer.ChangedOnBackground += TextBuffer_ChangedOnBackground;
-            void textViewClosedHandler(object s, EventArgs e)
+            void TextViewClosedHandler(object s, EventArgs e)
             {
                 if (s is ITextView textView)
                 {
@@ -75,12 +75,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
                 _textBuffer.ChangedOnBackground -= TextBuffer_ChangedOnBackground;
                 _textBuffer.ContentTypeChanged -= ContentTypeChanged;
-                textInfo.TextView.Closed -= textViewClosedHandler;
+                textInfo.TextView.Closed -= TextViewClosedHandler;
                 editorCoverageColouringOptionsProvider.OptionsChanged -= EditorCoverageColouringOptionsChanged;
                 _ = eventAggregator.RemoveListener(this);
             }
 
-            textInfo.TextView.Closed += textViewClosedHandler;
+            textInfo.TextView.Closed += TextViewClosedHandler;
         }
 
         public void SetLastCoverage(ILastCoverage lastCoverage)
@@ -149,7 +149,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             {
                 // this currently does not work as Roslyn is not ready.
                 // could fallback to single lines but would have to look at other uses of IFileCodeSpanRangeService
-                // this is low priority 
+                // this is low priority
                 CreateTrackedLinesIfRequired();
             }
             else
@@ -293,7 +293,10 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void UpdateCoverageLines(IFileLineCoverage fileLineCoverage)
         {
-            if (!_isApplicableContentType) return;
+            if (!_isApplicableContentType)
+            {
+                return;
+            }
 
             _fileLineCoverage = fileLineCoverage;
 

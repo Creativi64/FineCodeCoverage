@@ -76,6 +76,5 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public ITrackingSpan GetFirstTrackingSpan() => _startTrackingSpan;
 
         public CodeSpanRange ToCodeSpanRange() => _codeSpanRange;
-
     }
 }

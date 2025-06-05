@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Output
             IEnumerable<CodeElementTreeItem> codeElements = clss.CodeElements.Select(
                 codeElement => new CodeElementTreeItem(codeElement)
                 {
-                    Parent = this
+                    Parent = this,
                 });
 
             foreach (CodeElementTreeItem codeElement in codeElements)

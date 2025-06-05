@@ -12,6 +12,8 @@ namespace FineCodeCoverage.Readme
         public void Setup(MarkdownPipelineBuilder pipeline)
             => pipeline.BlockParsers.Insert(0, new TruncateParser(_matchText));
 
-        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer) { }
+        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
+        {
+        }
     }
 }

@@ -7,5 +7,6 @@
         IMsCodeCoverageIncludesExcludesOptions,
         IOpenCoverCoverletExcludeIncludeOptions,
         IFCCCommonIncludesExcludes
-    { }
+    {
+    }
 }

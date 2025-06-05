@@ -8,8 +8,8 @@ namespace FineCodeCoverage.Readme
 {
     public abstract class NotifyingWpfRenderer : WpfRenderer
     {
-        private List<INotifiyingObjectRenderer> _notifyingObjectRenderers;
         private readonly List<ElementAndMarker> _elementAndMarkers = new List<ElementAndMarker>();
+        private List<INotifiyingObjectRenderer> _notifyingObjectRenderers;
 
         public IReadOnlyList<ElementAndMarker> ElementAndMarkers => _elementAndMarkers;
 

@@ -11,7 +11,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public IEnumerable<IDynamicLine> Lines => new List<IDynamicLine> { _trackingLine.Line };
 
-        public void Deleted() { }
+        public void Deleted()
+        {
+        }
 
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,

@@ -3,7 +3,8 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal interface ICoverageTagger<T> : ITagger<T>, IDisposable where T : ITag
+    internal interface ICoverageTagger<T> : ITagger<T>, IDisposable
+        where T : ITag
     {
         void RaiseTagsChanged();
 

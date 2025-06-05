@@ -29,7 +29,7 @@ namespace FineCodeCoverage.Editor.Management
             {DynamicCoverageType.Covered, FCCCoveredClassificationTypeName },
             {DynamicCoverageType.Dirty, FCCDirtyClassificationTypeName },
             {DynamicCoverageType.NewLine, FCCNewLineClassificationTypeName },
-            {DynamicCoverageType.NotIncluded, FCCNotIncludedClassificationTypeName }
+            {DynamicCoverageType.NotIncluded, FCCNotIncludedClassificationTypeName },
         };
 
         private readonly IClassificationFormatMap _classificationFormatMap;
@@ -90,7 +90,7 @@ namespace FineCodeCoverage.Editor.Management
                     { DynamicCoverageType.Partial, partiallyCoveredClassificationType },
                     { DynamicCoverageType.Dirty, dirtyClassificationType },
                     { DynamicCoverageType.NewLine, newCodeClassificationType },
-                    { DynamicCoverageType.NotIncluded, notIncludedClassificationType }
+                    { DynamicCoverageType.NotIncluded, notIncludedClassificationType },
                 });
         }
 

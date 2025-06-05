@@ -17,6 +17,5 @@ namespace FineCodeCoverage.Output
         public ResetSettingsCommand(ResetOptionsService resetOptionsService) => _resetOptionsService = resetOptionsService;
 
         protected override void Execute(object sender, EventArgs e) => _resetOptionsService.Reset();
-
     }
 }

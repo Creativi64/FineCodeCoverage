@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Output
             SetHeaderForegroundColors();
         }
 
-        private void VsColorTheme_ThemeChanged(EventArgs _)
+        private void VsColorTheme_ThemeChanged(EventArgs eventArgs)
         {
             OnPropertyChanged(nameof(GridLinesBrushKey));
             OnPropertyChanged(nameof(BackgroundBrushKey));

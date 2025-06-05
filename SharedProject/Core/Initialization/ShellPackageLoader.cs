@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Core.Initialization
         [ImportingConstructor]
         public ShellPackageLoader(
             [Import(typeof(SVsServiceProvider))]
-             IServiceProvider serviceProvider
+            IServiceProvider serviceProvider
         ) => _serviceProvider = serviceProvider;
 
         public async Task LoadPackageAsync()

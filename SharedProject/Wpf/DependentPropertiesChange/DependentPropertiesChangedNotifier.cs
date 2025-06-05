@@ -6,7 +6,8 @@ using System.Windows.Data;
 
 namespace FineCodeCoverage.Wpf
 {
-    public class DependentPropertiesChangedNotifier<T> where T : FrameworkElement, IPropertyDependencyChanged
+    public class DependentPropertiesChangedNotifier<T>
+        where T : FrameworkElement, IPropertyDependencyChanged
     {
         private readonly List<DependentPropertiesDescriptor> _dependentPropertiesDescriptors;
         private readonly Dictionary<T, List<EventHandler>> _handlers = new Dictionary<T, List<EventHandler>>();
@@ -38,7 +39,11 @@ namespace FineCodeCoverage.Wpf
 
         public void RemoveNotificationOfChanges(T instance)
         {
-            if (!_handlers.ContainsKey(instance)) return;
+            if (!_handlers.ContainsKey(instance))
+            {
+                return;
+            }
+
             List<EventHandler> instanceHandlers = _handlers[instance];
             int index = 0;
             _dependentPropertiesDescriptors.ForEach(dependentPropertiesDescriptor =>

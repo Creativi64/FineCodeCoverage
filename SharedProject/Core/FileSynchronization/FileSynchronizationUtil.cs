@@ -22,7 +22,6 @@ namespace FineCodeCoverage.Engine.FileSynchronization
             ParallelQuery<ComparableFile> destFiles() => destDir.GetFiles("*", SearchOption.AllDirectories).AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(destDir.FullName.Length)));
 
             // copy to dest
-
             foreach (ComparableFile fileToCopy in srceFiles.Except(destFiles(), FileComparer.Singleton))
             {
                 var to = new FileInfo(fileToCopy.FileInfo.FullName.Replace(srceDir.FullName, destDir.FullName));
@@ -53,7 +52,6 @@ namespace FineCodeCoverage.Engine.FileSynchronization
             }
 
             // delete from dest
-
             foreach (ComparableFile fileToDelete in destFiles().Except(srceFiles, FileComparer.Singleton))
             {
                 try
@@ -66,8 +64,6 @@ namespace FineCodeCoverage.Engine.FileSynchronization
                     logs.Add($"Delete : {fileToDelete.FileInfo.FullName} : {exception.Message}");
                 }
             }
-
-            // return
 
             return logs;
         }

@@ -2,7 +2,6 @@
 {
     internal interface IFCCCommonIncludesExcludes
     {
-
         bool IncludeTestAssembly { get; set; }
 
         bool IncludeReferencedProjects { get; set; }

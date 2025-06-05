@@ -41,20 +41,35 @@ namespace FineCodeCoverage.Wpf
 
         private static void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!(sender is DataGrid dataGrid)) return;
+            if (!(sender is DataGrid dataGrid))
+            {
+                return;
+            }
 
             object dataContext = dataGrid.DataContext;
-            if (dataContext == null) return;
+            if (dataContext == null)
+            {
+                return;
+            }
 
             Type itemsSourceType = dataGrid.ItemsSource?.GetType();
-            if (itemsSourceType == null) return;
+            if (itemsSourceType == null)
+            {
+                return;
+            }
 
             // Find generic argument from ICollection<T>
             Type itemType = GetGenericArgumentFromICollection(itemsSourceType);
-            if (itemType == null) return;
+            if (itemType == null)
+            {
+                return;
+            }
 
             Type handlerInterface = typeof(ISelectionHandler<>).MakeGenericType(itemType);
-            if (!handlerInterface.IsAssignableFrom(dataContext.GetType())) return;
+            if (!handlerInterface.IsAssignableFrom(dataContext.GetType()))
+            {
+                return;
+            }
 
             System.Reflection.MethodInfo method = handlerInterface.GetMethod(nameof(ISelectionHandler<object>.SelectionChanged));
 

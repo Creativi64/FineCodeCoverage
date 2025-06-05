@@ -1,4 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class HotspotThresholdsOptionsPage : DialogPageBase<HotspotThresholdsOptions> { }
+    internal class HotspotThresholdsOptionsPage : DialogPageBase<HotspotThresholdsOptions>
+    {
+    }
 }

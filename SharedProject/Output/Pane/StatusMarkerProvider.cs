@@ -4,7 +4,7 @@
     {
         internal static string Get(string status = "")
         {
-            status = status.Length == 0 ? "" : $" {status} ";
+            status = status.Length == 0 ? string.Empty : $" {status} ";
             return $"=================================={status.ToUpper()}==================================";
         }
     }

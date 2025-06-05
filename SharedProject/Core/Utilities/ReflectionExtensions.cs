@@ -9,7 +9,8 @@ namespace FineCodeCoverage.Core.Utilities
         public static TCustomAttribute[] GetTypedCustomAttributes<TCustomAttribute>(
             this ICustomAttributeProvider customAttributeProvider,
             bool inherit
-        ) where TCustomAttribute : Attribute
+        )
+            where TCustomAttribute : Attribute
         {
             object[] attributes = customAttributeProvider.GetCustomAttributes(typeof(TCustomAttribute), inherit);
             return attributes as TCustomAttribute[];

@@ -14,7 +14,6 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-
     [Export(typeof(ICoverletDataCollectorUtil))]
     internal class CoverletDataCollectorUtil : ICoverletDataCollectorUtil
     {
@@ -203,7 +202,6 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             return dataCollectorSettingsBuilder
                 .Build();
-
         }
 
         private static string[] SanitizeExcludesOrIncludes(string[] excludesOrIncludes)
@@ -239,10 +237,11 @@ namespace FineCodeCoverage.Engine.Coverlet
                 {
                     FilePath = "dotnet",
                     Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {await GetTestAdapterPathArgAsync()}",
-                    WorkingDirectory = _coverageProject.ProjectOutputFolder
+                    WorkingDirectory = _coverageProject.ProjectOutputFolder,
                 },
                 cancellationToken
             );
+
             // this is how coverlet console determines exit code
             // https://github.com/coverlet-coverage/coverlet/blob/ac0e0fad2f0301a3fe9a3de9f8cdb32f406ce6d8/src/coverlet.console/Program.cs
             // https://github.com/coverlet-coverage/coverlet/issues/388
@@ -253,7 +252,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             // dotnet
             // https://github.com/dotnet/sdk/blob/936935f18c3540ed77c97e392780a9dd82aca441/src/Cli/dotnet/commands/dotnet-test/Program.cs#L86
 
-            // test failure has exit code 1 
+            // test failure has exit code 1
             _ = await _processResponseProcessor.ProcessAsync(
                 result,
                 code => code == 0 || code == 1,
@@ -261,7 +260,6 @@ namespace FineCodeCoverage.Engine.Coverlet
                 $"{GetLogTitle()} - Output",
                 () => _coverletDataCollectorGeneratedCobertura.CorrectPath(
                     _coverageProject.CoverageOutputFolder, _coverageProject.CoverageOutputFile));
-
         }
 
         private string GetLogTitle() => $"{LogPrefix} ({_coverageProject.ProjectName})";

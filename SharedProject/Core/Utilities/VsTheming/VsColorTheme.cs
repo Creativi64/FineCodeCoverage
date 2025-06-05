@@ -8,9 +8,8 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IVsColorTheme))]
     public class VsColorTheme : IVsColorTheme
     {
-        private object _currentTheme;
         private readonly object _colorThemeService;
-
+        private object _currentTheme;
         private PropertyInfo _indexer;
         private Type _colorNameType;
 
@@ -47,7 +46,6 @@ namespace FineCodeCoverage.Core.Utilities
                 {
                     SetCurrentTheme();
                     themeChanged?.Invoke(this, EventArgs.Empty);
-
                 };
             }
 

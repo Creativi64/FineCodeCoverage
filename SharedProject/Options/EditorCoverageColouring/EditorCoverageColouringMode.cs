@@ -4,6 +4,6 @@
     {
         UseRoslynWhenTextChanges,
         DoNotUseRoslynWhenTextChanges,
-        Off
+        Off,
     }
 }

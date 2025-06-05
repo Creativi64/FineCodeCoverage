@@ -44,7 +44,6 @@ namespace FineCodeCoverage.Output
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
-
             try
             {
                 AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -65,11 +64,13 @@ namespace FineCodeCoverage.Output
                 AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
 
                 // try resolve by name
-
                 try
                 {
                     var assembly = Assembly.Load(assemblyName.Name);
-                    if (assembly != null) return assembly;
+                    if (assembly != null)
+                    {
+                        return assembly;
+                    }
                 }
                 catch
                 {
@@ -77,7 +78,6 @@ namespace FineCodeCoverage.Output
                 }
 
                 // try resolve by path
-
                 try
                 {
                     string dllName = $"{assemblyName.Name}.dll";
@@ -87,7 +87,10 @@ namespace FineCodeCoverage.Output
                     if (!string.IsNullOrWhiteSpace(dllPath))
                     {
                         var assembly = Assembly.LoadFile(dllPath);
-                        if (assembly != null) return assembly;
+                        if (assembly != null)
+                        {
+                            return assembly;
+                        }
                     }
                 }
                 catch

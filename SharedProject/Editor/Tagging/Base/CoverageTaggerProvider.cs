@@ -20,8 +20,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         private readonly IFileExcluder[] _fileExcluders;
         private readonly IFileIndicatorVisibility _fileIndicatorVisibility;
         private readonly IDynamicLineFilter _dynamicLineFilter;
+        private readonly IEventAggregator _eventAggregator;
         private TCoverageTypeFilter _coverageTypeFilter;
-        protected readonly IEventAggregator eventAggregator;
 
         public CoverageTaggerProvider(
             IEventAggregator eventAggregator,
@@ -43,7 +43,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             EditorCoverageColouringOptions appOptions = editorCoverageColouringOptionsProvider.Get();
             _coverageTypeFilter = CreateFilter(appOptions);
             editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsProvider_OptionsChanged;
-            this.eventAggregator = eventAggregator;
+            _eventAggregator = eventAggregator;
             _dynamicLineAndSnapshotSpansLogic = dynamicLineAndSnapshotSpansLogic;
             _coverageTagger = coverageTagger;
         }
@@ -65,7 +65,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
             _coverageTypeFilter = newCoverageTypeFilter;
             var message = new CoverageTypeFilterChangedMessage(newCoverageTypeFilter);
-            eventAggregator.SendMessage(message);
+            _eventAggregator.SendMessage(message);
         }
 
         private bool ExcludeContentTypeFile(string contentType, string filePath)
@@ -88,7 +88,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 textInfo,
                 bufferLineCoverage,
                 _coverageTypeFilter,
-                eventAggregator,
+                _eventAggregator,
                 _dynamicLineAndSnapshotSpansLogic,
                 _coverageTagger,
                 _fileIndicatorVisibility,

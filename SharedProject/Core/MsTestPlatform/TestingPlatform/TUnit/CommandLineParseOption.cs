@@ -11,6 +11,7 @@
             Name = name;
             Arguments = arguments;
         }
+
         /// <summary>
         /// Gets the name of the option.
         /// </summary>

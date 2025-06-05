@@ -9,8 +9,16 @@ namespace FineCodeCoverage.Readme
     {
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, EmphasisInline obj)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
             MarkdownTypeMarker? markdownTypeMarker = null;
 
             Span span = null;

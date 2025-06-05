@@ -44,8 +44,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public string PublicKeyTokensInclude { get; } = "%fcc_publickeytokens_include%";
         }
 
+        private const string FCCGeneratedMarkerElementName = "FCCGenerated";
         private readonly ReplacementLookups _replacementLookups = new ReplacementLookups();
-
+        private readonly string _msDataCollectorConfigurationElement;
+        private readonly string _msDataCollectorCodeCoverageElement;
         private readonly string _template;
 
         public string RunConfigurationElement { get; }
@@ -60,16 +62,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         public string MsDataCollectorElement { get; }
 
-        private const string FCCGeneratedMarkerElementName = "FCCGenerated";
-        private readonly string _msDataCollectorConfigurationElement;
-        private readonly string _msDataCollectorCodeCoverageElement;
-
         private readonly List<(string elementName, string value)> _recommendedYouDoNotChangeElementsNetCore = new List<(string elementName, string value)>
         {
             ("UseVerifiableInstrumentation", "True"),
             ("AllowLowIntegrityProcesses", "True"),
             ("CollectFromChildProcesses", "True"),
-            ("CollectAspDotNet", "False")
+            ("CollectAspDotNet", "False"),
         };
 
         private readonly List<(string elementName, string value)> _recommendedYouDoNotChangeElementsNetFramework = new List<(string elementName, string value)>
@@ -77,7 +75,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             ("UseVerifiableInstrumentation", "False"),
             ("AllowLowIntegrityProcesses", "True"),
             ("CollectFromChildProcesses", "True"),
-            ("CollectAspDotNet", "False")
+            ("CollectAspDotNet", "False"),
         };
 
         private class TemplateReplaceResult : ITemplateReplacementResult
@@ -195,7 +193,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             return new TemplateReplaceResult
             {
                 ReplacedTestAdapter = replacedTestAdapter,
-                Replaced = AddRecommendedYouDoNotChangeElementsIfNotProvided(replacedRunSettingsTemplate, isNetFramework)
+                Replaced = AddRecommendedYouDoNotChangeElementsIfNotProvided(replacedRunSettingsTemplate, isNetFramework),
             };
         }
 
@@ -387,7 +385,6 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             XPathNavigator navigator = inputRunSettingDocument.CreateNavigator();
             return navigator.SelectSingleNode($"//{FCCGeneratedMarkerElementName}") != null;
-
         }
 
         public bool HasReplaceableTestAdapter(string replaceable) => replaceable.Contains(_replacementLookups.TestAdapter);

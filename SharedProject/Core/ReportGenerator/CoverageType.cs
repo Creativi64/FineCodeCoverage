@@ -1,4 +1,9 @@
 ﻿namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    public enum CoverageType { Covered, Partial, NotCovered }
+    public enum CoverageType
+    {
+        Covered,
+        Partial,
+        NotCovered,
+    }
 }

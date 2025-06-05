@@ -15,10 +15,11 @@ namespace FineCodeCoverage.Readme
 
         public MarkerBlockRenderer(string marker, Func<IEnumerable<Block>> creator)
             : this(new Dictionary<string, Func<IEnumerable<Block>>> {
-                    { marker, creator }
+                    { marker, creator },
                 }
             )
-        { }
+        {
+        }
 
         protected override void Write(WpfRenderer renderer, MarkerBlock markerBlock)
         {

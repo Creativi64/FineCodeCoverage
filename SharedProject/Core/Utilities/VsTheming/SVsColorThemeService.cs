@@ -9,7 +9,9 @@ namespace FineCodeCoverage.Core.Utilities
     [TypeIdentifier]
 #pragma warning disable IDE1006 // Naming Styles
 #pragma warning disable CA1715
+#pragma warning disable SA1302 // Interface names should begin with I
     public interface SVsColorThemeService
+#pragma warning restore SA1302 // Interface names should begin with I
 #pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore CA1715
     {

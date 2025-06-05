@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
         {
             Fill = new SolidColorBrush(colour),
             Width = 3,
-            Height = 16
+            Height = 16,
         };
     }
 }

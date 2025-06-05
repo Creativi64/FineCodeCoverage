@@ -18,9 +18,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
     // https://github.com/dotnet/project-system
     // https://github.com/microsoft/VSProjectSystem/blob/master/doc/extensibility/IProjectGlobalPropertiesProvider.md
     [Export(typeof(IProjectGlobalPropertiesProvider))]
+
     // https://github.com/microsoft/testfx/blob/main/src/Platform/Microsoft.Testing.Platform/buildMultiTargeting/Microsoft.Testing.Platform.props
     /*
-        	https://github.com/microsoft/VSProjectSystem/blob/master/doc/overview/about_project_capabilities.md
+            https://github.com/microsoft/VSProjectSystem/blob/master/doc/overview/about_project_capabilities.md
             Classes exported via MEF can declare the project capabilities under which they apply.
 
             See https://learn.microsoft.com/en-gb/dotnet/api/microsoft.visualstudio.shell.interop.vsprojectcapabilityexpressionmatcher?view=visualstudiosdk-2022
@@ -78,7 +79,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
                 ConfiguredProject configuredProject = await _unconfiguredProject.GetSuggestedConfiguredProjectAsync();
                 return await IsTestProjectAsync(configuredProject) && await NoTUnitPackageReferenceAsync(configuredProject);
             }
-            catch { }
+            catch
+            {
+            }
 
             return false;
         }
@@ -86,7 +89,10 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         private async Task<bool> ProjectEnabledAsync()
         {
             Guid? projectGuid = await GetProjectGuidAsync();
-            if (!projectGuid.HasValue) return false;
+            if (!projectGuid.HasValue)
+            {
+                return false;
+            }
 
             CoverageProject coverageProject = GetCoverageProject(projectGuid.Value);
             ICoverageSettings projectSettings = await _coverageProjectSettingsManager.GetSettingsAsync(coverageProject);
@@ -113,7 +119,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             => new CoverageProject(_outputOptionsProvider, null, _coverageProjectSettingsManager, null)
             {
                 Id = projectGuid,
-                ProjectFilePath = _unconfiguredProject.FullPath
+                ProjectFilePath = _unconfiguredProject.FullPath,
             };
 
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)

@@ -25,6 +25,5 @@ namespace FineCodeCoverage.Wpf
 
         public static readonly DependencyProperty ImageProperty =
             DependencyProperty.Register(nameof(Image), typeof(object), typeof(VsImageButton), new PropertyMetadata(null));
-
     }
 }

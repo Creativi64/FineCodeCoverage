@@ -107,7 +107,7 @@ namespace FineCodeCoverage.Github
                     {
                         { "vsversion", VsVersionString },
                         { "fccversion", FccVersionString },
-                        { "title", Title }
+                        { "title", Title },
                     };
 
                     var sb = new StringBuilder($"{FCCGithub.Repo}/issues/new?template=Issue-form.yaml");

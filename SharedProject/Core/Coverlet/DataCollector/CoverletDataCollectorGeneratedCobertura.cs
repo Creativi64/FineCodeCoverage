@@ -15,6 +15,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             // C:\\Users\\tonyh\\Source\\Repos\\DataCollectorXUnit\\XUnitTestProject1\\bin\\Debug\\netcoreapp3.1\\fine-code-coverage\\coverage-tool-output\\7ba6447d-a89f-4836-bffc-aeb4799e48ab\\coverage.cobertura.xml\r\nP
             var coverageOutputDirectory = new DirectoryInfo(coverageOutputFolder);
             System.Collections.Generic.List<FileInfo> generatedCoberturaFiles = coverageOutputDirectory.GetFiles(GeneratedCoberturaFileName, SearchOption.AllDirectories).ToList();
+
             // should only be the one
             FileInfo lastWrittenCobertura = generatedCoberturaFiles.OrderBy(f => f.LastWriteTime).LastOrDefault();
             return lastWrittenCobertura;
