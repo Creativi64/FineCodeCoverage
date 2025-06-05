@@ -24,8 +24,7 @@ namespace FineCodeCoverage.Editor.Management
         [ImportingConstructor]
         public FontsAndColorsHelper(
             [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider,
-            IThreadHelper threadHelper
-        )
+            IThreadHelper threadHelper)
         {
             _serviceProvider = serviceProvider;
             _threadHelper = threadHelper;
@@ -69,8 +68,7 @@ namespace FineCodeCoverage.Editor.Management
                 category,
                 fontAndColorStorage
                     => infos = names.Select(name => GetInfo(name, fontAndColorStorage))
-                                .Where(color => color != null).ToList()
-            );
+                                .Where(color => color != null).ToList());
             return infos;
         }
 

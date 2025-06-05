@@ -49,16 +49,14 @@ namespace FineCodeCoverage.Engine.Model
         }
 
         private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
-           IEnumerable<object> coverageSettingsOptions
-        )
+           IEnumerable<object> coverageSettingsOptions)
         {
             IEnumerable<OptionInfo> optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option));
             return GetOptionCoverageSettingsInterfacesPropertyInfos(optionInfos);
         }
 
         private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
-            IEnumerable<OptionInfo> optionInfos
-        )
+            IEnumerable<OptionInfo> optionInfos)
         {
             if (_optionsTypeCoverageSettingsInterfacesPropertyLookup == null)
             {

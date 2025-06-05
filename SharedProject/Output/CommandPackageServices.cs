@@ -28,8 +28,8 @@ namespace FineCodeCoverage.Output
             Type toolWindowType,
             int id,
             bool create,
-            CancellationToken cancellationToken
-        ) => _package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
+            CancellationToken cancellationToken)
+            => _package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
 
         public static async Task<ICommandPackageServices> CreateAsync(AsyncPackage package, ILogger logger)
         {

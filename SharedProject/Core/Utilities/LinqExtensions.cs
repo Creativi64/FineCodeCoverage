@@ -7,8 +7,7 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public static TTransformed SelectFirstNonNull<T, TTransformed>(
             this IEnumerable<T> source,
-            Func<T, TTransformed> select
-        )
+            Func<T, TTransformed> select)
             where TTransformed : class
         {
             foreach (T element in source)

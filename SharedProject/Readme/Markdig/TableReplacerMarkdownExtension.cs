@@ -20,7 +20,6 @@ namespace FineCodeCoverage.Readme
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
             => renderer.ObjectRenderers.AddIfNotAlready(
-                () => new MarkerBlockRenderer(_marker, () => new Block[] { _tableCreator() })
-            );
+                () => new MarkerBlockRenderer(_marker, () => new Block[] { _tableCreator() }));
     }
 }

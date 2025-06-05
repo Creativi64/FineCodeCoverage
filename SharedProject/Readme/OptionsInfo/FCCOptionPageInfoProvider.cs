@@ -12,7 +12,6 @@ namespace FineCodeCoverage.Readme
         public IEnumerable<OptionPageInfo> Provide()
             => new OptionPageInfoProvider().Provide(
                 typeof(FCCPackage),
-                typeof(CoverageSettings).GetProperties().Select(p => p.Name).ToList()
-            );
+                typeof(CoverageSettings).GetProperties().Select(p => p.Name).ToList());
     }
 }

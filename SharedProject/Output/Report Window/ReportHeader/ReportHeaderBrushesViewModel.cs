@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Output
 
         [ImportingConstructor]
         public ReportHeaderBrushesViewModel(
-            IOptionsProvider<ReportOptions> reportOptionsProvider
-        )
+            IOptionsProvider<ReportOptions> reportOptionsProvider)
         {
             VSColorTheme.ThemeChanged += VsColorTheme_ThemeChanged;
             GridLinesBrushKey = HeaderColors.SeparatorLineBrushKey;

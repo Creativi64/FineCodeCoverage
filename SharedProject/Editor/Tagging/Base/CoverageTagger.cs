@@ -37,8 +37,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             IDynamicLineAndSnapshotSpansLogic dynamicLineAndSnapshotSpansLogic,
             ILineSpanTagger<TTag> lineSpanTagger,
             IFileIndicatorVisibility fileIndicatorVisibility,
-            IDynamicLineFilter dynamicLineFilter
-            )
+            IDynamicLineFilter dynamicLineFilter)
         {
             ThrowIf.Null(textInfo, nameof(textInfo));
             ThrowIf.Null(coverageTypeFilter, nameof(coverageTypeFilter));
@@ -123,8 +122,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 _dynamicLineFilter.GetFileFilter(_originalFilePath) : (_) => true;
             return dynamicLineAndSnapshotSpans.Where(dynamicLineAndSnapshot
                 => _coverageTypeFilter.Show(dynamicLineAndSnapshot.Line.CoverageType) &&
-                (IsNewOrDirty(dynamicLineAndSnapshot) || fileFilter(dynamicLineAndSnapshot.Line))
-            ).Select(dynamicLineAndSnapshot => _lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
+                (IsNewOrDirty(dynamicLineAndSnapshot) || fileFilter(dynamicLineAndSnapshot.Line)))
+            .Select(dynamicLineAndSnapshot => _lineSpanTagger.GetTagSpan(dynamicLineAndSnapshot));
         }
 
         public void Dispose()

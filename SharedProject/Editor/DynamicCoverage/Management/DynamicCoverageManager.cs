@@ -60,7 +60,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                     }
 
                     return bufferLineCoverage;
-                }
-            );
+                });
     }
 }

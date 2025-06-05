@@ -49,8 +49,7 @@ namespace FineCodeCoverage.Output
                         return string.Join(".", classNameParts, 0, classNameParts.Length - 1);
                     }).Select(namespaceGroup => new NamespaceTreeItem(
                         namespaceGroup.Key,
-                        namespaceGroup.Select(clss => new ClassTreeItem(clss))
-                    ));
+                        namespaceGroup.Select(clss => new ClassTreeItem(clss))));
                     break;
             }
 

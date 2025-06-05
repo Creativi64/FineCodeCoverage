@@ -19,12 +19,10 @@ namespace FineCodeCoverage.Output
                 return classNamespace;
             }).Select(namespaceGroup => new NamespaceTreeItem(
                 namespaceGroup.Key,
-                namespaceGroup.Select(clss => new ClassTreeItem(clss))
-                )
+                namespaceGroup.Select(clss => new ClassTreeItem(clss)))
             {
                 Parent = this,
-            }
-            );
+            });
 
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)
             {

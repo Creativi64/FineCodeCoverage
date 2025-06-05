@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Output.Pane
 
         [ImportingConstructor]
         public Logger(
-            IFCCOutputWindowPaneCreator fccOutputWindowCreator
-        ) => _fccOutputWindowCreator = fccOutputWindowCreator;
+            IFCCOutputWindowPaneCreator fccOutputWindowCreator) => _fccOutputWindowCreator = fccOutputWindowCreator;
 
         private static string GetFormattedNow()
         {

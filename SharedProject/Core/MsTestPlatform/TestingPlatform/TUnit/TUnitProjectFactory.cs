@@ -41,8 +41,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 ITUnitInstalledPackagesService tUnitInstalledPackagesService,
                 ICommandLineParser commandLineParser,
                 ConfiguredProject configuredProject,
-                IVsHierarchy hierarchy
-            )
+                IVsHierarchy hierarchy)
             {
                 _commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
                 Hierarchy = hierarchy;
@@ -206,8 +205,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public TUnitProjectFactory(
             ITUnitInstalledPackagesService tUnitInstalledPackagesService,
-            ICommandLineParser commandLineParser
-        )
+            ICommandLineParser commandLineParser)
         {
             _tUnitInstalledPackagesService = tUnitInstalledPackagesService;
             _commandLineParser = commandLineParser;

@@ -14,8 +14,8 @@ namespace FineCodeCoverage.Output
            HorizontalAlignment headerAlignment,
            HorizontalAlignment cellAlignment,
            double width,
-           double minWidth = 100
-       ) : base(reportColumnType, name, displayIndex, isVisible, headerAlignment, cellAlignment, width, minWidth)
+           double minWidth = 100)
+            : base(reportColumnType, name, displayIndex, isVisible, headerAlignment, cellAlignment, width, minWidth)
             => MetricType = metricType;
 
         public MetricColumnData(MetricType metricType, string reportColumnType, string name, int displayIndex, bool isVisible, double width, double minWidth = 100, HorizontalAlignment initialAlignment = HorizontalAlignment.Right)

@@ -49,8 +49,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ITUnitSettingsProvider tUnitSettingsProvider,
             IDisposeAwareTaskRunner disposeAwareTaskRunner,
             IEventAggregator eventAggregator,
-            ILogger logger
-        )
+            ILogger logger)
         {
             buildHelper.ExternalBuildEvent += BuildHelper_ExternalBuildEvent;
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;

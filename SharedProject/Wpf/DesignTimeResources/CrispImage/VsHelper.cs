@@ -22,8 +22,7 @@ namespace FineCodeCoverage.Wpf
             Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
             "Microsoft Visual Studio",
             "Installer",
-            "vswhere.exe"
-            );
+            "vswhere.exe");
 
         private static string GetInstallPath(string vswherePath, string version)
         {

@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Engine
         public AppDataFolder(
             ILogger logger,
             IEnvironmentVariable environmentVariable,
-            IOptionsProvider<MiscOptions> toolsOptionsProvider
-        )
+            IOptionsProvider<MiscOptions> toolsOptionsProvider)
         {
             _logger = logger;
             _environmentVariable = environmentVariable;

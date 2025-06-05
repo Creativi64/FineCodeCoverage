@@ -13,8 +13,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         [ImportingConstructor]
         public NewCodeTrackerFactory(
             ITrackedNewCodeLineFactory trackedNewCodeLineFactory,
-            ITextInfoFactory textInfoFactory
-        )
+            ITextInfoFactory textInfoFactory)
         {
             _trackedNewCodeLineFactory = trackedNewCodeLineFactory;
             _textInfoFactory = textInfoFactory;

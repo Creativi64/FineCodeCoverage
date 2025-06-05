@@ -72,8 +72,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
 
         private XDocument GenerateFullRunSettings() => new XDocument(
-            new XElement("RunSettings", DataCollectionRunSettings())
-        );
+            new XElement("RunSettings", DataCollectionRunSettings()));
 
         private XElement DataCollectionRunSettings() => new XElement("DataCollectionRunSettings", DataCollectors());
 

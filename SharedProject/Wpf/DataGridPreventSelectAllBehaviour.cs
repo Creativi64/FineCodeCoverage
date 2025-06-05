@@ -36,8 +36,7 @@ namespace FineCodeCoverage.Wpf
                 {
                     ce.CanExecute = false;
                     ce.Handled = true; // Prevent the default behavior
-                }
-            );
+                });
 
             // Register the command binding for this specific DataGrid instance
             _ = dg.CommandBindings.Add(commandBinding);

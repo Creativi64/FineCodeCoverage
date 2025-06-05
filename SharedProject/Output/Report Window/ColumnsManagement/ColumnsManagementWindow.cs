@@ -8,7 +8,8 @@ namespace FineCodeCoverage.Output
     {
         private const string ResourcePath = "Output/Report Window/ColumnsManagement/ColumnsManagementDataTemplate.xaml";
 
-        public ColumnsManagementWindow(ReportColumnsManagementViewModel reportColumnsManagmentViewModel) : base(reportColumnsManagmentViewModel, ResourcePath)
+        public ColumnsManagementWindow(ReportColumnsManagementViewModel reportColumnsManagmentViewModel)
+            : base(reportColumnsManagmentViewModel, ResourcePath)
         {
             Title = "Report Column Management";
             SizeToContent = System.Windows.SizeToContent.WidthAndHeight;

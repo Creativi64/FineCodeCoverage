@@ -69,8 +69,7 @@ namespace FineCodeCoverage.Impl
             IOptionsProvider<RunOptions> runOptionsProvider,
             IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
             IEventAggregator eventAggregator,
-            ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer
-        )
+            ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer)
         {
             _runOptionsProvider = runOptionsProvider;
             _msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
@@ -82,10 +81,10 @@ namespace FineCodeCoverage.Impl
             _logger = logger;
             _testOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
             {
-                { TestOperationStates.TestExecutionCanceling, TestExecutionCancellingAsync},
-                { TestOperationStates.TestExecutionStarting, TestExecutionStartingAsync},
-                { TestOperationStates.TestExecutionFinished, TestExecutionFinishedAsync},
-                { TestOperationStates.TestExecutionCancelAndFinished, TestExecutionCancelAndFinishedAsync},
+                { TestOperationStates.TestExecutionCanceling, TestExecutionCancellingAsync },
+                { TestOperationStates.TestExecutionStarting, TestExecutionStartingAsync },
+                { TestOperationStates.TestExecutionFinished, TestExecutionFinishedAsync },
+                { TestOperationStates.TestExecutionCancelAndFinished, TestExecutionCancelAndFinishedAsync },
             };
             _ = packageLoader.LoadPackageAsync(CancellationToken.None);
             operationState.StateChanged += OperationState_StateChanged;
@@ -270,8 +269,7 @@ namespace FineCodeCoverage.Impl
         {
             if (!_testOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
                 || !await _coverageCollectableFromTestExplorer.IsCollectableAsync()
-                || !await _testOperationStateInvocationManager.CanInvokeAsync(e.State)
-            )
+                || !await _testOperationStateInvocationManager.CanInvokeAsync(e.State))
             {
                 return;
             }

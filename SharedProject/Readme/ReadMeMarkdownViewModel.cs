@@ -25,8 +25,7 @@ namespace FineCodeCoverage.Readme
             ITemplatedReadmeProvider readmeProvider,
             IFCCMarkdownFlowDocumentProvider fccMarkdownFlowDocumentProvider,
             IReadMeFlowDocumentStylesSetter readMeFlowDocumentStyleSetter,
-            IOptionsProvider<MiscOptions> miscOptionsProvider
-            )
+            IOptionsProvider<MiscOptions> miscOptionsProvider)
         {
             _readmeProvider = readmeProvider;
             _fccMarkdownFlowDocumentProvider = fccMarkdownFlowDocumentProvider;
@@ -49,8 +48,7 @@ namespace FineCodeCoverage.Readme
                 templatedReadmeInfo,
                 ReadMeMarkdownViewModel.OptionsTableReplacementMarker,
                 ReadMeMarkdownViewModel.TruncateMarker,
-                _processStartCommand
-                )();
+                _processStartCommand)();
             _readMeFlowDocumentStyleSetter.SetStyles(flowDocumentElementMarkers.ElementAndMarkers);
             return flowDocumentElementMarkers.FlowDocument;
         }

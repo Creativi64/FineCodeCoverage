@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Engine.Model
 
         [ImportingConstructor]
         public FCCSettingsFilesProvider(
-            IFileUtil fileUtil
-        ) => _fileUtil = fileUtil;
+            IFileUtil fileUtil) => _fileUtil = fileUtil;
 
         public List<XElement> Provide(string projectDirectoryPath)
         {

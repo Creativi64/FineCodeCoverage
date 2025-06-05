@@ -13,8 +13,7 @@ namespace FineCodeCoverage.Core.Utilities
     {
         [ImportingConstructor]
         public FileRenameListener(
-            [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
-        )
+            [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {

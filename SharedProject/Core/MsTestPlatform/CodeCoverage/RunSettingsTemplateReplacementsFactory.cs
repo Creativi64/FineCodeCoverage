@@ -47,8 +47,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 IMsCodeCoverageIncludesExcludesOptions settings,
                 string resultsDirectory,
                 string enabled,
-                string testAdapter
-            )
+                string testAdapter)
             {
                 ResultsDirectory = resultsDirectory;
                 TestAdapter = testAdapter;
@@ -134,13 +133,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public CombinedIncludesExcludesOptions(
                 MergedIncludesExcludesOptions includesExcludesOptions,
                 IEnumerable<string> additionalModulePathsIncludes,
-                IEnumerable<string> additionalModulePathsExcludes
-            ) : this(
+                IEnumerable<string> additionalModulePathsExcludes)
+                : this(
                 includesExcludesOptions.ModulePathsInclude,
                 includesExcludesOptions.ModulePathsExclude,
                 additionalModulePathsIncludes,
-                additionalModulePathsExcludes
-            )
+                additionalModulePathsExcludes)
             {
                 CompanyNamesInclude = includesExcludesOptions.CompanyNamesInclude;
                 CompanyNamesExclude = includesExcludesOptions.CompanyNamesExclude;
@@ -157,8 +155,8 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public CombinedIncludesExcludesOptions(
                 ICoverageSettings includesExcludesOptions,
                 IEnumerable<string> additionalModulePathsIncludes,
-                IEnumerable<string> additionalModulePathsExcludes
-            ) : this(
+                IEnumerable<string> additionalModulePathsExcludes)
+                : this(
                 includesExcludesOptions.ModulePathsInclude,
                 includesExcludesOptions.ModulePathsExclude,
                 additionalModulePathsIncludes,
@@ -235,8 +233,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IEnumerable<IReferencedProject> referencedProjects,
             string testDllFile,
             bool includeTestAssembly,
-            bool isInclude
-            )
+            bool isInclude)
         {
             IEnumerable<string> additionalReferenced = referencedProjects.Select(
                 rp => MsCodeCoverageRegex.RegexModuleName(rp.AssemblyName, rp.IsDll));

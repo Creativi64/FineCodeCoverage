@@ -27,8 +27,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             IXmlUtils xmlUtils,
             IRunSettingsToConfiguration runSettingsToConfiguration,
             IOptionsProvider<RunOptions> runOptionsProvider,
-            IEnvironment environment
-        )
+            IEnvironment environment)
         {
             _fileUtil = fileUtil;
             _xmlUtils = xmlUtils;
@@ -163,8 +162,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private async Task<string> GetConfigurationPathAsync(
             ITUnitCoverageProject tUnitCoverageProject,
             string configurationPathArgument,
-            CancellationToken cancellationToken
-        )
+            CancellationToken cancellationToken)
         {
             if (configurationPathArgument != null)
             {

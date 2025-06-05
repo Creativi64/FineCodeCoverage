@@ -17,8 +17,7 @@ namespace FineCodeCoverage.Engine.Model
         [ImportingConstructor]
         public ReferencedProjectsHelper(
             IVsApiReferencedProjectsHelper vsApiReferencedProjectsHelper,
-            IProjectFileReferencedProjectsHelper projectFileReferencedProjectsHelper
-        )
+            IProjectFileReferencedProjectsHelper projectFileReferencedProjectsHelper)
         {
             _vsApiReferencedProjectsHelper = vsApiReferencedProjectsHelper;
             _projectFileReferencedProjectsHelper = projectFileReferencedProjectsHelper;
@@ -26,8 +25,7 @@ namespace FineCodeCoverage.Engine.Model
 
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
             string projectFile,
-            Func<XElement> projectFileXElementProvider
-        )
+            Func<XElement> projectFileXElementProvider)
         {
             _projectFileXElementProvider = projectFileXElementProvider;
             _projectFile = projectFile;

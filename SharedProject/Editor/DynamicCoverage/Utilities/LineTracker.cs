@@ -14,8 +14,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private static SnapshotPoint GetPoint(
-            ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd
-        ) => lineFromEnd ? trackingSpan.GetEndPoint(currentSnapshot) : trackingSpan.GetStartPoint(currentSnapshot);
+            ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd)
+            => lineFromEnd ? trackingSpan.GetEndPoint(currentSnapshot) : trackingSpan.GetStartPoint(currentSnapshot);
 
         public TrackedLineInfo GetTrackedLineInfo(ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd)
         {

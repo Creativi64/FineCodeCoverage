@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                             FilePath = coverletConsoleCustomPath,
                             Arguments = coverletSettings,
                             WorkingDirectory = coverageProject.ProjectOutputFolder,
-                        }
-                    )
+                        })
                     : Task.FromResult<ExecuteRequest>(null);
         }
     }

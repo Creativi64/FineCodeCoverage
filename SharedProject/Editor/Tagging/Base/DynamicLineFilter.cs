@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 
         [ImportingConstructor]
         public DynamicLineFilter(
-            IReportViews reportViews
-        )
+            IReportViews reportViews)
         {
             _reportViews = reportViews;
             reportViews.Changed += ReportViews_Changed;

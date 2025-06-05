@@ -20,14 +20,14 @@ namespace FineCodeCoverage.Engine.Model
         private readonly SettingsMergeLogic _settingsMergeLogic = new SettingsMergeLogic();
         private static readonly Dictionary<Type, ISettingsXmlParser> s_parsers = new Dictionary<Type, ISettingsXmlParser>()
         {
-            { typeof(bool), new SettingsXmlParser<bool,bool?>(bool.TryParse)},
-            { typeof(int), new SettingsXmlParser<int,int?>(int.TryParse)},
-            { typeof(short), new SettingsXmlParser<short,short?>(short.TryParse)},
-            { typeof(long), new SettingsXmlParser<long,long?>(long.TryParse)},
-            { typeof(decimal), new SettingsXmlParser<decimal,decimal?>(decimal.TryParse)},
-            { typeof(double), new SettingsXmlParser<double,double?>(double.TryParse)},
-            { typeof(float), new SettingsXmlParser<float,float?>(float.TryParse)},
-            { typeof(char), new SettingsXmlParser<char,char?>(char.TryParse)},
+            { typeof(bool), new SettingsXmlParser<bool, bool?>(bool.TryParse) },
+            { typeof(int), new SettingsXmlParser<int, int?>(int.TryParse) },
+            { typeof(short), new SettingsXmlParser<short, short?>(short.TryParse) },
+            { typeof(long), new SettingsXmlParser<long, long?>(long.TryParse) },
+            { typeof(decimal), new SettingsXmlParser<decimal, decimal?>(decimal.TryParse) },
+            { typeof(double), new SettingsXmlParser<double, double?>(double.TryParse) },
+            { typeof(float), new SettingsXmlParser<float, float?>(float.TryParse) },
+            { typeof(char), new SettingsXmlParser<char, char?>(char.TryParse) },
         };
 
         private class SettingsElementDefaultMerge
@@ -43,8 +43,7 @@ namespace FineCodeCoverage.Engine.Model
 
         [ImportingConstructor]
         public SettingsMerger(
-            ILogger logger
-        ) => _logger = logger;
+            ILogger logger) => _logger = logger;
 
         public async Task MergeAsync(
             CoverageSettings coverageSettings,
@@ -55,8 +54,7 @@ namespace FineCodeCoverage.Engine.Model
             _settingsPropertyInfos = coverageSettingsPropertyInfos;
             await MergeAsync(
                 coverageSettings,
-                GetElementDefaultMergeStrategies(settingsFileElements, projectSettingsElement)
-            );
+                GetElementDefaultMergeStrategies(settingsFileElements, projectSettingsElement));
         }
 
         private static List<SettingsElementDefaultMerge> GetElementDefaultMergeStrategies(
@@ -78,8 +76,7 @@ namespace FineCodeCoverage.Engine.Model
                         SettingsElement = projectSettingsElement,
                         DefaultMerge = ProjectSettingsDefaultMerge,
                         FromProjectSettings = true,
-                    }
-                );
+                    });
             }
 
             return settingsElementsWithDefaultMergeStrategy;
@@ -96,8 +93,7 @@ namespace FineCodeCoverage.Engine.Model
         private async Task MergeAsync(
             CoverageSettings coverageSettings,
             PropertyInfo settingPropertyInfo,
-            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
-        )
+            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
         {
             bool canMerge = _settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
             if (canMerge)
@@ -113,8 +109,7 @@ namespace FineCodeCoverage.Engine.Model
         private async Task MergeOrOverwriteAsync(
             CoverageSettings coverageSettings,
             PropertyInfo settingPropertyInfo,
-            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy
-        )
+            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
         {
             foreach (SettingsElementDefaultMerge settingsElementWithDefaultMerge in settingsElementsWithDefaultMergeStrategy)
             {
@@ -128,8 +123,7 @@ namespace FineCodeCoverage.Engine.Model
                         propertyElement,
                         settingPropertyInfo,
                         defaultMerge,
-                        settingsElementWithDefaultMerge.FromProjectSettings
-                    );
+                        settingsElementWithDefaultMerge.FromProjectSettings);
                 }
             }
         }

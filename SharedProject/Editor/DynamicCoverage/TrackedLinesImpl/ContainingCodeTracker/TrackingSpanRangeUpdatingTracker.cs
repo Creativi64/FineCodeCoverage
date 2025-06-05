@@ -11,8 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public TrackingSpanRangeUpdatingTracker(
             ITrackingSpanRange trackingSpanRange,
-            IUpdatableDynamicLines updatableDynamicLines
-        )
+            IUpdatableDynamicLines updatableDynamicLines)
         {
             _trackingSpanRange = trackingSpanRange;
             _updatableDynamicLines = updatableDynamicLines;

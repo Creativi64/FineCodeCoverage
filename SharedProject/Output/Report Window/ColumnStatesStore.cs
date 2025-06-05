@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public ColumnStatesStore(
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
-            IClearSettingsOnShutdown clearSettingsOnShutdown
-            )
+            IClearSettingsOnShutdown clearSettingsOnShutdown)
         {
             _writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
             _clearSettingsOnShutdown = clearSettingsOnShutdown;

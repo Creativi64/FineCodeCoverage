@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         [ImportingConstructor]
         public CoverletConsoleDotnetToolsGlobalExecutor(
             IDotNetToolListCoverlet dotNetToolListCoverlet,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _dotNetToolListCoverlet = dotNetToolListCoverlet;
             _logger = logger;

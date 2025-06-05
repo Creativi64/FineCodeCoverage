@@ -23,8 +23,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider,
             IProjectSaver projectSaver,
-            IProjectFilePropertyWriter projectFilePropertyWriter
-        )
+            IProjectFilePropertyWriter projectFilePropertyWriter)
         {
             _serviceProvider = serviceProvider;
             _projectSaver = projectSaver;

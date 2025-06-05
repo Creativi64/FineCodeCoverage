@@ -44,8 +44,7 @@ namespace FineCodeCoverage.Wpf
 
         public static readonly DependencyProperty MonikerProperty = CrispImage.MonikerProperty.AddOwner(
             typeof(Crispy),
-            new FrameworkPropertyMetadata(OnDependencyPropertyChanged)
-            );
+            new FrameworkPropertyMetadata(OnDependencyPropertyChanged));
 
         private static void OnDependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -105,8 +104,7 @@ namespace FineCodeCoverage.Wpf
         private void BindProperty(
             DependencyProperty sourceProperty,
             DependencyObject targetObject,
-            DependencyProperty targetProperty
-        )
+            DependencyProperty targetProperty)
         {
             var binding = new Binding
             {

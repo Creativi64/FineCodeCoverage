@@ -9,7 +9,6 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         Task<ReportGeneratorResult> GenerateAsync(
             IEnumerable<string> coverOutputFiles,
             string reportOutputFolder,
-            CancellationToken cancellationToken
-        );
+            CancellationToken cancellationToken);
     }
 }

@@ -12,8 +12,7 @@ namespace FineCodeCoverage.Editor.Management
 
         [ImportingConstructor]
         public VsHasCoverageMarkersLogic(
-            IReadOnlyConfigSettingsStoreProvider readOnlyConfigSettingsStoreProvider
-        ) => _readOnlyConfigSettingsStoreProvider = readOnlyConfigSettingsStoreProvider;
+            IReadOnlyConfigSettingsStoreProvider readOnlyConfigSettingsStoreProvider) => _readOnlyConfigSettingsStoreProvider = readOnlyConfigSettingsStoreProvider;
 
         public bool HasCoverageMarkers()
         {

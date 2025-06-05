@@ -29,8 +29,7 @@ namespace FineCodeCoverage.Readme
             ObjectRenderers.Add(new CodeInlineRenderer());
             ObjectRenderers.Add(new EmphasisInlineRenderer());
             ObjectRenderers.Add(
-                new LinkInlineRenderer(_readMeDirectory, FCCGithub.MasterBlob, _navigateCommand)
-            );
+                new LinkInlineRenderer(_readMeDirectory, FCCGithub.MasterBlob, _navigateCommand));
             ObjectRenderers.Add(new AutolinkInlineRenderer(_navigateCommand));
 
             // markdig

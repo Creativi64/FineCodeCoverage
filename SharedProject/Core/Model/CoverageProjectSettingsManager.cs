@@ -23,8 +23,7 @@ namespace FineCodeCoverage.Engine.Model
             ICoverageProjectSettingsProvider coverageProjectSettingsProvider,
             IFCCSettingsFilesProvider fccSettingsFilesProvider,
             ISettingsMerger settingsMerger,
-            ICoverageSettingsReflectionService coverageSettingsReflectionService
-        )
+            ICoverageSettingsReflectionService coverageSettingsReflectionService)
         {
             _coveragSettingsOptionsProvider = coveragSettingsOptionsProvider;
             _coverageProjectSettingsProvider = coverageProjectSettingsProvider;
@@ -45,8 +44,7 @@ namespace FineCodeCoverage.Engine.Model
             if (settingsFilesElements.Count > 0 || projectSettingsElement != null)
             {
                 await _settingsMerger.MergeAsync(
-                    coverageSettings, _coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement
-                );
+                    coverageSettings, _coverageSettingsReflectionService.CoverageSettingsPropertyInfos, settingsFilesElements, projectSettingsElement);
             }
 
             AddCommonAssemblyExcludesIncludes(coverageSettings);

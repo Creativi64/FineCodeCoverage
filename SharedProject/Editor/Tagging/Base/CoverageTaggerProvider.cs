@@ -32,8 +32,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             ITextInfoFactory textInfoFactory,
             IFileExcluder[] fileExcluders,
             IFileIndicatorVisibility fileIndicatorVisibility,
-            IDynamicLineFilter dynamicLineFilter
-            )
+            IDynamicLineFilter dynamicLineFilter)
         {
             _dynamicCoverageManager = dynamicCoverageManager;
             _textInfoFactory = textInfoFactory;
@@ -92,8 +91,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                 _dynamicLineAndSnapshotSpansLogic,
                 _coverageTagger,
                 _fileIndicatorVisibility,
-                _dynamicLineFilter
-                );
+                _dynamicLineFilter);
         }
     }
 }

@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
         [ImportingConstructor]
         public ProjectSaver(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        ) => _serviceProvider = serviceProvider;
+            IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public async System.Threading.Tasks.Task SaveProjectAsync(IVsHierarchy projectHierarchy)
         {

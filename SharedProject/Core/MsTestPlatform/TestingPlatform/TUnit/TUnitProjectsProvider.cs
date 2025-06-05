@@ -27,8 +27,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             ICPSTestProjectService cpsTestProjectService,
             ITUnitChangeNotifier tUnitChangeNotifier,
             ITUnitProjectFactory tUnitProjectFactory,
-            ITUnitProjectCache tUnitProjectCache
-        )
+            ITUnitProjectCache tUnitProjectCache)
         {
             tUnitChangeNotifier.ProjectAddedRemovedEvent += TUnitChangeNotifier_ProjectAddedRemovedEvent;
             tUnitChangeNotifier.SolutionClosedEvent += TUnitChangeNotifier_SolutionClosedEvent;

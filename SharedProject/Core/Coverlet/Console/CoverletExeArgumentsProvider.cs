@@ -37,8 +37,8 @@ namespace FineCodeCoverage.Engine.Coverlet
         }
 
         private static void AddProjectExcludesOrIncludes(
-            List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude
-        ) => AddExcludesOrIncludes(coverletSettings, excludesOrIncludes.Select(excludeOrInclude => $"[{excludeOrInclude}]*"), isInclude);
+            List<string> coverletSettings, IEnumerable<string> excludesOrIncludes, bool isInclude)
+            => AddExcludesOrIncludes(coverletSettings, excludesOrIncludes.Select(excludeOrInclude => $"[{excludeOrInclude}]*"), isInclude);
 
         private static void AddExcludesIncludes(List<string> coverletSettings, ICoverageProject project)
         {

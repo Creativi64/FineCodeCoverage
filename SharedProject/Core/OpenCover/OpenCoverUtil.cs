@@ -31,9 +31,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             ILogger logger,
             IToolUnzipper toolUnzipper,
             IFileUtil fileUtil,
-            IOpenCoverExeArgumentsProvider openCoverExeArgumentsProvider
-
-        )
+            IOpenCoverExeArgumentsProvider openCoverExeArgumentsProvider)
         {
             _msTestPlatformUtil = msTestPlatformUtil;
             _processUtil = processUtil;
@@ -87,8 +85,7 @@ namespace FineCodeCoverage.Engine.OpenCover
                     Arguments = string.Join(" ", openCoverSettings),
                     WorkingDirectory = project.ProjectOutputFolder,
                 },
-                cancellationToken
-            );
+                cancellationToken);
 
             if (result.ExitCode != 0)
             {

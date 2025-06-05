@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Output
         [ImportingConstructor]
         public GitService(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        )
+            IServiceProvider serviceProvider)
         {
             _gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
             Assumes.Present(_gitExt);

@@ -39,8 +39,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITrackedLinesFactory trackedLinesFactory,
             IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
             ICoverageContentTypes coverageContentTypes,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _textBuffer = textInfo.TextBuffer;
             _textBuffer.ContentTypeChanged += ContentTypeChanged;
@@ -268,8 +267,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         {
             IEnumerable<int> changedLineNumbers = _trackedLines.GetChangedLineNumbers(
                 textContentChangedEventArgs.After,
-                textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList()
-            ).Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
+                textContentChangedEventArgs.Changes.Select(change => change.NewSpan).ToList())
+            .Where(changedLine => changedLine >= 0 && changedLine < textContentChangedEventArgs.After.LineCount);
             SendCoverageChangedMessageIfChanged(changedLineNumbers);
         }
 

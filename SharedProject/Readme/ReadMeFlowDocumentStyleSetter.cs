@@ -13,8 +13,7 @@ namespace FineCodeCoverage.Readme
 
         [ImportingConstructor]
         public ReadMeFlowDocumentStyleSetter(
-            IApplicationResourcesLoader applicationResourcesLoader
-        ) => _applicationResourcesLoader = applicationResourcesLoader;
+            IApplicationResourcesLoader applicationResourcesLoader) => _applicationResourcesLoader = applicationResourcesLoader;
 
         public static object ReadMeCodeInlineBasedOnStyleKey { get; } = new object();
 

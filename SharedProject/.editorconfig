@@ -83,27 +83,15 @@ dotnet_diagnostic.SA1124.severity = none
 
 #tbd
 # A closing parenthesis within a C# statement is not spaced correctly.
-dotnet_diagnostic.SA1009.severity = none
+# dotnet_diagnostic.SA1009.severity = none
 # The closing parenthesis or bracket in a call to a C# method or indexer, or the declaration of a method or indexer, is not placed on the same line as the last parameter.
 dotnet_diagnostic.SA1111.severity = none
 
-# A constructor initializer is on the same line as the constructor declaration, within a C# code file.
-dotnet_diagnostic.SA1128.severity = none
-
-# A closing brace within a C# element is not spaced correctly.
-dotnet_diagnostic.SA1013.severity = none
-
-
-# An opening brace within a C# element is not spaced correctly.
-dotnet_diagnostic.SA1012.severity = none
 
 
 # A closing brace within a C# element, statement, or expression is preceded by a blank line.
 # disagrees with - insert_final_line = true
 dotnet_diagnostic.SA1508.severity = none
-
-# The opening or closing brace within a C# statement, element, or expression is not placed on its own line.
-# dotnet_diagnostic.SA1500.severity = none
 
 
 #### Core EditorConfig Options ####

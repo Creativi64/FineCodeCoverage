@@ -20,8 +20,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             [ImportMany]
             ICoverageContentType[] coverageContentTypes,
             IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
             _logger = logger;
@@ -31,14 +30,12 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public IBufferLineCoverage Create(
             ITextInfo textInfo,
             IEventAggregator eventAggregator,
-            ITrackedLinesFactory trackedLinesFactory
-        ) => new BufferLineCoverage(
+            ITrackedLinesFactory trackedLinesFactory) => new BufferLineCoverage(
                 textInfo,
                 eventAggregator,
                 trackedLinesFactory,
                 _editorCoverageColouringOptionsProvider,
                 _coverageContentTypes,
-                _logger
-                );
+                _logger);
     }
 }

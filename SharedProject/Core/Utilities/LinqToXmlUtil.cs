@@ -10,7 +10,8 @@ namespace FineCodeCoverage.Core.Utilities
     {
         private class Utf8StringWriter : StringWriter
         {
-            public Utf8StringWriter(StringBuilder sb) : base(sb)
+            public Utf8StringWriter(StringBuilder sb)
+                : base(sb)
             {
             }
 

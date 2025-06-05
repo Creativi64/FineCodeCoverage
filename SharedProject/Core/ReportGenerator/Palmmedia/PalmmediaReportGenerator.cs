@@ -22,8 +22,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
         [ImportingConstructor]
         public PalmmediaReportGenerator(
-            IHtmlFilesToFolder htmlFilesToFolder
-            ) => _htmlFilesToFolder = htmlFilesToFolder;
+            IHtmlFilesToFolder htmlFilesToFolder) => _htmlFilesToFolder = htmlFilesToFolder;
 
         public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
         {
@@ -40,8 +39,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
                 empty,
                 empty,
                 _verbosityLevel.ToString(),
-                string.Empty
-                );
+                string.Empty);
 
             var parser = new CoverageReportParser(1, 1, Enumerable.Empty<string>(), defaultFilter, defaultFilter, defaultFilter);
             var collection = new ReadOnlyCollection<string>(coverageFiles.ToList());

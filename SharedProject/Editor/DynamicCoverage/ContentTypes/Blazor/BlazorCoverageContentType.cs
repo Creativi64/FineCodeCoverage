@@ -18,8 +18,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
         [ImportingConstructor]
         public BlazorCoverageContentType(
             IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService,
-            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider
-        )
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider)
         {
             _blazorFileCodeSpanRangeService = blazorFileCodeSpanRangeService;
             _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
@@ -37,8 +36,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
         public bool UseFileCodeSpanRangeServiceForChanges => false;
 
         public ILineExcluder LineExcluder { get; } = new LineExcluder(
-            CSharpCoverageContentType.Exclusions.Concat(new string[] { "<", "@" }).ToArray()
-        );
+            CSharpCoverageContentType.Exclusions.Concat(new string[] { "<", "@" }).ToArray());
 
         public bool Exclude(string filePath) => Path.GetExtension(filePath) != ".razor";
     }

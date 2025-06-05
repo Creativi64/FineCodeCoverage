@@ -93,8 +93,7 @@ namespace FineCodeCoverage.Github
             IFCCVersion fccVersion,
             IProcess process,
             IUrlEncoder urlEncoder,
-            IShowReadMeService readMeService
-        )
+            IShowReadMeService readMeService)
         {
             _paneCreator = paneCreator;
             _vsVersion = vsVersion;
@@ -125,15 +124,13 @@ namespace FineCodeCoverage.Github
                     mailto = Uri.EscapeUriString(mailto);
                     process.Start(mailto);
                 },
-                () => !string.IsNullOrWhiteSpace(FccOutput)
-            );
+                () => !string.IsNullOrWhiteSpace(FccOutput));
             _openReadMeCommand = new RelayCommand(() => readMeService.Show());
             _searchIssuesCommand = new RelayCommand(() =>
                 {
                     process.Start($"{FCCGithub.Repo}/issues?q=is%3Aissue+{urlEncoder.Encode(Title)}");
                     HaveCheckedFCCIssues = true;
-                }
-            );
+                });
             _refreshFCCOutputCommand = new RelayCommand(() => _ = GetFCCOutputAsync());
 
             HaveReadReadme = readMeService.HasShown;

@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Editor.Management
         [ImportingConstructor]
         public CoverageFontAndColorsCategoryItemNamesManager(
             IVsHasCoverageMarkersLogic vsHasCoverageMarkersLogic,
-            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider
-        )
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider)
         {
             editorCoverageColouringOptionsProvider.OptionsChanged += EditorCoverageColouringOptionsProvider_OptionsChanged;
             _hasCoverageMarkers = vsHasCoverageMarkersLogic.HasCoverageMarkers();

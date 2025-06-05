@@ -225,7 +225,6 @@ namespace FineCodeCoverage.Output
             Percentage,
             Covered,
             Coverable,
-            Partial
-        );
+            Partial);
     }
 }

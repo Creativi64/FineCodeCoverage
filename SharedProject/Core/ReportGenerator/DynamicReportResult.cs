@@ -85,8 +85,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 
             private void SetFileCodeElements() => FileCodeElements = _fileCodeElements.ToDictionary(
                    kvp => kvp.Key,
-                   kvp => (IReadOnlyList<ICodeElement>)kvp.Value.Cast<ICodeElement>().ToList()
-               );
+                   kvp => (IReadOnlyList<ICodeElement>)kvp.Value.Cast<ICodeElement>().ToList());
 
             public string DisplayName { get; }
 

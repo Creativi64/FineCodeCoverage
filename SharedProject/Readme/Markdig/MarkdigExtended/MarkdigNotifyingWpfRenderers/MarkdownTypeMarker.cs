@@ -27,7 +27,7 @@
         AutolinkInline, // Hyperlink
 
         LinkInlineHyperlink, // Hyperlink
-        LinkInlineImage,// Image factory
+        LinkInlineImage, // Image factory
 
         TaskList, // Checkbox
 

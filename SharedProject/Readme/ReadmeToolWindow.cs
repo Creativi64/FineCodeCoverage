@@ -23,12 +23,13 @@ namespace FineCodeCoverage.Readme
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadmeToolWindow"/> class.
         /// </summary>
-        public ReadmeToolWindow() : base(null)
+        public ReadmeToolWindow()
+            : base(null)
             => Initialize(
-                ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReadmeToolWindow, ReadmeToolWindowContext>()
-            );
+                ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReadmeToolWindow, ReadmeToolWindowContext>());
 
-        public ReadmeToolWindow(ReadmeToolWindowContext context) : base(null)
+        public ReadmeToolWindow(ReadmeToolWindowContext context)
+            : base(null)
             => Initialize(context);
 
         private void Initialize(ReadmeToolWindowContext context)

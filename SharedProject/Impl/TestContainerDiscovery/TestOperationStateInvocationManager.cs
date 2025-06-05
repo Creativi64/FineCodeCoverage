@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Impl
         [ImportingConstructor]
         public TestOperationStateInvocationManager(
             IInitializeStatusProvider initializeStatusProvider,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _initializeStatusProvider = initializeStatusProvider;
             _logger = logger;

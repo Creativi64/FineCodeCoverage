@@ -31,8 +31,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             [ImportMany]
             IFileExcluder[] fileExcluders,
             IFileIndicatorVisibility fileIndicatorVisibility,
-            IDynamicLineFilter dynamicLineFilter
-        )
+            IDynamicLineFilter dynamicLineFilter)
         {
             _eventAggregator = eventAggregator;
             _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
@@ -56,7 +55,6 @@ namespace FineCodeCoverage.Editor.Tagging.Base
                     _textInfoFactory,
                     _fileExcluders,
                     _fileIndicatorVisibility,
-                    _dynamicLineFilter
-                );
+                    _dynamicLineFilter);
     }
 }

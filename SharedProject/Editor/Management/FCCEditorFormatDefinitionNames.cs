@@ -3,8 +3,7 @@
     internal readonly struct FCCEditorFormatDefinitionNames
     {
         public FCCEditorFormatDefinitionNames(
-            string covered, string notCovered, string partiallyCovered, string newLines, string dirty, string notIncluded
-        )
+            string covered, string notCovered, string partiallyCovered, string newLines, string dirty, string notIncluded)
         {
             Covered = covered;
             NotCovered = notCovered;

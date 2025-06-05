@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public IContainingCodeTrackerTrackedLines Create(
             List<IContainingCodeTracker> containingCodeTrackers,
             INewCodeTracker newCodeTracker,
-            IFileCodeSpanRangeService fileCodeSpanRangeService
-        ) => new TrackedLines(containingCodeTrackers, newCodeTracker, fileCodeSpanRangeService);
+            IFileCodeSpanRangeService fileCodeSpanRangeService)
+            => new TrackedLines(containingCodeTrackers, newCodeTracker, fileCodeSpanRangeService);
     }
 }

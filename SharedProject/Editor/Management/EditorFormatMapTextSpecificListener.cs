@@ -15,8 +15,8 @@ namespace FineCodeCoverage.Editor.Management
 
         [ImportingConstructor]
         public EditorFormatMapTextSpecificListener(
-            IEditorFormatMapService editorFormatMapService
-        ) => editorFormatMapService.GetEditorFormatMap("text").FormatMappingChanged += EditorFormatMap_FormatMappingChanged;
+            IEditorFormatMapService editorFormatMapService)
+            => editorFormatMapService.GetEditorFormatMap("text").FormatMappingChanged += EditorFormatMap_FormatMappingChanged;
 
         private void EditorFormatMap_FormatMappingChanged(object sender, FormatItemsEventArgs e)
         {

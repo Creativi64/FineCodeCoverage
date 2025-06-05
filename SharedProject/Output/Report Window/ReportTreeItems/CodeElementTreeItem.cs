@@ -12,8 +12,7 @@ namespace FineCodeCoverage.Output
         private readonly IReadOnlyList<ICoberturaLine> _lines;
 
         public CodeElementTreeItem(
-            ICodeElement codeElement
-        )
+            ICodeElement codeElement)
         {
             Name = codeElement.Name;
             ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ?

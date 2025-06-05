@@ -13,8 +13,7 @@ namespace FineCodeCoverage.Options
         [ImportingConstructor]
         public ResetOptionsService(
             [ImportMany(typeof(IResetOptions))] IEnumerable<IResetOptions> resetters,
-            IMessageBox messageBox
-        )
+            IMessageBox messageBox)
         {
             _resetters = resetters;
             _messageBox = messageBox;
@@ -24,8 +23,7 @@ namespace FineCodeCoverage.Options
         {
             if (!_messageBox.ShowWarning(
                 "Are you sure you want to reset all settings to their default values?",
-                "Reset Settings"
-            ))
+                "Reset Settings"))
             {
                 return;
             }

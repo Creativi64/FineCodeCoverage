@@ -11,35 +11,40 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             {
                 {
                     MetricNames.BlocksCovered,
-                    (pce,value) => {
+                    (pce, value) =>
+                    {
                         pce.BlocksCovered = (int)value;
                         return MetricType.BlocksCovered;
                     }
                 },
                 {
                     MetricNames.BlocksNotCovered,
-                    (pce,value) => {
+                    (pce, value) =>
+                    {
                         pce.BlocksNotCovered = (int)value;
                         return MetricType.BlocksNotCovered;
                     }
                 },
                 {
                     MetricNames.Crap,
-                    (pce,value) => {
+                    (pce, value) =>
+                    {
                         pce.CrapScore = (int)value;
                         return MetricType.Crap;
                     }
                 },
                 {
                     MetricNames.NPath,
-                    (pce,value) => {
+                    (pce, value) =>
+                    {
                         pce.NPathComplexity = (int)value;
                         return MetricType.NPath;
                     }
                 },
                 {
                     MetricNames.CyclomaticComplexity,
-                    (pce,value) => {
+                    (pce, value) =>
+                    {
                         pce.CyclomaticComplexity = (int)value;
                         return MetricType.CyclomaticComplexity;
                     }

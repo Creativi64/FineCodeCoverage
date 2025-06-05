@@ -24,16 +24,14 @@ namespace FineCodeCoverage.Engine.Model
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider,
             ICPPReferencedProjectsHelper cppReferencedProjectsHelper,
-            IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper
-        )
+            IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper)
         {
             _lazyDTE2 = new AsyncLazy<DTE2>(
                 async () =>
                 {
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     return (DTE2)serviceProvider.GetService(typeof(DTE));
-                }, ThreadHelper.JoinableTaskFactory
-            );
+                }, ThreadHelper.JoinableTaskFactory);
             _cppReferencedProjectsHelper = cppReferencedProjectsHelper;
             _dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
         }

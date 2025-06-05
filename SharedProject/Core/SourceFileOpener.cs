@@ -15,8 +15,8 @@ namespace FineCodeCoverage.Engine
         [ImportingConstructor]
         public SourceFileOpener(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        ) => _lazyDTE2 = new AsyncLazy<DTE2>(
+            IServiceProvider serviceProvider)
+            => _lazyDTE2 = new AsyncLazy<DTE2>(
             async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

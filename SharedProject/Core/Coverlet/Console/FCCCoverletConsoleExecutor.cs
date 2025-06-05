@@ -26,8 +26,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     FilePath = _coverletExePath,
                     Arguments = coverletSettings,
                     WorkingDirectory = coverageProject.ProjectOutputFolder,
-                }
-            );
+                });
 
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {

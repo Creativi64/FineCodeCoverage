@@ -12,8 +12,7 @@ namespace FineCodeCoverage.Core.Utilities
         [ImportingConstructor]
         public ToolUnzipper(
             IToolZipProvider toolZipProvider,
-            IToolFolder toolFolder
-            )
+            IToolFolder toolFolder)
         {
             _toolZipProvider = toolZipProvider;
             _toolFolder = toolFolder;
@@ -23,8 +22,8 @@ namespace FineCodeCoverage.Core.Utilities
             string appDataFolder,
             string ownFolderName,
             string zipPrefix,
-            CancellationToken cancellationToken
-        ) => _toolFolder.EnsureUnzipped(
+            CancellationToken cancellationToken)
+            => _toolFolder.EnsureUnzipped(
             appDataFolder,
             ownFolderName,
             _toolZipProvider.ProvideZip(zipPrefix),

@@ -23,15 +23,15 @@ namespace FineCodeCoverage.Impl
             => _userSettings.GetType()
                 .GetMethod(
                     "GetAndUpdateSolutionRunSettingsFilePath",
-                    BindingFlags.Public | BindingFlags.Instance
-                ).Invoke(_userSettings, new object[] { }) as string;
+                    BindingFlags.Public | BindingFlags.Instance)
+                .Invoke(_userSettings, new object[] { }) as string;
 
         private string LastRunSettingsFilePath()
             => _userSettings.GetType()
                 .GetProperty(
                     "LastRunSettingsFilePath",
-                    BindingFlags.Public | BindingFlags.Instance
-                ).GetValue(_userSettings) as string;
+                    BindingFlags.Public | BindingFlags.Instance)
+                .GetValue(_userSettings) as string;
 
         private bool AutomaticallyDetectRunSettings()
             => (bool)_userSettings.GetType()

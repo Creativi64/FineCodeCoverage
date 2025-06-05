@@ -7,8 +7,7 @@ namespace FineCodeCoverage.Output
         public ReportViewState(
             ReportViewSolutionOptionValue optionValue,
             IReadOnlyList<string> repositories,
-            bool canUseRepositories
-        )
+            bool canUseRepositories)
         {
             ReportStyle = optionValue.ReportStyle;
             ReportContentType = optionValue.ReportContent;

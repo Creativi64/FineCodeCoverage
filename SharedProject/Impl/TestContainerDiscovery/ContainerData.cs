@@ -7,7 +7,8 @@ namespace FineCodeCoverage.Impl
 {
     public class ContainerData : ReflectObjectProperties
     {
-        public ContainerData(object toReflect) : base(toReflect)
+        public ContainerData(object toReflect)
+            : base(toReflect)
         {
         }
 

@@ -15,8 +15,8 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         [ImportingConstructor]
         public TUnitInstalledPackagesService(
-            INugetProjectServiceProvider nugetProjectServiceProvider
-        ) => _lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
+            INugetProjectServiceProvider nugetProjectServiceProvider)
+            => _lazyNugetProjectService = nugetProjectServiceProvider.LazyNugetProjectService;
 
         public TUnitInstalledPackageResult GetTUnitInstalledPackages(IImmutableDictionary<string, IImmutableDictionary<string, string>> packageReferenceItems)
         {

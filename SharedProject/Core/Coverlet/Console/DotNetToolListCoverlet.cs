@@ -20,8 +20,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         public DotNetToolListCoverlet(
             ILogger logger,
             IDotNetToolListExecutor executor,
-            IDotNetToolListParser parser
-        )
+            IDotNetToolListParser parser)
         {
             _logger = logger;
             _executor = executor;

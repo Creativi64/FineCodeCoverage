@@ -23,8 +23,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             ILogger logger,
             ICoverletConsoleExecuteRequestProvider coverletConsoleExecuteRequestProvider,
             IFCCCoverletConsoleExecutor fccExecutor,
-            ICoverletExeArgumentsProvider coverletExeArgumentsProvider
-            )
+            ICoverletExeArgumentsProvider coverletExeArgumentsProvider)
         {
             _processUtil = processUtil;
             _logger = logger;
@@ -48,8 +47,7 @@ namespace FineCodeCoverage.Engine.Coverlet
 
             ExecuteResponse result = await _processUtil.ExecuteAsync(
                 await _coverletConsoleExecuteRequestProvider.GetExecuteRequestAsync(project, string.Join(" ", coverletSettings)),
-                cancellationToken
-            );
+                cancellationToken);
 
             /*
                 0 - Success.

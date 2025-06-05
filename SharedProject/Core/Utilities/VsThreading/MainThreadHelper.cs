@@ -30,8 +30,7 @@ namespace FineCodeCoverage.Core.Utilities
             FaultEventName faultEventName,
             Action action,
             bool rethrow,
-            string faultDescription = null
-        ) => SwitchAndFileAndForget(
+            string faultDescription = null) => SwitchAndFileAndForget(
             faultEventName,
             () =>
             {
@@ -59,7 +58,6 @@ namespace FineCodeCoverage.Core.Utilities
         public static void SwitchLogExceptionRethrow(
             FaultEventName faultEventName,
             Action action,
-            string faultDescription = null
-        ) => SwitchAndLogException(faultEventName, action, true, faultDescription);
+            string faultDescription = null) => SwitchAndLogException(faultEventName, action, true, faultDescription);
     }
 }

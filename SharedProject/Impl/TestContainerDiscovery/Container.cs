@@ -4,7 +4,8 @@ namespace FineCodeCoverage.Impl
 {
     public class Container : ReflectObjectProperties
     {
-        public Container(object toReflect) : base(toReflect)
+        public Container(object toReflect)
+            : base(toReflect)
         {
         }
 

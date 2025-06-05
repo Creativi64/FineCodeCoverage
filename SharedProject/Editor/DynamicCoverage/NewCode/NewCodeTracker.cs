@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public NewCodeTracker(
             ITrackedNewCodeLineFactory trackedNewCodeLineFactory,
             ILineExcluder codeLineExcluder,
-            ITextInfoFactory textInfoFactory
-            )
+            ITextInfoFactory textInfoFactory)
         {
             _trackedNewCodeLineFactory = trackedNewCodeLineFactory;
             _codeLineExcluder = codeLineExcluder;
@@ -33,9 +32,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => HasNewCodeChanged?.Invoke(
                 this,
                 new HasNewCodeChangedEventArgs(
-                    _textInfoFactory.GetFilePath(textSnapshot.TextBuffer), hasNewCode
-                )
-            );
+                    _textInfoFactory.GetFilePath(textSnapshot.TextBuffer), hasNewCode));
 
         private T OnHasNewCodeChangedIfChanged<T>(Func<T> action, ITextSnapshot currentSnapshot)
         {
@@ -75,8 +72,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private void CreateTrackedNewCodeLinesFromRangeStartLineNumbers(IEnumerable<int> rangeStartLineNumbers, ITextSnapshot currentSnapshot)
             => _trackedNewCodeLines.AddRange(
-                rangeStartLineNumbers.Select(lineNumber => CreateTrackedNewCodeLine(currentSnapshot, lineNumber))
-            );
+                rangeStartLineNumbers.Select(lineNumber => CreateTrackedNewCodeLine(currentSnapshot, lineNumber)));
 
         #endregion
 
@@ -96,8 +92,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private List<int> UpdateTracked(
             ITextSnapshot currentSnapshot,
-            List<LineRange> ranges
-        )
+            List<LineRange> ranges)
         {
             var removals = new List<ITrackedNewCodeLine>();
             var changedLineNumbers = _trackedNewCodeLines.SelectMany(

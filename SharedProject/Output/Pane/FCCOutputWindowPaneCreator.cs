@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Output.Pane
         [ImportingConstructor]
         public FCCOutputWindowPaneCreator(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        ) => _serviceProvider = serviceProvider;
+            IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public async System.Threading.Tasks.Task<IFCCOutputWindowPane> GetOrCreateAsync()
         {

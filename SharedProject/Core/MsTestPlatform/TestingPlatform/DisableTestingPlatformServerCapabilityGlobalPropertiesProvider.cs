@@ -41,8 +41,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             UnconfiguredProject unconfiguredProject,
             IOptionsProvider<RunOptions> runOptionsProvider,
             IOptionsProvider<OutputOptions> outputOptionsProvider,
-            ICoverageProjectSettingsManager coverageProjectSettingsManager
-        )
+            ICoverageProjectSettingsManager coverageProjectSettingsManager)
           : base(projectService.Services)
         {
             _unconfiguredProject = unconfiguredProject;

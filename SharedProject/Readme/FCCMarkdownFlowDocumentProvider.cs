@@ -26,8 +26,7 @@ namespace FineCodeCoverage.Readme
             TemplatedReadmeInfo templatedReadMeInfo,
             string optionTableReplacementMarker,
             string truncateMarker,
-            ICommand navigateCommand
-            )
+            ICommand navigateCommand)
         {
             MarkdownPipeline pipeline = _readMePipeLineProvider.Provide(optionTableReplacementMarker, truncateMarker, _optionPageTableCreator.Create);
             Markdig.Syntax.MarkdownDocument markdownDocument = Markdown.Parse(templatedReadMeInfo.Readme, pipeline);

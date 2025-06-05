@@ -50,8 +50,7 @@ namespace FineCodeCoverage.Editor.Management
         public FontAndColorsInfosProvider(
             IEventAggregator eventAggregator,
             IFontsAndColorsHelper fontsAndColorsHelper,
-            IThreadHelper threadHelper
-        )
+            IThreadHelper threadHelper)
         {
             _eventAggregator = eventAggregator;
             _fontsAndColorsHelper = fontsAndColorsHelper;
@@ -64,9 +63,9 @@ namespace FineCodeCoverage.Editor.Management
                     (_coverageFontAndColorsCategoryItemNames.Covered, 0),
                     (_coverageFontAndColorsCategoryItemNames.NotCovered, 1),
                     (_coverageFontAndColorsCategoryItemNames.PartiallyCovered, 2),
-                    (_coverageFontAndColorsCategoryItemNames.Dirty,3),
-                    (_coverageFontAndColorsCategoryItemNames.NewLines,4),
-                    (_coverageFontAndColorsCategoryItemNames.NotIncluded,5),
+                    (_coverageFontAndColorsCategoryItemNames.Dirty, 3),
+                    (_coverageFontAndColorsCategoryItemNames.NewLines, 4),
+                    (_coverageFontAndColorsCategoryItemNames.NotIncluded, 5),
                 };
 
         private List<CategoryNameIndices> GetCategoryNameIndices()
@@ -103,8 +102,7 @@ namespace FineCodeCoverage.Editor.Management
                 fromFontsAndColors[2], // partial
                 fromFontsAndColors[3], // dirty
                 fromFontsAndColors[4], // newlines
-                fromFontsAndColors[5] // not included
-            );
+                fromFontsAndColors[5]); // not included
         }
 
         private List<IFontAndColorsInfo> GetItemCoverageInfosFromFontsAndColors()
@@ -120,8 +118,7 @@ namespace FineCodeCoverage.Editor.Management
         {
             List<CategoryNameIndices> allCategoryNameIndices = GetCategoryNameIndices();
             return Task.WhenAll(
-                allCategoryNameIndices.Select(categoryNameIndices => GetAsync(categoryNameIndices))
-            );
+                allCategoryNameIndices.Select(categoryNameIndices => GetAsync(categoryNameIndices)));
         }
 
         private async Task<List<(IFontAndColorsInfo, int)>> GetAsync(CategoryNameIndices categoryNameIndices)

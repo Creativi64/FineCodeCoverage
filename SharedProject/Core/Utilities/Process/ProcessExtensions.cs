@@ -13,7 +13,6 @@ namespace FineCodeCoverage.Core.Utilities
                 {
                     process.StandardOutput?.ReadToEnd(),
                     process.StandardError?.ReadToEnd(),
-                }.Where(x => !string.IsNullOrWhiteSpace(x))
-            );
+                }.Where(x => !string.IsNullOrWhiteSpace(x)));
     }
 }

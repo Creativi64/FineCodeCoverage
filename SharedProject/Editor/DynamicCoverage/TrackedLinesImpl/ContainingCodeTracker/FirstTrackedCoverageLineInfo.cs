@@ -4,8 +4,7 @@
     {
         public FirstTrackedCoverageLineInfo(
             int originalLineNumber,
-            IDynamicCoberturaLine dynamicCoberturaLine
-        )
+            IDynamicCoberturaLine dynamicCoberturaLine)
         {
             OriginalLineNumber = originalLineNumber;
             DynamicCoberturaLine = dynamicCoberturaLine;

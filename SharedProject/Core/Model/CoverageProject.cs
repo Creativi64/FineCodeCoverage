@@ -130,8 +130,7 @@ namespace FineCodeCoverage.Engine.Model
                 {
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
                     _settings = ThreadHelper.JoinableTaskFactory.Run(
-                        async () => await _settingsManager.GetSettingsAsync(this)
-                    );
+                        async () => await _settingsManager.GetSettingsAsync(this));
 #pragma warning restore VSTHRD102 // Implement internal logic asynchronously
                 }
 

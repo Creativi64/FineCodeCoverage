@@ -14,8 +14,7 @@ namespace FineCodeCoverage.Core.Utilities
     {
         public async Task<ExecuteResponse> ExecuteAsync(
             ExecuteRequest request,
-            CancellationToken cancellationToken
-        )
+            CancellationToken cancellationToken)
         {
             CommandTask<BufferedCommandResult> commandTask = Cli
             .Wrap(request.FilePath)

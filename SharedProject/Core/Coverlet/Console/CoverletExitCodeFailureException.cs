@@ -4,15 +4,18 @@ namespace FineCodeCoverage.Engine.Coverlet
 {
     internal class CoverletExitCodeFailureException : Exception
     {
-        public CoverletExitCodeFailureException(string message) : base(message)
+        public CoverletExitCodeFailureException(string message)
+            : base(message)
         {
         }
 
-        public CoverletExitCodeFailureException() : base()
+        public CoverletExitCodeFailureException()
+            : base()
         {
         }
 
-        public CoverletExitCodeFailureException(string message, Exception innerException) : base(message, innerException)
+        public CoverletExitCodeFailureException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

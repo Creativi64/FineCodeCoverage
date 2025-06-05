@@ -14,8 +14,7 @@ namespace FineCodeCoverage.Impl
         [ImportingConstructor]
         public TestOperationFactory(
             ICoverageProjectFactory coverageProjectFactory,
-            IRunSettingsRetriever runSettingsRetriever
-            )
+            IRunSettingsRetriever runSettingsRetriever)
         {
             _coverageProjectFactory = coverageProjectFactory;
             _runSettingsRetriever = runSettingsRetriever;

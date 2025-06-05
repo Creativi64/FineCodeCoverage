@@ -43,8 +43,7 @@ namespace FineCodeCoverage.Output
             IReportColumnManager reportColumnManager,
             IReportViews reportViews,
             IIconsOptions iconsOptions,
-            IOptionsProvider<ReportOptions> reportOptionsProvider
-        )
+            IOptionsProvider<ReportOptions> reportOptionsProvider)
         {
             ReportOptions reportOptions = reportOptionsProvider.Get();
             _sourceFileStructure = reportOptions.SourceFileStructure;
@@ -238,8 +237,8 @@ namespace FineCodeCoverage.Output
                 }
 
                 return rootDirectory.SubDirectories.Select(d => (ReportTreeItemBase)new RootDirectoryTreeItem(
-                    d, Path.Combine(rootDirectory.Name, d.Name), _rootDirectoryNameFromPath, _sourceFileStructure)
-                ).ToList();
+                    d, Path.Combine(rootDirectory.Name, d.Name), _rootDirectoryNameFromPath, _sourceFileStructure))
+                .ToList();
             }
 
             return new List<ReportTreeItemBase>();

@@ -26,10 +26,10 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             { 2, "At least one test failure." },
             { 3, "Test session was aborted." },
-            { 4, "Setup of used extension is invalid."},
-            { 5, "Command line arguments are invalid."},
+            { 4, "Setup of used extension is invalid." },
+            { 5, "Command line arguments are invalid." },
             { 6, "Test session is using a non-implemented feature." },
-            { 7, "Test session was unable to complete successfully, and likely crashed. It's possible that this was caused by a test session that was run via a test controller's extension point."},
+            { 7, "Test session was unable to complete successfully, and likely crashed. It's possible that this was caused by a test session that was run via a test controller's extension point." },
 
             // todo check the source for this one as may be the minimum expected tests setting
             { 8, "Test session ran 0 tests." },
@@ -48,8 +48,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public TUnitCoverageRunner(
             ILogger logger,
-            IToolUnzipper toolUnzipper
-        )
+            IToolUnzipper toolUnzipper)
         {
             _logger = logger;
             _toolUnzipper = toolUnzipper;
@@ -57,8 +56,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private (string, string) GetExeAndArgs(
             TUnitSettings tUnitSettings,
-            bool hasCoverageExtension
-        )
+            bool hasCoverageExtension)
         {
             string path = hasCoverageExtension ? tUnitSettings.ExePath : _dotnetCoverageExePath;
             string args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :

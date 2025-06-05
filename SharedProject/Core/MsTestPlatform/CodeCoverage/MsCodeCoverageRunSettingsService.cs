@@ -91,8 +91,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             ITemplatedRunSettingsService templatedRunSettingsService,
             IShimCopier shimCopier,
             ILogger logger,
-            IFCCEngine fccEngine
-            )
+            IFCCEngine fccEngine)
         {
             _toolUnzipper = toolUnzipper;
             _runOptionsProvider = runOptionsProvider;
@@ -136,15 +135,13 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             await SetUpForCollectionAsync(
                 analysisResult.ProjectsWithFCCMsTestAdapter,
                 analysisResult.SpecifiedMsCodeCoverage,
-                solutionDirectory
-            );
+                solutionDirectory);
         }
 
         private async Task SetUpForCollectionAsync(
             List<ICoverageProject> coverageProjectsForShim,
             bool specifiedMsCodeCoverageInRunSettings,
-            string solutionDirectory
-        )
+            string solutionDirectory)
         {
             await PrepareCoverageProjectsAsync();
             SetUserRunSettingsProjectDetails();
@@ -152,8 +149,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             await GenerateTemplatedRunSettingsIfRequiredAsync(
                 specifiedMsCodeCoverageInRunSettings,
                 coverageProjectsForShim,
-                solutionDirectory
-            );
+                solutionDirectory);
             CopyShimWhenCollecting(coverageProjectsForShim);
         }
 
@@ -191,8 +187,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IUserRunSettingsAnalysisResult analysisResult = _userRunSettingsService.Analyse(
                     _coverageProjectsByType.RunSettings,
                     _useMsCodeCoverage,
-                    _fccMsTestAdapterPath
-                );
+                    _fccMsTestAdapterPath);
 
             if (analysisResult.Suitable)
             {
@@ -205,8 +200,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private async Task GenerateTemplatedRunSettingsIfRequiredAsync(
             bool runSettingsSpecifiedMsCodeCoverage,
             List<ICoverageProject> coverageProjectsForShim,
-            string solutionDirectory
-        )
+            string solutionDirectory)
         {
             if (!ShouldGenerateTemplatedRunSettings(runSettingsSpecifiedMsCodeCoverage))
             {
@@ -218,14 +212,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private async Task GenerateTemplatedRunSettingsAsync(
             List<ICoverageProject> coverageProjectsForShim,
-            string solutionDirectory
-        )
+            string solutionDirectory)
         {
             IProjectRunSettingsFromTemplateResult generationResult = await _templatedRunSettingsService.GenerateAsync(
                 _coverageProjectsByType.Templated,
                 solutionDirectory,
-                _fccMsTestAdapterPath
-            );
+                _fccMsTestAdapterPath);
 
             await ProcessTemplateGenerationResultAsync(generationResult, coverageProjectsForShim);
         }
@@ -310,8 +302,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public IXPathNavigable AddRunSettings(
             IXPathNavigable inputRunSettingDocument,
             IRunSettingsConfigurationInfo configurationInfo,
-            Microsoft.VisualStudio.TestWindow.Extensibility.ILogger log
-        ) => configurationInfo.IsTestExecution() && ShouldAddFCCRunSettings()
+            Microsoft.VisualStudio.TestWindow.Extensibility.ILogger log) => configurationInfo.IsTestExecution() && ShouldAddFCCRunSettings()
                 ? _userRunSettingsService.AddFCCRunSettings(
                     inputRunSettingDocument,
                     configurationInfo,

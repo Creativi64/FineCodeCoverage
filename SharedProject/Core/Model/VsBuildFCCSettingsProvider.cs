@@ -18,8 +18,8 @@ namespace FineCodeCoverage.Engine.Model
         [ImportingConstructor]
         public VsBuildFCCSettingsProvider(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        ) => _serviceProvider = serviceProvider;
+            IServiceProvider serviceProvider)
+            => _serviceProvider = serviceProvider;
 
         public async Task<XElement> GetSettingsAsync(Guid projectId)
         {
@@ -30,8 +30,7 @@ namespace FineCodeCoverage.Engine.Model
             if (vsSolution.GetProjectOfGuid(ref projectId, out IVsHierarchy vsHierarchy) == VSConstants.S_OK
                 && vsHierarchy is IVsBuildPropertyStorage vsBuildPropertyStorage
                 && vsBuildPropertyStorage.GetPropertyValue(FCCSettingsElementName, null, 1, out string value) == VSConstants.S_OK
-                && !string.IsNullOrEmpty(value)
-            )
+                && !string.IsNullOrEmpty(value))
             {
                 try
                 {

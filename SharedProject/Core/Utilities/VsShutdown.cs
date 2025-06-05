@@ -15,9 +15,7 @@ namespace FineCodeCoverage.Core.Utilities
         [ImportingConstructor]
         public VsShutdown(
              [Import(typeof(SVsServiceProvider))]
-             IServiceProvider serviceProvider
-
-        )
+             IServiceProvider serviceProvider)
 #pragma warning disable VSTHRD104 // Offer async methods
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {

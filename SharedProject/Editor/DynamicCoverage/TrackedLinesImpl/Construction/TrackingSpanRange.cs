@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITrackingSpan startTrackingSpan,
             ITrackingSpan endTrackingSpan,
             ITextSnapshot currentSnapshot,
-            ILineTracker lineTracker
-        )
+            ILineTracker lineTracker)
         {
             _startTrackingSpan = startTrackingSpan;
             _endTrackingSpan = endTrackingSpan;

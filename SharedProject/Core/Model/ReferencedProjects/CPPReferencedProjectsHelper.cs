@@ -61,8 +61,7 @@ namespace FineCodeCoverage.Engine.Model
                     return isDll.HasValue ? (IExcludableReferencedProject)new ReferencedProject(
                             GetCPPProjectReferenceProjectFilePath(reference),
                             Path.GetFileNameWithoutExtension(reference.FullPath),
-                            isDll.Value
-                        )
+                            isDll.Value)
                         : null;
                 })
                 .Where(p => p != null)

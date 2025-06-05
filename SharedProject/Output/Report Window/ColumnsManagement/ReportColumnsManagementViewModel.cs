@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Output
 
         public ReportColumnsManagementViewModel(
             IReportColumnManager reportColumnsManager,
-            IMessageBox messageBox
-        )
+            IMessageBox messageBox)
         {
             Columns = new ObservableCollection<EditableColumn>(reportColumnsManager.GetColumns().Select(rcd => new EditableColumn(rcd)));
             OkCommand = new RelayCommand(
@@ -39,8 +38,7 @@ namespace FineCodeCoverage.Output
                         Done?.Invoke(this, EventArgs.Empty);
                     }
                 },
-                () => true
-            );
+                () => true);
             CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
 
             /*
@@ -54,8 +52,7 @@ namespace FineCodeCoverage.Output
                     GetSelectedIndices().OrderByDescending(i => i).ToList().ForEach(i => Columns.Move(i, i + 1));
                     SetCanMove();
                 },
-                () => _canMoveDown
-            );
+                () => _canMoveDown);
 
             UpCommand = new RelayCommand(
                 () =>
@@ -63,8 +60,7 @@ namespace FineCodeCoverage.Output
                     GetAscendingSelectedIndices().ToList().ForEach(i => Columns.Move(i, i - 1));
                     SetCanMove();
                 },
-                () => _canMoveUp
-            );
+                () => _canMoveUp);
             _reportColumnsManager = reportColumnsManager;
             _messageBox = messageBox;
         }

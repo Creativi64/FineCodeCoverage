@@ -18,8 +18,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public SolutionProjectsProvider(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        ) => _serviceProvider = serviceProvider;
+            IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public async Task<List<IVsHierarchy>> GetLoadedProjectsAsync(CancellationToken cancellationToken)
         {
@@ -50,8 +49,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                     _ = rgelt[0].GetGuidProperty(
                         VSConstants.VSITEMID_ROOT,
                         (int)__VSHPROPID.VSHPROPID_TypeGuid,
-                        out Guid typeGuid
-                    );
+                        out Guid typeGuid);
 
                     if (typeGuid != VSConstants.GUID_ItemType_VirtualFolder)
                     {

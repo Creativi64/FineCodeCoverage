@@ -33,8 +33,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 IVsHierarchy vsHierarchy,
                 CommandLineParseResult commandLineParseResult,
                 Func<CancellationToken, Task<string>> configurationProvider,
-                bool hasCoverageExtension
-            )
+                bool hasCoverageExtension)
             {
                 ExePath = exePath;
                 CoverageProject = coverageProject;
@@ -65,8 +64,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider,
             IXmlUtils xmlUtils,
-            IRunSettingsToConfiguration runSettingsToConfiguration
-        )
+            IRunSettingsToConfiguration runSettingsToConfiguration)
         {
             _coverageProjectFactory = coverageProjectFactory;
             _templatedRunSettingsService = templatedRunSettingsService;

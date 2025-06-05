@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Engine
         public CoverageToolOutputFolderFromSolutionProvider(
             ISolutionFolderProvider solutionFolderProvider,
             [ImportMany]
-            IEnumerable<Lazy<ICoverageToolOutputFolderSolutionProvider, IOrderMetadata>> solutionFolderProviders
-        )
+            IEnumerable<Lazy<ICoverageToolOutputFolderSolutionProvider, IOrderMetadata>> solutionFolderProviders)
         {
             _solutionFolderProvider = solutionFolderProvider;
             _solutionFolderProviders = solutionFolderProviders.OrderBy(p => p.Metadata.Order);

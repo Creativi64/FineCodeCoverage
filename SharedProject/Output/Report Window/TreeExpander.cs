@@ -136,8 +136,7 @@ namespace FineCodeCoverage.Output
             Func<T, string> getId,
             Func<T, bool> getIsExpanded,
             Action<T> setIsExpanded,
-            Func<T, IReadOnlyList<T>> getChildren
-        )
+            Func<T, IReadOnlyList<T>> getChildren)
         {
             _getId = getId;
             _getIsExpanded = getIsExpanded;

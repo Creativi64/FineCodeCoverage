@@ -6,8 +6,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     {
         public ContainingCodeTrackerState(
             CodeSpanRange codeSpanRange,
-            IEnumerable<IDynamicLine> lines
-        )
+            IEnumerable<IDynamicLine> lines)
         {
             CodeSpanRange = codeSpanRange;
             Lines = lines;

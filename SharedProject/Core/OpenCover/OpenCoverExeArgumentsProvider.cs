@@ -74,8 +74,7 @@ namespace FineCodeCoverage.Engine.OpenCover
             List<string> opencoverSettings,
             string settingName,
             IEnumerable<string> settings,
-            Delimiter delimiter = Delimiter.Semicolon
-        )
+            Delimiter delimiter = Delimiter.Semicolon)
         {
             if (!settings.Any())
             {

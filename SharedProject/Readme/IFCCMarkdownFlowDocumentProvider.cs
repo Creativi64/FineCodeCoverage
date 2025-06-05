@@ -9,7 +9,6 @@ namespace FineCodeCoverage.Readme
             TemplatedReadmeInfo templatedReadMeInfo,
             string optionTableReplacementMarker,
             string truncateMarker,
-            ICommand navigateCommand
-            );
+            ICommand navigateCommand);
     }
 }

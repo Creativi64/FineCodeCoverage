@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         public SolutionOptions(
             [ImportMany]
             ISolutionOption[] options,
-            ISolutionEvents solutionEvents
-        )
+            ISolutionEvents solutionEvents)
         {
             _options = options;
             solutionEvents.AfterClosing += SolutionEvents_AfterClosing;

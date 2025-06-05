@@ -20,8 +20,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         public ReportGeneratorUtil(
             IFCCReportGenerator reportGenerator,
             ILogger logger,
-            IFileRenameListener fileRenameListener
-        )
+            IFileRenameListener fileRenameListener)
         {
             _reportGenerator = reportGenerator;
             _logger = logger;

@@ -17,8 +17,7 @@ namespace FineCodeCoverage.Core.Utilities
         [ImportingConstructor]
         public VsVersion(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        )
+            IServiceProvider serviceProvider)
         {
             Is2022 = IsVs2022.Value;
             _serviceProvider = serviceProvider;

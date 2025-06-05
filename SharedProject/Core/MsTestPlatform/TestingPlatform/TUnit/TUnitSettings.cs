@@ -6,8 +6,7 @@
             string exePath,
             string settingsPath,
             string outputPath,
-            string additionalArgs
-            )
+            string additionalArgs)
         {
             ExePath = exePath;
             SettingsPath = settingsPath;

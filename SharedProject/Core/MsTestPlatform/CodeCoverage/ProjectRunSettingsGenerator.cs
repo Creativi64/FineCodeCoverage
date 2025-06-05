@@ -23,8 +23,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public ProjectRunSettingsGenerator(
             IFileUtil fileUtil,
             IVsRunSettingsWriter vsRunSettingsWriter,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _fileUtil = fileUtil;
             _vsRunSettingsWriter = vsRunSettingsWriter;
@@ -35,8 +34,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             => Task.WhenAll(
                 coverageProjects
                 .Where(coverageProject => IsGeneratedRunSettings(coverageProject.RunSettingsFile))
-                .Select(coverageProjectForRemoval => _vsRunSettingsWriter.RemoveRunSettingsFilePathAsync(coverageProjectForRemoval.Id))
-            );
+                .Select(coverageProjectForRemoval => _vsRunSettingsWriter.RemoveRunSettingsFilePathAsync(coverageProjectForRemoval.Id)));
 
         public Task WriteProjectsRunSettingsAsync(IEnumerable<ICoverageProjectRunSettings> coverageProjectsRunSettings)
             => Task.WhenAll(
@@ -45,8 +43,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                     ICoverageProject coverageProject = coverageProjectRunSettings.CoverageProject;
                     string projectRunSettingsFilePath = GeneratedProjectRunSettingsFilePath(coverageProject);
                     return WriteProjectRunSettingsAsync(coverageProject.Id, coverageProject.ProjectName, projectRunSettingsFilePath, coverageProjectRunSettings.RunSettings);
-                })
-            );
+                }));
 
         internal static string GeneratedProjectRunSettingsFilePath(ICoverageProject coverageProject)
             => Path.Combine(

@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Engine
 
         [ImportingConstructor]
         public AppOptionsCoverageToolOutputFolderSolutionProvider(
-            IOptionsProvider<OutputOptions> outputOptionsProvider
-        ) => _outputOptionsProvider = outputOptionsProvider;
+            IOptionsProvider<OutputOptions> outputOptionsProvider)
+            => _outputOptionsProvider = outputOptionsProvider;
 
         public string Provide(Func<string> solutionFolderProvider)
         {

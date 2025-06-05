@@ -137,8 +137,7 @@ namespace FineCodeCoverage.Output
 
         private void SetUpdatedOptionValue(
             ReportStyle reportStyle,
-            ReportContentType reportContentType
-        )
+            ReportContentType reportContentType)
         {
             _reportViewSolutionOption.Value = new ReportViewSolutionOptionValue
             {

@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Output
             CodeElements = codeElements;
             FileCodeElements = new Dictionary<string, IReadOnlyList<ICodeElement>>
             {
-                {path, codeElements},
+                { path, codeElements },
             };
         }
 

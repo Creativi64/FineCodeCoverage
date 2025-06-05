@@ -9,7 +9,8 @@ namespace FineCodeCoverage.Output
     internal class ReportViewSolutionOption : SolutionOption<ReportViewSolutionOptionValue>, IReportViewSolutionOption
     {
         [ImportingConstructor]
-        public ReportViewSolutionOption(IJsonConvertService jsonConvertService) : base(jsonConvertService)
+        public ReportViewSolutionOption(IJsonConvertService jsonConvertService)
+            : base(jsonConvertService)
         {
         }
 

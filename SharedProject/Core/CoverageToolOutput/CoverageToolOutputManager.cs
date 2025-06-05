@@ -29,8 +29,7 @@ namespace FineCodeCoverage.Engine
             ILogger logger,
             [ImportMany]
             IEnumerable<Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>> outputFolderProviders,
-            IEventAggregator eventAggregator
-            )
+            IEventAggregator eventAggregator)
         {
             _logger = logger;
             _eventAggregator = eventAggregator;

@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Readme
                 => new OptionPageInfo(
                     provideOptionPageAttribute.PageType.BaseType.GetGenericArguments()[0],
                     provideOptionPageAttribute.PageName,
-                    coverageSettingsPropertyNames
-                ));
+                    coverageSettingsPropertyNames));
         }
     }
 }

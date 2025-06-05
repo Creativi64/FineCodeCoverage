@@ -17,8 +17,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         public CoverletConsoleDotnetToolsLocalExecutor(
             IDotNetToolListCoverlet dotnetToolListCoverlet,
             IDotNetConfigFinder dotNetConfigFinder,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _dotnetToolListCoverlet = dotnetToolListCoverlet;
             _dotNetConfigFinder = dotNetConfigFinder;

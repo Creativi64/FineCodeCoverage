@@ -18,8 +18,7 @@ namespace FineCodeCoverage.Engine.Model
         public ProjectFileReferencedProjectsHelper(ILogger logger) => _logger = logger;
 
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(
-            string projectFile, XElement projectFileXElement
-        )
+            string projectFile, XElement projectFileXElement)
         {
             /*
             <ItemGroup>

@@ -46,8 +46,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             ICoverletDataCollectorGeneratedCobertura coverletDataCollectorGeneratedCobertura,
             IProcessResponseProcessor processResponseProcessor,
             IToolUnzipper toolUnzipper,
-            IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider
-            )
+            IVsBuildFCCSettingsProvider vsBuildFCCSettingsProvider)
         {
             _fileUtil = fileUtil;
             _runSettingsCoverletConfigurationFactory = runSettingsCoverletConfigurationFactory;
@@ -239,8 +238,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {await GetTestAdapterPathArgAsync()}",
                     WorkingDirectory = _coverageProject.ProjectOutputFolder,
                 },
-                cancellationToken
-            );
+                cancellationToken);
 
             // this is how coverlet console determines exit code
             // https://github.com/coverlet-coverage/coverlet/blob/ac0e0fad2f0301a3fe9a3de9f8cdb32f406ce6d8/src/coverlet.console/Program.cs

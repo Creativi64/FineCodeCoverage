@@ -14,8 +14,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         [ImportingConstructor]
         public TrackedNewLineFactory(
             ITrackingSpanFactory trackingLineFactory,
-            ILineTracker lineTracker
-            )
+            ILineTracker lineTracker)
         {
             _trackingLineFactory = trackingLineFactory;
             _lineTracker = lineTracker;
@@ -24,8 +23,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public ITrackedNewCodeLine Create(
             ITextSnapshot textSnapshot,
             SpanTrackingMode spanTrackingMode,
-            int lineNumber
-        )
+            int lineNumber)
         {
             ITrackingSpan trackingSpan = _trackingLineFactory.CreateTrackingSpan(
                 textSnapshot, lineNumber, spanTrackingMode);

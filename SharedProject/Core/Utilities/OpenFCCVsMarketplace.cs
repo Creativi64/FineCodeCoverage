@@ -12,8 +12,7 @@ namespace FineCodeCoverage.Core.Utilities
         [ImportingConstructor]
         public OpenFCCVsMarketplace(
             IProcess process,
-            IVsVersion vsVersion
-        )
+            IVsVersion vsVersion)
         {
             _ratingAndReviewPath = RootPath;
             if (vsVersion.Is2022)

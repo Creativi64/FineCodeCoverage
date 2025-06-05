@@ -15,8 +15,8 @@ namespace FineCodeCoverage.Core.Initialization
         [ImportingConstructor]
         public ClearSettingsOnShutdown(
             [Import(typeof(SVsServiceProvider))]
-            System.IServiceProvider serviceProvider
-            ) => LazyShouldClearSettingsOnShutdown = new AsyncLazy<bool>(
+            System.IServiceProvider serviceProvider)
+            => LazyShouldClearSettingsOnShutdown = new AsyncLazy<bool>(
                 async () =>
                 {
                     if (!Debugger.IsAttached)

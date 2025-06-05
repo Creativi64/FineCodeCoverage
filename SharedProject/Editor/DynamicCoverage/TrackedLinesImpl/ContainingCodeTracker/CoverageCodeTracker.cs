@@ -12,8 +12,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public CoverageCodeTracker(
             ITrackedCoverageLines trackedCoverageLines,
-            IDirtyLineFactory dirtyLineFactory
-        )
+            IDirtyLineFactory dirtyLineFactory)
         {
             _trackedCoverageLines = trackedCoverageLines;
             _dirtyLineFactory = dirtyLineFactory;
@@ -23,8 +22,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<LineRange> newSpanChanges,
             List<LineRange> nonIntersecting,
             bool textChanged,
-            ITrackingSpanRange trackingSpanRange
-        ) => _dirtyLine == null && textChanged && Intersected(newSpanChanges, nonIntersecting)
+            ITrackingSpanRange trackingSpanRange)
+            => _dirtyLine == null && textChanged && Intersected(newSpanChanges, nonIntersecting)
                 ? CreateDirtyLine(trackingSpanRange)
                 : null;
 
@@ -40,21 +39,18 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         private static bool Intersected(
             List<LineRange> newSpanChanges,
-            List<LineRange> nonIntersecting
-        ) => nonIntersecting.Count < newSpanChanges.Count;
+            List<LineRange> nonIntersecting) => nonIntersecting.Count < newSpanChanges.Count;
 
         public IEnumerable<int> GetUpdatedLineNumbers(
             TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
             ITextSnapshot currentSnapshot,
-            List<LineRange> newSpanAndLineRanges
-        )
+            List<LineRange> newSpanAndLineRanges)
         {
             List<int> changedLineNumbers = CreateDirtyLineIfRequired(
                     newSpanAndLineRanges,
                     trackingSpanRangeProcessResult.NonIntersectingSpans,
                     trackingSpanRangeProcessResult.TextChanged,
-                    trackingSpanRangeProcessResult.TrackingSpanRange
-                );
+                    trackingSpanRangeProcessResult.TrackingSpanRange);
             return changedLineNumbers ?? UpdateLines(currentSnapshot);
         }
 

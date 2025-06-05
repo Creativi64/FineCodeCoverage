@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
         public RoslynFileCodeSpanRangeService(
             IRoslynService roslynService,
             IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider,
-            IThreadHelper threadHelper
-            )
+            IThreadHelper threadHelper)
         {
             _roslynService = roslynService;
             _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
@@ -37,8 +36,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
         public List<CodeSpanRange> GetFileCodeSpanRanges(ITextSnapshot snapshot)
         {
             List<TextSpan> textSpans = _threadHelper.JoinableTaskFactory.Run(
-                () => _roslynService.GetContainingCodeSpansAsync(snapshot)
-            );
+                () => _roslynService.GetContainingCodeSpansAsync(snapshot));
 
             return textSpans.ConvertAll(textSpan => GetCodeSpanRange(textSpan, snapshot));
         }

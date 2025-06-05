@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         public IEnumerable<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)
             => _trackedCoverageLines.SelectMany(
-                trackedCoverageLine => trackedCoverageLine.GetUpdateLineNumbers(currentSnapshot)
-            );
+                trackedCoverageLine => trackedCoverageLine.GetUpdateLineNumbers(currentSnapshot));
 
         public FirstTrackedCoverageLineInfo GetFirstTrackedCoverageLineInfo()
         {

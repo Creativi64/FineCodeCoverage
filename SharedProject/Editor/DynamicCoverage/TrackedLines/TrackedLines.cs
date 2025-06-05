@@ -30,13 +30,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => newSpanChanges.ConvertAll(
                  newSpanChange => new LineRange(
                      currentSnapshot.GetLineNumberFromPosition(newSpanChange.Start),
-                     currentSnapshot.GetLineNumberFromPosition(newSpanChange.End)
-                 ));
+                     currentSnapshot.GetLineNumberFromPosition(newSpanChange.End)));
 
         private (IEnumerable<int>, List<LineRange>) ProcessContainingCodeTrackers(
             ITextSnapshot currentSnapshot,
-            List<LineRange> spanAndLineRanges
-            )
+            List<LineRange> spanAndLineRanges)
         {
             var removals = new List<IContainingCodeTracker>();
             var allChangedLines = new List<int>();
@@ -61,8 +59,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             List<IContainingCodeTracker> removals,
             IContainingCodeTracker containingCodeTracker,
             ITextSnapshot currentSnapshot,
-            List<LineRange> spanAndLineRanges
-        )
+            List<LineRange> spanAndLineRanges)
         {
             IContainingCodeTrackerProcessResult processResult = containingCodeTracker.ProcessChanges(currentSnapshot, spanAndLineRanges);
             if (processResult.IsEmpty)
@@ -150,8 +147,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         private static IEnumerable<IDynamicLine> LinesApplicableToStartLineNumber(
-            IEnumerable<IDynamicLine> dynamicLines, int startLineNumber
-        ) => dynamicLines.Where(l => l.LineNumber >= startLineNumber);
+            IEnumerable<IDynamicLine> dynamicLines, int startLineNumber)
+            => dynamicLines.Where(l => l.LineNumber >= startLineNumber);
 
         private IEnumerable<IDynamicLine> GetLinesFromContainingCodeTrackers(int startLineNumber, int endLineNumber)
             => _containingCodeTrackers.Select(containingCodeTracker => GetLines(containingCodeTracker.Lines, startLineNumber, endLineNumber))

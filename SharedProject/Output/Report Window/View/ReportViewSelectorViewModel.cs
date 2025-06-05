@@ -90,8 +90,7 @@ namespace FineCodeCoverage.Output
                         SelectedRepositoryPath);
                     Done?.Invoke(this, EventArgs.Empty);
                 },
-                () => _changed
-            );
+                () => _changed);
             _notifyOkCommandCanExecuteChanged = okRelayCommand.NotifyCanExecuteChanged;
             OkCommand = okRelayCommand;
             CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);

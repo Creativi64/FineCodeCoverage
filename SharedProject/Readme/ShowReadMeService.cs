@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Readme
         [ImportingConstructor]
         public ShowReadMeService(
             IToolWindowService toolWindowService,
-            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider
-        )
+            IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider)
         {
             _writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
             HasShown = _writableUserSettingsStore.GetBoolean(ReadMeShowCollection, ReadMeShownProperty, false);

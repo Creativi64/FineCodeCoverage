@@ -13,15 +13,14 @@ namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
             => editorCoverageColouringOptions.ShowCoverageInOverviewMargin;
 
         protected override Dictionary<DynamicCoverageType, bool> GetShowLookup(
-            EditorCoverageColouringOptions editorCoverageColouringOptions
-        ) => new Dictionary<DynamicCoverageType, bool>
+            EditorCoverageColouringOptions editorCoverageColouringOptions) => new Dictionary<DynamicCoverageType, bool>
             {
                 { DynamicCoverageType.Covered, editorCoverageColouringOptions.ShowCoveredInOverviewMargin },
                 { DynamicCoverageType.NotCovered, editorCoverageColouringOptions.ShowUncoveredInOverviewMargin },
                 { DynamicCoverageType.Partial, editorCoverageColouringOptions.ShowPartiallyCoveredInOverviewMargin },
-                { DynamicCoverageType.Dirty, editorCoverageColouringOptions.ShowDirtyInOverviewMargin},
-                { DynamicCoverageType.NewLine, editorCoverageColouringOptions.ShowNewInOverviewMargin},
-                { DynamicCoverageType.NotIncluded, editorCoverageColouringOptions.ShowNotIncludedInOverviewMargin},
+                { DynamicCoverageType.Dirty, editorCoverageColouringOptions.ShowDirtyInOverviewMargin },
+                { DynamicCoverageType.NewLine, editorCoverageColouringOptions.ShowNewInOverviewMargin },
+                { DynamicCoverageType.NotIncluded, editorCoverageColouringOptions.ShowNotIncludedInOverviewMargin },
             };
     }
 }

@@ -184,8 +184,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public ITemplateReplacementResult ReplaceTemplate(
             string runSettingsTemplate,
             IRunSettingsTemplateReplacements replacements,
-            bool isNetFramework
-        )
+            bool isNetFramework)
         {
             bool replacedTestAdapter = HasReplaceableTestAdapter(runSettingsTemplate);
             string replacedRunSettingsTemplate = Replace(runSettingsTemplate, replacements);

@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
     {
         public List<IDynamicLineAndSnapshotSpan> Apply(
             IBufferLineCoverage bufferLineCoverage,
-            NormalizedSnapshotSpanCollection normalizedSnapshotSpanCollection
-        ) => normalizedSnapshotSpanCollection.SelectMany(snapshotSpan => GetApplicableLineSpans(snapshotSpan, bufferLineCoverage)).ToList();
+            NormalizedSnapshotSpanCollection normalizedSnapshotSpanCollection)
+            => normalizedSnapshotSpanCollection.SelectMany(snapshotSpan => GetApplicableLineSpans(snapshotSpan, bufferLineCoverage)).ToList();
 
         private static IEnumerable<IDynamicLineAndSnapshotSpan> GetApplicableLineSpans(SnapshotSpan snapshotSpan, IBufferLineCoverage bufferLineCoverage)
         {

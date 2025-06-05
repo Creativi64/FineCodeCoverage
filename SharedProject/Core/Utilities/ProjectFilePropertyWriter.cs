@@ -27,8 +27,7 @@ namespace FineCodeCoverage.Core.Utilities
                 vsBuildPropertyStorage.RemoveProperty(
                     propertyName,
                     string.Empty,
-                    (uint)_PersistStorageType.PST_PROJECT_FILE
-                ) == VSConstants.S_OK;
+                    (uint)_PersistStorageType.PST_PROJECT_FILE) == VSConstants.S_OK;
         }
     }
 }

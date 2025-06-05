@@ -44,8 +44,7 @@ namespace FineCodeCoverage.Engine
             ILogger logger,
             ICoverageToolOutputManager coverageOutputManager,
             IEventAggregator eventAggregator,
-            IDisposeAwareTaskRunner disposeAwareTaskRunner
-            )
+            IDisposeAwareTaskRunner disposeAwareTaskRunner)
         {
             _eventAggregator = eventAggregator;
             _disposeAwareTaskRunner = disposeAwareTaskRunner;
@@ -212,8 +211,7 @@ namespace FineCodeCoverage.Engine
             {
                 await _logger.LogAsync(
                     StatusMarkerProvider.Get("Error"),
-                    ex.ToString()
-                );
+                    ex.ToString());
                 _eventAggregator.SendMessage(new CoverageEndedMessage());
             }
         }

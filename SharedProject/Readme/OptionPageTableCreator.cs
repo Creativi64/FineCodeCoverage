@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Readme
 
         [ImportingConstructor]
         public OptionPageTableCreator(
-            IFCCOptionPageInfoProvider fccOptionPageInfoProvider
-        ) => _fccOptionPageInfoProvider = fccOptionPageInfoProvider;
+            IFCCOptionPageInfoProvider fccOptionPageInfoProvider) => _fccOptionPageInfoProvider = fccOptionPageInfoProvider;
 
         public IReadOnlyList<ElementAndMarker> ElementAndMarkers => _elementAndMarkers;
 
@@ -33,8 +32,7 @@ namespace FineCodeCoverage.Readme
                     AddRow(
                         OptionPageTableDisplayInfo.PageNameCategoryDisplay(optionPageInfo.PageName, propertyCategory.Category),
                         string.Empty,
-                        string.Empty
-                    );
+                        string.Empty);
                     foreach (OptionPropertyInfo optionPropertyInfo in propertyCategory.OptionPropertyInfos)
                     {
                         string isCoverageSettingDisplay = optionPropertyInfo.IsCoverageSetting

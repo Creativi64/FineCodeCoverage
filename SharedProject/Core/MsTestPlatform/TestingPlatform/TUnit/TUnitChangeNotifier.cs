@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public TUnitChangeNotifier(
             [Import(typeof(SVsServiceProvider))]
-            IServiceProvider serviceProvider
-        )
+            IServiceProvider serviceProvider)
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously
         => ThreadHelper.JoinableTaskFactory.Run(async () =>
         {

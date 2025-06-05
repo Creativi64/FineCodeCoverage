@@ -41,8 +41,7 @@ namespace FineCodeCoverage.Output
         public CoveragePercentageBarOptionsViewModel(
             IOptionsProvider<ReportOptions> reportOptionsProvider,
             IEventAggregator eventAggregator,
-            ICoverageColoursProvider coverageColoursProvider
-        )
+            ICoverageColoursProvider coverageColoursProvider)
         {
             _coverageColoursProvider = coverageColoursProvider;
             _ = eventAggregator.AddListener(this);

@@ -22,8 +22,7 @@ namespace FineCodeCoverage.Engine.Model
             _projectPath = projectPath;
             AssemblyName = GetAssemblyName(
                 LinqToXmlUtil.Load(projectPath, true),
-                Path.GetFileNameWithoutExtension(projectPath)
-            );
+                Path.GetFileNameWithoutExtension(projectPath));
         }
 
         private static string GetAssemblyName(XElement projectFileXElement, string fallbackName = null)

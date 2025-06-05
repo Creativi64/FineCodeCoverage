@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Output
         public UIClearer(
             ISolutionEvents solutionEvents,
             IOptionsProvider<RunOptions> runOptionsProvider,
-            IEventAggregator eventAggregator
-            )
+            IEventAggregator eventAggregator)
         {
             _ = eventAggregator.AddListener(this);
             solutionEvents.AfterClosing += (s, args) => ClearUI();

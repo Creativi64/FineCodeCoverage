@@ -14,15 +14,18 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             _replacedRunSettingsTemplate = replacedRunSettingsTemplate;
         }
 
-        public MsTemplateReplacementException() : base()
+        public MsTemplateReplacementException()
+            : base()
         {
         }
 
-        public MsTemplateReplacementException(string message) : base(message)
+        public MsTemplateReplacementException(string message)
+            : base(message)
         {
         }
 
-        public MsTemplateReplacementException(string message, Exception innerException) : base(message, innerException)
+        public MsTemplateReplacementException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 

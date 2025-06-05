@@ -31,8 +31,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public UserRunSettingsService(
             IFileUtil fileUtil,
             IRunSettingsTemplate runSettingsTemplate,
-            IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory
-        )
+            IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory)
         {
             _fileUtil = fileUtil;
             _runSettingsTemplate = runSettingsTemplate;
@@ -128,19 +127,16 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IXPathNavigable inputRunSettingDocument,
             IRunSettingsConfigurationInfo configurationInfo,
             Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup,
-            string fccMsTestAdapterPath
-        ) => !_runSettingsTemplate.FCCGenerated(inputRunSettingDocument)
+            string fccMsTestAdapterPath) => !_runSettingsTemplate.FCCGenerated(inputRunSettingDocument)
                 ? AddFCCRunSettingsActual(
-                    inputRunSettingDocument, configurationInfo, userRunSettingsProjectDetailsLookup, fccMsTestAdapterPath
-                )
+                    inputRunSettingDocument, configurationInfo, userRunSettingsProjectDetailsLookup, fccMsTestAdapterPath)
                 : null;
 
         private XPathNavigator AddFCCRunSettingsActual(
             IXPathNavigable inputRunSettingDocument,
             IRunSettingsConfigurationInfo configurationInfo,
             Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup,
-            string fccMsTestAdapterPath
-        )
+            string fccMsTestAdapterPath)
         {
             XPathNavigator navigator = inputRunSettingDocument.CreateNavigator();
             _ = navigator.MoveToChild("RunSettings", string.Empty);
@@ -148,8 +144,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IRunSettingsTemplateReplacements replacements = _runSettingsTemplateReplacementsFactory.Create(
                 configurationInfo.TestContainers,
                 userRunSettingsProjectDetailsLookup,
-                fccMsTestAdapterPath
-            );
+                fccMsTestAdapterPath);
 
             EnsureTestAdaptersPathsAndReplace(navigator, replacements);
             EnsureCorrectMsDataCollectorAndReplace(clonedNavigator, replacements);

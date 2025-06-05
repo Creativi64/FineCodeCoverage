@@ -14,8 +14,8 @@ namespace FineCodeCoverage.Core.Initialization
 
         [ImportingConstructor]
         public PackageLoader(
-            IShellPackageLoader shellPackageLoader
-            ) => _shellPackageLoader = shellPackageLoader;
+            IShellPackageLoader shellPackageLoader)
+            => _shellPackageLoader = shellPackageLoader;
 
         public async Task LoadPackageAsync(CancellationToken cancellationToken)
         {

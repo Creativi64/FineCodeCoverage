@@ -13,15 +13,14 @@ namespace FineCodeCoverage.Editor.Management
             IFontAndColorsInfo coveragePartiallyTouchedInfo,
             IFontAndColorsInfo dirtyInfo,
             IFontAndColorsInfo newLineInfo,
-            IFontAndColorsInfo notIncludedInfo
-        ) => _coverageTypeToFontAndColorsInfo = new Dictionary<DynamicCoverageType, IFontAndColorsInfo>
+            IFontAndColorsInfo notIncludedInfo) => _coverageTypeToFontAndColorsInfo = new Dictionary<DynamicCoverageType, IFontAndColorsInfo>
             {
-                { DynamicCoverageType.Covered, coverageTouchedInfo},
+                { DynamicCoverageType.Covered, coverageTouchedInfo },
                 { DynamicCoverageType.NotCovered, coverageNotTouchedInfo },
-                { DynamicCoverageType.Partial, coveragePartiallyTouchedInfo},
-                { DynamicCoverageType.Dirty, dirtyInfo},
-                { DynamicCoverageType.NewLine, newLineInfo},
-                { DynamicCoverageType.NotIncluded, notIncludedInfo},
+                { DynamicCoverageType.Partial, coveragePartiallyTouchedInfo },
+                { DynamicCoverageType.Dirty, dirtyInfo },
+                { DynamicCoverageType.NewLine, newLineInfo },
+                { DynamicCoverageType.NotIncluded, notIncludedInfo },
             };
 
         internal Dictionary<DynamicCoverageType, IFontAndColorsInfo> GetChanges(CoverageColours lastCoverageColours)

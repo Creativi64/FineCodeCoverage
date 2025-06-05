@@ -13,8 +13,7 @@ namespace FineCodeCoverage.Output.Pane
         public FCCOutputWindowPane(
             IVsOutputWindowPane outputWindowPane,
             Window outputWindowWindow,
-            TextDocument fccPaneTextDocument
-        )
+            TextDocument fccPaneTextDocument)
         {
             _outputWindowPane = outputWindowPane;
             _outputWindowWindow = outputWindowWindow;

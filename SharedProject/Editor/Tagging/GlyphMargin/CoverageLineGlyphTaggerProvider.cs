@@ -30,8 +30,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
         public CoverageLineGlyphTaggerProvider(
             IEventAggregator eventAggregator,
             ICoverageColoursProvider coverageColoursProvider,
-            ICoverageTaggerProviderFactory coverageTaggerProviderFactory
-        )
+            ICoverageTaggerProviderFactory coverageTaggerProviderFactory)
         {
             _coverageTaggerProvider = coverageTaggerProviderFactory.Create<CoverageLineGlyphTag, GlyphFilter>(this);
             _eventAggregator = eventAggregator;

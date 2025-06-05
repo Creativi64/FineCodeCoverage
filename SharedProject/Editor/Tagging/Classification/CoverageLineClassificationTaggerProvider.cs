@@ -27,8 +27,7 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
         [ImportingConstructor]
         public CoverageLineClassificationTaggerProvider(
             ICoverageTypeService coverageTypeService,
-            ICoverageTaggerProviderFactory coverageTaggerProviderFactory
-        )
+            ICoverageTaggerProviderFactory coverageTaggerProviderFactory)
         {
             _coverageTypeService = coverageTypeService;
             _coverageTaggerProvider = coverageTaggerProviderFactory.Create<IClassificationTag, CoverageClassificationFilter>(this);

@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Core.Model
             IOptionsProvider<IncludesExcludesOptions> includesExcludesOptionsProvider,
             IOptionsProvider<RunOptions> runOptionsProvider,
             IOptionsProvider<CoverletOptions> coverletOptionsProvider,
-            IOptionsProvider<OpenCoverOptions> openCoverOptionsProvider
-        )
+            IOptionsProvider<OpenCoverOptions> openCoverOptionsProvider)
         {
             _optionsProviders.Add(includesExcludesOptionsProvider);
             _optionsProviders.Add(runOptionsProvider);

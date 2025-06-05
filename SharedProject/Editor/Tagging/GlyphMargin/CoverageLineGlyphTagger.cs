@@ -15,8 +15,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
 
         public CoverageLineGlyphTagger(
             IEventAggregator eventAggregator,
-            ICoverageTagger<CoverageLineGlyphTag> coverageTagger
-        )
+            ICoverageTagger<CoverageLineGlyphTag> coverageTagger)
         {
             ThrowIf.Null(coverageTagger, nameof(coverageTagger));
             _ = eventAggregator.AddListener(this);

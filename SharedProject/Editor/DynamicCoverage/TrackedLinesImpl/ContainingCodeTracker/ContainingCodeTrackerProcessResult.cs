@@ -7,8 +7,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         public ContainingCodeTrackerProcessResult(
             IEnumerable<int> changedLines,
             List<LineRange> unprocessedSpans,
-            bool isEmpty
-        )
+            bool isEmpty)
         {
             ChangedLines = changedLines;
             UnprocessedSpans = unprocessedSpans;

@@ -10,7 +10,6 @@ namespace FineCodeCoverage.Engine.Model
             CoverageSettings coverageSettings,
             List<System.Reflection.PropertyInfo> coverageSettingsPropertyInfos,
             List<XElement> settingsFileElements,
-            XElement projectSettingsElement
-        );
+            XElement projectSettingsElement);
     }
 }

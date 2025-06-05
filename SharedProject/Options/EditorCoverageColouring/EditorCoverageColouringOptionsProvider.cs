@@ -15,8 +15,8 @@ namespace FineCodeCoverage.Options
             ILogger logger,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider,
             IJsonConvertService jsonConvertService,
-            IDefaultOptionsSetter<EditorCoverageColouringOptions> defaultOptionsSetter
-        ) : base(logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter)
+            IDefaultOptionsSetter<EditorCoverageColouringOptions> defaultOptionsSetter)
+            : base(logger, writableUserSettingsStoreProvider, jsonConvertService, defaultOptionsSetter)
         {
         }
     }

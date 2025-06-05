@@ -11,8 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         [ImportingConstructor]
         public TrackingSpanRangeContainingCodeTrackerFactory(
-            IDirtyLineFactory dirtyLineFactory
-        ) => _dirtyLineFactory = dirtyLineFactory;
+            IDirtyLineFactory dirtyLineFactory) => _dirtyLineFactory = dirtyLineFactory;
 
         public IContainingCodeTracker CreateCoverageLines(ITrackingSpanRange trackingSpanRange, ITrackedCoverageLines trackedCoverageLines)
             => Wrap(trackingSpanRange, new CoverageCodeTracker(trackedCoverageLines, _dirtyLineFactory));
@@ -24,7 +23,6 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => Wrap(trackingSpanRange, new OtherLinesTracker());
 
         private static TrackingSpanRangeUpdatingTracker Wrap(
-            ITrackingSpanRange trackingSpanRange, IUpdatableDynamicLines updatableDynamicLines
-        ) => new TrackingSpanRangeUpdatingTracker(trackingSpanRange, updatableDynamicLines);
+            ITrackingSpanRange trackingSpanRange, IUpdatableDynamicLines updatableDynamicLines) => new TrackingSpanRangeUpdatingTracker(trackingSpanRange, updatableDynamicLines);
     }
 }

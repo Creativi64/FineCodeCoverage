@@ -11,8 +11,7 @@ namespace FineCodeCoverage.Wpf
 
         public DependentPropertiesDescriptor(
             DependencyPropertyDescriptor dependencyPropertyDescriptor,
-            Func<string, IEnumerable<string>> getDependentProperties
-            )
+            Func<string, IEnumerable<string>> getDependentProperties)
         {
             _dependencyPropertyDescriptor = dependencyPropertyDescriptor;
             _getDependentProperties = getDependentProperties;

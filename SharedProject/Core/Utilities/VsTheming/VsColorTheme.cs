@@ -15,8 +15,8 @@ namespace FineCodeCoverage.Core.Utilities
 
         [ImportingConstructor]
         public VsColorTheme(
-        [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider
-        ) => _colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
+        [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
+            => _colorThemeService = serviceProvider.GetService(typeof(SVsColorThemeService));
 
         private object CurrentTheme
         {

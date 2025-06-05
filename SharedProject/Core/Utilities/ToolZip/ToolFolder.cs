@@ -17,8 +17,7 @@ namespace FineCodeCoverage.Core.Utilities
             string appDataFolder,
             string toolFolderName,
             ZipDetails zipDetails,
-            CancellationToken cancellationToken
-        )
+            CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             string version = zipDetails.Version;

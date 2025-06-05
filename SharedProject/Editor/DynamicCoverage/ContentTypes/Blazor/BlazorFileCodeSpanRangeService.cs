@@ -26,8 +26,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
             ISyntaxNodeLocationMapper syntaxNodeLocationMapper,
             ITextInfoFactory textInfoFactory,
             IBlazorGeneratedFilePathMatcher blazorGeneratedFilePathMatcher,
-            IThreadHelper threadHelper
-        )
+            IThreadHelper threadHelper)
         {
             _blazorGeneratedDocumentRootFinder = blazorGeneratedDocumentRootFinder;
             _cSharpCodeCoverageNodeVisitor = cSharpCodeCoverageNodeVisitor;
@@ -41,8 +40,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
         {
             string filePath = _textInfoFactory.GetFilePath(snapshot.TextBuffer);
             SyntaxNode generatedDocumentSyntaxRoot = _threadHelper.JoinableTaskFactory.Run(
-                () => _blazorGeneratedDocumentRootFinder.FindSyntaxRootAsync(snapshot.TextBuffer, filePath, _blazorGeneratedFilePathMatcher)
-            );
+                () => _blazorGeneratedDocumentRootFinder.FindSyntaxRootAsync(snapshot.TextBuffer, filePath, _blazorGeneratedFilePathMatcher));
             if (generatedDocumentSyntaxRoot == null)
             {
                 return null;
@@ -58,8 +56,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
                 .Where(a => a.MappedLineSpan.Path == filePath)
                 .Select(a => new CodeSpanRange(
                     a.MappedLineSpan.StartLinePosition.Line,
-                    a.MappedLineSpan.EndLinePosition.Line)
-                ).ToList();
+                    a.MappedLineSpan.EndLinePosition.Line))
+                .ToList();
         }
     }
 }

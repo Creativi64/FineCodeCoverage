@@ -9,8 +9,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         IRunSettingsTemplateReplacements Create(
             IEnumerable<ITestContainer> testContainers,
             Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup,
-            string testAdapter
-        );
+            string testAdapter);
 
         IRunSettingsTemplateReplacements Create(ICoverageProject coverageProject, string testAdapter);
     }

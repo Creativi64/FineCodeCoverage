@@ -27,12 +27,12 @@ namespace FineCodeCoverage.Output
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
         /// </summary>
-        public ReportToolWindow(ReportToolWindowContext context) : base(null) => Initialize(context);
+        public ReportToolWindow(ReportToolWindowContext context)
+            : base(null) => Initialize(context);
 
         public ReportToolWindow()
             => Initialize(
-                ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>()
-            );
+                ReflectionMEFToolWindowContextProvider.GetToolWindowContext<ReportToolWindow, ReportToolWindowContext>());
 
         private void Initialize(ReportToolWindowContext context)
         {

@@ -137,8 +137,8 @@ namespace FineCodeCoverage.Output
         protected override Task<object> InitializeToolWindowAsync(
             Type toolWindowType,
             int id,
-            CancellationToken cancellationToken
-        ) => Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
+            CancellationToken cancellationToken)
+            => Task.FromResult(ReflectionMEFToolWindowContextProvider.GetToolWindowContext(toolWindowType));
 
         public override IVsAsyncToolWindowFactory GetAsyncToolWindowFactory(Guid toolWindowType)
         {

@@ -24,12 +24,12 @@ namespace FineCodeCoverage.Editor.Management
         public const string FCCNotIncludedClassificationTypeName = "FCCNotIncluded";
         private readonly Dictionary<DynamicCoverageType, string> _editorFormatNames = new Dictionary<DynamicCoverageType, string>
         {
-            {DynamicCoverageType.Partial, FCCPartiallyCoveredClassificationTypeName },
-            {DynamicCoverageType.NotCovered, FCCNotCoveredClassificationTypeName },
-            {DynamicCoverageType.Covered, FCCCoveredClassificationTypeName },
-            {DynamicCoverageType.Dirty, FCCDirtyClassificationTypeName },
-            {DynamicCoverageType.NewLine, FCCNewLineClassificationTypeName },
-            {DynamicCoverageType.NotIncluded, FCCNotIncludedClassificationTypeName },
+            { DynamicCoverageType.Partial, FCCPartiallyCoveredClassificationTypeName },
+            { DynamicCoverageType.NotCovered, FCCNotCoveredClassificationTypeName },
+            { DynamicCoverageType.Covered, FCCCoveredClassificationTypeName },
+            { DynamicCoverageType.Dirty, FCCDirtyClassificationTypeName },
+            { DynamicCoverageType.NewLine, FCCNewLineClassificationTypeName },
+            { DynamicCoverageType.NotIncluded, FCCNotIncludedClassificationTypeName },
         };
 
         private readonly IClassificationFormatMap _classificationFormatMap;
@@ -69,8 +69,7 @@ namespace FineCodeCoverage.Editor.Management
         [ImportingConstructor]
         public CoverageClassificationTypeService(
             IClassificationFormatMapService classificationFormatMapService,
-            IClassificationTypeRegistryService classificationTypeRegistryService
-        )
+            IClassificationTypeRegistryService classificationTypeRegistryService)
         {
             _classificationFormatMap = classificationFormatMapService.GetClassificationFormatMap("text");
             _highestPriorityClassificationType = _classificationFormatMap.CurrentPriorityOrder.Last(ct => ct != null);

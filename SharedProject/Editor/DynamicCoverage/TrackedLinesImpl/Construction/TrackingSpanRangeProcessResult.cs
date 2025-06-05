@@ -8,8 +8,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             ITrackingSpanRange trackingSpanRange,
             List<LineRange> nonIntersectingSpans,
             bool isEmpty,
-            bool textChanged
-        )
+            bool textChanged)
         {
             TrackingSpanRange = trackingSpanRange;
             NonIntersectingSpans = nonIntersectingSpans;

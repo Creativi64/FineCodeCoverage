@@ -16,8 +16,7 @@ namespace FineCodeCoverage.Core.Initialization
         public FirstTimeToolWindowOpener(
             IInitializedFromTestContainerDiscoverer initializedFromTestContainerDiscoverer,
             IShownToolWindowHistory shownToolWindowHistory,
-            IReportToolWindowOpener toolWindowOpener
-        )
+            IReportToolWindowOpener toolWindowOpener)
         {
             _initializedFromTestContainerDiscoverer = initializedFromTestContainerDiscoverer;
             _shownToolWindowHistory = shownToolWindowHistory;
@@ -29,8 +28,7 @@ namespace FineCodeCoverage.Core.Initialization
             cancellationToken.ThrowIfCancellationRequested();
             if (
                 !_initializedFromTestContainerDiscoverer.InitializedFromTestContainerDiscoverer ||
-                _shownToolWindowHistory.HasShownToolWindow
-            )
+                _shownToolWindowHistory.HasShownToolWindow)
             {
                 return;
             }

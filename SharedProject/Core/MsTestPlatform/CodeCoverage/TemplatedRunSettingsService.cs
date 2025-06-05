@@ -50,8 +50,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             IRunSettingsTemplate runSettingsTemplate,
             ICustomRunSettingsTemplateProvider customRunSettingsTemplateProvider,
             IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory,
-            IProjectRunSettingsGenerator projectRunSettingsGenerator
-        )
+            IProjectRunSettingsGenerator projectRunSettingsGenerator)
         {
             _runSettingsTemplate = runSettingsTemplate;
             _customRunSettingsTemplateProvider = customRunSettingsTemplateProvider;
@@ -79,8 +78,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             catch (Exception exc)
             {
                 await Tryer.TryAsync(
-                    () => _projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings)
-                );
+                    () => _projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings));
 
                 return ProjectRunSettingsFromTemplateResult.FromException(exc, "Exception writing templated runsettings");
             }
@@ -89,8 +87,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         }
 
         private static ProjectRunSettingsFromTemplateResult CreateSuccessResult(
-            IEnumerable<TemplatedCoverageProjectRunSettingsResult> templatedCoverageProjectsRunSettingsResult
-        )
+            IEnumerable<TemplatedCoverageProjectRunSettingsResult> templatedCoverageProjectsRunSettingsResult)
         {
             var customTemplatePaths = new List<string>();
             var coverageProjectsWithFCCMsTestAdapter = new List<ICoverageProject>();
@@ -117,8 +114,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public List<TemplatedCoverageProjectRunSettingsResult> CreateProjectsRunSettings(
             IEnumerable<ICoverageProject> coverageProjects,
             string solutionDirectory,
-            string fccMsTestAdapterPath
-        ) => coverageProjects.Select(coverageProject =>
+            string fccMsTestAdapterPath) => coverageProjects.Select(coverageProject =>
             {
                 string projectDirectory = Path.GetDirectoryName(coverageProject.ProjectFilePath);
                 (string replaceableTemplate, string customTemplatePath) = GetRunSettingsTemplate(

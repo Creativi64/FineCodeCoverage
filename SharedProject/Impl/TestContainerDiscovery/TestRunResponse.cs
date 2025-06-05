@@ -5,7 +5,8 @@ namespace FineCodeCoverage.Impl
 {
     public class TestRunResponse : ReflectObjectProperties
     {
-        public TestRunResponse(object toReflect) : base(toReflect)
+        public TestRunResponse(object toReflect)
+            : base(toReflect)
         {
         }
 

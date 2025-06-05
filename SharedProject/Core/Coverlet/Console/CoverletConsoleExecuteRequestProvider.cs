@@ -19,8 +19,8 @@ namespace FineCodeCoverage.Engine.Coverlet
             ICoverletConsoleExecutor customPathExecutor,
             [Import(typeof(ICoverletConsoleDotnetToolsLocalExecutor))]
             ICoverletConsoleExecutor localExecutor,
-            IFCCCoverletConsoleExecutor fccExecutor
-        ) => _executors = new List<ICoverletConsoleExecutor>
+            IFCCCoverletConsoleExecutor fccExecutor)
+            => _executors = new List<ICoverletConsoleExecutor>
             {
                 localExecutor,
                 customPathExecutor,

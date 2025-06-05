@@ -19,8 +19,7 @@ namespace FineCodeCoverage.Output
                 const bool hash = false;
                 var line = new LineGeometry(
                     new Point(0, tile),
-                    new Point(tile, 0)
-                );
+                    new Point(tile, 0));
 
                 var geometryGroup = new GeometryGroup();
                 geometryGroup.Children.Add(line);
@@ -29,8 +28,7 @@ namespace FineCodeCoverage.Output
 #pragma warning disable CS0162 // Unreachable code detected
                     var line2 = new LineGeometry(
                         new Point(tile, tile),
-                        new Point(0, 0)
-                    );
+                        new Point(0, 0));
 #pragma warning restore CS0162 // Unreachable code detected
                     geometryGroup.Children.Add(line2);
                 }

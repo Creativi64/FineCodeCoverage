@@ -21,8 +21,7 @@ namespace FineCodeCoverage.Output
             IVsShutdown vsShutdown,
             IColumnStatesStore columnStateStore,
             IJsonConvertService jsonConvertService,
-            IThreadHelper threadHelper
-        )
+            IThreadHelper threadHelper)
         {
             _columnStateStore = columnStateStore;
             _jsonConvertService = jsonConvertService;
@@ -85,7 +84,7 @@ namespace FineCodeCoverage.Output
                     ColumnType = reportColumnData.ReportColumnType,
                     IsVisible = reportColumnData.UserIsVisible,
                     DisplayIndex = c.DisplayIndex,
-                    Width = c.ActualWidth,// rather than the getter that is dependent upon visibility / validity
+                    Width = c.ActualWidth, // rather than the getter that is dependent upon visibility / validity
                     HeaderAlignment = c.HeaderAlignment,
                     CellAlignment = c.CellAlignment,
                 };
@@ -97,8 +96,9 @@ namespace FineCodeCoverage.Output
         private void SetInitialColumns(List<ReportColumnState> reportColumnStates)
         {
             // could reflect
-            var reportColumns = new ReportColumnData[] {
-                Name,// must be first
+            var reportColumns = new ReportColumnData[]
+            {
+                Name, // must be first
                 CoverableLines,
                 CoveredLines,
                 NotCoveredLines,
