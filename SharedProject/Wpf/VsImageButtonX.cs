@@ -6,8 +6,10 @@ namespace FineCodeCoverage.Wpf
 {
     public partial class VsImageButtonX : ContentControl
     {
-        static VsImageButtonX() => DefaultStyleKeyProperty.OverrideMetadata(typeof(VsImageButtonX),
-            new FrameworkPropertyMetadata(typeof(VsImageButtonX)));
+        static VsImageButtonX() => DefaultStyleKeyProperty.OverrideMetadata(
+            typeof(VsImageButtonX),
+            new FrameworkPropertyMetadata(typeof(VsImageButtonX))
+        );
 
         public VsImageButtonX()
         {

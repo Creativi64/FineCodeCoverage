@@ -11,8 +11,8 @@ namespace FineCodeCoverage.Editor.Management
     internal class DelayedMainThreadInvocation : IDelayedMainThreadInvocation
     {
         public void DelayedInvoke(Action action)
-            => _ = System.Threading.Tasks.Task.Delay(0).ContinueWith(_ =>
-                ThreadHelper.JoinableTaskFactory.Run(async () =>
+            => _ = System.Threading.Tasks.Task.Delay(0).ContinueWith(
+                _ => ThreadHelper.JoinableTaskFactory.Run(async () =>
                 {
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     action();

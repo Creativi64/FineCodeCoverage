@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Engine.Coverlet
     internal class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor
     {
         private const string ZipPrefix = "coverlet.console";
-        private const string ZipDirectoryName = "coverlet"; //backwards compatibility
+        private const string ZipDirectoryName = "coverlet"; // backwards compatibility
         private readonly IToolUnzipper _toolUnzipper;
         private string _coverletExePath;
 

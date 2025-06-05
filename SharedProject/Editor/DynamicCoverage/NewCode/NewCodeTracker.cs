@@ -53,14 +53,16 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         #region CodeSpanRange
 
         public IEnumerable<int> GetChangedLineNumbers(ITextSnapshot textSnapshot, List<CodeSpanRange> codeSpanRanges)
-    => OnHasNewCodeChangedIfChanged(() =>
-    {
-        List<int> rangeStartLineNumbers = codeSpanRanges.ConvertAll(newCodeCodeRange => newCodeCodeRange.StartLine);
-        List<int> removed = RemoveAndReduceByDynamicLineNumbers(rangeStartLineNumbers);
-        List<int> newRangeStartLineNumbers = rangeStartLineNumbers;
-        CreateTrackedNewCodeLinesFromRangeStartLineNumbers(newRangeStartLineNumbers, textSnapshot);
-        return removed.Concat(newRangeStartLineNumbers).OrderBy(lineNumber => lineNumber).ToList();
-    }, textSnapshot);
+        => OnHasNewCodeChangedIfChanged(
+            () =>
+            {
+                List<int> rangeStartLineNumbers = codeSpanRanges.ConvertAll(newCodeCodeRange => newCodeCodeRange.StartLine);
+                List<int> removed = RemoveAndReduceByDynamicLineNumbers(rangeStartLineNumbers);
+                List<int> newRangeStartLineNumbers = rangeStartLineNumbers;
+                CreateTrackedNewCodeLinesFromRangeStartLineNumbers(newRangeStartLineNumbers, textSnapshot);
+                return removed.Concat(newRangeStartLineNumbers).OrderBy(lineNumber => lineNumber).ToList();
+            },
+            textSnapshot);
 
         private List<int> RemoveAndReduceByDynamicLineNumbers(List<int> rangeStartLineNumbers)
         {
@@ -81,14 +83,16 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         #region LineRange
 
         public IEnumerable<int> GetChangedLineNumbers(ITextSnapshot currentSnapshot, List<LineRange> ranges)
-            => OnHasNewCodeChangedIfChanged(() =>
-            {
-                List<int> updatedLineNumbers =
-                UpdateTracked(currentSnapshot, ranges);
-                List<LineRange> newRanges = ranges;
-                IEnumerable<int> addedLineNumbers = AddDistinctTrackedNewCodeLinesIfNotExcluded(newRanges, currentSnapshot);
-                return updatedLineNumbers.Concat(addedLineNumbers).OrderBy(lineNumber => lineNumber).ToList();
-            }, currentSnapshot);
+            => OnHasNewCodeChangedIfChanged(
+                () =>
+                {
+                    List<int> updatedLineNumbers =
+                    UpdateTracked(currentSnapshot, ranges);
+                    List<LineRange> newRanges = ranges;
+                    IEnumerable<int> addedLineNumbers = AddDistinctTrackedNewCodeLinesIfNotExcluded(newRanges, currentSnapshot);
+                    return updatedLineNumbers.Concat(addedLineNumbers).OrderBy(lineNumber => lineNumber).ToList();
+                },
+                currentSnapshot);
 
         private List<int> UpdateTracked(
             ITextSnapshot currentSnapshot,

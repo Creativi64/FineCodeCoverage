@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Core.Coverlet
         public bool Read(string runSettingsXml)
         {
             var document = XDocument.Parse(runSettingsXml);
-            //<DataCollector friendlyName=""XPlat code coverage"">
+            // <DataCollector friendlyName=""XPlat code coverage"">
             XElement coverletDataCollectorElement = document.Descendants("DataCollector").FirstOrDefault(dataCollector =>
             {
                 XAttribute friendlyNameAttribute = dataCollector.Attribute("friendlyName");

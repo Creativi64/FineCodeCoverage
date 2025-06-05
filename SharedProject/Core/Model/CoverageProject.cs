@@ -272,6 +272,7 @@ namespace FineCodeCoverage.Engine.Model
                 _ = Directory.CreateDirectory(CoverageOutputFolder);
             }
         }
+
         private void CleanFCCDirectory()
         {
             var exclusions = new List<string> { _buildOutputFolderName, _coverageToolOutputFolderName };

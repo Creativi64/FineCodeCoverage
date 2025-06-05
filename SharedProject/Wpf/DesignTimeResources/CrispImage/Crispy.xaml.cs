@@ -97,9 +97,11 @@ namespace FineCodeCoverage.Wpf
             Content = _image;
         }
 
-        private void BindProperty(DependencyProperty sourceProperty,
-                          DependencyObject targetObject,
-                          DependencyProperty targetProperty)
+        private void BindProperty(
+            DependencyProperty sourceProperty,
+            DependencyObject targetObject,
+            DependencyProperty targetProperty
+        )
         {
             var binding = new Binding
             {
@@ -137,7 +139,7 @@ namespace FineCodeCoverage.Wpf
             _image.Source = imageSource;
         }
 
-        private static uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16));// | (color.A << 24));
+        private static uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16)); // | (color.A << 24));
 
         private static int GetDpi()
         {
@@ -158,17 +160,17 @@ namespace FineCodeCoverage.Wpf
         {
             var imageAttributes = new ImageAttributes
             {
-                //imageAttributes.HighContrast = 1;
+                // imageAttributes.HighContrast = 1;
                 Format = (uint)_UIDataFormat.DF_WPF,
                 ImageType = (uint)_UIImageType.IT_Bitmap
             };
-            const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background;// others
+            const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background; // others
             imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
             imageAttributes.StructSize = (int)Marshal.SizeOf<ImageAttributes>();
             imageAttributes.Background = ConvertColor(GetColor());
             imageAttributes.Dpi = GetDpi();
 
-            //var scaleFactor = 1;  
+            // var scaleFactor = 1;  
 
             imageAttributes.LogicalHeight = (int)Width;
             imageAttributes.LogicalWidth = (int)Height;

@@ -37,6 +37,7 @@ namespace FineCodeCoverage.Core.Initialization
             _logger = logger;
             _firstTimeToolWindowOpener = firstTimeToolWindowOpener;
         }
+
         public async Task InitializeAsync(CancellationToken cancellationToken)
         {
             try

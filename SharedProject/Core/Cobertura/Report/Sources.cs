@@ -2,7 +2,6 @@
 using System.Xml.Serialization;
 
 // Generated from cobertura XML schema
-
 namespace FineCodeCoverage.Engine.Cobertura
 {
     [XmlRoot(ElementName = "sources")]

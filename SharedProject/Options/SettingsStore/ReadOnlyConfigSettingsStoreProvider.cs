@@ -11,11 +11,13 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IReadOnlyConfigSettingsStoreProvider))]
     internal class ReadOnlyConfigSettingsStoreProvider : IReadOnlyConfigSettingsStoreProvider
     {
-        public AsyncLazy<SettingsStore> LazySettingsStore { get; } = new AsyncLazy<SettingsStore>(async () =>
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-            return settingsManager.GetReadOnlySettingsStore(SettingsScope.Configuration);
-        }, ThreadHelper.JoinableTaskFactory);
+        public AsyncLazy<SettingsStore> LazySettingsStore { get; } = new AsyncLazy<SettingsStore>(
+            async () =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+                return settingsManager.GetReadOnlySettingsStore(SettingsScope.Configuration);
+            },
+            ThreadHelper.JoinableTaskFactory);
     }
 }

@@ -94,12 +94,12 @@ namespace FineCodeCoverage.Editor.Management
         {
             List<IFontAndColorsInfo> fromFontsAndColors = GetItemCoverageInfosFromFontsAndColors();
             return new CoverageColours(
-                fromFontsAndColors[0],//touched
-                fromFontsAndColors[1],//not touched
-                fromFontsAndColors[2],//partial
-                fromFontsAndColors[3],//dirty
-                fromFontsAndColors[4],//newlines
-                fromFontsAndColors[5]//not included
+                fromFontsAndColors[0], // touched
+                fromFontsAndColors[1], // not touched
+                fromFontsAndColors[2], // partial
+                fromFontsAndColors[3], // dirty
+                fromFontsAndColors[4], // newlines
+                fromFontsAndColors[5] // not included
             );
         }
 

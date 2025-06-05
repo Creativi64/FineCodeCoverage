@@ -32,6 +32,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             _fccExecutor = fccExecutor;
             _coverletExeArgumentsProvider = coverletExeArgumentsProvider;
         }
+
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
             => _fccExecutor.Initialize(appDataFolder, cancellationToken);
 

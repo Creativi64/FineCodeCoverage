@@ -16,11 +16,13 @@ namespace FineCodeCoverage.Engine
         public SourceFileOpener(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider
-        ) => _lazyDTE2 = new AsyncLazy<DTE2>(async () =>
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            return (DTE2)serviceProvider.GetService(typeof(DTE));
-        }, ThreadHelper.JoinableTaskFactory);
+        ) => _lazyDTE2 = new AsyncLazy<DTE2>(
+            async () =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                return (DTE2)serviceProvider.GetService(typeof(DTE));
+            },
+            ThreadHelper.JoinableTaskFactory);
 
         public async System.Threading.Tasks.Task OpenAsync(string sourceFilePath, int line)
         {

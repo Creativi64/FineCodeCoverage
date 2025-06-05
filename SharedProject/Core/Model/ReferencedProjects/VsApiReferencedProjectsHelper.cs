@@ -28,11 +28,13 @@ namespace FineCodeCoverage.Engine.Model
             IDotNetReferencedProjectsHelper dotNetReferencedProjectsHelper
         )
         {
-            _lazyDTE2 = new AsyncLazy<DTE2>(async () =>
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                return (DTE2)serviceProvider.GetService(typeof(DTE));
-            }, ThreadHelper.JoinableTaskFactory);
+            _lazyDTE2 = new AsyncLazy<DTE2>(
+                async () =>
+                {
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    return (DTE2)serviceProvider.GetService(typeof(DTE));
+                }, ThreadHelper.JoinableTaskFactory
+            );
             _cppReferencedProjectsHelper = cppReferencedProjectsHelper;
             _dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
         }
@@ -58,7 +60,7 @@ namespace FineCodeCoverage.Engine.Model
             return dte2.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
-                //have to try here as unloaded projects will throw
+                // have to try here as unloaded projects will throw
                 string projectFullName = "";
                 try
                 {

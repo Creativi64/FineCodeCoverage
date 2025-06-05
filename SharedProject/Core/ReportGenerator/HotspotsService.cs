@@ -89,18 +89,27 @@ namespace FineCodeCoverage.ReportGeneration
 
         private static void WriteHotspotsToXml(IEnumerable<RiskHotspot> hotspots, string path)
         {
-            var rootElement = new XElement("Hotspots", hotspots.Select(hotspot => new XElement("Hotspot",
-                    new XElement("Assembly", hotspot.Assembly),
-                    new XElement("Class", hotspot.Class),
-                    new XElement("Method", hotspot.MethodMetric.FullName),
-                    new XElement("Line", hotspot.MethodMetric.Line),
-                    new XElement("Metrics",
-                        hotspot.MethodMetric.Metrics.Select(metric => new XElement("Metric",
+            var rootElement = new XElement(
+                "Hotspots",
+                hotspots.Select(hotspot
+                    => new XElement(
+                        "Hotspot",
+                        new XElement("Assembly", hotspot.Assembly),
+                        new XElement("Class", hotspot.Class),
+                        new XElement("Method", hotspot.MethodMetric.FullName),
+                        new XElement("Line", hotspot.MethodMetric.Line),
+                        new XElement(
+                            "Metrics",
+                            hotspot.MethodMetric.Metrics.Select(metric => new XElement(
+                                "Metric",
                                 new XElement("Name", metric.Name),
                                 new XElement("Value", metric.Value)
-                            ))
+                                )
+                            )
+                        )
                     )
-                )));
+                )
+            );
 
             rootElement.Save(path);
         }

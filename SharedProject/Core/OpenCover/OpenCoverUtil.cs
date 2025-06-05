@@ -64,8 +64,8 @@ namespace FineCodeCoverage.Engine.OpenCover
             // deleting the pdb of the test assembly seems to work; this is a VERY VERY shameful hack :(
             // filtering out the test-assembly blows up the entire process and nothing gets instrumented or analysed
 
-            //var nameOnlyOfDll = Path.GetFileNameWithoutExtension(project.TestDllFileInWorkFolder);
-            //filters.Add($@"-[{nameOnlyOfDll}]*");
+            // var nameOnlyOfDll = Path.GetFileNameWithoutExtension(project.TestDllFileInWorkFolder);
+            // filters.Add($@"-[{nameOnlyOfDll}]*");
         }
 
         public async Task RunOpenCoverAsync(ICoverageProject project, CancellationToken cancellationToken)
@@ -79,12 +79,15 @@ namespace FineCodeCoverage.Engine.OpenCover
             await _logger.LogAsync($"{title} Arguments {Environment.NewLine}{string.Join($"{Environment.NewLine}", openCoverSettings)}");
 
             ExecuteResponse result = await _processUtil
-            .ExecuteAsync(new ExecuteRequest
-            {
-                FilePath = GetOpenCoverExePath(project.Settings.OpenCoverCustomPath),
-                Arguments = string.Join(" ", openCoverSettings),
-                WorkingDirectory = project.ProjectOutputFolder
-            }, cancellationToken);
+            .ExecuteAsync(
+                new ExecuteRequest
+                {
+                    FilePath = GetOpenCoverExePath(project.Settings.OpenCoverCustomPath),
+                    Arguments = string.Join(" ", openCoverSettings),
+                    WorkingDirectory = project.ProjectOutputFolder
+                },
+                cancellationToken
+            );
 
             if (result.ExitCode != 0)
             {

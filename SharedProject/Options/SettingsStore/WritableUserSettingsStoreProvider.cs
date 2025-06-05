@@ -9,11 +9,13 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IWritableUserSettingsStoreProvider))]
     internal class WritableUserSettingsStoreProvider : IWritableUserSettingsStoreProvider
     {
-        public AsyncLazy<WritableSettingsStore> LazySettingsStore { get; } = new AsyncLazy<WritableSettingsStore>(async () =>
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-            return settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
-        }, ThreadHelper.JoinableTaskFactory);
+        public AsyncLazy<WritableSettingsStore> LazySettingsStore { get; } = new AsyncLazy<WritableSettingsStore>(
+            async () =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+                return settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            },
+            ThreadHelper.JoinableTaskFactory);
     }
 }

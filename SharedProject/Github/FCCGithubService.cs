@@ -95,28 +95,33 @@ namespace FineCodeCoverage.Github
             _vsVersion = vsVersion;
             _fccVersion = fccVersion;
             _process = process;
-            _submitCommand = new RelayCommand(() =>
-            {
-                var encodings = new Dictionary<string, string>
+            _submitCommand = new RelayCommand(
+                () =>
                 {
-                    { "vsversion", VsVersionString },
-                    { "fccversion", FccVersionString },
-                    { "title", Title }
-                };
+                    var encodings = new Dictionary<string, string>
+                    {
+                        { "vsversion", VsVersionString },
+                        { "fccversion", FccVersionString },
+                        { "title", Title }
+                    };
 
-                var sb = new StringBuilder($"{FCCGithub.Repo}/issues/new?template=Issue-form.yaml");
-                _ = encodings.Aggregate(sb, (acc, kv) => acc.Append($"&{kv.Key}={urlEncoder.Encode(kv.Value)}"));
+                    var sb = new StringBuilder($"{FCCGithub.Repo}/issues/new?template=Issue-form.yaml");
+                    _ = encodings.Aggregate(sb, (acc, kv) => acc.Append($"&{kv.Key}={urlEncoder.Encode(kv.Value)}"));
 
-                Clipboard.SetDataObject(FccOutput);
-                string url = sb.ToString();
-                process.Start(url);
-            }, () => !string.IsNullOrWhiteSpace(Title) && HaveReadReadme && HaveCheckedFCCIssues);
-            _mailToCommand = new RelayCommand(() =>
-            {
-                string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "fortunengwenya@gmail.com", Title, FccOutput);
-                mailto = Uri.EscapeUriString(mailto);
-                process.Start(mailto);
-            }, () => !string.IsNullOrWhiteSpace(FccOutput));
+                    Clipboard.SetDataObject(FccOutput);
+                    string url = sb.ToString();
+                    process.Start(url);
+                },
+                () => !string.IsNullOrWhiteSpace(Title) && HaveReadReadme && HaveCheckedFCCIssues);
+            _mailToCommand = new RelayCommand(
+                () =>
+                {
+                    string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "fortunengwenya@gmail.com", Title, FccOutput);
+                    mailto = Uri.EscapeUriString(mailto);
+                    process.Start(mailto);
+                },
+                () => !string.IsNullOrWhiteSpace(FccOutput)
+            );
             _openReadMeCommand = new RelayCommand(() => readMeService.Show());
             _searchIssuesCommand = new RelayCommand(() =>
                 {

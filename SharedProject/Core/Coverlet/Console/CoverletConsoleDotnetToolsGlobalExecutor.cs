@@ -21,6 +21,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             _dotNetToolListCoverlet = dotNetToolListCoverlet;
             _logger = logger;
         }
+
         public async Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {
             if (!coverageProject.Settings.CoverletConsoleGlobal)

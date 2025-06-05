@@ -109,10 +109,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 MergedIncludesExcludesOptions includesExcludesOptions,
                 IEnumerable<string> additionalModulePathsIncludes,
                 IEnumerable<string> additionalModulePathsExcludes
-            ) : this(includesExcludesOptions.ModulePathsInclude,
+            ) : this(
+                includesExcludesOptions.ModulePathsInclude,
                 includesExcludesOptions.ModulePathsExclude,
                 additionalModulePathsIncludes,
-                additionalModulePathsExcludes)
+                additionalModulePathsExcludes
+            )
             {
                 CompanyNamesInclude = includesExcludesOptions.CompanyNamesInclude;
                 CompanyNamesExclude = includesExcludesOptions.CompanyNamesExclude;

@@ -16,11 +16,11 @@ namespace FineCodeCoverage.Engine
         private readonly ILogger _logger;
         private readonly IEventAggregator _eventAggregator;
         private readonly IFileUtil _fileUtil;
-        private string _outputFolderForAllProjects;
-        private List<ICoverageProject> _coverageProjects;
         private readonly IOrderedEnumerable<
             Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>
         > _outputFolderProviders;
+        private string _outputFolderForAllProjects;
+        private List<ICoverageProject> _coverageProjects;
 
         [ImportingConstructor]
         public CoverageToolOutputManager(

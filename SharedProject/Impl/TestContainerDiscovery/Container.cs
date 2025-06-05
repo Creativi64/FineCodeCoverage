@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Impl
         public object TargetPlatform { get; protected set; }
 
         // this is a public enum FrameworkVersion
-        //[ReflectFlags(BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic)]
+        // [ReflectFlags(BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic)]
         public object TargetFramework { get; protected set; }
         public ContainerData ProjectData { get; protected set; }
     }

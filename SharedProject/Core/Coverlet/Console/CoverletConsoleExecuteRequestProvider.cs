@@ -40,7 +40,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 }
             }
 
-            return null;//todo change to throw when using zip file
+            return null; //todo change to throw when using zip file
         }
     }
 }

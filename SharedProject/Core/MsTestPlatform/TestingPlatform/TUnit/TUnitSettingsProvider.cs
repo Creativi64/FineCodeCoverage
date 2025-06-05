@@ -61,7 +61,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 {
                     case "coverage":
                     case "coverage-output-format":
-                    case "coverage-output"://for now will use own
+                    case "coverage-output": // for now will use own
                         break;
                     case "coverage-settings":
                     case "settings":

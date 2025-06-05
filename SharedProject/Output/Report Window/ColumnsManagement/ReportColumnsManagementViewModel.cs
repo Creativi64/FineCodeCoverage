@@ -25,19 +25,22 @@ namespace FineCodeCoverage.Output
         )
         {
             Columns = new ObservableCollection<EditableColumn>(reportColumnsManager.GetColumns().Select(rcd => new EditableColumn(rcd)));
-            OkCommand = new RelayCommand(() =>
-            {
-                var columnsInError = Columns.Where(c => c.Error != null).ToList();
-                if (columnsInError.Count > 0)
+            OkCommand = new RelayCommand(
+                () =>
                 {
-                    ShowError(columnsInError);
-                }
-                else
-                {
-                    UpdateReportColumnData();
-                    Done?.Invoke(this, EventArgs.Empty);
-                }
-            }, () => true);
+                    var columnsInError = Columns.Where(c => c.Error != null).ToList();
+                    if (columnsInError.Count > 0)
+                    {
+                        ShowError(columnsInError);
+                    }
+                    else
+                    {
+                        UpdateReportColumnData();
+                        Done?.Invoke(this, EventArgs.Empty);
+                    }
+                },
+                () => true
+            );
             CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
 
             /*
@@ -45,17 +48,23 @@ namespace FineCodeCoverage.Output
 
             */
 
-            DownCommand = new RelayCommand(() =>
-            {
-                GetSelectedIndices().OrderByDescending(i => i).ToList().ForEach(i => Columns.Move(i, i + 1));
-                SetCanMove();
-            }, () => _canMoveDown);
+            DownCommand = new RelayCommand(
+                () =>
+                {
+                    GetSelectedIndices().OrderByDescending(i => i).ToList().ForEach(i => Columns.Move(i, i + 1));
+                    SetCanMove();
+                },
+                () => _canMoveDown
+            );
 
-            UpCommand = new RelayCommand(() =>
-            {
-                GetAscendingSelectedIndices().ToList().ForEach(i => Columns.Move(i, i - 1));
-                SetCanMove();
-            }, () => _canMoveUp);
+            UpCommand = new RelayCommand(
+                () =>
+                {
+                    GetAscendingSelectedIndices().ToList().ForEach(i => Columns.Move(i, i - 1));
+                    SetCanMove();
+                },
+                () => _canMoveUp
+            );
             _reportColumnsManager = reportColumnsManager;
             _messageBox = messageBox;
         }

@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         private readonly IToolUnzipper _toolUnzipper;
         private readonly IVsBuildFCCSettingsProvider _vsBuildFCCSettingsProvider;
 
-        //for tests
+        // for tests
         internal IRunSettingsCoverletConfiguration _runSettingsCoverletConfiguration;
         internal ICoverageProject _coverageProject;
         private const string LogPrefix = "Coverlet Collector Run";
@@ -163,7 +163,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                 projectExcludes = projectExcludes.Concat(SanitizeExcludesOrIncludes(_coverageProject.Settings.Exclude)).ToArray();
             }
 
-            //DataCollector Configuration
+            // DataCollector Configuration
             dataCollectorSettingsBuilder
                 .WithExclude(projectExcludes, _runSettingsCoverletConfiguration.Exclude);
             dataCollectorSettingsBuilder
@@ -233,12 +233,15 @@ namespace FineCodeCoverage.Engine.Coverlet
             await LogRunAsync(settings);
 
             ExecuteResponse result = await _processUtil
-            .ExecuteAsync(new ExecuteRequest
-            {
-                FilePath = "dotnet",
-                Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {await GetTestAdapterPathArgAsync()}",
-                WorkingDirectory = _coverageProject.ProjectOutputFolder
-            }, cancellationToken);
+            .ExecuteAsync(
+                new ExecuteRequest
+                {
+                    FilePath = "dotnet",
+                    Arguments = $@"test --collect:""XPlat Code Coverage"" {settings} --test-adapter-path {await GetTestAdapterPathArgAsync()}",
+                    WorkingDirectory = _coverageProject.ProjectOutputFolder
+                },
+                cancellationToken
+            );
             // this is how coverlet console determines exit code
             // https://github.com/coverlet-coverage/coverlet/blob/ac0e0fad2f0301a3fe9a3de9f8cdb32f406ce6d8/src/coverlet.console/Program.cs
             // https://github.com/coverlet-coverage/coverlet/issues/388
@@ -259,6 +262,7 @@ namespace FineCodeCoverage.Engine.Coverlet
                     _coverageProject.CoverageOutputFolder, _coverageProject.CoverageOutputFile));
 
         }
+
         private string GetLogTitle() => $"{LogPrefix} ({_coverageProject.ProjectName})";
 
         internal string LogRunMessage(string coverletSettings)

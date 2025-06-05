@@ -20,8 +20,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             => new TrackingLine(startTrackingSpan, currentSnapshot, _lineTracker, dynamicCoverageType);
 
         public ITrackingLine Create(
-            ITrackingSpan startTrackingSpan,
+           ITrackingSpan startTrackingSpan,
            int originalLineNumber,
-           DynamicCoverageType dynamicCoverageType) => new TrackingLine(startTrackingSpan, _lineTracker, dynamicCoverageType, originalLineNumber);
+           DynamicCoverageType dynamicCoverageType)
+            => new TrackingLine(startTrackingSpan, _lineTracker, dynamicCoverageType, originalLineNumber);
     }
 }

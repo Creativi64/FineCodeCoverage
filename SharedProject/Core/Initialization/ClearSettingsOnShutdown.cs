@@ -16,20 +16,22 @@ namespace FineCodeCoverage.Core.Initialization
         public ClearSettingsOnShutdown(
             [Import(typeof(SVsServiceProvider))]
             System.IServiceProvider serviceProvider
-            ) => LazyShouldClearSettingsOnShutdown = new AsyncLazy<bool>(async () =>
-            {
-                if (!Debugger.IsAttached)
+            ) => LazyShouldClearSettingsOnShutdown = new AsyncLazy<bool>(
+                async () =>
                 {
+                    if (!Debugger.IsAttached)
+                    {
+                        return false;
+                    }
+
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    var cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
+                    Assumes.Present(cmdLine);
+                    _ = cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out _);
+
                     return false;
-                }
-
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                var cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
-                Assumes.Present(cmdLine);
-                _ = cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out _);
-
-                return false;
-            }, ThreadHelper.JoinableTaskFactory);
+                },
+                ThreadHelper.JoinableTaskFactory);
 
         public AsyncLazy<bool> LazyShouldClearSettingsOnShutdown { get; }
     }

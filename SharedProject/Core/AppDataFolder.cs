@@ -28,6 +28,7 @@ namespace FineCodeCoverage.Engine
             _environmentVariable = environmentVariable;
             _toolsOptionsProvider = toolsOptionsProvider;
         }
+
         public string DirectoryPath { get; private set; }
 
         public async Task InitializeAsync(CancellationToken camcellationToken)

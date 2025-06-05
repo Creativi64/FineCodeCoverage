@@ -17,6 +17,7 @@ namespace FineCodeCoverage.Engine.Coverlet
             _coverletDataCollectorUtil = coverletDataCollectorUtil;
             _coverletGlobalUtil = coverletGlobalUtil;
         }
+
         public void Initialize(string appDataFolder, CancellationToken cancellationToken)
         {
             _coverletGlobalUtil.Initialize(appDataFolder, cancellationToken);

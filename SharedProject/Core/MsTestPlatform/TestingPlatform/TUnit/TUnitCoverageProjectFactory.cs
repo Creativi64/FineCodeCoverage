@@ -83,11 +83,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsBuildPropertyStorage buildPropertyStorage)
             {
-                //todo configuration parameter for Debug
+                // todo configuration parameter for Debug
                 int hr = buildPropertyStorage.GetPropertyValue("TargetPath", null, 1, out string outputFile);
                 _ = ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.TestDllFile = outputFile;
-            }//todo throw if not
+            } // todo throw if not
 
             cancellationToken.ThrowIfCancellationRequested();
             if (project is IVsProject vsProject)
@@ -95,7 +95,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 int hr = vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out string projectFilePath);
                 _ = ErrorHandler.ThrowOnFailure(hr);
                 coverageProject.ProjectFilePath = projectFilePath;
-            }//todo throw if not
+            } // todo throw if not
 
             return coverageProject;
         }

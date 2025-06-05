@@ -80,15 +80,18 @@ namespace FineCodeCoverage.Output
         public ReportViewSelectorViewModel(IReportViewSelectorModel reportViewSelectorModel)
         {
             _reportViewSelectorModel = reportViewSelectorModel;
-            var okRelayCommand = new RelayCommand(() =>
-            {
-                reportViewSelectorModel.Update(
-                    SelectedReportStyle.ReportStyle,
-                    SelectedReportContentType.ReportContentType,
-                    SelectedBranch,
-                    SelectedRepositoryPath);
-                Done?.Invoke(this, EventArgs.Empty);
-            }, () => _changed);
+            var okRelayCommand = new RelayCommand(
+                () =>
+                {
+                    reportViewSelectorModel.Update(
+                        SelectedReportStyle.ReportStyle,
+                        SelectedReportContentType.ReportContentType,
+                        SelectedBranch,
+                        SelectedRepositoryPath);
+                    Done?.Invoke(this, EventArgs.Empty);
+                },
+                () => _changed
+            );
             _notifyOkCommandCanExecuteChanged = okRelayCommand.NotifyCanExecuteChanged;
             OkCommand = okRelayCommand;
             CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
