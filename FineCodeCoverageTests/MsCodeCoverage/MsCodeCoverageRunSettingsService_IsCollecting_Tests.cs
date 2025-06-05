@@ -224,7 +224,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             
             await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
 
-            var userRunSettingsProjectDetailsLookup = msCodeCoverageRunSettingsService._userRunSettingsProjectDetailsLookup;
+            var userRunSettingsProjectDetailsLookup = msCodeCoverageRunSettingsService.UserRunSettingsProjectDetailsLookup;
             Assert.AreEqual(1, userRunSettingsProjectDetailsLookup.Count);
             var userRunSettingsProjectDetails = userRunSettingsProjectDetailsLookup["Test.dll"];
             Assert.AreSame(projectSettings, userRunSettingsProjectDetails.Settings);

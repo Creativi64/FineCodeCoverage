@@ -119,6 +119,7 @@ namespace FineCodeCoverage.Output
 
                             continue;
                         }
+
                     default:
                         continue;
                 }

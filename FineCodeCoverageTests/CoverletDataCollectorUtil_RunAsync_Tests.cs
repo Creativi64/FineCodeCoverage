@@ -39,8 +39,8 @@ namespace Test
             mockCoverageProject.Setup(cp => cp.ExcludedReferencedProjects).Returns(new List<IReferencedProject>());
             mockCoverageProject.Setup(cp => cp.IncludedReferencedProjects).Returns(new List<IReferencedProject>());
             mockRunSettingsCoverletConfiguration = new Mock<IRunSettingsCoverletConfiguration>();
-            coverletDataCollectorUtil._runSettingsCoverletConfiguration = mockRunSettingsCoverletConfiguration.Object;
-            coverletDataCollectorUtil._coverageProject = mockCoverageProject.Object;
+            coverletDataCollectorUtil.RunSettingsCoverletConfiguration = mockRunSettingsCoverletConfiguration.Object;
+            coverletDataCollectorUtil.CoverageProject = mockCoverageProject.Object;
         }
 
         [TearDown]

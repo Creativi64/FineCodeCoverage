@@ -30,8 +30,8 @@ namespace FineCodeCoverage.Impl
     {
 #pragma warning disable 67
         public event EventHandler TestContainersUpdated;
-
 #pragma warning restore 67
+
         private readonly IFCCEngine _fccEngine;
         private readonly ITestOperationStateInvocationManager _testOperationStateInvocationManager;
         private readonly ITestOperationFactory _testOperationFactory;
@@ -40,14 +40,11 @@ namespace FineCodeCoverage.Impl
         private readonly IMsCodeCoverageRunSettingsService _msCodeCoverageRunSettingsService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ICoverageCollectableFromTestExplorer _coverageCollectableFromTestExplorer;
-        internal Dictionary<TestOperationStates, Func<IOperation, Task>> _testOperationStateChangeHandlers;
         private bool _cancelling;
         private MsCodeCoverageCollectionStatus _msCodeCoverageCollectionStatus;
         private bool _runningInParallel;
         private RunOptions _runOptions;
         private int _coverageRunNumber = 1;
-
-        internal Task _initializeTask;
 
         [ExcludeFromCodeCoverage]
         public Uri ExecutorUri => new Uri($"executor://{Vsix.Code}.Executor/v1");
@@ -56,6 +53,13 @@ namespace FineCodeCoverage.Impl
         public IEnumerable<ITestContainer> TestContainers => Enumerable.Empty<ITestContainer>();
 
         public bool MsCodeCoverageErrored => _msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Error;
+
+        // internal properties for tests
+        internal Dictionary<TestOperationStates, Func<IOperation, Task>> TestOperationStateChangeHandlers { get; set; }
+
+        internal Task InitializeTask { get; set; }
+
+        internal Action<Func<Task>> RunAsync { get; set; } = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
 
         [ImportingConstructor]
         public TestContainerDiscoverer(
@@ -79,7 +83,7 @@ namespace FineCodeCoverage.Impl
             _testOperationStateInvocationManager = testOperationStateInvocationManager;
             _testOperationFactory = testOperationFactory;
             _logger = logger;
-            _testOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
+            TestOperationStateChangeHandlers = new Dictionary<TestOperationStates, Func<IOperation, Task>>
             {
                 { TestOperationStates.TestExecutionCanceling, TestExecutionCancellingAsync },
                 { TestOperationStates.TestExecutionStarting, TestExecutionStartingAsync },
@@ -89,8 +93,6 @@ namespace FineCodeCoverage.Impl
             _ = packageLoader.LoadPackageAsync(CancellationToken.None);
             operationState.StateChanged += OperationState_StateChanged;
         }
-
-        internal Action<Func<Task>> _runAsync = (taskProvider) => ThreadHelper.JoinableTaskFactory.Run(taskProvider);
 
         private static bool CoverageDisabled(RunOptions runOptions)
             => !runOptions.Enabled && runOptions.DisabledNoCoverage;
@@ -247,7 +249,7 @@ namespace FineCodeCoverage.Impl
         }
 
         private void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
-            => _runAsync(async () => await TryAndLogExceptionAsync(() => OperationState_StateChangedAsync(e)));
+            => RunAsync(async () => await TryAndLogExceptionAsync(() => OperationState_StateChangedAsync(e)));
 
         private async Task TestExecutionCancellingAsync(IOperation operation)
         {
@@ -267,7 +269,7 @@ namespace FineCodeCoverage.Impl
 
         private async Task OperationState_StateChangedAsync(OperationStateChangedEventArgs e)
         {
-            if (!_testOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
+            if (!TestOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
                 || !await _coverageCollectableFromTestExplorer.IsCollectableAsync()
                 || !await _testOperationStateInvocationManager.CanInvokeAsync(e.State))
             {

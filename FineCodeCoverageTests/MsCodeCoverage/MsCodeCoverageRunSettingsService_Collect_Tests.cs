@@ -25,13 +25,13 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             var autoMocker = new AutoMoqer();
             var msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
 
-            msCodeCoverageRunSettingsService._collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService.CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
 
             var mockTestOperation = new Mock<ITestOperation>();
             mockTestOperation.Setup(testOperation => testOperation.GetCoverageProjectsAsync()).ReturnsAsync(new List<ICoverageProject>());
             await msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(mockTestOperation.Object);
 
-            Assert.That(msCodeCoverageRunSettingsService._collectionStatus, Is.EqualTo(MsCodeCoverageCollectionStatus.NotCollecting));
+            Assert.That(msCodeCoverageRunSettingsService.CollectionStatus, Is.EqualTo(MsCodeCoverageCollectionStatus.NotCollecting));
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             var expectedCoberturaFiles = new string[] { @"C:\SomePath\result1.cobertura.xml", @"C:\SomePath\result2.cobertura.xml" };
             await RunAndProcessReportAsync(resultsUris, expectedCoberturaFiles);
 
-            Assert.That(msCodeCoverageRunSettingsService._collectionStatus, Is.EqualTo(MsCodeCoverageCollectionStatus.NotCollecting));
+            Assert.That(msCodeCoverageRunSettingsService.CollectionStatus, Is.EqualTo(MsCodeCoverageCollectionStatus.NotCollecting));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             )).Returns("ZipDestination");
 
             msCodeCoverageRunSettingsService = autoMocker.Create<MsCodeCoverageRunSettingsService>();
-            msCodeCoverageRunSettingsService._collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService.CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
 
             await msCodeCoverageRunSettingsService.InitializeAsync("", CancellationToken.None);
 

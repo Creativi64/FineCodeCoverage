@@ -19,10 +19,10 @@ namespace FineCodeCoverage.Engine.FileSynchronization
             // file lists
             IEnumerable<FileInfo> sourceFileInfos = srceDir.GetFiles().Concat(srceDir.GetDirectories().Where(d => d.Name != fineCodeCoverageFolderName).SelectMany(d => d.GetFiles("*", SearchOption.AllDirectories)));
             ParallelQuery<ComparableFile> srceFiles = sourceFileInfos.AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(srceDir.FullName.Length)));
-            ParallelQuery<ComparableFile> destFiles() => destDir.GetFiles("*", SearchOption.AllDirectories).AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(destDir.FullName.Length)));
+            ParallelQuery<ComparableFile> DestFiles() => destDir.GetFiles("*", SearchOption.AllDirectories).AsParallel().Select(fi => new ComparableFile(fi, fi.FullName.Substring(destDir.FullName.Length)));
 
             // copy to dest
-            foreach (ComparableFile fileToCopy in srceFiles.Except(destFiles(), FileComparer.Singleton))
+            foreach (ComparableFile fileToCopy in srceFiles.Except(DestFiles(), FileComparer.Singleton))
             {
                 var to = new FileInfo(fileToCopy.FileInfo.FullName.Replace(srceDir.FullName, destDir.FullName));
 
@@ -52,7 +52,7 @@ namespace FineCodeCoverage.Engine.FileSynchronization
             }
 
             // delete from dest
-            foreach (ComparableFile fileToDelete in destFiles().Except(srceFiles, FileComparer.Singleton))
+            foreach (ComparableFile fileToDelete in DestFiles().Except(srceFiles, FileComparer.Singleton))
             {
                 try
                 {

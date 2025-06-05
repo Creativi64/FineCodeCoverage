@@ -18,6 +18,8 @@ namespace FineCodeCoverage.Core.Utilities
             public override Encoding Encoding => Encoding.UTF8;
         }
 
+        private static readonly char[] s_pathSplitter = new[] { '/' };
+
         public static string ToXmlString(this XDocument xdoc)
             => xdoc.Declaration == null ? xdoc.ToString() : xdoc.Declaration + Environment.NewLine + xdoc;
 
@@ -51,7 +53,7 @@ namespace FineCodeCoverage.Core.Utilities
 
         public static XElement GetStrictDescendant(this XContainer element, string path)
         {
-            string[] names = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] names = path.Split(s_pathSplitter, StringSplitOptions.RemoveEmptyEntries);
             if (names.Length == 0)
             {
                 throw new ArgumentException("Empty path", nameof(path));

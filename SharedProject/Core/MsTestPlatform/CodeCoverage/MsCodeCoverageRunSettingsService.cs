@@ -72,15 +72,18 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private readonly IFCCEngine _fccEngine;
         private readonly IUserRunSettingsService _userRunSettingsService;
         private readonly ITemplatedRunSettingsService _templatedRunSettingsService;
-        internal Dictionary<string, IUserRunSettingsProjectDetails> _userRunSettingsProjectDetailsLookup; // for tests
         private string _fccMsTestAdapterPath;
         private string _shimPath;
         private CoverageProjectsByType _coverageProjectsByType;
         private bool _useMsCodeCoverage;
-        internal MsCodeCoverageCollectionStatus _collectionStatus; // for tests
         private RunMsCodeCoverage _runMsCodeCoverage;
 
-        private bool IsCollecting => _collectionStatus == MsCodeCoverageCollectionStatus.Collecting;
+        private bool IsCollecting => CollectionStatus == MsCodeCoverageCollectionStatus.Collecting;
+
+        // internal properties for tests
+        internal Dictionary<string, IUserRunSettingsProjectDetails> UserRunSettingsProjectDetailsLookup { get; set; }
+
+        internal MsCodeCoverageCollectionStatus CollectionStatus { get; set; }
 
         [ImportingConstructor]
         public MsCodeCoverageRunSettingsService(
@@ -121,7 +124,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 await TrySetUpForCollectionAsync(testOperation.SolutionDirectory);
             }
 
-            return _collectionStatus;
+            return CollectionStatus;
         }
 
         private async Task TrySetUpForCollectionAsync(string solutionDirectory)
@@ -157,7 +160,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             _runMsCodeCoverage = _runOptionsProvider.Get().RunMsCodeCoverage;
             _useMsCodeCoverage = _runMsCodeCoverage == RunMsCodeCoverage.Yes;
-            _userRunSettingsProjectDetailsLookup = null;
+            UserRunSettingsProjectDetailsLookup = null;
             return CleanUpAsync(testOperation);
         }
 
@@ -178,7 +181,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private Task ExceptionAnalysingUserRunSettingsAsync(Exception exc)
         {
-            _collectionStatus = MsCodeCoverageCollectionStatus.Error;
+            CollectionStatus = MsCodeCoverageCollectionStatus.Error;
             return _logger.LogAsync("Exception analysing runsettings files", exc.ToString());
         }
 
@@ -236,7 +239,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             {
                 IExceptionReason exceptionReason = generationResult.ExceptionReason;
                 await _logger.LogAsync(exceptionReason.Reason, exceptionReason.Exception.ToString());
-                _collectionStatus = MsCodeCoverageCollectionStatus.Error;
+                CollectionStatus = MsCodeCoverageCollectionStatus.Error;
             }
         }
 
@@ -246,7 +249,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             string leadingMessage = generationResult.CustomTemplatePaths.Count != 0 ? $"{MsCodeCoverageMessage} - custom template paths" : MsCodeCoverageMessage;
             IEnumerable<string> loggerMessages = new List<string> { leadingMessage }.Concat(generationResult.CustomTemplatePaths.Distinct());
             await _logger.LogAsync(loggerMessages);
-            _collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
         }
 
         private async Task CollectingIfUserRunSettingsOnlyAsync()
@@ -256,7 +259,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 return;
             }
 
-            _collectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
             await _logger.LogAsync($"{MsCodeCoverageMessage} with user runsettings");
         }
 
@@ -281,7 +284,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
         private void SetUserRunSettingsProjectDetails()
         {
-            _userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
+            UserRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
             foreach (ICoverageProject coverageProjectWithRunSettings in _coverageProjectsByType.RunSettings)
             {
                 var userRunSettingsProjectDetails = new UserRunSettingsProjectDetails
@@ -292,7 +295,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                     ExcludedReferencedProjects = coverageProjectWithRunSettings.ExcludedReferencedProjects,
                     IncludedReferencedProjects = coverageProjectWithRunSettings.IncludedReferencedProjects,
                 };
-                _userRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
+                UserRunSettingsProjectDetailsLookup.Add(coverageProjectWithRunSettings.TestDllFile, userRunSettingsProjectDetails);
             }
         }
 
@@ -306,12 +309,12 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 ? _userRunSettingsService.AddFCCRunSettings(
                     inputRunSettingDocument,
                     configurationInfo,
-                    _userRunSettingsProjectDetailsLookup,
+                    UserRunSettingsProjectDetailsLookup,
                     _fccMsTestAdapterPath)
                 : null;
 
         private bool ShouldAddFCCRunSettings()
-            => IsCollecting && _userRunSettingsProjectDetailsLookup?.Count > 0;
+            => IsCollecting && UserRunSettingsProjectDetailsLookup?.Count > 0;
 
         #endregion
 
@@ -349,7 +352,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         {
             _coverageProjectsByType = await CoverageProjectsByType.CreateAsync(testOperation);
             await _templatedRunSettingsService.CleanUpAsync(_coverageProjectsByType.RunSettings);
-            _collectionStatus = MsCodeCoverageCollectionStatus.NotCollecting;
+            CollectionStatus = MsCodeCoverageCollectionStatus.NotCollecting;
         }
     }
 }

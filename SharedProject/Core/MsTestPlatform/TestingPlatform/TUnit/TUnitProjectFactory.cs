@@ -156,6 +156,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 {
                     return;
                 }
+
                 /*
                     alternative is
                     var projectSnapshotService = configuredProject.Services.ProjectSnapshotService;

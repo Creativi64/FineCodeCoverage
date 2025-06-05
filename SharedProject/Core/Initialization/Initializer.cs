@@ -29,9 +29,8 @@ namespace FineCodeCoverage.Core.Initialization
             IFirstTimeToolWindowOpener firstTimeToolWindowOpener,
 #pragma warning disable RCS1163 // Unused parameter
             [ImportMany]
-            IInitializable[] initializables
+            IInitializable[] initializables)
 #pragma warning restore RCS1163 // Unused parameter
-        )
         {
             _appDataFolder = appDataFolder;
             _appDataFolderPathDependents = appDataFolderPathDependents;
