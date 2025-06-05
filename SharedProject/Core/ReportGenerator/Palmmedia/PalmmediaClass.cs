@@ -16,7 +16,9 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         }
 
         public string DisplayName { get; }
+
         public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; }
+
         public IReadOnlyList<ICodeElement> CodeElements { get; }
     }
 }

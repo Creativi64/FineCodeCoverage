@@ -14,10 +14,15 @@ namespace FineCodeCoverage.Engine.Coverlet
 
         #region Arguments
         internal string ProjectDll { get; set; }
+
         internal string Blame { get; set; }
+
         internal string NoLogo { get; set; }
+
         internal string Diagnostics { get; set; }
+
         internal string RunSettings { get; set; }
+
         internal string ResultsDirectory { get; set; }
         #endregion
 
@@ -26,6 +31,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         internal string Format { get; set; } = "cobertura";
 
         internal string Exclude { get; set; }
+
         internal string ExcludeByAttribute { get; set; }
 
         internal string ExcludeByFile { get; set; }

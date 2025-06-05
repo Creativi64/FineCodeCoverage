@@ -9,7 +9,9 @@ namespace FineCodeCoverage.Editor.Management
             Category = category;
             ItemName = itemName;
         }
+
         public Guid Category { get; }
+
         public string ItemName { get; }
     }
 }

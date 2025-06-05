@@ -24,9 +24,13 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
             FeatureName = featureName;
             EntityName = entityName;
         }
+
         public override string ToString() => $"{Product}/{FeatureName}/{EntityName}";
+
         public string Product { get; }
+
         public string FeatureName { get; }
+
         public string EntityName { get; }
     }
 }

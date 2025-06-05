@@ -15,6 +15,7 @@ namespace FineCodeCoverage.Output
             ImageThemingUtilities.ThemePixel(ref baseR, ref baseG, ref baseB, backgroundHsl);
             return Color.FromArgb(255, baseR, baseG, baseB);
         }
+
         public static SolidColorBrush ThemeColorToSolidBrush(Color color, Color backgroundColor)
             => new SolidColorBrush(ThemeColor(color, backgroundColor));
     }

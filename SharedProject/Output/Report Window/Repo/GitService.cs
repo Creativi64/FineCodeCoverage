@@ -25,6 +25,7 @@ namespace FineCodeCoverage.Output
             _gitExt = serviceProvider.GetService(typeof(IGitExt)) as IGitExt;
             Assumes.Present(_gitExt);
         }
+
         public IReadOnlyList<string> GetRepositoryPaths()
             => _gitExt.ActiveRepositories.Select(r => r.RepositoryPath).ToList();
 

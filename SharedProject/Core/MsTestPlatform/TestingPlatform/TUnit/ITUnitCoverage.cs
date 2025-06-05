@@ -7,8 +7,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         bool Ready { get; }
 
         event EventHandler<bool> CollectingChangedEvent;
+
         event EventHandler ReadyEvent;
+
         void CollectCoverage();
+
         void Cancel();
     }
 }

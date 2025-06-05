@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
+
 namespace FineCodeCoverage.Output
 {
     internal class NewReportMessage
@@ -10,7 +11,9 @@ namespace FineCodeCoverage.Output
             Report = report;
             CoverageProjects = coverageProjects;
         }
+
         public IReportResult Report { get; set; }
+
         public List<ICoverageProject> CoverageProjects { get; }
     }
 }

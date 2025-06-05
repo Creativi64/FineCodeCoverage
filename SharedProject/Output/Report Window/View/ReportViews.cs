@@ -32,7 +32,9 @@ namespace FineCodeCoverage.Output
             }
 
             public IGitRepo GitRepo { get; }
+
             public string RepositoryPath { get; }
+
             public string SelectedBranchName { get; set; }
 
             public void Dispose() => GitRepo.Dispose();
@@ -212,6 +214,7 @@ namespace FineCodeCoverage.Output
 
         private bool HasChangeSet() => _reportViewSolutionOption.Value.ReportContent == ReportContentType.Changeset
             && _selectedGitRepo?.SelectedBranchName != null;
+
         public void Dispose() => DisposeSelectedGitRepo();
 
         public ReportStyle ReportStyle => _reportViewSolutionOption.Value.ReportStyle;

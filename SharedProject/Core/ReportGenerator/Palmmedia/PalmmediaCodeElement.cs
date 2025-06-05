@@ -83,16 +83,27 @@ namespace FineCodeCoverage.Engine.ReportGenerator
         }
 
         public CodeElementType CodeElementType { get; }
+
         public string Name { get; }
+
         public int StartLine { get; }
+
         public string Path { get; }
+
         public int BlocksCovered { get; set; }
+
         public int BlocksNotCovered { get; set; }
+
         public int TotalBranches { get; set; }
+
         public int BranchesCovered { get; set; }
+
         public int CyclomaticComplexity { get; set; }
+
         public int NPathComplexity { get; set; }
+
         public decimal CrapScore { get; set; }
+
         public IReadOnlyList<ICoberturaLine> Lines { get; private set; }
     }
 }

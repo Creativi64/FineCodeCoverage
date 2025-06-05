@@ -12,6 +12,7 @@ namespace FineCodeCoverage.Editor.Roslyn
     internal class CSharpContainingCodeVisitor : CSharpSyntaxVisitor, ILanguageContainingCodeVisitor, ICSharpCodeCoverageNodeVisitor
     {
         private readonly List<SyntaxNode> _nodes = new List<SyntaxNode>();
+
         public List<TextSpan> GetSpans(SyntaxNode rootNode)
             => GetNodes(rootNode).ConvertAll(node => node.Span);
 
@@ -25,6 +26,7 @@ namespace FineCodeCoverage.Editor.Roslyn
 #if VS2022
         public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
             => VisitMembers(node.Members);
+
 #endif
         public override void VisitCompilationUnit(CompilationUnitSyntax node) => VisitMembers(node.Members);
 
@@ -50,6 +52,7 @@ namespace FineCodeCoverage.Editor.Roslyn
 
         private static bool HasBody(BaseMethodDeclarationSyntax node)
             => node.Body != null || node.ExpressionBody != null;
+
         private void AddIfHasBody(BaseMethodDeclarationSyntax node)
         {
             if (!HasBody(node))

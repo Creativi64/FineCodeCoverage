@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
     internal class MsTestPlatformUtil : IMsTestPlatformUtil, IAppDataFolderPathDependent
     {
         public string MsTestPlatformExePath { get; private set; }
+
         private readonly IToolUnzipper _toolUnzipper;
         private const string ZipPrefix = "microsoft.testplatform";
         private const string ZipDirectoryName = "msTestPlatform";

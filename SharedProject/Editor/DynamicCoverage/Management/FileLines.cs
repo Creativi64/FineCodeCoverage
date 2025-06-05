@@ -18,9 +18,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 _dateTimeService = dateTimeService;
                 _lastTracked = _dateTimeService.Now;
             }
+
             public ITrackedLines TrackedLines { get; }
 
             internal bool IsOutOfDate(DateTime lastWriteTime) => lastWriteTime > _lastTracked;
+
             internal void TextViewClosed() => _lastTracked = _dateTimeService.Now;
         }
 
@@ -32,6 +34,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             this.Lines = Lines;
             _dateTimeService = dateTimeService;
         }
+
         public List<ICoberturaLine> Lines { get; }
 
         public bool HasTrackedLines => _trackedLinesState != null;

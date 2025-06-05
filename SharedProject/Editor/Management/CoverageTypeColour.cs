@@ -12,6 +12,7 @@ namespace FineCodeCoverage.Editor.Management
         }
 
         public DynamicCoverageType CoverageType { get; }
+
         public TextFormattingRunProperties TextFormattingRunProperties { get; }
     }
 }

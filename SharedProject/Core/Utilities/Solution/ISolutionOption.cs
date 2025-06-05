@@ -7,7 +7,9 @@ namespace FineCodeCoverage.Core.Utilities.Solution
         string Key { get; }
 
         void Load(Stream stream);
+
         void Save(Stream stream);
+
         void Unloaded();
     }
 }

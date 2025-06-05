@@ -116,12 +116,17 @@ namespace FineCodeCoverage.Editor.Management
             => new FontAndColorsCategoryItemName(itemName, _editorTextMarkerFontAndColorCategory);
 
         public FontAndColorsCategoryItemName Covered { get; private set; }
+
         public FontAndColorsCategoryItemName NotCovered { get; private set; }
+
         public FontAndColorsCategoryItemName PartiallyCovered { get; private set; }
+
         public FontAndColorsCategoryItemName NewLines { get; private set; }
+
         public FontAndColorsCategoryItemName Dirty { get; private set; }
 
         public FontAndColorsCategoryItemName NotIncluded { get; private set; }
+
         public ICoverageFontAndColorsCategoryItemNames CategoryItemNames => this;
     }
 }

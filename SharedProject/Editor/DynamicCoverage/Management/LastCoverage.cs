@@ -13,7 +13,9 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             FileLineCoverage = fileLineCoverage;
             TestExecutionStartingDate = testExecutionStartingDate;
         }
+
         public IFileLineCoverage FileLineCoverage { get; }
+
         public DateTime TestExecutionStartingDate { get; }
 
         [ExcludeFromCodeCoverage]

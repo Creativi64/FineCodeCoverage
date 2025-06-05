@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Options
     internal class ReadOnlyUserSettingsStoreProvider : IReadOnlyUserSettingsStoreProvider
     {
         private SettingsStore _settingsStore;
+
         public async System.Threading.Tasks.Task<SettingsStore> ProvideAsync()
         {
             if (_settingsStore == null)

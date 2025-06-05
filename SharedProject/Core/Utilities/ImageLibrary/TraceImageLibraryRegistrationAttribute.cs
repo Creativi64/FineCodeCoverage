@@ -22,6 +22,7 @@ namespace FineCodeCoverage.Core.Utilities
             _traceFileName = traceFileName;
             _traceLevel = traceLevel;
         }
+
         public override void Register(RegistrationContext context)
         {
             Key key = context.CreateKey("ImageLibrary");

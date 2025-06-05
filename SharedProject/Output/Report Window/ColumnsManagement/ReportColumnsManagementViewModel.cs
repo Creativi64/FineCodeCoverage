@@ -68,9 +68,13 @@ namespace FineCodeCoverage.Output
             _reportColumnsManager = reportColumnsManager;
             _messageBox = messageBox;
         }
+
         public System.Windows.Input.ICommand OkCommand { get; }
+
         public System.Windows.Input.ICommand CancelCommand { get; }
+
         public RelayCommand UpCommand { get; }
+
         public RelayCommand DownCommand { get; }
 
         private void ShowError(List<EditableColumn> columnsInError)
@@ -119,6 +123,7 @@ namespace FineCodeCoverage.Output
 
         private IEnumerable<int> GetSelectedIndices()
             => _selectedEditableColumns.Select(demoCol => Columns.IndexOf(demoCol));
+
         private IEnumerable<int> GetAscendingSelectedIndices()
             => GetSelectedIndices().OrderBy(i => i);
 

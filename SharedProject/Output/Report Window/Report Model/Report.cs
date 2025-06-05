@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Output
     internal class Report
     {
         public event EventHandler<EventArgs> DirectoryStructureChanged;
+
         private readonly Dictionary<string, bool> _sourceFilesPathsWithNewCode = new Dictionary<string, bool>();
         private List<SourceFile> _sourceFiles;
         private IDirectory _directory;

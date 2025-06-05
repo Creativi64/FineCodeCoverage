@@ -93,6 +93,7 @@ namespace FineCodeCoverage.Output
 
             GenerateReport(null);
         }
+
         private void UpdateRootDirectoryTreeItemNames(bool rootDirectoryNameFromPath)
         {
             _rootDirectoryNameFromPath = rootDirectoryNameFromPath;

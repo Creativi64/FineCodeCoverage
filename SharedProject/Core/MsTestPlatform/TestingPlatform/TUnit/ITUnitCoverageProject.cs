@@ -8,10 +8,15 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal interface ITUnitCoverageProject
     {
         string ExePath { get; }
+
         Task<string> GetConfigurationAsync(CancellationToken cancellationToken);
+
         ICoverageProject CoverageProject { get; }
+
         IVsHierarchy VsHierarchy { get; }
+
         bool HasCoverageExtension { get; }
+
         CommandLineParseResult CommandLineParseResult { get; }
     }
 }

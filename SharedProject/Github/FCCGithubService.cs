@@ -33,6 +33,7 @@ namespace FineCodeCoverage.Github
         private bool _haveCheckedFCCIssues;
 
         public string VsVersionString { get; private set; }
+
         public string FccVersionString { get; private set; }
 
         public string FccOutput
@@ -76,9 +77,13 @@ namespace FineCodeCoverage.Github
         }
 
         public ICommand SubmitCommand => _submitCommand;
+
         public ICommand MailToCommand => _mailToCommand;
+
         public ICommand SearchIssuesCommand => _searchIssuesCommand;
+
         public ICommand OpenReadMeCommand => _openReadMeCommand;
+
         public ICommand RefreshFCCOutputCommand => _refreshFCCOutputCommand;
 
         [ImportingConstructor]

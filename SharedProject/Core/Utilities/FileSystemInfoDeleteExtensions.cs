@@ -16,6 +16,7 @@ namespace FineCodeCoverage.Core.Utilities
 
             new FileInfo(path).TryDelete();
         }
+
         public static void TryDelete(this FileInfo fileInfo, Action<Exception> exceptionCallback = null)
         {
             try

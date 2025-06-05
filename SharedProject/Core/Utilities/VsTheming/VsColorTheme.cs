@@ -31,6 +31,7 @@ namespace FineCodeCoverage.Core.Utilities
                 return _currentTheme;
             }
         }
+
         public string CurrentThemeName => ((dynamic)CurrentTheme).Name;
 
 #pragma warning disable IDE1006 // Naming Styles

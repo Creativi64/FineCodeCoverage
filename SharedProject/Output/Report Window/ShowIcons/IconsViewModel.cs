@@ -18,6 +18,7 @@ namespace FineCodeCoverage.Output
         private Color _monochromeColor;
 
         public event EventHandler ShowIconsChanged;
+
         public event EventHandler IconSizeChanged;
 
         [ImportingConstructor]

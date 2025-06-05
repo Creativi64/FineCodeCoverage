@@ -33,7 +33,9 @@ namespace FineCodeCoverage.Engine.Model
         private class SettingsElementDefaultMerge
         {
             public XElement SettingsElement { get; set; }
+
             public bool DefaultMerge { get; set; }
+
             public bool FromProjectSettings { get; internal set; }
         }
 

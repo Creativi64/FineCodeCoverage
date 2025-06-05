@@ -28,6 +28,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 return _document;
             }
         }
+
         public TextInfo(ITextView textView, ITextBuffer textBuffer)
         {
             TextView = textView;
@@ -35,9 +36,13 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public ITextView TextView { get; }
+
         public ITextBuffer2 TextBuffer { get; }
+
         public string FilePath => TextDocument?.FilePath;
+
         public string GetFileText() => File.Exists(FilePath) ? File.ReadAllText(FilePath) : null;
+
         public DateTime GetLastWriteTime() => new FileInfo(FilePath).LastWriteTime;
     }
 }

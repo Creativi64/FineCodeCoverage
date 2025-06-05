@@ -17,6 +17,7 @@ namespace FineCodeCoverage.Core.Utilities
             _dte = ServiceProvider.GlobalProvider.GetService(typeof(SDTE)) as DTE2;
             Assumes.Present(_dte);
         }
+
         public void OpenFileInCodeEditor(string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+
 namespace FineCodeCoverage.Output
 {
     /// <summary>

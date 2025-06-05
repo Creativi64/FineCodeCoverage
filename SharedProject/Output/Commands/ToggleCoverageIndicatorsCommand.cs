@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Output
         private readonly IEventAggregator _eventAggregator;
 
         protected override int CommandId { get; } = PackageIds.cmdidToggleCoverageIndicatorsCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

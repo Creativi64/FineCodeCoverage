@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Core.Utilities
     internal class ResourceProvider : IResourceProvider
     {
         private readonly string _resourcesDirectory;
+
         public ResourceProvider()
         {
             string assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

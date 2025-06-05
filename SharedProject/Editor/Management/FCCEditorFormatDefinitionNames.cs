@@ -15,10 +15,15 @@
         }
 
         public string Covered { get; }
+
         public string NotCovered { get; }
+
         public string PartiallyCovered { get; }
+
         public string NewLines { get; }
+
         public string Dirty { get; }
+
         public string NotIncluded { get; }
     }
 }

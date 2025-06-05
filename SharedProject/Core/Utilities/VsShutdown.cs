@@ -12,6 +12,7 @@ namespace FineCodeCoverage.Core.Utilities
     public class VsShutdown : IVsShutdown, IVsShellPropertyEvents
     {
         public event EventHandler<EventArgs> Shutdown;
+
         [ImportingConstructor]
         public VsShutdown(
              [Import(typeof(SVsServiceProvider))]

@@ -31,6 +31,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
                 public string Reason { get; }
             }
+
             public IExceptionReason ExceptionReason { get; set; }
 
             public List<string> CustomTemplatePaths { get; set; }

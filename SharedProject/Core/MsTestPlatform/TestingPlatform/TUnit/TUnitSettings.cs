@@ -16,8 +16,11 @@
         }
 
         public string ExePath { get; }
+
         public string SettingsPath { get; }
+
         public string OutputPath { get; }
+
         public string AdditionalArgs { get; }
     }
 }

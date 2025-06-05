@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     {
         private readonly XmlException _innerException;
         private readonly string _replacedRunSettingsTemplate;
+
         public MsTemplateReplacementException(XmlException innerException, string replacedRunSettingsTemplate)
         {
             _innerException = innerException;

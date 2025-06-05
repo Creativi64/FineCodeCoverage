@@ -34,6 +34,7 @@ namespace FineCodeCoverage.Options
         [Description("Specify path to directory containing coverlet collector files if you need functionality that the FCC version does not provide.")]
         [DisplayName("Coverlet Collector Directory Path")]
         public string CoverletCollectorDirectoryPath { get; set; }
+
         [Description("Specify false for global and project options to be used for coverlet data collector configuration elements when not specified in runsettings")]
         [Category(CollectorCategory)]
         [DisplayName("Run Settings Only")]

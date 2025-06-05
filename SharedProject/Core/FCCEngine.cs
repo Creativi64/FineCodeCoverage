@@ -19,11 +19,14 @@ namespace FineCodeCoverage.Engine
         private class ReportResult
         {
             public IReportResult Report { get; set; }
+
             public string CoberturaFile { get; set; }
+
             public List<ICoverageProject> CoverageProjects { get; internal set; }
         }
 
         internal int InitializeWait { get; set; } = 5000;
+
         internal const string InitializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
         private ICancellationTokenSource _cancellationTokenSource;
 

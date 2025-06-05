@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Output
             }
 
             public Color CoveredColor { get; }
+
             public Color NotCoveredColor { get; }
         }
 

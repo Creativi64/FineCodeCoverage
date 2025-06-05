@@ -10,11 +10,13 @@ namespace FineCodeCoverage.Editor.Roslyn
     internal class VBContainingCodeVisitor : VisualBasicSyntaxVisitor, ILanguageContainingCodeVisitor
     {
         private readonly List<TextSpan> _spans = new List<TextSpan>();
+
         public List<TextSpan> GetSpans(SyntaxNode rootNode)
         {
             Visit(rootNode);
             return _spans;
         }
+
         public override void VisitCompilationUnit(CompilationUnitSyntax node) => VisitMembers(node.Members);
 
         public override void VisitNamespaceBlock(NamespaceBlockSyntax node) => VisitMembers(node.Members);

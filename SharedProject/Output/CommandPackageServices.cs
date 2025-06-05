@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Output
         }
 
         public CancellationToken DisposalToken { get; }
+
         public IMenuCommandService MenuCommandService { get; }
 
         public void ShowOptionPage(Type optionsPageType) => _package.ShowOptionPage(optionsPageType);

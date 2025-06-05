@@ -23,6 +23,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public const char OptionPrefix = '-';
 
         public IReadOnlyList<CommandLineParseOption> Options { get; }
+
         public IReadOnlyList<string> Errors { get; }
 
         public bool HasError => Errors.Count > 0;

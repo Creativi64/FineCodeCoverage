@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Wpf
     public class BindToMarkedAncestorExtension : MarkupExtension
     {
         public string Marker { get; set; }
+
         public string Path { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider)

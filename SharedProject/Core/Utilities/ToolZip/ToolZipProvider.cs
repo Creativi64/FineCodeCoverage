@@ -8,7 +8,9 @@ namespace FineCodeCoverage.Core.Utilities
     internal class ToolZipProvider : IToolZipProvider
     {
         internal const string ZippedToolsDirectoryName = "ZippedTools";
+
         internal string ExtensionDirectory { get; set; }
+
         public ToolZipProvider()
             => ExtensionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 

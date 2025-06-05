@@ -9,8 +9,11 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             StartLine = startLine;
             EndLine = endLine;
         }
+
         public static CodeSpanRange SingleLine(int lineNumber) => new CodeSpanRange(lineNumber, lineNumber);
+
         public int StartLine { get; set; }
+
         public int EndLine { get; set; }
 
         [ExcludeFromCodeCoverage]

@@ -10,6 +10,7 @@
         public const OptionPageTableCellAlignment IsCoverageSettingCellAlignment = OptionPageTableCellAlignment.Center;
         public const string IsCoverageSettingYes = "Yes";
         public const string IsCoverageSettingNo = "";
+
         public static string PageNameCategoryDisplay(string pageName, string category) => $"{pageName} - {category}";
     }
 }

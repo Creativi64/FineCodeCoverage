@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Output
         private class TreeExpansionState
         {
             public string Id { get; set; }
+
             public List<TreeExpansionState> Children { get; set; } = new List<TreeExpansionState>();
         }
 
@@ -123,6 +124,7 @@ namespace FineCodeCoverage.Output
 
             return state;
         }
+
         public TreeExpander(
             Func<T, string> getId,
             Func<T, bool> getIsExpanded,

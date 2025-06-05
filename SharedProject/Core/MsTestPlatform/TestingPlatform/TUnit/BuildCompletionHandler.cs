@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     {
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
         private readonly CancellationTokenRegistration _registration;
+
         public BuildCompletionHandler(CancellationToken cancellationToken)
             => _registration = cancellationToken.Register(() => _tcs.TrySetCanceled());
 

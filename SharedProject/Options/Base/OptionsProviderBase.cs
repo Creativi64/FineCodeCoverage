@@ -17,6 +17,7 @@ namespace FineCodeCoverage.Options
         private readonly IJsonConvertService _jsonConvertService;
         private readonly IDefaultOptionsSetter<TOptions> _defaultOptionsSetter;
         private readonly TOptions _options;
+
         public Lazy<PropertyDescriptorCollection> LazyOptionsPropertyDescriptorCollection { get; }
 
         public event Action<TOptions> OptionsChanged;

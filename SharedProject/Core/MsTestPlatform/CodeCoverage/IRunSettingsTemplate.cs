@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             string runSettingsTemplate,
             IRunSettingsTemplateReplacements replacements,
             bool isNetFrameworkProject);
+
         string Replace(string templatedXml, IRunSettingsTemplateReplacements replacements);
 
         // returns a string representation of the runsettings xml containing markers for string replacement
@@ -27,6 +28,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         string TestAdaptersPathElement { get; }
 
         bool FCCGenerated(IXPathNavigable inputRunSettingDocument);
+
         bool HasReplaceableTestAdapter(string replaceable);
     }
 }

@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             Line = line;
             Span = span;
         }
+
         public IDynamicLine Line { get; }
 
         public SnapshotSpan Span { get; }

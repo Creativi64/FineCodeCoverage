@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     internal class TextInfoFactory : ITextInfoFactory
     {
         public ITextInfo Create(ITextView textView, ITextBuffer textBuffer) => new TextInfo(textView, textBuffer);
+
         public string GetFilePath(ITextBuffer textBuffer) => new TextInfo(null, textBuffer).FilePath;
     }
 }

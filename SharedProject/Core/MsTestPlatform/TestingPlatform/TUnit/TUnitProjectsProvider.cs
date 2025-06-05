@@ -102,6 +102,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
 
             public ConfiguredProject CpsProject { get; }
+
             public IVsHierarchy Hierarchy { get; }
         }
 

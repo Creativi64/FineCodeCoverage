@@ -9,6 +9,7 @@
         }
 
         public string OldFilePath { get; }
+
         public string NewFilePath { get; }
     }
 }

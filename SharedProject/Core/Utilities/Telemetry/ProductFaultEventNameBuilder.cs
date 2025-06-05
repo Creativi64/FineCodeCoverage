@@ -5,6 +5,7 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
     internal sealed class ProductFaultEventNameBuilder
     {
         private readonly string _product;
+
         public static string EntityName<TEntity>() => typeof(TEntity).FullName;
 
         private class BuildFaultEventNameFromFeatureHierarchy : IBuildFaultEventNameFromFeatureHierarchy

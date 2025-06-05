@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly List<IContainingCodeTracker> _containingCodeTrackers;
         private readonly IFileCodeSpanRangeService _fileCodeSpanRangeService;
         private readonly bool _useFileCodeSpanRangeService;
+
         public IReadOnlyList<IContainingCodeTracker> ContainingCodeTrackers => _containingCodeTrackers;
 
         public INewCodeTracker NewCodeTracker { get; }
@@ -170,6 +171,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private class DynamicLineByLineNumberComparer : IEqualityComparer<IDynamicLine>
         {
             public bool Equals(IDynamicLine x, IDynamicLine y) => x.LineNumber == y.LineNumber;
+
             public int GetHashCode(IDynamicLine obj) => obj.LineNumber;
         }
     }

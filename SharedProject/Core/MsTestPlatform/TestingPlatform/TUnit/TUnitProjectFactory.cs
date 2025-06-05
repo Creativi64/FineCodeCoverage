@@ -125,8 +125,11 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 _requiresUpdate = true;
                 return Task.CompletedTask;
             }
+
             public bool IsTUnit { get; private set; }
+
             public bool HasCoverageExtension { get; private set; }
+
             public IVsHierarchy Hierarchy { get; }
 
             public CommandLineParseResult CommandLineParseResult { get; private set; } = CommandLineParseResult.Empty;
@@ -208,6 +211,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             _tUnitInstalledPackagesService = tUnitInstalledPackagesService;
             _commandLineParser = commandLineParser;
         }
+
         public ITUnitProject Create(IVsHierarchy hierarchy, ConfiguredProject configuredProject)
             => new TUnitProject(_tUnitInstalledPackagesService, _commandLineParser, configuredProject, hierarchy);
     }

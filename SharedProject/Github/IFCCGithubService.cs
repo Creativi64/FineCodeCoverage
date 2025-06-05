@@ -3,6 +3,7 @@
     internal interface IFCCGithubService
     {
         void NewIssue();
+
         void Navigate();
     }
 }

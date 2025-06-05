@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly IShowFCCOutputPane _showFCCOutputPane;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenFCCOutputPaneCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

@@ -18,6 +18,7 @@ namespace FineCodeCoverage.Output
         private string _hotspotsPath;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenHotspotsCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

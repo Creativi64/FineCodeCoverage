@@ -20,6 +20,7 @@ namespace FineCodeCoverage.Impl
             _coverageProjectFactory = coverageProjectFactory;
             _runSettingsRetriever = runSettingsRetriever;
         }
+
         public ITestOperation Create(IOperation operation)
         {
             try

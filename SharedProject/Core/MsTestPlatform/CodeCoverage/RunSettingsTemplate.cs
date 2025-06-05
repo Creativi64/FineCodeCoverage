@@ -14,19 +14,33 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private class ReplacementLookups : IRunSettingsTemplateReplacements
         {
             public string Enabled { get; } = "%fcc_enabled%";
+
             public string ResultsDirectory { get; } = "%fcc_resultsdirectory%";
+
             public string TestAdapter { get; } = "%fcc_testadapter%";
+
             public string ModulePathsExclude { get; } = "%fcc_modulepaths_exclude%";
+
             public string ModulePathsInclude { get; } = "%fcc_modulepaths_include%";
+
             public string FunctionsExclude { get; } = "%fcc_functions_exclude%";
+
             public string FunctionsInclude { get; } = "%fcc_functions_include%";
+
             public string AttributesExclude { get; } = "%fcc_attributes_exclude%";
+
             public string AttributesInclude { get; } = "%fcc_attributes_include%";
+
             public string SourcesExclude { get; } = "%fcc_sources_exclude%";
+
             public string SourcesInclude { get; } = "%fcc_sources_include%";
+
             public string CompanyNamesExclude { get; } = "%fcc_companynames_exclude%";
+
             public string CompanyNamesInclude { get; } = "%fcc_companynames_include%";
+
             public string PublicKeyTokensExclude { get; } = "%fcc_publickeytokens_exclude%";
+
             public string PublicKeyTokensInclude { get; } = "%fcc_publickeytokens_include%";
         }
 
@@ -37,9 +51,13 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public string RunConfigurationElement { get; }
 
         private string ResultsDirectoryElement { get; }
+
         public string TestAdaptersPathElement { get; }
+
         public string DataCollectionRunSettingsElement { get; }
+
         public string DataCollectorsElement { get; }
+
         public string MsDataCollectorElement { get; }
 
         private const string FCCGeneratedMarkerElementName = "FCCGenerated";

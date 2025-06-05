@@ -9,7 +9,9 @@
         }
 
         public ReportStyle ReportStyle { get; }
+
         public string Display { get; }
+
         public override string ToString() => Display;
     }
 }

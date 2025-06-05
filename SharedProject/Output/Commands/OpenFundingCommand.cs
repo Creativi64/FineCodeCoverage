@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly IFundingService _fundingService;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenFundingCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

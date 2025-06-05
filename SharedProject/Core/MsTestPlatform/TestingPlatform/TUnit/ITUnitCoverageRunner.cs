@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal interface ITUnitCoverageRunner
     {
         event EventHandler ReadyEvent;
+
         Task<bool> RunAsync(
             TUnitSettings tUnitSettings,
             bool hasCoverageExtension,

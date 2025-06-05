@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Core.Utilities
             Category = category;
             Name = name;
         }
+
         public Guid Category { get; }
 
         public string Name { get; }

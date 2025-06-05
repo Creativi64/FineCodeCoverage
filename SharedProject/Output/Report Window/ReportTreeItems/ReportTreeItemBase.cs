@@ -21,6 +21,7 @@ namespace FineCodeCoverage.Output
         protected ObservableCollection<ReportTreeItemBase> ObservableChildren { get; } = new ObservableCollection<ReportTreeItemBase>();
 
         protected ReportTreeItemBase() => Children = ObservableChildren;
+
         public IReadOnlyList<ReportTreeItemBase> ReportChildren => ObservableChildren;
 
         public abstract ImageMoniker ImageMoniker { get; }
@@ -94,6 +95,7 @@ namespace FineCodeCoverage.Output
         public int NotCoveredBranches => TotalBranches - CoveredBranches;
 
         internal static double SharedAdditionalAdjustment { get; set; } = 26;
+
         // crisp image width and margin
         protected override double AdditionalAdjustment => SharedAdditionalAdjustment;
     }

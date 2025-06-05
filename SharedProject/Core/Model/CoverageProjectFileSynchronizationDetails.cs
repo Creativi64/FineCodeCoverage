@@ -6,6 +6,7 @@ namespace FineCodeCoverage.Engine.Model
     internal class CoverageProjectFileSynchronizationDetails
     {
         public List<string> Logs { get; set; } = new List<string>();
+
         public TimeSpan Duration { get; set; }
     }
 }

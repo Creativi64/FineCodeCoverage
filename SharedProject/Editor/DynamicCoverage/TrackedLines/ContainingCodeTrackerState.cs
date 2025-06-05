@@ -14,6 +14,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public CodeSpanRange CodeSpanRange { get; }
+
         public IEnumerable<IDynamicLine> Lines { get; }
     }
 }

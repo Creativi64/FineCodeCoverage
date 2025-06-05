@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Options
     {
 
         private IDialogPageOptionsProvider<TOptions> _optionsProvider;
+
         private IDialogPageOptionsProvider<TOptions> OptionsProvider => _optionsProvider ??
             (_optionsProvider = MefServiceProvider.Get<IDialogPageOptionsProvider<TOptions>>());
 

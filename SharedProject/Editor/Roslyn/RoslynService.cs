@@ -22,6 +22,7 @@ namespace FineCodeCoverage.Editor.Roslyn
             _languageContainingCodeVisitorFactory = languageContainingCodeVisitorFactory;
             _textSnapshotToSyntaxService = textSnapshotToSyntaxService;
         }
+
         public async Task<List<TextSpan>> GetContainingCodeSpansAsync(ITextSnapshot textSnapshot)
         {
             RootNodeAndLanguage rootNodeAndLanguage = await _textSnapshotToSyntaxService.GetRootAndLanguageAsync(textSnapshot);

@@ -34,6 +34,7 @@ namespace FineCodeCoverage.Output
             WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
             _ = store.DeleteCollection(ColumnStatesCollectionName);
         }
+
         public async Task SaveColumnStatesAsync(string columnStates)
         {
             if (await _clearSettingsOnShutdown.LazyShouldClearSettingsOnShutdown.GetValueAsync())
@@ -57,6 +58,7 @@ namespace FineCodeCoverage.Output
             WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
             store.CreateCollection(ColumnStatesCollectionName);
         }
+
         private async Task<bool> CollectionExistsAsync()
         {
             WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();

@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Options
         private readonly List<IProfileOptionsProvider> _optionsProviders;
         private readonly IJsonConvertService _jsonConvertService;
         private List<object> _allSettings;
+
         private List<object> AllSettings
         {
             get

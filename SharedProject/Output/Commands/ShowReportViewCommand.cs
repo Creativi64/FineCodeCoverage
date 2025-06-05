@@ -7,7 +7,9 @@ namespace FineCodeCoverage.Output
     internal sealed class ShowReportViewCommand : CommandInitializerBase
     {
         private readonly IReportViewService _reportViewService;
+
         protected override int CommandId { get; } = PackageIds.cmdidShowReportViewCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Core.Model
     internal class CoverageSettingsOptionsProvider : ICoverageSettingsOptionsProvider
     {
         private readonly List<IProvideOptions> _optionsProviders = new List<IProvideOptions>();
+
         [ImportingConstructor]
         public CoverageSettingsOptionsProvider(
             IOptionsProvider<IncludesExcludesOptions> includesExcludesOptionsProvider,

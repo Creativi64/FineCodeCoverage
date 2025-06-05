@@ -15,6 +15,7 @@ namespace FineCodeCoverage.Output
             _reportColumnsManager = reportColumnsManager;
             _messageBox = messageBox;
         }
+
         public void ManageColumns()
         {
             var vm = new ReportColumnsManagementViewModel(_reportColumnsManager, _messageBox);

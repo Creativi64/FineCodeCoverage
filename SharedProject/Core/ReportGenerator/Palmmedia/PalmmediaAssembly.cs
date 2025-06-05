@@ -14,9 +14,13 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             PalmmediaClasses = assemblyReport.Classes.Select(c => new PalmmediaClass(c)).ToList();
             Classes = PalmmediaClasses;
         }
+
         public List<PalmmediaClass> PalmmediaClasses { get; }
+
         public string Name { get; }
+
         public string ShortName { get; }
+
         public IReadOnlyList<IClass> Classes { get; }
     }
 }

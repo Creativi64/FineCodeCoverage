@@ -9,6 +9,7 @@
         }
 
         public string Path { get; }
+
         public bool HasNewCode { get; }
     }
 }

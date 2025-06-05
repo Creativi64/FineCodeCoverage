@@ -11,7 +11,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class TUnitChangeNotifier : ITUnitChangeNotifier, IVsSolutionEvents
     {
         public event EventHandler<ProjectAddedRemoved> ProjectAddedRemovedEvent;
+
         public event EventHandler SolutionClosedEvent;
+
         public event EventHandler SolutionOpenedEvent;
 
         [ImportingConstructor]

@@ -3,6 +3,7 @@
     internal interface IShownToolWindowHistory
     {
         bool HasShownToolWindow { get; }
+
         void ShowedToolWindow();
     }
 }

@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private readonly ILineTracker _lineTracker;
 
         public IDynamicLine Line { get; }
+
         public TrackingLine(
             ITrackingSpan startTrackingSpan,
             ITextSnapshot currentSnapshot,

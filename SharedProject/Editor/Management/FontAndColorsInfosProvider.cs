@@ -31,14 +31,18 @@ namespace FineCodeCoverage.Editor.Management
                 Name = name;
                 Index = index;
             }
+
             public string Name { get; }
+
             public int Index { get; }
         }
 
         private class CategoryNameIndices
         {
             public CategoryNameIndices(Guid category) => Category = category;
+
             public Guid Category { get; }
+
             public List<NameIndex> NameIndices { get; } = new List<NameIndex>();
         }
 

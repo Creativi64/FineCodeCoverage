@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Core.Utilities
     public class SolutionEvents : ISolutionEvents, IVsSolutionEvents
     {
         public event EventHandler AfterClosing;
+
         public event EventHandler AfterOpen;
 
         [ImportingConstructor]

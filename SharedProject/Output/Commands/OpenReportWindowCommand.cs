@@ -14,6 +14,7 @@ namespace FineCodeCoverage.Output
         private readonly IShownToolWindowHistory _shownToolWindowHistory;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenReportWindowCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

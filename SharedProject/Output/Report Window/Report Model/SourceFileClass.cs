@@ -14,8 +14,11 @@ namespace FineCodeCoverage.Output
                 {path, codeElements},
             };
         }
+
         public string DisplayName { get; }
+
         public IReadOnlyList<ICodeElement> CodeElements { get; }
+
         public IReadOnlyDictionary<string, IReadOnlyList<ICodeElement>> FileCodeElements { get; }
     }
 }

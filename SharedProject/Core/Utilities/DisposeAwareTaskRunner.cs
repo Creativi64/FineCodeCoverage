@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Core.Utilities
         }
 
         private JoinableTaskFactory JoinableTaskFactory { get; }
+
         private JoinableTaskCollection JoinableTaskCollection { get; }
 
         /// <summary>

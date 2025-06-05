@@ -16,6 +16,7 @@ namespace FineCodeCoverage.Output
             => s_getServiceMethod = typeof(IComponentModel).GetMethod("GetService");
 
         public static IComponentModel ComponentModel { get; set; }
+
         public static TContext GetToolWindowContext<TToolWindowType, TContext>() => (TContext)GetToolWindowContext(typeof(TToolWindowType));
 
         public static object GetToolWindowContext(Type toolWindowType)

@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Wpf
     {
         private readonly DependencyPropertyDescriptor _dependencyPropertyDescriptor;
         private readonly Func<string, IEnumerable<string>> _getDependentProperties;
+
         public DependentPropertiesDescriptor(
             DependencyPropertyDescriptor dependencyPropertyDescriptor,
             Func<string, IEnumerable<string>> getDependentProperties

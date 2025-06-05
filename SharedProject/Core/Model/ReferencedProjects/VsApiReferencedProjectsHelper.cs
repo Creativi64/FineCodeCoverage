@@ -38,6 +38,7 @@ namespace FineCodeCoverage.Engine.Model
             _cppReferencedProjectsHelper = cppReferencedProjectsHelper;
             _dotNetReferencedProjectsHelper = dotNetReferencedProjectsHelper;
         }
+
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(string projectFile)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

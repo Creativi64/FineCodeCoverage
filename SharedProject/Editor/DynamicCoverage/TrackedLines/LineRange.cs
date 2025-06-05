@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public int StartLineNumber { get; }
+
         public int EndLineNumber { get; }
 
         [ExcludeFromCodeCoverage]

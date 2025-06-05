@@ -78,11 +78,17 @@ namespace FineCodeCoverage.Output
         public class DirectoryNode : IDirectory
         {
             public string Name { get; set; }
+
             public Dictionary<string, DirectoryNode> SubDirectoryParts { get; set; } = new Dictionary<string, DirectoryNode>();
+
             private readonly List<ISourceFile> _sourceFiles = new List<ISourceFile>();
+
             public IReadOnlyList<ISourceFile> SourceFiles => _sourceFiles;
+
             public void AddSourceFile(ISourceFile sourceFile) => _sourceFiles.Add(sourceFile);
+
             private List<IDirectory> _subDirectories;
+
             public IReadOnlyList<IDirectory> SubDirectories
                 => _subDirectories ?? (_subDirectories = SubDirectoryParts.Values.ToList<IDirectory>());
 

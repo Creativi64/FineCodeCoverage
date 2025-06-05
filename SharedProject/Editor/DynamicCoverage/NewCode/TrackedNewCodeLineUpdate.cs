@@ -8,8 +8,11 @@
             NewLineNumber = newLineNumber;
             OldLineNumber = oldLineNumber;
         }
+
         public string Text { get; }
+
         public int NewLineNumber { get; }
+
         public int OldLineNumber { get; }
     }
 }

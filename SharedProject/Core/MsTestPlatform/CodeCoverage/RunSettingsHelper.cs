@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         public const string UriAttributeName = "uri";
         public const string MsDataCollectorUri = "datacollector://Microsoft/CodeCoverage/2.0";
         public const string MsDataCollectorFriendlyName = "Code Coverage";
+
         public static bool IsMsDataCollector(XElement dataCollectorElement)
         {
             XAttribute friendlyNameAttribute = dataCollectorElement.Attribute(FriendlyNameAttributeName);

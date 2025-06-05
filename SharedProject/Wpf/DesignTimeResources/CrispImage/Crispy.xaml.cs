@@ -23,6 +23,7 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static event EventHandler<ImageThemingColorChangedEventArgs> ImageThemingColorChanged;
+
         private static readonly bool s_isInDesignMode;
         private Image _image;
 
@@ -63,6 +64,7 @@ namespace FineCodeCoverage.Wpf
             get => (ImageMoniker)GetValue(Crispy.MonikerProperty);
             set => SetValue(Crispy.MonikerProperty, (object)value);
         }
+
         public Crispy()
         {
             InitializeComponent();

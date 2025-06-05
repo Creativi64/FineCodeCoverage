@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Wpf
                 typeof(string),
                 typeof(VsDesignTimeColors),
                 new PropertyMetadata(default(string), OnThemeNameChanged));
+
         public static void SetThemeName(DependencyObject element, string value) => element.SetValue(ThemeNameProperty, value);
 
         public static string GetThemeName(DependencyObject element) => (string)element.GetValue(ThemeNameProperty);

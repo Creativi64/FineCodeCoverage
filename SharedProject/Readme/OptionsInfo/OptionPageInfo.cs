@@ -27,8 +27,11 @@ namespace FineCodeCoverage.Readme
             }).GroupBy(PropertyCategoryDisplayNameDescription => PropertyCategoryDisplayNameDescription.Category)
             .Select(g => new CategorizedOptionPropertyInfos(g.Key, g));
         }
+
         public string TypeName { get; }
+
         public string PageName { get; }
+
         public IEnumerable<CategorizedOptionPropertyInfos> PropertyCategories { get; }
     }
 }

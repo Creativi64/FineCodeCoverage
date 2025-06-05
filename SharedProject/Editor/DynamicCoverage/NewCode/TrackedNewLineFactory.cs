@@ -20,6 +20,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             _trackingLineFactory = trackingLineFactory;
             _lineTracker = lineTracker;
         }
+
         public ITrackedNewCodeLine Create(
             ITextSnapshot textSnapshot,
             SpanTrackingMode spanTrackingMode,

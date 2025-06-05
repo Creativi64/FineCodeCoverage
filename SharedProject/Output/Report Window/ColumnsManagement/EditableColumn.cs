@@ -16,6 +16,7 @@ namespace FineCodeCoverage.Output
         {
             // throw if not design time
         }
+
         public EditableColumn(IReportColumnData reportColumnData)
         {
             Column = reportColumnData.ReportColumnType;

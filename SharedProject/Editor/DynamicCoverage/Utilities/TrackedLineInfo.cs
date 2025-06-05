@@ -7,7 +7,9 @@
             LineNumber = lineNumber;
             LineText = lineText;
         }
+
         public int LineNumber { get; }
+
         public string LineText { get; }
     }
 }

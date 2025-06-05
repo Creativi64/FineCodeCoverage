@@ -6,6 +6,7 @@ namespace FineCodeCoverage.Editor.Management
     internal class CoverageColours : ICoverageColours
     {
         private readonly Dictionary<DynamicCoverageType, IFontAndColorsInfo> _coverageTypeToFontAndColorsInfo;
+
         public CoverageColours(
             IFontAndColorsInfo coverageTouchedInfo,
             IFontAndColorsInfo coverageNotTouchedInfo,

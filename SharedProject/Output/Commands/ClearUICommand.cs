@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Output
         private readonly IUIClearer _uiClearer;
 
         protected override int CommandId { get; } = PackageIds.cmdidClearUICommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

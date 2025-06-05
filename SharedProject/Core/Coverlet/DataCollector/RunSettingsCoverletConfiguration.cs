@@ -61,14 +61,23 @@ namespace FineCodeCoverage.Core.Coverlet
 
 #pragma warning disable RCS1170 // Use read-only auto-implemented property
         public string Format { get; private set; }
+
         public string Exclude { get; private set; }
+
         public string Include { get; private set; }
+
         public string ExcludeByAttribute { get; private set; }
+
         public string ExcludeByFile { get; private set; }
+
         public string IncludeDirectory { get; private set; }
+
         public string SingleHit { get; private set; }
+
         public string UseSourceLink { get; private set; }
+
         public string IncludeTestAssembly { get; private set; }
+
         public string SkipAutoProps { get; private set; }
 #pragma warning restore RCS1170 // Use read-only auto-implemented property
     }

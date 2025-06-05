@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output.Pane
 
         [ImportingConstructor]
         public ShowFCCOutputPane(IFCCOutputWindowPaneCreator fccOutputWindowCreator) => _fccOutputWindowCreator = fccOutputWindowCreator;
+
         public async Task ShowAsync()
         {
             IFCCOutputWindowPane pane = await _fccOutputWindowCreator.GetOrCreateAsync();

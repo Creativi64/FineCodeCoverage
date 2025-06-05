@@ -17,6 +17,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             { DynamicCoverageType.NewLine, false },
             { DynamicCoverageType.NotIncluded, false }
         };
+
         private Dictionary<DynamicCoverageType, bool> _showLookup = s_doNotShowLookup;
 
         public void Initialize(EditorCoverageColouringOptions editorCoverageColouringOptions)
@@ -50,6 +51,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
         }
 
         protected abstract bool Enabled(EditorCoverageColouringOptions editorCoverageColouringOptions);
+
         protected abstract Dictionary<DynamicCoverageType, bool> GetShowLookup(EditorCoverageColouringOptions editorCoverageColouringOptions);
 
         public abstract string TypeIdentifier { get; }

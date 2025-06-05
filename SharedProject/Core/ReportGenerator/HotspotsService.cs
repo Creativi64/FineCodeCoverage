@@ -15,7 +15,9 @@ namespace FineCodeCoverage.ReportGeneration
         internal interface IMethodMetric
         {
             string FullName { get; }
+
             int Line { get; }
+
             IEnumerable<IMetric> Metrics { get; }
         }
 
@@ -27,8 +29,11 @@ namespace FineCodeCoverage.ReportGeneration
                 Class = @class;
                 MethodMetric = methodMetric;
             }
+
             public string Assembly { get; }
+
             public string Class { get; }
+
             public IMethodMetric MethodMetric { get; }
         }
 
@@ -41,7 +46,9 @@ namespace FineCodeCoverage.ReportGeneration
                     Name = name;
                     Value = value;
                 }
+
                 public string Name { get; }
+
                 public decimal Value { get; }
             }
 
@@ -69,14 +76,20 @@ namespace FineCodeCoverage.ReportGeneration
                 Metrics = metrics;
 
             }
+
             public bool IsHotspot { get; }
+
             public string FullName { get; }
+
             public int Line { get; }
+
             public IEnumerable<IMetric> Metrics { get; }
         }
+
         internal interface IMetric
         {
             string Name { get; }
+
             decimal Value { get; }
         }
 

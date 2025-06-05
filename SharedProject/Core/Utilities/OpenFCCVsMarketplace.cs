@@ -25,6 +25,7 @@ namespace FineCodeCoverage.Core.Utilities
             _ratingAndReviewPath += "&ssr=false#review-details";
             _process = process;
         }
+
         public void OpenRatingAndReview() => _process.Start(_ratingAndReviewPath);
     }
 }

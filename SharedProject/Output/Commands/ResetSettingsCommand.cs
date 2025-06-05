@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly ResetOptionsService _resetOptionsService;
 
         protected override int CommandId { get; } = PackageIds.cmdidResetSettingsCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

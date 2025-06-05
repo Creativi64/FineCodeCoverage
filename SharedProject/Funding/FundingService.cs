@@ -17,10 +17,15 @@ namespace FineCodeCoverage.Funding
             PayPalClickedCommand = new ProcessStartCommand(process);
             GithubClickedCommand = new ProcessStartCommand(process);
         }
+
         public ICommand KofiClickedCommand { get; }
+
         public ICommand BuyMeACoffeeClickedCommand { get; }
+
         public ICommand LiberapayClickedCommand { get; }
+
         public ICommand PayPalClickedCommand { get; }
+
         public ICommand GithubClickedCommand { get; }
 
         public void Execute() => _ = new FundingDialogWindow(this).ShowModal();

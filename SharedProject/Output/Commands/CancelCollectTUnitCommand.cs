@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly ITUnitCoverage _tUnitCoverage;
 
         protected override int CommandId { get; } = PackageIds.cmdidCancelCollectTUnitCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

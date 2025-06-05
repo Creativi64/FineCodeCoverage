@@ -14,19 +14,33 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private class RunSettingsTemplateReplacements : IRunSettingsTemplateReplacements
         {
             public string Enabled { get; set; }
+
             public string ResultsDirectory { get; set; }
+
             public string TestAdapter { get; set; }
+
             public string ModulePathsExclude { get; set; }
+
             public string ModulePathsInclude { get; set; }
+
             public string FunctionsExclude { get; set; }
+
             public string FunctionsInclude { get; set; }
+
             public string AttributesExclude { get; set; }
+
             public string AttributesInclude { get; set; }
+
             public string SourcesExclude { get; set; }
+
             public string SourcesInclude { get; set; }
+
             public string CompanyNamesExclude { get; set; }
+
             public string CompanyNamesInclude { get; set; }
+
             public string PublicKeyTokensExclude { get; set; }
+
             public string PublicKeyTokensInclude { get; set; }
 
             public RunSettingsTemplateReplacements(
@@ -68,6 +82,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private class MergedIncludesExcludesOptions : IMsCodeCoverageIncludesExcludesOptions
         {
             private readonly List<ICoverageSettings> _allOptions;
+
             public MergedIncludesExcludesOptions(IEnumerable<ICoverageSettings> allOptions)
             {
                 _allOptions = allOptions.ToList();
@@ -90,16 +105,27 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 => _allOptions.SelectMany(options => selector(options) ?? Array.Empty<string>()).ToArray();
 
             public string[] ModulePathsExclude { get; set; }
+
             public string[] ModulePathsInclude { get; set; }
+
             public string[] CompanyNamesExclude { get; set; }
+
             public string[] CompanyNamesInclude { get; set; }
+
             public string[] PublicKeyTokensExclude { get; set; }
+
             public string[] PublicKeyTokensInclude { get; set; }
+
             public string[] SourcesExclude { get; set; }
+
             public string[] SourcesInclude { get; set; }
+
             public string[] AttributesExclude { get; set; }
+
             public string[] AttributesInclude { get; set; }
+
             public string[] FunctionsInclude { get; set; }
+
             public string[] FunctionsExclude { get; set; }
         }
 
@@ -127,6 +153,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 FunctionsInclude = includesExcludesOptions.FunctionsInclude;
                 FunctionsExclude = includesExcludesOptions.FunctionsExclude;
             }
+
             public CombinedIncludesExcludesOptions(
                 ICoverageSettings includesExcludesOptions,
                 IEnumerable<string> additionalModulePathsIncludes,
@@ -148,6 +175,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 FunctionsInclude = includesExcludesOptions.FunctionsInclude;
                 FunctionsExclude = includesExcludesOptions.FunctionsExclude;
             }
+
             private CombinedIncludesExcludesOptions(string[] modulePathsInclude, string[] modulePathsExclude, IEnumerable<string> additionalModulePathsIncludes, IEnumerable<string> additionalModulePathsExcludes)
             {
                 IEnumerable<string> modulePathsIncludesFromOptions = modulePathsInclude ?? Enumerable.Empty<string>();
@@ -155,17 +183,29 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
                 ModulePathsInclude = additionalModulePathsIncludes.Concat(modulePathsIncludesFromOptions).ToArray();
                 ModulePathsExclude = additionalModulePathsExcludes.Concat(modulePathsExcludesFromOptions).ToArray();
             }
+
             public string[] ModulePathsExclude { get; set; }
+
             public string[] ModulePathsInclude { get; set; }
+
             public string[] CompanyNamesExclude { get; set; }
+
             public string[] CompanyNamesInclude { get; set; }
+
             public string[] PublicKeyTokensExclude { get; set; }
+
             public string[] PublicKeyTokensInclude { get; set; }
+
             public string[] SourcesExclude { get; set; }
+
             public string[] SourcesInclude { get; set; }
+
             public string[] AttributesExclude { get; set; }
+
             public string[] AttributesInclude { get; set; }
+
             public string[] FunctionsInclude { get; set; }
+
             public string[] FunctionsExclude { get; set; }
         }
 

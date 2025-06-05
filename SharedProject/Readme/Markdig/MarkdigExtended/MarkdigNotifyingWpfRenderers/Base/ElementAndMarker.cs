@@ -9,6 +9,7 @@
         }
 
         public object Element { get; }
+
         public MarkdownTypeMarker Marker { get; }
     }
 }

@@ -14,6 +14,7 @@ namespace FineCodeCoverage.Output
         private string _coberturaFile;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenCoberturaCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

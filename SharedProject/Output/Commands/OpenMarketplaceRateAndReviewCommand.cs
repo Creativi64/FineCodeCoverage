@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly IOpenFCCVsMarketplace _openFCCVsMarketplace;
 
         protected override int CommandId { get; } = PackageIds.cmdidMarketplaceRateAndReviewCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

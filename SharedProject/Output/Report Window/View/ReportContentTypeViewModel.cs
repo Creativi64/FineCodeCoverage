@@ -9,7 +9,9 @@
         }
 
         public ReportContentType ReportContentType { get; }
+
         public string Display { get; }
+
         public override string ToString() => Display;
     }
 }

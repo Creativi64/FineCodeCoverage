@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public string FilePath { get; }
+
         public bool HasNewCode { get; }
     }
 }

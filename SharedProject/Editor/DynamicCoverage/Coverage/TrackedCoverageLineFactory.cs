@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 
         [ImportingConstructor]
         public TrackedCoverageLineFactory(ILineTracker lineTracker) => _lineTracker = lineTracker;
+
         public ITrackedCoverageLine Create(ITrackingSpan trackingSpan, ICoberturaLine line)
             => new TrackedCoverageLine(trackingSpan, line, _lineTracker);
     }

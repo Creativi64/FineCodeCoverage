@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly IFCCGithubService _fccGithubService;
 
         protected override int CommandId { get; } = PackageIds.cmdidNewIssueCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

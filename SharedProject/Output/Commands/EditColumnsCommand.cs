@@ -9,6 +9,7 @@ namespace FineCodeCoverage.Output
         private readonly IReportColumnsService _reportColumnsService;
 
         protected override int CommandId { get; } = PackageIds.cmdidEditColumnsCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

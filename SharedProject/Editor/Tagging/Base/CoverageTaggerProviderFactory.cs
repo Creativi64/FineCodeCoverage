@@ -43,6 +43,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             _fileIndicatorVisibility = fileIndicatorVisibility;
             _dynamicLineFilter = dynamicLineFilter;
         }
+
         public ICoverageTaggerProvider<TTag> Create<TTag, TCoverageTypeFilter>(ILineSpanTagger<TTag> tagger)
             where TTag : ITag
             where TCoverageTypeFilter : ICoverageTypeFilter, new()

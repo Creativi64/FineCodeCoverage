@@ -7,7 +7,9 @@
             Number = number;
             CoverageType = coverageType;
         }
+
         public int Number { get; }
+
         public CoverageType CoverageType { get; }
     }
 }

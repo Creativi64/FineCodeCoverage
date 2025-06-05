@@ -17,6 +17,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private IVsSolutionBuildManager3 _solutionBuildManager3;
         private BuildStartEnd _buildStartEnd;
         private bool _building;
+
         public event EventHandler<BuildStartEndArgs> ExternalBuildEvent;
 
         [ImportingConstructor]

@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Core.Utilities.Solution
     internal abstract class SolutionOption<T> : ISolutionOption
     {
         private readonly IJsonConvertService _jsonConvertService;
+
         public event EventHandler UnloadedEvent;
 
         protected SolutionOption(IJsonConvertService jsonConvertService)

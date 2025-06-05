@@ -18,6 +18,7 @@ namespace FineCodeCoverage.Core.Utilities
             _toolZipProvider = toolZipProvider;
             _toolFolder = toolFolder;
         }
+
         public string EnsureUnzipped(
             string appDataFolder,
             string ownFolderName,

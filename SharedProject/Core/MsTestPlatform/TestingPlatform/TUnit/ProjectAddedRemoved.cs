@@ -9,7 +9,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             Added = added;
             Project = project;
         }
+
         public bool Added { get; }
+
         public IVsHierarchy Project { get; }
     }
 }

@@ -7,9 +7,11 @@ namespace FineCodeCoverage.Output
     internal class SourceFile : ISourceFile
     {
         public event EventHandler HasNewCodeChanged;
+
         public event EventHandler PathChanged;
 
         private string _path;
+
         public SourceFile(string path, List<SourceFileClass> classes, bool hasNewCode)
         {
             Path = path;
@@ -26,7 +28,9 @@ namespace FineCodeCoverage.Output
                 PathChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public IReadOnlyList<IClass> Classes { get; }
+
         public bool HasNewCode { get; private set; }
 
         internal void SetHasNewCode(bool hasNewCode)

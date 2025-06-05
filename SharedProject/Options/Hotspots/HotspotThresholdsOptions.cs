@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Options
         [DisplayName("Cyclomatic Complexity")]
 
         public int ThresholdForCyclomaticComplexity { get; set; }
+
         [Category(OpenCoverCategory)]
         [Description("When npath complexity exceeds this value for a method then the method will be present in the risk hotspots tab. OpenCover only")]
         [DisplayName("NPath Complexity")]

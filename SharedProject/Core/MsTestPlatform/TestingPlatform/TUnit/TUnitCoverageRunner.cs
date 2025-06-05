@@ -38,6 +38,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             { 12, "Test session was unable to run because the client does not support any of the supported protocol versions." },
             { 13, "Test session was stopped due to reaching the specified number of maximum failed tests using --maximum-failed-tests command-line option." }
         };
+
         private CancellationToken _cancellationToken;
         private string _dotnetCoverageExePath;
 

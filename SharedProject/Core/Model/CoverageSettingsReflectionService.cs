@@ -17,8 +17,11 @@ namespace FineCodeCoverage.Engine.Model
                 Type = option.GetType();
                 InterfaceTypes = Type.GetInterfaces();
             }
+
             public object Option { get; }
+
             public Type Type { get; }
+
             public Type[] InterfaceTypes { get; }
         }
 
@@ -29,12 +32,15 @@ namespace FineCodeCoverage.Engine.Model
                 Option = option;
                 PropertyInfos = propertyInfos;
             }
+
             public object Option { get; }
+
             public List<PropertyInfo> PropertyInfos { get; }
         }
 
         private readonly Dictionary<Type, PropertyInfo[]> _coverageSettingsInterfacesPropertyInfosLookup;
         private Dictionary<Type, List<PropertyInfo>> _optionsTypeCoverageSettingsInterfacesPropertyLookup;
+
         public CoverageSettingsReflectionService()
         {
             Type[] interfaces = typeof(CoverageSettings).FindInterfaces((type, _) => type != typeof(ICoverageSettings), null);

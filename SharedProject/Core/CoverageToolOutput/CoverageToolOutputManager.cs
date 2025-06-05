@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Engine
         private readonly IOrderedEnumerable<
             Lazy<ICoverageToolOutputFolderProvider, IOrderMetadata>
         > _outputFolderProviders;
+
         private string _outputFolderForAllProjects;
         private List<ICoverageProject> _coverageProjects;
 

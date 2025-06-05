@@ -17,6 +17,7 @@ namespace FineCodeCoverage.Core.Initialization
         private readonly IFirstTimeToolWindowOpener _firstTimeToolWindowOpener;
 
         public InitializeStatus InitializeStatus { get; set; } = InitializeStatus.Initializing;
+
         public string InitializeExceptionMessage { get; set; }
 
         [ImportingConstructor]

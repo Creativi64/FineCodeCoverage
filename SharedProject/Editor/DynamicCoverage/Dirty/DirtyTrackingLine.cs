@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
             _trackingLine = trackingLine;
             _dynamicCoberturaLine = dynamicCoberturaLine;
         }
+
         public IDynamicLine Line => _trackingLine.Line;
 
         public List<int> GetUpdatedLineNumbers(ITextSnapshot currentSnapshot)

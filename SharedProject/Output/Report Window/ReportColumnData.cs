@@ -29,6 +29,7 @@ namespace FineCodeCoverage.Output
             => ReportColumnType = reportColumnType;
 
         public string ReportColumnType { get; }
+
         public bool CanEditCellAlignment { get; set; } = true;
 
         public const string NameColumnType = "Name";

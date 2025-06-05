@@ -9,6 +9,7 @@
         }
 
         public IItemCoverageColours ItemCoverageColours { get; }
+
         public bool IsBold { get; }
 
         public bool Equals(IFontAndColorsInfo other) => IsBold == other.IsBold && ItemCoverageColours.Equals(other.ItemCoverageColours);

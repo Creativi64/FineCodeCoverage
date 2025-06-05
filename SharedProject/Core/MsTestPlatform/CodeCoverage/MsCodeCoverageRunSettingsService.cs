@@ -27,16 +27,22 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private class UserRunSettingsProjectDetails : IUserRunSettingsProjectDetails
         {
             public ICoverageSettings Settings { get; set; }
+
             public string CoverageOutputFolder { get; set; }
+
             public string TestDllFile { get; set; }
+
             public List<IReferencedProject> ExcludedReferencedProjects { get; set; }
+
             public List<IReferencedProject> IncludedReferencedProjects { get; set; }
         }
 
         private class CoverageProjectsByType
         {
             public List<ICoverageProject> All { get; private set; }
+
             public List<ICoverageProject> RunSettings { get; private set; }
+
             public List<ICoverageProject> Templated { get; private set; }
 
             public bool HasTemplated() => Templated.Count > 0;
@@ -209,6 +215,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 
             await GenerateTemplatedRunSettingsAsync(coverageProjectsForShim, solutionDirectory);
         }
+
         private async Task GenerateTemplatedRunSettingsAsync(
             List<ICoverageProject> coverageProjectsForShim,
             string solutionDirectory

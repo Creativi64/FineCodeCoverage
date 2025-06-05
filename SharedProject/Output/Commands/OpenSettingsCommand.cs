@@ -14,6 +14,7 @@ namespace FineCodeCoverage.Output
             => _openOptionPageTypeProvider = openOptionPageTypeProvider;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenSettingsCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         protected override void Execute(object sender, EventArgs e)

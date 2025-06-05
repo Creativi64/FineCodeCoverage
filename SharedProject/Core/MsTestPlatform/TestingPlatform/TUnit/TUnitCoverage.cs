@@ -35,6 +35,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private bool _externalBuildInProgress;
 
         public event EventHandler ReadyEvent;
+
         public event EventHandler<bool> CollectingChangedEvent;
 
         [ImportingConstructor]
@@ -86,6 +87,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         }
 
         public bool Ready => _runnerReady && _projectsProviderReady && !_externalBuildInProgress;
+
         private void OnReady() => ReadyEvent?.Invoke(this, EventArgs.Empty);
 
         protected void OnCollectingChanged(bool collecting) => CollectingChangedEvent?.Invoke(this, collecting);

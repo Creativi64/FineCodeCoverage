@@ -29,6 +29,7 @@ namespace FineCodeCoverage.Impl
     {
 #pragma warning disable 67
         public event EventHandler TestContainersUpdated;
+
 #pragma warning restore 67
         private readonly IFCCEngine _fccEngine;
         private readonly ITestOperationStateInvocationManager _testOperationStateInvocationManager;
@@ -49,8 +50,10 @@ namespace FineCodeCoverage.Impl
 
         [ExcludeFromCodeCoverage]
         public Uri ExecutorUri => new Uri($"executor://{Vsix.Code}.Executor/v1");
+
         [ExcludeFromCodeCoverage]
         public IEnumerable<ITestContainer> TestContainers => Enumerable.Empty<ITestContainer>();
+
         public bool MsCodeCoverageErrored => _msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Error;
 
         [ImportingConstructor]

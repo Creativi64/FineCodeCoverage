@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Wpf
             nameof(Moniker),
             typeof(ImageMoniker),
             typeof(VsCrispImageButtonX));
+
         public ImageMoniker Moniker
         {
             get => (ImageMoniker)GetValue(MonikerProperty);

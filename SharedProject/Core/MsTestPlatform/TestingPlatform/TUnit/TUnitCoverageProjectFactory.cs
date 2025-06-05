@@ -43,12 +43,18 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 _configurationProvider = configurationProvider;
                 HasCoverageExtension = hasCoverageExtension;
             }
+
             public string ExePath { get; }
+
             public Task<string> GetConfigurationAsync(CancellationToken cancellationToken)
                 => _configurationProvider(cancellationToken);
+
             public ICoverageProject CoverageProject { get; }
+
             public IVsHierarchy VsHierarchy { get; }
+
             public CommandLineParseResult CommandLineParseResult { get; }
+
             public bool HasCoverageExtension { get; }
         }
 

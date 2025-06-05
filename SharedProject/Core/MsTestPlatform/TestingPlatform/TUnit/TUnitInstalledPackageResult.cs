@@ -12,7 +12,9 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         }
 
         public bool HasTUnit { get; }
+
         public bool HasCoverageExtension { get; }
+
         public InstalledPackageResultStatus Status { get; }
     }
 }

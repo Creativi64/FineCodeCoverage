@@ -5,6 +5,7 @@ namespace FineCodeCoverage.Output
     internal interface IReportViewSelectorModel
     {
         ReportViewState GetState();
+
         void Update(
             ReportStyle reportStyle,
             ReportContentType reportContentType,

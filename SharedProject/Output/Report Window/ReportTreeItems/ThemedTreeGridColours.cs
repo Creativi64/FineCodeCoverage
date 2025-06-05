@@ -22,6 +22,7 @@ namespace FineCodeCoverage.Output
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Color ImageBackgroundColor { get; private set; }
+
         public Brush ImageBackgroundBrush { get; private set; }
 
         public Brush TransparentBrush { get; } = new SolidColorBrush(Colors.Transparent);

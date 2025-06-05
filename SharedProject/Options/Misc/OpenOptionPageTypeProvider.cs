@@ -19,6 +19,7 @@ namespace FineCodeCoverage.Options
             {OpenOptionPage.HotspotThresholds, typeof(HotspotThresholdsOptionsPage)},
             {OpenOptionPage.Misc, typeof(MiscOptionsPage)}
         };
+
         private readonly IDialogPageOptionsProvider<MiscOptions> _miscOptionsProvider;
 
         [ImportingConstructor]

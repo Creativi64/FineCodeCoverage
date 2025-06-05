@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Output
         private readonly IShowReadMeService _readMeService;
 
         protected override int CommandId { get; } = PackageIds.cmdidOpenReadMeCommand;
+
         protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
 
         [ImportingConstructor]

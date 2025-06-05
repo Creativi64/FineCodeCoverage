@@ -25,6 +25,7 @@ namespace FineCodeCoverage.Engine.Model
         private readonly string _fccFolderName = "fine-code-coverage";
         private readonly string _buildOutputFolderName = "build-output";
         private string _buildOutputPath;
+
         private string BuildOutputPath
         {
             get
@@ -88,6 +89,7 @@ namespace FineCodeCoverage.Engine.Model
 
         private static bool IsSdkAttribute(XAttribute attr)
             => attr.Name.LocalName.Equals("Sdk", StringComparison.OrdinalIgnoreCase);
+
         private static bool IsRootImportElementWithSdkAttribute(XElement x)
             => x?.Name?.LocalName?.Equals("Import", StringComparison.OrdinalIgnoreCase) == true &&
                 x?.Parent?.Name?.LocalName?.Equals("Project", StringComparison.OrdinalIgnoreCase) == true &&
@@ -103,13 +105,21 @@ namespace FineCodeCoverage.Engine.Model
                 x?.Parent == null && HasSdkAttribute(x);
 
         public string TestDllFile { get; set; }
+
         public string ProjectOutputFolder => Path.GetDirectoryName(TestDllFile);
+
         public string FailureDescription { get; set; }
+
         public string FailureStage { get; set; }
+
         public bool HasFailed => !string.IsNullOrWhiteSpace(FailureStage) || !string.IsNullOrWhiteSpace(FailureDescription);
+
         public string ProjectFilePath { get; set; }
+
         public Guid Id { get; set; }
+
         public string ProjectName { get; set; }
+
         public string CoverageOutputFile => Path.Combine(CoverageOutputFolder, $"{ProjectName}.coverage.xml");
 
         public ICoverageSettings Settings
@@ -128,17 +138,24 @@ namespace FineCodeCoverage.Engine.Model
                 return _settings;
             }
         }
+
         public string CoverageOutputFolder { get; set; }
+
         public string DefaultCoverageOutputFolder => Path.Combine(FCCOutputFolder, _coverageToolOutputFolderName);
 
         public XElement ProjectFileXElement => _projectFileXElement ??
             (_projectFileXElement = LinqToXmlUtil.Load(ProjectFilePath, true));
 
         public List<IReferencedProject> ExcludedReferencedProjects { get; } = new List<IReferencedProject>();
+
         public List<IReferencedProject> IncludedReferencedProjects { get; set; } = new List<IReferencedProject>();
+
         public bool Is64Bit { get; set; }
+
         public string RunSettingsFile { get; set; }
+
         public bool IsDotNetFramework { get; private set; }
+
         public string TargetFramework
         {
             get => _targetFramework;

@@ -6,6 +6,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
     internal interface ITextInfoFactory
     {
         ITextInfo Create(ITextView textView, ITextBuffer textBuffer);
+
         string GetFilePath(ITextBuffer textBuffer);
     }
 }

@@ -11,6 +11,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
     internal class TUnitProjectCache : ITUnitProjectCache
     {
         private Dictionary<IVsHierarchy, ITUnitProject> _projectLookup;
+
         public void Add(ITUnitProject tUnitProject)
             => _projectLookup.Add(tUnitProject.Hierarchy, tUnitProject);
 

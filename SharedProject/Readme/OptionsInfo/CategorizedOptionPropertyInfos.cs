@@ -10,7 +10,9 @@ namespace FineCodeCoverage.Readme
             Category = category;
             OptionPropertyInfos = optionPropertyInfos;
         }
+
         public string Category { get; }
+
         public IEnumerable<OptionPropertyInfo> OptionPropertyInfos { get; }
     }
 }

@@ -30,6 +30,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         private bool _isApplicableContentType = true;
         private IFileLines _fileLines;
         private ITrackedLines _trackedLines;
+
         public bool HasCoverage => _trackedLines != null;
 
         public BufferLineCoverage(
@@ -312,6 +313,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
         }
 
         public void Handle(TestExecutionStartingMessage message) => _lastTestExecutionStarting = DateTime.Now;
+
         public void Handle(ClearLinesMessage message) => UpdateCoverageLines(null);
     }
 }

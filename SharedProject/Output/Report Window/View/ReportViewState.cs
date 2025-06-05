@@ -19,10 +19,15 @@ namespace FineCodeCoverage.Output
         }
 
         public ReportStyle ReportStyle { get; }
+
         public ReportContentType ReportContentType { get; }
+
         public string SelectedRepositoryPath { get; }
+
         public string SelectedBranchName { get; }
+
         public IReadOnlyList<string> RepositoryPaths { get; }
+
         public bool CanUseRepositories { get; }
     }
 }

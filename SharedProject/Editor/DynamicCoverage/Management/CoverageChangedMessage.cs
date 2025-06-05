@@ -7,6 +7,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public string FilePath { get; }
+
         public IEnumerable<int> ChangedLineNumbers { get; }
 
         public CoverageChangedMessage(string filePath, IEnumerable<int> changedLineNumbers)

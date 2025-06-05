@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes
     internal class CPPCoverageContentType : ICoverageContentType
     {
         public const string ContentType = "C/C++";
+
         public string ContentTypeName => ContentType;
 
         /*
@@ -19,6 +20,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes
         // not relevant
         [ExcludeFromCodeCoverage]
         public bool CoverageOnlyFromFileCodeSpanRangeService => false;
+
         [ExcludeFromCodeCoverage]
         public bool UseFileCodeSpanRangeServiceForChanges => false;
 

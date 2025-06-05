@@ -12,9 +12,13 @@
         }
 
         public double Percentage { get; }
+
         public double Uncovered { get; }
+
         public double Covered { get; }
+
         public double Coverable { get; }
+
         public int? Partial { get; }
     }
 }

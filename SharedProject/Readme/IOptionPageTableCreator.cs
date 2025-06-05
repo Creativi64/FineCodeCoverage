@@ -6,6 +6,7 @@ namespace FineCodeCoverage.Readme
     internal interface IOptionPageTableCreator
     {
         Table Create();
+
         IReadOnlyList<ElementAndMarker> ElementAndMarkers { get; }
     }
 }

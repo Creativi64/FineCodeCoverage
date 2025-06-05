@@ -50,6 +50,7 @@ namespace FineCodeCoverage.Output
                 brush.Freeze();
                 return brush;
             });
+
         public static DefaultLineBrushCreator Instance { get; } = new DefaultLineBrushCreator();
     }
 }

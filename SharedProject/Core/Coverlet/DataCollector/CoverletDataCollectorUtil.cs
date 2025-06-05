@@ -34,6 +34,7 @@ namespace FineCodeCoverage.Engine.Coverlet
         private const string LogPrefix = "Coverlet Collector Run";
         private const string ZipPrefix = "coverlet.collector";
         private const string ZipDirectoryName = "coverletCollector";
+
         internal string TestAdapterPathArg { get; set; }
 
         [ImportingConstructor]

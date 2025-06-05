@@ -10,6 +10,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         bool Ready { get; }
 
         event EventHandler ReadyEvent;
+
         Task<List<ITUnitProject>> GetTUnitProjectsAsync(CancellationToken cancellationToken);
     }
 }

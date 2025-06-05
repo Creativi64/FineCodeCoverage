@@ -8,6 +8,7 @@ namespace FineCodeCoverage.Output
     internal interface IToolWindowService
     {
         Task<ToolWindowPane> ShowToolWindowAsync(Type toolWindowType, int id, bool create, CancellationToken cancellationToken);
+
         Task<ToolWindowPane> ShowToolWindowAsync(Type toolWindowType, int id, bool create);
     }
 }
