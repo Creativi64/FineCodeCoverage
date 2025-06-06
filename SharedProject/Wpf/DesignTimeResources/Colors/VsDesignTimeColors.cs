@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Wpf
 {
     /// <summary>
     /// Attached property to be added to root element to allow vs dynamic resources of brushes and colors at design time
-    /// using vs provided Microsoft.VisualStudio.Shell.ThemeResourceKey such as EnvironmentColors.ToolWindowTextBrushKey
+    /// using vs provided Microsoft.VisualStudio.Shell.ThemeResourceKey such as EnvironmentColors.ToolWindowTextBrushKey.
     /// </summary>
     internal static class VsDesignTimeColors
     {

@@ -33,19 +33,19 @@ namespace FineCodeCoverage.Core.Utilities
                 return foreground;
             }
 
-            if (foreground.A == (byte)0)
+            if (foreground.A == 0)
             {
                 return background;
             }
 
-            double unitScaledForegroundAlpha = (double)foreground.A / (double)byte.MaxValue;
-            return Color.FromArgb(byte.MaxValue, BlendChannel((int)foreground.R, (int)background.R), BlendChannel((int)foreground.G, (int)background.G), BlendChannel((int)foreground.B, (int)background.B));
+            double unitScaledForegroundAlpha = foreground.A / (double)byte.MaxValue;
+            return Color.FromArgb(byte.MaxValue, BlendChannel(foreground.R, background.R), BlendChannel(foreground.G, background.G), BlendChannel(foreground.B, background.B));
 
             byte BlendChannel(int fg, int bg)
             {
-                double num1 = (double)fg / (double)byte.MaxValue;
-                double num2 = (double)bg / (double)byte.MaxValue;
-                return Math.Max((byte)0, Math.Min(byte.MaxValue, (byte)(((num1 * unitScaledForegroundAlpha) + (num2 * (1.0 - unitScaledForegroundAlpha))) * (double)byte.MaxValue)));
+                double num1 = fg / (double)byte.MaxValue;
+                double num2 = bg / (double)byte.MaxValue;
+                return Math.Max((byte)0, Math.Min(byte.MaxValue, (byte)(((num1 * unitScaledForegroundAlpha) + (num2 * (1.0 - unitScaledForegroundAlpha))) * byte.MaxValue)));
             }
         }
 
@@ -55,11 +55,11 @@ namespace FineCodeCoverage.Core.Utilities
             return num < 1.0 ? 1.0 / num : num;
         }
 
-        public static double GetLuminance(this Color color) => (0.2126 * ColorUtilities.ScaleComponentForLuminance((int)color.R)) + (447.0 / 625.0 * ColorUtilities.ScaleComponentForLuminance((int)color.G)) + (0.0722 * ColorUtilities.ScaleComponentForLuminance((int)color.B));
+        public static double GetLuminance(this Color color) => (0.2126 * ColorUtilities.ScaleComponentForLuminance(color.R)) + (447.0 / 625.0 * ColorUtilities.ScaleComponentForLuminance(color.G)) + (0.0722 * ColorUtilities.ScaleComponentForLuminance(color.B));
 
         private static double ScaleComponentForLuminance(int component)
         {
-            double num = (double)component / (double)byte.MaxValue;
+            double num = component / (double)byte.MaxValue;
             return num > 0.03928 ? Math.Pow((num + 0.055) / 1.055, 2.4) : num / 12.92;
         }
 

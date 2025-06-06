@@ -2,13 +2,16 @@
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// todo.
+    /// </summary>
     public partial class VsPathButton : VsImageButtonX
     {
         public VsPathButton() => InitializeComponent();
 
         public object Path
         {
-            get => (object)GetValue(PathProperty);
+            get => GetValue(PathProperty);
             set => SetValue(PathProperty, value);
         }
 

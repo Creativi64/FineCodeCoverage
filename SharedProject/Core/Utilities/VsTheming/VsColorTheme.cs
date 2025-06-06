@@ -33,23 +33,21 @@ namespace FineCodeCoverage.Core.Utilities
 
         public string CurrentThemeName => ((dynamic)CurrentTheme).Name;
 
-#pragma warning disable IDE1006 // Naming Styles
-        private event EventHandler themeChanged;
-#pragma warning restore IDE1006 // Naming Styles
+        private event EventHandler ThemeChangedHandler;
 
         public event EventHandler ThemeChanged
         {
             add
             {
-                themeChanged = value;
+                ThemeChangedHandler = value;
                 Microsoft.VisualStudio.PlatformUI.VSColorTheme.ThemeChanged += (_) =>
                 {
                     SetCurrentTheme();
-                    themeChanged?.Invoke(this, EventArgs.Empty);
+                    ThemeChangedHandler?.Invoke(this, EventArgs.Empty);
                 };
             }
 
-            remove => themeChanged = null;
+            remove => ThemeChangedHandler = null;
         }
 
         private void SetCurrentTheme() => _currentTheme = ((dynamic)_colorThemeService).CurrentTheme;

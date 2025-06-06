@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// A user control that represents a button with an image, using a moniker for the image.
+    /// </summary>
     public partial class VsCrispImageButtonX : VsImageButtonX
     {
         public static readonly DependencyProperty MonikerProperty =

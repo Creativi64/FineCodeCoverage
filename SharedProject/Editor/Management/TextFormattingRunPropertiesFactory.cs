@@ -23,9 +23,7 @@ namespace FineCodeCoverage.Editor.Management
                     https://learn.microsoft.com/en-us/dotnet/api/system.windows.textdecorations?view=windowsdesktop-8.0
                 */
                 null,
-
-                // TextEffectCollection https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.texteffect?view=windowsdesktop-8.0
-                null,
+                null, // TextEffectCollection https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.texteffect?view=windowsdesktop-8.0
                 null) // CultureInfo
                 .SetBold(fontAndColorsInfo.IsBold);
         }

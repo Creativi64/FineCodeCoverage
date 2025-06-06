@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
 using Microsoft;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -27,9 +28,9 @@ namespace FineCodeCoverage.Core.Initialization
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     var cmdLine = (IVsAppCommandLine)serviceProvider.GetService(typeof(SVsAppCommandLine));
                     Assumes.Present(cmdLine);
-                    _ = cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out _);
-
-                    return false;
+                    int hr = cmdLine.GetOption(ClearSettingsOnShutdownOption, out int isPresent, out _);
+                    _ = ErrorHandler.ThrowOnFailure(hr);
+                    return isPresent != 0;
                 },
                 ThreadHelper.JoinableTaskFactory);
 

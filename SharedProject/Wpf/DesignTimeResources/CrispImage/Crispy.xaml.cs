@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Wpf
     /// <summary>
     /// A crisp image that can be used in design time resources.
     /// Will at design time will replicate CrispImage functionality - see ImageLibraryLoader
-    /// This does work ! If it does not delete the .vs folder and restart vs
+    /// This does work ! If it does not delete the .vs folder and restart vs.
     /// </summary>
     public partial class Crispy : ContentControl
     {
@@ -70,7 +70,7 @@ namespace FineCodeCoverage.Wpf
         public ImageMoniker Moniker
         {
             get => (ImageMoniker)GetValue(Crispy.MonikerProperty);
-            set => SetValue(Crispy.MonikerProperty, (object)value);
+            set => SetValue(Crispy.MonikerProperty, value);
         }
 
         public Crispy()
@@ -151,7 +151,6 @@ namespace FineCodeCoverage.Wpf
 
         private void SetImageSource()
         {
-
             if (IsDefaultMoniker())
             {
                 return;
@@ -188,7 +187,7 @@ namespace FineCodeCoverage.Wpf
             };
             const _ImageAttributesFlags flags = _ImageAttributesFlags.IAF_RequiredFlags | _ImageAttributesFlags.IAF_Background; // others
             imageAttributes.Flags = BitConverter.ToUInt32(BitConverter.GetBytes((int)flags), 0);
-            imageAttributes.StructSize = (int)Marshal.SizeOf<ImageAttributes>();
+            imageAttributes.StructSize = Marshal.SizeOf<ImageAttributes>();
             imageAttributes.Background = ConvertColor(GetColor());
             imageAttributes.Dpi = GetDpi();
 

@@ -14,34 +14,44 @@ dotnet_diagnostic.RCS0054.severity = warning # Fix formatting of a call chain
 dotnet_diagnostic.RCS1201.severity = warning # Use method chaining
 dotnet_diagnostic.RCS1061.severity = warning # Merge 'if' with nested 'if'
 dotnet_diagnostic.RCS1015.severity = warning # Use nameof operator
+dotnet_diagnostic.RCS1146.severity = warning # Use conditional access
+
 
 dotnet_diagnostic.IDE0001.severity = error # simplify name
-#dotnet_diagnostic.IDE0004.severity = error # remove unnecessary cast
-#dotnet_diagnostic.IDE0005.severity = error # remove unnecessary import 
+dotnet_diagnostic.IDE0004.severity = error # remove unnecessary cast
+dotnet_diagnostic.IDE0005.severity = error # remove unnecessary import 
 dotnet_diagnostic.IDE0040.severity = error # accessibility modifiers
 dotnet_style_require_accessibility_modifiers = always
 
 dotnet_analyzer_diagnostic.category-Naming.severity = error # code analysis - naming conventions 
 dotnet_analyzer_diagnostic.category-Design.severity = error
 # maintainability
-# does not work - dotnet_analyzer_diagnostic.category-Maintainability.severity
-dotnet_diagnostic.CA1501.severity = error
-dotnet_diagnostic.CA1502.severity = error
-dotnet_diagnostic.CA1505.severity = error
-dotnet_diagnostic.CA1506.severity = error
+# does not work - dotnet_analyzer_diagnostic.category-Maintainability.severity = error
+dotnet_diagnostic.CA1501.severity = error # Avoid excessive inheritance
+dotnet_diagnostic.CA1502.severity = error # Avoid excessive complexity - todo configure
+dotnet_diagnostic.CA1505.severity = error # Avoid unmaintainable code - todo configure
+dotnet_diagnostic.CA1506.severity = error # Avoid excessive class coupling - todo configure
+dotnet_diagnostic.CA1509.severity = error # Invalid entry in code metrics configuration file
+
 dotnet_diagnostic.CA1507.severity = error # Use nameof in place of string
-dotnet_diagnostic.CA1508.severity = error
-dotnet_diagnostic.CA1509.severity = error
-dotnet_diagnostic.CA1510.severity = error
-dotnet_diagnostic.CA1511.severity = error
-dotnet_diagnostic.CA1512.severity = error
-dotnet_diagnostic.CA1513.severity = error
-dotnet_diagnostic.CA1514.severity = error
-dotnet_diagnostic.CA1515.severity = error
+dotnet_diagnostic.CA1508.severity = error # Avoid dead conditional code
+
+dotnet_diagnostic.CA1510.severity = error # Use ArgumentNullException throw helper
+dotnet_diagnostic.CA1511.severity = error # Use ArgumentException throw helper
+dotnet_diagnostic.CA1512.severity = error # Use ArgumentOutOfRangeException throw helper
+dotnet_diagnostic.CA1513.severity = error # Use ObjectDisposedException throw helper
+
+dotnet_diagnostic.CA1514.severity = error # Avoid redundant length argument
+dotnet_diagnostic.CA1515.severity = error # Consider making public types internal
+# performance rules
 dotnet_diagnostic.CA1860.severity = error # Avoid using 'Enumerable.Any()'
-dotnet_diagnostic.CA1715.severity = error # Identifiers should have correct prefix
+dotnet_diagnostic.CA1861.severity = error # Avoid constant arrays as arguments
+dotnet_diagnostic.CA1852.severity = error # Seal internal types
 dotnet_diagnostic.CA1822.severity = error # Mark members as static
 dotnet_code_quality.CA1822.api_surface = private, internal
+# naming rules
+dotnet_diagnostic.CA1715.severity = error # Identifiers should have correct prefix
+
 
 # StyleCop
 # disagrees with the C# coding conventions
@@ -266,6 +276,8 @@ csharp_space_after_dot = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_after_semicolon_in_for_statement = true
 csharp_space_around_binary_operators = before_and_after
+# note that false disagrees with the C# coding conventions - they have do_not_ignore which is not mentioned in the docs as a valid value
+# looking at the source code, the "ignore" option value is matched against - any other value is considered "do not ignore" 
 csharp_space_around_declaration_statements = false
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_before_comma = false

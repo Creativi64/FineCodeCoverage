@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// A user control that represents a vs styled button with an image.
+    /// </summary>
     public partial class VsImageButton : UserControl
     {
         public VsImageButton() => InitializeComponent();

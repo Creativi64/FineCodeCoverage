@@ -2,6 +2,9 @@
 
 namespace FineCodeCoverage.Output
 {
+    /// <summary>
+    /// report columns management.
+    /// </summary>
     internal partial class ColumnsManagementUserControl : UserControl
     {
         public ColumnsManagementUserControl() => InitializeComponent();

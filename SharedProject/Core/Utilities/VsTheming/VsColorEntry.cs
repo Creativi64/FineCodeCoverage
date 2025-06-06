@@ -4,7 +4,7 @@
     {
         public VsColorEntry(object iVsColorEntry, ColorName colorName)
         {
-            dynamic d = iVsColorEntry as dynamic;
+            dynamic d = iVsColorEntry;
             BackgroundType = d.BackgroundType;
             ForegroundType = d.ForegroundType;
             Background = d.Background;

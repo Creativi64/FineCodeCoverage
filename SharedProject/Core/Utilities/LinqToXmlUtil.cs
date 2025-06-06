@@ -35,9 +35,8 @@ namespace FineCodeCoverage.Core.Utilities
         public static XElement RemoveAllNamespaces(this XElement @this)
             => new XElement(
                 @this.Name.LocalName,
-                from n in @this.Nodes()
-                select ((n is XElement) ? RemoveAllNamespaces(n as XElement) : n),
-                @this.HasAttributes ? (from a in @this.Attributes() select a) : null);
+                @this.Nodes().Select(n => n is XElement xEl ? RemoveAllNamespaces(xEl) : n),
+                @this.Attributes());
 
         public static XElement Load(string path, bool removeNamespaces)
         {

@@ -833,8 +833,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\VsDesignTimeColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\DesignModeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DesignTimeImageThemingUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DemoCustomMarkupExt.xaml.cs">
-      <DependentUpon>DemoCustomMarkupExt.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Demo.xaml.cs">
+      <DependentUpon>Demo.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\ImageLibraryLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeResourceKeyTypeExtensions.cs" />
@@ -965,7 +965,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DemoCustomMarkupExt.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Demo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

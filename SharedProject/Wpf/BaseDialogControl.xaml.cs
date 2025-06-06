@@ -3,6 +3,9 @@ using System.Windows.Controls;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// Base dialog control for displaying custom content in a dialog.
+    /// </summary>
     internal partial class BaseDialogControl : UserControl
     {
         public BaseDialogControl() => InitializeComponent();

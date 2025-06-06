@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Impl
             _userSettings = userSettings;
 
             string runSettingsFile = GetDefaultRunSettingsFilePath();
-            string projectRunSettingsFile = await projectData.GetBuildPropertyAsync("RunSettingsFilePath", (string)null);
+            string projectRunSettingsFile = await projectData.GetBuildPropertyAsync("RunSettingsFilePath", null);
 
             return !string.IsNullOrEmpty(projectRunSettingsFile) ? projectRunSettingsFile : runSettingsFile;
         }
