@@ -84,7 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IInitializedFromTestContainerDiscoverer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IShellPackageLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\ShellPackageLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ISourceFileOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\ISourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\MessageBoxWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Messages\CoverageEndedMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Messages\CoverageStartingMessage.cs" />
@@ -288,7 +288,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\HasNewCodeChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\IRunSettingsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\IRunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestContainerDiscoveryReflectionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\CommonCategories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\Base\IProvideOptions.cs" />
@@ -389,7 +389,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\IReportGeneratorUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\Palmmedia\PalmmediaReportGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportGeneratorUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\SourceFileOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\SourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\AssemblyUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ComparableFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DisposeAwareTaskRunner.cs" />
@@ -661,7 +661,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Output\Commands\CollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\IUiClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\Pane\ILogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\RunSettingsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\RunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ContainerData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Initialization\IInitializer.cs" />
@@ -1008,6 +1008,8 @@
     <Folder Include="$(MSBuildThisFileDirectory)Core\Cobertura\Report\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Collection\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\" />
     <Folder Include="$(MSBuildThisFileDirectory)Options\SettingsStore\" />
     <Folder Include="$(MSBuildThisFileDirectory)Readme\Markdig\MarkdigExtended\" />
   </ItemGroup>
