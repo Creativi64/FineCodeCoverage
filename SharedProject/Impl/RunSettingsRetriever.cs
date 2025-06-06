@@ -24,7 +24,7 @@ namespace FineCodeCoverage.Impl
                 .GetMethod(
                     "GetAndUpdateSolutionRunSettingsFilePath",
                     BindingFlags.Public | BindingFlags.Instance)
-                .Invoke(_userSettings, new object[] { }) as string;
+                .Invoke(_userSettings, System.Array.Empty<object>()) as string;
 
         private string LastRunSettingsFilePath()
             => _userSettings.GetType()

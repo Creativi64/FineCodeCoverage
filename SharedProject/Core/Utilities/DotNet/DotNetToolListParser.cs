@@ -8,14 +8,17 @@ namespace FineCodeCoverage.Core.Utilities
     [Export(typeof(IDotNetToolListParser))]
     internal class DotNetToolListParser : IDotNetToolListParser
     {
+        private static readonly char[] s_newLineSeparators = new[] { '\r', '\n' };
+        private static readonly char[] s_spacingSeparators = new[] { ' ', '\t' };
+
         public List<DotNetToolInfo> Parse(string output)
         {
             // note that if included Manifest this code will need to change
-            string[] outputLines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] outputLines = output.Split(s_newLineSeparators, StringSplitOptions.RemoveEmptyEntries);
             IEnumerable<string> toolLines = outputLines.Skip(2);
             return toolLines.Select(l =>
             {
-                string[] tokens = l.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] tokens = l.Split(s_spacingSeparators, StringSplitOptions.RemoveEmptyEntries);
                 return new DotNetToolInfo
                 {
                     PackageId = tokens[0].Trim(),
