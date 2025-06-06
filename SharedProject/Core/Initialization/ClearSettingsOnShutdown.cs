@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Threading;
 namespace FineCodeCoverage.Core.Initialization
 {
     [Export(typeof(IClearSettingsOnShutdown))]
-    internal class ClearSettingsOnShutdown : IClearSettingsOnShutdown
+    internal sealed class ClearSettingsOnShutdown : IClearSettingsOnShutdown
     {
         public const string ClearSettingsOnShutdownOption = "FCCClearSettingsOnShutdown";
 

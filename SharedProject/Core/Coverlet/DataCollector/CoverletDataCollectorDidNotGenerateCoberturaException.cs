@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-    internal class CoverletDataCollectorDidNotGenerateCoberturaException : Exception
+    internal sealed class CoverletDataCollectorDidNotGenerateCoberturaException : Exception
     {
         public CoverletDataCollectorDidNotGenerateCoberturaException(string expectedCobertura)
             : base(expectedCobertura)

@@ -9,7 +9,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(IDotNetToolListCoverlet))]
-    internal class DotNetToolListCoverlet : IDotNetToolListCoverlet
+    internal sealed class DotNetToolListCoverlet : IDotNetToolListCoverlet
     {
         private const string CoverletPackageId = "coverlet.console";
         private readonly ILogger _logger;

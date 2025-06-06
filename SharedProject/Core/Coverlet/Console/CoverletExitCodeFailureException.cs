@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-    internal class CoverletExitCodeFailureException : Exception
+    internal sealed class CoverletExitCodeFailureException : Exception
     {
         public CoverletExitCodeFailureException(string message)
             : base(message)

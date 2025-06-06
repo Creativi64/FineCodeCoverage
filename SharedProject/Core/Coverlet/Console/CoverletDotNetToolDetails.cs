@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.Coverlet
 {
-    internal class CoverletDotNetToolDetails
+    internal sealed class CoverletDotNetToolDetails
     {
         public string Version { get; set; }
 

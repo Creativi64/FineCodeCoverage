@@ -10,7 +10,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(IAppDataFolder))]
-    internal class AppDataFolder : IAppDataFolder
+    internal sealed class AppDataFolder : IAppDataFolder
     {
         private readonly ILogger _logger;
         private readonly IEnvironmentVariable _environmentVariable;

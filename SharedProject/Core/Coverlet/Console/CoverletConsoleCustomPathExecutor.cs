@@ -7,7 +7,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletConsoleCustomPathExecutor))]
-    internal class CoverletConsoleCustomPathExecutor : ICoverletConsoleCustomPathExecutor
+    internal sealed class CoverletConsoleCustomPathExecutor : ICoverletConsoleCustomPathExecutor
     {
         public Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings)
         {

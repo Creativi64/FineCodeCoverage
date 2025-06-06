@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace FineCodeCoverage.Core.Coverlet
 {
-    internal class RunSettingsCoverletConfiguration : IRunSettingsCoverletConfiguration
+    internal sealed class RunSettingsCoverletConfiguration : IRunSettingsCoverletConfiguration
     {
         public bool Read(string runSettingsXml)
         {

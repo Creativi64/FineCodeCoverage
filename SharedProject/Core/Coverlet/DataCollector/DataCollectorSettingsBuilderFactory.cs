@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(IDataCollectorSettingsBuilderFactory))]
-    internal class DataCollectorSettingsBuilderFactory : IDataCollectorSettingsBuilderFactory
+    internal sealed class DataCollectorSettingsBuilderFactory : IDataCollectorSettingsBuilderFactory
     {
         public IDataCollectorSettingsBuilder Create() => new DataCollectorSettingsBuilder();
     }

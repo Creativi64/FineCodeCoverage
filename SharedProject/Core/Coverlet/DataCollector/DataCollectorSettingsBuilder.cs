@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(IDataCollectorSettingsBuilder))]
-    internal class DataCollectorSettingsBuilder : IDataCollectorSettingsBuilder
+    internal sealed class DataCollectorSettingsBuilder : IDataCollectorSettingsBuilder
     {
         private string _generatedRunSettingsPath;
         private string _existingRunSettings;

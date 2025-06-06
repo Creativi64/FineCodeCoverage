@@ -9,7 +9,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(IFCCCoverletConsoleExecutor))]
-    internal class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor
+    internal sealed class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor
     {
         private const string ZipPrefix = "coverlet.console";
         private const string ZipDirectoryName = "coverlet"; // backwards compatibility

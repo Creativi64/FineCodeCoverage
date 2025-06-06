@@ -7,7 +7,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletConsoleDotnetToolsGlobalExecutor))]
-    internal class CoverletConsoleDotnetToolsGlobalExecutor : ICoverletConsoleDotnetToolsGlobalExecutor
+    internal sealed class CoverletConsoleDotnetToolsGlobalExecutor : ICoverletConsoleDotnetToolsGlobalExecutor
     {
         private readonly IDotNetToolListCoverlet _dotNetToolListCoverlet;
         private readonly ILogger _logger;

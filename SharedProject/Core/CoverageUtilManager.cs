@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Engine
 {
     [Export(typeof(ICoverageUtilManager))]
     [Export(typeof(IAppDataFolderPathDependent))]
-    internal class CoverageUtilManager : ICoverageUtilManager, IAppDataFolderPathDependent
+    internal sealed class CoverageUtilManager : ICoverageUtilManager, IAppDataFolderPathDependent
     {
         private readonly IOpenCoverUtil _openCoverUtil;
         private readonly ICoverletUtil _coverletUtil;

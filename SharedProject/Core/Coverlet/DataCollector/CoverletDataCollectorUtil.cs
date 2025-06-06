@@ -15,7 +15,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletDataCollectorUtil))]
-    internal class CoverletDataCollectorUtil : ICoverletDataCollectorUtil
+    internal sealed class CoverletDataCollectorUtil : ICoverletDataCollectorUtil
     {
         private const string LogPrefix = "Coverlet Collector Run";
         private const string ZipPrefix = "coverlet.collector";

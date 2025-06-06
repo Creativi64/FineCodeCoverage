@@ -9,7 +9,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletConsoleUtil))]
-    internal class CoverletConsoleUtil : ICoverletConsoleUtil
+    internal sealed class CoverletConsoleUtil : ICoverletConsoleUtil
     {
         private readonly IProcessUtil _processUtil;
         private readonly ILogger _logger;

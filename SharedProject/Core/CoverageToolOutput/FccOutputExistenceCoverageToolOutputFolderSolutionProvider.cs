@@ -6,7 +6,7 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Engine
 {
     [Order(2, typeof(ICoverageToolOutputFolderSolutionProvider))]
-    internal class FccOutputExistenceCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
+    internal sealed class FccOutputExistenceCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
     {
         private const string FCCOutputFolderName = "fcc-output";
         private readonly IFileUtil _fileUtil;

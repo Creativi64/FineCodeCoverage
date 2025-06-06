@@ -6,7 +6,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletUtil))]
-    internal class CoverletUtil : ICoverletUtil
+    internal sealed class CoverletUtil : ICoverletUtil
     {
         private readonly ICoverletDataCollectorUtil _coverletDataCollectorUtil;
         private readonly ICoverletConsoleUtil _coverletGlobalUtil;

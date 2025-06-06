@@ -5,7 +5,7 @@ using System.Linq;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(ISolutionFolderProvider))]
-    internal class SolutionFolderProvider : ISolutionFolderProvider
+    internal sealed class SolutionFolderProvider : ISolutionFolderProvider
     {
         public string Provide(string projectFile)
         {

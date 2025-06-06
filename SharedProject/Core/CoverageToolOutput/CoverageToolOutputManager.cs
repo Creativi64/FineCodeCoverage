@@ -11,7 +11,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(ICoverageToolOutputManager))]
-    internal class CoverageToolOutputManager : ICoverageToolOutputManager
+    internal sealed class CoverageToolOutputManager : ICoverageToolOutputManager
     {
         private readonly ILogger _logger;
         private readonly IEventAggregator _eventAggregator;

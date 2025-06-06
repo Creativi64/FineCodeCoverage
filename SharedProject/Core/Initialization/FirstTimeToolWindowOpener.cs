@@ -6,7 +6,7 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Core.Initialization
 {
     [Export(typeof(IFirstTimeToolWindowOpener))]
-    internal class FirstTimeToolWindowOpener : IFirstTimeToolWindowOpener
+    internal sealed class FirstTimeToolWindowOpener : IFirstTimeToolWindowOpener
     {
         private readonly IInitializedFromTestContainerDiscoverer _initializedFromTestContainerDiscoverer;
         private readonly IShownToolWindowHistory _shownToolWindowHistory;

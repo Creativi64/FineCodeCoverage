@@ -7,7 +7,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletConsoleExecuteRequestProvider))]
-    internal class CoverletConsoleExecuteRequestProvider : ICoverletConsoleExecuteRequestProvider
+    internal sealed class CoverletConsoleExecuteRequestProvider : ICoverletConsoleExecuteRequestProvider
     {
         private readonly List<ICoverletConsoleExecutor> _executors;
 

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine
 {
-    internal class OutdatedOutputMessage
+    internal sealed class OutdatedOutputMessage
     {
     }
 }

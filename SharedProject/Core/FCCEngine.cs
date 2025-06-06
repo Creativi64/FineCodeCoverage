@@ -14,9 +14,9 @@ using Microsoft.VisualStudio.Threading;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(IFCCEngine))]
-    internal class FCCEngine : IFCCEngine
+    internal sealed class FCCEngine : IFCCEngine
     {
-        private class ReportResult
+        private sealed class ReportResult
         {
             public IReportResult Report { get; set; }
 

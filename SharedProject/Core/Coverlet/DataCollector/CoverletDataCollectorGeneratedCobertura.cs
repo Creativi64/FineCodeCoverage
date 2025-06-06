@@ -6,7 +6,7 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletDataCollectorGeneratedCobertura))]
-    internal class CoverletDataCollectorGeneratedCobertura : ICoverletDataCollectorGeneratedCobertura
+    internal sealed class CoverletDataCollectorGeneratedCobertura : ICoverletDataCollectorGeneratedCobertura
     {
         internal const string GeneratedCoberturaFileName = "coverage.cobertura.xml";
 

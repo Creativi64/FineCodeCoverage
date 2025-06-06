@@ -7,7 +7,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.Coverlet
 {
     [Export(typeof(ICoverletExeArgumentsProvider))]
-    internal class CoverletExeArgumentsProvider : ICoverletExeArgumentsProvider
+    internal sealed class CoverletExeArgumentsProvider : ICoverletExeArgumentsProvider
     {
         private static IEnumerable<string> SanitizeExcludesByAttribute(string[] excludes)
             => (excludes ?? Array.Empty<string>())
