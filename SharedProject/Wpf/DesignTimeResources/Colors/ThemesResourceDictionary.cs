@@ -5,6 +5,10 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// A container ThemeResourceDictionary with a single theme specific ThemeResourceDictionary.
+    /// ThemeResourceKeyType => SolidColorBrush or Color - Colors provided by ThemeService.
+    /// </summary>
     internal class ThemesResourceDictionary : ResourceDictionary
     {
         public class ThemeResourceDictionary : ResourceDictionary

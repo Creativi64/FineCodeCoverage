@@ -5,6 +5,10 @@ using System.Windows;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// Attached property to be added to root element to allow vs dynamic resources of brushes and colors at design time
+    /// using vs provided Microsoft.VisualStudio.Shell.ThemeResourceKey such as EnvironmentColors.ToolWindowTextBrushKey
+    /// </summary>
     internal static class VsDesignTimeColors
     {
         public static readonly DependencyProperty ThemeNameProperty =
@@ -26,6 +30,8 @@ namespace FineCodeCoverage.Wpf
             }
 
             string newThemeName = e.NewValue as string;
+
+            // necessary for when typing a new theme name in xaml
             if (!ThemeService.IsTheme(newThemeName))
             {
                 return;

@@ -7,6 +7,10 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// Loads embedded xml resource file. Creates dictionary per theme for lookup of colours by ThemeResourceKey.
+    /// </summary>
+
     public static class ThemeService
     {
         private static readonly Dictionary<string, Dictionary<ThemeResourceKey, Color>> s_themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
