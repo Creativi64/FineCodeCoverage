@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.IndicatorVisibility
 {
-    internal class ToggleCoverageIndicatorsMessage
+    internal sealed class ToggleCoverageIndicatorsMessage
     {
     }
 }

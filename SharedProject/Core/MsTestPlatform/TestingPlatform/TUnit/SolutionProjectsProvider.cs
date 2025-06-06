@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ISolutionProjectsProvider))]
-    internal class SolutionProjectsProvider : ISolutionProjectsProvider
+    internal sealed class SolutionProjectsProvider : ISolutionProjectsProvider
     {
         private readonly IServiceProvider _serviceProvider;
 

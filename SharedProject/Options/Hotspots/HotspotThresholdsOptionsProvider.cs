@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IDialogPageOptionsProvider<HotspotThresholdsOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class HotspotThresholdsOptionsProvider : OptionsProviderBase<HotspotThresholdsOptions>
+    internal sealed class HotspotThresholdsOptionsProvider : OptionsProviderBase<HotspotThresholdsOptions>
     {
         [ImportingConstructor]
         public HotspotThresholdsOptionsProvider(

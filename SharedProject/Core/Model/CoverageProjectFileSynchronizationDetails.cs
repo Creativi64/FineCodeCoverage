@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class CoverageProjectFileSynchronizationDetails
+    internal sealed class CoverageProjectFileSynchronizationDetails
     {
         public List<string> Logs { get; set; } = new List<string>();
 

@@ -7,7 +7,7 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(IFCCSettingsFilesProvider))]
-    internal class FCCSettingsFilesProvider : IFCCSettingsFilesProvider
+    internal sealed class FCCSettingsFilesProvider : IFCCSettingsFilesProvider
     {
         internal const string FCCOptionsFileName = "finecodecoverage-settings.xml";
         private const string TopLevelAttributeName = "topLevel";

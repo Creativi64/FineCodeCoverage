@@ -13,7 +13,7 @@ using VSLangProj;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(IVsApiReferencedProjectsHelper))]
-    internal class VsApiReferencedProjectsHelper : IVsApiReferencedProjectsHelper
+    internal sealed class VsApiReferencedProjectsHelper : IVsApiReferencedProjectsHelper
     {
         private readonly ICPPReferencedProjectsHelper _cppReferencedProjectsHelper;
         private readonly IDotNetReferencedProjectsHelper _dotNetReferencedProjectsHelper;

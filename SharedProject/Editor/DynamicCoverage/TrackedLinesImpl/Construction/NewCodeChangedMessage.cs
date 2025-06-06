@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class NewCodeChangedMessage
+    internal sealed class NewCodeChangedMessage
     {
         public NewCodeChangedMessage(string path, bool hasNewCode)
         {

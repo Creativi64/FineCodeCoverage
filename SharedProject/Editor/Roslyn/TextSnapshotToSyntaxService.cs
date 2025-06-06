@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Editor.Roslyn
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(ITextSnapshotToSyntaxService))]
-    internal class TextSnapshotToSyntaxService : ITextSnapshotToSyntaxService
+    internal sealed class TextSnapshotToSyntaxService : ITextSnapshotToSyntaxService
     {
         public async Task<RootNodeAndLanguage> GetRootAndLanguageAsync(ITextSnapshot textSnapshot)
         {

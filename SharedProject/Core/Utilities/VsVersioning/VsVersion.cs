@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IVsVersion))]
-    internal class VsVersion : IVsVersion
+    internal sealed class VsVersion : IVsVersion
     {
         private readonly IServiceProvider _serviceProvider;
         private string _semanticVersion;

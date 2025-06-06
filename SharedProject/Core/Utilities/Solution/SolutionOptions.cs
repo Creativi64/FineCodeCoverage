@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FineCodeCoverage.Core.Utilities.Solution
 {
     [Export(typeof(ISolutionOptions))]
-    internal class SolutionOptions : ISolutionOptions
+    internal sealed class SolutionOptions : ISolutionOptions
     {
         private readonly ISolutionOption[] _options;
 

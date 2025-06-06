@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(IBuildHelper))]
-    internal class BuildHelper : IBuildHelper
+    internal sealed class BuildHelper : IBuildHelper
     {
         private IVsSolutionBuildManager2 _solutionBuildManager2;
         private IVsSolutionBuildManager3 _solutionBuildManager3;

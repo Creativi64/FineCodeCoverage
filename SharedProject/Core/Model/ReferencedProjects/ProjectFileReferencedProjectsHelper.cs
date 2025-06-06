@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Engine.Model
 {
     // todo - remove this ? Should not be necessary
     [Export(typeof(IProjectFileReferencedProjectsHelper))]
-    internal class ProjectFileReferencedProjectsHelper : IProjectFileReferencedProjectsHelper
+    internal sealed class ProjectFileReferencedProjectsHelper : IProjectFileReferencedProjectsHelper
     {
         private readonly ILogger _logger;
 

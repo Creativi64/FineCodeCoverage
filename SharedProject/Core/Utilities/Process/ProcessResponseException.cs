@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal class ProcessResponseException : Exception
+    internal sealed class ProcessResponseException : Exception
     {
         public ProcessResponseException(string message)
             : base(message)

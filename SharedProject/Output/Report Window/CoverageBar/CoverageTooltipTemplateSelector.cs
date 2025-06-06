@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace FineCodeCoverage.Output
 {
-    internal class CoverageTooltipTemplateSelector : DataTemplateSelector
+    internal sealed class CoverageTooltipTemplateSelector : DataTemplateSelector
     {
         public DataTemplate FullTemplate { get; set; }
 

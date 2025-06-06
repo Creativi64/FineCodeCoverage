@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IBufferLineCoverageFactory))]
-    internal class BufferLineCoverageFactory : IBufferLineCoverageFactory
+    internal sealed class BufferLineCoverageFactory : IBufferLineCoverageFactory
     {
         private readonly ICoverageContentTypes _coverageContentTypes;
         private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;

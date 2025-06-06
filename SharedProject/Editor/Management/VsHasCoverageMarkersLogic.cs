@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.Management
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IVsHasCoverageMarkersLogic))]
-    internal class VsHasCoverageMarkersLogic : IVsHasCoverageMarkersLogic
+    internal sealed class VsHasCoverageMarkersLogic : IVsHasCoverageMarkersLogic
     {
         private readonly IReadOnlyConfigSettingsStoreProvider _readOnlyConfigSettingsStoreProvider;
 

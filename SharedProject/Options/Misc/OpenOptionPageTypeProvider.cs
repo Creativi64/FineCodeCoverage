@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IOpenOptionPageTypeProvider))]
-    internal class OpenOptionPageTypeProvider : IOpenOptionPageTypeProvider
+    internal sealed class OpenOptionPageTypeProvider : IOpenOptionPageTypeProvider
     {
         private readonly Dictionary<OpenOptionPage, Type> _lookup = new Dictionary<OpenOptionPage, Type>
         {

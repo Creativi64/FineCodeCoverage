@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
 {
-    internal class SourceFileTreeItem : ReportTreeItemBase
+    internal sealed class SourceFileTreeItem : ReportTreeItemBase
     {
         private bool _hasNewCode;
 

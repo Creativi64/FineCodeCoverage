@@ -8,9 +8,9 @@ using WpfHelpers;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(CoveragePercentageBarOptionsViewModel))]
-    internal class CoveragePercentageBarOptionsViewModel : ObservableBase, IListener<CoverageColoursChangedMessage>
+    internal sealed class CoveragePercentageBarOptionsViewModel : ObservableBase, IListener<CoverageColoursChangedMessage>
     {
-        private class FontsAndColorsCoverageBarColours
+        private sealed class FontsAndColorsCoverageBarColours
         {
             public FontsAndColorsCoverageBarColours(Color coveredColor, Color notCoveredColor)
             {

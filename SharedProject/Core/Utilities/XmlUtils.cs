@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IXmlUtils))]
-    internal class XmlUtils : IXmlUtils
+    internal sealed class XmlUtils : IXmlUtils
     {
         public XElement Load(string path) => XElement.Load(path);
 

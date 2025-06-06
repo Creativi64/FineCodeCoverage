@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 {
     [Export(typeof(ICoverageContentType))]
     [Export(typeof(IFileExcluder))]
-    internal class BlazorCoverageContentType : ICoverageContentType, IFileExcluder
+    internal sealed class BlazorCoverageContentType : ICoverageContentType, IFileExcluder
     {
         private readonly IBlazorFileCodeSpanRangeService _blazorFileCodeSpanRangeService;
         private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;

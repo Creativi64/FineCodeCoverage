@@ -5,7 +5,7 @@ using System.Reflection;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IReflectionService))]
-    internal class ReflectionService : IReflectionService
+    internal sealed class ReflectionService : IReflectionService
     {
         public object GetPropertyValue(PropertyInfo propertyInfo, object instance)
             => propertyInfo.GetValue(instance);

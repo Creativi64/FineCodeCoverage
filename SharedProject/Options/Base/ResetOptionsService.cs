@@ -5,7 +5,7 @@ using FineCodeCoverage.Engine;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(ResetOptionsService))]
-    internal class ResetOptionsService
+    internal sealed class ResetOptionsService
     {
         private readonly IEnumerable<IResetOptions> _resetters;
         private readonly IMessageBox _messageBox;

@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 {
     [Export(typeof(IRoslynFileCodeSpanRangeService))]
-    internal class RoslynFileCodeSpanRangeService : IFileCodeSpanRangeService, IRoslynFileCodeSpanRangeService
+    internal sealed class RoslynFileCodeSpanRangeService : IFileCodeSpanRangeService, IRoslynFileCodeSpanRangeService
     {
         private readonly IRoslynService _roslynService;
         private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;

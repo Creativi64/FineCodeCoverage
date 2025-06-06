@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Options
     /*
         Note that option properties must not be renamed
     */
-    internal class EditorCoverageColouringOptions
+    internal sealed class EditorCoverageColouringOptions
     {
         private const string ControlCategory = "Control";
         private const string OverviewMarginCategory = "Overview Margin";

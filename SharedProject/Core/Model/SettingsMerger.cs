@@ -10,7 +10,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(ISettingsMerger))]
-    internal class SettingsMerger : ISettingsMerger
+    internal sealed class SettingsMerger : ISettingsMerger
     {
         private const bool ProjectSettingsDefaultMerge = false;
         private const bool SettingsFileDefaultMerge = false;
@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Engine.Model
             { typeof(char), new SettingsXmlParser<char, char?>(char.TryParse) },
         };
 
-        private class SettingsElementDefaultMerge
+        private sealed class SettingsElementDefaultMerge
         {
             public XElement SettingsElement { get; set; }
 

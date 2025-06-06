@@ -8,7 +8,7 @@ using WpfHelpers;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(ReadMeMarkdownViewModel))]
-    internal class ReadMeMarkdownViewModel : ObservableBase
+    internal sealed class ReadMeMarkdownViewModel : ObservableBase
     {
         private readonly ITemplatedReadmeProvider _readmeProvider;
         private readonly IFCCMarkdownFlowDocumentProvider _fccMarkdownFlowDocumentProvider;

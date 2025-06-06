@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     [TagType(typeof(CoverageLineGlyphTag))]
     [Name(Vsix.TaggerProviderName)]
     [Export(typeof(IViewTaggerProvider))]
-    internal class CoverageLineGlyphTaggerProvider : IViewTaggerProvider, ILineSpanTagger<CoverageLineGlyphTag>
+    internal sealed class CoverageLineGlyphTaggerProvider : IViewTaggerProvider, ILineSpanTagger<CoverageLineGlyphTag>
     {
         private readonly ICoverageTaggerProvider<CoverageLineGlyphTag> _coverageTaggerProvider;
         private readonly IEventAggregator _eventAggregator;

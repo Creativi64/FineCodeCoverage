@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IBlazorGeneratedDocumentRootFinder))]
-    internal class BlazorGeneratedDocumentRootFinder : IBlazorGeneratedDocumentRootFinder
+    internal sealed class BlazorGeneratedDocumentRootFinder : IBlazorGeneratedDocumentRootFinder
     {
         public async Task<SyntaxNode> FindSyntaxRootAsync(ITextBuffer textBuffer, string filePath, IBlazorGeneratedFilePathMatcher blazorGeneratedFilePathMatcher)
         {

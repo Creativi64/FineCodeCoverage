@@ -7,7 +7,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Core.Initialization
 {
     [Export(typeof(IShellPackageLoader))]
-    internal class ShellPackageLoader : IShellPackageLoader
+    internal sealed class ShellPackageLoader : IShellPackageLoader
     {
         private readonly IServiceProvider _serviceProvider;
 

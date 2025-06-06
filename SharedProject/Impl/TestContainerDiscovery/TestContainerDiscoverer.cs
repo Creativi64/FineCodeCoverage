@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Impl
     // Both exports necessary !
     [Export(typeof(TestContainerDiscoverer))]
     [Export(typeof(ITestContainerDiscoverer))]
-    internal class TestContainerDiscoverer : ITestContainerDiscoverer
+    internal sealed class TestContainerDiscoverer : ITestContainerDiscoverer
     {
 #pragma warning disable 67
         public event EventHandler TestContainersUpdated;

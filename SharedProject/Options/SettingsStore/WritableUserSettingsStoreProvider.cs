@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Threading;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IWritableUserSettingsStoreProvider))]
-    internal class WritableUserSettingsStoreProvider : IWritableUserSettingsStoreProvider
+    internal sealed class WritableUserSettingsStoreProvider : IWritableUserSettingsStoreProvider
     {
         public AsyncLazy<WritableSettingsStore> LazySettingsStore { get; } = new AsyncLazy<WritableSettingsStore>(
             async () =>

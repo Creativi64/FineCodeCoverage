@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IVsOpenFile))]
-    internal class VsOpenFile : IVsOpenFile
+    internal sealed class VsOpenFile : IVsOpenFile
     {
         private readonly DTE2 _dte;
 

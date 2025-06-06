@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(ITypeDescriptorService))]
-    internal class TypeDescriptorService : ITypeDescriptorService
+    internal sealed class TypeDescriptorService : ITypeDescriptorService
     {
         public PropertyDescriptorCollection GetProperties(Type type) => TypeDescriptor.GetProperties(type);
 

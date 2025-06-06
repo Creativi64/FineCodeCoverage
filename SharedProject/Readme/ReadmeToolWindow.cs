@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Readme
     /// </para>
     /// </remarks>
     [Guid("1ee4211e-a350-4092-9d51-d5f15997354c")]
-    internal class ReadmeToolWindow
+    internal sealed class ReadmeToolWindow
         : ToolWindowPane
     {
         /// <summary>

@@ -15,7 +15,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitCoverageRunner))]
     [Export(typeof(IAppDataFolderPathDependent))]
-    internal class TUnitCoverageRunner : ITUnitCoverageRunner, IAppDataFolderPathDependent
+    internal sealed class TUnitCoverageRunner : ITUnitCoverageRunner, IAppDataFolderPathDependent
     {
         private const string ZipDirectoryName = "dotnet-coverage";
         private const string ZipPrefix = "dotnet-coverage";

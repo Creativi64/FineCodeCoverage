@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Options
         Note that option properties must not be renamed
         Interfaces to be retained for reflection - IIncludesExcludesOptions => CoverageSettings
     */
-    internal class IncludesExcludesOptions : IIncludesExcludesOptions
+    internal sealed class IncludesExcludesOptions : IIncludesExcludesOptions
     {
         private const string MsExcludeIncludeCategory = "Microsoft";
 

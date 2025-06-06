@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {
-    internal class BrushToSolidColorBrushConverter : IValueConverter
+    internal sealed class BrushToSolidColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             => value as SolidColorBrush;

@@ -22,7 +22,7 @@ namespace FineCodeCoverage.Output
     /// </para>
     /// </remarks>
     [Guid("320fd13f-632f-4b16-9527-a1adfe555f6c")]
-    internal class ReportToolWindow : ToolWindowPane
+    internal sealed class ReportToolWindow : ToolWindowPane
     {
         public ReportToolWindow(ReportToolWindowContext context)
             : base(null) => Initialize(context);

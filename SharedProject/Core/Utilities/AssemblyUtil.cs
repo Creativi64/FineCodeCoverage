@@ -7,7 +7,7 @@ using System.Reflection;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IAssemblyUtil))]
-    internal class AssemblyUtil : IAssemblyUtil
+    internal sealed class AssemblyUtil : IAssemblyUtil
     {
         public void RunInAssemblyResolvingContext(Action action)
         {

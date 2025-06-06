@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IDefaultOptionsSetter<EditorCoverageColouringOptions>))]
-    internal class EditorCoverageColouringOptionsDefaults : IDefaultOptionsSetter<EditorCoverageColouringOptions>
+    internal sealed class EditorCoverageColouringOptionsDefaults : IDefaultOptionsSetter<EditorCoverageColouringOptions>
     {
         public void Set(EditorCoverageColouringOptions options)
         {

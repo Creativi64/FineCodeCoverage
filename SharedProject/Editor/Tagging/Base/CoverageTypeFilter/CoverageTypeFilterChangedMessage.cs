@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal class CoverageTypeFilterChangedMessage
+    internal sealed class CoverageTypeFilterChangedMessage
     {
         public CoverageTypeFilterChangedMessage(ICoverageTypeFilter filter) => Filter = filter;
 

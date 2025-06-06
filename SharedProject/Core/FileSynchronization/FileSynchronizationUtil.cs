@@ -8,7 +8,7 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Engine.FileSynchronization
 {
     [Export(typeof(IFileSynchronizationUtil))]
-    internal class FileSynchronizationUtil : IFileSynchronizationUtil
+    internal sealed class FileSynchronizationUtil : IFileSynchronizationUtil
     {
         public List<string> Synchronize(string sourceFolder, string destinationFolder, string fineCodeCoverageFolderName)
         {

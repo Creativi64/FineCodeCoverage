@@ -6,7 +6,7 @@ using System.Xml.XPath;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(ICoverageProjectSettingsProvider))]
-    internal class CoverageProjectSettingsProvider : ICoverageProjectSettingsProvider
+    internal sealed class CoverageProjectSettingsProvider : ICoverageProjectSettingsProvider
     {
         private readonly IVsBuildFCCSettingsProvider _vsBuildFCCSettingsProvider;
 

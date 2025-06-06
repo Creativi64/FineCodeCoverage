@@ -3,7 +3,7 @@ using System.IO;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal class ComparableFile : IEquatable<ComparableFile>
+    internal sealed class ComparableFile : IEquatable<ComparableFile>
     {
         private readonly int _hashCode;
 

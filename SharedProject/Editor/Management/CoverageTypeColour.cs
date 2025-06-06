@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text.Formatting;
 
 namespace FineCodeCoverage.Editor.Management
 {
-    internal class CoverageTypeColour : ICoverageTypeColour
+    internal sealed class CoverageTypeColour : ICoverageTypeColour
     {
         public CoverageTypeColour(DynamicCoverageType coverageType, TextFormattingRunProperties textFormattingRunProperties)
         {

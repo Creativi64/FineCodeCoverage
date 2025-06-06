@@ -7,14 +7,14 @@ namespace FineCodeCoverage.Output
 {
     [Export(typeof(IReportViews))]
     [Export(typeof(IReportViewSelectorModel))]
-    internal class ReportViews : IReportViews, IReportViewSelectorModel, IDisposable
+    internal sealed class ReportViews : IReportViews, IReportViewSelectorModel, IDisposable
     {
         private readonly IReportViewSolutionOption _reportViewSolutionOption;
         private readonly IGitService _gitService;
         private SelectedGitRepo _selectedGitRepo;
         private IReadOnlyList<string> _repositoryPaths = new List<string>();
 
-        private class SelectedGitRepo : IDisposable
+        private sealed class SelectedGitRepo : IDisposable
         {
             public SelectedGitRepo(IGitRepo gitRepo, string repositoryPath, string selectedBranchName)
             {

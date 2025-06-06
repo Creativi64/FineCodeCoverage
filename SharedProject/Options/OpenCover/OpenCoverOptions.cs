@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Options
         Note that option properties must not be renamed
         Interfaces to be retained for reflection - AppOptions => CoverageSettings
     */
-    internal class OpenCoverOptions : IOpenCoverOptions
+    internal sealed class OpenCoverOptions : IOpenCoverOptions
     {
         private const string CustomTargetCategory = "Custom target";
 

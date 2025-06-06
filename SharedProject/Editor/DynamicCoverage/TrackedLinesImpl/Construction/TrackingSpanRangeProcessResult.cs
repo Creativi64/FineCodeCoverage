@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class TrackingSpanRangeProcessResult
+    internal sealed class TrackingSpanRangeProcessResult
     {
         public TrackingSpanRangeProcessResult(
             ITrackingSpanRange trackingSpanRange,

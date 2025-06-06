@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class BuildStartEndArgs
+    internal sealed class BuildStartEndArgs
     {
         public BuildStartEndArgs(bool isStart) => IsStart = isStart;
 

@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitProjectCache))]
-    internal class TUnitProjectCache : ITUnitProjectCache
+    internal sealed class TUnitProjectCache : ITUnitProjectCache
     {
         private Dictionary<IVsHierarchy, ITUnitProject> _projectLookup;
 

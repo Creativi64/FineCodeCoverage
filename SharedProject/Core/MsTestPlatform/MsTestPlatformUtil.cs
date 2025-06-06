@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform
 {
     [Export(typeof(IMsTestPlatformUtil))]
     [Export(typeof(IAppDataFolderPathDependent))]
-    internal class MsTestPlatformUtil : IMsTestPlatformUtil, IAppDataFolderPathDependent
+    internal sealed class MsTestPlatformUtil : IMsTestPlatformUtil, IAppDataFolderPathDependent
     {
         private const string ZipPrefix = "microsoft.testplatform";
         private const string ZipDirectoryName = "msTestPlatform";

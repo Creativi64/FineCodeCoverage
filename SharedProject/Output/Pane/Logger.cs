@@ -12,7 +12,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Output.Pane
 {
     [Export(typeof(ILogger))]
-    internal class Logger : ILogger
+    internal sealed class Logger : ILogger
     {
         private readonly IFCCOutputWindowPaneCreator _fccOutputWindowCreator;
         private readonly FaultEventName _logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");

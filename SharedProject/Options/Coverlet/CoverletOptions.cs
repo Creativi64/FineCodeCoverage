@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Options
         Note that option properties must not be renamed
         Interfaces to be retained for reflection - AppOptions => CoverageSettings
     */
-    internal class CoverletOptions : ICoverletOptions
+    internal sealed class CoverletOptions : ICoverletOptions
     {
         private const string ConsoleCategory = "Console";
         private const string CollectorCategory = "Collector";

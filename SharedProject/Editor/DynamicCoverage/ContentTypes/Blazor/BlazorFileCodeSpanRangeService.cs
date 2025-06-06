@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 {
     [Export(typeof(IBlazorFileCodeSpanRangeService))]
-    internal class BlazorFileCodeSpanRangeService : IBlazorFileCodeSpanRangeService
+    internal sealed class BlazorFileCodeSpanRangeService : IBlazorFileCodeSpanRangeService
     {
         private readonly IBlazorGeneratedDocumentRootFinder _blazorGeneratedDocumentRootFinder;
         private readonly ICSharpCodeCoverageNodeVisitor _cSharpCodeCoverageNodeVisitor;

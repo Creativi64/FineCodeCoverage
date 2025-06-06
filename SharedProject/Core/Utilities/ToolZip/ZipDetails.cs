@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    internal class ZipDetails
+    internal sealed class ZipDetails
     {
         public string Path { get; set; }
 

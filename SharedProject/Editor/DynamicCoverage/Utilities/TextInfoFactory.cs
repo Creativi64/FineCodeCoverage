@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(ITextInfoFactory))]
-    internal class TextInfoFactory : ITextInfoFactory
+    internal sealed class TextInfoFactory : ITextInfoFactory
     {
         public ITextInfo Create(ITextView textView, ITextBuffer textBuffer) => new TextInfo(textView, textBuffer);
 

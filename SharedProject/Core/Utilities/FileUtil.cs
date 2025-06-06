@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Core.Utilities
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IFileUtil))]
-    internal class FileUtil : IFileUtil
+    internal sealed class FileUtil : IFileUtil
     {
         public string CreateTempDirectory()
         {

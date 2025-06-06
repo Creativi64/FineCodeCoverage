@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(ITrackedLinesFactory))]
-    internal class ContainingCodeTrackedLinesBuilder : ITrackedLinesFactory
+    internal sealed class ContainingCodeTrackedLinesBuilder : ITrackedLinesFactory
     {
         private readonly ICoverageContentType[] _coverageContentTypes;
         private readonly ICodeSpanRangeContainingCodeTrackerFactory _containingCodeTrackerFactory;

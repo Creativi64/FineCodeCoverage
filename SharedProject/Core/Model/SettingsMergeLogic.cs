@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Engine.Model
             public object Merge(object first, object second) => Merge((T)first, (T)second);
         }
 
-        private class StringArrayMerger : TypeMerger<string[]>
+        private sealed class StringArrayMerger : TypeMerger<string[]>
         {
             public override string[] Merge(string[] first, string[] second) => first.Concat(second).ToArray();
         }

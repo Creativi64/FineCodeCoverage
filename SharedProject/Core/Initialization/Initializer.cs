@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Core.Initialization
 {
     [Export(typeof(IInitializer))]
     [Export(typeof(IInitializeStatusProvider))]
-    internal class Initializer : IInitializer
+    internal sealed class Initializer : IInitializer
     {
         private readonly IAppDataFolder _appDataFolder;
         private readonly IAppDataFolderPathDependent[] _appDataFolderPathDependents;

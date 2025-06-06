@@ -5,7 +5,7 @@ using Markdig.Renderers.Wpf.Inlines;
 
 namespace FineCodeCoverage.Readme
 {
-    internal class FCCMarkdigWpfRenderer : NotifyingWpfRenderer
+    internal sealed class FCCMarkdigWpfRenderer : NotifyingWpfRenderer
     {
         private readonly string _readMeDirectory;
         private readonly ICommand _navigateCommand;

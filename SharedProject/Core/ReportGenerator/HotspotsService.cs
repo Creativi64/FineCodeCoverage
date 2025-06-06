@@ -10,7 +10,7 @@ namespace FineCodeCoverage.ReportGeneration
 {
     [Export(typeof(IHotspotsService))]
     [ExcludeFromCodeCoverage]
-    internal class HotspotsService : IHotspotsService
+    internal sealed class HotspotsService : IHotspotsService
     {
         internal interface IMethodMetric
         {
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.ReportGeneration
             IEnumerable<IMetric> Metrics { get; }
         }
 
-        internal class RiskHotspot
+        internal sealed class RiskHotspot
         {
             public RiskHotspot(string assembly, string @class, IMethodMetric methodMetric)
             {
@@ -37,9 +37,9 @@ namespace FineCodeCoverage.ReportGeneration
             public IMethodMetric MethodMetric { get; }
         }
 
-        internal class MethodMetric : IMethodMetric
+        internal sealed class MethodMetric : IMethodMetric
         {
-            private class Metric : IMetric
+            private sealed class Metric : IMetric
             {
                 public Metric(string name, decimal value)
                 {

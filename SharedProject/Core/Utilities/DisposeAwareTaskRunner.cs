@@ -8,7 +8,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IDisposeAwareTaskRunner))]
-    internal class DisposeAwareTaskRunner : IDisposable, IDisposeAwareTaskRunner
+    internal sealed class DisposeAwareTaskRunner : IDisposable, IDisposeAwareTaskRunner
     {
         private readonly CancellationTokenSource _disposeCancellationTokenSource = new CancellationTokenSource();
 
@@ -39,7 +39,7 @@ namespace FineCodeCoverage.Core.Utilities
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposing)
             {

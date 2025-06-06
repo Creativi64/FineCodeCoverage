@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Options
     /*
         Note that option properties must not be renamed
     */
-    internal class MiscOptions
+    internal sealed class MiscOptions
     {
         private const string ToolsCategory = "Tools";
         private const string SettingsCategory = "Settings";

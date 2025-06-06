@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Output
 {
     [Export(typeof(IToolWindowService))]
     [Export(typeof(IToolWindowServiceInit))]
-    internal class ToolWindowService : IToolWindowService, IToolWindowServiceInit
+    internal sealed class ToolWindowService : IToolWindowService, IToolWindowServiceInit
     {
         public AsyncPackage Package { get; set; }
 

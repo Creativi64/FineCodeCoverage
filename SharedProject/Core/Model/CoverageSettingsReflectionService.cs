@@ -7,9 +7,9 @@ using System.Reflection;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(ICoverageSettingsReflectionService))]
-    internal class CoverageSettingsReflectionService : ICoverageSettingsReflectionService
+    internal sealed class CoverageSettingsReflectionService : ICoverageSettingsReflectionService
     {
-        private class OptionInfo
+        private sealed class OptionInfo
         {
             public OptionInfo(object option)
             {
@@ -25,7 +25,7 @@ namespace FineCodeCoverage.Engine.Model
             public Type[] InterfaceTypes { get; }
         }
 
-        private class OptionCoverageSettingsInterfacesPropertyInfos
+        private sealed class OptionCoverageSettingsInterfacesPropertyInfos
         {
             public OptionCoverageSettingsInterfacesPropertyInfos(object option, List<PropertyInfo> propertyInfos)
             {

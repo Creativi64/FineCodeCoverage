@@ -4,7 +4,7 @@ using FineCodeCoverage.Engine;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IReportColumnsService))]
-    internal class ReportColumnsService : IReportColumnsService
+    internal sealed class ReportColumnsService : IReportColumnsService
     {
         private readonly IReportColumnManager _reportColumnsManager;
         private readonly IMessageBox _messageBox;

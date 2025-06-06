@@ -20,11 +20,11 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
     [Export(typeof(IMsCodeCoverageRunSettingsService))]
     [Export(typeof(IRunSettingsService))]
     [Export(typeof(IAppDataFolderPathDependent))]
-    internal class MsCodeCoverageRunSettingsService : IMsCodeCoverageRunSettingsService, IRunSettingsService, IAppDataFolderPathDependent
+    internal sealed class MsCodeCoverageRunSettingsService : IMsCodeCoverageRunSettingsService, IRunSettingsService, IAppDataFolderPathDependent
     {
         public string Name => "Fine Code Coverage MsCodeCoverageRunSettingsService";
 
-        private class UserRunSettingsProjectDetails : IUserRunSettingsProjectDetails
+        private sealed class UserRunSettingsProjectDetails : IUserRunSettingsProjectDetails
         {
             public ICoverageSettings Settings { get; set; }
 
@@ -37,7 +37,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public List<IReferencedProject> IncludedReferencedProjects { get; set; }
         }
 
-        private class CoverageProjectsByType
+        private sealed class CoverageProjectsByType
         {
             public List<ICoverageProject> All { get; private set; }
 

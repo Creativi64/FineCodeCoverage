@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Output.Pane
 {
     [Export(typeof(IFCCOutputWindowPaneCreator))]
-    internal class FCCOutputWindowPaneCreator : IFCCOutputWindowPaneCreator
+    internal sealed class FCCOutputWindowPaneCreator : IFCCOutputWindowPaneCreator
     {
         private const string FCCPaneGuidString = "{3B3C775A-0050-445D-9022-0230957805B2}";
         private readonly IServiceProvider _serviceProvider;

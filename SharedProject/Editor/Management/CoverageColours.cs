@@ -3,7 +3,7 @@ using FineCodeCoverage.Editor.DynamicCoverage;
 
 namespace FineCodeCoverage.Editor.Management
 {
-    internal class CoverageColours : ICoverageColours
+    internal sealed class CoverageColours : ICoverageColours
     {
         private readonly Dictionary<DynamicCoverageType, IFontAndColorsInfo> _coverageTypeToFontAndColorsInfo;
 

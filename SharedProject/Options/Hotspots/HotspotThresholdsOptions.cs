@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Options
 {
-    internal class HotspotThresholdsOptions
+    internal sealed class HotspotThresholdsOptions
     {
         private const string OpenCoverCategory = "OpenCover";
 

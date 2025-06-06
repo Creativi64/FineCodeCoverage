@@ -7,7 +7,7 @@ using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    internal class ReportViewSelectorViewModel : ObservableBase, IDialogViewModel
+    internal sealed class ReportViewSelectorViewModel : ObservableBase, IDialogViewModel
     {
         private readonly IReportViewSelectorModel _reportViewSelectorModel;
         private readonly Action _notifyOkCommandCanExecuteChanged;

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Readme
 {
-    internal class OptionPropertyInfoWithCategory : OptionPropertyInfo
+    internal sealed class OptionPropertyInfoWithCategory : OptionPropertyInfo
     {
         public OptionPropertyInfoWithCategory(
             string displayName,

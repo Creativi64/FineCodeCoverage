@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities.Telemetry
 {
-    internal class FaultEventName
+    internal sealed class FaultEventName
     {
         private static void ThrowIfEmpty(string part, string parameterName)
         {

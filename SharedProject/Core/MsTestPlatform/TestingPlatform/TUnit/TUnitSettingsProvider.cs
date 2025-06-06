@@ -11,7 +11,7 @@ using FineCodeCoverage.Options;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitSettingsProvider))]
-    internal class TUnitSettingsProvider : ITUnitSettingsProvider
+    internal sealed class TUnitSettingsProvider : ITUnitSettingsProvider
     {
         private readonly IFileUtil _fileUtil;
         private readonly IXmlUtils _xmlUtils;

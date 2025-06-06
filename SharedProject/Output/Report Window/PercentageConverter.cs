@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Output
 {
-    internal class PercentageConverter : MultiValueConverter<int, int, string>
+    internal sealed class PercentageConverter : MultiValueConverter<int, int, string>
     {
         protected override string Convert(int total, int percentValue, object parameter, CultureInfo culture)
         {

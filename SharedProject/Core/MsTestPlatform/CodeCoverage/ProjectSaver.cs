@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IProjectSaver))]
-    internal class ProjectSaver : IProjectSaver
+    internal sealed class ProjectSaver : IProjectSaver
     {
         private readonly IServiceProvider _serviceProvider;
 

@@ -8,7 +8,7 @@ using Markdig;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IFCCMarkdownFlowDocumentProvider))]
-    internal class FCCMarkdownFlowDocumentProvider : IFCCMarkdownFlowDocumentProvider
+    internal sealed class FCCMarkdownFlowDocumentProvider : IFCCMarkdownFlowDocumentProvider
     {
         private readonly IOptionPageTableCreator _optionPageTableCreator;
         private readonly IReadMePipelineProvider _readMePipeLineProvider;

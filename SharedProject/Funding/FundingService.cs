@@ -6,7 +6,7 @@ using FineCodeCoverage.Wpf;
 namespace FineCodeCoverage.Funding
 {
     [Export(typeof(IFundingService))]
-    internal class FundingService : IFundingService, IFundingViewModel
+    internal sealed class FundingService : IFundingService, IFundingViewModel
     {
         [ImportingConstructor]
         public FundingService(IProcess process)

@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Editor.Management
     [Export(typeof(ICoverageTypeService))]
     [Export(typeof(ICoverageColoursEditorFormatMapNames))]
     [Export(typeof(ICoverageClassificationColourService))]
-    internal class CoverageClassificationTypeService :
+    internal sealed class CoverageClassificationTypeService :
         ICoverageClassificationColourService, ICoverageColoursEditorFormatMapNames, ICoverageTypeService
     {
         public const string FCCCoveredClassificationTypeName = "FCCCovered";

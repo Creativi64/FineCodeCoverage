@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class ContainingCodeTrackerState
+    internal sealed class ContainingCodeTrackerState
     {
         public ContainingCodeTrackerState(
             CodeSpanRange codeSpanRange,

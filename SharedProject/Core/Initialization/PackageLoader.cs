@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Core.Initialization
 {
     [Export(typeof(IPackageLoader))]
     [Export(typeof(IInitializedFromTestContainerDiscoverer))]
-    internal class PackageLoader : IPackageLoader, IInitializedFromTestContainerDiscoverer
+    internal sealed class PackageLoader : IPackageLoader, IInitializedFromTestContainerDiscoverer
     {
         private readonly IShellPackageLoader _shellPackageLoader;
 

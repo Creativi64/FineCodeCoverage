@@ -4,7 +4,7 @@ using System.Threading;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IToolUnzipper))]
-    internal class ToolUnzipper : IToolUnzipper
+    internal sealed class ToolUnzipper : IToolUnzipper
     {
         private readonly IToolZipProvider _toolZipProvider;
         private readonly IToolFolder _toolFolder;

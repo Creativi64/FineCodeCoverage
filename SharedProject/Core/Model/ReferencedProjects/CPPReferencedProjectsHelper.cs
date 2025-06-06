@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.VCProjectEngine;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(ICPPReferencedProjectsHelper))]
-    internal class CPPReferencedProjectsHelper : ICPPReferencedProjectsHelper
+    internal sealed class CPPReferencedProjectsHelper : ICPPReferencedProjectsHelper
     {
         private static VCProject GetReferencedVCProject(VCProjectReference projectReference)
         {

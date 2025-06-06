@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output
 {
-    internal class ReportViewState
+    internal sealed class ReportViewState
     {
         public ReportViewState(
             ReportViewSolutionOptionValue optionValue,

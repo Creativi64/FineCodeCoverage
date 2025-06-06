@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Output
 {
-    internal class CommandPackageServices : ICommandPackageServices
+    internal sealed class CommandPackageServices : ICommandPackageServices
     {
         private readonly AsyncPackage _package;
         private readonly ILogger _logger;

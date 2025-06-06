@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Core.Utilities
 {
     public static class LinqToXmlUtil
     {
-        private class Utf8StringWriter : StringWriter
+        private sealed class Utf8StringWriter : StringWriter
         {
             public Utf8StringWriter(StringBuilder sb)
                 : base(sb)

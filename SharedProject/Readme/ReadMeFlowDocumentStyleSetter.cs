@@ -7,7 +7,7 @@ using FineCodeCoverage.Wpf;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IReadMeFlowDocumentStylesSetter))]
-    internal class ReadMeFlowDocumentStyleSetter : IReadMeFlowDocumentStylesSetter
+    internal sealed class ReadMeFlowDocumentStyleSetter : IReadMeFlowDocumentStylesSetter
     {
         private readonly IApplicationResourcesLoader _applicationResourcesLoader;
 

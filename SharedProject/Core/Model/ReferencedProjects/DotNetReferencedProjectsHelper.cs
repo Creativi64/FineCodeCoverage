@@ -11,7 +11,7 @@ using VSLangProj80;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(IDotNetReferencedProjectsHelper))]
-    internal class DotNetReferencedProjectsHelper : IDotNetReferencedProjectsHelper
+    internal sealed class DotNetReferencedProjectsHelper : IDotNetReferencedProjectsHelper
     {
         public async Task<List<IExcludableReferencedProject>> GetReferencedProjectsAsync(VSProject vsProject)
         {

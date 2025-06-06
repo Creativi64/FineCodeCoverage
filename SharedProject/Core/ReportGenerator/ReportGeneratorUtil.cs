@@ -9,7 +9,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
     [Export(typeof(IReportGeneratorUtil))]
-    internal class ReportGeneratorUtil : IReportGeneratorUtil
+    internal sealed class ReportGeneratorUtil : IReportGeneratorUtil
     {
         private readonly IFCCReportGenerator _reportGenerator;
         private readonly ILogger _logger;

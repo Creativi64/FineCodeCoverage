@@ -10,16 +10,16 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(ITemplatedRunSettingsService))]
-    internal class TemplatedRunSettingsService : ITemplatedRunSettingsService
+    internal sealed class TemplatedRunSettingsService : ITemplatedRunSettingsService
     {
         private readonly IRunSettingsTemplate _runSettingsTemplate;
         private readonly ICustomRunSettingsTemplateProvider _customRunSettingsTemplateProvider;
         private readonly IRunSettingsTemplateReplacementsFactory _runSettingsTemplateReplacementsFactory;
         private readonly IProjectRunSettingsGenerator _projectRunSettingsGenerator;
 
-        private class ProjectRunSettingsFromTemplateResult : IProjectRunSettingsFromTemplateResult
+        private sealed class ProjectRunSettingsFromTemplateResult : IProjectRunSettingsFromTemplateResult
         {
-            private class ExceptionReasonImpl : IExceptionReason
+            private sealed class ExceptionReasonImpl : IExceptionReason
             {
                 public ExceptionReasonImpl(Exception exc, string reason)
                 {

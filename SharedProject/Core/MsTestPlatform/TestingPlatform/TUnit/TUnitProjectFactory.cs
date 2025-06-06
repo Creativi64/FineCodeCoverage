@@ -12,12 +12,12 @@ using NuGet.VisualStudio.Contracts;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitProjectFactory))]
-    internal class TUnitProjectFactory : ITUnitProjectFactory
+    internal sealed class TUnitProjectFactory : ITUnitProjectFactory
     {
         private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
         private readonly ICommandLineParser _commandLineParser;
 
-        private class TUnitProject : ITUnitProject, IDisposable
+        private sealed class TUnitProject : ITUnitProject, IDisposable
         {
             private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
             private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
@@ -180,7 +180,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 await ParseTestingPlatformCommandLineArgumentsAsync();
             }
 
-            protected virtual void Dispose(bool disposing)
+            private void Dispose(bool disposing)
             {
                 if (_disposedValue)
                 {

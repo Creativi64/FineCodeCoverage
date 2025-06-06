@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class SettingsXmlParser<T, TNullable> : ISettingsXmlParser
+    internal sealed class SettingsXmlParser<T, TNullable> : ISettingsXmlParser
     {
         private readonly TryParseDelegate<T> _tryParse;
 

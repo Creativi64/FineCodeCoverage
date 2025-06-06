@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.Management
 {
     [Export(typeof(ICoverageFontAndColorsCategoryItemNames))]
     [Export(typeof(ICoverageFontAndColorsCategoryItemNamesManager))]
-    internal class CoverageFontAndColorsCategoryItemNamesManager : ICoverageFontAndColorsCategoryItemNames, ICoverageFontAndColorsCategoryItemNamesManager
+    internal sealed class CoverageFontAndColorsCategoryItemNamesManager : ICoverageFontAndColorsCategoryItemNames, ICoverageFontAndColorsCategoryItemNamesManager
     {
         private readonly Guid _editorTextMarkerFontAndColorCategory = new Guid("FF349800-EA43-46C1-8C98-878E78F46501");
         private readonly Guid _editorMEFCategory = new Guid("75A05685-00A8-4DED-BAE5-E7A50BFA929A");

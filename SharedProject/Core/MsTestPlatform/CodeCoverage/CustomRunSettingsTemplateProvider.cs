@@ -5,7 +5,7 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(ICustomRunSettingsTemplateProvider))]
-    internal class CustomRunSettingsTemplateProvider : ICustomRunSettingsTemplateProvider
+    internal sealed class CustomRunSettingsTemplateProvider : ICustomRunSettingsTemplateProvider
     {
         private const string TemplateName = "fcc-ms-runsettings-template.xml";
         private readonly IFileUtil _fileUtil;

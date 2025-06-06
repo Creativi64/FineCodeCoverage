@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Output
 {
 #if VS2022
     [Export(typeof(IGitService))]
-    internal class GitService : IGitService
+    internal sealed class GitService : IGitService
     {
         private readonly IGitExt _gitExt;
 

@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Options.Hotspots
 {
     [Export(typeof(IDefaultOptionsSetter<HotspotThresholdsOptions>))]
-    internal class HotspotThresholdsOptionsDefaults : IDefaultOptionsSetter<HotspotThresholdsOptions>
+    internal sealed class HotspotThresholdsOptionsDefaults : IDefaultOptionsSetter<HotspotThresholdsOptions>
     {
         public void Set(HotspotThresholdsOptions options)
         {

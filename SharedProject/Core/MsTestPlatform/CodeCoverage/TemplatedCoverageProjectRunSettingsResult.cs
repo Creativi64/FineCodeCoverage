@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
-    internal class TemplatedCoverageProjectRunSettingsResult : ICoverageProjectRunSettings
+    internal sealed class TemplatedCoverageProjectRunSettingsResult : ICoverageProjectRunSettings
     {
         public ICoverageProject CoverageProject { get; set; }
 

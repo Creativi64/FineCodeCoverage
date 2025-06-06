@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal class ReportToolWindowContext
+    internal sealed class ReportToolWindowContext
     {
         public ReportViewModel ReportViewModel { get; set; }
     }

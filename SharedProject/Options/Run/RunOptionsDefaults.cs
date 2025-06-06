@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IDefaultOptionsSetter<RunOptions>))]
-    internal class RunOptionsDefaults : IDefaultOptionsSetter<RunOptions>
+    internal sealed class RunOptionsDefaults : IDefaultOptionsSetter<RunOptions>
     {
         public void Set(RunOptions options)
         {

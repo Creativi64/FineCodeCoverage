@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace FineCodeCoverage.Editor.Management
 {
     [Export(typeof(IInitializable))]
-    internal class CoverageColoursManager : IInitializable
+    internal sealed class CoverageColoursManager : IInitializable
     {
         private const string PartiallyCoveredEditorFormatDefinitionName = "Coverage Partially Touched Area FCC";
         private const string NotCoveredEditorFormatDefinitionName = "Coverage Not Touched Area FCC";

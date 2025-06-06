@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.Management
 {
-    internal class ItemCoverageColours : IItemCoverageColours
+    internal sealed class ItemCoverageColours : IItemCoverageColours
     {
         public ItemCoverageColours(Color foreground, Color background)
         {

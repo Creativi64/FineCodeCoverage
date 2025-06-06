@@ -7,7 +7,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
     [Export(typeof(IDynamicLineFilter))]
-    internal class DynamicLineFilter : IDynamicLineFilter
+    internal sealed class DynamicLineFilter : IDynamicLineFilter
     {
         private readonly IReportViews _reportViews;
         private IChangeset _changeset = null;

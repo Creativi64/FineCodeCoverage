@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class TrackedNewCodeLine : ITrackedNewCodeLine
+    internal sealed class TrackedNewCodeLine : ITrackedNewCodeLine
     {
         private readonly ITrackingSpan _trackingSpan;
         private readonly DynamicLine _line;

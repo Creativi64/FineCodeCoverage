@@ -8,7 +8,7 @@ using FineCodeCoverage.Engine.Model;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IShimCopier))]
-    internal class ShimCopier : IShimCopier
+    internal sealed class ShimCopier : IShimCopier
     {
         private readonly IFileUtil _fileUtil;
 

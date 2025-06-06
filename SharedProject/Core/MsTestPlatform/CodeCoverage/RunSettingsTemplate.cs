@@ -9,9 +9,9 @@ using FineCodeCoverage.Core.Utilities;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IRunSettingsTemplate))]
-    internal class RunSettingsTemplate : IRunSettingsTemplate
+    internal sealed class RunSettingsTemplate : IRunSettingsTemplate
     {
-        private class ReplacementLookups : IRunSettingsTemplateReplacements
+        private sealed class ReplacementLookups : IRunSettingsTemplateReplacements
         {
             public string Enabled { get; } = "%fcc_enabled%";
 
@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             ("CollectAspDotNet", "False"),
         };
 
-        private class TemplateReplaceResult : ITemplateReplacementResult
+        private sealed class TemplateReplaceResult : ITemplateReplacementResult
         {
             public string Replaced { get; set; }
 

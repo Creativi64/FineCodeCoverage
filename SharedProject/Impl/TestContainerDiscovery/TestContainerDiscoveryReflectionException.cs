@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Impl
 {
-    internal class TestContainerDiscoveryReflectionException : Exception
+    internal sealed class TestContainerDiscoveryReflectionException : Exception
     {
         public TestContainerDiscoveryReflectionException(string message)
             : base(message)

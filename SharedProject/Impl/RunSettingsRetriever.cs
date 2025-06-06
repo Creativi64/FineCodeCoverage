@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace FineCodeCoverage.Impl
 {
     [Export(typeof(IRunSettingsRetriever))]
-    internal class RunSettingsRetriever : IRunSettingsRetriever
+    internal sealed class RunSettingsRetriever : IRunSettingsRetriever
     {
         private object _userSettings;
 

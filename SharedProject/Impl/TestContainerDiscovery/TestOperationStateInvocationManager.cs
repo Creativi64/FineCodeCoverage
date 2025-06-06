@@ -7,7 +7,7 @@ using ILogger = FineCodeCoverage.Output.ILogger;
 namespace FineCodeCoverage.Impl
 {
     [Export(typeof(ITestOperationStateInvocationManager))]
-    internal class TestOperationStateInvocationManager : ITestOperationStateInvocationManager
+    internal sealed class TestOperationStateInvocationManager : ITestOperationStateInvocationManager
     {
         private readonly IInitializeStatusProvider _initializeStatusProvider;
         private readonly ILogger _logger;

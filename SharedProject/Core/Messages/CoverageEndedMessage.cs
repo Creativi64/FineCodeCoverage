@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.Messages
 {
-    internal class CoverageEndedMessage
+    internal sealed class CoverageEndedMessage
     {
     }
 }

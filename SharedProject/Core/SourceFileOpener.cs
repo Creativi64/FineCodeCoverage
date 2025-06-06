@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Threading;
 namespace FineCodeCoverage.Engine
 {
     [Export(typeof(ISourceFileOpener))]
-    internal class SourceFileOpener : ISourceFileOpener
+    internal sealed class SourceFileOpener : ISourceFileOpener
     {
         private readonly AsyncLazy<DTE2> _lazyDTE2;
 

@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IFileRenameListener))]
-    internal class FileRenameListener : IFileRenameListener, IVsTrackProjectDocumentsEvents2
+    internal sealed class FileRenameListener : IFileRenameListener, IVsTrackProjectDocumentsEvents2
     {
         [ImportingConstructor]
         public FileRenameListener(

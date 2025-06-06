@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IHtmlFilesToFolder))]
-    internal class HtmlFilesToFolder : IHtmlFilesToFolder
+    internal sealed class HtmlFilesToFolder : IHtmlFilesToFolder
     {
         public void Collate(string reportOutputFolder)
         {

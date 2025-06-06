@@ -4,7 +4,7 @@ using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    internal class PalmmediaAssembly : IAssembly
+    internal sealed class PalmmediaAssembly : IAssembly
     {
         public PalmmediaAssembly(Assembly assemblyReport)
         {

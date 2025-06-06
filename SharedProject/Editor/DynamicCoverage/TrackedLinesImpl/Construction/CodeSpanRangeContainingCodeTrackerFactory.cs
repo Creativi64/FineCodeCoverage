@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(ICodeSpanRangeContainingCodeTrackerFactory))]
-    internal class CodeSpanRangeContainingCodeTrackerFactory : ICodeSpanRangeContainingCodeTrackerFactory
+    internal sealed class CodeSpanRangeContainingCodeTrackerFactory : ICodeSpanRangeContainingCodeTrackerFactory
     {
         private readonly ITrackingSpanFactory _trackingLineFactory;
         private readonly ITrackingSpanRangeFactory _trackingSpanRangeFactory;

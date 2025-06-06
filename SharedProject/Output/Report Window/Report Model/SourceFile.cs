@@ -4,7 +4,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
-    internal class SourceFile : ISourceFile
+    internal sealed class SourceFile : ISourceFile
     {
         public event EventHandler HasNewCodeChanged;
 

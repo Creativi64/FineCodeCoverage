@@ -16,7 +16,7 @@ using WpfHelpers;
 namespace FineCodeCoverage.Github
 {
     [Export(typeof(IFCCGithubService))]
-    internal class FCCGithubService : ObservableBase, IFCCGithubService, INewIssueViewModel
+    internal sealed class FCCGithubService : ObservableBase, IFCCGithubService, INewIssueViewModel
     {
         private readonly IFCCOutputWindowPaneCreator _paneCreator;
         private readonly IVsVersion _vsVersion;

@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitChangeNotifier))]
-    internal class TUnitChangeNotifier : ITUnitChangeNotifier, IVsSolutionEvents
+    internal sealed class TUnitChangeNotifier : ITUnitChangeNotifier, IVsSolutionEvents
     {
         public event EventHandler<ProjectAddedRemoved> ProjectAddedRemovedEvent;
 

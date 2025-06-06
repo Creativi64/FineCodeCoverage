@@ -8,7 +8,7 @@ using WpfHelpers;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(ReportHeaderBrushesViewModel))]
-    internal class ReportHeaderBrushesViewModel : ObservableBase
+    internal sealed class ReportHeaderBrushesViewModel : ObservableBase
     {
         private ThemeResourceKey _gridLinesBrushKey;
         private ThemeResourceKey _backgroundBrushKey;

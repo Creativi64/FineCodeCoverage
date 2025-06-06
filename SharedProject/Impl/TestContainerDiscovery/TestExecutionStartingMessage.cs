@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Impl
 {
-    internal class TestExecutionStartingMessage
+    internal sealed class TestExecutionStartingMessage
     {
     }
 }

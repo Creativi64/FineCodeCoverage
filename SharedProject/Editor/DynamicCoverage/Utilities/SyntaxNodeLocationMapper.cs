@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.Utilities
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(ISyntaxNodeLocationMapper))]
-    internal class SyntaxNodeLocationMapper : ISyntaxNodeLocationMapper
+    internal sealed class SyntaxNodeLocationMapper : ISyntaxNodeLocationMapper
     {
         public FileLinePositionSpan Map(SyntaxNode node) => node.GetLocation().GetMappedLineSpan();
     }

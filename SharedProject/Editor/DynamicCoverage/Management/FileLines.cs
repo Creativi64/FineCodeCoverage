@@ -5,9 +5,9 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class FileLines : IFileLines
+    internal sealed class FileLines : IFileLines
     {
-        private class TrackedLinesState
+        private sealed class TrackedLinesState
         {
             private readonly IDateTimeService _dateTimeService;
             private DateTime _lastTracked;

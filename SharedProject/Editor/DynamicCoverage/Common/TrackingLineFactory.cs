@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(ITrackingLineFactory))]
-    internal class TrackingLineFactory : ITrackingLineFactory
+    internal sealed class TrackingLineFactory : ITrackingLineFactory
     {
         private readonly ILineTracker _lineTracker;
 

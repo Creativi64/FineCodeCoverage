@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class FirstTrackedCoverageLineInfo
+    internal sealed class FirstTrackedCoverageLineInfo
     {
         public FirstTrackedCoverageLineInfo(
             int originalLineNumber,

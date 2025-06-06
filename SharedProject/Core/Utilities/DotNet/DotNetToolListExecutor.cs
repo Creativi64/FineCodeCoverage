@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IDotNetToolListExecutor))]
-    internal class DotNetToolListExecutor : IDotNetToolListExecutor
+    internal sealed class DotNetToolListExecutor : IDotNetToolListExecutor
     {
         public DotNetToolListExecutionResult Global() => Execute("--global");
 

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class ClearLinesMessage
+    internal sealed class ClearLinesMessage
     {
     }
 }

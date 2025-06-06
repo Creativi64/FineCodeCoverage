@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IDialogPageOptionsProvider<OutputOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class OutputOptionsProvider : OptionsProviderBase<OutputOptions>
+    internal sealed class OutputOptionsProvider : OptionsProviderBase<OutputOptions>
     {
         [ImportingConstructor]
         public OutputOptionsProvider(

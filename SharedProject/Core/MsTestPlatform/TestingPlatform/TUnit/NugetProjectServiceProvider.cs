@@ -9,7 +9,7 @@ using NuGet.VisualStudio.Contracts;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(INugetProjectServiceProvider))]
-    internal class NugetProjectServiceProvider : INugetProjectServiceProvider
+    internal sealed class NugetProjectServiceProvider : INugetProjectServiceProvider
     {
         public AsyncLazy<INuGetProjectService> LazyNugetProjectService { get; }
 

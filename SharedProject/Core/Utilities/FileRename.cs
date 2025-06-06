@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    internal class FileRename
+    internal sealed class FileRename
     {
         public FileRename(string oldFilePath, string newFilePath)
         {

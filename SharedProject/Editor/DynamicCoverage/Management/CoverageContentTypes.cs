@@ -3,7 +3,7 @@ using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class CoverageContentTypes : ICoverageContentTypes
+    internal sealed class CoverageContentTypes : ICoverageContentTypes
     {
         private readonly ICoverageContentType[] _coverageContentTypes;
 

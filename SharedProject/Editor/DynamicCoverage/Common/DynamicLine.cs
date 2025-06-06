@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class DynamicLine : IDynamicLine
+    internal sealed class DynamicLine : IDynamicLine
     {
         public DynamicLine(int number, DynamicCoverageType coverageType)
         {

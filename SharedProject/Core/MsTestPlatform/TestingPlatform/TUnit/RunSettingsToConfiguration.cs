@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(IRunSettingsToConfiguration))]
-    internal class RunSettingsToConfiguration : IRunSettingsToConfiguration
+    internal sealed class RunSettingsToConfiguration : IRunSettingsToConfiguration
     {
         public XElement ConvertToConfiguration(XElement runSettingsElement)
         {

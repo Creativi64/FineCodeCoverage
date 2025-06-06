@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text.Editor;
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [ExcludeFromCodeCoverage]
-    internal class TextInfo : ITextInfo
+    internal sealed class TextInfo : ITextInfo
     {
         private bool _triedGetTextDocumentProperty;
         private ITextDocument _document;

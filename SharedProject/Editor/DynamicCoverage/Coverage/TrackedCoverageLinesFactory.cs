@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(ITrackedCoverageLinesFactory))]
-    internal class TrackedCoverageLinesFactory : ITrackedCoverageLinesFactory
+    internal sealed class TrackedCoverageLinesFactory : ITrackedCoverageLinesFactory
     {
         public ITrackedCoverageLines Create(List<ITrackedCoverageLine> trackedCoverageLines)
             => new TrackedCoverageLines(trackedCoverageLines);

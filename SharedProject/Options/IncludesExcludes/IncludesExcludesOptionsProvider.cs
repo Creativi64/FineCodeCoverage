@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IDialogPageOptionsProvider<IncludesExcludesOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class IncludesExcludesOptionsProvider : OptionsProviderBase<IncludesExcludesOptions>
+    internal sealed class IncludesExcludesOptionsProvider : OptionsProviderBase<IncludesExcludesOptions>
     {
         [ImportingConstructor]
         public IncludesExcludesOptionsProvider(

@@ -13,7 +13,7 @@ using PalmmediaVerbosityLevel = Palmmedia.ReportGenerator.Core.Logging.Verbosity
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
     [Export(typeof(IFCCReportGenerator))]
-    internal class PalmmediaReportGenerator
+    internal sealed class PalmmediaReportGenerator
         : IFCCReportGenerator
     {
         private readonly Regex _fileDoesNotExistAnymoreRegex = new Regex(@"File '.*' does not exist \(any more\)\.", RegexOptions.Compiled);

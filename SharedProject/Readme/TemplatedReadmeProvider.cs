@@ -6,7 +6,7 @@ using System.Reflection;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(ITemplatedReadmeProvider))]
-    internal class TemplatedReadmeProvider : ITemplatedReadmeProvider
+    internal sealed class TemplatedReadmeProvider : ITemplatedReadmeProvider
     {
         public TemplatedReadmeInfo GetTemplatedReadme()
         {

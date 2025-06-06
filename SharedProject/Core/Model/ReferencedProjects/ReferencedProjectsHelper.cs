@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(IReferencedProjectsHelper))]
-    internal class ReferencedProjectsHelper : IReferencedProjectsHelper
+    internal sealed class ReferencedProjectsHelper : IReferencedProjectsHelper
     {
         private readonly IVsApiReferencedProjectsHelper _vsApiReferencedProjectsHelper;
         private readonly IProjectFileReferencedProjectsHelper _projectFileReferencedProjectsHelper;

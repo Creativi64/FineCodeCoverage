@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Options
         Note that option properties must not be renamed
         Interface required for reflection - options => CoverageSettings
     */
-    internal class RunOptions : IEnabledOption
+    internal sealed class RunOptions : IEnabledOption
     {
         private const string EnablementCategory = "Enablement";
         private const string UseMsCodeCoverageCategory = "Use Microsoft Code Coverage";

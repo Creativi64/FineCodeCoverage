@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FineCodeCoverage.Output
 {
-    internal class Changeset : IChangeset
+    internal sealed class Changeset : IChangeset
     {
         private readonly IDictionary<string, HashSet<int>> _changeLookup;
 

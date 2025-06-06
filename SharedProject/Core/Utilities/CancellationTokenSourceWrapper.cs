@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal class CancellationTokenSourceWrapper : ICancellationTokenSource
+    internal sealed class CancellationTokenSourceWrapper : ICancellationTokenSource
     {
         private readonly CancellationTokenSource _cancellationTokenSource;
 

@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class TUnitInstalledPackageResult
+    internal sealed class TUnitInstalledPackageResult
     {
         public TUnitInstalledPackageResult(InstalledPackageResultStatus status, bool hasCoverageExtension, bool hasTunit)
         {

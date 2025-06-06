@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ICPSTestProjectService))]
-    internal class CPSTestProjectService : ICPSTestProjectService
+    internal sealed class CPSTestProjectService : ICPSTestProjectService
     {
         public async Task<ConfiguredProject> GetProjectAsync(IVsHierarchy hierarchy)
         {

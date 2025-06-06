@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitCoverage))]
     [Export(typeof(ICoverageCollectableFromTestExplorer))]
-    internal class TUnitCoverage : ITUnitCoverage, ICoverageCollectableFromTestExplorer
+    internal sealed class TUnitCoverage : ITUnitCoverage, ICoverageCollectableFromTestExplorer
     {
         private readonly ITUnitProjectsProvider _tUnitProjectsProvider;
         private readonly IBuildHelper _buildHelper;
@@ -89,7 +89,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private void OnReady() => ReadyEvent?.Invoke(this, EventArgs.Empty);
 
-        protected void OnCollectingChanged(bool collecting) => CollectingChangedEvent?.Invoke(this, collecting);
+        private void OnCollectingChanged(bool collecting) => CollectingChangedEvent?.Invoke(this, collecting);
 
         public void Cancel()
         {

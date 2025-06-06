@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Editor.Management
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IDelayedMainThreadInvocation))]
-    internal class DelayedMainThreadInvocation : IDelayedMainThreadInvocation
+    internal sealed class DelayedMainThreadInvocation : IDelayedMainThreadInvocation
     {
         public void DelayedInvoke(Action action)
             => _ = System.Threading.Tasks.Task.Delay(0).ContinueWith(

@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal class ExecuteResponse
+    internal sealed class ExecuteResponse
     {
         public int ExitCode { get; set; }
 

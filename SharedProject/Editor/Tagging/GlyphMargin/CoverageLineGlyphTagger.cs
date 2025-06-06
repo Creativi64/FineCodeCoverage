@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
 {
-    internal class CoverageLineGlyphTagger : ITagger<CoverageLineGlyphTag>, IDisposable, IListener<CoverageColoursChangedMessage>
+    internal sealed class CoverageLineGlyphTagger : ITagger<CoverageLineGlyphTag>, IDisposable, IListener<CoverageColoursChangedMessage>
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly ICoverageTagger<CoverageLineGlyphTag> _coverageTagger;

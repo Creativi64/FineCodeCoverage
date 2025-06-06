@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
-    internal class CoverageTaggerProvider<TCoverageTypeFilter, TTag> : ICoverageTaggerProvider<TTag>
+    internal sealed class CoverageTaggerProvider<TCoverageTypeFilter, TTag> : ICoverageTaggerProvider<TTag>
         where TCoverageTypeFilter : ICoverageTypeFilter, new()
         where TTag : ITag
     {

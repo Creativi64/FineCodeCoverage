@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Options
     /*
         Note that option properties must not be renamed
     */
-    internal class ReportOptions
+    internal sealed class ReportOptions
     {
         private const string FiltersCategory = "Filters";
         private const string IconCategory = "Icons";

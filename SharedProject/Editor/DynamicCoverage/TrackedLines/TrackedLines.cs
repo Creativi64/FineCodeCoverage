@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class TrackedLines : IContainingCodeTrackerTrackedLines
+    internal sealed class TrackedLines : IContainingCodeTrackerTrackedLines
     {
         private readonly List<IContainingCodeTracker> _containingCodeTrackers;
         private readonly IFileCodeSpanRangeService _fileCodeSpanRangeService;
@@ -165,7 +165,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
                 .Concat(GetNewLines(startLineNumber, endLineNumber))
                 .Distinct(new DynamicLineByLineNumberComparer()).ToList();
 
-        private class DynamicLineByLineNumberComparer : IEqualityComparer<IDynamicLine>
+        private sealed class DynamicLineByLineNumberComparer : IEqualityComparer<IDynamicLine>
         {
             public bool Equals(IDynamicLine x, IDynamicLine y) => x.LineNumber == y.LineNumber;
 

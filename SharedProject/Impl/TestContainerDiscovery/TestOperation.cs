@@ -4,7 +4,7 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Impl
 {
-    internal class TestOperation : ITestOperation
+    internal sealed class TestOperation : ITestOperation
     {
         private readonly TestRunRequest _testRunRequest;
         private readonly ICoverageProjectFactory _coverageProjectFactory;

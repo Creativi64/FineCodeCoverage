@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.Text;
 namespace FineCodeCoverage.Editor.Roslyn
 {
     [Export(typeof(ICSharpCodeCoverageNodeVisitor))]
-    internal class CSharpContainingCodeVisitor : CSharpSyntaxVisitor, ILanguageContainingCodeVisitor, ICSharpCodeCoverageNodeVisitor
+    internal sealed class CSharpContainingCodeVisitor : CSharpSyntaxVisitor, ILanguageContainingCodeVisitor, ICSharpCodeCoverageNodeVisitor
     {
         private readonly List<SyntaxNode> _nodes = new List<SyntaxNode>();
 

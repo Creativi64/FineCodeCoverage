@@ -12,7 +12,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IProjectRunSettingsGenerator))]
-    internal class ProjectRunSettingsGenerator : IProjectRunSettingsGenerator
+    internal sealed class ProjectRunSettingsGenerator : IProjectRunSettingsGenerator
     {
         private const string FCCGeneratedRunSettingsSuffix = "fcc-mscodecoverage-generated";
         private readonly IFileUtil _fileUtil;

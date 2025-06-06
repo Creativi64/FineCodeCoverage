@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class DirtyTrackingLine : ITrackingLine
+    internal sealed class DirtyTrackingLine : ITrackingLine
     {
         private readonly ITrackingLine _trackingLine;
         private readonly IDynamicCoberturaLine _dynamicCoberturaLine;

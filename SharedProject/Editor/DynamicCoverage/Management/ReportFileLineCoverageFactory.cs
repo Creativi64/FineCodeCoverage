@@ -7,7 +7,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(IReportFileLineCoverageFactory))]
-    internal class ReportFileLineCoverageFactory : IReportFileLineCoverageFactory
+    internal sealed class ReportFileLineCoverageFactory : IReportFileLineCoverageFactory
     {
         private readonly IDateTimeService _dateTimeService;
         private ReportFileLineCoverage _reportFileLineCoverage;

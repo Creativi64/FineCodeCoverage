@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.Roslyn
 {
     [Export(typeof(IRoslynService))]
-    internal class RoslynService : IRoslynService
+    internal sealed class RoslynService : IRoslynService
     {
         private readonly ILanguageContainingCodeVisitorFactory _languageContainingCodeVisitorFactory;
         private readonly ITextSnapshotToSyntaxService _textSnapshotToSyntaxService;

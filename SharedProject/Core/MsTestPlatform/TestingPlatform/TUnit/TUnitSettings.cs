@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class TUnitSettings
+    internal sealed class TUnitSettings
     {
         public TUnitSettings(
             string exePath,

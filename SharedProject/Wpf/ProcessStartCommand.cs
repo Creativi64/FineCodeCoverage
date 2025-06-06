@@ -4,7 +4,7 @@ using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Wpf
 {
-    internal class ProcessStartCommand : ICommand
+    internal sealed class ProcessStartCommand : ICommand
     {
         private readonly IProcess _process;
 

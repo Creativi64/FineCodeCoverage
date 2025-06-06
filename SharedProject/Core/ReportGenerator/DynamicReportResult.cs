@@ -6,11 +6,11 @@ using FineCodeCoverage.Editor.DynamicCoverage;
 
 namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    internal class DynamicReportResult : IDynamicReportResult
+    internal sealed class DynamicReportResult : IDynamicReportResult
     {
         public event EventHandler<IReadOnlyList<FileRename>> FileRenamedEvent;
 
-        public class DynamicCoberturaLine : IDynamicCoberturaLine
+        public sealed class DynamicCoberturaLine : IDynamicCoberturaLine
         {
             public DynamicCoberturaLine(ICoberturaLine coberturaLine, IDynamicCodeElement codeElement)
             {
@@ -31,7 +31,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public void LineMoved(int newLineNumber) => Number = newLineNumber;
         }
 
-        public class DynamicCodeElement : IDynamicCodeElement
+        public sealed class DynamicCodeElement : IDynamicCodeElement
         {
             public CodeElementType CodeElementType => _codeElement.CodeElementType;
 
@@ -73,7 +73,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             public void Deleted() => State = DynamicCodeElementState.Deleted;
         }
 
-        public class DynamicClass : IClass
+        public sealed class DynamicClass : IClass
         {
             public DynamicClass(IClass clss)
             {
@@ -114,7 +114,7 @@ namespace FineCodeCoverage.Engine.ReportGenerator
             }
         }
 
-        public class DynamicAssembly : IAssembly
+        public sealed class DynamicAssembly : IAssembly
         {
             public DynamicAssembly(IAssembly assembly)
             {

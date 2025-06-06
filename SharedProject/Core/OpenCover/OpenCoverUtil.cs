@@ -12,7 +12,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Engine.OpenCover
 {
     [Export(typeof(IOpenCoverUtil))]
-    internal class OpenCoverUtil : IOpenCoverUtil
+    internal sealed class OpenCoverUtil : IOpenCoverUtil
     {
         private const string ZipPrefix = "openCover";
         private const string ZipDirectoryName = "openCover";

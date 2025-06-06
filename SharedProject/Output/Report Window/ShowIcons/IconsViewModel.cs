@@ -9,7 +9,7 @@ using WpfHelpers;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IIconsOptions))]
-    internal class IconsViewModel : ObservableBase, IIconsOptions
+    internal sealed class IconsViewModel : ObservableBase, IIconsOptions
     {
         private bool _showIcons;
         private int _iconSize;

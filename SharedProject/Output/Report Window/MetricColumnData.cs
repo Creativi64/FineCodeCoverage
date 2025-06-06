@@ -3,7 +3,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
-    internal class MetricColumnData : ReportColumnData
+    internal sealed class MetricColumnData : ReportColumnData
     {
         public MetricColumnData(
            MetricType metricType,

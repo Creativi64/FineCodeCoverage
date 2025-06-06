@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IDialogPageOptionsProvider<CoverletOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class CoverletOptionsProvider : OptionsProviderBase<CoverletOptions>
+    internal sealed class CoverletOptionsProvider : OptionsProviderBase<CoverletOptions>
     {
         [ImportingConstructor]
         public CoverletOptionsProvider(

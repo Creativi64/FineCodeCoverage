@@ -4,7 +4,7 @@ using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    internal class EditableColumn : ObservableBase, IDataErrorInfo
+    internal sealed class EditableColumn : ObservableBase, IDataErrorInfo
     {
         private bool _isVisible;
         private string _name;

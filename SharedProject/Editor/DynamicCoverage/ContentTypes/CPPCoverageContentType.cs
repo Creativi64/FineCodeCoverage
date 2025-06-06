@@ -5,7 +5,7 @@ using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes
 {
     [Export(typeof(ICoverageContentType))]
-    internal class CPPCoverageContentType : ICoverageContentType
+    internal sealed class CPPCoverageContentType : ICoverageContentType
     {
         public const string ContentType = "C/C++";
 

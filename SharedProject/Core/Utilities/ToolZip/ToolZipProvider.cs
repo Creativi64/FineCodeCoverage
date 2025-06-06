@@ -5,7 +5,7 @@ using System.Reflection;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IToolZipProvider))]
-    internal class ToolZipProvider : IToolZipProvider
+    internal sealed class ToolZipProvider : IToolZipProvider
     {
         internal const string ZippedToolsDirectoryName = "ZippedTools";
 

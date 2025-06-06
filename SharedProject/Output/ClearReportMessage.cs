@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal class ClearReportMessage
+    internal sealed class ClearReportMessage
     {
     }
 }

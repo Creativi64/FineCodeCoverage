@@ -5,7 +5,7 @@ using Markdig.Renderers;
 
 namespace FineCodeCoverage.Readme
 {
-    internal class TableReplacerMarkdownExtension : IMarkdownExtension
+    internal sealed class TableReplacerMarkdownExtension : IMarkdownExtension
     {
         private readonly string _marker;
         private readonly Func<Table> _tableCreator;

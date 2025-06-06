@@ -6,7 +6,7 @@ using System.Threading;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IToolFolder))]
-    internal class ToolFolder : IToolFolder
+    internal sealed class ToolFolder : IToolFolder
     {
         private readonly IZipFile _zipFile;
 

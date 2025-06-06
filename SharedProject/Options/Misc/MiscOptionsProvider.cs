@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options.Tools
     [Export(typeof(IDialogPageOptionsProvider<MiscOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class MiscOptionsProvider : OptionsProviderBase<MiscOptions>
+    internal sealed class MiscOptionsProvider : OptionsProviderBase<MiscOptions>
     {
         [ImportingConstructor]
         public MiscOptionsProvider(

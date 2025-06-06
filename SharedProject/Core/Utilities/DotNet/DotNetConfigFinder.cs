@@ -6,7 +6,7 @@ using System.Linq;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IDotNetConfigFinder))]
-    internal class DotNetConfigFinder : IDotNetConfigFinder
+    internal sealed class DotNetConfigFinder : IDotNetConfigFinder
     {
         private static bool DirectoryContainsConfig(DirectoryInfo directoryInfo)
             => directoryInfo.GetDirectories().Any(dir => dir.Name == ".config");

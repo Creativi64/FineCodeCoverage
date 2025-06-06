@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class CoverageSettings :
+    internal sealed class CoverageSettings :
         ICoverageSettings,
 
         ICoverletOptions,

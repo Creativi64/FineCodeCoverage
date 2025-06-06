@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class UnexpectedSettingsTypeException : Exception
+    internal sealed class UnexpectedSettingsTypeException : Exception
     {
         public UnexpectedSettingsTypeException(string message)
             : base(message)

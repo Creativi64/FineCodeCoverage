@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Settings;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IShowReadMeService))]
-    internal class ShowReadMeService : IShowReadMeService
+    internal sealed class ShowReadMeService : IShowReadMeService
     {
         private const string ReadMeShowCollection = "FCCReadmeShowCollection";
         private const string ReadMeShownProperty = "FCCReadmeShown";

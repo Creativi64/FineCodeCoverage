@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class CodeSpanRange
+    internal sealed class CodeSpanRange
     {
         public CodeSpanRange(int startLine, int endLine)
         {

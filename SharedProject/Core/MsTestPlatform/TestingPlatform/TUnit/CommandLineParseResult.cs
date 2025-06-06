@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         adjusted from
         https://github.com/microsoft/testfx/blob/main/src/Platform/Microsoft.Testing.Platform/CommandLine/ParseResult.cs
     */
-    internal class CommandLineParseResult
+    internal sealed class CommandLineParseResult
     {
         public CommandLineParseResult(
             IReadOnlyList<CommandLineParseOption> options,

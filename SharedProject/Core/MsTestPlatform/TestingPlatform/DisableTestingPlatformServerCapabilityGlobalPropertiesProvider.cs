@@ -28,7 +28,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
             For expression syntax
     */
     [AppliesTo("TestContainer")]
-    internal class DisableTestingPlatformServerCapabilityGlobalPropertiesProvider : StaticGlobalPropertiesProviderBase
+    internal sealed class DisableTestingPlatformServerCapabilityGlobalPropertiesProvider : StaticGlobalPropertiesProviderBase
     {
         private readonly UnconfiguredProject _unconfiguredProject;
         private readonly IOptionsProvider<RunOptions> _runOptionsProvider;

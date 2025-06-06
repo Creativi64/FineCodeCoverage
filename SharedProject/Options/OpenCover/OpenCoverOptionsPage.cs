@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class OpenCoverOptionsPage : DialogPageBase<OpenCoverOptions>
+    internal sealed class OpenCoverOptionsPage : DialogPageBase<OpenCoverOptions>
     {
     }
 }

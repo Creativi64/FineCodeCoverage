@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.Messages
 {
-    internal class CoverageStartingMessage
+    internal sealed class CoverageStartingMessage
     {
         public CoverageStartingMessage(bool pending = false) => Pending = pending;
 

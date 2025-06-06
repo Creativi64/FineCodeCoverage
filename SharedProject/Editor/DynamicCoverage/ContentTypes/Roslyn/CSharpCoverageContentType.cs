@@ -4,7 +4,7 @@ using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn
 {
     [Export(typeof(ICoverageContentType))]
-    internal class CSharpCoverageContentType : ICoverageContentType
+    internal sealed class CSharpCoverageContentType : ICoverageContentType
     {
         private readonly IRoslynFileCodeSpanRangeService _roslynFileCodeSpanRangeService;
 

@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class LineExcluder : ILineExcluder
+    internal sealed class LineExcluder : ILineExcluder
     {
         private readonly string[] _startsWithExclusions;
 

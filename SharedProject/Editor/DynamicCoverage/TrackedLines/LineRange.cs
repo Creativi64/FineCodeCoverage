@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class LineRange
+    internal sealed class LineRange
     {
         public LineRange(int startLineNumber, int endLineNumber)
         {

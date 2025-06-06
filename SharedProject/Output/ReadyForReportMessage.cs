@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal class ReadyForReportMessage
+    internal sealed class ReadyForReportMessage
     {
     }
 }

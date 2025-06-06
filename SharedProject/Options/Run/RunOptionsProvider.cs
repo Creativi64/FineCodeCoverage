@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IDialogPageOptionsProvider<RunOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class RunOptionsProvider : OptionsProviderBase<RunOptions>
+    internal sealed class RunOptionsProvider : OptionsProviderBase<RunOptions>
     {
         [ImportingConstructor]
         public RunOptionsProvider(

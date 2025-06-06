@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class TrackedCoverageLines : ITrackedCoverageLines
+    internal sealed class TrackedCoverageLines : ITrackedCoverageLines
     {
         private readonly List<ITrackedCoverageLine> _trackedCoverageLines;
 

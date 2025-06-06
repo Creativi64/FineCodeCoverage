@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Options
 {
-    internal class ProfileManager : Component, IProfileManager
+    internal sealed class ProfileManager : Component, IProfileManager
     {
         private readonly List<IProfileOptionsProvider> _optionsProviders;
         private readonly IJsonConvertService _jsonConvertService;

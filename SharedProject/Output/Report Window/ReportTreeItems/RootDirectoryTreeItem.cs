@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output
 {
-    internal class RootDirectoryTreeItem : DirectoryTreeItem
+    internal sealed class RootDirectoryTreeItem : DirectoryTreeItem
     {
         private readonly string _name;
         private readonly string _path;

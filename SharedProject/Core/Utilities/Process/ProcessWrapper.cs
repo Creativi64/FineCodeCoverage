@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IProcess))]
     [ExcludeFromCodeCoverage]
-    internal class ProcessWrapper : IProcess
+    internal sealed class ProcessWrapper : IProcess
     {
         public void Start(string fileName) => _ = Process.Start(fileName);
     }

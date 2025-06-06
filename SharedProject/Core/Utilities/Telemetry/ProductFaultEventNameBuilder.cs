@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Core.Utilities.Telemetry
 
         public static string EntityName<TEntity>() => typeof(TEntity).FullName;
 
-        private class BuildFaultEventNameFromFeatureHierarchy : IBuildFaultEventNameFromFeatureHierarchy
+        private sealed class BuildFaultEventNameFromFeatureHierarchy : IBuildFaultEventNameFromFeatureHierarchy
         {
             private readonly string _product;
             private readonly string _entityName;

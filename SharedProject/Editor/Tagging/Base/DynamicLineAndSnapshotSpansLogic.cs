@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text;
 namespace FineCodeCoverage.Editor.Tagging.Base
 {
     [Export(typeof(IDynamicLineAndSnapshotSpansLogic))]
-    internal class DynamicLineAndSnapshotSpansLogic : IDynamicLineAndSnapshotSpansLogic
+    internal sealed class DynamicLineAndSnapshotSpansLogic : IDynamicLineAndSnapshotSpansLogic
     {
         public List<IDynamicLineAndSnapshotSpan> Apply(
             IBufferLineCoverage bufferLineCoverage,

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class IncludesExcludesOptionsPage : DialogPageBase<IncludesExcludesOptions>
+    internal sealed class IncludesExcludesOptionsPage : DialogPageBase<IncludesExcludesOptions>
     {
     }
 }

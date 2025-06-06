@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Readme
 {
-    internal class ReadmeToolWindowContext
+    internal sealed class ReadmeToolWindowContext
     {
         public ReadMeMarkdownViewModel ReadMeMarkdownViewModel { get; set; }
     }

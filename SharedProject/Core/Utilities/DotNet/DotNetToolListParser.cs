@@ -6,7 +6,7 @@ using System.Linq;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IDotNetToolListParser))]
-    internal class DotNetToolListParser : IDotNetToolListParser
+    internal sealed class DotNetToolListParser : IDotNetToolListParser
     {
         private static readonly char[] s_newLineSeparators = new[] { '\r', '\n' };
         private static readonly char[] s_spacingSeparators = new[] { ' ', '\t' };

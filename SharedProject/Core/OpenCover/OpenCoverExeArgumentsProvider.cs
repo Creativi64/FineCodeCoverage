@@ -8,7 +8,7 @@ using FineCodeCoverage.Options;
 namespace FineCodeCoverage.Engine.OpenCover
 {
     [Export(typeof(IOpenCoverExeArgumentsProvider))]
-    internal class OpenCoverExeArgumentsProvider : IOpenCoverExeArgumentsProvider
+    internal sealed class OpenCoverExeArgumentsProvider : IOpenCoverExeArgumentsProvider
     {
         private enum Delimiter
         {

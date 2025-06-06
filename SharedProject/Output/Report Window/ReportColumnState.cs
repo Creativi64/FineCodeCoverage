@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output
 {
-    internal class ReportColumnState
+    internal sealed class ReportColumnState
     {
         public string ColumnType { get; set; }
 

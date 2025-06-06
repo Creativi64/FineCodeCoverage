@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IVsRunSettingsWriter))]
-    internal class VsRunSettingsWriter : IVsRunSettingsWriter
+    internal sealed class VsRunSettingsWriter : IVsRunSettingsWriter
     {
         private const string ProjectRunSettingsFilePathElementName = "RunSettingsFilePath";
         private readonly IServiceProvider _serviceProvider;

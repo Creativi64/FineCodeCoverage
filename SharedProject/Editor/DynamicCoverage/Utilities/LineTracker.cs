@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [Export(typeof(ITrackingSpanFactory))]
     [Export(typeof(ILineTracker))]
-    internal class LineTracker : ILineTracker, ITrackingSpanFactory
+    internal sealed class LineTracker : ILineTracker, ITrackingSpanFactory
     {
         public int GetLineNumber(ITrackingSpan trackingSpan, ITextSnapshot currentSnapshot, bool lineFromEnd)
         {

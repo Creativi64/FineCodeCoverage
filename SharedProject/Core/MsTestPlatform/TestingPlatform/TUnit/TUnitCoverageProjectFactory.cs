@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitCoverageProjectFactory))]
-    internal class TUnitCoverageProjectFactory : ITUnitCoverageProjectFactory
+    internal sealed class TUnitCoverageProjectFactory : ITUnitCoverageProjectFactory
     {
         private readonly ICoverageProjectFactory _coverageProjectFactory;
         private readonly ITemplatedRunSettingsService _templatedRunSettingsService;
@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private readonly IXmlUtils _xmlUtils;
         private readonly IRunSettingsToConfiguration _runSettingsToConfiguration;
 
-        private class TUnitCoverageProject : ITUnitCoverageProject
+        private sealed class TUnitCoverageProject : ITUnitCoverageProject
         {
             private readonly Func<CancellationToken, Task<string>> _configurationProvider;
 

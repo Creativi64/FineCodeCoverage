@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IDefaultOptionsSetter<IncludesExcludesOptions>))]
-    internal class IncludesExcludesOptionsDefaults : IDefaultOptionsSetter<IncludesExcludesOptions>
+    internal sealed class IncludesExcludesOptionsDefaults : IDefaultOptionsSetter<IncludesExcludesOptions>
     {
         public void Set(IncludesExcludesOptions options)
         {

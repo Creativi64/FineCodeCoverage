@@ -10,7 +10,7 @@ using TreeGrid;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IReportColumnManager))]
-    internal class ReportColumnManager : ColumnManagerBase, IReportColumnManager
+    internal sealed class ReportColumnManager : ColumnManagerBase, IReportColumnManager
     {
         private readonly IColumnStatesStore _columnStateStore;
         private readonly IJsonConvertService _jsonConvertService;

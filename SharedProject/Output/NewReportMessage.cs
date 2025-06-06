@@ -4,7 +4,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
-    internal class NewReportMessage
+    internal sealed class NewReportMessage
     {
         public NewReportMessage(IReportResult report, List<ICoverageProject> coverageProjects)
         {

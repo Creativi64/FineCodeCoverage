@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Editor.IndicatorVisibility
 {
     [Export(typeof(IInitializable))]
     [Export(typeof(IFileIndicatorVisibility))]
-    internal class FileIndicatorVisibility : IFileIndicatorVisibility, IListener<ToggleCoverageIndicatorsMessage>, IInitializable
+    internal sealed class FileIndicatorVisibility : IFileIndicatorVisibility, IListener<ToggleCoverageIndicatorsMessage>, IInitializable
     {
         private bool _showIndicators = true;
 

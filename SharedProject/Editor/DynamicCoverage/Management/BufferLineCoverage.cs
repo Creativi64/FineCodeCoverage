@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class BufferLineCoverage :
+    internal sealed class BufferLineCoverage :
         IBufferLineCoverage,
         IListener<NewCoverageLinesMessage>,
         IListener<TestExecutionStartingMessage>,

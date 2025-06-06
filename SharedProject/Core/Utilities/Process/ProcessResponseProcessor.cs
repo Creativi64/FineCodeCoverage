@@ -6,7 +6,7 @@ using FineCodeCoverage.Output;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IProcessResponseProcessor))]
-    internal class ProcessResponseProcessor : IProcessResponseProcessor
+    internal sealed class ProcessResponseProcessor : IProcessResponseProcessor
     {
         private readonly ILogger _logger;
 

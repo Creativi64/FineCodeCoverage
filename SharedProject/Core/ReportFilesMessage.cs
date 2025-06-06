@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine
 {
-    internal class ReportFilesMessage
+    internal sealed class ReportFilesMessage
     {
         public IReportResult ReportResult { get; set; }
 

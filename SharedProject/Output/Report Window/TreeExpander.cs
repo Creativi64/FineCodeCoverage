@@ -11,12 +11,12 @@ namespace FineCodeCoverage.Output
         private readonly Func<T, IReadOnlyList<T>> _getChildren;
         private TreeExpansionStateWrapper _wrapper;
 
-        private class TreeExpansionStateWrapper
+        private sealed class TreeExpansionStateWrapper
         {
             public List<TreeExpansionState> Roots { get; set; } = new List<TreeExpansionState>();
         }
 
-        private class TreeExpansionState
+        private sealed class TreeExpansionState
         {
             public string Id { get; set; }
 

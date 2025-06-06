@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class CoverletOptionsPage : DialogPageBase<CoverletOptions>
+    internal sealed class CoverletOptionsPage : DialogPageBase<CoverletOptions>
     {
     }
 }

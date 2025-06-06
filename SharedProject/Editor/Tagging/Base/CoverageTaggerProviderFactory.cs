@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Editor.Tagging.Base
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(ICoverageTaggerProviderFactory))]
-    internal class CoverageTaggerProviderFactory : ICoverageTaggerProviderFactory
+    internal sealed class CoverageTaggerProviderFactory : ICoverageTaggerProviderFactory
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Options
 {
-    internal class RunOptionsPage : DialogPageBase<RunOptions>
+    internal sealed class RunOptionsPage : DialogPageBase<RunOptions>
     {
     }
 }

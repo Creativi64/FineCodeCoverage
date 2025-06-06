@@ -15,7 +15,7 @@ using TreeGrid;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(ReportViewModel))]
-    internal class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
+    internal sealed class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
         IListener<NewReportMessage>,
         IListener<CoverageStartingMessage>,
         IListener<CoverageEndedMessage>,

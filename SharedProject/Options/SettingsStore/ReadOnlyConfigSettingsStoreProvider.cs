@@ -9,7 +9,7 @@ namespace FineCodeCoverage.Options
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IReadOnlyConfigSettingsStoreProvider))]
-    internal class ReadOnlyConfigSettingsStoreProvider : IReadOnlyConfigSettingsStoreProvider
+    internal sealed class ReadOnlyConfigSettingsStoreProvider : IReadOnlyConfigSettingsStoreProvider
     {
         public AsyncLazy<SettingsStore> LazySettingsStore { get; } = new AsyncLazy<SettingsStore>(
             async () =>

@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Engine.OpenCover
 {
-    internal class OpenCoverExitCodeException : Exception
+    internal sealed class OpenCoverExitCodeException : Exception
     {
         public OpenCoverExitCodeException(string message)
             : base(message)

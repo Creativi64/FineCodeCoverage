@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(ICoverageProjectSettingsManager))]
-    internal class CoverageProjectSettingsManager : ICoverageProjectSettingsManager
+    internal sealed class CoverageProjectSettingsManager : ICoverageProjectSettingsManager
     {
         private readonly ICoverageSettingsOptionsProvider _coveragSettingsOptionsProvider;
         private readonly ICoverageProjectSettingsProvider _coverageProjectSettingsProvider;

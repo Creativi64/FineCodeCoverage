@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Readme
 {
-    internal class CategorizedOptionPropertyInfos
+    internal sealed class CategorizedOptionPropertyInfos
     {
         public CategorizedOptionPropertyInfos(
             string category, IEnumerable<OptionPropertyInfo> optionPropertyInfos)

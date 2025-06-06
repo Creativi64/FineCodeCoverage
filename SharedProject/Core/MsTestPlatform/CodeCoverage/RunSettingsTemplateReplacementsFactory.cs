@@ -9,9 +9,9 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IRunSettingsTemplateReplacementsFactory))]
-    internal class RunSettingsTemplateReplacementsFactory : IRunSettingsTemplateReplacementsFactory
+    internal sealed class RunSettingsTemplateReplacementsFactory : IRunSettingsTemplateReplacementsFactory
     {
-        private class RunSettingsTemplateReplacements : IRunSettingsTemplateReplacements
+        private sealed class RunSettingsTemplateReplacements : IRunSettingsTemplateReplacements
         {
             public string Enabled { get; set; }
 
@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             }
         }
 
-        private class MergedIncludesExcludesOptions : IMsCodeCoverageIncludesExcludesOptions
+        private sealed class MergedIncludesExcludesOptions : IMsCodeCoverageIncludesExcludesOptions
         {
             private readonly List<ICoverageSettings> _allOptions;
 
@@ -128,7 +128,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
             public string[] FunctionsExclude { get; set; }
         }
 
-        private class CombinedIncludesExcludesOptions : IMsCodeCoverageIncludesExcludesOptions
+        private sealed class CombinedIncludesExcludesOptions : IMsCodeCoverageIncludesExcludesOptions
         {
             public CombinedIncludesExcludesOptions(
                 MergedIncludesExcludesOptions includesExcludesOptions,

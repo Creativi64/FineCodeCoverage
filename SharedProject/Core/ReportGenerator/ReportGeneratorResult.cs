@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Engine.ReportGenerator
 {
-    internal class ReportGeneratorResult
+    internal sealed class ReportGeneratorResult
     {
         public IReportResult ReportResult { get; set; }
 

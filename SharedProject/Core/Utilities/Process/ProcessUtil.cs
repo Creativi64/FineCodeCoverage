@@ -10,7 +10,7 @@ using CliWrap.Buffered;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IProcessUtil))]
-    internal class ProcessUtil : IProcessUtil
+    internal sealed class ProcessUtil : IProcessUtil
     {
         public async Task<ExecuteResponse> ExecuteAsync(
             ExecuteRequest request,

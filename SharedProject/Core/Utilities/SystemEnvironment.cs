@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IEnvironment))]
-    internal class SystemEnvironment : IEnvironment
+    internal sealed class SystemEnvironment : IEnvironment
     {
         public string GetEnvironmentVariable(string variable) => Environment.GetEnvironmentVariable(variable);
     }

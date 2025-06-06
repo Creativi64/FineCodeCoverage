@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {
     [Export(typeof(IUserRunSettingsService))]
-    internal class UserRunSettingsService : IUserRunSettingsService
+    internal sealed class UserRunSettingsService : IUserRunSettingsService
     {
         private readonly IRunSettingsTemplate _runSettingsTemplate;
         private readonly IRunSettingsTemplateReplacementsFactory _runSettingsTemplateReplacementsFactory;
@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
         private XDocument _runSettingsDoc;
         private string _fccMsTestAdapterPath;
 
-        private class UserRunSettingsAnalysisResult : IUserRunSettingsAnalysisResult
+        private sealed class UserRunSettingsAnalysisResult : IUserRunSettingsAnalysisResult
         {
             public bool Suitable { get; set; }
 

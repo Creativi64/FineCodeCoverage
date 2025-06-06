@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IDefaultOptionsSetter<ReportOptions>))]
-    internal class ReportOptionsOptionsDefaults : IDefaultOptionsSetter<ReportOptions>
+    internal sealed class ReportOptionsOptionsDefaults : IDefaultOptionsSetter<ReportOptions>
     {
         public void Set(ReportOptions options)
         {

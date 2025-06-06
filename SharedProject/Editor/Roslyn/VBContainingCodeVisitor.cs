@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace FineCodeCoverage.Editor.Roslyn
 {
-    internal class VBContainingCodeVisitor : VisualBasicSyntaxVisitor, ILanguageContainingCodeVisitor
+    internal sealed class VBContainingCodeVisitor : VisualBasicSyntaxVisitor, ILanguageContainingCodeVisitor
     {
         private readonly List<TextSpan> _spans = new List<TextSpan>();
 

@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Output
 {
     [Export(typeof(ISolutionOption))]
     [Export(typeof(IReportViewSolutionOption))]
-    internal class ReportViewSolutionOption : SolutionOption<ReportViewSolutionOptionValue>, IReportViewSolutionOption
+    internal sealed class ReportViewSolutionOption : SolutionOption<ReportViewSolutionOptionValue>, IReportViewSolutionOption
     {
         [ImportingConstructor]
         public ReportViewSolutionOption(IJsonConvertService jsonConvertService)

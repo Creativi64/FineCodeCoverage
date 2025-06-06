@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    internal class DotNetToolListExecutionResult
+    internal sealed class DotNetToolListExecutionResult
     {
         public int ExitCode { get; set; }
 

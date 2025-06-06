@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class ProjectAddedRemoved
+    internal sealed class ProjectAddedRemoved
     {
         public ProjectAddedRemoved(bool added, IVsHierarchy project)
         {

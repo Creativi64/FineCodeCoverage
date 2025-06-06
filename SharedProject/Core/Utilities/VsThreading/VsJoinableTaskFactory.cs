@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Utilities.VsThreading
 {
-    internal class VsJoinableTaskFactory : IJoinableTaskFactory
+    internal sealed class VsJoinableTaskFactory : IJoinableTaskFactory
     {
         public T Run<T>(Func<Task<T>> asyncMethod)
 #pragma warning disable VSTHRD102 // Implement internal logic asynchronously

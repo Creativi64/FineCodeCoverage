@@ -6,7 +6,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
-    internal class Report
+    internal sealed class Report
     {
         public event EventHandler<EventArgs> DirectoryStructureChanged;
 

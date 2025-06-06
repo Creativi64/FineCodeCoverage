@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IOpenFCCVsMarketplace))]
-    internal class OpenFCCVsMarketplace : IOpenFCCVsMarketplace
+    internal sealed class OpenFCCVsMarketplace : IOpenFCCVsMarketplace
     {
         private const string RootPath = "https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage";
         private readonly string _ratingAndReviewPath;

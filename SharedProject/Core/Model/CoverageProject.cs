@@ -13,7 +13,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class CoverageProject : ICoverageProject
+    internal sealed class CoverageProject : ICoverageProject
     {
         private const string FCCFolderName = "fine-code-coverage";
         private const string BuildOutputFolderName = "build-output";

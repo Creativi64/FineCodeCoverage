@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IDialogPageOptionsProvider<OpenCoverOptions>))]
     [Export(typeof(IProfileOptionsProvider))]
     [Export(typeof(IResetOptions))]
-    internal class OpenCoverOptionsProvider : OptionsProviderBase<OpenCoverOptions>
+    internal sealed class OpenCoverOptionsProvider : OptionsProviderBase<OpenCoverOptions>
     {
         [ImportingConstructor]
         public OpenCoverOptionsProvider(

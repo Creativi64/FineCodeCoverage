@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
 {
-    internal class CoverageLineGlyphTag : IGlyphTag
+    internal sealed class CoverageLineGlyphTag : IGlyphTag
     {
         public Color Colour { get; }
 

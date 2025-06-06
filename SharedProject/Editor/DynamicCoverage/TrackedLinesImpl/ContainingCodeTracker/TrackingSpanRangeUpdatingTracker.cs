@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class TrackingSpanRangeUpdatingTracker : IContainingCodeTracker
+    internal sealed class TrackingSpanRangeUpdatingTracker : IContainingCodeTracker
     {
         private readonly ITrackingSpanRange _trackingSpanRange;
         private readonly IUpdatableDynamicLines _updatableDynamicLines;

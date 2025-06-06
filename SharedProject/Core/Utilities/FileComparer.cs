@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal class FileComparer : IEqualityComparer<ComparableFile>
+    internal sealed class FileComparer : IEqualityComparer<ComparableFile>
     {
         public static FileComparer Singleton { get; } = new FileComparer();
 

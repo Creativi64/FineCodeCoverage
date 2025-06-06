@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IDirtyLineFactory))]
-    internal class DirtyLineFactory : IDirtyLineFactory
+    internal sealed class DirtyLineFactory : IDirtyLineFactory
     {
         private readonly ITrackingLineFactory _trackingLineFactory;
 

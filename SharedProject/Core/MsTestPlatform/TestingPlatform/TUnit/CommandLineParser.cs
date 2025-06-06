@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         without escaping
     */
     [Export(typeof(ICommandLineParser))]
-    internal class CommandLineParser : ICommandLineParser
+    internal sealed class CommandLineParser : ICommandLineParser
     {
         private static readonly char[] s_delimiters = new char[] { ':', '=', ' ' };
 

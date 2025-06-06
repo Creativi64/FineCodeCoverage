@@ -5,7 +5,7 @@ using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Editor.Tagging.Classification
 {
-    internal class CoverageClassificationFilter : CoverageTypeFilterBase
+    internal sealed class CoverageClassificationFilter : CoverageTypeFilterBase
     {
         public override string TypeIdentifier => "Classification";
 

@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Text.Formatting;
 
 namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
 {
-    internal class CoverageLineGlyphFactory : IGlyphFactory
+    internal sealed class CoverageLineGlyphFactory : IGlyphFactory
     {
         public UIElement GenerateGlyph(IWpfTextViewLine textViewLine, IGlyphTag glyphTag)
             => glyphTag is CoverageLineGlyphTag tag

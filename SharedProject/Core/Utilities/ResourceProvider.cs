@@ -5,7 +5,7 @@ using System.Reflection;
 namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IResourceProvider))]
-    internal class ResourceProvider : IResourceProvider
+    internal sealed class ResourceProvider : IResourceProvider
     {
         private readonly string _resourcesDirectory;
 

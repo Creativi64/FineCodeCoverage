@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Readme
 {
-    internal class OptionPageInfoProvider : IOptionPageInfoProvider
+    internal sealed class OptionPageInfoProvider : IOptionPageInfoProvider
     {
         public IEnumerable<OptionPageInfo> Provide(Type packageType, List<string> coverageSettingsPropertyNames)
         {

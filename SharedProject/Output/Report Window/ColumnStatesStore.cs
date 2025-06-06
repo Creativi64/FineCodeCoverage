@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Threading;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IColumnStatesStore))]
-    internal class ColumnStatesStore : IColumnStatesStore
+    internal sealed class ColumnStatesStore : IColumnStatesStore
     {
         private const string ColumnStatesCollectionName = "FCCColumnStates";
         private const string ColumnStatesPropertyName = "FCCColumnStates";

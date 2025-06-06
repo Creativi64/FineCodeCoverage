@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace FineCodeCoverage.Output
 {
-    internal class ZeroToVisibilityConverter : IValueConverter
+    internal sealed class ZeroToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

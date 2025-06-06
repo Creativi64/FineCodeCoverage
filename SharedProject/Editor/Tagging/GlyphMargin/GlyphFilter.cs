@@ -5,7 +5,7 @@ using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
 {
-    internal class GlyphFilter : CoverageTypeFilterBase
+    internal sealed class GlyphFilter : CoverageTypeFilterBase
     {
         public override string TypeIdentifier => "Glyph";
 

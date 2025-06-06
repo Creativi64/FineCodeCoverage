@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell.Settings;
 namespace FineCodeCoverage.Options
 {
     [Export(typeof(IReadOnlyUserSettingsStoreProvider))]
-    internal class ReadOnlyUserSettingsStoreProvider : IReadOnlyUserSettingsStoreProvider
+    internal sealed class ReadOnlyUserSettingsStoreProvider : IReadOnlyUserSettingsStoreProvider
     {
         private SettingsStore _settingsStore;
 

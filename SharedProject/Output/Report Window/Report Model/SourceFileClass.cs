@@ -3,7 +3,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
-    internal class SourceFileClass : IClass
+    internal sealed class SourceFileClass : IClass
     {
         public SourceFileClass(string displayName, string path, IReadOnlyList<ICodeElement> codeElements)
         {

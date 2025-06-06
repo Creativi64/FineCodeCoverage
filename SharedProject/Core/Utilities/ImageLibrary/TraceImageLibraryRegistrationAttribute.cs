@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Core.Utilities
         devenv.exe /rootSuffix Exp /updateconfiguration
     */
 
-    internal class TraceImageLibraryRegistrationAttribute : RegistrationAttribute
+    internal sealed class TraceImageLibraryRegistrationAttribute : RegistrationAttribute
     {
         private readonly string _traceFileName;
         private readonly TraceLevel _traceLevel;

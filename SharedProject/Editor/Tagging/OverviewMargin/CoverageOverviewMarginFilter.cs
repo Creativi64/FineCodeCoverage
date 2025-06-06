@@ -5,7 +5,7 @@ using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
 {
-    internal class CoverageOverviewMarginFilter : CoverageTypeFilterBase
+    internal sealed class CoverageOverviewMarginFilter : CoverageTypeFilterBase
     {
         public override string TypeIdentifier => "OverviewMargin";
 

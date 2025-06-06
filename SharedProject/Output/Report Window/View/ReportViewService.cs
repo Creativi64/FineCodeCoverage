@@ -3,7 +3,7 @@
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IReportViewService))]
-    internal class ReportViewService : IReportViewService
+    internal sealed class ReportViewService : IReportViewService
     {
         private readonly IReportViewSelectorModel _reportViewSelectorModel;
 

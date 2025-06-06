@@ -7,7 +7,7 @@ using FineCodeCoverage.Options;
 namespace FineCodeCoverage.Core.Model
 {
     [Export(typeof(ICoverageSettingsOptionsProvider))]
-    internal class CoverageSettingsOptionsProvider : ICoverageSettingsOptionsProvider
+    internal sealed class CoverageSettingsOptionsProvider : ICoverageSettingsOptionsProvider
     {
         private readonly List<IProvideOptions> _optionsProviders = new List<IProvideOptions>();
 

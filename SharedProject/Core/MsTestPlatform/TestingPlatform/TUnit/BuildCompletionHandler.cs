@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class BuildCompletionHandler : IVsUpdateSolutionEvents, IDisposable
+    internal sealed class BuildCompletionHandler : IVsUpdateSolutionEvents, IDisposable
     {
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
         private readonly CancellationTokenRegistration _registration;

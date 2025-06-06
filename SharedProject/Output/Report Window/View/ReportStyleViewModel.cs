@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal class ReportStyleViewModel
+    internal sealed class ReportStyleViewModel
     {
         public ReportStyleViewModel(ReportStyle reportStyle, string display)
         {

@@ -7,7 +7,7 @@ using FineCodeCoverage.Options;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(IUIClearer))]
-    internal class UIClearer : IUIClearer, IListener<CoverageStartingMessage>
+    internal sealed class UIClearer : IUIClearer, IListener<CoverageStartingMessage>
     {
         private readonly IEventAggregator _eventAggregator;
 

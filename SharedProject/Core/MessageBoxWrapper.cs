@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Engine
     */
     [Export(typeof(IMessageBox))]
     [ExcludeFromCodeCoverage]
-    internal class MessageBoxWrapper : IMessageBox
+    internal sealed class MessageBoxWrapper : IMessageBox
     {
         public void Show(string message) => MessageBox.Show(message);
 

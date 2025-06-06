@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.Management
 {
-    internal class FontAndColorsInfo : IFontAndColorsInfo
+    internal sealed class FontAndColorsInfo : IFontAndColorsInfo
     {
         public FontAndColorsInfo(IItemCoverageColours itemCoverageColours, bool isBold)
         {

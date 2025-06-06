@@ -5,7 +5,7 @@ using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 namespace FineCodeCoverage.Output
 {
     [Export(typeof(ICommandInitializer))]
-    internal class CollectOrCancelTUnitCoverage : ICommandInitializer
+    internal sealed class CollectOrCancelTUnitCoverage : ICommandInitializer
     {
         private readonly ICollectTUnitCommand _collectTUnitCommand;
         private readonly ICancelCollectTUnitCommand _cancelCollectTUnitCommand;

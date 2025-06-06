@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Editor.Management
 {
     // todo - consider a MEF export to allow other extensions to change the formatting
     [Export(typeof(ITextFormattingRunPropertiesFactory))]
-    internal class TextFormattingRunPropertiesFactory : ITextFormattingRunPropertiesFactory
+    internal sealed class TextFormattingRunPropertiesFactory : ITextFormattingRunPropertiesFactory
     {
         public TextFormattingRunProperties Create(IFontAndColorsInfo fontAndColorsInfo)
         {

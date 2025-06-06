@@ -6,7 +6,7 @@ using System.Windows.Documents;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IOptionPageTableCreator))]
-    internal class OptionPageTableCreator : IOptionPageTableCreator
+    internal sealed class OptionPageTableCreator : IOptionPageTableCreator
     {
         private readonly List<ElementAndMarker> _elementAndMarkers = new List<ElementAndMarker>();
         private readonly IFCCOptionPageInfoProvider _fccOptionPageInfoProvider;

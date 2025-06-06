@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace FineCodeCoverage.Output
 {
-    internal class TotalTreeItem : ReportTreeItemBase
+    internal sealed class TotalTreeItem : ReportTreeItemBase
     {
         public TotalTreeItem(IEnumerable<ReportTreeItemBase> children)
         {

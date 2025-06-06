@@ -5,7 +5,7 @@ using FineCodeCoverage.Options;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(ICoverageProjectFactory))]
-    internal class CoverageProjectFactory : ICoverageProjectFactory
+    internal sealed class CoverageProjectFactory : ICoverageProjectFactory
     {
         private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
         private readonly IFileSynchronizationUtil _fileSynchronizationUtil;

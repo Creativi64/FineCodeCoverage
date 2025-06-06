@@ -7,7 +7,7 @@ using System.Xml;
 namespace FineCodeCoverage.Core.Utilities.FCCVersioning
 {
     [Export(typeof(IFCCVersion))]
-    internal class FCCVersion : IFCCVersion
+    internal sealed class FCCVersion : IFCCVersion
     {
         private string _version;
 

@@ -9,7 +9,7 @@ using LibGit2Sharp;
 namespace FineCodeCoverage.Output
 {
 #if VS2022
-    internal class GitRepo : IGitRepo
+    internal sealed class GitRepo : IGitRepo
     {
         private readonly Repository _repository;
         private readonly string _workingDirectory;
@@ -51,7 +51,7 @@ namespace FineCodeCoverage.Output
 
         public bool HasBranch(string selectedBranchName) => GetBranches().Any(b => b == selectedBranchName);
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (_disposedValue)
             {

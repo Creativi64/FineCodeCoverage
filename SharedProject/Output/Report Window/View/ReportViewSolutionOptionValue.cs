@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Output
 {
-    internal class ReportViewSolutionOptionValue
+    internal sealed class ReportViewSolutionOptionValue
     {
         public static ReportViewSolutionOptionValue Default => new ReportViewSolutionOptionValue
         {

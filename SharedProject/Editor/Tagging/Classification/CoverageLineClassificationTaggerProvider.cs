@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.Tagging.Classification
     [TagType(typeof(IClassificationTag))]
     [Name("FCC.CoverageLineClassificationTaggerProvider")]
     [Export(typeof(IViewTaggerProvider))]
-    internal class CoverageLineClassificationTaggerProvider : IViewTaggerProvider, ILineSpanTagger<IClassificationTag>
+    internal sealed class CoverageLineClassificationTaggerProvider : IViewTaggerProvider, ILineSpanTagger<IClassificationTag>
     {
         private readonly ICoverageTypeService _coverageTypeService;
         private readonly ICoverageTaggerProvider<IClassificationTag> _coverageTaggerProvider;

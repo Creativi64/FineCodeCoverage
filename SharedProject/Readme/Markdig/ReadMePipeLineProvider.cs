@@ -6,7 +6,7 @@ using Markdig;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(IReadMePipelineProvider))]
-    internal class ReadMePipeLineProvider : IReadMePipelineProvider
+    internal sealed class ReadMePipeLineProvider : IReadMePipelineProvider
     {
         public MarkdownPipeline Provide(string marker, string truncateMatch, Func<Table> tableCreator)
             => new MarkdownPipelineBuilder()

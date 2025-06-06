@@ -14,7 +14,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Editor.Management
 {
     [Export(typeof(IFontsAndColorsHelper))]
-    internal class FontsAndColorsHelper : IFontsAndColorsHelper
+    internal sealed class FontsAndColorsHelper : IFontsAndColorsHelper
     {
         private readonly uint _storeFlags = (uint)(__FCSTORAGEFLAGS.FCSF_READONLY | __FCSTORAGEFLAGS.FCSF_LOADDEFAULTS | __FCSTORAGEFLAGS.FCSF_NOAUTOCOLORS | __FCSTORAGEFLAGS.FCSF_PROPAGATECHANGES);
         private readonly IServiceProvider _serviceProvider;

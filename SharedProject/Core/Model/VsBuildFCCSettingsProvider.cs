@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Engine.Model
 {
     [Export(typeof(IVsBuildFCCSettingsProvider))]
-    internal class VsBuildFCCSettingsProvider : IVsBuildFCCSettingsProvider
+    internal sealed class VsBuildFCCSettingsProvider : IVsBuildFCCSettingsProvider
     {
         private const string FCCSettingsElementName = "FineCodeCoverage";
         private readonly IServiceProvider _serviceProvider;

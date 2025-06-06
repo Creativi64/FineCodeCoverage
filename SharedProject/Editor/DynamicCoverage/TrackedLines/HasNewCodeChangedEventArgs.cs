@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class HasNewCodeChangedEventArgs : EventArgs
+    internal sealed class HasNewCodeChangedEventArgs : EventArgs
     {
         public HasNewCodeChangedEventArgs(string filePath, bool hasNewCode)
         {

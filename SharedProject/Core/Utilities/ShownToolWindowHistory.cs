@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Core.Utilities
 {
     [Export(typeof(IShownToolWindowHistory))]
     [Export(typeof(IAppDataFolderPathDependent))]
-    internal class ShownToolWindowHistory : IShownToolWindowHistory, IAppDataFolderPathDependent
+    internal sealed class ShownToolWindowHistory : IShownToolWindowHistory, IAppDataFolderPathDependent
     {
         private readonly IFileUtil _fileUtil;
         private bool _hasShownToolWindow;

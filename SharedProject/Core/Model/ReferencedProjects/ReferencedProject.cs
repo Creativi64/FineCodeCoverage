@@ -5,7 +5,7 @@ using FineCodeCoverage.Core.Utilities;
 
 namespace FineCodeCoverage.Engine.Model
 {
-    internal class ReferencedProject : IExcludableReferencedProject
+    internal sealed class ReferencedProject : IExcludableReferencedProject
     {
         internal const string ExcludeFromCodeCoveragePropertyName = "FCCExcludeFromCodeCoverage";
         private readonly string _projectPath;

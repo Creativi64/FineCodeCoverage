@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Editor.Management
 {
-    internal class CoverageColoursChangedMessage
+    internal sealed class CoverageColoursChangedMessage
     {
     }
 }

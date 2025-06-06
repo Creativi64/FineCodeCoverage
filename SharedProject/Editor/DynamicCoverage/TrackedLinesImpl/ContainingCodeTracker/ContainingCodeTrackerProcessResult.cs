@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class ContainingCodeTrackerProcessResult : IContainingCodeTrackerProcessResult
+    internal sealed class ContainingCodeTrackerProcessResult : IContainingCodeTrackerProcessResult
     {
         public ContainingCodeTrackerProcessResult(
             IEnumerable<int> changedLines,

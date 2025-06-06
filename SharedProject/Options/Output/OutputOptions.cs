@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Options
     /*
         Note that option properties must not be renamed
     */
-    internal class OutputOptions
+    internal sealed class OutputOptions
     {
         [Description("To have fcc output visible in a sub folder of your solution provide this name")]
         [Category(CommonCategories.Common)]

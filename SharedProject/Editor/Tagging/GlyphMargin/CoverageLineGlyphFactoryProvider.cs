@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     [Order(Before = "VsTextMarker")]
     [Name(Vsix.GlyphFactoryProviderName)]
     [Export(typeof(IGlyphFactoryProvider))]
-    internal class CoverageLineGlyphFactoryProvider : IGlyphFactoryProvider
+    internal sealed class CoverageLineGlyphFactoryProvider : IGlyphFactoryProvider
     {
         public IGlyphFactory GetGlyphFactory(IWpfTextView textView, IWpfTextViewMargin textViewMargin)
             => new CoverageLineGlyphFactory();

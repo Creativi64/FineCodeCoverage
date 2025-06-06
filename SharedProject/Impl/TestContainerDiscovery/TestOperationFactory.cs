@@ -6,7 +6,7 @@ using ReflectObject;
 namespace FineCodeCoverage.Impl
 {
     [Export(typeof(ITestOperationFactory))]
-    internal class TestOperationFactory : ITestOperationFactory
+    internal sealed class TestOperationFactory : ITestOperationFactory
     {
         private readonly ICoverageProjectFactory _coverageProjectFactory;
         private readonly IRunSettingsRetriever _runSettingsRetriever;

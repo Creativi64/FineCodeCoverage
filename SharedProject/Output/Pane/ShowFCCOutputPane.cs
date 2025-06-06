@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace FineCodeCoverage.Output.Pane
 {
     [Export(typeof(IShowFCCOutputPane))]
-    internal class ShowFCCOutputPane : IShowFCCOutputPane
+    internal sealed class ShowFCCOutputPane : IShowFCCOutputPane
     {
         private readonly IFCCOutputWindowPaneCreator _fccOutputWindowCreator;
 

@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
     [Export(typeof(ITUnitProjectsProvider))]
-    internal class TUnitProjectsProvider : ITUnitProjectsProvider
+    internal sealed class TUnitProjectsProvider : ITUnitProjectsProvider
     {
         private readonly List<IVsHierarchy> _addedProjects = new List<IVsHierarchy>();
         private readonly ISolutionProjectsProvider _solutionProjectsProvider;
@@ -92,7 +92,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
             }
         }
 
-        private class CpsProjectAndHierarchy
+        private sealed class CpsProjectAndHierarchy
         {
             public CpsProjectAndHierarchy(ConfiguredProject cpsProject, IVsHierarchy hierarchy)
             {

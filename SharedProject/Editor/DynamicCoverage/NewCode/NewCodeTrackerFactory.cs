@@ -5,7 +5,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(INewCodeTrackerFactory))]
-    internal class NewCodeTrackerFactory : INewCodeTrackerFactory
+    internal sealed class NewCodeTrackerFactory : INewCodeTrackerFactory
     {
         private readonly ITrackedNewCodeLineFactory _trackedNewCodeLineFactory;
         private readonly ITextInfoFactory _textInfoFactory;

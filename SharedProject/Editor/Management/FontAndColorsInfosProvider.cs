@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Editor.Management
 {
     [Export(typeof(ICoverageColoursProvider))]
     [Export(typeof(IFontAndColorsInfosProvider))]
-    internal class FontAndColorsInfosProvider : ICoverageColoursProvider, IFontAndColorsInfosProvider
+    internal sealed class FontAndColorsInfosProvider : ICoverageColoursProvider, IFontAndColorsInfosProvider
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IFontsAndColorsHelper _fontsAndColorsHelper;
@@ -37,7 +37,7 @@ namespace FineCodeCoverage.Editor.Management
             public int Index { get; }
         }
 
-        private class CategoryNameIndices
+        private sealed class CategoryNameIndices
         {
             public CategoryNameIndices(Guid category) => Category = category;
 

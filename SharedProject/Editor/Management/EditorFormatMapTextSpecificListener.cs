@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text.Classification;
 namespace FineCodeCoverage.Editor.Management
 {
     [Export(typeof(IEditorFormatMapTextSpecificListener))]
-    internal class EditorFormatMapTextSpecificListener : IEditorFormatMapTextSpecificListener
+    internal sealed class EditorFormatMapTextSpecificListener : IEditorFormatMapTextSpecificListener
     {
         private List<string> _keys;
         private Action _callback;

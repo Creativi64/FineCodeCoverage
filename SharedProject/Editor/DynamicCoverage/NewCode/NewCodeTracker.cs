@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {
-    internal class NewCodeTracker : INewCodeTracker
+    internal sealed class NewCodeTracker : INewCodeTracker
     {
         private readonly List<ITrackedNewCodeLine> _trackedNewCodeLines = new List<ITrackedNewCodeLine>();
         private readonly ITrackedNewCodeLineFactory _trackedNewCodeLineFactory;

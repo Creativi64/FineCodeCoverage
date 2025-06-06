@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {
-    internal class BuildStartEnd : IVsUpdateSolutionEvents
+    internal sealed class BuildStartEnd : IVsUpdateSolutionEvents
     {
         public event EventHandler<BuildStartEndArgs> BuildEvent;
 
