@@ -1,5 +1,8 @@
 ﻿namespace FineCodeCoverage
 {
+    /// <summary>
+    /// Constants for the Fine Code Coverage extension.
+    /// </summary>
     internal sealed partial class Vsix
     {
         public const string Code = "FineCodeCoverage";

@@ -14,19 +14,10 @@ namespace FineCodeCoverage.Wpf
         private static readonly DependencyProperty s_originalBackgroundProperty = DependencyProperty.RegisterAttached("OriginalBackground", typeof(object), typeof(Themes));
         private static readonly DependencyProperty s_originalForegroundProperty = DependencyProperty.RegisterAttached("OriginalForeground", typeof(object), typeof(Themes));
 
-        /// <summary>
-        /// The property to add to your XAML control.
-        /// </summary>
         public static readonly DependencyProperty UseVsThemeProperty = DependencyProperty.RegisterAttached("UseVsTheme", typeof(bool), typeof(Themes), new PropertyMetadata(false, UseVsThemePropertyChanged));
 
-        /// <summary>
-        /// Sets the UseVsTheme property.
-        /// </summary>
         public static void SetUseVsTheme(UIElement element, bool value) => element.SetValue(UseVsThemeProperty, value);
 
-        /// <summary>
-        /// Gets the UseVsTheme property from the specified element.
-        /// </summary>
         public static bool GetUseVsTheme(UIElement element) => (bool)element.GetValue(UseVsThemeProperty);
 
         private static void UseVsThemePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

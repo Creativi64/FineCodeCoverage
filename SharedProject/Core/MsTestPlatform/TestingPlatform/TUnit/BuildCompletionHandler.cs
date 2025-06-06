@@ -14,9 +14,6 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public BuildCompletionHandler(CancellationToken cancellationToken)
             => _registration = cancellationToken.Register(() => _tcs.TrySetCanceled());
 
-        /// <summary>
-        /// Task that completes when the build finishes.
-        /// </summary>
         public Task<bool> BuildCompleted => _tcs.Task;
 
         public int UpdateSolution_Begin(ref int pfCancelUpdate) => VSConstants.S_OK;

@@ -24,9 +24,6 @@ namespace FineCodeCoverage.Output
     [Guid("320fd13f-632f-4b16-9527-a1adfe555f6c")]
     internal class ReportToolWindow : ToolWindowPane
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReportToolWindow"/> class.
-        /// </summary>
         public ReportToolWindow(ReportToolWindowContext context)
             : base(null) => Initialize(context);
 
