@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Media;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Shell;
@@ -10,11 +11,11 @@ namespace FineCodeCoverage.Wpf
     {
         private static readonly Dictionary<string, Dictionary<ThemeResourceKey, Color>> s_themeColors = new Dictionary<string, Dictionary<ThemeResourceKey, Color>>();
 
-        static ThemeService() => LoadThemes(@"C:\Users\tonyh\Downloads\themes.xml");
+        static ThemeService() => LoadThemes();
 
-        private static void LoadThemes(string path)
+        private static void LoadThemes()
         {
-            var root = XElement.Load(path);
+            XElement root = GetThemesElement();
             foreach (XElement themeElement in root.Elements())
             {
                 string themeName = themeElement.Attribute("Name").Value;
@@ -30,6 +31,17 @@ namespace FineCodeCoverage.Wpf
                 }
 
                 s_themeColors.Add(themeName, themeColors);
+            }
+        }
+
+        private static Stream GetManifestResourceStream()
+            => typeof(ThemeService).Assembly.GetManifestResourceStream("FineCodeCoverage.DesignTime.themes.xml");
+
+        private static XElement GetThemesElement()
+        {
+            using (Stream stream = GetManifestResourceStream())
+            {
+                return stream == null ? throw new InvalidOperationException("Could not find the themes resource file.") : XElement.Load(stream);
             }
         }
 
