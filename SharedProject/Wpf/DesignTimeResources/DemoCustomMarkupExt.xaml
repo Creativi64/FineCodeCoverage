@@ -9,10 +9,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     fccWpf:VsDesignTimeColors.ThemeName="Dark"
+    Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
+    vs:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelColorKey}}"
     >
     <StackPanel>
-    <TextBlock x:Name="TB" Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
-Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}">Hello</TextBlock>
+        <TextBlock x:Name="TB" Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+    >Hello</TextBlock>
         <fccWpf:Crispy Moniker="{x:Static catalog:KnownMonikers.MoveUp}"/>
     </StackPanel>
 </UserControl>

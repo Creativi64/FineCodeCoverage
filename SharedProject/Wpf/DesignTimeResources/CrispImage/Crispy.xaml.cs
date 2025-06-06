@@ -13,6 +13,11 @@ using Image = System.Windows.Controls.Image;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    /// A crisp image that can be used in design time resources.
+    /// Will at design time will replicate CrispImage functionality - see ImageLibraryLoader
+    /// This does work ! If it does not delete the .vs folder and restart vs
+    /// </summary>
     public partial class Crispy : ContentControl
     {
         public class ImageThemingColorChangedEventArgs : EventArgs
@@ -29,6 +34,7 @@ namespace FineCodeCoverage.Wpf
 
         static Crispy()
         {
+            // required as do not have access to DesignerProperties.GetIsInDesignMode
             s_isInDesignMode = DesignModeHelper.IsInDesignMode;
             if (!s_isInDesignMode)
             {
@@ -44,9 +50,9 @@ namespace FineCodeCoverage.Wpf
 
         public static readonly DependencyProperty MonikerProperty = CrispImage.MonikerProperty.AddOwner(
             typeof(Crispy),
-            new FrameworkPropertyMetadata(OnDependencyPropertyChanged));
+            new FrameworkPropertyMetadata(OnMonikerChanged));
 
-        private static void OnDependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnMonikerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!s_isInDesignMode)
             {
@@ -94,7 +100,10 @@ namespace FineCodeCoverage.Wpf
 
         private void SetupDesignTimeCrispImage()
         {
-            WeakEventManager<Crispy, ImageThemingColorChangedEventArgs>.AddHandler(null, nameof(Crispy.ImageThemingColorChanged), Crispy_ImageThemingColorChanged);
+            WeakEventManager<Crispy, ImageThemingColorChangedEventArgs>.AddHandler(
+                null,
+                nameof(Crispy.ImageThemingColorChanged),
+                DesignTimeImageThemingColorChanged);
 
             SetImage();
             SetImageSource();
@@ -136,12 +145,20 @@ namespace FineCodeCoverage.Wpf
 
         private Color GetColor() => (Color)GetValue(ImageThemingUtilities.ImageBackgroundColorProperty);
 
-        private void Crispy_ImageThemingColorChanged(object sender, ImageThemingColorChangedEventArgs e) => SetImageSource();
+        private void DesignTimeImageThemingColorChanged(object sender, ImageThemingColorChangedEventArgs e) => SetImageSource();
+
+        private bool IsDefaultMoniker() => Moniker.Guid == Guid.Empty && Moniker.Id == 0;
 
         private void SetImageSource()
         {
-            var imageSource = (ImageSource)ImageLibraryLoader.Default.GetImage(Moniker, GetImageAttributes());
-            _image.Source = imageSource;
+
+            if (IsDefaultMoniker())
+            {
+                return;
+            }
+
+            object img = ImageLibraryLoader.Default.GetImage(Moniker, GetImageAttributes());
+            _image.Source = (ImageSource)img;
         }
 
         private static uint ConvertColor(Color color) => (uint)(color.R | (color.G << 8) | (color.B << 16)); // | (color.A << 24));

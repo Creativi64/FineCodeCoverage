@@ -831,15 +831,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridSelectionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemesResourceDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\VsDesignTimeColors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DesignModeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\DesignModeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DesignTimeImageThemingUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DemoCustomMarkupExt.xaml.cs">
       <DependentUpon>DemoCustomMarkupExt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\ImageLibraryLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\ImageLibraryLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeResourceKeyTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\VsInstallationPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\VsInstallationPath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
@@ -999,7 +999,7 @@
     <Resource Include="$(MSBuildThisFileDirectory)Resources\OutputToolWindowPackage.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)DesignTime\themes.xml"/>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)DesignTime\themes.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />

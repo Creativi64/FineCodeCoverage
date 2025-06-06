@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace FineCodeCoverage.Wpf
 {
-    public partial class VsImageButtonX : ContentControl
+    public class VsImageButtonX : ContentControl
     {
         static VsImageButtonX() => DefaultStyleKeyProperty.OverrideMetadata(
             typeof(VsImageButtonX),

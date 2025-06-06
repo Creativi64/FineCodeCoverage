@@ -7,6 +7,9 @@ using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Wpf
 {
+    /// <summary>
+    ///     Replicates image library loading functionality of CrispImage.
+    /// </summary>
     public static class ImageLibraryLoader
     {
         private static readonly string[] s_separator = new string[] { "|" };
@@ -36,16 +39,22 @@ namespace FineCodeCoverage.Wpf
 
         private static ImageLibrary GetImageLibrary(string manifestsOrDirectories)
         {
-            string[] manifests = manifestsOrDirectories.Split(s_separator, StringSplitOptions.RemoveEmptyEntries);
-            var imageManifests = manifests.Where(m => m.EndsWith(".imagemanifest")).ToList();
-            List<string> directories = string.IsNullOrEmpty(manifestsOrDirectories) ?
-                DefaultDirectories : manifests.Except(imageManifests).ToList();
-            AddImageManifests(directories, imageManifests);
+            List<string> imageManifests = GetImageManifests(manifestsOrDirectories);
 #pragma warning disable VSSDK005 // Avoid instantiating JoinableTaskContext
             JoinableTaskFactory fakeJoinableTaskFactory = new JoinableTaskContext().Factory;
 #pragma warning restore VSSDK005 // Avoid instantiating JoinableTaskContext
 
             return ImageLibrary.Load(fakeJoinableTaskFactory, imageManifests, false, null);
+        }
+
+        private static List<string> GetImageManifests(string manifestsOrDirectories)
+        {
+            string[] manifests = manifestsOrDirectories.Split(s_separator, StringSplitOptions.RemoveEmptyEntries);
+            var imageManifests = manifests.Where(m => m.EndsWith(".imagemanifest")).ToList();
+            List<string> directories = string.IsNullOrEmpty(manifestsOrDirectories) ?
+                DefaultDirectories : manifests.Except(imageManifests).ToList();
+            AddImageManifests(directories, imageManifests);
+            return imageManifests;
         }
 
         private static void AddImageManifests(List<string> directories, List<string> imageManifests)
@@ -57,7 +66,7 @@ namespace FineCodeCoverage.Wpf
                     var directoryInfo = new DirectoryInfo(directory);
                     if (directoryInfo.Exists)
                     {
-                        imageManifests.AddRange(GetImageManifests(directoryInfo.FullName));
+                        imageManifests.AddRange(GetImageManifestDescendants(directoryInfo.FullName));
                     }
                 }
                 catch
@@ -66,7 +75,7 @@ namespace FineCodeCoverage.Wpf
             }
         }
 
-        private static IEnumerable<string> GetImageManifests(string path)
+        private static IEnumerable<string> GetImageManifestDescendants(string path)
             => Directory.EnumerateFiles(path, "*.imagemanifest", SearchOption.AllDirectories);
     }
 }
