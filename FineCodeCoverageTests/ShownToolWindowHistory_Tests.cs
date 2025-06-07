@@ -14,14 +14,14 @@ namespace FineCodeCoverageTests
     internal class ShownToolWindowHistory_Tests
     {
         private AutoMoqer mocker;
-        private ShownToolWindowHistory shownToolWindowHistory;
+        private ShownReportToolWindowHistory shownToolWindowHistory;
         private string markerFilePath;
 
         [SetUp]
         public async Task SetUpAsync()
         {
             mocker = new AutoMoqer();
-            shownToolWindowHistory = mocker.Create<ShownToolWindowHistory>();
+            shownToolWindowHistory = mocker.Create<ShownReportToolWindowHistory>();
             await shownToolWindowHistory.InitializeAsync("AppDataFolderPath", CancellationToken.None);
             markerFilePath = Path.Combine("AppDataFolderPath", "outputWindowInitialized");
         }
@@ -29,7 +29,7 @@ namespace FineCodeCoverageTests
         [Test]
         public void Should_Be_IAppDataFolderPathDependent()
         {
-            Assert.That(MEFExportHelper.IsAndExports<ShownToolWindowHistory, IAppDataFolderPathDependent>(), Is.True);
+            Assert.That(MEFExportHelper.IsAndExports<ShownReportToolWindowHistory, IAppDataFolderPathDependent>(), Is.True);
         }
 
         [Test]

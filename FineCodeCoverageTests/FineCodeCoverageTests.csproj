@@ -63,6 +63,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cobertura\Class.cs" />
+    <Compile Include="Cobertura\CoberturaReport.cs" />
+    <Compile Include="Cobertura\Condition.cs" />
+    <Compile Include="Cobertura\Conditions.cs" />
+    <Compile Include="Cobertura\Line.cs" />
+    <Compile Include="Cobertura\Method.cs" />
+    <Compile Include="Cobertura\Package.cs" />
+    <Compile Include="Cobertura\Sources.cs" />
     <Compile Include="Readme_Tests.cs" />
     <Compile Include="CoverageProjectSettingsManager_Tests.cs" />
     <Compile Include="CoverageProjectSettingsProvider_Tests.cs" />

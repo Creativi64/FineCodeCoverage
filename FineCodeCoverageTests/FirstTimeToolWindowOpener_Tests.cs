@@ -30,7 +30,7 @@ namespace FineCodeCoverageTests
             )
         {
             mocker.GetMock<IInitializedFromTestContainerDiscoverer>().Setup(x => x.InitializedFromTestContainerDiscoverer).Returns(initializedFromTestContainerDiscoverer);
-            mocker.GetMock<IShownToolWindowHistory>().Setup(x => x.HasShownToolWindow).Returns(hasShownToolWindow);
+            mocker.GetMock<IShownReportToolWindowHistory>().Setup(x => x.HasShownToolWindow).Returns(hasShownToolWindow);
 
             await firstTimeToolWindowOpener.OpenIfFirstTimeAsync(CancellationToken.None);
 

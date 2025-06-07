@@ -1,13 +1,11 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Cobertura;
+﻿using Cobertura;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.ReportGenerator;
 using Moq;
-using NUnit.Framework;
 using Palmmedia.ReportGenerator.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;

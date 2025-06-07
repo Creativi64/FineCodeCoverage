@@ -75,7 +75,7 @@ namespace FineCodeCoverageTests
         public async Task Should_Execute_OpenCover_With_The_Provided_Arguments_When_RunOpenCoverAsync(bool useCustomExe)
         {
             var ct = CancellationToken.None;
-            mocker.Setup<IMsTestPlatformUtil, string>(msTestPlatformUtil => msTestPlatformUtil.MsTestPlatformExePath).Returns("MsTestPlatformExePath");
+            mocker.Setup<IVsTestInstaller, string>(msTestPlatformUtil => msTestPlatformUtil.InstallPath).Returns("MsTestPlatformExePath");
             var mockProcessUtil = mocker.GetMock<IProcessUtil>();
             mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse());
 
@@ -107,7 +107,7 @@ namespace FineCodeCoverageTests
             var ct = CancellationToken.None;
             mocker.Setup<IOpenCoverExeArgumentsProvider, List<string>>(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(
                 It.IsAny<ICoverageProject>(), It.IsAny<string>())).Returns(new List<string>());
-            mocker.Setup<IMsTestPlatformUtil, string>(msTestPlatformUtil => msTestPlatformUtil.MsTestPlatformExePath).Returns("MsTestPlatformExePath");
+            mocker.Setup<IVsTestInstaller, string>(msTestPlatformUtil => msTestPlatformUtil.InstallPath).Returns("MsTestPlatformExePath");
             var mockProcessUtil = mocker.GetMock<IProcessUtil>();
             mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse
             {
