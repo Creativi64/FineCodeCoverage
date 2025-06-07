@@ -25,6 +25,6 @@ namespace FineCodeCoverage.Engine.Model
             </PropertyGroup>
         */
         private static XElement ProjectSettingsElementFromFCCLabelledPropertyGroup(
-            ICoverageProject coverageProject) => coverageProject.ProjectFileXElement.XPathSelectElement($"/PropertyGroup[@Label='{Vsix.Code}']");
+            ICoverageProject coverageProject) => coverageProject.ProjectFileXElement.XPathSelectElement($"/PropertyGroup[@Label='FineCodeCoverage']");
     }
 }

@@ -13,6 +13,7 @@ namespace FineCodeCoverage.Options
         IDialogPageOptionsProvider<TOptions>
         where TOptions : class, new()
     {
+        private const string CollectionName = "FineCodeCoverage";
         private readonly ILogger _logger;
         private readonly IWritableUserSettingsStoreProvider _writableUserSettingsStoreProvider;
         private readonly IJsonConvertService _jsonConvertService;
@@ -47,9 +48,9 @@ namespace FineCodeCoverage.Options
         private WritableSettingsStore EnsureStore()
         {
             WritableSettingsStore settingsStore = _writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
-            if (!settingsStore.CollectionExists(Vsix.Code))
+            if (!settingsStore.CollectionExists(CollectionName))
             {
-                settingsStore.CreateCollection(Vsix.Code);
+                settingsStore.CreateCollection(CollectionName);
             }
 
             return settingsStore;
@@ -64,12 +65,12 @@ namespace FineCodeCoverage.Options
             {
                 try
                 {
-                    if (!settingsStore.PropertyExists(Vsix.Code, property.Name))
+                    if (!settingsStore.PropertyExists(CollectionName, property.Name))
                     {
                         continue;
                     }
 
-                    string strValue = settingsStore.GetString(Vsix.Code, property.Name);
+                    string strValue = settingsStore.GetString(CollectionName, property.Name);
 
                     if (string.IsNullOrWhiteSpace(strValue))
                     {
@@ -117,7 +118,7 @@ namespace FineCodeCoverage.Options
                     object objValue = property.GetValue(_options);
                     string strValue = _jsonConvertService.SerializeObject(objValue);
 
-                    settingsStore.SetString(Vsix.Code, property.Name, strValue);
+                    settingsStore.SetString(CollectionName, property.Name, strValue);
                 }
                 catch (Exception exception)
                 {

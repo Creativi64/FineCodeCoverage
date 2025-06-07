@@ -18,7 +18,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     [ContentType(CPPCoverageContentType.ContentType)]
     [ContentType(BlazorCoverageContentType.ContentType)]
     [TagType(typeof(CoverageLineGlyphTag))]
-    [Name(Vsix.TaggerProviderName)]
+    [Name("FineCodeCoverage.TaggerProvider")]
     [Export(typeof(IViewTaggerProvider))]
     internal sealed class CoverageLineGlyphTaggerProvider : IViewTaggerProvider, ILineSpanTagger<CoverageLineGlyphTag>
     {

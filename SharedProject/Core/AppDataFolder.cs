@@ -67,7 +67,7 @@ namespace FineCodeCoverage.Engine
 
         private async Task CreateAppDataFolderAsync()
         {
-            DirectoryPath = Path.Combine(GetAppDataFolder(), Vsix.Code);
+            DirectoryPath = Path.Combine(GetAppDataFolder(), "FineCodeCoverage");
             await CleanInstallDevAsync();
             _ = Directory.CreateDirectory(DirectoryPath);
         }

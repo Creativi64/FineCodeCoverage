@@ -21,7 +21,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Impl
 {
-    [Name(Vsix.TestContainerDiscovererName)]
+    [Name("FineCodeCoverage.TestContainerDiscoverer")]
 
     // Both exports necessary !
     [Export(typeof(TestContainerDiscoverer))]
@@ -47,7 +47,7 @@ namespace FineCodeCoverage.Impl
         private int _coverageRunNumber = 1;
 
         [ExcludeFromCodeCoverage]
-        public Uri ExecutorUri => new Uri($"executor://{Vsix.Code}.Executor/v1");
+        public Uri ExecutorUri => new Uri($"executor://FineCodeCoverage.Executor/v1");
 
         [ExcludeFromCodeCoverage]
         public IEnumerable<ITestContainer> TestContainers => Enumerable.Empty<ITestContainer>();

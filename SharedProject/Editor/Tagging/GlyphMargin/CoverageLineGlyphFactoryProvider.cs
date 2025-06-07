@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Editor.Tagging.GlyphMargin
     [ContentType(BlazorCoverageContentType.ContentType)]
     [TagType(typeof(CoverageLineGlyphTag))]
     [Order(Before = "VsTextMarker")]
-    [Name(Vsix.GlyphFactoryProviderName)]
+    [Name("FineCodeCoverage.GlyphFactoryProvider")]
     [Export(typeof(IGlyphFactoryProvider))]
     internal sealed class CoverageLineGlyphFactoryProvider : IGlyphFactoryProvider
     {
