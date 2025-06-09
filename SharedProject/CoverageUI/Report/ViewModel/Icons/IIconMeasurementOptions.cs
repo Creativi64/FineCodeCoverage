@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace FineCodeCoverage.Output
 {
-    internal interface IIconsOptions
+    internal interface IIconMeasurementOptions
     {
         event EventHandler ShowIconsChanged;
 
@@ -12,9 +12,5 @@ namespace FineCodeCoverage.Output
         bool ShowIcons { get; }
 
         int IconSize { get; }
-
-        bool Monochrome { get; }
-
-        Color MonochromeColor { get; }
     }
 }

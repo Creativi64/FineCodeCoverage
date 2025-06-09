@@ -8,8 +8,8 @@ using WpfHelpers;
 
 namespace FineCodeCoverage.Output
 {
-    [Export(typeof(IIconsOptions))]
-    internal sealed class IconsViewModel : ObservableBase, IIconsOptions
+    [Export(typeof(IIconMeasurementOptions))]
+    internal sealed class IconsViewModel : ObservableBase, IIconMeasurementOptions
     {
         private bool _showIcons;
         private int _iconSize;

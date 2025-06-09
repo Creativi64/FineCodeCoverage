@@ -352,24 +352,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\ICommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\IPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\IVsOutputWindowPaneExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\BrushToSolidColorBrushConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoveragePercentageBar.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\WpfConverters\BrushToSolidColorBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBar.xaml.cs">
       <DependentUpon>CoveragePercentageBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoveragePercentageBarBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBarBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Report\CoveragePercentageBarDisplayParts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoverageTooltipTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoverageTooltipViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\DefaultLineBrushCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\ILineBrushCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\SizeOrMultiplierConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoverageTooltipTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoverageTooltipViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\DefaultLineBrushCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\ILineBrushCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\SizeOrMultiplierConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Colors\VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ImageThemingUtilitiesX.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\IReportColumnData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\PercentageConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\IReportColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\WpfConverters\PercentageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\DirectoryResultsTreeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Hotspots\HotspotsWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\ReportGenerator\Palmmedia\HtmlFilesToFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\ReportGenerator\IFCCReportGenerator.cs" />
@@ -642,12 +642,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ICoverageCollectableFromTestExplorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\SettingsStore\IReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\SettingsStore\ReadOnlyUserSettingsStoreProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ClearReportMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ClearReportMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\ShowReportViewCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\EditColumnsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CollectTUnitCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\IUiClearer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UI\IUiClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\Logging\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\RunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\Container.cs" />
@@ -696,55 +696,55 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\ShowFCCOutputPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\Logging\StatusMarkerProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ColumnsManagementUserControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementUserControl.xaml.cs">
       <DependentUpon>ColumnsManagementUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ColumnsManagementWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ColumnsManagementWindow2.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow2.xaml.cs">
       <DependentUpon>ColumnsManagementWindow2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\EditableColumn.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ReportColumnsManagementViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ReportColumnsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\IDirectory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\ISourceFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\Report.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\SourceFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\SourceFileClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportHeader\ReportHeaderBrushesViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportHeader\ReportHeaderBrushesViewModelProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeExpander.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\RootDirectoryTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\TotalTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Repo\Changeset.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Repo\IChangeset.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Repo\GitRepo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Repo\GitService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Repo\IGitRepo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Repo\IGitService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ShowIcons\IIconsOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ShowIcons\IconsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ShowIcons\IconsViewModelProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\IReportViewSelectorModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\IReportViewSolutionOption.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportContentType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportContentTypeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportStyleViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewChangedEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewSelectorWindow.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\EditableColumn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ReportColumnsManagementViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\IDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\ISourceFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\Report.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\SourceFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\SourceFileClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportHeader\ReportHeaderBrushesViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportHeader\ReportHeaderBrushesViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportTreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\RootDirectoryTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\TotalTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\Changeset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\IChangeset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\GitRepo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\GitService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\IGitRepo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\IGitService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\Icons\IIconMeasurementOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\Icons\IconsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\Icons\IconsViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViewSelectorModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViewSolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportContentTypeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportStyleViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorWindow.xaml.cs">
       <DependentUpon>ReportViewSelectorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\IReportViews.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\IReportViewService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViews.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewSelectorViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewSolutionOption.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewSolutionOptionValue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ZeroToVisibilityConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\UIClearer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSolutionOptionValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\WpfConverters\ZeroToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UI\UIClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Markdig\MarkdigExtended\MarkdigExtensions\BlockProcessorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigExtensionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Markdig\MarkdigExtended\MarkdigExtensions\TruncateBlock.cs" />
@@ -836,42 +836,42 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnStatesStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\IColumnStatesStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\IReportColumnManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\IReportColumnsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\IReportTreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ColumnStatesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\IColumnStatesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\IReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\IReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\IReportTreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\ReflectionMEFToolWindowContextProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\MetricColumnData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportColumnData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportColumnManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportColumnState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportToolWindowControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\MetricColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ReportColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ReportColumnState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindowControl.xaml.cs">
       <DependentUpon>ReportToolWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\AssemblyTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\ClassTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\CodeElementTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\DirectoryTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\NamespaceTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\ReportTreeItemBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\SourceFileTreeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\VisualStudioTreeItemBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportTreeItems\ThemedTreeGridColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\AssemblyTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\ClassTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\CodeElementTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\DirectoryTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\NamespaceTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\ReportTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\SourceFileTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\VisualStudioTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\ThemedTreeGridColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\ToggleCoverageIndicatorsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\OpenHotspotsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\OpenCoberturaCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\ClearUICommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Messages\NewReportMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportToolWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\OpenReportWindowCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportToolWindowContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\IShownReportToolWindowHistory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ShownReportToolWindowHistory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\History\IShownReportToolWindowHistory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\History\ShownReportToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\IndicatorVisibility\ToggleCoverageIndicatorsMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\TreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\ToolWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ImageLibrary\TraceImageLibraryRegistrationAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IShowReadMeService.cs" />
@@ -908,23 +908,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ColumnsManagementUserControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ColumnsManagementWindow2.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\CoveragePercentageBar.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportToolWindowControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\View\ReportViewSelectorWindow.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -996,9 +996,15 @@
     <Folder Include="$(MSBuildThisFileDirectory)Collection\Runners\" />
     <Folder Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Collection\VsTest\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\" />
     <Folder Include="$(MSBuildThisFileDirectory)Feedback\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Hotspots\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\History\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Events\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Colors\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Services\" />
@@ -1027,7 +1033,7 @@
       <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ColumnsManagement\ColumnsManagementDataTemplate.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementDataTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

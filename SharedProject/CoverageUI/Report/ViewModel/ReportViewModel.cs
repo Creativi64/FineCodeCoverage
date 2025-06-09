@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Output
         private readonly ISourceFileOpener _sourceFileOpener;
         private readonly IReportTreeExpander _treeExpander;
         private readonly IReportViews _reportViews;
-        private readonly IIconsOptions _iconsOptions;
+        private readonly IIconMeasurementOptions _iconsOptions;
         private bool _coverageRunning;
         private ReportTotalRow _reportTotalRow;
         private bool _rootDirectoryNameFromPath;
@@ -42,7 +42,7 @@ namespace FineCodeCoverage.Output
             IReportTreeExpander treeExpander,
             IReportColumnManager reportColumnManager,
             IReportViews reportViews,
-            IIconsOptions iconsOptions,
+            IIconMeasurementOptions iconsOptions,
             IOptionsProvider<ReportOptions> reportOptionsProvider)
         {
             ReportOptions reportOptions = reportOptionsProvider.Get();
