@@ -254,16 +254,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\FaultEventName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\FCCFaultEventName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\IBuildFaultEventNameFromFeatureHierarchy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Themes\ThemeChangedWeakEventManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ThemeChangedWeakEventManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ThemeResourceKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\ToolZip\ZipDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Wrappers\TypeDescriptorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Files\VsOpenFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\VsThemeLifetimeCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Themes\VsColorThemeService\ColorName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Themes\VsColorThemeService\IVsColorTheme.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Themes\VsColorThemeService\VsColorEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Themes\VsColorThemeService\VsColorTheme.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsThemeLifetimeCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\ColorName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\IVsColorTheme.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\VsColorEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\VsColorTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\IJoinableTaskFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\ProductFaultEventNameBuilder.cs" />
@@ -365,8 +365,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\DefaultLineBrushCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\ILineBrushCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\SizeOrMultiplierConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\CoverageBar\VisualStudioNotificationColors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ImageThemingUtilitiesX.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Colors\VisualStudioNotificationColors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ImageThemingUtilitiesX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\IReportColumnData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\PercentageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\Report Model\DirectoryResultsTreeBuilder.cs" />
@@ -429,7 +429,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\ISolutionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\SolutionOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\SolutionOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Themes\VsColorThemeService\SVsColorThemeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\SVsColorThemeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Wrappers\SystemEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\ToolZip\IToolFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\ToolZip\IToolUnzipper.cs" />
@@ -868,8 +868,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\OpenReportWindowCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ReportToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\IShownReportToolWindowHistory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\ShownReportToolWindowHistory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\IShownReportToolWindowHistory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ShownReportToolWindowHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Editor\IndicatorVisibility\ToggleCoverageIndicatorsMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report Window\TreeExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\ToolWindowService.cs" />
@@ -986,7 +986,7 @@
     <Resource Include="$(MSBuildThisFileDirectory)Vs\Package\Resources\OutputToolWindowPackage.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\themes.xml" LogicalName="themes.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\themes.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
@@ -999,9 +999,9 @@
     <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Editor\" />
     <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Editor\" />
     <Folder Include="$(MSBuildThisFileDirectory)Feedback\" />
-    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Hotspots\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Events\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\Colors\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Services\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Package\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Pane\" />
@@ -1017,7 +1017,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Settings\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\" />
     <Folder Include="$(MSBuildThisFileDirectory)Readme\Markdig\MarkdigExtended\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Themes\VsColorThemeService\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\Theming\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README-Template.md">
