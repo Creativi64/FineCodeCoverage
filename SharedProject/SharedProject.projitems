@@ -65,10 +65,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverletOpenCover\ICoverageUtilManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\IFCCEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Wrappers\IMessageBox.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Initialization\ClearSettingsOnShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\ClearSettingsOnShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\FirstTimeToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\IAppDataFolderPathDependent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Initialization\IClearSettingsOnShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\IClearSettingsOnShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\IFirstTimeToolWindowOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization\IInitializedFromTestContainerDiscoverer.cs" />
@@ -986,14 +986,13 @@
     <Resource Include="$(MSBuildThisFileDirectory)Vs\Package\Resources\OutputToolWindowPackage.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)DesignTime\themes.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\themes.xml" LogicalName="themes.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Collection\CoverletOpenCover\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Collection\MsTestPlatform\" />
     <Folder Include="$(MSBuildThisFileDirectory)Collection\Runners\" />
     <Folder Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Collection\VsTest\" />

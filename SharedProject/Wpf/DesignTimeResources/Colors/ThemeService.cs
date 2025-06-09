@@ -38,7 +38,7 @@ namespace FineCodeCoverage.Wpf
         }
 
         private static Stream GetManifestResourceStream()
-            => typeof(ThemeService).Assembly.GetManifestResourceStream("FineCodeCoverage.DesignTime.themes.xml");
+            => typeof(ThemeService).Assembly.GetManifestResourceStream("FineCodeCoverage.Wpf.DesignTimeResources.Colors.themes.xml");
 
         private static XElement GetThemesElement()
         {
