@@ -276,6 +276,14 @@
       <Analyzer Remove="$(NuGetPackageRoot)roslynator.codefixes\**\*" />
       <Analyzer Remove="$(NuGetPackageRoot)roslynator.refactorings\**\*" />
     </ItemGroup>
+    <ItemGroup>
+      <SharedCompile Include="@(Compile)" Condition="'%(DefiningProjectName)' != '$(MSBuildProjectName)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <CompilerVisibleItemMetadata Include="SharedCompile">
+        <MetadataName>FullPath</MetadataName>
+      </CompilerVisibleItemMetadata>
+    </ItemGroup>
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

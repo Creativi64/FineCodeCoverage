@@ -978,6 +978,19 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <!-- Remove all individual .cs includes -->
+    <Compile Remove="$(MSBuildThisFileDirectory)**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Attach DependentUpon metadata for .xaml.cs -->
+    <Compile Update="$(MSBuildThisFileDirectory)**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Vs\Package\VSPackage.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -990,39 +1003,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Collection\CoverletOpenCover\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Collection\Runners\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Collection\VsTest\" />
-    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
-    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
-    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
-    <Folder Include="$(MSBuildThisFileDirectory)CoverageUI\Report\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Editor\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Feedback\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Hotspots\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\History\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\UI\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Events\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Colors\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Services\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Package\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Pane\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Extensions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Caching\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Events\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Xml\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Unused\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Wrappers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Files\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Projects\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Settings\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Readme\Markdig\MarkdigExtended\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Theming\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README-Template.md">
