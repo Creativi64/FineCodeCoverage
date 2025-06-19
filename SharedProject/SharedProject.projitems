@@ -978,6 +978,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Remove="$(MSBuildThisFileDirectory)**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)**\*.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <!-- Remove all individual .cs includes -->
     <Compile Remove="$(MSBuildThisFileDirectory)**\*.cs" />
   </ItemGroup>
