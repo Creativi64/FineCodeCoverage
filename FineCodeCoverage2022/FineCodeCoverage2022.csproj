@@ -49,10 +49,6 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <ItemGroup>
-    <CompilerVisibleProperty Include="RootNamespace" />
-    <CompilerVisibleProperty Include="ProjectDir" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\Shared Files\FCCPackage.cs">
       <Link>FCCPackage.cs</Link>
       <AutoGen>True</AutoGen>
