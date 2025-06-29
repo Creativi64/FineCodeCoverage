@@ -1,6 +1,7 @@
-﻿using FineCodeCoverage.Readme;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FineCodeCoverage.Readme;
+using FineCodeCoverage.Readme.OptionPagesInfo;
 
 namespace GithubReadmeCreator
 {
