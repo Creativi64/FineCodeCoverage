@@ -1,6 +1,6 @@
 ﻿using Markdig.Syntax;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.Extensions
 {
     public class MarkerBlock : LeafBlock
     {

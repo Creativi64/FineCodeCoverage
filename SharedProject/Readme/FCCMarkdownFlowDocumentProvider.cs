@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Markdig;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
 namespace FineCodeCoverage.Readme
 {

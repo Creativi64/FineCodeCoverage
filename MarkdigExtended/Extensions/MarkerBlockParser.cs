@@ -1,19 +1,19 @@
 ﻿using Markdig.Parsers;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.Extensions
 {
     public class MarkerBlockParser : BlockParser
     {
         public MarkerBlockParser() => OpeningCharacters = new[] { '{' }; // trigger on `{`
 
-        private static string GetMarker(string text)
+        private static string? GetMarker(string text)
             => text.StartsWith("{{") && text.EndsWith("}}") ? text.Substring(2, text.Length - 4).Trim() : null;
 
         public override BlockState TryOpen(BlockProcessor processor)
         {
             Markdig.Helpers.StringSlice line = processor.Line;
             string text = line.ToString();
-            string marker = GetMarker(text);
+            var marker = GetMarker(text);
             if (marker != null)
             {
                 var block = new MarkerBlock(marker, this);

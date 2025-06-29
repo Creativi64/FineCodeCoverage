@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Documents;
+﻿using System.Windows.Documents;
 using Markdig.Renderers;
 using Markdig.Renderers.Wpf;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.Extensions
 {
     public class MarkerBlockRenderer : WpfObjectRenderer<MarkerBlock>
     {
@@ -23,7 +21,7 @@ namespace FineCodeCoverage.Readme
 
         protected override void Write(WpfRenderer renderer, MarkerBlock markerBlock)
         {
-            if (!_blockCreators.TryGetValue(markerBlock.Marker, out Func<IEnumerable<Block>> creator))
+            if (!_blockCreators.TryGetValue(markerBlock.Marker, out var creator))
             {
                 return;
             }

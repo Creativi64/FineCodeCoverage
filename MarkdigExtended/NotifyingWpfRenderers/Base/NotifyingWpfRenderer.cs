@@ -4,16 +4,15 @@ using System.Windows.Documents;
 using Markdig.Renderers;
 using Markdig.Syntax;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Base
 {
     public abstract class NotifyingWpfRenderer : WpfRenderer
     {
         private readonly List<ElementAndMarker> _elementAndMarkers = new List<ElementAndMarker>();
-        private List<INotifiyingObjectRenderer> _notifyingObjectRenderers;
 
         public IReadOnlyList<ElementAndMarker> ElementAndMarkers => _elementAndMarkers;
 
-        private void NotifyingObjectRenderer_CreatedEvent(object sender, List<ElementAndMarker> elementAndMarkers)
+        private void NotifyingObjectRenderer_CreatedEvent(object? sender, List<ElementAndMarker> elementAndMarkers)
             => _elementAndMarkers.AddRange(elementAndMarkers);
 
         public override void LoadDocument(FlowDocument document)
@@ -30,10 +29,13 @@ namespace FineCodeCoverage.Readme
                 notifyingObjectRenderer.CreatedEvent += NotifyingObjectRenderer_CreatedEvent;
             }
 
-            _notifyingObjectRenderers = notifyingObjectRenderers.ToList();
-            object rendered = base.Render(markdownObject);
-            _notifyingObjectRenderers.ForEach(notifyingObjectRenderer
-                => notifyingObjectRenderer.CreatedEvent -= NotifyingObjectRenderer_CreatedEvent);
+            var _notifyingObjectRenderers = notifyingObjectRenderers.ToList();
+            object rendered = base.Render(markdownObject)!;
+            foreach (INotifiyingObjectRenderer notifyingObjectRenderer in notifyingObjectRenderers)
+            {
+                notifyingObjectRenderer.CreatedEvent -= NotifyingObjectRenderer_CreatedEvent;
+            }
+
             return rendered;
         }
     }

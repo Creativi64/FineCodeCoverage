@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Readme
+﻿namespace MarkdigExtended.NotifyingWpfRenderers.Base
 {
     public class ElementAndMarker
     {

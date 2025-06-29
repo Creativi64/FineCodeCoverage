@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Wpf;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
 namespace FineCodeCoverage.Readme
 {

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using Markdig.Extensions.Tables;
 using Markdig.Renderers;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 using WpfTable = System.Windows.Documents.Table;
 using WpfTableCell = System.Windows.Documents.TableCell;
 using WpfTableColumn = System.Windows.Documents.TableColumn;
 using WpfTableRow = System.Windows.Documents.TableRow;
 using WpfTableRowGroup = System.Windows.Documents.TableRowGroup;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Renderers
 {
     public class TableRenderer : NotifyingObjectRenderer<Table>
     {

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows.Documents;
 using Markdig;
+using MarkdigExtended.Extensions;
 
 namespace FineCodeCoverage.Readme
 {

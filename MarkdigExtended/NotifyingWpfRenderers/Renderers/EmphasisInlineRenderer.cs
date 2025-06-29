@@ -1,13 +1,13 @@
-﻿using System;
-using System.Windows.Documents;
+﻿using System.Windows.Documents;
 using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Renderers
 {
     public class EmphasisInlineRenderer : NotifyingObjectRenderer<EmphasisInline>
     {
-        protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, EmphasisInline obj)
+        protected override ElementAndMarker? WriteAndReturn(WpfRenderer renderer, EmphasisInline obj)
         {
             if (renderer == null)
             {
@@ -21,10 +21,10 @@ namespace FineCodeCoverage.Readme
 
             MarkdownTypeMarker? markdownTypeMarker = null;
 
-            Span span = null;
+            Span? span = null;
             if (obj.DelimiterChar == '*' || obj.DelimiterChar == '_')
             {
-                span = obj.DelimiterCount == 2 ? (Span)new Bold() : new Italic();
+                span = obj.DelimiterCount == 2 ? new Bold() : new Italic();
             }
             else
             {
@@ -63,7 +63,7 @@ namespace FineCodeCoverage.Readme
                 renderer.WriteChildren(obj);
             }
 
-            return markdownTypeMarker.HasValue ? new ElementAndMarker(span, markdownTypeMarker.Value) : null;
+            return markdownTypeMarker.HasValue ? new ElementAndMarker(span!, markdownTypeMarker.Value) : null;
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Markdig.Renderers;
+﻿using Markdig.Renderers;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Base
 {
     public interface INotifiyingObjectRenderer : IMarkdownObjectRenderer
     {

@@ -1,13 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Renderers
 {
     public class LinkInlineRenderer : NotifyingObjectRenderer<LinkInline>
     {
@@ -36,9 +36,8 @@ namespace FineCodeCoverage.Readme
 
         private string GetUrl(LinkInline link)
         {
-            string url = link.GetDynamicUrl != null ? link.GetDynamicUrl() ?? link.Url : link.Url;
-
-            return !Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ? "#" : EnsureAbsolute(url);
+            var url = link.GetDynamicUrl != null ? link.GetDynamicUrl() ?? link.Url : link.Url;
+            return !Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ? "#" : EnsureAbsolute(url!);
         }
 
         protected override ElementAndMarker WriteAndReturn(WpfRenderer renderer, LinkInline link)
@@ -53,7 +52,7 @@ namespace FineCodeCoverage.Readme
                 throw new ArgumentNullException(nameof(link));
             }
 
-            string url = GetUrl(link);
+            var url = GetUrl(link);
             ElementAndMarker elementAndMarker;
             if (link.IsImage)
             {
@@ -63,7 +62,7 @@ namespace FineCodeCoverage.Readme
                     Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)),
                     Tag = altText,
                 };
-                ICommand command = null;
+                ICommand? command = null;
                 if (link.Parent is LinkInline urlLinkInline)
                 {
                     command = _navigateCommand;

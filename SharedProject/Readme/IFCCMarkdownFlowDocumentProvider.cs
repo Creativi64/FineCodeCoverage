@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
 namespace FineCodeCoverage.Readme
 {

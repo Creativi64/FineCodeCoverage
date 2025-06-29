@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Windows.Documents;
+﻿using System.Windows.Documents;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Base
 {
     public class FlowDocumentElementMarkers
     {

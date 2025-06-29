@@ -2,6 +2,7 @@
 using System.Windows.Documents;
 using Markdig;
 using Markdig.Renderers;
+using MarkdigExtended.Extensions;
 
 namespace FineCodeCoverage.Readme
 {

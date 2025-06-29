@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
 namespace FineCodeCoverage.Readme
 {

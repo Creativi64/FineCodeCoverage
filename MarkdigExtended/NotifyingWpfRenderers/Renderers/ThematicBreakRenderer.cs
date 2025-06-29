@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows.Documents;
+﻿using System.Windows.Documents;
 using Markdig.Renderers;
 using Markdig.Syntax;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Renderers
 {
     public class ThematicBreakRenderer : NotifyingObjectRenderer<ThematicBreakBlock>
     {

@@ -1,7 +1,7 @@
 ﻿using Markdig;
 using Markdig.Renderers;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.Extensions
 {
     public class TruncateExtension : IMarkdownExtension
     {

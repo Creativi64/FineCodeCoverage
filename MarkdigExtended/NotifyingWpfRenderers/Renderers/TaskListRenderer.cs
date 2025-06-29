@@ -1,10 +1,10 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Documents;
 using Markdig.Extensions.TaskLists;
 using Markdig.Renderers;
+using MarkdigExtended.NotifyingWpfRenderers.Base;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.NotifyingWpfRenderers.Renderers
 {
     public class TaskListRenderer : NotifyingObjectRenderer<TaskList>
     {

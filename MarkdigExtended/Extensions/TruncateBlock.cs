@@ -1,7 +1,7 @@
 ﻿using Markdig.Parsers;
 using Markdig.Syntax;
 
-namespace FineCodeCoverage.Readme
+namespace MarkdigExtended.Extensions
 {
     public class TruncateBlock : LeafBlock
     {
