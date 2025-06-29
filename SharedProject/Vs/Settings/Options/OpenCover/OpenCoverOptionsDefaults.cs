@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace FineCodeCoverage.Options.Hotspots
+namespace FineCodeCoverage.Options
 {
     [Export(typeof(IDefaultOptionsSetter<OpenCoverOptions>))]
     internal sealed class OpenCoverOptionsDefaults : IDefaultOptionsSetter<OpenCoverOptions>

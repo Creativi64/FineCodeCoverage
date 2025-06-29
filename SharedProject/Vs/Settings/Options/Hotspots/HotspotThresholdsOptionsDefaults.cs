@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace FineCodeCoverage.Options.Hotspots
+namespace FineCodeCoverage.Options
 {
     [Export(typeof(IDefaultOptionsSetter<HotspotThresholdsOptions>))]
     internal sealed class HotspotThresholdsOptionsDefaults : IDefaultOptionsSetter<HotspotThresholdsOptions>
