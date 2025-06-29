@@ -30,7 +30,7 @@ namespace FineCodeCoverage.Output
         private bool _coverageRunning;
         private ReportTotalRow _reportTotalRow;
         private bool _rootDirectoryNameFromPath;
-        private Report _lastReport;
+        private ReportModel _lastReport;
         private ReportStyle? _lastReportStyle = null;
         private TotalTreeItem _totalTreeItem;
         private SourceFileStructure _sourceFileStructure;
@@ -278,7 +278,7 @@ namespace FineCodeCoverage.Output
 
         public void Handle(NewReportMessage message)
         {
-            _lastReport = new Report(message);
+            _lastReport = new ReportModel(message);
             _lastReport.DirectoryStructureChanged += LastReport_DirectoryStructureChanged;
             ColumnManagerImpl.ShowRelevantColumns(_lastReport.MetricTypes);
             GenerateReport(_reportViews.GetChangeset());

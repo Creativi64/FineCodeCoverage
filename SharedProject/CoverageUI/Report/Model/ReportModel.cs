@@ -6,7 +6,7 @@ using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {
-    internal sealed class Report
+    internal sealed class ReportModel
     {
         public event EventHandler<EventArgs> DirectoryStructureChanged;
 
@@ -14,7 +14,7 @@ namespace FineCodeCoverage.Output
         private List<SourceFile> _sourceFiles;
         private IDirectory _directory;
 
-        public Report(NewReportMessage message)
+        public ReportModel(NewReportMessage message)
         {
             TestAssemblyNames = message.CoverageProjects?.Select(cp => cp.ProjectName).ToList();
             Assemblies = message.Report.Assemblies;
