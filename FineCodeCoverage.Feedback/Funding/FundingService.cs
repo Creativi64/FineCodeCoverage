@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Input;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Vs;
 using FineCodeCoverage.Wpf;
 
 namespace FineCodeCoverage.Funding
@@ -8,14 +9,17 @@ namespace FineCodeCoverage.Funding
     [Export(typeof(IFundingService))]
     internal sealed class FundingService : IFundingService, IFundingViewModel
     {
+        private readonly IDialogWindowService dialogWindowService;
+
         [ImportingConstructor]
-        public FundingService(IProcess process)
+        public FundingService(IProcess process, IDialogWindowService dialogWindowService)
         {
             KofiClickedCommand = new ProcessStartCommand(process);
             BuyMeACoffeeClickedCommand = new ProcessStartCommand(process);
             LiberapayClickedCommand = new ProcessStartCommand(process);
             PayPalClickedCommand = new ProcessStartCommand(process);
             GithubClickedCommand = new ProcessStartCommand(process);
+            this.dialogWindowService = dialogWindowService;
         }
 
         public ICommand KofiClickedCommand { get; }
@@ -28,6 +32,6 @@ namespace FineCodeCoverage.Funding
 
         public ICommand GithubClickedCommand { get; }
 
-        public void Execute() => _ = new FundingDialogWindow(this).ShowModal();
+        public void Execute() => dialogWindowService.ShowFundingDialogWindow(this);
     }
 }

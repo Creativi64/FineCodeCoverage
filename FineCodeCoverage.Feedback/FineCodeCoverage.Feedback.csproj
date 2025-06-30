@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj" />
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+  </ItemGroup>
+</Project>

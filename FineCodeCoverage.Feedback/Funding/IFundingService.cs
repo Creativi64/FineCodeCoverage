@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Funding
 {
-    internal interface IFundingService
+    public interface IFundingService
     {
         void Execute();
     }

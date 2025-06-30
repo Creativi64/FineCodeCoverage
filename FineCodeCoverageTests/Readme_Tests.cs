@@ -1,5 +1,6 @@
 ﻿using FineCodeCoverage.Readme;
 using Markdig;
+using MarkdigExtended.Extensions;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;

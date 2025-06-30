@@ -79,6 +79,22 @@
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="markdig-redirects\System.Buffers.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="markdig-redirects\System.Memory.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="markdig-redirects\System.Numerics.Vectors.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="markdig-redirects\System.Runtime.CompilerServices.Unsafe.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
       <Link>FCCPackage.vsct</Link>
       <Generator>VsctGenerator</Generator>
@@ -149,12 +165,6 @@
     </PackageReference>
     <PackageReference Include="LibGit2Sharp">
       <Version>0.31.0</Version>
-    </PackageReference>
-    <PackageReference Include="Markdig">
-      <Version>0.38.0</Version>
-    </PackageReference>
-    <PackageReference Include="Markdig.Wpf">
-      <Version>0.5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.Common">
       <Version>3.11.0</Version>
@@ -267,7 +277,37 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <Import Project="..\shared.targets"/>
+  <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Feedback\FineCodeCoverage.Feedback.csproj">
+      <Project>{1638D418-B831-44C7-8F3E-717FF1D21414}</Project>
+      <Name>FineCodeCoverage.Feedback</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
+      <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>
+      <Name>FineCodeCoverage.Readme</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj">
+      <Project>{96cd0faf-b8df-4cb4-a423-e2f7566ba4a1}</Project>
+      <Name>MarkdigExtended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
+      <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
+      <Name>TreeGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
+      <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
+      <Name>WpfHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj">
+      <Project>{9a8f0ebc-af9d-448d-928d-27e08a77ab23}</Project>
+      <Name>FineCodeCoverage.Utilities</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,8 +3,9 @@
                     xmlns:platformui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
                     xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
                     xmlns:local="clr-namespace:FineCodeCoverage.Readme"
+                    xmlns:markdigExtended="clr-namespace:MarkdigExtended.NotifyingWpfRenderers.Base;assembly=MarkdigExtended"
                     >
-    <Style x:Key="{x:Static local:MarkdownTypeMarker.CodeInline}" 
+    <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.CodeInline}" 
            BasedOn="{StaticResource {x:Static local:ReadMeFlowDocumentStyleSetter.ReadMeCodeInlineBasedOnStyleKey}}" 
            TargetType="{x:Type Run}">
         <Setter Property="Background" 

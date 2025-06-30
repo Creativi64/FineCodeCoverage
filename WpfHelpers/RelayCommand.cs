@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace FineCodeCoverage.Wpf
+namespace WpfHelpers
 {
     public sealed class RelayCommand : ICommand
     {

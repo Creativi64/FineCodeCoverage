@@ -8,7 +8,7 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>FineCodeCoverage</Import_RootNamespace>
   </PropertyGroup>
- <ItemGroup>
+  <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Readme/ReadmeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,9 +91,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingMonikers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigBindingRedirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\AssemblyBinding\DirectoryBindingRedirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\DialogWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/BaseDialogControl.xaml.cs">
       <DependentUpon>BaseDialogControl.xaml</DependentUpon>
     </Compile>
@@ -160,7 +164,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme/IFCCMarkdownFlowDocumentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/IOptionPageTableCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/IReadMeFlowDocumentStylesSetter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme/IShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/ITemplatedReadmeProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/MarkdigExtensionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/OptionPageTableCellAlignment.cs" />
@@ -378,18 +381,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor/Roslyn/RoslynService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor/Roslyn/TextSnapshotToSyntaxService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor/Roslyn/VBContainingCodeVisitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Funding/FundingMonikers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Funding/FundingService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Funding/IFundingService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Funding/IFundingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Github/FCCGithub.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Github/FCCGithubService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Github/FCCVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Github/IFCCGithubService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Github/IFCCVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Github/INewIssueViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Marketplace/IOpenFCCVsMarketplace.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback/Marketplace/OpenFCCVsMarketplace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization/ToolZip/IToolFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization/ToolZip/IToolUnzipper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Initialization/ToolZip/IToolZipProvider.cs" />
@@ -450,18 +441,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IFileUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IJsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IMessageBox.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ITypeDescriptorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IUrlEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IZipFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/JsonConvertService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/MessageBoxWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ProcessWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ReflectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/SystemEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/TypeDescriptorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/UrlEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ZipFileWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Xml/IXmlUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Xml/LinqToXmlUtil.cs" />
@@ -510,8 +497,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Package/IPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/FCCOutputWindowPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/FCCOutputWindowPaneCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/IFCCOutputWindowPane.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/IFCCOutputWindowPaneCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/IShowFCCOutputPane.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/ShowFCCOutputPane.cs" />
@@ -540,11 +525,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs/ToolWindows/ToolWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Versioning/IsVs2022.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Versioning/IVsAppId.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs/Versioning/IVsVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Versioning/SVsAppId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Versioning/VsVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf/Commands/ProcessStartCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf/Commands/RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/DependentPropertiesChange/DependentPropertiesChangedNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/DependentPropertiesChange/DependentPropertiesChangedNotifierBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/DependentPropertiesChange/DependentPropertiesChangedUserControl.cs" />

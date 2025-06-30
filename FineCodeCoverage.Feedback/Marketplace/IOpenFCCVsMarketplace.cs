@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    internal interface IOpenFCCVsMarketplace
+    public interface IOpenFCCVsMarketplace
     {
         void OpenRatingAndReview();
     }

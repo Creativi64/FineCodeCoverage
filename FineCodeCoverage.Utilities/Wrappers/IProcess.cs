@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    internal interface IProcess
+    public interface IProcess
     {
         void Start(string fileName);
     }

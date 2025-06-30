@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output.Pane
 {
-    internal interface IFCCOutputWindowPaneCreator
+    public interface IFCCOutputWindowPaneCreator
     {
         Task<IFCCOutputWindowPane> GetOrCreateAsync();
     }

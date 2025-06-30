@@ -10,7 +10,7 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.FCCVersioning;
 using FineCodeCoverage.Output.Pane;
 using FineCodeCoverage.Readme;
-using FineCodeCoverage.Wpf;
+using FineCodeCoverage.Utilities.Vs;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Github
@@ -22,6 +22,7 @@ namespace FineCodeCoverage.Github
         private readonly IVsVersion _vsVersion;
         private readonly IFCCVersion _fccVersion;
         private readonly IProcess _process;
+        private readonly IDialogWindowService dialogWindowService;
         private readonly RelayCommand _submitCommand;
         private readonly RelayCommand _mailToCommand;
         private readonly RelayCommand _searchIssuesCommand;
@@ -93,12 +94,14 @@ namespace FineCodeCoverage.Github
             IFCCVersion fccVersion,
             IProcess process,
             IUrlEncoder urlEncoder,
-            IShowReadMeService readMeService)
+            IShowReadMeService readMeService,
+            IDialogWindowService dialogWindowService)
         {
             _paneCreator = paneCreator;
             _vsVersion = vsVersion;
             _fccVersion = fccVersion;
             _process = process;
+            this.dialogWindowService = dialogWindowService;
             _submitCommand = new RelayCommand(
                 () =>
                 {
@@ -148,7 +151,7 @@ namespace FineCodeCoverage.Github
             }
 
             await GetFCCOutputAsync();
-            new NewIssueDialogWindow(this).Show();
+            dialogWindowService.ShowNewIssueDialogWindow(this);
         }
 
         private async Task GetFCCOutputAsync()

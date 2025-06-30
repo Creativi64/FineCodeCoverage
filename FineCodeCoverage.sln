@@ -39,6 +39,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubReadmeCreator", "Gith
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdigExtended", "MarkdigExtended\MarkdigExtended.csproj", "{96CD0FAF-B8DF-4CB4-A423-E2F7566BA4A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Utilities", "FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj", "{9A8F0EBC-AF9D-448D-928D-27E08A77AB23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Feedback", "FineCodeCoverage.Feedback\FineCodeCoverage.Feedback.csproj", "{1638D418-B831-44C7-8F3E-717FF1D21414}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Readme", "FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj", "{5553705C-A85B-46BC-A406-8F113FD18638}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +79,18 @@ Global
 		{96CD0FAF-B8DF-4CB4-A423-E2F7566BA4A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96CD0FAF-B8DF-4CB4-A423-E2F7566BA4A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96CD0FAF-B8DF-4CB4-A423-E2F7566BA4A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A8F0EBC-AF9D-448D-928D-27E08A77AB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A8F0EBC-AF9D-448D-928D-27E08A77AB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A8F0EBC-AF9D-448D-928D-27E08A77AB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A8F0EBC-AF9D-448D-928D-27E08A77AB23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1638D418-B831-44C7-8F3E-717FF1D21414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1638D418-B831-44C7-8F3E-717FF1D21414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1638D418-B831-44C7-8F3E-717FF1D21414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1638D418-B831-44C7-8F3E-717FF1D21414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5553705C-A85B-46BC-A406-8F113FD18638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5553705C-A85B-46BC-A406-8F113FD18638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5553705C-A85B-46BC-A406-8F113FD18638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5553705C-A85B-46BC-A406-8F113FD18638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
