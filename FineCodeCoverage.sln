@@ -51,6 +51,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Options", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.VSAbstractions", "FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj", "{7B206C15-D01C-4144-978D-C37CA9962E69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Collection", "FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj", "{ED130DE3-9267-48CB-A3FB-568DC9EE03BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Hotspots", "FineCodeCoverage.Hotspots\FineCodeCoverage.Hotspots.csproj", "{8B3C2717-8C77-97EC-E37A-3A903BBC368C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +113,14 @@ Global
 		{7B206C15-D01C-4144-978D-C37CA9962E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B206C15-D01C-4144-978D-C37CA9962E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B206C15-D01C-4144-978D-C37CA9962E69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED130DE3-9267-48CB-A3FB-568DC9EE03BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED130DE3-9267-48CB-A3FB-568DC9EE03BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED130DE3-9267-48CB-A3FB-568DC9EE03BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED130DE3-9267-48CB-A3FB-568DC9EE03BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B3C2717-8C77-97EC-E37A-3A903BBC368C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3C2717-8C77-97EC-E37A-3A903BBC368C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3C2717-8C77-97EC-E37A-3A903BBC368C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3C2717-8C77-97EC-E37A-3A903BBC368C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

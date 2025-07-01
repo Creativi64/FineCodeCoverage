@@ -221,6 +221,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
+      <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>
+      <Name>FineCodeCoverage.Collection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.Initialization\FineCodeCoverage.Initialization.csproj">
       <Project>{48af8161-fab3-462d-b898-036b7c9897fb}</Project>
       <Name>FineCodeCoverage.Initialization</Name>
