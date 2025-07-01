@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Coverlet;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Coverlet;
-using FineCodeCoverage.Engine.Model;
 using Moq;
 using NUnit.Framework;
 

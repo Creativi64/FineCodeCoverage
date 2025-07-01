@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
-using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.Collection.ReportGeneration;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

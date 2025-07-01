@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.MsTestPlatform
+﻿namespace FineCodeCoverage.Collection.VsTest
 {
     internal interface IVsTestInstaller
     {

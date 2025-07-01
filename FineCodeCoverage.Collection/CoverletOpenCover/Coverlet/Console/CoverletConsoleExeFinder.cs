@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     public class CoverletConsoleExeFinder
     {

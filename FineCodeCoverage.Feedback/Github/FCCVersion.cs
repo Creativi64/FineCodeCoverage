@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 
-namespace FineCodeCoverage.Core.Utilities.FCCVersioning
+namespace FineCodeCoverage.Feedback.Github
 {
     [Export(typeof(IFCCVersion))]
     internal sealed class FCCVersion : IFCCVersion

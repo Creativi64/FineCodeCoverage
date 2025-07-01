@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
-using FineCodeCoverage.Core.Coverlet;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     [Export(typeof(IRunSettingsCoverletConfigurationFactory))]
     internal sealed class RunSettingsCoverletConfigurationFactory : IRunSettingsCoverletConfigurationFactory

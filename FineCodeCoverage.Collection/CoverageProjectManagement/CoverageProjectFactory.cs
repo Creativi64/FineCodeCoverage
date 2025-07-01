@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement

@@ -6,10 +6,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageToolOutput;
+using FineCodeCoverage.Collection.CoverletOpenCover;
+using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
-using FineCodeCoverage.Engine.Messages;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Engine

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     internal interface IFCCSettingsFilesProvider
     {

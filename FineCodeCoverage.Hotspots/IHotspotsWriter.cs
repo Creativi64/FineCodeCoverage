@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.Collection.ReportGeneration;
 
-namespace FineCodeCoverage.ReportGeneration
+namespace FineCodeCoverage.Hotspots
 {
     public interface IHotspotsWriter
     {

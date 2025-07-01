@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
+using FineCodeCoverage.Collection.CoverletOpenCover.OpenCover;
 using FineCodeCoverage.Engine.OpenCover;
 using FineCodeCoverage.Options;
 using Moq;

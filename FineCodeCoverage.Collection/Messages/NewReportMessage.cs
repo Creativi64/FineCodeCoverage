@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.Collection.ReportGeneration;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Collection.Messages
 {
     public sealed class NewReportMessage
     {

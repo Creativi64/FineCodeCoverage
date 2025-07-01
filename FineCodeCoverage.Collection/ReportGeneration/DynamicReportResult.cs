@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration
 {
     internal sealed class DynamicReportResult : IDynamicReportResult
     {

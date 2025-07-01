@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.OpenCover
+﻿namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {
     internal static class CommandLineArgumentsHelper
     {

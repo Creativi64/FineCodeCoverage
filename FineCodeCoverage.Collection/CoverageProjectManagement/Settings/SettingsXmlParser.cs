@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     internal sealed class SettingsXmlParser<T, TNullable> : ISettingsXmlParser
     {

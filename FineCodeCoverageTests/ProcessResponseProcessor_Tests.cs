@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
 using FineCodeCoverage.Output;
 using NUnit.Framework;
 

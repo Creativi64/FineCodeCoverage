@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Feedback.Marketplace
 {
     [Export(typeof(IOpenFCCVsMarketplace))]
     internal sealed class OpenFCCVsMarketplace : IOpenFCCVsMarketplace

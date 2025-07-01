@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(ISettingsMerger))]
     internal sealed class SettingsMerger : ISettingsMerger

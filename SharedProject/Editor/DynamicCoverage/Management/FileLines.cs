@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
-using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

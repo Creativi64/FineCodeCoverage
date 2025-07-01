@@ -1,8 +1,9 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverletOpenCover.OpenCover;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
+using FineCodeCoverage.Collection.VsTest;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.MsTestPlatform;
-using FineCodeCoverage.Engine.OpenCover;
 using Moq;
 using NUnit.Framework;
 using System;

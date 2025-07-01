@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Feedback.Github
 {
     public static class FCCGithub
     {

@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
+using FineCodeCoverage.Collection.ReportGeneration;
 using Palmmedia.ReportGenerator.Core;
 using Palmmedia.ReportGenerator.Core.Logging;
 using Palmmedia.ReportGenerator.Core.Parser;
 using Palmmedia.ReportGenerator.Core.Parser.Filtering;
 using PalmmediaVerbosityLevel = Palmmedia.ReportGenerator.Core.Logging.VerbosityLevel;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
 {
     [Export(typeof(IFCCReportGenerator))]
     internal sealed class PalmmediaReportGenerator

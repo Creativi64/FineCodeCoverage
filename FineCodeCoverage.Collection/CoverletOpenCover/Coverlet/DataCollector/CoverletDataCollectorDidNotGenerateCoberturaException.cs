@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     internal sealed class CoverletDataCollectorDidNotGenerateCoberturaException : Exception
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Impl;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Text;

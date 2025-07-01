@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Editor.DynamicCoverage
+﻿using FineCodeCoverage.Collection.ReportGeneration;
+
+namespace FineCodeCoverage.Editor.DynamicCoverage
 {
     internal sealed class FirstTrackedCoverageLineInfo
     {

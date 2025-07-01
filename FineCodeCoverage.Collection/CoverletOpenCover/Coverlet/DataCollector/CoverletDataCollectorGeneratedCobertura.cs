@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     [Export(typeof(ICoverletDataCollectorGeneratedCobertura))]
     internal sealed class CoverletDataCollectorGeneratedCobertura : ICoverletDataCollectorGeneratedCobertura

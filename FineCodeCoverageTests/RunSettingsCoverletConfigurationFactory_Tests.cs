@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Core.Coverlet;
+﻿using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 using FineCodeCoverage.Engine.Coverlet;
 using NUnit.Framework;
 

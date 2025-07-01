@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.ReportGenerator;
 
 namespace FineCodeCoverage.Output
 {

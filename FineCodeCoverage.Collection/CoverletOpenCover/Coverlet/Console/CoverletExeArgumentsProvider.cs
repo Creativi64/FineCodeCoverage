@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     [Export(typeof(ICoverletExeArgumentsProvider))]
     internal sealed class CoverletExeArgumentsProvider : ICoverletExeArgumentsProvider

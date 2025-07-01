@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     public interface ICoverletConsoleExeFinder
     {

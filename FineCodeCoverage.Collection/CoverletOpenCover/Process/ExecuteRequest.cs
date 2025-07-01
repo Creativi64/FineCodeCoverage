@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Collection.CoverletOpenCover.Process
 {
     public sealed class ExecuteRequest
     {

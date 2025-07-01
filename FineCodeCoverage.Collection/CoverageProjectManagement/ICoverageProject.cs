@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement
 {

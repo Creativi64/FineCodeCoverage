@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Impl
+﻿namespace FineCodeCoverage.Collection.Messages
 {
     public sealed class TestExecutionStartingMessage
     {

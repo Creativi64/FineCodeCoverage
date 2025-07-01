@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     public interface ICoverletConsoleExecutor
     {

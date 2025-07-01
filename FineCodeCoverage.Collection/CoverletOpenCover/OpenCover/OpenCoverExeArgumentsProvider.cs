@@ -5,7 +5,7 @@ using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Options;
 
-namespace FineCodeCoverage.Engine.OpenCover
+namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {
     [Export(typeof(IOpenCoverExeArgumentsProvider))]
     internal sealed class OpenCoverExeArgumentsProvider : IOpenCoverExeArgumentsProvider

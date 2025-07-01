@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration
 {
     public interface IClass
     {

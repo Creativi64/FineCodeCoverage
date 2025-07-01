@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FineCodeCoverage.Collection.ReportGeneration;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

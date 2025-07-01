@@ -5,10 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(ICoverageProjectSettingsManager))]
     internal sealed class CoverageProjectSettingsManager : ICoverageProjectSettingsManager
@@ -34,7 +33,7 @@ namespace FineCodeCoverage.Engine.Model
             _fccSettingsFilesProvider = fccSettingsFilesProvider;
             _settingsMerger = settingsMerger;
             _coverageSettingsReflectionService = coverageSettingsReflectionService;
-            this._threadHelper = threadHelper;
+            _threadHelper = threadHelper;
         }
 
         private CoverageSettings GetSettingsFromOptions()

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform
+namespace FineCodeCoverage.Collection.VsTest
 {
     [Export(typeof(IVsTestInstaller))]
     [Export(typeof(IAppDataFolderPathDependent))]

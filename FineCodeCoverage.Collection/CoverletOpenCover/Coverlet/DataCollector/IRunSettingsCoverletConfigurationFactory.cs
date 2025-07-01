@@ -1,6 +1,4 @@
-﻿using FineCodeCoverage.Core.Coverlet;
-
-namespace FineCodeCoverage.Engine.Coverlet
+﻿namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     internal interface IRunSettingsCoverletConfigurationFactory
     {

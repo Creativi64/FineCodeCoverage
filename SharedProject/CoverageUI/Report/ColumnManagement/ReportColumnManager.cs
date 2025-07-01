@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
-using FineCodeCoverage.Engine.ReportGenerator;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output

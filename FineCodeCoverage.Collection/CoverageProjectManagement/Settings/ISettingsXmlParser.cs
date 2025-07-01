@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     internal interface ISettingsXmlParser
     {

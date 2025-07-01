@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Coverlet
+﻿namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     internal interface IRunSettingsCoverletConfiguration
     {

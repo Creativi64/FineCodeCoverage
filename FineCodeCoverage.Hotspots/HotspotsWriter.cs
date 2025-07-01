@@ -3,10 +3,10 @@ using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
-using FineCodeCoverage.Engine.ReportGenerator;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Options;
 
-namespace FineCodeCoverage.ReportGeneration
+namespace FineCodeCoverage.Hotspots
 {
     [Export(typeof(IHotspotsWriter))]
     [ExcludeFromCodeCoverage]

@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(ICoverageSettingsReflectionService))]
     internal sealed class CoverageSettingsReflectionService : ICoverageSettingsReflectionService

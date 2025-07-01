@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml.Linq;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(IFCCSettingsFilesProvider))]
     internal sealed class FCCSettingsFilesProvider : IFCCSettingsFilesProvider

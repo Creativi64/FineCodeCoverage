@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     internal interface ICoverletConsoleUtil
     {

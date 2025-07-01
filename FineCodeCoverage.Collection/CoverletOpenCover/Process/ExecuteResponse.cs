@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Process
 {
     internal sealed class ExecuteResponse
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
 {
     internal sealed class PalmmediaClass : IClass
     {

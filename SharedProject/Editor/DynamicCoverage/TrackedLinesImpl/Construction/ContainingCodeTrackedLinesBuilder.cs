@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Text;
 

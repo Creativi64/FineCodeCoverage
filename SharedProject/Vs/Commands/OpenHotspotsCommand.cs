@@ -2,10 +2,10 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using FineCodeCoverage.Collection.CoverageToolOutput;
+using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.ReportGenerator;
-using FineCodeCoverage.ReportGeneration;
+using FineCodeCoverage.Hotspots;
 
 namespace FineCodeCoverage.Output
 {

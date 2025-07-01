@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Core.Utilities.FCCVersioning;
+using FineCodeCoverage.Github;
 using FineCodeCoverage.Output.Pane;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Utilities.Vs;
 using WpfHelpers;
 
-namespace FineCodeCoverage.Github
+namespace FineCodeCoverage.Feedback.Github
 {
     [Export(typeof(IFCCGithubService))]
     internal sealed class FCCGithubService : ObservableBase, IFCCGithubService, INewIssueViewModel

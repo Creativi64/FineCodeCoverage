@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Process
 {
     [Export(typeof(IProcessResponseProcessor))]
     internal sealed class ProcessResponseProcessor : IProcessResponseProcessor

@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Windows;
 using AutoMoq;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;

@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     [Export(typeof(IDataCollectorSettingsBuilder))]
     internal sealed class DataCollectorSettingsBuilder : IDataCollectorSettingsBuilder

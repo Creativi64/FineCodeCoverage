@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Funding
+﻿namespace FineCodeCoverage.Feedback.Funding
 {
     public interface IFundingService
     {

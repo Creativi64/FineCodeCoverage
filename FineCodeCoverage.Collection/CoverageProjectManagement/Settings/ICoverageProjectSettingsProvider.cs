@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Xml.Linq;
-using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     internal interface ICoverageProjectSettingsProvider
     {

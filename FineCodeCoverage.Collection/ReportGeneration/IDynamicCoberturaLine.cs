@@ -1,6 +1,4 @@
-﻿using FineCodeCoverage.Engine.ReportGenerator;
-
-namespace FineCodeCoverage.Editor.DynamicCoverage
+﻿namespace FineCodeCoverage.Collection.ReportGeneration
 {
     public interface IDynamicCoberturaLine : ICoberturaLine
     {

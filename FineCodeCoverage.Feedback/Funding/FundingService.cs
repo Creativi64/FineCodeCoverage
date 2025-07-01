@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Input;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Funding;
 using FineCodeCoverage.Utilities.Vs;
 using FineCodeCoverage.Wpf;
 
-namespace FineCodeCoverage.Funding
+namespace FineCodeCoverage.Feedback.Funding
 {
     [Export(typeof(IFundingService))]
     internal sealed class FundingService : IFundingService, IFundingViewModel

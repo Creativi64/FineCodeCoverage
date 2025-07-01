@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     internal sealed class CoverletExitCodeFailureException : Exception
     {

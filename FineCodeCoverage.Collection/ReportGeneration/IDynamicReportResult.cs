@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration
 {
     public interface IDynamicReportResult : IReportResult
     {

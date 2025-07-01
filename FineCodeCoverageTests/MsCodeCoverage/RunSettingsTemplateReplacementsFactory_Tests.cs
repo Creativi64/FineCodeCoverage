@@ -5,12 +5,12 @@ using FineCodeCoverage.Options;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System.Linq;
-using FineCodeCoverage.Engine.Model;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

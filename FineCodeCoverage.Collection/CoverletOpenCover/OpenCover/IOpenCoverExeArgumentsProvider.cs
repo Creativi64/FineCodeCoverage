@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.OpenCover
+namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {
     internal interface IOpenCoverExeArgumentsProvider
     {

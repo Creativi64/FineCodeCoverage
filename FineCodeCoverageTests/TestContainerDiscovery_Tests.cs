@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;

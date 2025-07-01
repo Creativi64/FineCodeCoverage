@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.ReportGenerator
+﻿namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
 {
     internal sealed class CoberturaLine : ICoberturaLine
     {

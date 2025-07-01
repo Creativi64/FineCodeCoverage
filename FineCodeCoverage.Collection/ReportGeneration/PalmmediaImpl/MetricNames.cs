@@ -1,6 +1,6 @@
 ﻿using PalmmediaMetric = Palmmedia.ReportGenerator.Core.Parser.Analysis.Metric;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
 {
     internal static class MetricNames
     {

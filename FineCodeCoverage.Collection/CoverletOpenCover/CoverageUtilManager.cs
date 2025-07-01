@@ -2,11 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet;
+using FineCodeCoverage.Collection.CoverletOpenCover.OpenCover;
 using FineCodeCoverage.Core.Initialization;
-using FineCodeCoverage.Engine.Coverlet;
-using FineCodeCoverage.Engine.OpenCover;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverletOpenCover
 {
     [Export(typeof(ICoverageUtilManager))]
     [Export(typeof(IAppDataFolderPathDependent))]

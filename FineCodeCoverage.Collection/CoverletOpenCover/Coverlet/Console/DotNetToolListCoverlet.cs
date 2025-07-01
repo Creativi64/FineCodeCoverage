@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     [Export(typeof(IDotNetToolListCoverlet))]
     internal sealed class DotNetToolListCoverlet : IDotNetToolListCoverlet

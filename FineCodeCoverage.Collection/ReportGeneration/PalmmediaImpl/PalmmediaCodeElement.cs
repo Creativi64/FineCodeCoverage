@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FineCodeCoverage.Collection.ReportGeneration;
 using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
 {
     internal sealed class PalmmediaCodeElement : ICodeElement
     {

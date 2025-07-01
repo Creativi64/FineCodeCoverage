@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using Task = System.Threading.Tasks.Task;
 

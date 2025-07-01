@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(ICoverageProjectSettingsProvider))]
     internal sealed class CoverageProjectSettingsProvider : ICoverageProjectSettingsProvider

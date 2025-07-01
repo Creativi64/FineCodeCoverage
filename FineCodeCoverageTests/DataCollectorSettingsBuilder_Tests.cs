@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using AutoMoq;
-using FineCodeCoverage.Engine.Coverlet;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 using NUnit.Framework;
 using Org.XmlUnit.Builder;
 

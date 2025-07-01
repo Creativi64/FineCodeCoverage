@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     internal interface IDotNetToolListCoverlet
     {

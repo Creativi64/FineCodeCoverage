@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

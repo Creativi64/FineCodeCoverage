@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     internal interface ICoverletExeArgumentsProvider
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMoq;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Coverlet;
 using FineCodeCoverage.Output;
 using NUnit.Framework;
 

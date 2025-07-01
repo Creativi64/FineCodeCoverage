@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     internal interface ICoverageSettingsOptionsProvider
     {

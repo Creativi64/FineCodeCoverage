@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using FineCodeCoverage.Collection.ReportGeneration;
 using PalmmediaMetric = Palmmedia.ReportGenerator.Core.Parser.Analysis.Metric;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
 {
     internal static class MetricSetter
     {

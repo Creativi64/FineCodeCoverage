@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;

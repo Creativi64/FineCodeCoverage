@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.Messages
+﻿namespace FineCodeCoverage.Collection.Messages
 {
     public sealed class CoverageStartingMessage
     {

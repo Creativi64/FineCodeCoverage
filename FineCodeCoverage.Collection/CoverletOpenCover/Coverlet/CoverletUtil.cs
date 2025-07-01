@@ -2,8 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet
 {
     [Export(typeof(ICoverletUtil))]
     internal sealed class CoverletUtil : ICoverletUtil

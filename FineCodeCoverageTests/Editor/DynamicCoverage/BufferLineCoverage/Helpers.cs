@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.Text;
 using Moq;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Options;
-using FineCodeCoverage.Engine.ReportGenerator;
 using System.Collections.Generic;
 using System;
+using FineCodeCoverage.Collection.ReportGeneration;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 {

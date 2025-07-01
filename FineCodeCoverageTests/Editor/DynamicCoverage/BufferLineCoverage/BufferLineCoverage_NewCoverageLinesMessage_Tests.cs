@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
 using Moq;
 using NUnit.Framework;

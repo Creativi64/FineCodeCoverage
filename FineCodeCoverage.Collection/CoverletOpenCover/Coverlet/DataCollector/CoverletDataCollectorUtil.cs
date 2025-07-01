@@ -7,13 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Coverlet;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Output;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     [Export(typeof(ICoverletDataCollectorUtil))]
     internal sealed class CoverletDataCollectorUtil : ICoverletDataCollectorUtil

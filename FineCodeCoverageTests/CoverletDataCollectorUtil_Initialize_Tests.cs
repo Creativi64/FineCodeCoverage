@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Threading;
 using AutoMoq;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Coverlet;
 using NUnit.Framework;
 
 namespace Test

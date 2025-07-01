@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Github
+﻿namespace FineCodeCoverage.Feedback.Github
 {
     public interface IFCCGithubService
     {

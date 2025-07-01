@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     [Export(typeof(IFCCCoverletConsoleExecutor))]
     internal sealed class FCCCoverletConsoleExecutor : IFCCCoverletConsoleExecutor

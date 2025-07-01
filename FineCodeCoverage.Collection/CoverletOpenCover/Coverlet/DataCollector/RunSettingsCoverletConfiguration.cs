@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Core.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {
     internal sealed class RunSettingsCoverletConfiguration : IRunSettingsCoverletConfiguration
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMoq;
+using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
-using FineCodeCoverage.Engine.ReportGenerator;
-using FineCodeCoverage.Impl;
 using FineCodeCoverage.Output;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;

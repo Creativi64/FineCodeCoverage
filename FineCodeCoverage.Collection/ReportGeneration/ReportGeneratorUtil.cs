@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine.ReportGenerator
+namespace FineCodeCoverage.Collection.ReportGeneration
 {
     [Export(typeof(IReportGeneratorUtil))]
     internal sealed class ReportGeneratorUtil : IReportGeneratorUtil

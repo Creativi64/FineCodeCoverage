@@ -1,4 +1,5 @@
 ﻿using AutoMoq;
+using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;

@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Feedback.Github;
 using Markdig.Renderers.Wpf;
 using Markdig.Renderers.Wpf.Inlines;
 using MarkdigExtended.NotifyingWpfRenderers.Base;

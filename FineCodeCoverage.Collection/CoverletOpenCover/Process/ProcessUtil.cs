@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Process
 {
     [Export(typeof(IProcessUtil))]
     internal sealed class ProcessUtil : IProcessUtil

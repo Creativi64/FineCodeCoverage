@@ -1,5 +1,5 @@
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

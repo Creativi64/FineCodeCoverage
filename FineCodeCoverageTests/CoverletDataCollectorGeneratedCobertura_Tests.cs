@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using FineCodeCoverage.Engine.Coverlet;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 using NUnit.Framework;
 
 namespace Test

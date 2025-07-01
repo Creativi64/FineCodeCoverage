@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     internal interface IFCCCoverletConsoleExecutor : ICoverletConsoleExecutor
     {

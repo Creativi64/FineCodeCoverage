@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverletOpenCover
 {
     public interface ICoverageUtilManager
     {

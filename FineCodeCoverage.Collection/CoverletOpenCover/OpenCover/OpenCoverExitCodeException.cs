@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Engine.OpenCover
+namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {
     internal sealed class OpenCoverExitCodeException : Exception
     {

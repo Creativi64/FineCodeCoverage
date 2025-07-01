@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 
-namespace FineCodeCoverage.Core.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(ICoverageSettingsOptionsProvider))]
     internal sealed class CoverageSettingsOptionsProvider : ICoverageSettingsOptionsProvider

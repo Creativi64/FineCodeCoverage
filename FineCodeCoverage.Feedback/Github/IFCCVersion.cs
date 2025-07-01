@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities.FCCVersioning
+﻿namespace FineCodeCoverage.Feedback.Github
 {
     internal interface IFCCVersion
     {

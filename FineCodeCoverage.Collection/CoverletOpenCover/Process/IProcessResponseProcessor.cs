@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Process
 {
     internal interface IProcessResponseProcessor
     {

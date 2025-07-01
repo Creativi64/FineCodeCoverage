@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     public interface IVsBuildFCCSettingsProvider
     {

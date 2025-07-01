@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine.Coverlet
+namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {
     [Export(typeof(ICoverletConsoleDotnetToolsLocalExecutor))]
     internal sealed class CoverletConsoleDotnetToolsLocalExecutor : ICoverletConsoleDotnetToolsLocalExecutor

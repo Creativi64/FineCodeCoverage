@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Options;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     public interface ICoverageSettings
     {

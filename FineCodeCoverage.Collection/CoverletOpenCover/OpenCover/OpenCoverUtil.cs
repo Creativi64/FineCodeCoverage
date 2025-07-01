@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverletOpenCover.Process;
+using FineCodeCoverage.Collection.VsTest;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.MsTestPlatform;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine.OpenCover
+namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {
     [Export(typeof(IOpenCoverUtil))]
     internal sealed class OpenCoverUtil : IOpenCoverUtil
