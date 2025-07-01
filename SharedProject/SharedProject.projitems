@@ -694,7 +694,4 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Initialization\" />
-  </ItemGroup>
 </Project>
