@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 
 namespace FineCodeCoverage.Engine.Model

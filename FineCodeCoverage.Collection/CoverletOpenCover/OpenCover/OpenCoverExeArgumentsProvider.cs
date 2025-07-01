@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Options;
 
 namespace FineCodeCoverage.Engine.OpenCover

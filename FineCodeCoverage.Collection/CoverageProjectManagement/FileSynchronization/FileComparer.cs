@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization
 {
     internal sealed class FileComparer : IEqualityComparer<ComparableFile>
     {

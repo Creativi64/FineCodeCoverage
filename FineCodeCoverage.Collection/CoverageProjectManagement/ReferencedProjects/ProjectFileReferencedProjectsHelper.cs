@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects
 {
     // todo - remove this ? Should not be necessary
     [Export(typeof(IProjectFileReferencedProjectsHelper))]

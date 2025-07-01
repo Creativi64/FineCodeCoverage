@@ -9,6 +9,8 @@ using FineCodeCoverage.Engine.Model;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

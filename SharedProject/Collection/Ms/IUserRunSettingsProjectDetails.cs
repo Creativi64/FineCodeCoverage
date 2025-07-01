@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage

@@ -10,10 +10,10 @@ using FineCodeCoverage.Impl;
 using FineCodeCoverage.Engine;
 using System.Threading.Tasks;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using ILogger = FineCodeCoverage.Output.ILogger;
 using System.Linq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

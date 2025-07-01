@@ -1,4 +1,5 @@
 using AutoMoq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using Moq;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

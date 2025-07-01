@@ -4,8 +4,8 @@ using System.IO;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using System.Collections.Generic;
-using FineCodeCoverage.Engine.Model;
 using Moq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

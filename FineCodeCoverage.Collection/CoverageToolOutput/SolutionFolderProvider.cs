@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverageToolOutput
 {
     [Export(typeof(ISolutionFolderProvider))]
     internal sealed class SolutionFolderProvider : ISolutionFolderProvider

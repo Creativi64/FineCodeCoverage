@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.Composition;
-using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Engine.FileSynchronization;
+using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
+using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
+using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement
 {
     [Export(typeof(ICoverageProjectFactory))]
     internal sealed class CoverageProjectFactory : ICoverageProjectFactory

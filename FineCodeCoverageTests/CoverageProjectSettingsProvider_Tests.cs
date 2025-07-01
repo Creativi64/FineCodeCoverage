@@ -1,3 +1,4 @@
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;

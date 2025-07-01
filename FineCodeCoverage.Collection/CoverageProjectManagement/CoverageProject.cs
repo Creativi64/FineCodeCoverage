@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
+using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.FileSynchronization;
+using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement
 {
     public sealed class CoverageProject : ICoverageProject
     {

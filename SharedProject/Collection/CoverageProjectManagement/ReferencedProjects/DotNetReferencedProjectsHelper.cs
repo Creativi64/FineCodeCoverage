@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using EnvDTE;
+using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using Microsoft.VisualStudio.Shell;
 using VSLangProj;
 using VSLangProj80;

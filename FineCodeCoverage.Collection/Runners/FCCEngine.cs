@@ -4,10 +4,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Engine.Messages;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
 

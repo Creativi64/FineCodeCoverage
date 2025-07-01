@@ -14,6 +14,9 @@ using FineCodeCoverage.Core.Utilities;
 using System.IO;
 using System;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
+using FineCodeCoverage.Collection.CoverageToolOutput;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

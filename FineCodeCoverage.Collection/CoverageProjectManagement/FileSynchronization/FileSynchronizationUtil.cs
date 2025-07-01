@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.FileSynchronization
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization
 {
     [Export(typeof(IFileSynchronizationUtil))]
     internal sealed class FileSynchronizationUtil : IFileSynchronizationUtil

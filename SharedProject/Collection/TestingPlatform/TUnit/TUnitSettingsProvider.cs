@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options;
 
@@ -199,7 +200,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private string WriteConfiguration(ITUnitCoverageProject tUnitCoverageProject, string configuration)
         {
-            Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
+            ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
             string configurationPath = Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "config.xml");
             _fileUtil.WriteAllText(configurationPath, configuration);
             return configurationPath;
@@ -207,7 +208,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 
         private static string GetCoberturaPath(ITUnitCoverageProject tUnitCoverageProject)
         {
-            Engine.Model.ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
+            ICoverageProject coverageProject = tUnitCoverageProject.CoverageProject;
             return Path.Combine(coverageProject.CoverageOutputFolder, coverageProject.Id.ToString() + "coverage.xml");
         }
     }

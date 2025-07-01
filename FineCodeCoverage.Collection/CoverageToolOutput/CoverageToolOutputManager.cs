@@ -4,11 +4,12 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Engine;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverageToolOutput
 {
     [Export(typeof(ICoverageToolOutputManager))]
     internal sealed class CoverageToolOutputManager : ICoverageToolOutputManager

@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine
+﻿namespace FineCodeCoverage.Collection.CoverageToolOutput
 {
     internal interface ISolutionFolderProvider
     {

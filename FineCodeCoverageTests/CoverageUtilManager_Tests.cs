@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Coverlet;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.OpenCover;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;

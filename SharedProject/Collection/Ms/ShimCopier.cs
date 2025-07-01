@@ -2,8 +2,8 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

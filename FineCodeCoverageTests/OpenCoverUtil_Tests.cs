@@ -1,6 +1,6 @@
 ﻿using AutoMoq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.MsTestPlatform;
 using FineCodeCoverage.Engine.OpenCover;
 using Moq;

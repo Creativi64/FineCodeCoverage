@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.Messages;
@@ -185,7 +187,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         {
             await _logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
 
-            List<Engine.Model.ICoverageProject> coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
+            List<ICoverageProject> coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
             cancellationToken.ThrowIfCancellationRequested();
             await _coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
 

@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Engine.Coverlet;
-using FineCodeCoverage.Engine.Model;
 using Moq;
 using NUnit.Framework;
 

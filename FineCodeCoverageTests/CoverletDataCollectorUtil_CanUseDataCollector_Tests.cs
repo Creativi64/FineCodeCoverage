@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMoq;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Coverlet;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.Coverlet;

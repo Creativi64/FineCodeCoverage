@@ -1,6 +1,4 @@
-﻿using FineCodeCoverage.Engine.Model;
-
-namespace FineCodeCoverage.Collection.CoverageProjectManagement
+﻿namespace FineCodeCoverage.Collection.CoverageProjectManagement
 {
     public interface ICoverageProjectFactory
     {

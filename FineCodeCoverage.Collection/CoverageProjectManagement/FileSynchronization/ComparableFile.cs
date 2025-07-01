@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization
 {
     internal sealed class ComparableFile : IEquatable<ComparableFile>
     {

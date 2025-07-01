@@ -4,7 +4,7 @@ using System.IO;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverageToolOutput
 {
     [Order(1, typeof(ICoverageToolOutputFolderSolutionProvider))]
     internal sealed class AppOptionsCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {

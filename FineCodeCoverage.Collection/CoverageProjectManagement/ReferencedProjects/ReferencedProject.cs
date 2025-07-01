@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects
 {
     public sealed class ReferencedProject : IExcludableReferencedProject
     {

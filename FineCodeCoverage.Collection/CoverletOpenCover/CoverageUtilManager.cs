@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Engine.Coverlet;
-using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.OpenCover;
 
 namespace FineCodeCoverage.Engine

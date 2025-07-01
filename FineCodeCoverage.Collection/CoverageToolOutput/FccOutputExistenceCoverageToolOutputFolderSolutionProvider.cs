@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverageToolOutput
 {
     [Order(2, typeof(ICoverageToolOutputFolderSolutionProvider))]
     internal sealed class FccOutputExistenceCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider

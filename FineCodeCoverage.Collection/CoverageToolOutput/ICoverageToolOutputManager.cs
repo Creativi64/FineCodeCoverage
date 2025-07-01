@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.CoverageToolOutput
 {
     public interface ICoverageToolOutputManager
     {

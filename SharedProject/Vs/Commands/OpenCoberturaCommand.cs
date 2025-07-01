@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 

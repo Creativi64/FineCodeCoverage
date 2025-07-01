@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Options;

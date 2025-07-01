@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Engine;
+﻿using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverageTests.TestHelpers;
 using NUnit.Framework;
 

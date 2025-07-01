@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Engine.FileSynchronization
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization
 {
     public interface IFileSynchronizationUtil
     {

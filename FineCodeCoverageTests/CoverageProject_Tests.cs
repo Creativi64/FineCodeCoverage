@@ -1,5 +1,5 @@
 using System.IO;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using NUnit.Framework;
 
 namespace Test
