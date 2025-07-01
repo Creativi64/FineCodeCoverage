@@ -6,6 +6,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj" />
     <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj" />
   </ItemGroup>
   <ItemGroup>
