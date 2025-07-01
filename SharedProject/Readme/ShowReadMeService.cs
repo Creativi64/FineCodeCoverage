@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
-using Microsoft.VisualStudio.Settings;
 
 namespace FineCodeCoverage.Readme
 {

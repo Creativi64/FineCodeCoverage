@@ -50,8 +50,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         public TUnitCoverageRunner(
             ILogger logger,
             IToolUnzipper toolUnzipper,
-            IThreadHelper threadHelper
-        )
+            IThreadHelper threadHelper)
         {
             _logger = logger;
             _toolUnzipper = toolUnzipper;
