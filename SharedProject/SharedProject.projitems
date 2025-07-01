@@ -659,17 +659,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilter\CoverageTypeFilterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilter\CoverageTypeFilterChangedMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilter\ICoverageTypeFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Base\DialogPageBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Coverlet\CoverletOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\EditorCoverageColouring\EditorCoverageColouringOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Hotspots\HotspotThresholdsOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\IncludesExcludes\IncludesExcludesOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Misc\MiscOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Misc\OpenOptionPageTypeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OpenCover\OpenCoverOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Output\OutputOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Report\ReportOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\Run\RunOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\CoverletOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\EditorCoverageColouringOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\HotspotThresholdsOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\IncludesExcludesOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\MiscOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OpenOptionPageTypeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OpenCoverOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OutputOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ReportOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\RunOptionsPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Vs\Package\VSPackage.resx">
