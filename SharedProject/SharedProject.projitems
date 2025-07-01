@@ -92,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ICoverageCollectableFromTestExplorer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitCoverageRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitCoverageRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingMonikers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
@@ -580,7 +583,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Unused/Colours/ContrastComparisonResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/Logging/Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/Logging/LoggerSingleton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs/Pane/Logging/StatusMarkerProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Settings/Options/ProfileManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Settings/Solution/ISolutionOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Settings/Solution/ISolutionOptions.cs" />

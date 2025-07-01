@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Engine.FileSynchronization;
 using FineCodeCoverage.Options;
 

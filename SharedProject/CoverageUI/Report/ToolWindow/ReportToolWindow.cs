@@ -78,7 +78,7 @@ namespace FineCodeCoverage.Output
                 try
                 {
                     string dllName = $"{assemblyName.Name}.dll";
-                    string projectDllPath = Path.GetDirectoryName(typeof(FCCEngine).Assembly.Location);
+                    string projectDllPath = Path.GetDirectoryName(GetType().Assembly.Location);
                     string dllPath = Directory.GetFiles(projectDllPath, "*.dll", SearchOption.AllDirectories).FirstOrDefault(x => Path.GetFileName(x).Equals(x.Equals(dllName, StringComparison.OrdinalIgnoreCase)));
 
                     if (!string.IsNullOrWhiteSpace(dllPath))

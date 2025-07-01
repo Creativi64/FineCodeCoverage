@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using FineCodeCoverage.Engine.Model;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ReflectObject;
 
