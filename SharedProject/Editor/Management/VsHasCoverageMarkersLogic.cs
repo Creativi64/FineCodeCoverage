@@ -16,7 +16,7 @@ namespace FineCodeCoverage.Editor.Management
 
         public bool HasCoverageMarkers()
         {
-            Microsoft.VisualStudio.Settings.SettingsStore readOnlySettingsStore = _readOnlyConfigSettingsStoreProvider.LazySettingsStore.GetValue();
+            ISettingsStore readOnlySettingsStore = _readOnlyConfigSettingsStoreProvider.Provide();
             return readOnlySettingsStore.CollectionExists(@"Text Editor\External Markers\{b4ee9ead-e105-11d7-8a44-00065bbd20a4}");
         }
     }

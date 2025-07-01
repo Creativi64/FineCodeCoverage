@@ -6,12 +6,15 @@ using System.Reflection;
 
 namespace FineCodeCoverage.Utilities.AssemblyBinding
 {
+    /*
+        Not used as ProvideBindingPathAttribute SubPath works
+    */
     internal abstract class DirectoryBindingRedirector
     {
         private string _assembliesDirectory;
         private List<AssemblyName> _assemblyNames;
 
-        public DirectoryBindingRedirector() => AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        protected DirectoryBindingRedirector() => AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
@@ -24,22 +27,19 @@ namespace FineCodeCoverage.Utilities.AssemblyBinding
             }
 
             string path = GetPath(requestAssemblyName);
-            if (File.Exists(path))
-            {
-                return Assembly.LoadFrom(path);
-            }
-
-            return null;
+            return File.Exists(path) ? Assembly.LoadFrom(path) : null;
         }
 
         private void EnsureInitialized()
         {
-            if (_assembliesDirectory == null)
+            if (_assembliesDirectory != null)
             {
-                _assembliesDirectory = GetDirectory();
-                _assemblyNames = Directory.GetFiles(_assembliesDirectory, "*.dll")
-                    .Select(file => AssemblyName.GetAssemblyName(file)).ToList();
+                return;
             }
+
+            _assembliesDirectory = GetDirectory();
+            _assemblyNames = Directory.GetFiles(_assembliesDirectory, "*.dll")
+                .Select(file => AssemblyName.GetAssemblyName(file)).ToList();
         }
 
         private string GetPath(AssemblyName assemblyName)
@@ -49,5 +49,4 @@ namespace FineCodeCoverage.Utilities.AssemblyBinding
 
         protected abstract string GetDirectory();
     }
-
 }

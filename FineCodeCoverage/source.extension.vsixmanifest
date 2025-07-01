@@ -25,6 +25,8 @@
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="markdig-redirects\System.Memory.dll" AssemblyName="System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" d:VsixSubPath="markdig-redirects" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="markdig-redirects\System.Numerics.Vectors.dll" AssemblyName="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" d:VsixSubPath="markdig-redirects" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="markdig-redirects\System.Runtime.CompilerServices.Unsafe.dll" AssemblyName="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" d:VsixSubPath="markdig-redirects" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%.Initialization" Path="|FineCodeCoverage.Initialization|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%.Options" Path="|FineCodeCoverage.Options|" />
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />

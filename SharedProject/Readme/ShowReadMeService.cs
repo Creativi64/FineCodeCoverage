@@ -11,7 +11,7 @@ namespace FineCodeCoverage.Readme
     {
         private const string ReadMeShowCollection = "FCCReadmeShowCollection";
         private const string ReadMeShownProperty = "FCCReadmeShown";
-        private readonly WritableSettingsStore _writableUserSettingsStore;
+        private readonly IWritableSettingsStore _writableUserSettingsStore;
         private readonly IToolWindowService _toolWindowService;
 
         public event EventHandler Shown;
@@ -21,7 +21,7 @@ namespace FineCodeCoverage.Readme
             IToolWindowService toolWindowService,
             IWritableUserSettingsStoreProvider writableUserSettingsStoreProvider)
         {
-            _writableUserSettingsStore = writableUserSettingsStoreProvider.LazySettingsStore.GetValue();
+            _writableUserSettingsStore = writableUserSettingsStoreProvider.Provide();
             HasShown = _writableUserSettingsStore.GetBoolean(ReadMeShowCollection, ReadMeShownProperty, false);
             _toolWindowService = toolWindowService;
         }

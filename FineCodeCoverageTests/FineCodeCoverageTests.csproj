@@ -221,6 +221,22 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Initialization\FineCodeCoverage.Initialization.csproj">
+      <Project>{48af8161-fab3-462d-b898-036b7c9897fb}</Project>
+      <Name>FineCodeCoverage.Initialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Options\FineCodeCoverage.Options.csproj">
+      <Project>{94e28cea-8b1f-4841-9c5f-7e7b636a2d67}</Project>
+      <Name>FineCodeCoverage.Options</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj">
+      <Project>{9a8f0ebc-af9d-448d-928d-27e08a77ab23}</Project>
+      <Name>FineCodeCoverage.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj">
+      <Project>{7b206c15-d01c-4144-978d-c37ca9962e69}</Project>
+      <Name>FineCodeCoverage.VSAbstractions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage2022\FineCodeCoverage2022.csproj">
       <Project>{59a22196-a750-4ba4-b30e-be1422e68b8e}</Project>
       <Name>FineCodeCoverage2022</Name>

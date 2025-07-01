@@ -14,7 +14,6 @@ namespace FineCodeCoverage.Output
         private const string ColumnStatesPropertyName = "FCCColumnStates";
         private readonly IWritableUserSettingsStoreProvider _writableUserSettingsStoreProvider;
         private readonly IClearSettingsOnShutdown _clearSettingsOnShutdown;
-        private readonly AsyncLazy<WritableSettingsStore> _lazyUserSettingsStore;
 
         public bool ClearSettingsOnShutdown { get; set; }
 
@@ -25,12 +24,11 @@ namespace FineCodeCoverage.Output
         {
             _writableUserSettingsStoreProvider = writableUserSettingsStoreProvider;
             _clearSettingsOnShutdown = clearSettingsOnShutdown;
-            _lazyUserSettingsStore = _writableUserSettingsStoreProvider.LazySettingsStore;
         }
 
         private async Task DeleteCollectionAsync()
         {
-            WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
+            IWritableSettingsStore store = await _writableUserSettingsStoreProvider.ProvideAsync();
             _ = store.DeleteCollection(ColumnStatesCollectionName);
         }
 
@@ -43,7 +41,7 @@ namespace FineCodeCoverage.Output
             }
 
             await EnsureCollectionAsync();
-            WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
+            IWritableSettingsStore store = await _writableUserSettingsStoreProvider.ProvideAsync();
             store.SetString(ColumnStatesCollectionName, ColumnStatesPropertyName, columnStates);
         }
 
@@ -54,13 +52,13 @@ namespace FineCodeCoverage.Output
                 return;
             }
 
-            WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
+            IWritableSettingsStore store = await _writableUserSettingsStoreProvider.ProvideAsync();
             store.CreateCollection(ColumnStatesCollectionName);
         }
 
         private async Task<bool> CollectionExistsAsync()
         {
-            WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
+            IWritableSettingsStore store = await _writableUserSettingsStoreProvider.ProvideAsync();
             return store.CollectionExists(ColumnStatesCollectionName);
         }
 
@@ -71,7 +69,7 @@ namespace FineCodeCoverage.Output
                 return null;
             }
 
-            WritableSettingsStore store = await _lazyUserSettingsStore.GetValueAsync();
+            IWritableSettingsStore store = await _writableUserSettingsStoreProvider.ProvideAsync();
             return store.GetString(ColumnStatesCollectionName, ColumnStatesPropertyName);
         }
     }

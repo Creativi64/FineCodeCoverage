@@ -122,7 +122,7 @@ namespace FineCodeCoverageTests
 
     public class OptionsProviderTests
     {
-        private Mock<WritableSettingsStore> mockWritableSettingsStore;
+        private Mock<IWritableSettingsStore> mockWritableSettingsStore;
         private AutoMoqer autoMocker;
         private TestOptionsProvider testOptionsProvider;
 
@@ -132,12 +132,11 @@ namespace FineCodeCoverageTests
             autoMocker = new AutoMoqer();
             autoMocker.SetInstance<IDefaultOptionsSetter<TestOptions>>(new TestOptionsDefaultsSetter());
             testOptionsProvider = autoMocker.Create<TestOptionsProvider>();
-            mockWritableSettingsStore = new Mock<WritableSettingsStore>();
-            var lazyMockWritableSettingsStore = new AsyncLazy<WritableSettingsStore>(() => Task.FromResult(mockWritableSettingsStore.Object), null);
+            mockWritableSettingsStore = new Mock<IWritableSettingsStore>();
             var mockWritableUserSettingsStoreProvider = autoMocker.GetMock<IWritableUserSettingsStoreProvider>();
             mockWritableUserSettingsStoreProvider.Setup(
-                writableSettingsStoreProvider => writableSettingsStoreProvider.LazySettingsStore
-            ).Returns(lazyMockWritableSettingsStore);
+                writableSettingsStoreProvider => writableSettingsStoreProvider.Provide()
+            ).Returns(mockWritableSettingsStore.Object);
             autoMocker.Setup<IJsonConvertService, object>(jsonConvertService => jsonConvertService.DeserializeObject("Serialized", typeof(bool))).Returns(true);
         }
 
