@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Initialization
 {
-    public interface IShellPackageLoader
+    public interface IFCCPackageLoader
     {
         Task LoadPackageAsync();
     }

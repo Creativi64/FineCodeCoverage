@@ -7,13 +7,13 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.Initialization
 {
-    [Export(typeof(IShellPackageLoader))]
-    internal sealed class ShellPackageLoader : IShellPackageLoader
+    [Export(typeof(IFCCPackageLoader))]
+    internal sealed class FCCPackageLoader : IFCCPackageLoader
     {
         private readonly IServiceProvider _serviceProvider;
 
         [ImportingConstructor]
-        public ShellPackageLoader(
+        public FCCPackageLoader(
             [Import(typeof(SVsServiceProvider))]
             IServiceProvider serviceProvider)
             => _serviceProvider = serviceProvider;

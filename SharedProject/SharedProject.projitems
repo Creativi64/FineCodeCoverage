@@ -140,7 +140,7 @@
       <DependentUpon>Crispy.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Vsix.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Initialization\ShellPackageLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackageLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\FCCMarkdownFlowDocumentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\HyperlinkContainsImageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\IFCCMarkdownFlowDocumentProvider.cs" />
@@ -693,5 +693,8 @@
       <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Initialization\" />
   </ItemGroup>
 </Project>

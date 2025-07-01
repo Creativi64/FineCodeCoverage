@@ -8,13 +8,13 @@ namespace FineCodeCoverage.Initialization
     [Export(typeof(IInitializedFromTestContainerDiscoverer))]
     internal sealed class PackageLoader : IPackageLoader, IInitializedFromTestContainerDiscoverer
     {
-        private readonly IShellPackageLoader _shellPackageLoader;
+        private readonly IFCCPackageLoader _shellPackageLoader;
 
         public bool InitializedFromTestContainerDiscoverer { get; private set; }
 
         [ImportingConstructor]
         public PackageLoader(
-            IShellPackageLoader shellPackageLoader)
+            IFCCPackageLoader shellPackageLoader)
             => _shellPackageLoader = shellPackageLoader;
 
         public async Task LoadPackageAsync(CancellationToken cancellationToken)
