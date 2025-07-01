@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Coverlet;
+using FineCodeCoverage.Options.IncludesExcludes;
+using FineCodeCoverage.Options.OpenCover;
+using FineCodeCoverage.Options.Run;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {

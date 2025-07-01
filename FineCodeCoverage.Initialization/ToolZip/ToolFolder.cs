@@ -2,8 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
+using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Initialization.ToolZip
 {
     [Export(typeof(IToolFolder))]
     internal sealed class ToolFolder : IToolFolder

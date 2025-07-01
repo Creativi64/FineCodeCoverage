@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Base
 {
     public interface IProfileOptionsProvider : IProvideOptions
     {

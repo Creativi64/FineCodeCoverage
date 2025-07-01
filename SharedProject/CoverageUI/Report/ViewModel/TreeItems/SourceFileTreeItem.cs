@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Telemetry;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Report;
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
 

@@ -9,7 +9,8 @@ using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Output;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement

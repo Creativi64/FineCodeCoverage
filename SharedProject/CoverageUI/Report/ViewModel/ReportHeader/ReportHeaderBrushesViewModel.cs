@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Report;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 using WpfHelpers;

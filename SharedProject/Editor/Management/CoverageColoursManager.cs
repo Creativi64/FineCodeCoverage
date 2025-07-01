@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Media;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Initialization;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 

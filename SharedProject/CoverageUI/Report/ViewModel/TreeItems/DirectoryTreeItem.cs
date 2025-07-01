@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Report;
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
 

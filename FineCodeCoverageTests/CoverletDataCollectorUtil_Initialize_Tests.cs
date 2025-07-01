@@ -2,7 +2,7 @@
 using System.Threading;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization.ToolZip;
 using NUnit.Framework;
 
 namespace Test

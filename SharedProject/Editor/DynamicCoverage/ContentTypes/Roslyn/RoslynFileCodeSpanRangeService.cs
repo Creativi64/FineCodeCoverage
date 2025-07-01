@@ -2,7 +2,8 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Editor.Roslyn;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Text;
 

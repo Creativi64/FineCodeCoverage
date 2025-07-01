@@ -4,7 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Hotspots;
 
 namespace FineCodeCoverage.Hotspots
 {

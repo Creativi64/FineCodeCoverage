@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options.Tools
+namespace FineCodeCoverage.Options.Misc
 {
     [Export(typeof(IDefaultOptionsSetter<MiscOptions>))]
     internal sealed class MiscOptionsDefaults : IDefaultOptionsSetter<MiscOptions>

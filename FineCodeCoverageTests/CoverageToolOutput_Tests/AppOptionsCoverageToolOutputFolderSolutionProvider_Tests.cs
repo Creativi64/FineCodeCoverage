@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageToolOutput;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Output;
 using FineCodeCoverageTests.TestHelpers;
 using NUnit.Framework;
 

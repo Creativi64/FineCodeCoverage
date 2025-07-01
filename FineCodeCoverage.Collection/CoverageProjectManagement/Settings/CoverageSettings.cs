@@ -1,4 +1,7 @@
-﻿using FineCodeCoverage.Options;
+﻿using FineCodeCoverage.Options.Coverlet;
+using FineCodeCoverage.Options.IncludesExcludes;
+using FineCodeCoverage.Options.OpenCover;
+using FineCodeCoverage.Options.Run;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {

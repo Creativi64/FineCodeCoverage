@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options.Base;
 using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Options

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Base
 {
     internal abstract class OptionsProviderBase<TOptions> :
         IResetOptions,

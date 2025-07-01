@@ -3,10 +3,11 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Options;
 using System.Collections.Generic;
 using System;
 using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 {

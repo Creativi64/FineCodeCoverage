@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Misc;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Initialization
 {
     [Export(typeof(IAppDataFolder))]
     internal sealed class AppDataFolder : IAppDataFolder

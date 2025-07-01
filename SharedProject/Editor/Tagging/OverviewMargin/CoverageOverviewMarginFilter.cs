@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 
 namespace FineCodeCoverage.Editor.Tagging.OverviewMargin
 {

@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Options;
+﻿using FineCodeCoverage.Options.Report;
 
 namespace FineCodeCoverage.Output
 {

@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Initialization.ToolZip
 {
     internal interface IToolZipProvider
     {

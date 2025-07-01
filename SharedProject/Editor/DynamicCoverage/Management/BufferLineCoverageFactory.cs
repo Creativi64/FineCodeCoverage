@@ -2,7 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

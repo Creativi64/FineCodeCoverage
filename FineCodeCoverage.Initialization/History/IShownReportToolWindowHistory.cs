@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Initialization.History
 {
     public interface IShownReportToolWindowHistory
     {

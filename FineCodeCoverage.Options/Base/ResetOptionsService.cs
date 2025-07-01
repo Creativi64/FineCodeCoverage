@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Engine;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Base
 {
     [Export(typeof(ResetOptionsService))]
     public sealed class ResetOptionsService

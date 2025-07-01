@@ -6,9 +6,9 @@ using System.Xml.XPath;
 using System.Collections.Generic;
 using AutoMoq;
 using System.Threading;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.Threading.Tasks;
+using FineCodeCoverage.Initialization.ToolZip;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

@@ -4,7 +4,8 @@ using System.Linq;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 using FineCodeCoverage.Editor.Tagging.Base;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
 {

@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using System;
 
 namespace FineCodeCoverageTests.Editor.Tagging.Base.Types

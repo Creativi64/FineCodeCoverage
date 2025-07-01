@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.Options.Report
 {
     public enum ReportTotalRow
     {

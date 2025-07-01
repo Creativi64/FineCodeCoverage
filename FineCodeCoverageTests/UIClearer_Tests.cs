@@ -2,7 +2,8 @@
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine.Messages;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Output;
 using Moq;
 using NUnit.Framework;

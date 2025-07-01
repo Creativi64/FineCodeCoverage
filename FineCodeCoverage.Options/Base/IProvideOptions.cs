@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.Options.Base
 {
     public interface IProvideOptions
     {

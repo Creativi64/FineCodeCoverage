@@ -4,12 +4,10 @@ using AutoMoq;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl;
 using System.Threading.Tasks;
-using FineCodeCoverage.Options;
 using System.Collections.Generic;
 using FineCodeCoverage.Engine;
 using System.Linq;
 using System.Threading;
-using FineCodeCoverage.Core.Utilities;
 using System.IO;
 using System;
 using FineCodeCoverage.Output;
@@ -17,6 +15,9 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
+using FineCodeCoverage.Initialization.ToolZip;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Run;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

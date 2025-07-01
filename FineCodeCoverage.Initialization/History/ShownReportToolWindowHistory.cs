@@ -2,9 +2,9 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Core.Utilities;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Initialization.History
 {
     [Export(typeof(IShownReportToolWindowHistory))]
     [Export(typeof(IAppDataFolderPathDependent))]

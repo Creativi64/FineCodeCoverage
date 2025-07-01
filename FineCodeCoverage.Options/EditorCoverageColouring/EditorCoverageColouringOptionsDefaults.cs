@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.EditorCoverageColouring
 {
     [Export(typeof(IDefaultOptionsSetter<EditorCoverageColouringOptions>))]
     internal sealed class EditorCoverageColouringOptionsDefaults : IDefaultOptionsSetter<EditorCoverageColouringOptions>

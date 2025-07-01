@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Options;
+﻿using FineCodeCoverage.Options.OpenCover;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {

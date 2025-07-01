@@ -1,5 +1,5 @@
 ﻿using FineCodeCoverage.Editor.Tagging.GlyphMargin;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using FineCodeCoverageTests.Editor.Tagging.CoverageTypeFilter;
 using System;
 using System.Linq.Expressions;

@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.Options.Coverlet
 {
     public interface ICoverletOptions
     {

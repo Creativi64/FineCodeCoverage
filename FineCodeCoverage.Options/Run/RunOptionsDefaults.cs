@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Run
 {
     [Export(typeof(IDefaultOptionsSetter<RunOptions>))]
     internal sealed class RunOptionsDefaults : IDefaultOptionsSetter<RunOptions>

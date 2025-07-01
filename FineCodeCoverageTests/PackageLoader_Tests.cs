@@ -1,5 +1,5 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Initialization;
 using NUnit.Framework;
 using System.Threading;
 using System.Threading.Tasks;

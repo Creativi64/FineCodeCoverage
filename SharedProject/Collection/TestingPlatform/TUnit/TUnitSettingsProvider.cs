@@ -7,7 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Run;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

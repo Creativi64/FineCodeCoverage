@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.Options.OpenCover
 {
     public enum OpenCoverRegister
     {

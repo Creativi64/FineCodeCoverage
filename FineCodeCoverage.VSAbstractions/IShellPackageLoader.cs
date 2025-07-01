@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Core.Initialization
+namespace FineCodeCoverage.Initialization
 {
     public interface IShellPackageLoader
     {

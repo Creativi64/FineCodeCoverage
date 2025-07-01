@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options.Hotspots
+namespace FineCodeCoverage.Options.Coverlet
 {
     [Export(typeof(IDefaultOptionsSetter<CoverletOptions>))]
     internal sealed class CoverletOptionsDefaults : IDefaultOptionsSetter<CoverletOptions>

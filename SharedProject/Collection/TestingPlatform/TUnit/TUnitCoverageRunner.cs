@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Initialization;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
+using FineCodeCoverage.Initialization;
+using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform

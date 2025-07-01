@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Initialization;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization;
+using FineCodeCoverage.Initialization.ToolZip;
 
 namespace FineCodeCoverage.Collection.VsTest
 {

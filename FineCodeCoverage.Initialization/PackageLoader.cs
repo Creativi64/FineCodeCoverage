@@ -2,7 +2,7 @@
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Core.Initialization
+namespace FineCodeCoverage.Initialization
 {
     [Export(typeof(IPackageLoader))]
     [Export(typeof(IInitializedFromTestContainerDiscoverer))]

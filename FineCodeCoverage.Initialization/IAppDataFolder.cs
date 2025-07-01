@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Initialization
 {
     internal interface IAppDataFolder
     {

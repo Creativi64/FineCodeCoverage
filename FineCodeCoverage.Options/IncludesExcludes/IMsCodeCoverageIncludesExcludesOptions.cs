@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.Options.IncludesExcludes
 {
     public interface IMsCodeCoverageIncludesExcludesOptions
     {

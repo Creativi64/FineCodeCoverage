@@ -1,5 +1,6 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using Moq;
 using NUnit.Framework;
 

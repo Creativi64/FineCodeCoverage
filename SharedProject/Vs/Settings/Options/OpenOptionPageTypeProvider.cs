@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Misc;
 
 namespace FineCodeCoverage.Options
 {

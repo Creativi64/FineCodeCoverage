@@ -2,7 +2,8 @@
 using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Output;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement
 {

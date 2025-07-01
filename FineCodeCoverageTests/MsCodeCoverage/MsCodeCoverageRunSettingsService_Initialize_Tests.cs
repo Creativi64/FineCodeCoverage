@@ -2,10 +2,10 @@
 using AutoMoq;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.Threading;
-using FineCodeCoverage.Core.Utilities;
 using System.Threading.Tasks;
 using FineCodeCoverageTests.TestHelpers;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Initialization;
+using FineCodeCoverage.Initialization.ToolZip;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

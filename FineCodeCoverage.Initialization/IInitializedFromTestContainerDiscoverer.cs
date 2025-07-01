@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Initialization
+﻿namespace FineCodeCoverage.Initialization
 {
     internal interface IInitializedFromTestContainerDiscoverer
     {

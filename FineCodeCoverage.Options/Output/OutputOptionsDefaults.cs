@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Output
 {
     [Export(typeof(IDefaultOptionsSetter<OutputOptions>))]
     internal sealed class OutputOptionsDefaults : IDefaultOptionsSetter<OutputOptions>

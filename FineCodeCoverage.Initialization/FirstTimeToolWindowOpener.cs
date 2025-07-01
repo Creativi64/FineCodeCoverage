@@ -2,8 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization.History;
 
-namespace FineCodeCoverage.Core.Initialization
+namespace FineCodeCoverage.Initialization
 {
     [Export(typeof(IFirstTimeToolWindowOpener))]
     internal sealed class FirstTimeToolWindowOpener : IFirstTimeToolWindowOpener

@@ -1,5 +1,5 @@
 using FineCodeCoverage.Collection.VsTest;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Initialization;
 using FineCodeCoverageTests.TestHelpers;
 using NUnit.Framework;
 

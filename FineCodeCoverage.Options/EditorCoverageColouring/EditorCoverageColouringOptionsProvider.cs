@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.EditorCoverageColouring
 {
     [Export(typeof(IOptionsProvider<EditorCoverageColouringOptions>))]
     [Export(typeof(IDialogPageOptionsProvider<EditorCoverageColouringOptions>))]

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Output;
 
-namespace FineCodeCoverage.Options.Tools
+namespace FineCodeCoverage.Options.Misc
 {
     [Export(typeof(IOptionsProvider<MiscOptions>))]
     [Export(typeof(IDialogPageOptionsProvider<MiscOptions>))]

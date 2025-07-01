@@ -1,7 +1,8 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;

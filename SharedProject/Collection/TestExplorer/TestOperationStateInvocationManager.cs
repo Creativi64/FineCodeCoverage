@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Initialization;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ILogger = FineCodeCoverage.Output.ILogger;
 

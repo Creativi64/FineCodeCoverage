@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Solution;
+using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Readme;
 using Microsoft;

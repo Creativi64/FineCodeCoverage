@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
-using FineCodeCoverage.Options;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
+using FineCodeCoverage.Options.OpenCover;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

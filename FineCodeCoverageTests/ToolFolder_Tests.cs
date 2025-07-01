@@ -2,6 +2,7 @@
 using System.Threading;
 using AutoMoq;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization.ToolZip;
 using Moq;
 using NUnit.Framework;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.OpenCover;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {

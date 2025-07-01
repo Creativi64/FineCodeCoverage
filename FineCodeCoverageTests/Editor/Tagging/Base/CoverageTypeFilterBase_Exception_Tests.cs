@@ -1,7 +1,7 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Editor.Tagging.Classification;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

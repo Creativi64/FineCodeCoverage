@@ -11,6 +11,7 @@ using Moq;
 using AutoMoq;
 using Microsoft.VisualStudio.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Options.Base;
 
 namespace FineCodeCoverageTests
 {

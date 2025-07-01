@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Initialization.ToolZip
 {
     [Export(typeof(IToolZipProvider))]
     internal sealed class ToolZipProvider : IToolZipProvider

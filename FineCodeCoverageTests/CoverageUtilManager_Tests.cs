@@ -5,7 +5,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverletOpenCover;
 using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet;
 using FineCodeCoverage.Collection.CoverletOpenCover.OpenCover;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Initialization;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

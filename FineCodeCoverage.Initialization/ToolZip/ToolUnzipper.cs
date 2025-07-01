@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Initialization.ToolZip
 {
     [Export(typeof(IToolUnzipper))]
     internal sealed class ToolUnzipper : IToolUnzipper

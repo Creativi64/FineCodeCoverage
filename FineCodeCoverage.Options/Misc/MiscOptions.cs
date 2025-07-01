@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Misc
 {
     /*
         Note that option properties must not be renamed

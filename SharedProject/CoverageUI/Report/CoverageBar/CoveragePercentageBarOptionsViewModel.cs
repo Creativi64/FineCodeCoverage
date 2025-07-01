@@ -2,7 +2,8 @@
 using System.Windows.Media;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.Management;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Report;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output

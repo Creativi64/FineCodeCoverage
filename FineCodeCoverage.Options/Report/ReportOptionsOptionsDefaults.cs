@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Report
 {
     [Export(typeof(IDefaultOptionsSetter<ReportOptions>))]
     internal sealed class ReportOptionsOptionsDefaults : IDefaultOptionsSetter<ReportOptions>

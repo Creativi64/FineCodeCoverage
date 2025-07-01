@@ -1,6 +1,7 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization;
+using FineCodeCoverage.Initialization.History;
 using Moq;
 using NUnit.Framework;
 using System.Threading;

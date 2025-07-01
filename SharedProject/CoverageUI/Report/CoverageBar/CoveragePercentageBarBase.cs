@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Report;
 using FineCodeCoverage.Wpf;
 using Microsoft.VisualStudio.PlatformUI;
 

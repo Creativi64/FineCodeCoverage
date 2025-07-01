@@ -1,6 +1,6 @@
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.OpenCover;
 using FineCodeCoverage.Output;
 using Moq;
 using NUnit.Framework;

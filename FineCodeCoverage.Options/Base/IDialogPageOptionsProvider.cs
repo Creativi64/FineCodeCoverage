@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.Options.Base
 {
     public interface IDialogPageOptionsProvider<TOptions>
         where TOptions : class

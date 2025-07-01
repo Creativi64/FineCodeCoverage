@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.Options.Base;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.IncludesExcludes
 {
     [Export(typeof(IDefaultOptionsSetter<IncludesExcludesOptions>))]
     internal sealed class IncludesExcludesOptionsDefaults : IDefaultOptionsSetter<IncludesExcludesOptions>

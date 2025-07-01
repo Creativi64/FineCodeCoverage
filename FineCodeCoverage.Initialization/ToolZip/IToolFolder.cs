@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Initialization.ToolZip
 {
     internal interface IToolFolder
     {

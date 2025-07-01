@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization.ToolZip;
 using NUnit.Framework;
 
 namespace Test

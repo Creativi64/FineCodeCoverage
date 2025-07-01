@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 
 namespace FineCodeCoverage.Editor.Tagging.Base
 {

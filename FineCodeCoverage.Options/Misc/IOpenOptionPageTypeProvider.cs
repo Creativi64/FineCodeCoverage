@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Options.Misc
 {
     public interface IOpenOptionPageTypeProvider
     {

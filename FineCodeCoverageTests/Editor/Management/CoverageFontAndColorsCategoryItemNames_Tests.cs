@@ -1,6 +1,7 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Editor.Management;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

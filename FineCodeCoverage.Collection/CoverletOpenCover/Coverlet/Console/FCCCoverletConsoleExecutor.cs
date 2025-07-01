@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverletOpenCover.Process;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Initialization.ToolZip;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {

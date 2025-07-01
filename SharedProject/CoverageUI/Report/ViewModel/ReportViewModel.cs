@@ -8,7 +8,8 @@ using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Report;
 using Microsoft.VisualStudio.Shell;
 using TreeGrid;
 
