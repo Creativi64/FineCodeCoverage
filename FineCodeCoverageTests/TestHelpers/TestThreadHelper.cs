@@ -1,5 +1,6 @@
 ﻿using FineCodeCoverage.Core.Utilities.VsThreading;
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,6 +9,16 @@ namespace FineCodeCoverageTests.TestHelpers
     internal class TestThreadHelper : IThreadHelper
     {
         public IJoinableTaskFactory JoinableTaskFactory { get; } = new TestJoinableTaskFactory();
+
+        public Task AwaitTaskSchedulerDefaultAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task<int> WaitForForProcessExitAsync(Process process, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     internal class TestJoinableTaskFactory : IJoinableTaskFactory

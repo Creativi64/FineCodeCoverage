@@ -91,6 +91,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ICoverageCollectableFromTestExplorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingMonikers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme/ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
@@ -182,8 +183,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/Themes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/VsCrispImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/VsImageButtonX.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/CoverageUtilManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/ICoverageUtilManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Ms/CustomRunSettingsTemplateDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Ms/CustomRunSettingsTemplateProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Ms/ICoverageProjectRunSettings.cs" />
@@ -221,11 +220,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Ms/UserRunSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Ms/VsRunSettingsWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Ms/XPathNavigatorExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/Runners/FCCEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/Runners/ICoverageCollectableFromTestExplorer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/Runners/IFCCEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Runners/TestContainerDiscoverer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/Runners/TUnitCoverageRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/Settings/VsBuildFCCSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/IRunSettingsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/ITestOperation.cs" />
@@ -236,8 +231,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/TestOperationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/TestOperationStateInvocationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/DisableTestingPlatformServerCapabilityGlobalPropertiesProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/VsTest/IVsTestInstaller.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/VsTest/VsTestInstaller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/ColumnManagementUI/ColumnsManagementWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/ColumnManagementUI/EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/ColumnManagementUI/IReportColumnsService.cs" />
@@ -332,12 +325,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Unused/IAssemblyUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Unused/IResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities/Unused/ResourceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/CancellationTokenSourceWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ICancellationTokenSource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/IReflectionService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ITypeDescriptorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/ReflectionService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities/Wrappers/TypeDescriptorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\CancellationTokenSourceWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Colors/VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Commands/CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Commands/ClearUICommand.cs" />
@@ -391,7 +379,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Theming/ThemeChangedWeakEventManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Theming/VsThemeLifetimeCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Threading/DisposeAwareTaskRunner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs/Threading/IDisposeAwareTaskRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Threading/MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Threading/VsJoinableTaskFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs/Threading/VsThreadHelper.cs" />
@@ -414,21 +401,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverageProjectManagement/ReferencedProjects/ICPPReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverageProjectManagement/ReferencedProjects/IDotNetReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverageProjectManagement/ReferencedProjects/VsApiReferencedProjectsHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/CoverletUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/ICoverletUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/OpenCover/CommandLineArgumentsHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/OpenCover/IOpenCoverExeArgumentsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/OpenCover/IOpenCoverUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/OpenCover/OpenCoverExeArgumentsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/OpenCover/OpenCoverExitCodeException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/OpenCover/OpenCoverUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/ExecuteRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/ExecuteResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/IProcessResponseProcessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/IProcessUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/ProcessResponseException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/ProcessResponseProcessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Process/ProcessUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/InternalTypes/Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/InternalTypes/ContainerData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestExplorer/InternalTypes/TestConfiguration.cs" />
@@ -453,7 +425,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitCoverageProject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitCoverageProjectFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitCoverageRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitInstalledPackagesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitProject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/ITUnitProjectCache.cs" />
@@ -475,7 +446,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/TUnitProjectCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/TUnitProjectFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/TUnitProjectsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/TUnitSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection/TestingPlatform/TUnit/TUnitSettingsProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/Report/ColumnManagement/ColumnStatesStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/Report/ColumnManagement/IColumnStatesStore.cs" />
@@ -631,41 +601,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/DesignTimeResources/CrispImage/DesignModeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/DesignTimeResources/CrispImage/ImageLibraryLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf/DesignTimeResources/CrispImage/VsInstallationPath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletConsoleCustomPathExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletConsoleDotnetToolsGlobalExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletConsoleDotnetToolsLocalExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletConsoleExecuteRequestProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletConsoleExeFinder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletConsoleUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletDotNetToolDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletExeArgumentsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/CoverletExitCodeFailureException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/DotNetToolListCoverlet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/FCCCoverletConsoleExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleCustomPathExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleDotnetToolsGlobalExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleDotnetToolsLocalExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleExecuteRequestProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleExeFinder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletConsoleUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/ICoverletExeArgumentsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/IDotNetToolListCoverlet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/Console/IFCCCoverletConsoleExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/CoverletDataCollectorDidNotGenerateCoberturaException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/CoverletDataCollectorGeneratedCobertura.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/CoverletDataCollectorState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/CoverletDataCollectorUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/DataCollectorSettingsBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/DataCollectorSettingsBuilderFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/ICoverletDataCollectorGeneratedCobertura.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/ICoverletDataCollectorUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/IDataCollectorSettingsBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/IDataCollectorSettingsBuilderFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/IRunSettingsCoverletConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/IRunSettingsCoverletConfigurationFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/RunSettingsCoverletConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection/CoverletOpenCover/Coverlet/DataCollector/RunSettingsCoverletConfigurationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/Report/ViewModel/Icons/IconsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/Report/ViewModel/Icons/IconsViewModelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI/Report/ViewModel/Icons/IIconMeasurementOptions.cs" />

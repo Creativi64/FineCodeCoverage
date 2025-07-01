@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace FineCodeCoverage.Core.Utilities
 {
-    internal interface ICancellationTokenSource : IDisposable
+    public interface ICancellationTokenSource : IDisposable
     {
         CancellationToken Token { get; }
 

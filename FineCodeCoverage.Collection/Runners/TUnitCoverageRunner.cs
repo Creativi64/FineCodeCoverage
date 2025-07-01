@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Threading;
 
@@ -22,6 +23,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         private const int SuccessExitCode = 0;
         private readonly ILogger _logger;
         private readonly IToolUnzipper _toolUnzipper;
+        private readonly IThreadHelper _threadHelper;
         private readonly Dictionary<int, string> _nonSuccessExitCodeMessages = new Dictionary<int, string>
         {
             { 2, "At least one test failure." },
@@ -48,10 +50,13 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
         [ImportingConstructor]
         public TUnitCoverageRunner(
             ILogger logger,
-            IToolUnzipper toolUnzipper)
+            IToolUnzipper toolUnzipper,
+            IThreadHelper threadHelper
+        )
         {
             _logger = logger;
             _toolUnzipper = toolUnzipper;
+            _threadHelper = threadHelper;
         }
 
         private (string, string) GetExeAndArgs(
@@ -94,7 +99,7 @@ namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                _ = await process.WaitForExitAsync(cancellationToken);
+                _ = await _threadHelper.WaitForForProcessExitAsync(process, cancellationToken);
                 _ = process.WaitForExit(1000); // Ensures all output is handled
 
                 /*

@@ -1,6 +1,6 @@
 ﻿namespace FineCodeCoverage.Core.Utilities
 {
-    internal sealed class ExecuteRequest
+    public sealed class ExecuteRequest
     {
         public string FilePath { get; set; }
 

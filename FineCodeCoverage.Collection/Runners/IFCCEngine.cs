@@ -5,7 +5,7 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine
 {
-    internal interface IFCCEngine
+    public interface IFCCEngine
     {
         void StopCoverage();
 

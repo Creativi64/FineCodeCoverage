@@ -5,11 +5,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Output;
-using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Engine
 {
@@ -35,6 +35,7 @@ namespace FineCodeCoverage.Engine
         private readonly ICoverageToolOutputManager _coverageOutputManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly IDisposeAwareTaskRunner _disposeAwareTaskRunner;
+        private readonly IThreadHelper _threadHelper;
         private ICancellationTokenSource _cancellationTokenSource;
 
         [ImportingConstructor]
@@ -44,10 +45,12 @@ namespace FineCodeCoverage.Engine
             ILogger logger,
             ICoverageToolOutputManager coverageOutputManager,
             IEventAggregator eventAggregator,
-            IDisposeAwareTaskRunner disposeAwareTaskRunner)
+            IDisposeAwareTaskRunner disposeAwareTaskRunner,
+            IThreadHelper threadHelper)
         {
             _eventAggregator = eventAggregator;
             _disposeAwareTaskRunner = disposeAwareTaskRunner;
+            _threadHelper = threadHelper;
             _coverageOutputManager = coverageOutputManager;
             _coverageUtilManager = coverageUtilManager;
             _reportGeneratorUtil = reportGeneratorUtil;
@@ -223,7 +226,7 @@ namespace FineCodeCoverage.Engine
             CancellationToken vsShutdownLinkedCancellationToken = _cancellationTokenSource.Token;
             _disposeAwareTaskRunner.RunAsyncFunc(async () =>
             {
-                await TaskScheduler.Default;
+                await _threadHelper.AwaitTaskSchedulerDefaultAsync();
                 await DoWorkAsync(reportResultProvider, vsShutdownLinkedCancellationToken);
                 cleanUp?.Invoke();
                 _cancellationTokenSource.Dispose();

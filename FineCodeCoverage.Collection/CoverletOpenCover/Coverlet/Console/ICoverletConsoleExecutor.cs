@@ -4,7 +4,7 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine.Coverlet
 {
-    internal interface ICoverletConsoleExecutor
+    public interface ICoverletConsoleExecutor
     {
         Task<ExecuteRequest> GetRequestAsync(ICoverageProject coverageProject, string coverletSettings);
     }

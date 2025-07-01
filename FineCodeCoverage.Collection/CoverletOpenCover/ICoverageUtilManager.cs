@@ -4,7 +4,7 @@ using FineCodeCoverage.Engine.Model;
 
 namespace FineCodeCoverage.Engine
 {
-    internal interface ICoverageUtilManager
+    public interface ICoverageUtilManager
     {
         Task RunCoverageAsync(ICoverageProject project, CancellationToken cancellationToken);
     }
