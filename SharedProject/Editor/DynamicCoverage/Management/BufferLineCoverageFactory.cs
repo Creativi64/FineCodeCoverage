@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

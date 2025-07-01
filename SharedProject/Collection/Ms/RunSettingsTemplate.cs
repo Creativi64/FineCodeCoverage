@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Xml;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
 {

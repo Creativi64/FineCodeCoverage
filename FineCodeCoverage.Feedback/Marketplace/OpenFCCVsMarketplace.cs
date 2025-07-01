@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Feedback.Marketplace
 {

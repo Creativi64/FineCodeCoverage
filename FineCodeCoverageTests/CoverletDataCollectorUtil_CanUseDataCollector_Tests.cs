@@ -5,7 +5,7 @@ using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 using Moq;
 using NUnit.Framework;
 

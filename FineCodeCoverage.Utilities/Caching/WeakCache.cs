@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Caching
 {
     public class WeakCache<TKey, TValue>
         where TValue : class

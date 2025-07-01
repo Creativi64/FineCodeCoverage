@@ -2,8 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using FineCodeCoverage.Utilities.Extensions;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IFileUtil))]

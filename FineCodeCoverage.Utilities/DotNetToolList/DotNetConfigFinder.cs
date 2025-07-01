@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.DotNetToolList
 {
     [Export(typeof(IDotNetConfigFinder))]
     internal sealed class DotNetConfigFinder : IDotNetConfigFinder

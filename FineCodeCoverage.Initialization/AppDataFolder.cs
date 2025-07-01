@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Misc;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Initialization
 {

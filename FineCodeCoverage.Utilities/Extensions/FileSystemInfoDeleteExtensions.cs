@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Extensions
 {
     public static class FileSystemInfoDeleteExtensions
     {

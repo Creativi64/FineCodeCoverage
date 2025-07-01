@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Media;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
+using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;

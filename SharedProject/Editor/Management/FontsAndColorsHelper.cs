@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
+using FineCodeCoverage.Utilities.Extensions;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;

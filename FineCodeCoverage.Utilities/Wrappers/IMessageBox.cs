@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine
+﻿namespace FineCodeCoverage.Utilities.Wrappers
 {
     public interface IMessageBox
     {

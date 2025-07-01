@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Extensions
 {
     public static class ProcessExtensions
     {

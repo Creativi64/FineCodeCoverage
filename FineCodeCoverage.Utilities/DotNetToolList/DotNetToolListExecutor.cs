@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
+using FineCodeCoverage.Utilities.Extensions;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.DotNetToolList
 {
     [Export(typeof(IDotNetToolListExecutor))]
     internal sealed class DotNetToolListExecutor : IDotNetToolListExecutor

@@ -6,6 +6,7 @@ using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

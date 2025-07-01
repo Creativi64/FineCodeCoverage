@@ -2,7 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Extensions;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Initialization.ToolZip
 {

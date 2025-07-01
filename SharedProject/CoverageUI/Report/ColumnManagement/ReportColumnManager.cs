@@ -5,6 +5,7 @@ using System.Windows;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
+using FineCodeCoverage.Utilities.Wrappers;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output

@@ -1,8 +1,8 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Editor.Tagging.GlyphMargin;
+using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Moq;

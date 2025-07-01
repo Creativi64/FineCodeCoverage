@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Initialization;
+using FineCodeCoverage.Utilities.Events;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

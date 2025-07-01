@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using System;
-using FineCodeCoverage.Core.Utilities;
 using System.IO;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Utilities.Xml;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

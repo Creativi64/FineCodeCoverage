@@ -12,6 +12,8 @@ using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Utilities.Logging;
 
 namespace FineCodeCoverage.Engine
 {

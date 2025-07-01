@@ -1,7 +1,7 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

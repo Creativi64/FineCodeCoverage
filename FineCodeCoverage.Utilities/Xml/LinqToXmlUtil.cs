@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Xml
 {
     public static class LinqToXmlUtil
     {
@@ -35,7 +35,7 @@ namespace FineCodeCoverage.Core.Utilities
         public static XElement RemoveAllNamespaces(this XElement @this)
             => new XElement(
                 @this.Name.LocalName,
-                @this.Nodes().Select(n => n is XElement xEl ? RemoveAllNamespaces(xEl) : n),
+                @this.Nodes().Select(n => n is XElement xEl ? xEl.RemoveAllNamespaces() : n),
                 @this.Attributes());
 
         public static XElement Load(string path, bool removeNamespaces)

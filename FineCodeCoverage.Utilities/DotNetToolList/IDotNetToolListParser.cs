@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.DotNetToolList
 {
     public interface IDotNetToolListParser
     {

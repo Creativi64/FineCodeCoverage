@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Utilities.DotNetToolList
 {
     // ignoring Manifest as not needed
     public sealed class DotNetToolInfo

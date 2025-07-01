@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Extensions;
 using FineCodeCoverage.Wpf;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
 

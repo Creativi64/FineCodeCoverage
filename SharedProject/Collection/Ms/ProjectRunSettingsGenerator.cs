@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Utilities.Xml;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage

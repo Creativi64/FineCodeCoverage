@@ -9,9 +9,9 @@ using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Collection.CoverletOpenCover.Process;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Wrappers;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector

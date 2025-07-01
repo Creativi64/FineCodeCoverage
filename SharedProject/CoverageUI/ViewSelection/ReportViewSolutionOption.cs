@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Solution;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Output
 {

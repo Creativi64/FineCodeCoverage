@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Wrappers;
 using Moq;
 using NUnit.Framework;
 using System;

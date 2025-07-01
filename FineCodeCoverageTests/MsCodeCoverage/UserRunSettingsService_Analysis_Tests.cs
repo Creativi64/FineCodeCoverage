@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
-using FineCodeCoverage.Core.Utilities;
 using Moq;
 using AutoMoq;
 using System.Linq;
 using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

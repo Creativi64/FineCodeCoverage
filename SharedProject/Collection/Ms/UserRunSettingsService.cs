@@ -4,7 +4,8 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Utilities.Xml;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Reflection;
+using FineCodeCoverage.Utilities.Extensions;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     [Export(typeof(IReflectionService))]
     internal sealed class ReflectionService : IReflectionService

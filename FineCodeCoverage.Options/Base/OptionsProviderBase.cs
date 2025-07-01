@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Options.Base
 {

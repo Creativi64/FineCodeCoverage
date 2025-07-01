@@ -15,6 +15,8 @@ using FineCodeCoverage.Engine.Model;
 using FineCodeCoverage.Engine.ReportGenerator;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Utilities.Logging;
 using Moq;
 using NUnit.Framework;
 

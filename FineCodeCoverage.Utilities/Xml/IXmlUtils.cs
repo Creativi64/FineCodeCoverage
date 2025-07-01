@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Xml
 {
     public interface IXmlUtils
     {

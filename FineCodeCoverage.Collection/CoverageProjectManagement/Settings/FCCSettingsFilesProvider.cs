@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Xml.Linq;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {

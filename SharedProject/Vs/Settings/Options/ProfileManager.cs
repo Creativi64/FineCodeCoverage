@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Utilities.Wrappers;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 

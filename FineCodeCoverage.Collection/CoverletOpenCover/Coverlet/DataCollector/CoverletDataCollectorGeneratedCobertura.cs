@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Extensions;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector
 {

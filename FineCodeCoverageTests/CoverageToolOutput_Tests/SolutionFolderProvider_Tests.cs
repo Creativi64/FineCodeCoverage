@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
+using FineCodeCoverage.Utilities.Wrappers;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests.CoverageToolOutput_Tests

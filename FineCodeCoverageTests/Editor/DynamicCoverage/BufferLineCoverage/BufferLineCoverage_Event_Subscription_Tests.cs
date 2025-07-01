@@ -1,6 +1,6 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options.Base;
+﻿using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
+using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

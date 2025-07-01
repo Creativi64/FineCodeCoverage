@@ -1,4 +1,5 @@
 ﻿using System;
+using FineCodeCoverage.Utilities.Caching;
 using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Core.Utilities

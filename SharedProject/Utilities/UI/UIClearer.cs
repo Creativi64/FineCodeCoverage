@@ -4,6 +4,7 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
+using FineCodeCoverage.Utilities.Events;
 
 namespace FineCodeCoverage.Output
 {

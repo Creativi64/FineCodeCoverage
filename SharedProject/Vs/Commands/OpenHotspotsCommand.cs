@@ -6,6 +6,7 @@ using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Hotspots;
+using FineCodeCoverage.Utilities.Events;
 
 namespace FineCodeCoverage.Output
 {

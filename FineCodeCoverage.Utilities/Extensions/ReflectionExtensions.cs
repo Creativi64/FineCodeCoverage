@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Extensions
 {
     public static class ReflectionExtensions
     {

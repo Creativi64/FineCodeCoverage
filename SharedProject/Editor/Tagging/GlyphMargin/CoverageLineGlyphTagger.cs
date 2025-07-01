@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
+using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 

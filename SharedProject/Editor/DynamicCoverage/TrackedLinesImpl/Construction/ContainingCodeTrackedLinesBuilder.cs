@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

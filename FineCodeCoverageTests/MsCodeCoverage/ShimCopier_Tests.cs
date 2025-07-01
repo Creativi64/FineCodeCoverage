@@ -2,10 +2,10 @@
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.IO;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using System.Collections.Generic;
 using Moq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Extensions;
 
 namespace FineCodeCoverage.Wpf
 {

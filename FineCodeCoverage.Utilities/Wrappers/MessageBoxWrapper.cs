@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     /*
         todo use VS message boxes

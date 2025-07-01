@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Xml
 {
     [Export(typeof(IXmlUtils))]
     internal sealed class XmlUtils : IXmlUtils

@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Threading;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Initialization.ToolZip;
+using FineCodeCoverage.Utilities.Wrappers;
 using Moq;
 using NUnit.Framework;
 

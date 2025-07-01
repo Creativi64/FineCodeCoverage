@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Core.Utilities.Solution
 {

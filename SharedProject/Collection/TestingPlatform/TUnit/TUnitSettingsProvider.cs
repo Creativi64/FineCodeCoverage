@@ -6,9 +6,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
+using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Utilities.Xml;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

@@ -5,6 +5,7 @@ using FineCodeCoverage.Engine.Messages;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
 using Moq;
 using NUnit.Framework;
 using System;

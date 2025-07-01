@@ -1,7 +1,7 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
+﻿using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

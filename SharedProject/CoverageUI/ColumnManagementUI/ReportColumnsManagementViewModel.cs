@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FineCodeCoverage.Engine;
+using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.Wpf;
 using WpfHelpers;
 

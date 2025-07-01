@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Input;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Funding;
 using FineCodeCoverage.Utilities.Vs;
-using FineCodeCoverage.Wpf;
+using FineCodeCoverage.Utilities.Wpf.Commands;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Feedback.Funding
 {

@@ -11,6 +11,7 @@ using FineCodeCoverage.Github;
 using FineCodeCoverage.Output.Pane;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Utilities.Vs;
+using FineCodeCoverage.Utilities.Wrappers;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Feedback.Github

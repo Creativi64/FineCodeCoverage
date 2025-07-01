@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Initialization.History
 {

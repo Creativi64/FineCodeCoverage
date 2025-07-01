@@ -5,11 +5,12 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Report;
+using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Utilities.Extensions;
 using Microsoft.VisualStudio.Shell;
 using TreeGrid;
 

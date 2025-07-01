@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     internal interface IReflectionService
     {

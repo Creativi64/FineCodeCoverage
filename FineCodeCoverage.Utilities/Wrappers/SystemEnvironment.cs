@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     [Export(typeof(IEnvironment))]
     internal sealed class SystemEnvironment : IEnvironment

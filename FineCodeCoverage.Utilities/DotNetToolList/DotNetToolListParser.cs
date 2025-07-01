@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.DotNetToolList
 {
     [Export(typeof(IDotNetToolListParser))]
     internal sealed class DotNetToolListParser : IDotNetToolListParser

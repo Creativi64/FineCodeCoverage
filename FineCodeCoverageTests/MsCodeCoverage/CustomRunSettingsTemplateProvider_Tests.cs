@@ -3,7 +3,7 @@ using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.IO;
 using System;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

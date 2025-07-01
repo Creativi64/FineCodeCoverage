@@ -11,6 +11,8 @@ using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Utilities.Logging;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform

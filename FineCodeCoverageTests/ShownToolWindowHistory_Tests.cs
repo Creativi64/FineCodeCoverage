@@ -1,8 +1,8 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Engine;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.History;
+using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

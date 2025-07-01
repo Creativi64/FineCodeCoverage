@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Output
+﻿namespace FineCodeCoverage.Utilities.Logging
 {
     public static class StatusMarkerProvider
     {

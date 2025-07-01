@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Documents;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Misc;
-using FineCodeCoverage.Wpf;
+using FineCodeCoverage.Utilities.Wpf.Commands;
+using FineCodeCoverage.Utilities.Wrappers;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
 using WpfHelpers;
 

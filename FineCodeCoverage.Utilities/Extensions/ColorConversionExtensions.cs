@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Extensions
 {
     public static class ColorConversionExtensions
     {

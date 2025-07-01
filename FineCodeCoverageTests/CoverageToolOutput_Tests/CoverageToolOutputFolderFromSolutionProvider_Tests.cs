@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageToolOutput;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.MEF;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

@@ -1,9 +1,9 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
+using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverageTests.Editor.Tagging.Base.Types;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;

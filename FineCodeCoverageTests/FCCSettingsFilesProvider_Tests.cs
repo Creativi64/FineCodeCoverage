@@ -1,5 +1,5 @@
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;

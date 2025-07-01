@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.MEF;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverage.Collection.CoverageToolOutput
 {

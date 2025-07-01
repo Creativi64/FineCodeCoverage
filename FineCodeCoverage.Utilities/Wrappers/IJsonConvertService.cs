@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     public interface IJsonConvertService
     {

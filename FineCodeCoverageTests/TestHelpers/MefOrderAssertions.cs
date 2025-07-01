@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Extensions;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests.TestHelpers
 {
     public static class MefOrderAssertions
     {
-        private static FineCodeCoverage.Core.Utilities.OrderAttribute GetOrderAtrribute(Type classType)
+        private static FineCodeCoverage.Utilities.MEF.OrderAttribute GetOrderAtrribute(Type classType)
         {
-            return classType.GetTypedCustomAttributes<FineCodeCoverage.Core.Utilities.OrderAttribute>(
+            return classType.GetTypedCustomAttributes<FineCodeCoverage.Utilities.MEF.OrderAttribute>(
                 false)[0];
         }
         public static void TypeHasExpectedOrder(Type classType,int expectedOrder)

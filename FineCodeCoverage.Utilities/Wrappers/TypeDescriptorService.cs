@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     [Export(typeof(ITypeDescriptorService))]
     internal sealed class TypeDescriptorService : ITypeDescriptorService

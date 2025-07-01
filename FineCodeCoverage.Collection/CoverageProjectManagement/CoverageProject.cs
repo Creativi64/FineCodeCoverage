@@ -8,9 +8,10 @@ using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.FileSynchronization;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Output;
+using FineCodeCoverage.Utilities.Extensions;
+using FineCodeCoverage.Utilities.Xml;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement

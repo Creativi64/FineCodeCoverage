@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 
-namespace FineCodeCoverage.Wpf
+namespace FineCodeCoverage.Utilities.Wpf.Commands
 {
     public sealed class ProcessStartCommand : ICommand
     {

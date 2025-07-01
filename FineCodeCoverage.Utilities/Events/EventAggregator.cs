@@ -1,14 +1,14 @@
-﻿#pragma warning disable
-// ReSharper disable InconsistentNaming
-namespace FineCodeCoverage.Core.Utilities
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using System.Reflection;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Reflection;
 
+#pragma warning disable
+// ReSharper disable InconsistentNaming
+namespace FineCodeCoverage.Utilities.Events
+{
     /*
      * 
      * License: 

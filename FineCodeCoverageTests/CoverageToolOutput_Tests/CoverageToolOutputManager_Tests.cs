@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageToolOutput;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Utilities.MEF;
+using FineCodeCoverage.Utilities.Wrappers;
 using Moq;
 using NUnit.Framework;
 

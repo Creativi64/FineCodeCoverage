@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Media;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Report;
+using FineCodeCoverage.Utilities.Events;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output

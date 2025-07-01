@@ -6,12 +6,12 @@ using NUnit.Framework;
 using Microsoft.VisualStudio.Settings;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
-using FineCodeCoverage.Core.Utilities;
 using Moq;
 using AutoMoq;
 using Microsoft.VisualStudio.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Utilities.Wrappers;
 
 namespace FineCodeCoverageTests
 {

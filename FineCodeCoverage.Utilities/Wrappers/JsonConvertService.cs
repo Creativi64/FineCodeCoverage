@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Wrappers
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IJsonConvertService))]
