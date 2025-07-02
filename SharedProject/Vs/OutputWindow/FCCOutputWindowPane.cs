@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FineCodeCoverage.Output.Pane
 {
-    internal sealed class FCCOutputWindowPane : IFCCOutputWindowPane
+    internal sealed class FCCOutputWindowPane : IFCCOutputWindowPane, IFCCOutputWindowPaneWritable
     {
         private readonly IVsOutputWindowPane _outputWindowPane;
         private readonly Window _outputWindowWindow;

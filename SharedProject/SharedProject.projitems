@@ -94,6 +94,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
       <DependentUpon>BaseDialogControl.xaml</DependentUpon>
     </Compile>

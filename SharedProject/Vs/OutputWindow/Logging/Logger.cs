@@ -14,12 +14,12 @@ namespace FineCodeCoverage.Output.Pane
     [Export(typeof(ILogger))]
     internal sealed class Logger : ILogger
     {
-        private readonly IFCCOutputWindowPaneCreator _fccOutputWindowCreator;
+        private readonly IFCCOutputWindowPaneWritableCreator _fccOutputWindowCreator;
         private readonly FaultEventName _logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
 
         [ImportingConstructor]
         public Logger(
-            IFCCOutputWindowPaneCreator fccOutputWindowCreator) => _fccOutputWindowCreator = fccOutputWindowCreator;
+            IFCCOutputWindowPaneWritableCreator fccOutputWindowCreator) => _fccOutputWindowCreator = fccOutputWindowCreator;
 
         private static string GetFormattedNow()
         {
@@ -45,7 +45,7 @@ namespace FineCodeCoverage.Output.Pane
                     return;
                 }
 
-                IFCCOutputWindowPane pane = await _fccOutputWindowCreator.GetOrCreateAsync();
+                IFCCOutputWindowPaneWritable pane = await _fccOutputWindowCreator.GetOrCreateWritableAsync();
                 if (pane == null)
                 {
                     return;

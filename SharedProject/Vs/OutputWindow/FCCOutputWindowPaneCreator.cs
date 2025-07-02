@@ -10,11 +10,11 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace FineCodeCoverage.Output.Pane
 {
     [Export(typeof(IFCCOutputWindowPaneCreator))]
-    internal sealed class FCCOutputWindowPaneCreator : IFCCOutputWindowPaneCreator
+    internal sealed class FCCOutputWindowPaneCreator : IFCCOutputWindowPaneCreator, IFCCOutputWindowPaneWritableCreator
     {
         private const string FCCPaneGuidString = "{3B3C775A-0050-445D-9022-0230957805B2}";
         private readonly IServiceProvider _serviceProvider;
-        private IFCCOutputWindowPane _fccOutputWindowPane;
+        private FCCOutputWindowPane _fccOutputWindowPane;
 
         [ImportingConstructor]
         public FCCOutputWindowPaneCreator(
@@ -22,6 +22,18 @@ namespace FineCodeCoverage.Output.Pane
             IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public async System.Threading.Tasks.Task<IFCCOutputWindowPane> GetOrCreateAsync()
+        {
+            FCCOutputWindowPane pane = await GetOrCreateImplAsync();
+            return pane;
+        }
+
+        public async System.Threading.Tasks.Task<IFCCOutputWindowPaneWritable> GetOrCreateWritableAsync()
+        {
+            FCCOutputWindowPane pane = await GetOrCreateImplAsync();
+            return pane;
+        }
+
+        private async System.Threading.Tasks.Task<FCCOutputWindowPane> GetOrCreateImplAsync()
         {
             if (_fccOutputWindowPane != null)
             {

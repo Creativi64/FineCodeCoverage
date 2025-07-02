@@ -6,8 +6,6 @@ namespace FineCodeCoverage.Output.Pane
     {
         Task ShowAsync();
 
-        Task OutputStringThreadSafeAsync(string text);
-
         Task<string> GetTextAsync();
     }
 }
