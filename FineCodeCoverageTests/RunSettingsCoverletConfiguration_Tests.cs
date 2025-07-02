@@ -1,4 +1,4 @@
-using FineCodeCoverage.Core.Coverlet;
+using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.DataCollector;
 using NUnit.Framework;
 
 namespace Test

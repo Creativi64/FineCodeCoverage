@@ -1,6 +1,7 @@
 ﻿using Cobertura;
 using FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl;
 using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Wrappers;
 using Moq;
 using Palmmedia.ReportGenerator.Core.Logging;
 using System;

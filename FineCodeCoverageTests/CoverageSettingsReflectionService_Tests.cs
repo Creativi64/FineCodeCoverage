@@ -1,5 +1,8 @@
-﻿using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Options;
+﻿using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
+using FineCodeCoverage.Options.Coverlet;
+using FineCodeCoverage.Options.IncludesExcludes;
+using FineCodeCoverage.Options.OpenCover;
+using FineCodeCoverage.Options.Run;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests

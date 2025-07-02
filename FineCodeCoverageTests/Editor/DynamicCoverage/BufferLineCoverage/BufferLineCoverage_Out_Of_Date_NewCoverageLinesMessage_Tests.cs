@@ -1,5 +1,5 @@
-﻿using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Impl;
+﻿using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;

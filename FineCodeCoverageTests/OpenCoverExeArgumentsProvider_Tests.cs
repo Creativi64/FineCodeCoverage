@@ -2,7 +2,6 @@
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Collection.CoverletOpenCover.OpenCover;
-using FineCodeCoverage.Engine.OpenCover;
 using FineCodeCoverage.Options.OpenCover;
 using Moq;
 using NUnit.Framework;

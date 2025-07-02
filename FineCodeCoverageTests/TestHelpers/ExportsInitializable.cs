@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Core.Initialization;
+﻿using FineCodeCoverage.Initialization;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests.TestHelpers

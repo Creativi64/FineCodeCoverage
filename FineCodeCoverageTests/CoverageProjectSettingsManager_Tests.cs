@@ -2,6 +2,8 @@ using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Options;
+using FineCodeCoverage.Options.IncludesExcludes;
+using FineCodeCoverage.Options.Run;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
