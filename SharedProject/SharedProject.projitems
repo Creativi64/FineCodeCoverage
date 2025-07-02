@@ -158,7 +158,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\TemplatedReadmeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\TemplatedReadmeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\DialogWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\DialogWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
@@ -166,7 +166,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BindToMarkedAncestorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridSelectionHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\EnumStyleResourceHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\EnumStyleResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
@@ -325,7 +325,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\IAssemblyUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\IResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\ResourceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Colors\VisualStudioNotificationColors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\ClearUICommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CollectOrCancelTUnitCoverage.cs" />
@@ -353,43 +353,43 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\IVsShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\SolutionEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\VsShutdown.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Files\FileRenameListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Files\SourceFileOpener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Files\VsOpenFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\FileRenameListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\SourceFileOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\VsOpenFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\CommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\ICommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\IPackageServices.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\FCCOutputWindowPane.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\FCCOutputWindowPaneCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\IShowFCCOutputPane.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\IVsOutputWindowPaneExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\ShowFCCOutputPane.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Projects\IProjectFilePropertyWriter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Projects\ProjectFilePropertyWriter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Services\MefServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\FCCOutputWindowPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\FCCOutputWindowPaneCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IShowFCCOutputPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IVsOutputWindowPaneExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\ShowFCCOutputPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Projects\IProjectFilePropertyWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Projects\ProjectFilePropertyWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ComponentModel\MefServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\ClearSettingsOnShutdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\IClearSettingsOnShutdown.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\FaultEventName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\FCCFaultEventName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\IBuildFaultEventNameFromFeatureHierarchy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Telemetry\ProductFaultEventNameBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\FaultEventName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\FCCFaultEventName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\IBuildFaultEventNameFromFeatureHierarchy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ImageThemingUtilitiesX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ThemeChangedWeakEventManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsThemeLifetimeCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\CancellationTokenSourceWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\DisposeAwareTaskRunner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\MainThreadHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\VsJoinableTaskFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Threading\VsThreadHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\IToolWindowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\IToolWindowServiceInit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\ReflectionMEFToolWindowContextProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\ToolWindows\ToolWindowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Versioning\IsVs2022.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Versioning\IVsAppId.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Versioning\SVsAppId.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Versioning\VsVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\CancellationTokenSourceWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\DisposeAwareTaskRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\MainThreadHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\VsJoinableTaskFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\VsThreadHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\IToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\IToolWindowServiceInit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\ReflectionMEFToolWindowContextProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\ToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\IsVs2022.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\IVsAppId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\SVsAppId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\VsVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifierBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedUserControl.cs" />
@@ -579,8 +579,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageOverviewMarginFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\Colours\ColorUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\Colours\ContrastComparisonResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\Logging\Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Pane\Logging\LoggerSingleton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\Logging\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\Logging\LoggerSingleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\DialogPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ProfileManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\ISolutionOption.cs" />
@@ -693,5 +693,8 @@
       <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\Windows\" />
   </ItemGroup>
 </Project>
