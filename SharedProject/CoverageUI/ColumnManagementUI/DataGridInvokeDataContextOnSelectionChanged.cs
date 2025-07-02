@@ -7,13 +7,13 @@ using System.Windows.Controls;
 
 namespace FineCodeCoverage.Wpf
 {
-    public static class DataGridSelectionHelper
+    public static class DataGridInvokeDataContextOnSelectionChanged
     {
         public static readonly DependencyProperty HandleSelectionProperty =
             DependencyProperty.RegisterAttached(
                 "HandleSelection",
                 typeof(bool),
-                typeof(DataGridSelectionHelper),
+                typeof(DataGridInvokeDataContextOnSelectionChanged),
                 new PropertyMetadata(false, OnHandleSelectionChanged));
 
         public static void SetHandleSelection(DependencyObject element, bool value)

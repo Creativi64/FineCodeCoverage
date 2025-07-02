@@ -53,7 +53,7 @@
             </Button>-->
 
         </StackPanel>
-        <DataGrid fccWpf:DataGridSelectionHelper.HandleSelection="true"  
+        <DataGrid fccWpf:DataGridInvokeDataContextOnSelectionChanged.HandleSelection="true"  
                   fccWpf:DataGridPreventSelectAllBehaviour.Value="True"
                   DockPanel.Dock="left" 
 				  HorizontalGridLinesBrush="{DynamicResource {x:Static vs:ThemedDialogColors.GridLineBrushKey}}"

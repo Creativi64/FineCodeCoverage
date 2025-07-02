@@ -166,13 +166,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseViewModelDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BindToMarkedAncestorExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridPreventSelectAllBehaviour.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DataGridSelectionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridPreventSelectAllBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridInvokeDataContextOnSelectionChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\EnumStyleResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ISelectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ISelectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDictionaryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceKeyConverter.cs" />
