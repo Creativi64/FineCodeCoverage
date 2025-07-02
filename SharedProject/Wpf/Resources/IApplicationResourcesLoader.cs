@@ -2,6 +2,6 @@
 {
     internal interface IApplicationResourcesLoader
     {
-        void AddFromExecutingAssembly(string path);
+        void AddFromExecutingAssembly(string resourcePath);
     }
 }

@@ -1,11 +1,8 @@
-﻿using FineCodeCoverage.Funding;
-using FineCodeCoverage.Github;
-
-namespace FineCodeCoverage.Utilities.Vs
+﻿namespace FineCodeCoverage.Utilities.Vs
 {
     public interface IDialogWindowService
     {
-        void ShowNewIssueDialogWindow(INewIssueViewModel viewModel);
-        void ShowFundingDialogWindow(IFundingViewModel viewModel);
+        void Show(object viewModel);
+        void ShowModal(object viewModel);
     }
 }

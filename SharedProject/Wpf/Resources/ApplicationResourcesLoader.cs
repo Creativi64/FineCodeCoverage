@@ -6,7 +6,7 @@ namespace FineCodeCoverage.Wpf
     [Export(typeof(IApplicationResourcesLoader))]
     public class ApplicationResourcesLoader : IApplicationResourcesLoader
     {
-        public void AddFromExecutingAssembly(string path)
-            => Application.Current.Resources.AddFromExecutingAssembly(path);
+        public void AddFromExecutingAssembly(string resourcePath)
+            => Application.Current.Resources.AddFromExecutingAssembly(resourcePath);
     }
 }
