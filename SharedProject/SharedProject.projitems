@@ -160,9 +160,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\TemplatedReadmeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\TemplatedReadmeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\DialogWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\AncestorLocator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\Resources\ApplicationResourcesLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseViewModelDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\BindToMarkedAncestorExtension.cs" />
@@ -170,12 +170,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridInvokeDataContextOnSelectionChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\EnumStyleResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\Resources\IApplicationResourcesLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\IApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ISelectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\Resources\ResourceDictionaryHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\Resources\ResourceKeyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceDictionaryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\Themes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsImageButtonX.cs" />
@@ -384,10 +384,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\MainThreadHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\VsJoinableTaskFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\VsThreadHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\IToolWindowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\IToolWindowServiceInit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\ReflectionMEFToolWindowContextProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Windows\ToolWindows\ToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\IToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\IToolWindowServiceInit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\ReflectionMEFToolWindowContextProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\ToolWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\IsVs2022.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\IVsAppId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\SVsAppId.cs" />
@@ -700,7 +700,8 @@
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\Windows\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Wpf\Resources\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\WindowServices\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Wpf\DialogWindows\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\" />
   </ItemGroup>
 </Project>

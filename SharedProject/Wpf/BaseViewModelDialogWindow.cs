@@ -1,8 +1,8 @@
 ﻿namespace FineCodeCoverage.Wpf
 {
-    public class BaseViewModelDialogWindow : GlitchFixingDialogWindow
+    public abstract class BaseViewModelDialogWindow : GlitchFixingDialogWindow
     {
-        public BaseViewModelDialogWindow(IDialogViewModel dialogViewModel)
+        protected BaseViewModelDialogWindow(IDialogViewModel dialogViewModel)
         {
             DataContext = dialogViewModel;
             dialogViewModel.Done += (_, __) => Close();

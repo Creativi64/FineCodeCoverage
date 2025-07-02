@@ -2,9 +2,9 @@
 
 namespace FineCodeCoverage.Wpf
 {
-    public class BaseDialogWindowTemplated : BaseViewModelDialogWindow
+    public abstract class BaseDialogWindowTemplated : BaseViewModelDialogWindow
     {
-        public BaseDialogWindowTemplated(IDialogViewModel dialogViewModel)
+        protected BaseDialogWindowTemplated(IDialogViewModel dialogViewModel)
             : base(dialogViewModel)
         {
             Resources.AddFromExecutingAssembly("Wpf/BaseDialogWindowTemplatedResourceDictionary.xaml");
