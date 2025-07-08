@@ -248,6 +248,11 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\Shared Files\Themes\Generic.xaml">
+      <Link>Themes\Generic.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Readme\VersionedReadMeResourceDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

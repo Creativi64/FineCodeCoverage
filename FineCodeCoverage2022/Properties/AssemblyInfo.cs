@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows;
 using FineCodeCoverage;
 
 // General Information about an assembly is controlled through the following
@@ -36,3 +37,7 @@ using FineCodeCoverage;
 [assembly: InternalsVisibleTo("FineCodeCoverageTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("GithubReadmeCreator")]
+
+[assembly: ThemeInfo(
+    ResourceDictionaryLocation.None,
+    ResourceDictionaryLocation.SourceAssembly)]

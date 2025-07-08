@@ -8,7 +8,7 @@
                     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
                     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
                     >
-    <Style x:Key="vsResizeGripStyle" TargetType="{x:Type ResizeGrip}">
+    <Style x:Key="themedDialogResizeGripStyle" TargetType="{x:Type ResizeGrip}">
         <Setter Property="FrameworkElement.MinWidth"
 Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
         <Setter Property="FrameworkElement.MinHeight"
@@ -44,7 +44,6 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
             <Setter Property="vs:ThemedDialogStyleLoader.UseDefaultThemedDialogStyles" Value="True"/>
 
             <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="UseLayoutRounding" Value="True"/>
 
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"/>
@@ -67,7 +66,6 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
             <Setter Property="theming:ImageThemingUtilities.ImageBackgroundColor"
             Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelColorKey}}"/>
 
-            <Setter Property="ResizeMode" Value="CanResizeWithGrip"  />
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
@@ -88,7 +86,7 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
                                         </fccWpf:BaseDialogControl.CustomContent>
                                     </fccWpf:BaseDialogControl>
 								</AdornerDecorator>
-								<ResizeGrip Style="{StaticResource vsResizeGripStyle}" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                <ResizeGrip Style="{StaticResource themedDialogResizeGripStyle}" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom"
 					  Visibility="Collapsed" IsTabStop="false"/>
 							</Grid>
 						</Border>

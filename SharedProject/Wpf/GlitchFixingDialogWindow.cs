@@ -6,15 +6,10 @@ namespace FineCodeCoverage.Wpf
 {
     public abstract class GlitchFixingDialogWindow : DialogWindow
     {
-        protected override void OnContentRendered(EventArgs e)
+        public override void OnApplyTemplate()
         {
-            base.OnContentRendered(e);
-            if (SizeToContent != SizeToContent.WidthAndHeight)
-            {
-                return;
-            }
-
-            InvalidateMeasure();
+            base.OnApplyTemplate();
+            this.FixSizeToContentWidthAndHeightBlackBars();
         }
     }
 }
