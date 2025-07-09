@@ -29,6 +29,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleOkCancel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindowTitle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,6 +101,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\WindowHeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
@@ -106,11 +118,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml.cs">
       <DependentUpon>BaseDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IPersistWindowState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IViewModelCancel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IViewModelDone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\SizeToContentWidthAndHeightFixer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogCloseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleContent.xaml.cs">
+      <DependentUpon>ThemedDialogTitleContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleOkCancel.xaml.cs">
+      <DependentUpon>ThemedDialogTitleOkCancel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindowTitle.xaml.cs">
       <DependentUpon>ThemedDialogWindowTitle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VisualTreeUtilties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
     </Compile>
@@ -680,6 +703,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OutputOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ReportOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\RunOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowCloseFrom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowCloseViewModelBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowDragBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowHeaderControl.xaml.cs">
+      <DependentUpon>WindowHeaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowPersistenceBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Vs\Package\VSPackage.resx">

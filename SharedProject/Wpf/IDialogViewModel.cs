@@ -1,14 +1,9 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace FineCodeCoverage.Wpf
 {
-    public interface IDialogViewModel
+    public interface IDialogViewModel : IViewModelCancel, IViewModelDone
     {
-        event EventHandler Done;
-
-        ICommand CancelCommand { get; }
-
         ICommand OkCommand { get; }
     }
 }

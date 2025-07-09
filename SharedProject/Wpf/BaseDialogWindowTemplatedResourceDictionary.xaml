@@ -69,7 +69,7 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome ResizeBorderThickness="5" GlassFrameThickness="0"/>
+                    <WindowChrome ResizeBorderThickness="5" GlassFrameThickness="0" CaptionHeight="0"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -80,11 +80,14 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
 			  BorderThickness="{TemplateBinding BorderThickness}">
 							<Grid>
 								<AdornerDecorator>
-                                    <fccWpf:BaseDialogControl Title="{TemplateBinding Property=Title}">
-                                        <fccWpf:BaseDialogControl.CustomContent>
-                                            <ContentPresenter/>
-                                        </fccWpf:BaseDialogControl.CustomContent>
-                                    </fccWpf:BaseDialogControl>
+                                    <StackPanel>
+                                        <fccWpf:WindowHeaderControl/>
+                                        <fccWpf:BaseDialogControl Title="{TemplateBinding Property=Title}">
+                                            <fccWpf:BaseDialogControl.CustomContent>
+                                                <ContentPresenter/>
+                                            </fccWpf:BaseDialogControl.CustomContent>
+                                        </fccWpf:BaseDialogControl>
+                                    </StackPanel>
 								</AdornerDecorator>
                                 <ResizeGrip Style="{StaticResource themedDialogResizeGripStyle}" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom"
 					  Visibility="Collapsed" IsTabStop="false"/>

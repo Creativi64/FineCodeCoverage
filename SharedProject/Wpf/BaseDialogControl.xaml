@@ -6,14 +6,12 @@
              xmlns:vsx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
 		     mc:Ignorable="d"
-			 
 			 >
 
-	<DockPanel Margin="24,0,20,20">
-		<TextBlock DockPanel.Dock="Top" Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,8,0,24"
-Style="{DynamicResource {x:Static vsx:VsResourceKeys.TextBlockEnvironment200PercentFontSizeStyleKey}}"
-Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.HeaderTextBrushKey}}"/>
+    <DockPanel Margin="24,0,20,20">
+        <fccWpf:ThemedDialogWindowTitle  DockPanel.Dock="Top"  Title="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"  Margin="0,8,0,24"/>
         <StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Margin="6,0" Command="{Binding OkCommand}">Ok</Button>
 			<Button IsDefault="True" Command="{Binding CancelCommand}">Cancel</Button>

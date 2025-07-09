@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿using FineCodeCoverage.Wpf;
 
 namespace FineCodeCoverage.Funding
 {
     /// <summary>
     /// FundingDialogWindow.xaml.cs.
     /// </summary>
-    public partial class FundingDialogWindow : DialogWindow
+    public partial class FundingDialogWindow : ThemedDialogWindow
     {
         public FundingDialogWindow(IFundingViewModel fundingViewModel)
         {

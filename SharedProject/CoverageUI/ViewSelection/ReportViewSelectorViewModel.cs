@@ -20,7 +20,7 @@ namespace FineCodeCoverage.Output
         private bool _changed;
         private string _selectedRepositoryPath;
 
-        public event EventHandler Done;
+        public event EventHandler<bool> Done;
 
         public ObservableCollection<string> Branches { get; } = new ObservableCollection<string>();
 
@@ -88,12 +88,12 @@ namespace FineCodeCoverage.Output
                         SelectedReportContentType.ReportContentType,
                         SelectedBranch,
                         SelectedRepositoryPath);
-                    Done?.Invoke(this, EventArgs.Empty);
+                    Done?.Invoke(this, true);
                 },
                 () => _changed);
             _notifyOkCommandCanExecuteChanged = okRelayCommand.NotifyCanExecuteChanged;
             OkCommand = okRelayCommand;
-            CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
+            CancelCommand = new RelayCommand(() => Done?.Invoke(this, false), () => true);
 
             _initialReportViewState = reportViewSelectorModel.GetState();
             RepositoryPaths = _initialReportViewState.RepositoryPaths;

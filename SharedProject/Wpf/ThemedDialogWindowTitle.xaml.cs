@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.Shell;
 
@@ -11,6 +10,9 @@ namespace FineCodeCoverage.Wpf
         Signature,
     }
 
+    /// <summary>
+    /// Displays a TextBlock with appropriate styling.
+    /// </summary>
     public partial class ThemedDialogWindowTitle : UserControl
     {
         public ThemedDialogWindowTitle()
@@ -30,10 +32,12 @@ namespace FineCodeCoverage.Wpf
 
         private static void OnDialogWindowTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ThemedDialogWindowTitle control)
+            if (!(d is ThemedDialogWindowTitle control))
             {
-                control.SetFontSizeStyleKey((ThemedDialogWindowType)e.NewValue);
+                return;
             }
+
+            control.SetFontSizeStyleKey((ThemedDialogWindowType)e.NewValue);
         }
 
         private void SetFontSizeStyleKey(ThemedDialogWindowType type)
@@ -49,7 +53,7 @@ namespace FineCodeCoverage.Wpf
                     break;
             }
 
-            this.TitleTextBlock.SetResourceReference(StyleProperty, key);
+            TitleTextBlock.SetResourceReference(StyleProperty, key);
         }
 
         public string Title
@@ -59,6 +63,6 @@ namespace FineCodeCoverage.Wpf
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register(nameof(Title), typeof(string), typeof(ThemedDialogWindowTitle), new PropertyMetadata(String.Empty));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(ThemedDialogWindowTitle), new PropertyMetadata(string.Empty));
     }
 }

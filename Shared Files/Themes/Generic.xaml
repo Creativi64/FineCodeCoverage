@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf">
@@ -9,6 +10,9 @@
     <Style TargetType="{x:Type fccWpf:ThemedDialogCloseButton}">
         <Setter Property="AutomationProperties.Name" Value="Close window"/>
         <Setter Property="Background" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonBrushKey}}"/>
+        <Setter Property="vs:ImageThemingUtilities.ImageBackgroundColor"
+            Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowButtonColorKey}}"/>
+
         <Setter Property="Foreground" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonGlyphBrushKey}}"/>
         <Setter Property="UIElement.Focusable" Value="False"/>
         <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
@@ -16,32 +20,140 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type fccWpf:ThemedDialogCloseButton}">
-                    <Border x:Name="Border" Background="{TemplateBinding Control.Background}"
+                    <ControlTemplate.Resources>
+                        <vs:BrushToColorConverter x:Key="BrushToColorConverter"/>
+                    </ControlTemplate.Resources>
+                    <Border x:Name="Border" Background="{TemplateBinding Control.Background}" 
 		                  BorderBrush="{TemplateBinding Control.BorderBrush}"
 		                  BorderThickness="{TemplateBinding Control.BorderThickness}">
                         <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background"
+                            <Setter Property="Background"
                                     Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.CloseWindowButtonHoverBrushKey}}"/>
-                            <Setter TargetName="Border" Property="BorderBrush"
+                            <Setter Property="vs:ImageThemingUtilities.ImageBackgroundColor"
+                                    Value="{DynamicResource {x:Static vs:ThemedDialogColors.CloseWindowButtonHoverColorKey}}"/>
+                            <Setter Property="BorderBrush"
                                     Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonHoverBorderBrushKey}}"/>
                             <Setter Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.CloseWindowButtonHoverTextBrushKey}}"
                         Property="TextElement.Foreground"/>
+                            
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background"
-            Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonDownBrushKey}}"/>
-                            <Setter TargetName="Border" Property="BorderBrush"
-            Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonDownBorderBrushKey}}"/>
-                            <Setter Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonDownGlyphBrushKey}}"
-Property="TextElement.Foreground"/>
+                            <Setter Property="Background"
+                                    Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonDownBrushKey}}"/>
+                            <Setter Property="vs:ImageThemingUtilities.ImageBackgroundColor"
+                                    Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowButtonDownColorKey}}"/>
+                            <Setter Property="BorderBrush"
+                                    Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonDownBorderBrushKey}}"/>
+                            <Setter Property="TextElement.Foreground" 
+                                    Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonDownGlyphBrushKey}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="themedDialogResizeGripStyle" TargetType="{x:Type ResizeGrip}">
+        <Setter Property="FrameworkElement.MinWidth"
+Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+        <Setter Property="FrameworkElement.MinHeight"
+Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+        <Setter Property="Control.Background" Value="Transparent"/>
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ResizeGrip}">
+                    <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}">
+                        <Path HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2"
+	  Data="M 9,0 L 11,0 11,11 0,11 0,9 3,9 3,6 6,6 6,3 9,3 Z">
+                            <Shape.Fill>
+                                <DrawingBrush Viewbox="0,0,3,3" Viewport="0,0,3,3" TileMode="Tile" ViewportUnits="Absolute"
+				  ViewboxUnits="Absolute">
+                                    <DrawingBrush.Drawing>
+                                        <DrawingGroup>
+                                            <DrawingGroup.Children>
+                                                <GeometryDrawing Brush="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}" Geometry="M 0,0 L 2,0 2,2 0,2 Z"/>
+                                            </DrawingGroup.Children>
+                                        </DrawingGroup>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Shape.Fill>
+                        </Path>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="themedDialogWindowBaseStyle" TargetType="Window">
+        <Style.Setters>
+            <Setter Property="vs:ThemedDialogStyleLoader.UseDefaultThemedDialogStyles" Value="True"/>
+
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowBorderBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+
+            <!-- what would have been provided by DialogWindowBase-->
+            <Setter Property="TextElement.FontSize"
+	    Value="{DynamicResource VsFont.EnvironmentFontSize}"/>
+            <Setter Property="TextElement.FontFamily"
+        Value="{DynamicResource VsFont.EnvironmentFontFamily}"/>
+            <Setter Property="FrameworkElement.UseLayoutRounding" Value="true"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+            <Setter Property="RenderOptions.BitmapScalingMode"
+	            Value="{x:Static vs:DpiHelper.BitmapScalingMode}"/>
+            <Setter Property="FrameworkElement.Language"
+	            Value="{x:Static vs:LanguageHelper.CurrentUICultureLanguage}"/>
+            <Setter Property="theming:ImageThemingUtilities.ThemeScrollBars" Value="True"/>
+            <!-- changing what DialogWindowBase would have done ( WindowColorKey )  -->
+            <Setter Property="theming:ImageThemingUtilities.ImageBackgroundColor"
+    Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelColorKey}}"/>
+
+            <Setter Property="WindowStyle" Value="None"/>
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome ResizeBorderThickness="5" GlassFrameThickness="0" CaptionHeight="0"/>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style BasedOn="{StaticResource themedDialogWindowBaseStyle}" TargetType="{x:Type fccWpf:ThemedDialogWindow}">
+        <Style.Setters>
+            <Setter Property="fccWpf:WindowCloseViewModelBehaviour.Enabled" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type fccWpf:ThemedDialogWindow}">
+                        <Border Background="{TemplateBinding Background}"
+			  BorderBrush="{TemplateBinding BorderBrush}"
+			  BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <AdornerDecorator>
+                                    <StackPanel>
+                                        <fccWpf:WindowHeaderControl/>
+                                        <ContentPresenter Content="{TemplateBinding BodyContent}"/>
+                                    </StackPanel>
+                                </AdornerDecorator>
+                                <ResizeGrip Style="{StaticResource themedDialogResizeGripStyle}" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+					  Visibility="Collapsed" IsTabStop="false"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                                    <Condition Property="WindowState" Value="Normal"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="WindowResizeGrip" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
     </Style>
 
 </ResourceDictionary>

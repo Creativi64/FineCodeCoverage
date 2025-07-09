@@ -22,15 +22,15 @@
         <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Margin="12,0,0,0">
             <fccWpf:VsCrispImageButton2 ImageMoniker="{x:Static catalog:KnownMonikers.MoveUp}" Margin="0,0,0,6" Command="{Binding UpCommand}"/>
             <fccWpf:VsCrispImageButtonX Moniker="{x:Static catalog:KnownMonikers.MoveDown}" Command="{Binding DownCommand}"/>
-            <fccWpf:VsPathButton 
+            <!--<fccWpf:VsPathButton 
                  Margin="0,6,0,0"
                 >
                 <fccWpf:VsPathButton.Path>
-                    <!--<Canvas Background="Transparent" Width="16" Height="16">-->
+                    --><!--<Canvas Background="Transparent" Width="16" Height="16">--><!--
                         <Path Data="F1 M 12.854,6.146 L 12.146,6.854 8,2.707 8,14 7,14 7,2.707 2.854,6.854 2.146,6.146 7.146,1.146 7.854,1.146 12.854,6.146 Z"/>
-                    <!--</Canvas>-->
+                    --><!--</Canvas>--><!--
                 </fccWpf:VsPathButton.Path>
-            </fccWpf:VsPathButton>
+            </fccWpf:VsPathButton>-->
             <!--<Button Margin="0,0,0,6" Padding="0" MinWidth="26" Width="26" Height="23"  Command="{Binding UpCommand}">
                 <Button.Resources>
                     <Style TargetType="Path">
@@ -81,9 +81,9 @@
             </d:DataGrid.ItemsSource>
             <DataGrid.Resources>
                 <ControlTemplate x:Key="ErrorTemplate">
-                    <DockPanel x:Uid="DockPanel_1" LastChildFill="True">
-                        <AdornedElementPlaceholder Name="ControlWithError" x:Uid="ControlWithError">
-                            <Border x:Uid="Border_5" BorderBrush="Red" BorderThickness="1"/>
+                    <DockPanel LastChildFill="True">
+                        <AdornedElementPlaceholder Name="ControlWithError">
+                            <Border BorderBrush="Red" BorderThickness="1"/>
                         </AdornedElementPlaceholder>
                         <imaging:CrispImage DockPanel.Dock="Right" VerticalAlignment="Center"
 									  Moniker="{x:Static catalog:KnownMonikers.StatusInvalid}" Height="16" Width="16" Margin="5,0,0,0">
@@ -348,6 +348,5 @@
             </Style>-->
              <!--Simpler to just remove row headers with HeadersVisibility=Column rather than having to apply RowHeaderStyle and the ValidationErrorTemplate-->  
         </DataGrid>
-    
     </DockPanel>
 </UserControl>

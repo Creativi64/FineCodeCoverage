@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Output
         private bool _canMoveDown = false;
         private bool _canMoveUp = false;
 
-        public event EventHandler Done;
+        public event EventHandler<bool> Done;
 
         public ReportColumnsManagementViewModel(
             IReportColumnManager reportColumnsManager,
@@ -35,11 +35,11 @@ namespace FineCodeCoverage.Output
                     else
                     {
                         UpdateReportColumnData();
-                        Done?.Invoke(this, EventArgs.Empty);
+                        Done?.Invoke(this, true);
                     }
                 },
                 () => true);
-            CancelCommand = new RelayCommand(() => Done?.Invoke(this, EventArgs.Empty), () => true);
+            CancelCommand = new RelayCommand(() => Done?.Invoke(this, false), () => true);
 
             /*
                 Move logic is to RemoveItem and InsertItem
