@@ -10,7 +10,7 @@
     <fccWpf:ThemedDialogTitleContent Margin="0,0,0,20" Title="{Binding Path=Title, ElementName=_ThemedDialogTitleOkCancel}">
         <DockPanel>
             <StackPanel DockPanel.Dock="Bottom" Margin="0,12,20,0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Margin="6,0" Command="{Binding OkCommand}">Ok</Button>
+                <Button Margin="6,0" Command="{Binding OkCommand}" Content="{Binding OkButtonText, RelativeSource={RelativeSource AncestorType=fccWpf:ThemedDialogTitleOkCancel}}}">Ok</Button>
                 <Button IsDefault="True" Command="{Binding CancelCommand}">Cancel</Button>
             </StackPanel>
             <ContentPresenter Margin="0,0,24,0" Content="{Binding Body, RelativeSource={RelativeSource AncestorType=fccWpf:ThemedDialogTitleOkCancel}}" />

@@ -6,12 +6,15 @@
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf">
+    <fccWpf:ThemeColorTransparentFallbackConverter x:Key="windowButtonColorConverter" 
+        ThemeResourceKey="{x:Static vs:ThemedDialogColors.WindowButtonColorKey}" 
+        FallbackThemeResourceKey="{x:Static vs:ThemedDialogColors.WindowPanelColorKey}"/>
 
     <Style TargetType="{x:Type fccWpf:ThemedDialogCloseButton}">
         <Setter Property="AutomationProperties.Name" Value="Close window"/>
         <Setter Property="Background" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonBrushKey}}"/>
         <Setter Property="vs:ImageThemingUtilities.ImageBackgroundColor"
-            Value="{DynamicResource {x:Static vs:ThemedDialogColors.WindowButtonColorKey}}"/>
+            Value="{Binding Source={x:Static fccWpf:ThemeChangeObservable.Instance}, Path=ChangeMarker, Converter={StaticResource ResourceKey=windowButtonColorConverter}}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonGlyphBrushKey}}"/>
         <Setter Property="UIElement.Focusable" Value="False"/>

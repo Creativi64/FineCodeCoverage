@@ -18,6 +18,19 @@ namespace FineCodeCoverage.Wpf
             set => SetValue(TitleProperty, value);
         }
 
+
+
+        public string OkButtonText
+        {
+            get => (string)GetValue(OkButtonTextProperty);
+            set => SetValue(OkButtonTextProperty, value);
+        }
+
+        public static readonly DependencyProperty OkButtonTextProperty =
+            DependencyProperty.Register(nameof(OkButtonText), typeof(string), typeof(ThemedDialogTitleOkCancel), new PropertyMetadata("Ok"));
+
+
+
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(ThemedDialogTitleOkCancel), new PropertyMetadata(string.Empty));
 

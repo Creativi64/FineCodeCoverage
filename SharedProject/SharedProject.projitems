@@ -33,6 +33,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleNoButtonsContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleOkCancel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,9 +126,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IViewModelCancel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\IViewModelDone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\SizeToContentWidthAndHeightFixer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemeChangeObservable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemeColorTransparentFallbackConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogCloseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleContent.xaml.cs">
       <DependentUpon>ThemedDialogTitleContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleNoButtonsContent.xaml.cs">
+      <DependentUpon>ThemedDialogTitleNoButtonsContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleOkCancel.xaml.cs">
       <DependentUpon>ThemedDialogTitleOkCancel.xaml</DependentUpon>
@@ -133,6 +142,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindowTitle.xaml.cs">
       <DependentUpon>ThemedDialogWindowTitle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemeResourceKeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VisualTreeUtilties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>

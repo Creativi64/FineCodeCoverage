@@ -18,12 +18,8 @@
                         Title="Funding"
                         platform:ImageThemingUtilities.ImageBackgroundColor="Black"
 						>
-    <fccwpf:ThemedDialogTitleContent Title="Funding">
-        <StackPanel Margin="0,0,24,24" Orientation="Horizontal">
-            <StackPanel.Resources>
-                <Style TargetType="fccwpf:ImageThemingButton" BasedOn="{StaticResource {x:Static vsx:VsResourceKeys.ThemedDialogButtonStyleKey}}"/>
-            </StackPanel.Resources>
-
+    <fccwpf:ThemedDialogTitleNoButtonsContent Title="Funding">
+        <StackPanel Orientation="Horizontal">
             <Button ToolTip="ko-fi" Command="{Binding KofiClickedCommand}" CommandParameter="https://ko-fi.com/FortuneN">
                 <Border Padding="5" Background="Black">
                     <imaging:CrispImage HorizontalAlignment="Center" Width="64" Height="64" Moniker="{x:Static local:FundingMonikers.Kofi}" />
@@ -60,7 +56,5 @@
                 </Border>
             </Button>
         </StackPanel>
-
-    </fccwpf:ThemedDialogTitleContent>
-
+    </fccwpf:ThemedDialogTitleNoButtonsContent>
 </fccwpf:ThemedDialogWindow>

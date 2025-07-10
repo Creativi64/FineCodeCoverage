@@ -5,9 +5,12 @@ namespace FineCodeCoverage.Output
     /// <summary>
     /// report view selector window.
     /// </summary>
-    internal sealed partial class ReportViewSelectorWindow : BaseDialogWindowTemplated
+    internal sealed partial class ReportViewSelectorWindow : ThemedDialogWindow
     {
         public ReportViewSelectorWindow(ReportViewSelectorViewModel reportViewSelectorViewModel)
-            : base(reportViewSelectorViewModel) => InitializeComponent();
+        {
+            this.DataContext = reportViewSelectorViewModel;
+            InitializeComponent();
+        }
     }
 }
