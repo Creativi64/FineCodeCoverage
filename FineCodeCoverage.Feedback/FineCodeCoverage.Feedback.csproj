@@ -4,6 +4,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Include=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj" />

@@ -27,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogWindowTitle.xaml.cs">
       <DependentUpon>ThemedDialogWindowTitle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedSectionDivider.xaml.cs">
+      <DependentUpon>ThemedSectionDivider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ThemeResourceKeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VisualTreeUtilties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowCloseFrom.cs" />
@@ -54,9 +57,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ThemedSectionDivider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)WindowHeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Include="$(MSBuildThisFileDirectory).editorconfig" />
   </ItemGroup>
 </Project>

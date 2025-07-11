@@ -15,10 +15,8 @@
     <themedDialogs:ThemedDialogTitleOkCancel OkButtonText="Create issue" Title="New Issue">
         <StackPanel>
             <StackPanel.Resources>
-                <Style TargetType="Separator">
+                <Style TargetType="themedDialogs:ThemedSectionDivider">
                     <Setter Property="Margin" Value="0,12,0,12"/>
-                    <Setter Property="Control.Foreground"
-                        Value="{DynamicResource {x:Static platform:ThemedDialogColors.SectionDividerBrushKey}}"/>
                 </Style>
                 <Style x:Key="baseLabel" TargetType="Label">
                     <Setter Property="Padding" Value="0"/>
@@ -32,7 +30,7 @@
 
             <Label Margin="0,0,0,5" Style="{StaticResource baseLabel}">Issue Title:</Label>
             <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
-            <Separator/>
+            <themedDialogs:ThemedSectionDivider/>
 
             <Label Style="{StaticResource labelWithAdditionalText}" Margin="0,0,0,12">FCC Log</Label>
             <TextBlock>
@@ -54,7 +52,7 @@
                 VerticalScrollBarVisibility="Auto"
                 Text="{Binding FccOutput,UpdateSourceTrigger=PropertyChanged}"
             />
-            <Separator/>
+            <themedDialogs:ThemedSectionDivider/>
 
             <StackPanel Orientation="Horizontal">
                 <Label Style="{StaticResource labelWithAdditionalText}">Visual Studio Version:</Label>
@@ -64,7 +62,7 @@
                 <Label Style="{StaticResource labelWithAdditionalText}">FCC Version:</Label>
                 <TextBlock Margin="6,0,0,0" Text="{Binding FccVersionString, Mode=OneWay}"/>
             </StackPanel>
-            <Separator/>
+            <themedDialogs:ThemedSectionDivider/>
 
             <CheckBox IsChecked="{Binding HaveCheckedFCCIssues}">
                 <TextBlock>

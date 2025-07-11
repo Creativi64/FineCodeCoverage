@@ -1,5 +1,5 @@
 ﻿<themedDialogs:ThemedDialogWindow 
-	x:Class="FineCodeCoverage.Output.ColumnsManagementWindow2"
+	x:Class="FineCodeCoverage.Output.ColumnsManagementWindow"
 	x:ClassModifier="internal"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

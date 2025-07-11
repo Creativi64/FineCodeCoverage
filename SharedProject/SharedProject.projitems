@@ -37,15 +37,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementDataTemplate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow2.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,8 +96,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementUserControl.xaml.cs">
       <DependentUpon>ColumnsManagementUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow2.xaml.cs">
-      <DependentUpon>ColumnsManagementWindow2.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow.xaml.cs">
+      <DependentUpon>ColumnsManagementWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorWindow.xaml.cs">
       <DependentUpon>ReportViewSelectorWindow.xaml</DependentUpon>
