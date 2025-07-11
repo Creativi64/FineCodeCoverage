@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.Files;
 
 namespace FineCodeCoverage.Output
 {

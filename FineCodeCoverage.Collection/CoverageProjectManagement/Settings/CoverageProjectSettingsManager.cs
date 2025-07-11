@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using FineCodeCoverage.Core.Utilities.VsThreading;
+using FineCodeCoverage.VSAbstractions.Threading;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {

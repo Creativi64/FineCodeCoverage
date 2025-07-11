@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Options;
 using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.Store;
 
 namespace FineCodeCoverage.Readme
 {

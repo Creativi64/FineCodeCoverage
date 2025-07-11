@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.Threading;
 
 namespace FineCodeCoverage.Editor.Management
 {

@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.VSAbstractions.Store
 {
     public interface ISettingsStore
     {

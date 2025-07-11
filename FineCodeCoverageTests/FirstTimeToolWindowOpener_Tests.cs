@@ -1,7 +1,7 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.History;
+using FineCodeCoverage.VSAbstractions.Commands;
 using Moq;
 using NUnit.Framework;
 using System.Threading;
@@ -15,7 +15,7 @@ namespace FineCodeCoverageTests
         private FirstTimeToolWindowOpener firstTimeToolWindowOpener;
 
         [SetUp]
-        public void   SetUp()  {
+        public void SetUp()  {
             mocker = new AutoMoqer();
             firstTimeToolWindowOpener = mocker.Create<FirstTimeToolWindowOpener>();
         }

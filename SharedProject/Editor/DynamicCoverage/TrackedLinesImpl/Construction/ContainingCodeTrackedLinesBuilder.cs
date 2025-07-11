@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

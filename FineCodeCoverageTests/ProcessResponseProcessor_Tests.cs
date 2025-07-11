@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverletOpenCover.Process;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using NUnit.Framework;
 
 namespace Test

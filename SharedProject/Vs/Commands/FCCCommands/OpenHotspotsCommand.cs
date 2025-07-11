@@ -4,9 +4,9 @@ using System.IO;
 using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Hotspots;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.Files;
 
 namespace FineCodeCoverage.Output
 {

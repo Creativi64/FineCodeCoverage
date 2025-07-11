@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FineCodeCoverage.Initialization;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
-using ILogger = FineCodeCoverage.Output.ILogger;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 
 namespace FineCodeCoverage.Impl
 {

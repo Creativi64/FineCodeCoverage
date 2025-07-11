@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FineCodeCoverage.VSAbstractions.Store;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
@@ -12,12 +13,12 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IReadOnlyConfigSettingsStoreProvider))]
     internal sealed class ReadOnlyConfigSettingsStoreProvider : IReadOnlyConfigSettingsStoreProvider
     {
-        private AsyncLazy<ISettingsStore> _lazySettingsStore = new AsyncLazy<ISettingsStore>(
+        private readonly AsyncLazy<ISettingsStore> _lazySettingsStore = new AsyncLazy<ISettingsStore>(
             async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-                var settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.Configuration);
+                SettingsStore settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.Configuration);
                 return new SettingsStoreWrapper(settingsStore);
             },
             ThreadHelper.JoinableTaskFactory);

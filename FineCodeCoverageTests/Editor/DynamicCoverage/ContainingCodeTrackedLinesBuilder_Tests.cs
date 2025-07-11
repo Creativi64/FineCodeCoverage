@@ -2,7 +2,7 @@
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

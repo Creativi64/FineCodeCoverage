@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.DotNetToolList;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {

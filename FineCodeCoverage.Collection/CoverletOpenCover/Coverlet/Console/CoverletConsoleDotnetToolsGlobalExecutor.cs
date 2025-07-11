@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverletOpenCover.Process;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console
 {

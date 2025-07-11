@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Initialization.History;
+using FineCodeCoverage.VSAbstractions.Commands;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 

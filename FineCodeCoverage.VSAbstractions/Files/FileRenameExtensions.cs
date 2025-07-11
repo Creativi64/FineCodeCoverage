@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.VSAbstractions.Files
 {
     public static class FileRenameExtensions
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.Threading;
 using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;

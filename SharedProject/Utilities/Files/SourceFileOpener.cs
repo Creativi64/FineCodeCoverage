@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using EnvDTE;
 using EnvDTE80;
+using FineCodeCoverage.VSAbstractions.Files;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;
 

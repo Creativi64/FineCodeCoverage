@@ -1,5 +1,5 @@
 ﻿using System;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Core.Utilities
 {

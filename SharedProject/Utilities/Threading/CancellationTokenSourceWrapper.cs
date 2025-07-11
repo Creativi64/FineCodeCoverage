@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using FineCodeCoverage.VSAbstractions.Threading;
 
 namespace FineCodeCoverage.Core.Utilities
 {

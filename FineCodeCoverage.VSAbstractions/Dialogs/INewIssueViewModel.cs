@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using VsThemedDialogs;
 
-namespace FineCodeCoverage.Github
+namespace FineCodeCoverage.VSAbstractions.Dialogs
 {
     public interface INewIssueViewModel : INotifyPropertyChanged, IDialogViewModel
     {

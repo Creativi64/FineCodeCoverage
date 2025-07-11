@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.VSAbstractions.Files;
 
 namespace FineCodeCoverage.Collection.ReportGeneration
 {

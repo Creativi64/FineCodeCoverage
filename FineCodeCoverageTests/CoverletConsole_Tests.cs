@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +9,8 @@ using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console;
 using FineCodeCoverage.Collection.CoverletOpenCover.Process;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.DotNetToolList;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Moq;
 using NUnit.Framework;
 

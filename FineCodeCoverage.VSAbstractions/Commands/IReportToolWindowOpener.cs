@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.VSAbstractions.Commands
 {
     public interface IReportToolWindowOpener
     {

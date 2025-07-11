@@ -1,7 +1,7 @@
 ﻿using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Moq;
 using NUnit.Framework;
 using System;

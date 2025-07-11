@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Output.Pane
+namespace FineCodeCoverage.VSAbstractions.OutputWindow
 {
     public interface IFCCOutputWindowPaneCreator
     {

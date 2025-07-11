@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using FineCodeCoverage.VSAbstractions.Store;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
@@ -16,7 +17,7 @@ namespace FineCodeCoverage.Options
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-                var settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
+                SettingsStore settingsStore = settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings);
                 _settingsStore = new SettingsStoreWrapper(settingsStore);
             }
 

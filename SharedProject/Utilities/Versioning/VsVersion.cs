@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using FineCodeCoverage.VSAbstractions.Versioning;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 

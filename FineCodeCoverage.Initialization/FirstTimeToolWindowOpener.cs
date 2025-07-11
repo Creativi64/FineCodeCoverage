@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Initialization.History;
+using FineCodeCoverage.VSAbstractions.Commands;
 
 namespace FineCodeCoverage.Initialization
 {

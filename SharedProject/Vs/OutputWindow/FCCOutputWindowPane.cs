@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 

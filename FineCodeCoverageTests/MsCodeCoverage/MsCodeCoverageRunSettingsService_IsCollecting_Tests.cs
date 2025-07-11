@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading;
 using System.IO;
 using System;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageToolOutput;
@@ -18,6 +17,7 @@ using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Collection.Engine;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

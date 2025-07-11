@@ -3,8 +3,8 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.Files;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Collection.ReportGeneration
 {

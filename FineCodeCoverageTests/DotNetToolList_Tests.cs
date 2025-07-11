@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverletOpenCover.Coverlet.Console;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.DotNetToolList;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests

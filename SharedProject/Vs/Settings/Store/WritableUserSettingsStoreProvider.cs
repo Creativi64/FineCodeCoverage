@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using FineCodeCoverage.VSAbstractions.Store;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
@@ -10,12 +11,12 @@ namespace FineCodeCoverage.Options
     [Export(typeof(IWritableUserSettingsStoreProvider))]
     internal sealed class WritableUserSettingsStoreProvider : IWritableUserSettingsStoreProvider
     {
-        private AsyncLazy<IWritableSettingsStore> _lazySettingsStore = new AsyncLazy<IWritableSettingsStore>(
+        private readonly AsyncLazy<IWritableSettingsStore> _lazySettingsStore = new AsyncLazy<IWritableSettingsStore>(
             async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-                var writableSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+                WritableSettingsStore writableSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
                 return new WritableSettingsStoreWrapper(writableSettingsStore);
             },
             ThreadHelper.JoinableTaskFactory);

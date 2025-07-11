@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Initialization
+namespace FineCodeCoverage.VSAbstractions
 {
     public interface IFCCPackageLoader
     {

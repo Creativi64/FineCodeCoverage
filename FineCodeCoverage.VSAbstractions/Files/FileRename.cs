@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.VSAbstractions.Files
 {
     public sealed class FileRename
     {

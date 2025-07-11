@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
-using FineCodeCoverage.Options;
+using FineCodeCoverage.VSAbstractions.Store;
 
 namespace FineCodeCoverage.Editor.Management
 {

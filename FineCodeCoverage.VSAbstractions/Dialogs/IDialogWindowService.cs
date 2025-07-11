@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Utilities.Vs
+﻿namespace FineCodeCoverage.VSAbstractions.Dialogs
 {
     public interface IDialogWindowService
     {

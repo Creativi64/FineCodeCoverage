@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Output.Pane
 {

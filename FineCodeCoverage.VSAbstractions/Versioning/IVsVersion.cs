@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.VSAbstractions.Versioning
 {
     public interface IVsVersion
     {

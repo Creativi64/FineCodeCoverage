@@ -3,8 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

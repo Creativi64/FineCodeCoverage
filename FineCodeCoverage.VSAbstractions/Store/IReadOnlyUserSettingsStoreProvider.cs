@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.VSAbstractions.Store
 {
     public interface IReadOnlyUserSettingsStoreProvider
     {

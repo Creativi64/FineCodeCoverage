@@ -1,4 +1,5 @@
-﻿using VsThemedDialogs;
+﻿using FineCodeCoverage.VSAbstractions.Dialogs;
+using VsThemedDialogs;
 
 namespace FineCodeCoverage.Funding
 {

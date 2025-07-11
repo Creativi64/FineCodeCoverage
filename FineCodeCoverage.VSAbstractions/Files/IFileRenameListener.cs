@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.VSAbstractions.Files
 {
     public interface IFileRenameListener
     {

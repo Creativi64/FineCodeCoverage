@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.VSAbstractions.Threading;
 using Microsoft.VisualStudio.Threading;
 
 namespace FineCodeCoverage.Core.Utilities.VsThreading

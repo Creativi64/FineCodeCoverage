@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace FineCodeCoverage.Funding
+namespace FineCodeCoverage.VSAbstractions.Dialogs
 {
     public interface IFundingViewModel
     {

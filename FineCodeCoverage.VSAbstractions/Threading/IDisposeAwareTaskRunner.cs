@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.VSAbstractions.Threading
 {
     public interface IDisposeAwareTaskRunner
     {

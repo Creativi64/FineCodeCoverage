@@ -6,12 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Github;
-using FineCodeCoverage.Output.Pane;
 using FineCodeCoverage.Readme;
-using FineCodeCoverage.Utilities.Vs;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.Dialogs;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Versioning;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Feedback.Github
@@ -23,7 +22,7 @@ namespace FineCodeCoverage.Feedback.Github
         private readonly IVsVersion _vsVersion;
         private readonly IFCCVersion _fccVersion;
         private readonly IProcess _process;
-        private readonly IDialogWindowService dialogWindowService;
+        private readonly IDialogWindowService _dialogWindowService;
         private readonly RelayCommand _submitCommand;
         private readonly RelayCommand _mailToCommand;
         private readonly RelayCommand _searchIssuesCommand;
@@ -106,7 +105,7 @@ namespace FineCodeCoverage.Feedback.Github
             _vsVersion = vsVersion;
             _fccVersion = fccVersion;
             _process = process;
-            this.dialogWindowService = dialogWindowService;
+            _dialogWindowService = dialogWindowService;
             CancelCommand = new RelayCommand(() => Done?.Invoke(this, false), () => true);
             _submitCommand = new RelayCommand(
                 () =>
@@ -158,7 +157,7 @@ namespace FineCodeCoverage.Feedback.Github
             }
 
             await GetFCCOutputAsync();
-            dialogWindowService.ShowModal(this as INewIssueViewModel);
+            _dialogWindowService.ShowModal(this as INewIssueViewModel);
         }
 
         private async Task GetFCCOutputAsync()

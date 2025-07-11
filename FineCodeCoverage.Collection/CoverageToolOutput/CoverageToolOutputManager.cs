@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Extensions;
 using FineCodeCoverage.Utilities.MEF;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Collection.CoverageToolOutput
 {

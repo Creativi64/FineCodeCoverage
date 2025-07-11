@@ -3,15 +3,12 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using NUnit.Framework;
-using Microsoft.VisualStudio.Settings;
-using FineCodeCoverage.Options;
-using FineCodeCoverage.Output;
 using Moq;
 using AutoMoq;
-using Microsoft.VisualStudio.Threading;
-using System.Threading.Tasks;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Store;
 
 namespace FineCodeCoverageTests
 {

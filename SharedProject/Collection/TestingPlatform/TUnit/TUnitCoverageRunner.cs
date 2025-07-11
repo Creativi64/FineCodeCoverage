@@ -6,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.ToolZip;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Threading;
 
 namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
 {

@@ -17,7 +17,7 @@ using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
-using ILogger = FineCodeCoverage.Output.ILogger;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage

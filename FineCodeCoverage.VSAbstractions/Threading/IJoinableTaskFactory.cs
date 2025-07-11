@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Core.Utilities.VsThreading
+namespace FineCodeCoverage.VSAbstractions.Threading
 {
     public interface IJoinableTaskFactory
     {

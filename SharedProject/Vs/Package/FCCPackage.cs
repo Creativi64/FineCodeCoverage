@@ -11,6 +11,7 @@ using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Readme;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;

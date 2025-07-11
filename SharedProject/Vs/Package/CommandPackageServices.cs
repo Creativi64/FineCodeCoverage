@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Output

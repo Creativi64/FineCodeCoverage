@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities.VsThreading;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
 using FineCodeCoverage.Editor.Roslyn;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
+using FineCodeCoverage.VSAbstractions.Threading;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Text;

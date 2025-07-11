@@ -8,7 +8,7 @@ using System.Threading;
 using FineCodeCoverage.Impl;
 using System.Threading.Tasks;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
-using ILogger = FineCodeCoverage.Output.ILogger;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Initialization.ToolZip;

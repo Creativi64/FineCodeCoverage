@@ -8,8 +8,8 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverletOpenCover.Process;
 using FineCodeCoverage.Collection.VsTest;
 using FineCodeCoverage.Initialization.ToolZip;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Collection.CoverletOpenCover.OpenCover
 {

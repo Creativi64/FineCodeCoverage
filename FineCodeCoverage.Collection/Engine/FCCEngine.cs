@@ -9,12 +9,10 @@ using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.CoverletOpenCover;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Core.Utilities.VsThreading;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Logging;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Threading;
 
 namespace FineCodeCoverage.Collection.Engine
 {

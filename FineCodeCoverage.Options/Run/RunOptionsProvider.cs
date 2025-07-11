@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Options.Base;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Store;
 
 namespace FineCodeCoverage.Options.Run
 {

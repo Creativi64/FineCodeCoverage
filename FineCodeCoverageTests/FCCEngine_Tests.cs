@@ -10,10 +10,10 @@ using FineCodeCoverage.Collection.CoverletOpenCover;
 using FineCodeCoverage.Collection.Engine;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Logging;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Threading;
 using Moq;
 using NUnit.Framework;
 

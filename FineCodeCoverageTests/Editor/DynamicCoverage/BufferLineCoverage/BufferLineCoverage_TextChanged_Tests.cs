@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

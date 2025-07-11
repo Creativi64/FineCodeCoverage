@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Misc;
-using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Initialization
 {

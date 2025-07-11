@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Settings;
+﻿using FineCodeCoverage.VSAbstractions.Store;
+using Microsoft.VisualStudio.Settings;
 
 namespace FineCodeCoverage.Options
 {

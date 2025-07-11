@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Options
+﻿namespace FineCodeCoverage.VSAbstractions.Store
 {
     public interface IWritableSettingsStore
     {
@@ -9,7 +9,7 @@
         bool DeleteCollection(string collectionPath);
 
         bool GetBoolean(string collectionPath, string propertyName, bool defaultValue);
- 
+
         string GetString(string collectionPath, string propertyName);
 
         bool PropertyExists(string collectionPath, string propertyName);

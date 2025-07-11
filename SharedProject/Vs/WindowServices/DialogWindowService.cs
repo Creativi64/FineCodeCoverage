@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-using FineCodeCoverage.Utilities.Vs;
+using FineCodeCoverage.VSAbstractions.Dialogs;
 using Microsoft.VisualStudio.PlatformUI;
 
 namespace FineCodeCoverage.Vs

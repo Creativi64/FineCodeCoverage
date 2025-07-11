@@ -6,11 +6,11 @@ using System.IO;
 using System.Linq;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Engine;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Report;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Extensions;
+using FineCodeCoverage.VSAbstractions.Files;
 using Microsoft.VisualStudio.Shell;
 using TreeGrid;
 

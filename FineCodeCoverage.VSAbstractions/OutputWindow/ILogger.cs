@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.VSAbstractions.OutputWindow
 {
     public interface ILogger
     {

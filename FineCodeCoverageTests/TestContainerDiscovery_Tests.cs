@@ -16,7 +16,7 @@ using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using Moq;
 using NUnit.Framework;
-using ILogger = FineCodeCoverage.Output.ILogger;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 
 namespace Test
 {

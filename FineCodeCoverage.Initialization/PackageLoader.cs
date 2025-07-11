@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading;
+using FineCodeCoverage.VSAbstractions;
 using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Initialization
