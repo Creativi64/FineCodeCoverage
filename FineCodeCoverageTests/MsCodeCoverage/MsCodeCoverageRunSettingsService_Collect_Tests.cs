@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using AutoMoq;
 using System.Threading;
 using FineCodeCoverage.Impl;
-using FineCodeCoverage.Engine;
 using System.Threading.Tasks;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using ILogger = FineCodeCoverage.Output.ILogger;
@@ -15,6 +14,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
+using FineCodeCoverage.Collection.Engine;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

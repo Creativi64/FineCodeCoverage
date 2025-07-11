@@ -11,11 +11,12 @@ using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Core.Utilities.VsThreading;
+using FineCodeCoverage.Engine;
 using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Logging;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.Engine
 {
     [Export(typeof(IFCCEngine))]
     internal sealed class FCCEngine : IFCCEngine
@@ -67,9 +68,7 @@ namespace FineCodeCoverage.Engine
         public void StopCoverage()
         {
             if (_cancellationTokenSource == null)
-            {
                 return;
-            }
 
             try
             {
@@ -172,9 +171,7 @@ namespace FineCodeCoverage.Engine
         private void RaiseReportFiles(ReportResult reportResult)
         {
             if (reportResult.CoberturaFile == null)
-            {
                 return;
-            }
 
             _eventAggregator.SendMessage(new ReportFilesMessage { CoberturaFile = reportResult.CoberturaFile, ReportResult = reportResult.Report });
         }
@@ -186,9 +183,7 @@ namespace FineCodeCoverage.Engine
                     var reportResult = new ReportResult();
 
                     if (coberturaFiles.Length != 0)
-                    {
                         reportResult = await RunAndProcessReportAsync(coberturaFiles, coverageProjects, vsShutdownLinkedCancellationToken);
-                    }
 
                     return reportResult;
                 },
@@ -250,9 +245,7 @@ namespace FineCodeCoverage.Engine
 
                     string[] coverOutputFiles = await RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
                     if (coverOutputFiles.Length != 0)
-                    {
                         reportResult = await RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
-                    }
 
                     return reportResult;
                 },

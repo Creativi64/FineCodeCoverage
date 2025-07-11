@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FineCodeCoverage.Collection.ReportGeneration;
 using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
 namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl

@@ -10,6 +10,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Collection.CoverageToolOutput;
+using FineCodeCoverage.Collection.Engine;
 using FineCodeCoverage.Impl;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.ToolZip;

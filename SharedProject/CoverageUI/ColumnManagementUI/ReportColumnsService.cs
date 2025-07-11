@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Output
         public void ManageColumns()
         {
             var vm = new ReportColumnsManagementViewModel(_reportColumnsManager, _messageBox);
-            var columnsManagementWindow = new ColumnsManagementWindow2(vm);
+            var columnsManagementWindow = new ColumnsManagementWindow(vm);
             _ = columnsManagementWindow.ShowModal();
         }
     }

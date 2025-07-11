@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Collection.Engine
 {
     public interface IFCCEngine
     {

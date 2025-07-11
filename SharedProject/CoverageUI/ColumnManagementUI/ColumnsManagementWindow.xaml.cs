@@ -7,9 +7,9 @@ namespace FineCodeCoverage.Output
     /// </summary>
     internal sealed partial class ColumnsManagementWindow : ThemedDialogWindow
     {
-        public ColumnsManagementWindow2(ReportColumnsManagementViewModel reportColumnsManagmentViewModel)
+        public ColumnsManagementWindow(ReportColumnsManagementViewModel reportColumnsManagmentViewModel)
         {
-            this.DataContext = reportColumnsManagmentViewModel;
+            DataContext = reportColumnsManagmentViewModel;
             InitializeComponent();
         }
     }

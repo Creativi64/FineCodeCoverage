@@ -18,8 +18,6 @@ namespace FineCodeCoverage.Github
 
         bool HaveReadReadme { get; set; }
 
-        ICommand OkCommand { get; }
-
         ICommand MailToCommand { get; }
 
         ICommand OpenReadMeCommand { get; }

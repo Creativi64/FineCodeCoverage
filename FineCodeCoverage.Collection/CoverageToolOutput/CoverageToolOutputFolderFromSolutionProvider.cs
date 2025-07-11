@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Utilities.Extensions;
 using FineCodeCoverage.Utilities.MEF;
 

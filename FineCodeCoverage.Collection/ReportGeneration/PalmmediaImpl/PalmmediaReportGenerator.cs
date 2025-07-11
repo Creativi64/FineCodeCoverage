@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FineCodeCoverage.Collection.ReportGeneration;
 using Palmmedia.ReportGenerator.Core;
 using Palmmedia.ReportGenerator.Core.Logging;
 using Palmmedia.ReportGenerator.Core.Parser;

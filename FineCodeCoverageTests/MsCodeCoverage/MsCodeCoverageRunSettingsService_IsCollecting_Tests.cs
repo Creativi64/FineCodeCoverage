@@ -5,7 +5,6 @@ using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using FineCodeCoverage.Engine;
 using System.Linq;
 using System.Threading;
 using System.IO;
@@ -18,6 +17,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
+using FineCodeCoverage.Collection.Engine;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

@@ -5,8 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.Engine;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Engine;
 using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using FineCodeCoverage.Impl.TestContainerDiscovery;
 using FineCodeCoverage.Initialization;
@@ -48,7 +48,7 @@ namespace FineCodeCoverage.Impl
         private int _coverageRunNumber = 1;
 
         [ExcludeFromCodeCoverage]
-        public Uri ExecutorUri => new Uri($"executor://FineCodeCoverage.Executor/v1");
+        public Uri ExecutorUri => new Uri("executor://FineCodeCoverage.Executor/v1");
 
         [ExcludeFromCodeCoverage]
         public IEnumerable<ITestContainer> TestContainers => Enumerable.Empty<ITestContainer>();
