@@ -32,6 +32,10 @@ namespace FineCodeCoverage.Feedback.Funding
 
         public ICommand GithubClickedCommand { get; }
 
-        public void Execute() => dialogWindowService.ShowModal(this as IFundingViewModel);
+        public void Execute()
+        {
+            IFundingViewModel viewModel = this;
+            dialogWindowService.ShowModal(viewModel);
+        }
     }
 }

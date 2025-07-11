@@ -157,7 +157,8 @@ namespace FineCodeCoverage.Feedback.Github
             }
 
             await GetFCCOutputAsync();
-            _dialogWindowService.ShowModal(this as INewIssueViewModel);
+            INewIssueViewModel viewModel = this;
+            _dialogWindowService.ShowModal(viewModel);
         }
 
         private async Task GetFCCOutputAsync()
