@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>True</UseWPF>
+    <AssemblyName>VsThemedDialogs</AssemblyName>
+    <RootNamespace>VsThemedDialogs</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Themes\" />
+    <AssemblyAttribute Include="System.Windows.ThemeInfo">
+      <_Parameter1>System.Windows.ResourceDictionaryLocation.None</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+      <_Parameter2>System.Windows.ResourceDictionaryLocation.SourceAssembly</_Parameter2>
+      <_Parameter2_IsLiteral>true</_Parameter2_IsLiteral>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="16.1.28917.181" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\VsThemedDialogsSharedFiles\Themes\Generic.xaml" Link="Themes\Generic.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VsThemedDialogs.ViewModelInterfaces\VsThemedDialogs.ViewModelInterfaces.csproj" />
+  </ItemGroup>
+  <Import Project="..\VsThemedDialogs\VsThemedDialogs.projitems" Label="Shared" />
+</Project>

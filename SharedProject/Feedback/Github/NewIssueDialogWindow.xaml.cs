@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Wpf;
+﻿using VsThemedDialogs;
 
 namespace FineCodeCoverage.Github
 {

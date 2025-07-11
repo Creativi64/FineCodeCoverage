@@ -17,34 +17,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplatedResourceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleContent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleNoButtonsContent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleOkCancel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindowTitle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,10 +77,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Wpf\WindowHeaderControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
@@ -116,34 +84,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogControl.xaml.cs">
-      <DependentUpon>BaseDialogControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindow.xaml.cs">
-      <DependentUpon>BaseDialogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IPersistWindowState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IViewModelCancel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IViewModelDone.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\SizeToContentWidthAndHeightFixer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemeChangeObservable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemeColorTransparentFallbackConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogCloseButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleContent.xaml.cs">
-      <DependentUpon>ThemedDialogTitleContent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleNoButtonsContent.xaml.cs">
-      <DependentUpon>ThemedDialogTitleNoButtonsContent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogTitleOkCancel.xaml.cs">
-      <DependentUpon>ThemedDialogTitleOkCancel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemedDialogWindowTitle.xaml.cs">
-      <DependentUpon>ThemedDialogWindowTitle.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ThemeResourceKeyPair.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VisualTreeUtilties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
     </Compile>
@@ -205,17 +145,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ApplicationResourcesLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseDialogWindowTemplated.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\BaseViewModelDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\BindToMarkedAncestorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridPreventSelectAllBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridInvokeDataContextOnSelectionChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\EnumStyleResourceHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\GlitchFixingDialogWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\IApplicationResourcesLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\IDialogViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ISelectionHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceDialogWindowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceDictionaryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\Themes.cs" />
@@ -272,7 +207,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\TestOperationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\TestOperationStateInvocationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\DisableTestingPlatformServerCapabilityGlobalPropertiesProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\EditableColumn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\IReportColumnsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ReportColumnsManagementViewModel.cs" />
@@ -713,13 +647,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OutputOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ReportOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\RunOptionsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowCloseFrom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowCloseViewModelBehaviour.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowDragBehaviour.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowHeaderControl.xaml.cs">
-      <DependentUpon>WindowHeaderControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Wpf\WindowPersistenceBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Vs\Package\VSPackage.resx">

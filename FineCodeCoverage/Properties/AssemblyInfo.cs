@@ -36,7 +36,3 @@ using System.Windows;
 
 [assembly: InternalsVisibleTo("FineCodeCoverageTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-
-[assembly: ThemeInfo(
-    ResourceDictionaryLocation.None,
-    ResourceDictionaryLocation.SourceAssembly)]

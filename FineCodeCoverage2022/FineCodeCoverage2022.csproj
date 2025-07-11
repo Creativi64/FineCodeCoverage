@@ -248,11 +248,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\Shared Files\Themes\Generic.xaml">
-      <Link>Themes\Generic.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Readme\VersionedReadMeResourceDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -306,6 +301,18 @@
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
       <Name>TreeGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VsThemedDialogs.ViewModelInterfaces\VsThemedDialogs.ViewModelInterfaces.csproj">
+      <Project>{77d67fb3-bb31-4937-9866-4a7c53822a43}</Project>
+      <Name>VsThemedDialogs.ViewModelInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VsThemedDialogs2019\VsThemedDialogs2019.csproj">
+      <Project>{41f2b243-d408-40c0-b2f9-10a57633fbc7}</Project>
+      <Name>VsThemedDialogs2019</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VsThemedDialogs2022\VsThemedDialogs2022.csproj">
+      <Project>{111e8f1c-17f3-4aa5-a4f4-b1b834665b27}</Project>
+      <Name>VsThemedDialogs2022</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
       <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>

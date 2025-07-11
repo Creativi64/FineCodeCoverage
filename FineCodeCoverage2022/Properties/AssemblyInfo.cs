@@ -37,7 +37,3 @@ using FineCodeCoverage;
 [assembly: InternalsVisibleTo("FineCodeCoverageTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("GithubReadmeCreator")]
-
-[assembly: ThemeInfo(
-    ResourceDictionaryLocation.None,
-    ResourceDictionaryLocation.SourceAssembly)]

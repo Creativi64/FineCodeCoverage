@@ -1,16 +1,16 @@
-﻿<fccWpf:ThemedDialogWindow 
+﻿<themedDialogs:ThemedDialogWindow 
 	x:Class="FineCodeCoverage.Output.ColumnsManagementWindow2"
 	x:ClassModifier="internal"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
+	xmlns:themedDialogs="clr-namespace:VsThemedDialogs;assembly=VsThemedDialogs"
     xmlns:output="clr-namespace:FineCodeCoverage.Output"
     ResizeMode="CanResizeWithGrip"
 	SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     >
-    <fccWpf:ThemedDialogTitleOkCancel Title="Report Column Management">
+    <themedDialogs:ThemedDialogTitleOkCancel Title="Report Column Management">
         <output:ColumnsManagementUserControl/>
-    </fccWpf:ThemedDialogTitleOkCancel>
+    </themedDialogs:ThemedDialogTitleOkCancel>
 	
-</fccWpf:ThemedDialogWindow>
+</themedDialogs:ThemedDialogWindow>

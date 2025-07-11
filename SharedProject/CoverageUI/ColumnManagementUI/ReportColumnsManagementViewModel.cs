@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.Wpf;
+using VsThemedDialogs;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output

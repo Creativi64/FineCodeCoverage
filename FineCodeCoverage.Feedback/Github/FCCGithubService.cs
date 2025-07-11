@@ -34,6 +34,8 @@ namespace FineCodeCoverage.Feedback.Github
         private bool _haveReadReadme;
         private bool _haveCheckedFCCIssues;
 
+        public event EventHandler<bool> Done;
+
         public string VsVersionString { get; private set; }
 
         public string FccVersionString { get; private set; }
@@ -78,7 +80,9 @@ namespace FineCodeCoverage.Feedback.Github
             }
         }
 
-        public ICommand SubmitCommand => _submitCommand;
+        public ICommand OkCommand => _submitCommand;
+
+        public ICommand CancelCommand { get; }
 
         public ICommand MailToCommand => _mailToCommand;
 
@@ -103,6 +107,7 @@ namespace FineCodeCoverage.Feedback.Github
             _fccVersion = fccVersion;
             _process = process;
             this.dialogWindowService = dialogWindowService;
+            CancelCommand = new RelayCommand(() => Done?.Invoke(this, false), () => true);
             _submitCommand = new RelayCommand(
                 () =>
                 {
@@ -119,6 +124,7 @@ namespace FineCodeCoverage.Feedback.Github
                     Clipboard.SetDataObject(FccOutput);
                     string url = sb.ToString();
                     process.Start(url);
+                    Done?.Invoke(this, true);
                 },
                 () => !string.IsNullOrWhiteSpace(Title) && HaveReadReadme && HaveCheckedFCCIssues);
             _mailToCommand = new RelayCommand(

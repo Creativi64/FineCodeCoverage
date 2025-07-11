@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using VsThemedDialogs;
 
 namespace FineCodeCoverage.Github
 {
-    public interface INewIssueViewModel : INotifyPropertyChanged
+    public interface INewIssueViewModel : INotifyPropertyChanged, IDialogViewModel
     {
         string VsVersionString { get; }
 
@@ -17,7 +18,7 @@ namespace FineCodeCoverage.Github
 
         bool HaveReadReadme { get; set; }
 
-        ICommand SubmitCommand { get; }
+        ICommand OkCommand { get; }
 
         ICommand MailToCommand { get; }
 
