@@ -10,7 +10,9 @@ namespace FineCodeCoverage.Output
         private readonly IMessageBox _messageBox;
 
         [ImportingConstructor]
-        public ReportColumnsService(IReportColumnManager reportColumnsManager, IMessageBox messageBox)
+        public ReportColumnsService(
+            IReportColumnManager reportColumnsManager,
+            IMessageBox messageBox)
         {
             _reportColumnsManager = reportColumnsManager;
             _messageBox = messageBox;

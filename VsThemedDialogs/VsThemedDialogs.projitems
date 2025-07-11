@@ -10,6 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ColorConversionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IPersistentWindowStateFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PersistentWindowStateFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PersistWindowState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SizeToContentThenManualBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SizeToContentWidthAndHeightFixer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeChangeObservable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeColorTransparentFallbackConverter.cs" />

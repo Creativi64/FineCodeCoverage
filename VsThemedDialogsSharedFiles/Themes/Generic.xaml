@@ -5,16 +5,16 @@
     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
-    xmlns:fccWpf="clr-namespace:VsThemedDialogs">
-    <fccWpf:ThemeColorTransparentFallbackConverter x:Key="windowButtonColorConverter" 
+    xmlns:themedDialogs="clr-namespace:VsThemedDialogs">
+    <themedDialogs:ThemeColorTransparentFallbackConverter x:Key="windowButtonColorConverter" 
         ThemeResourceKey="{x:Static vs:ThemedDialogColors.WindowButtonColorKey}" 
         FallbackThemeResourceKey="{x:Static vs:ThemedDialogColors.WindowPanelColorKey}"/>
 
-    <Style TargetType="{x:Type fccWpf:ThemedDialogCloseButton}">
+    <Style TargetType="{x:Type themedDialogs:ThemedDialogCloseButton}">
         <Setter Property="AutomationProperties.Name" Value="Close window"/>
         <Setter Property="Background" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonBrushKey}}"/>
         <Setter Property="vs:ImageThemingUtilities.ImageBackgroundColor"
-            Value="{Binding Source={x:Static fccWpf:ThemeChangeObservable.Instance}, Path=ChangeMarker, Converter={StaticResource ResourceKey=windowButtonColorConverter}}"/>
+            Value="{Binding Source={x:Static themedDialogs:ThemeChangeObservable.Instance}, Path=ChangeMarker, Converter={StaticResource ResourceKey=windowButtonColorConverter}}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonGlyphBrushKey}}"/>
         <Setter Property="UIElement.Focusable" Value="False"/>
@@ -22,7 +22,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ResourceKey={x:Static vs:ThemedDialogColors.WindowButtonBorderBrushKey}}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type fccWpf:ThemedDialogCloseButton}">
+                <ControlTemplate TargetType="{x:Type themedDialogs:ThemedDialogCloseButton}">
                     <ControlTemplate.Resources>
                         <vs:BrushToColorConverter x:Key="BrushToColorConverter"/>
                     </ControlTemplate.Resources>
@@ -124,19 +124,20 @@ Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}
         </Style.Setters>
     </Style>
     
-    <Style BasedOn="{StaticResource themedDialogWindowBaseStyle}" TargetType="{x:Type fccWpf:ThemedDialogWindow}">
+    <Style BasedOn="{StaticResource themedDialogWindowBaseStyle}" TargetType="{x:Type themedDialogs:ThemedDialogWindow}">
         <Style.Setters>
-            <Setter Property="fccWpf:WindowCloseViewModelBehaviour.Enabled" Value="True"/>
+            <Setter Property="themedDialogs:WindowPersistenceBehaviour.Enabled" Value="True"/>
+            <Setter Property="themedDialogs:WindowCloseViewModelBehaviour.Enabled" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type fccWpf:ThemedDialogWindow}">
+                    <ControlTemplate TargetType="{x:Type themedDialogs:ThemedDialogWindow}">
                         <Border Background="{TemplateBinding Background}"
 			  BorderBrush="{TemplateBinding BorderBrush}"
 			  BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <AdornerDecorator>
                                     <StackPanel>
-                                        <fccWpf:WindowHeaderControl/>
+                                        <themedDialogs:WindowHeaderControl/>
                                         <ContentPresenter Content="{TemplateBinding BodyContent}"/>
                                     </StackPanel>
                                 </AdornerDecorator>

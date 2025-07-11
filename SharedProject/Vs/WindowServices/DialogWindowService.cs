@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Vs
 
         public void Show(object viewModel) => ConstructDialogWindow(viewModel).Show();
 
-        public void ShowModal(object viewModel) => ConstructDialogWindow(viewModel).ShowModal();
+        public bool? ShowModal(object viewModel) => ConstructDialogWindow(viewModel).ShowModal();
 
         private static DialogWindow ConstructDialogWindow(object viewModel)
         {

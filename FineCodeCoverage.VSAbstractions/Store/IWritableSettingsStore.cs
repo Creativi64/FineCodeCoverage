@@ -10,11 +10,15 @@
 
         bool GetBoolean(string collectionPath, string propertyName, bool defaultValue);
 
+        int GetInt32(string collectionPath, string propertyName);
+
         string GetString(string collectionPath, string propertyName);
 
         bool PropertyExists(string collectionPath, string propertyName);
 
         void SetBoolean(string collectionPath, string propertyName, bool value);
+
+        void SetInt32(string collectionPath, string propertyName, int value);
 
         void SetString(string collectionName, string propertyName, string value);
     }

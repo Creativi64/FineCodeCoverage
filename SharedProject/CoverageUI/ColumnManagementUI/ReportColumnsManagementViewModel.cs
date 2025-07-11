@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.VSAbstractions.Store;
 using FineCodeCoverage.Wpf;
+using Microsoft.VisualStudio.Settings;
 using VsThemedDialogs;
 using WpfHelpers;
 

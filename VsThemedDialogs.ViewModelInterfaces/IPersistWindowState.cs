@@ -2,9 +2,10 @@
 {
     public interface IPersistWindowState
     {
-        WindowPersistence GetState();
+        WindowPersistence? GetState();
 
         void SetState(WindowPersistence persistence);
+        bool PersistPosition { get; }
     }
 
     public class WindowPersistence

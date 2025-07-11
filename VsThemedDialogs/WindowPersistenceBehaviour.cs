@@ -38,11 +38,15 @@ namespace VsThemedDialogs
                     return;
                 }
 
-                window.Left = windowPersistence.Left;
-                window.Top = windowPersistence.Top;
+                if (persistWindowState.PersistPosition)
+                {
+                    window.Left = windowPersistence.Left;
+                    window.Top = windowPersistence.Top;
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
+                }
+
                 window.Width = windowPersistence.Width;
                 window.Height = windowPersistence.Height;
-                window.WindowStartupLocation = WindowStartupLocation.Manual;
             };
         }
     }
