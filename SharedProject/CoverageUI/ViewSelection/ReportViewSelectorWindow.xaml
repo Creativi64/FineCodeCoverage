@@ -27,6 +27,10 @@
                 <Style TargetType="Border">
                     <Setter Property="Height" Value="12"/>
                 </Style>
+                <Style x:Key="comboBoxWithAutomationStyle" BasedOn="{StaticResource {x:Static vsx:VsResourceKeys.ComboBoxItemStyleKey}}" TargetType="ComboBoxItem">
+                    <Setter Property="AutomationProperties.Name" Value="{Binding Display}"/>
+                    <Setter Property="AutomationProperties.AutomationId" Value="{Binding Display}"/>
+                </Style>
             </StackPanel.Resources>
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -47,14 +51,7 @@
                 <Label Grid.Column="0" Grid.Row="0" Content="Report Style:"/>
                 <ComboBox Grid.Column="2" Grid.Row="0" AutomationProperties.Name="ReportStyleCombo"
                 DisplayMemberPath="Display"
-                ItemsSource="{Binding ReportStyles}" SelectedItem="{Binding SelectedReportStyle}">
-                    <ComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                            <!-- Add a custom setter for AutomationProperties.Name -->
-                            <Setter Property="AutomationProperties.Name" Value="{Binding Display}"/>
-                        </Style>
-                    </ComboBox.ItemContainerStyle>
-                </ComboBox>
+                ItemsSource="{Binding ReportStyles}" SelectedItem="{Binding SelectedReportStyle}" ItemContainerStyle="{StaticResource comboBoxWithAutomationStyle}"/>
                 <Border Grid.Row="1"/>
 
                 <Label Grid.Column="0" Grid.Row="2" Content="Report Content:" 
@@ -62,14 +59,7 @@
                 <ComboBox Grid.Column="2" Grid.Row="2" AutomationProperties.Name="ReportContentTypeCombo"
                 Visibility="{Binding ShowReportContentTypeCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
                 DisplayMemberPath="Display"
-                ItemsSource="{Binding ReportContentTypes}" SelectedItem="{Binding SelectedReportContentType}">
-                    <ComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                            <!-- Add a custom setter for AutomationProperties.Name -->
-                            <Setter Property="AutomationProperties.Name" Value="{Binding Display}"/>
-                        </Style>
-                    </ComboBox.ItemContainerStyle>
-                </ComboBox>
+                ItemsSource="{Binding ReportContentTypes}" SelectedItem="{Binding SelectedReportContentType}" ItemContainerStyle="{StaticResource comboBoxWithAutomationStyle}"/>
                 <Border Grid.Row="3" Visibility="{Binding ShowReportContentTypeCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"/>
 
                 <Label Grid.Column="0" Grid.Row="4" Content="Selected Repository:"
@@ -84,8 +74,8 @@
                 Visibility="{Binding ShowBranchesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" />
                 <ComboBox Grid.Column="2" Grid.Row="6" AutomationProperties.Name="BranchesCombo" 
                 Visibility="{Binding ShowBranchesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" 
-                IsEnabled="{Binding GitCombosEnabled}"
-                ItemsSource="{Binding Branches}" SelectedItem="{Binding SelectedBranch}"/>
+                IsEnabled="{Binding GitCombosEnabled}" DisplayMemberPath="Display"
+                ItemsSource="{Binding Branches}" SelectedItem="{Binding SelectedBranch}" ItemContainerStyle="{StaticResource comboBoxWithAutomationStyle}"/>
 
                 <Border Grid.Row="7"/>
             </Grid>

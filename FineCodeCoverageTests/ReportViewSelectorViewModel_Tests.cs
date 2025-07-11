@@ -9,32 +9,6 @@ namespace FineCodeCoverageTests
 {
     internal class ReportViewSelectorViewModel_Tests
     {
-        //private class ReportViewState
-        //{
-        //    public ReportViewState(
-        //        ReportStyle reportStyle, 
-        //        ReportContentType reportContentType,
-        //        string selectedRepositoryPath,
-        //        string selectedBranchName,
-        //        IReadOnlyList<string> repositoryPaths,
-        //        bool canUseRepositories
-
-        //    ) {
-        //        ReportStyle = reportStyle;
-        //        ReportContentType = reportContentType;
-        //        SelectedRepositoryPath = selectedRepositoryPath;
-        //        SelectedBranchName = selectedBranchName;
-        //        RepositoryPaths = repositoryPaths;
-        //        CanUseRepositories = canUseRepositories;
-        //    }
-
-        //    public bool CanUseRepositories { get; }
-        //    public ReportContentType ReportContentType { get; }
-        //    public ReportStyle ReportStyle { get; }
-        //    public IReadOnlyList<string> RepositoryPaths { get; }
-        //    public string SelectedBranchName { get; }
-        //    public string SelectedRepositoryPath { get; }
-        //} 
         private ReportViewSelectorViewModel Setup(ReportViewState reportViewState)
         {
             var autoMoqer = new AutoMoqer();
@@ -274,7 +248,7 @@ namespace FineCodeCoverageTests
 
             var reportViewSelectorViewModel =  autoMoqer.Create<ReportViewSelectorViewModel>();
 
-            Assert.That(reportViewSelectorViewModel.Branches, Is.EquivalentTo(selectedRepositoryBranches));
+            Assert.That(reportViewSelectorViewModel.Branches.Select(b => b.BranchName), Is.EquivalentTo(selectedRepositoryBranches));
         }
 
         [Test]
@@ -295,7 +269,7 @@ namespace FineCodeCoverageTests
 
             var reportViewSelectorViewModel = autoMoqer.Create<ReportViewSelectorViewModel>();
 
-            Assert.That(reportViewSelectorViewModel.SelectedBranch, Is.EquivalentTo("Branch1"));
+            Assert.That(reportViewSelectorViewModel.SelectedBranch.BranchName, Is.EqualTo("Branch1"));
         }
 
         [Test]
@@ -317,7 +291,7 @@ namespace FineCodeCoverageTests
 
             var reportViewSelectorViewModel = autoMoqer.Create<ReportViewSelectorViewModel>();
 
-            Assert.That(reportViewSelectorViewModel.SelectedBranch, Is.EquivalentTo("selectedbranch"));
+            Assert.That(reportViewSelectorViewModel.SelectedBranch.BranchName, Is.EquivalentTo("selectedbranch"));
         }
 
         [Test]
@@ -343,8 +317,8 @@ namespace FineCodeCoverageTests
 
             reportViewSelectorViewModel.SelectedRepositoryPath = "repopath2";
 
-            Assert.That(reportViewSelectorViewModel.Branches, Is.EquivalentTo(repo2Branches));
-            Assert.That(reportViewSelectorViewModel.SelectedBranch, Is.EqualTo("Repo2Branch1"));
+            Assert.That(reportViewSelectorViewModel.Branches.Select(b => b.BranchName), Is.EquivalentTo(repo2Branches));
+            Assert.That(reportViewSelectorViewModel.SelectedBranch.BranchName, Is.EqualTo("Repo2Branch1"));
         }
 
         // OkCommand tests
@@ -421,7 +395,7 @@ namespace FineCodeCoverageTests
         {
             CanExecuteChanged_True_Test((reportViewSelectorViewModel) =>
             {
-                reportViewSelectorViewModel.SelectedBranch = "Branch1";
+                reportViewSelectorViewModel.SelectedBranch = new BranchViewModel("Branch1");
             });
         }
 

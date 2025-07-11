@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FineCodeCoverage.Wpf;
 using VsThemedDialogs;
 using WpfHelpers;
 
@@ -15,7 +14,7 @@ namespace FineCodeCoverage.Output
         private readonly bool _initializing = true;
         private readonly bool _hasRepositories;
         private readonly ReportViewState _initialReportViewState;
-        private string _selectedBranch;
+        private BranchViewModel _selectedBranch;
         private ReportContentTypeViewModel _selectedReportContentType;
         private ReportStyleViewModel _selectedReportStyle;
         private bool _changed;
@@ -23,9 +22,9 @@ namespace FineCodeCoverage.Output
 
         public event EventHandler<bool> Done;
 
-        public ObservableCollection<string> Branches { get; } = new ObservableCollection<string>();
+        public ObservableCollection<BranchViewModel> Branches { get; } = new ObservableCollection<BranchViewModel>();
 
-        public string SelectedBranch
+        public BranchViewModel SelectedBranch
         {
             get => _selectedBranch ?? Branches.FirstOrDefault();
             set
@@ -75,7 +74,7 @@ namespace FineCodeCoverage.Output
         private bool ChangedFromInitial() => !_initializing &&
             (_initialReportViewState.ReportContentType != SelectedReportContentType.ReportContentType ||
             _initialReportViewState.ReportStyle != SelectedReportStyle.ReportStyle ||
-            _initialReportViewState.SelectedBranchName != SelectedBranch ||
+            _initialReportViewState.SelectedBranchName != SelectedBranch?.BranchName ||
             _initialReportViewState.SelectedRepositoryPath != SelectedRepositoryPath);
 
         public ReportViewSelectorViewModel(IReportViewSelectorModel reportViewSelectorModel)
@@ -87,7 +86,7 @@ namespace FineCodeCoverage.Output
                     reportViewSelectorModel.Update(
                         SelectedReportStyle.ReportStyle,
                         SelectedReportContentType.ReportContentType,
-                        SelectedBranch,
+                        SelectedBranch.BranchName,
                         SelectedRepositoryPath);
                     Done?.Invoke(this, true);
                 },
@@ -103,7 +102,7 @@ namespace FineCodeCoverage.Output
             if (_hasRepositories)
             {
                 SelectedRepositoryPath = _initialReportViewState.SelectedRepositoryPath ?? RepositoryPaths[0];
-                SelectedBranch = _initialReportViewState.SelectedBranchName;
+                SelectedBranch = _initialReportViewState.SelectedBranchName == null ? null : new BranchViewModel(_initialReportViewState.SelectedBranchName);
                 ShowBranchesCombo = true;
                 ShowRepositoriesCombo = RepositoryPaths.Count > 1;
                 ShowReportContentTypeCombo = true;
@@ -158,7 +157,7 @@ namespace FineCodeCoverage.Output
                 ClearRepositoryBranches();
                 foreach (string branch in _reportViewSelectorModel.GetBranches(_selectedRepositoryPath))
                 {
-                    Branches.Add(branch);
+                    Branches.Add(new BranchViewModel(branch));
                 }
 
                 RaiseOkChangedIfChanged();

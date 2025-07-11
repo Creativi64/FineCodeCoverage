@@ -79,6 +79,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\BranchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
     </Compile>
