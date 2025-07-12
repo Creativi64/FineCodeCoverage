@@ -12,6 +12,7 @@
     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:wpfGridExtensions="clr-namespace:WpfGridExtensions;assembly=WpfGridExtensions"
 	Title="Report View Selector"
 	SizeToContent="WidthAndHeight"
     >
@@ -22,60 +23,50 @@
                 <Style TargetType="themedDialogs:ThemedSectionDivider">
                     <Setter Property="Margin" Value="0,12,0,12"/>
                 </Style>
-                <Style TargetType="Border">
-                    <Setter Property="Height" Value="12"/>
-                </Style>
                 <Style x:Key="comboBoxWithAutomationStyle" BasedOn="{StaticResource {x:Static vsx:VsResourceKeys.ComboBoxItemStyleKey}}" TargetType="ComboBoxItem">
                     <Setter Property="AutomationProperties.Name" Value="{Binding Display}"/>
                     <Setter Property="AutomationProperties.AutomationId" Value="{Binding Display}"/>
                 </Style>
             </StackPanel.Resources>
-            <Grid HorizontalAlignment="Stretch">
+            <Grid wpfGridExtensions:PreviousRowWrapper.DefaultMarginBottom="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="12"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/> <!-- Prevent window from expanding when long branch name-->
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/> <!-- margin -->
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/> <!-- margin -->
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/> <!-- margin -->
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/> <!-- margin -->
+                    <RowDefinition />
+                    <wpfGridExtensions:PreviousRowWrapper RowHeight="Auto"/>
+
+                    <RowDefinition/>
+                    <wpfGridExtensions:PreviousRowWrapper RowHeight="Auto" Visible="{Binding ShowReportContentTypeCombo}"/>
+
+                    <RowDefinition/>
+                    <wpfGridExtensions:PreviousRowWrapper RowHeight="Auto" Visible="{Binding ShowRepositoriesCombo}"/>
+
+                    <RowDefinition/>
+                    <wpfGridExtensions:PreviousRowWrapper MarginBottom="0" RowHeight="Auto" Visible="{Binding ShowBranchesCombo}"/>
+
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Report Style:"/>
                 <ComboBox Grid.Column="2" Grid.Row="0" AutomationProperties.Name="ReportStyleCombo"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding ReportStyles}" SelectedItem="{Binding SelectedReportStyle}" ItemContainerStyle="{StaticResource comboBoxWithAutomationStyle}"/>
-                <Border Grid.Row="1"/>
 
-                <Label Grid.Column="0" Grid.Row="2" Content="Report Content:" 
-                Visibility="{Binding ShowReportContentTypeCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Report Content:"/>
                 <ComboBox Grid.Column="2" Grid.Row="2" AutomationProperties.Name="ReportContentTypeCombo"
-                Visibility="{Binding ShowReportContentTypeCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding ReportContentTypes}" SelectedItem="{Binding SelectedReportContentType}" ItemContainerStyle="{StaticResource comboBoxWithAutomationStyle}"/>
-                <Border Grid.Row="3" Visibility="{Binding ShowReportContentTypeCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"/>
 
-                <Label Grid.Column="0" Grid.Row="4" Content="Selected Repository:"
-                Visibility="{Binding ShowRepositoriesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" />
+                <Label Grid.Column="0" Grid.Row="4" Content="Selected Repository:"/>
                 <ComboBox Grid.Column="2" Grid.Row="4" AutomationProperties.Name="RepositoryDisplayCombo" 
-                Visibility="{Binding ShowRepositoriesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
                 IsEnabled="{Binding GitCombosEnabled}" 
                 ItemsSource="{Binding RepositoryPaths}" SelectedItem="{Binding SelectedRepositoryPath}"/>
-                <Border Grid.Row="5" Visibility="{Binding ShowRepositoriesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"/>
 
-                <Label Grid.Column="0" Grid.Row="6" Content="Branches:"
-                Visibility="{Binding ShowBranchesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" />
-                <ComboBox Grid.Column="2" Grid.Row="6" AutomationProperties.Name="BranchesCombo" 
-                Visibility="{Binding ShowBranchesCombo, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" 
+                <Label Grid.Column="0" Grid.Row="6" Content="Branches:"/>
+                <ComboBox Grid.Column="2" Grid.Row="6" AutomationProperties.Name="BranchesCombo"
                 IsEnabled="{Binding GitCombosEnabled}" DisplayMemberPath="Display"
                 ItemsSource="{Binding Branches}" SelectedItem="{Binding SelectedBranch}" ItemContainerStyle="{StaticResource comboBoxWithAutomationStyle}"/>
-
-                <Border Grid.Row="7"/>
             </Grid>
             <StackPanel Visibility="{Binding ShowNoRepositoriesMessage, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}">
                 <themedDialogs:ThemedSectionDivider/>

@@ -323,6 +323,10 @@
       <Project>{41f2b243-d408-40c0-b2f9-10a57633fbc7}</Project>
       <Name>VsThemedDialogs2019</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfGridExtensions\WpfGridExtensions.csproj">
+      <Project>{5196dec6-4b81-40c9-a789-024c7e1b18b2}</Project>
+      <Name>WpfGridExtensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
       <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
       <Name>WpfHelpers</Name>
