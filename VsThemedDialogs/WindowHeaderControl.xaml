@@ -1,14 +1,14 @@
 ﻿<UserControl x:Class="VsThemedDialogs.WindowHeaderControl"
 	    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
-	    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-	    xmlns:vsui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-        xmlns:fccWpf="clr-namespace:VsThemedDialogs"
+        xmlns:vsImageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
+        xmlns:vsImaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+        xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+        xmlns:local="clr-namespace:VsThemedDialogs"
 >
-    <Grid fccWpf:WindowDragBehaviour.IsDragHandle="True" Row="0" Margin="0,0,7,0" Height="36" VerticalAlignment="Center" Background="Transparent">
-        <fccWpf:ThemedDialogCloseButton x:Name="DialogCloseButton" Width="26" Height="26" HorizontalAlignment="Right">
-            <imaging:CrispImage Moniker="{x:Static catalog:KnownMonikers.Close}" Height="12" Width="14"/>
-        </fccWpf:ThemedDialogCloseButton>
+    <Grid local:WindowDragBehaviour.IsDragHandle="True" Row="0" Margin="0,0,7,0" Height="36" VerticalAlignment="Center" Background="Transparent">
+        <local:ThemedDialogCloseButton x:Name="DialogCloseButton" Width="26" Height="26" HorizontalAlignment="Right">
+            <vsImaging:CrispImage Moniker="{x:Static vsImageCatalog:KnownMonikers.Close}" Height="12" Width="14"/>
+        </local:ThemedDialogCloseButton>
     </Grid>
 </UserControl>

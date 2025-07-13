@@ -2,19 +2,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
 	x:Class="FineCodeCoverage.Wpf.Demo"
-    xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:vsx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"   
-    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
+    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:vsImageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     fccWpf:VsDesignTimeColors.ThemeName="Dark"
-    Background="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelBrushKey}}"
-    vs:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelColorKey}}"
+    Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
+    vsPlatformUI:ImageThemingUtilities.ImageBackgroundColor="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelColorKey}}"
     >
     <StackPanel>
-        <TextBlock x:Name="TB" Foreground="{DynamicResource {x:Static vs:ThemedDialogColors.WindowPanelTextBrushKey}}"
+        <TextBlock x:Name="TB" Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelTextBrushKey}}"
     >Hello</TextBlock>
-        <fccWpf:Crispy Moniker="{x:Static catalog:KnownMonikers.MoveUp}"/>
+        <fccWpf:Crispy Moniker="{x:Static vsImageCatalog:KnownMonikers.MoveUp}"/>
     </StackPanel>
 </UserControl>

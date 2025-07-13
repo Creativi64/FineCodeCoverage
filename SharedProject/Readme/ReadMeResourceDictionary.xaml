@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fccUtils="clr-namespace:FineCodeCoverage.Core.Utilities"
-                    xmlns:platformui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
                     xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
                     xmlns:local="clr-namespace:FineCodeCoverage.Readme"
                     xmlns:markdigExtended="clr-namespace:MarkdigExtended.NotifyingWpfRenderers.Base;assembly=MarkdigExtended"
@@ -14,7 +13,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Rectangle Margin="-2,-1" SnapsToDevicePixels="true"
-              Stroke="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"
+              Stroke="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"
               StrokeDashArray="1 2" StrokeThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -25,7 +24,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Rectangle Margin="0" SnapsToDevicePixels="true"
-              Stroke="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"
+              Stroke="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"
               StrokeDashArray="1 2" StrokeThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -39,9 +38,9 @@
      Value="{DynamicResource {x:Static vsShell:VsFonts.EnvironmentFontSizeKey}}"/>
         <Setter Property="FlowDocument.TextAlignment" Value="Left"/>
         <Setter Property="FlowDocument.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         <Setter Property="FlowDocument.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="ContentElement.Focusable" Value="False"/>
         <!-- FCC -->
         <Setter Property="IsOptimalParagraphEnabled" Value="true"/>
@@ -51,27 +50,27 @@
         <Setter Property="Block.Margin" Value="40,0,0,0"/>
         <Setter Property="Block.Padding" Value="0,0,0,0"/>
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.CodeBlock}" TargetType="{x:Type Paragraph}">
         <Setter Property="Block.Padding" Value="10"/>
         <Setter Property="Block.BorderThickness" Value="1"/>
         <Setter Property="Block.BorderBrush"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBorderBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBorderBrushKey}}"/>
         <!-- why not use ToolWindowCodeBlockBackgroundBrushKey as per code inline ?-->
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowContentGridBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowContentGridBrushKey}}"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontFamily"
      Value="Consolas, Lucida Sans Typewriter, Courier New"/>
     </Style>
     <Style x:Key="{x:Static local:ReadMeFlowDocumentStyleSetter.ReadMeCodeInlineBasedOnStyleKey}" TargetType="{x:Type Run}">
      <!-- separate versions 2019 and 2022-->
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontFamily"
      Value="Consolas, Lucida Sans Typewriter, Courier New"/>
     </Style>
@@ -79,36 +78,36 @@
         <Setter Property="TextElement.FontSize"
      Value="{DynamicResource {x:Static vsShell:VsFonts.Environment283PercentFontSizeKey}}"/>
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontWeight" Value="Bold"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.HeadingBlock2}" TargetType="{x:Type Paragraph}">
         <Setter Property="TextElement.FontSize"
      Value="{DynamicResource {x:Static vsShell:VsFonts.Environment200PercentFontSizeKey}}"/>
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontWeight" Value="Bold"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.HeadingBlock3}" TargetType="{x:Type Paragraph}">
         <Setter Property="TextElement.FontSize"
      Value="{DynamicResource {x:Static vsShell:VsFonts.Environment133PercentFontSizeKey}}"/>
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontWeight" Value="Bold"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.HeadingBlock4}" TargetType="{x:Type Paragraph}">
         <Setter Property="TextElement.FontSize"
      Value="{DynamicResource {x:Static vsShell:VsFonts.Environment133PercentFontSizeKey}}"/>
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="TextElement.FontWeight" Value="Light"/>
         <Setter Property="Paragraph.TextDecorations" Value="Underline"/>
     </Style>
@@ -118,7 +117,7 @@
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.LinkInlineHyperlink}"
   TargetType="{x:Type Hyperlink}">
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:CommonDocumentColors.HyperlinkBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:CommonDocumentColors.HyperlinkBrushKey}}"/>
         <Setter Property="FrameworkContentElement.FocusVisualStyle"
      Value="{StaticResource HyperlinkFocusVisualStyle}"/>
         
@@ -159,24 +158,24 @@
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.QuoteBlock}" TargetType="{x:Type Section}">
         <Setter Property="Block.BorderBrush"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolWindowBorderBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBorderBrushKey}}"/>
         <Setter Property="Block.BorderThickness" Value="4,0,0,0"/>
         <Setter Property="TextElement.Foreground"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolboxContentTextBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolboxContentTextBrushKey}}"/>
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.ToolboxContentBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolboxContentBrushKey}}"/>
         <Setter Property="Block.Padding" Value="16,0,0,0"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.Table}" TargetType="{x:Type Table}">
         <Setter Property="Block.BorderBrush"
-     Value="{DynamicResource {x:Static platformui:CommonControlsColors.TextBoxBorderBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderBrushKey}}"/>
         <Setter Property="Block.BorderThickness" Value="0,0,1,1"/>
         <Setter Property="Table.CellSpacing" Value="0"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.TableCell}"
   TargetType="{x:Type TableCell}">
         <Setter Property="TableCell.BorderBrush"
-     Value="{DynamicResource {x:Static platformui:CommonControlsColors.TextBoxBorderBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderBrushKey}}"/>
         <Setter Property="TableCell.BorderThickness" Value="1,1,0,0"/>
         <Setter Property="Padding" Value="10,0,10,0"/>
     </Style>
@@ -190,7 +189,7 @@
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.ThematicBreakBlock}" TargetType="{x:Type Line}">
         <Setter Property="Shape.Stretch" Value="Fill"/>
         <Setter Property="Shape.Stroke"
-     Value="{DynamicResource {x:Static platformui:CommonControlsColors.ComboBoxGlyphBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.ComboBoxGlyphBrushKey}}"/>
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.EmphasisInlineSubscript}" TargetType="{x:Type Span}">
         <Setter Property="Typography.Variants" Value="Subscript"/>
@@ -206,7 +205,7 @@
     </Style>
     <Style x:Key="{x:Static markdigExtended:MarkdownTypeMarker.EmphasisInlineMarked}" TargetType="{x:Type Span}">
         <Setter Property="TextElement.Background"
-     Value="{DynamicResource {x:Static platformui:EnvironmentColors.SystemHighlightBrushKey}}"/>
+     Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.SystemHighlightBrushKey}}"/>
     </Style>
 
 

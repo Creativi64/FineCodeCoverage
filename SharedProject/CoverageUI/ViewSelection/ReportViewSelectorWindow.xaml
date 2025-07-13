@@ -5,13 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
     xmlns:themedDialogs="clr-namespace:VsThemedDialogs;assembly=VsThemedDialogs"
-    xmlns:output="clr-namespace:FineCodeCoverage.Output"
-    xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:vsx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-    xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
-    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
-    xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:fccOutput="clr-namespace:FineCodeCoverage.Output"
+    xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:wpfGridExtensions="clr-namespace:WpfGridExtensions;assembly=WpfGridExtensions"
 	Title="Report View Selector"
 	SizeToContent="WidthAndHeight"
@@ -19,11 +15,11 @@
     <themedDialogs:ThemedDialogTitleOkCancel Title="Report View Selector">
         <StackPanel>
             <StackPanel.Resources>
-                <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
+                <vsPlatformUI:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
                 <Style TargetType="themedDialogs:ThemedSectionDivider">
                     <Setter Property="Margin" Value="0,12,0,12"/>
                 </Style>
-                <Style x:Key="comboBoxWithAutomationStyle" BasedOn="{StaticResource {x:Static vsx:VsResourceKeys.ComboBoxItemStyleKey}}" TargetType="ComboBoxItem">
+                <Style x:Key="comboBoxWithAutomationStyle" BasedOn="{StaticResource {x:Static vsShell:VsResourceKeys.ComboBoxItemStyleKey}}" TargetType="ComboBoxItem">
                     <Setter Property="AutomationProperties.Name" Value="{Binding Display}"/>
                     <Setter Property="AutomationProperties.AutomationId" Value="{Binding Display}"/>
                 </Style>

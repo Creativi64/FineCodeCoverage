@@ -6,13 +6,13 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:tg="clr-namespace:TreeGrid;assembly=TreeGrid"
-    xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-    xmlns:output="clr-namespace:FineCodeCoverage.Output"
+    xmlns:treeGrid="clr-namespace:TreeGrid;assembly=TreeGrid"
+    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:vsImaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:fccOutput="clr-namespace:FineCodeCoverage.Output"
     xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
-    xmlns:wpf="clr-namespace:FineCodeCoverage.Wpf"
-    xmlns:effects="clr-namespace:System.Windows.Media.Extensions.Effects;assembly=WpfExtended"
+    xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
+    xmlns:wpfExtended="clr-namespace:System.Windows.Media.Extensions.Effects;assembly=WpfExtended"
 	mc:Ignorable="d"
 	d:DesignWidth="500"
 	d:DesignHeight="300"
@@ -23,8 +23,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Hidden"/>
-            <wpf:ResourceKeyConverter x:Key="ThemeResourceKeyConverter"/>
+            <vsPlatformUI:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Hidden"/>
+            <fccWpf:ResourceKeyConverter x:Key="ThemeResourceKeyConverter"/>
         </Grid.Resources>
         <ProgressBar Grid.Row="0" Height="2" Foreground="{DynamicResource ResourceKey=VsBrush.Highlight}" Visibility="{Binding CoverageRunning, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}" IsIndeterminate="true">
             <ProgressBar.Style>
@@ -81,22 +81,22 @@
                 </Style>
             </ProgressBar.Style>
         </ProgressBar>
-        <tg:TreeGridControl Grid.Row="1"
-        TreeGridControlBackground="{DynamicResource {x:Static vsShell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
-        TreeViewBackground="{DynamicResource {x:Static vsShell:TreeViewColors.BackgroundBrushKey}}"
-        HeaderGridLines="{Binding GridLinesBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
-        HeaderForeground="{Binding ForegroundBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
-        HeaderForegroundIsMouseOver="{Binding ForegroundIsMouseOverBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
-        HeaderForegroundIsPressed="{Binding ForegroundIsPressedBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
-        HeaderBackground="{Binding BackgroundBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
-        HeaderBackgroundIsMouseOver="{Binding BackgroundIsMouseOverBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
-        HeaderBackgroundIsPressed="{Binding BackgroundIsPressedBrushKey, Source={x:Static output:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        <treeGrid:TreeGridControl Grid.Row="1"
+        TreeGridControlBackground="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
+        TreeViewBackground="{DynamicResource {x:Static vsPlatformUI:TreeViewColors.BackgroundBrushKey}}"
+        HeaderGridLines="{Binding GridLinesBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderForeground="{Binding ForegroundBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderForegroundIsMouseOver="{Binding ForegroundIsMouseOverBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderForegroundIsPressed="{Binding ForegroundIsPressedBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderBackground="{Binding BackgroundBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderBackgroundIsMouseOver="{Binding BackgroundIsMouseOverBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
+        HeaderBackgroundIsPressed="{Binding BackgroundIsPressedBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
         ViewModel="{Binding}"
     >
-            <tg:TreeGridControl.ItemTemplate>
+            <treeGrid:TreeGridControl.ItemTemplate>
                 <DataTemplate>
                     <DataTemplate.Resources>
-                        <output:PercentageConverter x:Key="PercentageConverter"/>
+                        <fccOutput:PercentageConverter x:Key="PercentageConverter"/>
                     </DataTemplate.Resources>
                     <StackPanel>
                         <!-- cannot put margin in style due to the reparenting-->
@@ -129,122 +129,122 @@
                         </TextBlock>
                         <Grid Tag="LineCoveragePercentBar" Margin="4,0,4,0">
                             <Grid.Resources>
-                                <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
-                                <output:BrushToSolidColorBrushConverter x:Key="BrushToSolidColorBrushConverter"/>
-                                <vsShell:BrushToColorConverter x:Key="BrushToColorConverter"/>
+                                <fccOutput:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+                                <fccOutput:BrushToSolidColorBrushConverter x:Key="BrushToSolidColorBrushConverter"/>
+                                <vsPlatformUI:BrushToColorConverter x:Key="BrushToColorConverter"/>
                             </Grid.Resources>
                             <TextBlock Text="---"
                                     Visibility="{Binding CoverableLines,
                                     Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center"/>
-                            <output:CoveragePercentageBar Visibility="{Binding CoverableLines, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
+                            <fccOutput:CoveragePercentageBar Visibility="{Binding CoverableLines, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
                                 Coverable="{Binding CoverableLines}" 
                                 Covered="{Binding CoveredLines}" 
                                 Partial="{Binding PartialLines}"
-                                UseSolidBrush="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
-                                NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
-                                CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
-                                CoveredPercentageIsLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageIsLeft}"
-                                DisplayParts="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=DisplayParts}"
-                                HeightOrMultiplier="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
-                                ShowToolTip="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
+                                UseSolidBrush="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
+                                NotCoveredColor="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
+                                CoveredColor="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
+                                CoveredPercentageIsLeft="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageIsLeft}"
+                                DisplayParts="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=DisplayParts}"
+                                HeightOrMultiplier="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
+                                ShowToolTip="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
                                 >
-                                <output:CoveragePercentageBar.Style>
-                                    <Style TargetType="output:CoveragePercentageBar">
+                                <fccOutput:CoveragePercentageBar.Style>
+                                    <Style TargetType="fccOutput:CoveragePercentageBar">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
                                                 <Setter Property="ThemedBackgroundColor" Value="{Binding Background, Converter={StaticResource ResourceKey=BrushToColorConverter}}"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                                 <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
                                                 <Setter Property="SingularPartBrush" Value="{Binding Foreground, Converter={StaticResource ResourceKey=BrushToSolidColorBrushConverter}}"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                                 <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </output:CoveragePercentageBar.Style>
-                            </output:CoveragePercentageBar>
+                                </fccOutput:CoveragePercentageBar.Style>
+                            </fccOutput:CoveragePercentageBar>
                         </Grid>
                         <Grid Tag="BranchCoveragePercentBar" Margin="4,0,4,0">
                             <Grid.Resources>
-                                <output:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
-                                <output:BrushToSolidColorBrushConverter x:Key="BrushToSolidColorBrushConverter"/>
-                                <vsShell:BrushToColorConverter x:Key="BrushToColorConverter"/>
+                                <fccOutput:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+                                <fccOutput:BrushToSolidColorBrushConverter x:Key="BrushToSolidColorBrushConverter"/>
+                                <vsPlatformUI:BrushToColorConverter x:Key="BrushToColorConverter"/>
                             </Grid.Resources>
                             <TextBlock Text="---"
             Visibility="{Binding TotalBranches,
             Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center"/>
-                            <output:CoveragePercentageBar Visibility="{Binding TotalBranches, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
+                            <fccOutput:CoveragePercentageBar Visibility="{Binding TotalBranches, Converter={StaticResource ZeroToVisibilityConverter}, ConverterParameter=true}" Margin="4,0,4,0" 
         Coverable="{Binding TotalBranches}" 
         Covered="{Binding CoveredBranches}" 
-        UseSolidBrush="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
-        NotCoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
-        CoveredColor="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
-        CoveredPercentageIsLeft="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageIsLeft}"
-        DisplayParts="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=DisplayParts}"
-        HeightOrMultiplier="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
-        ShowToolTip="{Binding Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
+        UseSolidBrush="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=UseSolidBrush}"
+        NotCoveredColor="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=NotCoveredColor}"
+        CoveredColor="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredColor}"
+        CoveredPercentageIsLeft="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=CoveredPercentageIsLeft}"
+        DisplayParts="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=DisplayParts}"
+        HeightOrMultiplier="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=HeightOrMultiplier}"
+        ShowToolTip="{Binding Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}, Path=ShowToolTip}"
         >
-                                <output:CoveragePercentageBar.Style>
-                                    <Style TargetType="output:CoveragePercentageBar">
+                                <fccOutput:CoveragePercentageBar.Style>
+                                    <Style TargetType="fccOutput:CoveragePercentageBar">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
                                                 <Setter Property="ThemedBackgroundColor" Value="{Binding Background, Converter={StaticResource ResourceKey=BrushToColorConverter}}"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                            <DataTrigger Binding="{Binding IsThemed, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                                 <Setter Property="ThemedBackgroundColor" Value="{x:Static media:Colors.Transparent}"/>
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="True">
                                                 <Setter Property="SingularPartBrush" Value="{Binding Foreground, Converter={StaticResource ResourceKey=BrushToSolidColorBrushConverter}}"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static output:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
+                                            <DataTrigger Binding="{Binding UseContrastedThemeWhenSingularDisplay, Source={x:Static fccOutput:CoveragePercentageBarOptionsViewModelProvider.Instance}}" Value="False">
                                                 <Setter Property="SingularPartBrush" Value="{x:Static media:Brushes.Transparent}"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </output:CoveragePercentageBar.Style>
-                            </output:CoveragePercentageBar>
+                                </fccOutput:CoveragePercentageBar.Style>
+                            </fccOutput:CoveragePercentageBar>
                         </Grid>
                     </StackPanel>
                 </DataTemplate>
-            </tg:TreeGridControl.ItemTemplate>
-            <tg:TreeGridControl.HierarchicalDataTemplate>
+            </treeGrid:TreeGridControl.ItemTemplate>
+            <treeGrid:TreeGridControl.HierarchicalDataTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <DockPanel>
                         <DockPanel.Resources>
-                            <vsShell:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
+                            <vsPlatformUI:VisibleIfEqualValueConverter x:Key="VisibleIfEqualValueConverter" VisibilityIfNotEqual="Collapsed"/>
                         </DockPanel.Resources>
-                        <imaging:CrispImage
+                        <vsImaging:CrispImage
                             DockPanel.Dock="Left" VerticalAlignment="Center"
                              Margin="5 2 5 2"
-                             Width="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=IconSize}"
+                             Width="{Binding Source={x:Static fccOutput:IconsViewModelProvider.Instance}, Path=IconSize}"
                              Moniker="{Binding ImageMoniker}"
                              RenderOptions.BitmapScalingMode="HighQuality"
-                             Visibility="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=ShowIcons, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
+                             Visibility="{Binding Source={x:Static fccOutput:IconsViewModelProvider.Instance}, Path=ShowIcons, Converter={StaticResource VisibleIfEqualValueConverter}, ConverterParameter=true}"
                         >
                             <!-- 
                 Note that putting the effect in the trigger does not work with a dynamic resource.
                 Hence added boolean to the effect to just return the original color when disabled
             -->
-                            <imaging:CrispImage.Effect>
-                                <effects:MonochromeAlphaSwap IsEnabled="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=Monochrome}"  FilterColor="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=MonochromeColor}"/>
-                            </imaging:CrispImage.Effect>
-                            <imaging:CrispImage.Style>
-                                <Style TargetType="imaging:CrispImage">
+                            <vsImaging:CrispImage.Effect>
+                                <wpfExtended:MonochromeAlphaSwap IsEnabled="{Binding Source={x:Static fccOutput:IconsViewModelProvider.Instance}, Path=Monochrome}"  FilterColor="{Binding Source={x:Static fccOutput:IconsViewModelProvider.Instance}, Path=MonochromeColor}"/>
+                            </vsImaging:CrispImage.Effect>
+                            <vsImaging:CrispImage.Style>
+                                <Style TargetType="vsImaging:CrispImage">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static output:IconsViewModelProvider.Instance}, Path=Monochrome}" Value="False">
-                                            <Setter Property="vsShell:ImageThemingUtilities.ImageBackgroundColor"  Value="{Binding ImageBackgroundColor, Source={x:Static output:ThemedTreeGridColours.Instance}}"/>
+                                        <DataTrigger Binding="{Binding Source={x:Static fccOutput:IconsViewModelProvider.Instance}, Path=Monochrome}" Value="False">
+                                            <Setter Property="vsPlatformUI:ImageThemingUtilities.ImageBackgroundColor"  Value="{Binding ImageBackgroundColor, Source={x:Static fccOutput:ThemedTreeGridColours.Instance}}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </imaging:CrispImage.Style>
-                        </imaging:CrispImage>
-                        <StackPanel VerticalAlignment="Center" Background="{Binding ImageBackgroundBrush, Source={x:Static output:ThemedTreeGridColours.Instance}}">
+                            </vsImaging:CrispImage.Style>
+                        </vsImaging:CrispImage>
+                        <StackPanel VerticalAlignment="Center" Background="{Binding ImageBackgroundBrush, Source={x:Static fccOutput:ThemedTreeGridColours.Instance}}">
                             <StackPanel.RenderTransform>
                                 <TranslateTransform X="{Binding Adjustment.TranslateX}"/>
                             </StackPanel.RenderTransform>
@@ -253,8 +253,8 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="{Binding Adjustment.Width}"/>
                                     </Grid.ColumnDefinitions>
-                                    <tg:TreeItemContentControl Content="{Binding}"
-                    ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type tg:TreeGridControl}}, Path=ItemTemplate}" />
+                                    <treeGrid:TreeItemContentControl Content="{Binding}"
+                    ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type treeGrid:TreeGridControl}}, Path=ItemTemplate}" />
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -262,7 +262,7 @@
 
 
                 </HierarchicalDataTemplate>
-            </tg:TreeGridControl.HierarchicalDataTemplate>
-        </tg:TreeGridControl>
+            </treeGrid:TreeGridControl.HierarchicalDataTemplate>
+        </treeGrid:TreeGridControl>
     </Grid>
 </UserControl>
