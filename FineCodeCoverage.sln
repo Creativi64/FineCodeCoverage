@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{20
 		LICENSE = LICENSE
 		.github\workflows\push_pull.yaml = .github\workflows\push_pull.yaml
 		README-Template.md = README-Template.md
+		Settings.XamlStyler = Settings.XamlStyler
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverageTests", "FineCodeCoverageTests\FineCodeCoverageTests.csproj", "{01F70D01-062D-4391-AF82-8325B22B87AB}"
