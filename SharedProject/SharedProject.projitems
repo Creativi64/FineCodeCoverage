@@ -674,7 +674,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\WindowServices\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Wpf\DialogWindows\" />
     <Folder Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\" />
   </ItemGroup>
 </Project>
