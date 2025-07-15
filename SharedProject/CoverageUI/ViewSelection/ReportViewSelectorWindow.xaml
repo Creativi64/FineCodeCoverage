@@ -38,7 +38,7 @@
                     <ColumnDefinition
                         Width="12" />
                     <ColumnDefinition
-                        Width="200" /> 
+                        Width="200" />
                     <!--  Prevent window from expanding when long branch name  -->
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>

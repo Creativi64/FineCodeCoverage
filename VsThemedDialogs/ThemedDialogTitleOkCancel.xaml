@@ -13,13 +13,13 @@
         Margin="0,0,0,20">
         <DockPanel>
             <StackPanel
+                DockPanel.Dock="Bottom"
                 Margin="0,12,20,0"
                 HorizontalAlignment="Right"
-                DockPanel.Dock="Bottom"
                 Orientation="Horizontal">
                 <Button
-                    Margin="6,0"
                     Command="{Binding OkCommand}"
+                    Margin="6,0"
                     Content="{Binding OkButtonText, RelativeSource={RelativeSource AncestorType=local:ThemedDialogTitleOkCancel}}" />
                 <Button
                     Command="{Binding CancelCommand}"
