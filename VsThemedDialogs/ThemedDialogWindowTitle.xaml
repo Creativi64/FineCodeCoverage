@@ -1,11 +1,11 @@
 ﻿<UserControl
-    x:Class="VsThemedDialogs.ThemedDialogWindowTitle"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:VsThemedDialogs"
-    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
-    <TextBlock x:Name="TitleTextBlock" AutomationProperties.Name="Window title"
-        Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
-        Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.HeaderTextBrushKey}}"
-        Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+  x:Class="VsThemedDialogs.ThemedDialogWindowTitle"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="clr-namespace:VsThemedDialogs"
+  xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
+  <TextBlock x:Name="TitleTextBlock" AutomationProperties.Name="Window title"
+    Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
+    Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.HeaderTextBrushKey}}"
+    Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 </UserControl>

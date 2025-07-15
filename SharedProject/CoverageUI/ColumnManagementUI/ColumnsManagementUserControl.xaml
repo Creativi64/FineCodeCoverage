@@ -1,364 +1,364 @@
 ﻿<UserControl
-    x:Class="FineCodeCoverage.Output.ColumnsManagementUserControl"
-    x:ClassModifier="internal"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:fccOutput="clr-namespace:FineCodeCoverage.Output"
-    xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
-    xmlns:vsImageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
-    xmlns:vsImaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:pf="clr-namespace:System.Windows;assembly=PresentationFramework"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
-    Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelTextBrushKey}}"
-    fccWpf:VsDesignTimeColors.ThemeName="Dark"
-    mc:Ignorable="d">
-    <DockPanel>
-        <StackPanel
-            DockPanel.Dock="Right"
-            Margin="12,0,0,0"
-            VerticalAlignment="Center">
-            <fccWpf:VsCrispImageButton2
-                Command="{Binding UpCommand}"
-                Margin="0,0,0,6"
-                ImageMoniker="{x:Static vsImageCatalog:KnownMonikers.MoveUp}" />
-            <fccWpf:VsCrispImageButtonX
-                Command="{Binding DownCommand}"
-                Moniker="{x:Static vsImageCatalog:KnownMonikers.MoveDown}" />
-        </StackPanel>
-        <DataGrid
-            DockPanel.Dock="left"
-            Margin="0,0,0,0"
-            Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
-            Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelTextBrushKey}}"
-            fccWpf:DataGridInvokeDataContextOnSelectionChanged.HandleSelection="true"
-            fccWpf:DataGridPreventSelectAllBehaviour.Value="True"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            CanUserReorderColumns="False"
-            CanUserResizeRows="False"
-            CanUserSortColumns="False"
-            GridLinesVisibility="None"
-            HeadersVisibility="Column"
-            HorizontalGridLinesBrush="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridLineBrushKey}}"
-            HorizontalScrollBarVisibility="Auto"
-            ItemsSource="{Binding Columns}"
-            RowBackground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
-            VerticalGridLinesBrush="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridLineBrushKey}}">
-            <d:DataGrid.ItemsSource>
-                <x:Array
-                    Type="{x:Type fccOutput:EditableColumn}">
-                    <fccOutput:EditableColumn
-                        Name="Name"
-                        Column="Column"
-                        IsVisible="True" />
-                    <fccOutput:EditableColumn
-                        Name="Name2"
-                        Column="Column2"
-                        IsVisible="False" />
-                    <fccOutput:EditableColumn
-                        Name="Name3"
-                        Column="Column3"
-                        IsVisible="False" />
-                    <fccOutput:EditableColumn
-                        Name="Name4"
-                        Column="Column4"
-                        IsVisible="False" />
-                    <fccOutput:EditableColumn
-                        Name="Name5"
-                        Column="Column5"
-                        IsVisible="False" />
-                </x:Array>
-            </d:DataGrid.ItemsSource>
-            <DataGrid.Resources>
-                <ControlTemplate
-                    x:Key="ErrorTemplate">
-                    <DockPanel
-                        LastChildFill="True">
-                        <AdornedElementPlaceholder
-                            Name="ControlWithError">
-                            <Border
-                                BorderBrush="Red"
-                                BorderThickness="1" />
-                        </AdornedElementPlaceholder>
-                        <vsImaging:CrispImage
-                            DockPanel.Dock="Right"
-                            Width="16"
-                            Height="16"
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Moniker="{x:Static vsImageCatalog:KnownMonikers.StatusInvalid}">
-                            <FrameworkElement.ToolTip>
-                                <Binding
-                                    ElementName="ControlWithError"
-                                    Path="AdornedElement.(Validation.Errors)[0].ErrorContent" />
-                            </FrameworkElement.ToolTip>
-                        </vsImaging:CrispImage>
-                    </DockPanel>
-                </ControlTemplate>
-                <Style
-                    x:Key="FocusVisualStyleKey">
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="true"
-                                    Stroke="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.FocusVisualTextBrushKey}}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-                <Style
-                    x:Key="cbstyle"
-                    TargetType="{x:Type CheckBox}">
-                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextColorKey}}" />
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate
-                                TargetType="{x:Type CheckBox}">
-                                <Grid x:Name="TemplateRoot">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition
-                                            Width="Auto" />
-                                        <ColumnDefinition
-                                            Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid
-                                        Width="16"
-                                        Height="16"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        SnapsToDevicePixels="true">
-                                        <Border x:Name="CheckMarkBorder"
-                                            Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundBrushKey}}"
-                                            BorderBrush="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderBrushKey}}"
-                                            BorderThickness="1" />
-                                        <Grid x:Name="MarkGrid">
-                                            <Path x:Name="CheckMark"
-                                                Width="9"
-                                                Height="8"
-                                                Margin="3,1,2,2"
-                                                Data="M 6.22,11.02 C 6.22,11.02 2.5,7.24 2.5,7.24 2.5,7.24 4.05,5.71 4.05,5.71 4.05,5.71 5.97,7.65 5.97,7.65 5.97,7.65 10.52,1.38 10.52,1.38 10.52,1.38 13.19,1.38 13.19,1.38 13.19,1.38 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 Z"
-                                                Fill="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphBrushKey}}"
-                                                Stretch="Uniform"
-                                                Visibility="Collapsed" />
-                                            <Rectangle x:Name="IndeterminateMark"
-                                                Margin="3"
-                                                Fill="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphBrushKey}}"
-                                                Visibility="Hidden" />
-                                        </Grid>
-                                    </Grid>
-                                    <ContentPresenter x:Name="CheckBoxContent"
-                                        Grid.Column="1"
-                                        Margin="{TemplateBinding Control.Padding}"
-                                        HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-                                        VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-                                        Focusable="False"
-                                        RecognizesAccessKey="True"
-                                        SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="ContentControl.HasContent" Value="true">
-                                        <Setter Property="Control.Padding" Value="6,1,0,0" />
-                                    </Trigger>
-                                    <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                        <Setter TargetName="CheckMark" Property="UIElement.Visibility" Value="Visible" />
-                                    </Trigger>
-                                    <Trigger Property="ToggleButton.IsChecked">
-                                        <Trigger.Value>
-                                            <x:NullExtension />
-                                        </Trigger.Value>
-                                        <Setter TargetName="IndeterminateMark" Property="UIElement.Visibility" Value="Visible" />
-                                    </Trigger>
-                                    <Trigger Property="UIElement.IsEnabled" Value="false">
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundDisabledBrushKey}}" />
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderDisabledBrushKey}}" />
-                                        <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphDisabledBrushKey}}" />
-                                        <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextDisabledBrushKey}}" />
-                                    </Trigger>
-                                    <Trigger Property="UIElement.IsFocused" Value="true">
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundFocusedBrushKey}}" />
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderFocusedBrushKey}}" />
-                                        <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphFocusedBrushKey}}" />
-                                        <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextFocusedBrushKey}}" />
-                                    </Trigger>
-                                    <Trigger Property="UIElement.IsMouseOver" Value="true">
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundHoverBrushKey}}" />
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderHoverBrushKey}}" />
-                                        <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphHoverBrushKey}}" />
-                                        <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextHoverBrushKey}}" />
-                                    </Trigger>
-                                    <Trigger Property="ButtonBase.IsPressed" Value="true">
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundPressedBrushKey}}" />
-                                        <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderPressedBrushKey}}" />
-                                        <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphPressedBrushKey}}" />
-                                        <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextPressedBrushKey}}" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisualStyleKey}" />
+  x:Class="FineCodeCoverage.Output.ColumnsManagementUserControl"
+  x:ClassModifier="internal"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:fccOutput="clr-namespace:FineCodeCoverage.Output"
+  xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
+  xmlns:vsImageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
+  xmlns:vsImaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+  xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+  xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+  xmlns:pf="clr-namespace:System.Windows;assembly=PresentationFramework"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
+  Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelTextBrushKey}}"
+  fccWpf:VsDesignTimeColors.ThemeName="Dark"
+  mc:Ignorable="d">
+  <DockPanel>
+    <StackPanel
+      DockPanel.Dock="Right"
+      Margin="12,0,0,0"
+      VerticalAlignment="Center">
+      <fccWpf:VsCrispImageButton2
+        Command="{Binding UpCommand}"
+        Margin="0,0,0,6"
+        ImageMoniker="{x:Static vsImageCatalog:KnownMonikers.MoveUp}" />
+      <fccWpf:VsCrispImageButtonX
+        Command="{Binding DownCommand}"
+        Moniker="{x:Static vsImageCatalog:KnownMonikers.MoveDown}" />
+    </StackPanel>
+    <DataGrid
+      DockPanel.Dock="left"
+      Margin="0,0,0,0"
+      Background="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
+      Foreground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelTextBrushKey}}"
+      fccWpf:DataGridInvokeDataContextOnSelectionChanged.HandleSelection="true"
+      fccWpf:DataGridPreventSelectAllBehaviour.Value="True"
+      AutoGenerateColumns="False"
+      CanUserAddRows="False"
+      CanUserDeleteRows="False"
+      CanUserReorderColumns="False"
+      CanUserResizeRows="False"
+      CanUserSortColumns="False"
+      GridLinesVisibility="None"
+      HeadersVisibility="Column"
+      HorizontalGridLinesBrush="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridLineBrushKey}}"
+      HorizontalScrollBarVisibility="Auto"
+      ItemsSource="{Binding Columns}"
+      RowBackground="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.WindowPanelBrushKey}}"
+      VerticalGridLinesBrush="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridLineBrushKey}}">
+      <d:DataGrid.ItemsSource>
+        <x:Array
+          Type="{x:Type fccOutput:EditableColumn}">
+          <fccOutput:EditableColumn
+            Name="Name"
+            Column="Column"
+            IsVisible="True" />
+          <fccOutput:EditableColumn
+            Name="Name2"
+            Column="Column2"
+            IsVisible="False" />
+          <fccOutput:EditableColumn
+            Name="Name3"
+            Column="Column3"
+            IsVisible="False" />
+          <fccOutput:EditableColumn
+            Name="Name4"
+            Column="Column4"
+            IsVisible="False" />
+          <fccOutput:EditableColumn
+            Name="Name5"
+            Column="Column5"
+            IsVisible="False" />
+        </x:Array>
+      </d:DataGrid.ItemsSource>
+      <DataGrid.Resources>
+        <ControlTemplate
+          x:Key="ErrorTemplate">
+          <DockPanel
+            LastChildFill="True">
+            <AdornedElementPlaceholder
+              Name="ControlWithError">
+              <Border
+                BorderBrush="Red"
+                BorderThickness="1" />
+            </AdornedElementPlaceholder>
+            <vsImaging:CrispImage
+              DockPanel.Dock="Right"
+              Width="16"
+              Height="16"
+              Margin="5,0,0,0"
+              VerticalAlignment="Center"
+              Moniker="{x:Static vsImageCatalog:KnownMonikers.StatusInvalid}">
+              <FrameworkElement.ToolTip>
+                <Binding
+                  ElementName="ControlWithError"
+                  Path="AdornedElement.(Validation.Errors)[0].ErrorContent" />
+              </FrameworkElement.ToolTip>
+            </vsImaging:CrispImage>
+          </DockPanel>
+        </ControlTemplate>
+        <Style
+          x:Key="FocusVisualStyleKey">
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate>
+                <Rectangle
+                  Margin="0"
+                  SnapsToDevicePixels="true"
+                  Stroke="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.FocusVisualTextBrushKey}}"
+                  StrokeDashArray="1 2"
+                  StrokeThickness="1" />
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+        <Style
+          x:Key="cbstyle"
+          TargetType="{x:Type CheckBox}">
+          <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextColorKey}}" />
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate
+                TargetType="{x:Type CheckBox}">
+                <Grid x:Name="TemplateRoot">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                      Width="Auto" />
+                    <ColumnDefinition
+                      Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    SnapsToDevicePixels="true">
+                    <Border x:Name="CheckMarkBorder"
+                      Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundBrushKey}}"
+                      BorderBrush="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderBrushKey}}"
+                      BorderThickness="1" />
+                    <Grid x:Name="MarkGrid">
+                      <Path x:Name="CheckMark"
+                        Width="9"
+                        Height="8"
+                        Margin="3,1,2,2"
+                        Data="M 6.22,11.02 C 6.22,11.02 2.5,7.24 2.5,7.24 2.5,7.24 4.05,5.71 4.05,5.71 4.05,5.71 5.97,7.65 5.97,7.65 5.97,7.65 10.52,1.38 10.52,1.38 10.52,1.38 13.19,1.38 13.19,1.38 13.19,1.38 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 Z"
+                        Fill="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphBrushKey}}"
+                        Stretch="Uniform"
+                        Visibility="Collapsed" />
+                      <Rectangle x:Name="IndeterminateMark"
+                        Margin="3"
+                        Fill="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphBrushKey}}"
+                        Visibility="Hidden" />
+                    </Grid>
+                  </Grid>
+                  <ContentPresenter x:Name="CheckBoxContent"
+                    Grid.Column="1"
+                    Margin="{TemplateBinding Control.Padding}"
+                    HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                    Focusable="False"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                </Grid>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="ContentControl.HasContent" Value="true">
+                    <Setter Property="Control.Padding" Value="6,1,0,0" />
+                  </Trigger>
+                  <Trigger Property="ToggleButton.IsChecked" Value="true">
+                    <Setter TargetName="CheckMark" Property="UIElement.Visibility" Value="Visible" />
+                  </Trigger>
+                  <Trigger Property="ToggleButton.IsChecked">
+                    <Trigger.Value>
+                      <x:NullExtension />
+                    </Trigger.Value>
+                    <Setter TargetName="IndeterminateMark" Property="UIElement.Visibility" Value="Visible" />
+                  </Trigger>
+                  <Trigger Property="UIElement.IsEnabled" Value="false">
+                    <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundDisabledBrushKey}}" />
+                    <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderDisabledBrushKey}}" />
+                    <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphDisabledBrushKey}}" />
+                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextDisabledBrushKey}}" />
+                  </Trigger>
+                  <Trigger Property="UIElement.IsFocused" Value="true">
+                    <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundFocusedBrushKey}}" />
+                    <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderFocusedBrushKey}}" />
+                    <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphFocusedBrushKey}}" />
+                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextFocusedBrushKey}}" />
+                  </Trigger>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundHoverBrushKey}}" />
+                    <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderHoverBrushKey}}" />
+                    <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphHoverBrushKey}}" />
+                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextHoverBrushKey}}" />
+                  </Trigger>
+                  <Trigger Property="ButtonBase.IsPressed" Value="true">
+                    <Setter TargetName="CheckMarkBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBackgroundPressedBrushKey}}" />
+                    <Setter TargetName="CheckMarkBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxBorderPressedBrushKey}}" />
+                    <Setter TargetName="CheckMark" Property="Shape.Fill" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxGlyphPressedBrushKey}}" />
+                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.CheckBoxTextPressedBrushKey}}" />
+                  </Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisualStyleKey}" />
 
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Setter Property="VerticalAlignment" Value="Top" />
-                    <Setter Property="IsEnabled" Value="{Binding CanEditVisible}" />
-                </Style>
-                <ObjectDataProvider
-                    x:Key="horizontalAlignmentEnum"
-                    MethodName="GetValues"
-                    ObjectType="{x:Type sys:Enum}">
-                    <ObjectDataProvider.MethodParameters>
-                        <x:Type
-                            Type="pf:HorizontalAlignment" />
-                    </ObjectDataProvider.MethodParameters>
-                </ObjectDataProvider>
-                <Style
-                    x:Key="CellAlignmentEditingElementStyle"
-                    BasedOn="{StaticResource ResourceKey={x:Static vsShell:VsResourceKeys.ComboBoxStyleKey}}"
-                    TargetType="ComboBox">
-                    <Setter Property="IsEnabled" Value="{Binding CanEditCellAlignment}" />
-                </Style>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Binding="{Binding Column, Mode=OneWay}"
-                    Header="Column" />
-                <DataGridTextColumn
-                    Binding="{Binding Name, ValidatesOnDataErrors=True}"
-                    Header="Display Name">
-                    <DataGridTextColumn.EditingElementStyle>
-                        <!--
-                            from VsResourceKeys.TextBoxStyleKey ( apart from 2 setters of DataGridTextColumn )
-                            does not find the SelectionTextBrush !
-                        -->
-                        <Style
-                            BasedOn="{StaticResource {x:Type TextBox}}"
-                            TargetType="{x:Type TextBox}">
-                            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
-                            <!--  next two taken from static DataGridTextColumn.DefaultEditingElementStyle  -->
-                            <Setter Property="BorderThickness" Value="0" />
-                            <Setter Property="Padding" Value="0" />
+          <Setter Property="HorizontalAlignment" Value="Center" />
+          <Setter Property="VerticalAlignment" Value="Top" />
+          <Setter Property="IsEnabled" Value="{Binding CanEditVisible}" />
+        </Style>
+        <ObjectDataProvider
+          x:Key="horizontalAlignmentEnum"
+          MethodName="GetValues"
+          ObjectType="{x:Type sys:Enum}">
+          <ObjectDataProvider.MethodParameters>
+            <x:Type
+              Type="pf:HorizontalAlignment" />
+          </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style
+          x:Key="CellAlignmentEditingElementStyle"
+          BasedOn="{StaticResource ResourceKey={x:Static vsShell:VsResourceKeys.ComboBoxStyleKey}}"
+          TargetType="ComboBox">
+          <Setter Property="IsEnabled" Value="{Binding CanEditCellAlignment}" />
+        </Style>
+      </DataGrid.Resources>
+      <DataGrid.Columns>
+        <DataGridTextColumn
+          Binding="{Binding Column, Mode=OneWay}"
+          Header="Column" />
+        <DataGridTextColumn
+          Binding="{Binding Name, ValidatesOnDataErrors=True}"
+          Header="Display Name">
+          <DataGridTextColumn.EditingElementStyle>
+            <!--
+              from VsResourceKeys.TextBoxStyleKey ( apart from 2 setters of DataGridTextColumn )
+              does not find the SelectionTextBrush !
+            -->
+            <Style
+              BasedOn="{StaticResource {x:Type TextBox}}"
+              TargetType="{x:Type TextBox}">
+              <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
+              <!--  next two taken from static DataGridTextColumn.DefaultEditingElementStyle  -->
+              <Setter Property="BorderThickness" Value="0" />
+              <Setter Property="Padding" Value="0" />
 
-                            <Setter Property="TextBoxBase.SelectionBrush" Value="Pink" />
+              <Setter Property="TextBoxBase.SelectionBrush" Value="Pink" />
 
 
-                            <Setter Property="Control.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}" />
-                            <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextBrushKey}}" />
-                            <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderBrushKey}}" />
-                            <Setter Property="Control.Template">
-                                <Setter.Value>
-                                    <ControlTemplate
-                                        TargetType="{x:Type TextBoxBase}">
-                                        <Border x:Name="border"
-                                            Background="{TemplateBinding Control.Background}"
-                                            BorderBrush="{TemplateBinding Control.BorderBrush}"
-                                            BorderThickness="{TemplateBinding Control.BorderThickness}"
-                                            SnapsToDevicePixels="True">
-                                            <ScrollViewer x:Name="PART_ContentHost"
-                                                Focusable="False"
-                                                HorizontalScrollBarVisibility="Hidden"
-                                                VerticalScrollBarVisibility="Hidden" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="UIElement.IsKeyboardFocused" Value="True">
-                                    <Setter Property="Control.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundFocusedBrushKey}}" />
-                                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextFocusedBrushKey}}" />
-                                    <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderFocusedBrushKey}}" />
-                                </Trigger>
-                                <Trigger Property="UIElement.IsEnabled" Value="False">
-                                    <Setter Property="Control.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundDisabledBrushKey}}" />
-                                    <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextDisabledBrushKey}}" />
-                                    <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderDisabledBrushKey}}" />
-                                </Trigger>
+              <Setter Property="Control.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}" />
+              <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextBrushKey}}" />
+              <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderBrushKey}}" />
+              <Setter Property="Control.Template">
+                <Setter.Value>
+                  <ControlTemplate
+                    TargetType="{x:Type TextBoxBase}">
+                    <Border x:Name="border"
+                      Background="{TemplateBinding Control.Background}"
+                      BorderBrush="{TemplateBinding Control.BorderBrush}"
+                      BorderThickness="{TemplateBinding Control.BorderThickness}"
+                      SnapsToDevicePixels="True">
+                      <ScrollViewer x:Name="PART_ContentHost"
+                        Focusable="False"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsKeyboardFocused" Value="True">
+                  <Setter Property="Control.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundFocusedBrushKey}}" />
+                  <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextFocusedBrushKey}}" />
+                  <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderFocusedBrushKey}}" />
+                </Trigger>
+                <Trigger Property="UIElement.IsEnabled" Value="False">
+                  <Setter Property="Control.Background" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundDisabledBrushKey}}" />
+                  <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextDisabledBrushKey}}" />
+                  <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderDisabledBrushKey}}" />
+                </Trigger>
 
-                                <Trigger Property="Validation.HasError" Value="True">
-                                    <Setter Property="FrameworkElement.ToolTip">
-                                        <Setter.Value>
-                                            <Binding
-                                                Path="(Validation.Errors)[0].ErrorContent"
-                                                RelativeSource="{x:Static RelativeSource.Self}" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
+                <Trigger Property="Validation.HasError" Value="True">
+                  <Setter Property="FrameworkElement.ToolTip">
+                    <Setter.Value>
+                      <Binding
+                        Path="(Validation.Errors)[0].ErrorContent"
+                        RelativeSource="{x:Static RelativeSource.Self}" />
+                    </Setter.Value>
+                  </Setter>
+                </Trigger>
 
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.EditingElementStyle>
-                </DataGridTextColumn>
-                <DataGridCheckBoxColumn
-                    Binding="{Binding IsVisible}"
-                    EditingElementStyle="{StaticResource cbstyle}"
-                    Header="Visibility">
-                    <DataGridCheckBoxColumn.ElementStyle>
-                        <Style
-                            BasedOn="{StaticResource cbstyle}"
-                            TargetType="CheckBox">
-                            <Setter Property="IsHitTestVisible" Value="False" />
-                            <Setter Property="Focusable" Value="False" />
-                        </Style>
-                    </DataGridCheckBoxColumn.ElementStyle>
-                </DataGridCheckBoxColumn>
-                <DataGridComboBoxColumn
-                    EditingElementStyle="{StaticResource ResourceKey={x:Static vsShell:VsResourceKeys.ComboBoxStyleKey}}"
-                    Header="Header Alignment"
-                    ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"
-                    SelectedItemBinding="{Binding HeaderAlignment}" />
-                <DataGridComboBoxColumn
-                    EditingElementStyle="{StaticResource ResourceKey=CellAlignmentEditingElementStyle}"
-                    Header="Cell Alignment"
-                    ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"
-                    SelectedItemBinding="{Binding CellAlignment}" />
-            </DataGrid.Columns>
-            <DataGrid.ColumnHeaderStyle>
-                <Style
-                    TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridHeadingBackgroundBrushKey}}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridLineBrushKey}}" />
-                    <Setter Property="BorderThickness" Value="1" />
-                    <Setter Property="Padding" Value="2" />
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridHeadingTextBrushKey}}" />
-                    <!--  as not sorting no IsMouseHover trigger  -->
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.CellStyle>
-                <Style
-                    TargetType="{x:Type DataGridCell}">
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualStyleKey}" />
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemActiveTextBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.FocusVisualTextBrushKey}}" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="true" />
-                                <Condition Property="Selector.IsSelectionActive" Value="false" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemInactiveBrushKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemInactiveTextBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemInactiveBrushKey}}" />
-                        </MultiTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
-            <!--  Do not want SelectAll button behaviour which is easily removed by  -->
-            <!--<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid}, ResourceId=DataGridSelectAllButtonStyle}" TargetType="Button">
+              </Style.Triggers>
+            </Style>
+          </DataGridTextColumn.EditingElementStyle>
+        </DataGridTextColumn>
+        <DataGridCheckBoxColumn
+          Binding="{Binding IsVisible}"
+          EditingElementStyle="{StaticResource cbstyle}"
+          Header="Visibility">
+          <DataGridCheckBoxColumn.ElementStyle>
+            <Style
+              BasedOn="{StaticResource cbstyle}"
+              TargetType="CheckBox">
+              <Setter Property="IsHitTestVisible" Value="False" />
+              <Setter Property="Focusable" Value="False" />
+            </Style>
+          </DataGridCheckBoxColumn.ElementStyle>
+        </DataGridCheckBoxColumn>
+        <DataGridComboBoxColumn
+          EditingElementStyle="{StaticResource ResourceKey={x:Static vsShell:VsResourceKeys.ComboBoxStyleKey}}"
+          Header="Header Alignment"
+          ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"
+          SelectedItemBinding="{Binding HeaderAlignment}" />
+        <DataGridComboBoxColumn
+          EditingElementStyle="{StaticResource ResourceKey=CellAlignmentEditingElementStyle}"
+          Header="Cell Alignment"
+          ItemsSource="{Binding Source={StaticResource horizontalAlignmentEnum}}"
+          SelectedItemBinding="{Binding CellAlignment}" />
+      </DataGrid.Columns>
+      <DataGrid.ColumnHeaderStyle>
+        <Style
+          TargetType="{x:Type DataGridColumnHeader}">
+          <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridHeadingBackgroundBrushKey}}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridLineBrushKey}}" />
+          <Setter Property="BorderThickness" Value="1" />
+          <Setter Property="Padding" Value="2" />
+          <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.GridHeadingTextBrushKey}}" />
+          <!--  as not sorting no IsMouseHover trigger  -->
+        </Style>
+      </DataGrid.ColumnHeaderStyle>
+      <DataGrid.CellStyle>
+        <Style
+          TargetType="{x:Type DataGridCell}">
+          <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualStyleKey}" />
+          <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
+              <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemActiveBrushKey}}" />
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemActiveTextBrushKey}}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+              <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.FocusVisualTextBrushKey}}" />
+            </Trigger>
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="IsSelected" Value="true" />
+                <Condition Property="Selector.IsSelectionActive" Value="false" />
+              </MultiTrigger.Conditions>
+              <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemInactiveBrushKey}}" />
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemInactiveTextBrushKey}}" />
+              <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:ThemedDialogColors.SelectedItemInactiveBrushKey}}" />
+            </MultiTrigger>
+          </Style.Triggers>
+        </Style>
+      </DataGrid.CellStyle>
+      <!--  Do not want SelectAll button behaviour which is easily removed by  -->
+      <!--<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid}, ResourceId=DataGridSelectAllButtonStyle}" TargetType="Button">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -366,7 +366,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>-->
-            <!--  Simpler to just remove row headers with HeadersVisibility=Column rather than having to apply RowHeaderStyle and the ValidationErrorTemplate  -->
-        </DataGrid>
-    </DockPanel>
+      <!--  Simpler to just remove row headers with HeadersVisibility=Column rather than having to apply RowHeaderStyle and the ValidationErrorTemplate  -->
+    </DataGrid>
+  </DockPanel>
 </UserControl>

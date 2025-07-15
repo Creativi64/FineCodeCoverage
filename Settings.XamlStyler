@@ -5,6 +5,7 @@
     "MaxAttributesPerLine": 1,
     "NewlineExemptionElements": "RadialGradientBrush, GradientStop, LinearGradientBrush, ScaleTransform, SkewTransform, RotateTransform, TranslateTransform, Trigger, Condition, Setter",
     "SeparateByGroups": false,
+    "IndentSize": 2,
     "AttributeIndentation": 0,
     "AttributeIndentationStyle": 1,
     "RemoveDesignTimeReferences":  false,

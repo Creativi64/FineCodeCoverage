@@ -1,16 +1,16 @@
 ﻿<themedDialogs:ThemedDialogWindow
-    x:Class="FineCodeCoverage.Output.ColumnsManagementWindow"
-    x:ClassModifier="internal"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:fccOutput="clr-namespace:FineCodeCoverage.Output"
-    xmlns:themedDialogs="clr-namespace:VsThemedDialogs;assembly=VsThemedDialogs"
-    SizeToContent="WidthAndHeight"
-    ResizeMode="NoResize"
-    WindowStartupLocation="CenterOwner"
-    themedDialogs:SizeToContentThenManualBehavior.Mode="WidthAndHeight">
-    <themedDialogs:ThemedDialogTitleOkCancel
-        Title="Report Column Management">
-        <fccOutput:ColumnsManagementUserControl />
-    </themedDialogs:ThemedDialogTitleOkCancel>
+  x:Class="FineCodeCoverage.Output.ColumnsManagementWindow"
+  x:ClassModifier="internal"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:fccOutput="clr-namespace:FineCodeCoverage.Output"
+  xmlns:themedDialogs="clr-namespace:VsThemedDialogs;assembly=VsThemedDialogs"
+  SizeToContent="WidthAndHeight"
+  ResizeMode="NoResize"
+  WindowStartupLocation="CenterOwner"
+  themedDialogs:SizeToContentThenManualBehavior.Mode="WidthAndHeight">
+  <themedDialogs:ThemedDialogTitleOkCancel
+    Title="Report Column Management">
+    <fccOutput:ColumnsManagementUserControl />
+  </themedDialogs:ThemedDialogTitleOkCancel>
 </themedDialogs:ThemedDialogWindow>

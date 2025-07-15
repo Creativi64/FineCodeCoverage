@@ -1,13 +1,13 @@
 ﻿<fccWpf:VsImageButtonX
-    x:Class="FineCodeCoverage.Wpf.VsCrispImageButtonX"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
-    xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    mc:Ignorable="d">
-    <fccWpf:Crispy
-        vsPlatformUI:ImageThemingUtilities.ImageBackgroundColor="{Binding Background.Color, RelativeSource={RelativeSource AncestorType=Button}}"
-        Moniker="{Binding Moniker, RelativeSource={RelativeSource AncestorType=fccWpf:VsCrispImageButtonX}}" />
+  x:Class="FineCodeCoverage.Wpf.VsCrispImageButtonX"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:fccWpf="clr-namespace:FineCodeCoverage.Wpf"
+  xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+  mc:Ignorable="d">
+  <fccWpf:Crispy
+    vsPlatformUI:ImageThemingUtilities.ImageBackgroundColor="{Binding Background.Color, RelativeSource={RelativeSource AncestorType=Button}}"
+    Moniker="{Binding Moniker, RelativeSource={RelativeSource AncestorType=fccWpf:VsCrispImageButtonX}}" />
 </fccWpf:VsImageButtonX>
