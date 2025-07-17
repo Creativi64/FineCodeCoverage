@@ -1,0 +1,93 @@
+﻿using System.ComponentModel;
+using System.Windows.Input;
+using WpfHelpers;
+
+namespace FineCodeCoverage.Readme
+{
+    public class FindToolBarViewModel : INotifyPropertyChanged
+    {
+        private readonly FindToolbarWrapper _wrapper;
+        private string _findText;
+        private bool _isSearchUp;
+
+        public FindToolBarViewModel(FindToolbarWrapper wrapper)
+        {
+            _wrapper = wrapper;
+            NextCommand = new RelayCommand(ExecuteNext, CanExecuteFind);
+            PreviousCommand = new RelayCommand(ExecutePrevious, CanExecuteFind);
+        }
+
+        public string FindText
+        {
+            get => _findText;
+            set
+            {
+                if (_findText == value)
+                {
+                    return;
+                }
+
+                _findText = value;
+                _wrapper.SetFindText(value);
+                OnPropertyChanged(nameof(FindText));
+                RaiseCommandCanExecuteChanged();
+            }
+        }
+
+        public bool MatchWholeWord
+        {
+            set => _wrapper.SelectOptionsWholeWordMenuItem(value);
+        }
+
+        public bool MatchCase
+        {
+            set => _wrapper.SelectOptionsCaseMenuItem(value);
+        }
+
+        public bool IsSearchUp
+        {
+            get => _isSearchUp;
+            private set
+            {
+                if (_isSearchUp == value)
+                {
+                    return;
+                }
+
+                _isSearchUp = value;
+                OnPropertyChanged(nameof(IsSearchUp));
+            }
+        }
+
+        public ICommand NextCommand { get; }
+
+        public ICommand PreviousCommand { get; }
+
+        private void ExecuteNext() => Find(false);
+
+        private void ExecutePrevious() => Find(true);
+
+        internal void Find(bool searchUp)
+        {
+            _wrapper.SetSearchUp(searchUp);
+            IsSearchUp = searchUp;
+            _wrapper.Find();
+        }
+
+        internal void Find() => _wrapper.Find();
+
+        private bool CanExecuteFind() => !string.IsNullOrWhiteSpace(FindText);
+
+        private void RaiseCommandCanExecuteChanged()
+        {
+            (NextCommand as RelayCommand).NotifyCanExecuteChanged();
+            (PreviousCommand as RelayCommand).NotifyCanExecuteChanged();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+}

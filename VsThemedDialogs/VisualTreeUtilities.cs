@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace VsThemedDialogs
 {
-    internal static class VisualTreeUtilties
+    internal static class VisualTreeUtilities
     {
         public static T FindByName<T>(DependencyObject parent, string name)
             where T : FrameworkElement

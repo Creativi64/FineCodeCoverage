@@ -35,7 +35,7 @@
       <DependentUpon>ThemedSectionDivider.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ThemeResourceKeyPair.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VisualTreeUtilties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VisualTreeUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowCloseFrom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowCloseViewModelBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowDragBehaviour.cs" />

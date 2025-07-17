@@ -24,21 +24,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style
-    x:Key="FlowDocumentReaderFocusVisualStyle">
-    <Setter Property="Control.Template">
-      <Setter.Value>
-        <ControlTemplate>
-          <Rectangle
-            Margin="0"
-            SnapsToDevicePixels="true"
-            Stroke="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"
-            StrokeDashArray="1 2"
-            StrokeThickness="1" />
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+
   <Style
     x:Key="{x:Static markdigExtended:MarkdownTypeMarker.FlowDocument}"
     TargetType="{x:Type FlowDocument}">
@@ -233,10 +219,129 @@
     TargetType="{x:Type Span}">
     <Setter Property="TextElement.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.SystemHighlightBrushKey}}" />
   </Style>
-
-
   <Style
-    TargetType="{x:Type FlowDocumentReader}">
+    x:Key="FlowDocumentReaderFocusVisualStyle">
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Rectangle
+            Margin="0"
+            SnapsToDevicePixels="true"
+            Stroke="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"
+            StrokeDashArray="1 2"
+            StrokeThickness="1" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style
+    TargetType="{x:Type local:FindRestylingFlowDocumentReader}">
     <Setter Property="FocusVisualStyle" Value="{StaticResource FlowDocumentReaderFocusVisualStyle}" />
+    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
+    <Setter Property="FindToolbarContent">
+      <Setter.Value>
+        <StackPanel
+          Margin="12,0,0,0"
+          Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
+          Orientation="Horizontal">
+          <StackPanel.Resources>
+            <vsPlatformUI:VisibleIfEqualValueConverter
+              x:Key="visibleIfEqualConverter"
+              VisibilityIfNotEqual="Collapsed" />
+            <Canvas
+              x:Key="FindPreviousContent"
+              Width="6"
+              Height="7">
+              <Path
+                x:Uid="Path_2"
+                Data="F1 M 4,0 L 4,7 -2,3.818359 "
+                Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            </Canvas>
+            <Canvas
+              x:Key="FindNextContent"
+              Width="6"
+              Height="7">
+              <Path
+                x:Uid="Path_3"
+                Data="F1 M -1,0 L -1,7 5,3.818359 "
+                Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            </Canvas>
+            <Style
+              TargetType="{x:Type Button}">
+              <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+              <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
+              <Setter Property="Control.BorderThickness" Value="0" />
+              <Setter Property="FrameworkElement.Width" Value="15" />
+              <Setter Property="FrameworkElement.Height" Value="18" />
+              <Setter Property="Control.Padding" Value="0" />
+              <Setter Property="FrameworkElement.Margin" Value="0" />
+              <Setter Property="Control.BorderBrush" Value="Transparent" />
+              <Setter Property="Control.Template">
+                <Setter.Value>
+                  <ControlTemplate
+                    TargetType="{x:Type Button}">
+                    <Border
+                      Margin="{TemplateBinding FrameworkElement.Margin}"
+                      Padding="{TemplateBinding Control.Padding}"
+                      Background="Transparent">
+                      <Grid
+                        Width="{TemplateBinding FrameworkElement.Width}"
+                        Height="{TemplateBinding FrameworkElement.Height}">
+                        <Border x:Name="TrimBorder"
+                          Background="Transparent"
+                          BorderThickness="1">
+                          <ContentPresenter x:Name="ButtonContent" />
+                        </Border>
+                      </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="UIElement.IsEnabled" Value="false">
+                        <Setter TargetName="ButtonContent" Property="UIElement.Opacity" Value="0.3" />
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </StackPanel.Resources>
+          <Grid
+            VerticalAlignment="Center">
+            <TextBox x:Name="findTextBox"
+              Width="183"
+              Margin="0"
+              Padding="0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+              Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
+              Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextBrushKey}}"
+              AllowDrop="True"
+              BorderThickness="0"
+              Text="{Binding FindText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!--  Label acts as placeholder  -->
+            <Label
+              Width="180"
+              Margin="3,0,0,0"
+              Padding="0,0,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+              Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextDisabledBrushKey}}"
+              Content="Search…"
+              FontStyle="Italic"
+              IsHitTestVisible="False"
+              Visibility="{Binding FindText, Converter={StaticResource ResourceKey=visibleIfEqualConverter}, ConverterParameter=''}" />
+
+          </Grid>
+
+          <Button
+            Command="{Binding PreviousCommand}"
+            Content="{StaticResource FindPreviousContent}" />
+
+          <Button
+            Command="{Binding NextCommand}"
+            Content="{StaticResource FindNextContent}" />
+        </StackPanel>
+      </Setter.Value>
+    </Setter>
   </Style>
 </ResourceDictionary>

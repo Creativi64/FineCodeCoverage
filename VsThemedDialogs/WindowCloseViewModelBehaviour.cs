@@ -123,7 +123,7 @@ namespace VsThemedDialogs
 
         private static void TrySetCloseWindowButtonCommand(Window window, ICommand command)
         {
-            Button button = VisualTreeUtilties.FindByName<Button>(window, "DialogCloseButton");
+            Button button = VisualTreeUtilities.FindByName<Button>(window, "DialogCloseButton");
             if (button == null)
             {
                 return;
