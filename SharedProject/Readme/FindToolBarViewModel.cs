@@ -14,6 +14,7 @@ namespace FineCodeCoverage.Readme
         private bool _matchDiacritic;
         private bool _matchKashida;
         private bool _matchAlefHamza;
+
         public FindToolBarViewModel(FindToolbarWrapper wrapper)
         {
             _wrapper = wrapper;
@@ -49,7 +50,7 @@ namespace FineCodeCoverage.Readme
                 }
 
                 _matchWholeWord = value;
-                _wrapper.SelectOptionsWholeWordMenuItem(value);
+                _wrapper.SelectMatchWholeWord(value);
             }
         }
 
@@ -64,7 +65,7 @@ namespace FineCodeCoverage.Readme
                 }
 
                 _matchCase = value;
-                _wrapper.SelectOptionsCaseMenuItem(value);
+                _wrapper.SelectMatchCase(value);
             }
         }
 
@@ -79,7 +80,7 @@ namespace FineCodeCoverage.Readme
                 }
 
                 _matchDiacritic = value;
-                _wrapper.SelectOptionsDiacriticMenuItem(value);
+                _wrapper.SelectMatchDiacritic(value);
             }
         }
 
@@ -94,7 +95,7 @@ namespace FineCodeCoverage.Readme
                 }
 
                 _matchKashida = value;
-                _wrapper.SelectOptionsKashidaMenuItem(value);
+                _wrapper.SelectMatchKashida(value);
             }
         }
 
@@ -109,7 +110,7 @@ namespace FineCodeCoverage.Readme
                 }
 
                 _matchAlefHamza = value;
-                _wrapper.SelectOptionsAlefHamzaMenuItem(value);
+                _wrapper.SelectMatchAlefHamza(value);
             }
         }
 
@@ -158,5 +159,4 @@ namespace FineCodeCoverage.Readme
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
-
 }

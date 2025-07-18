@@ -52,15 +52,15 @@ namespace FineCodeCoverage
             _findToolbar = findToolbar;
         }
 
-        public void SelectOptionsWholeWordMenuItem(bool isChecked) => SelectOption(s_reflectionMembers.OptionsWholeWordMenuItem, isChecked);
+        public void SelectMatchWholeWord(bool isChecked) => SelectOption(s_reflectionMembers.OptionsWholeWordMenuItem, isChecked);
 
-        public void SelectOptionsCaseMenuItem(bool isChecked) => SelectOption(s_reflectionMembers.OptionsCaseMenuItem, isChecked);
+        public void SelectMatchCase(bool isChecked) => SelectOption(s_reflectionMembers.OptionsCaseMenuItem, isChecked);
 
-        public void SelectOptionsDiacriticMenuItem(bool isChecked) => SelectOption(s_reflectionMembers.OptionsDiacriticMenuItem, isChecked);
+        public void SelectMatchDiacritic(bool isChecked) => SelectOption(s_reflectionMembers.OptionsDiacriticMenuItem, isChecked);
 
-        public void SelectOptionsKashidaMenuItem(bool isChecked) => SelectOption(s_reflectionMembers.OptionsKashidaMenuItem, isChecked);
+        public void SelectMatchKashida(bool isChecked) => SelectOption(s_reflectionMembers.OptionsKashidaMenuItem, isChecked);
 
-        public void SelectOptionsAlefHamzaMenuItem(bool isChecked) => SelectOption(s_reflectionMembers.OptionsAlefHamzaMenuItem, isChecked);
+        public void SelectMatchAlefHamza(bool isChecked) => SelectOption(s_reflectionMembers.OptionsAlefHamzaMenuItem, isChecked);
 
         public void SetSearchUp(bool isSearchUp) => s_reflectionMembers.SearchUp.SetValue(_findToolbar, isSearchUp);
 
