@@ -9,7 +9,11 @@ namespace FineCodeCoverage.Readme
         private readonly FindToolbarWrapper _wrapper;
         private string _findText;
         private bool _isSearchUp;
-
+        private bool _matchWholeWord;
+        private bool _matchCase;
+        private bool _matchDiacritic;
+        private bool _matchKashida;
+        private bool _matchAlefHamza;
         public FindToolBarViewModel(FindToolbarWrapper wrapper)
         {
             _wrapper = wrapper;
@@ -36,27 +40,77 @@ namespace FineCodeCoverage.Readme
 
         public bool MatchWholeWord
         {
-            set => _wrapper.SelectOptionsWholeWordMenuItem(value);
+            get => _matchWholeWord;
+            set
+            {
+                if (_matchWholeWord == value)
+                {
+                    return;
+                }
+
+                _matchWholeWord = value;
+                _wrapper.SelectOptionsWholeWordMenuItem(value);
+            }
         }
 
         public bool MatchCase
         {
-            set => _wrapper.SelectOptionsCaseMenuItem(value);
+            get => _matchCase;
+            set
+            {
+                if (_matchCase == value)
+                {
+                    return;
+                }
+
+                _matchCase = value;
+                _wrapper.SelectOptionsCaseMenuItem(value);
+            }
         }
 
         public bool MatchDiacritic
         {
-            set => _wrapper.SelectOptionsDiacriticMenuItem(value);
+            get => _matchDiacritic;
+            set
+            {
+                if (_matchDiacritic == value)
+                {
+                    return;
+                }
+
+                _matchDiacritic = value;
+                _wrapper.SelectOptionsDiacriticMenuItem(value);
+            }
         }
 
         public bool MatchKashida
         {
-            set => _wrapper.SelectOptionsKashidaMenuItem(value);
+            get => _matchKashida;
+            set
+            {
+                if (_matchKashida == value)
+                {
+                    return;
+                }
+
+                _matchKashida = value;
+                _wrapper.SelectOptionsKashidaMenuItem(value);
+            }
         }
 
         public bool MatchAlefHamza
         {
-            set => _wrapper.SelectOptionsAlefHamzaMenuItem(value);
+            get => _matchAlefHamza;
+            set
+            {
+                if (_matchAlefHamza == value)
+                {
+                    return;
+                }
+
+                _matchAlefHamza = value;
+                _wrapper.SelectOptionsAlefHamzaMenuItem(value);
+            }
         }
 
         public bool IsSearchUp

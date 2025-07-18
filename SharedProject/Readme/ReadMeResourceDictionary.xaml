@@ -244,16 +244,14 @@
         <Border x:Name="FindTextBoxBorder"
           Margin="5,1,0,1"
           Padding="0"
-          BorderBrush="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarBorderBrushKey}}"
+          BorderBrush="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderBrushKey}}"
           BorderThickness="1"
           SnapsToDevicePixels="true">
 
           <StackPanel
             Orientation="Horizontal">
             <StackPanel.Resources>
-              <vsPlatformUI:VisibleIfEqualValueConverter
-                x:Key="visibleIfEqualConverter"
-                VisibilityIfNotEqual="Collapsed" />
+              <local:WatermarkVisibilityConverter x:Key="WatermarkVisibilityConverter" />
               <Canvas
                 x:Key="FindPreviousContent"
                 Width="6"
@@ -438,12 +436,12 @@
                 Padding="0,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextDisabledBrushKey}}"
+                Opacity="0.7"
+                Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextBrushKey}}"
                 Content="Search…"
                 FontStyle="Italic"
                 IsHitTestVisible="False"
-                Visibility="{Binding FindText, Converter={StaticResource ResourceKey=visibleIfEqualConverter}, ConverterParameter=''}" />
-
+                Visibility="{Binding FindText, Converter={StaticResource ResourceKey=WatermarkVisibilityConverter}}" />
             </Grid>
 
             <Button
@@ -474,6 +472,7 @@
                     Background="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuBackgroundGradientBrushKey}}"
                     BorderBrush="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuBorderBrushKey}}"
                     BorderThickness="{TemplateBinding Control.BorderThickness}"
+                    TextElement.Foreground="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarTextActiveBrushKey}}"
                     SnapsToDevicePixels="true">
                     <Grid
                       Margin="-1">
@@ -541,7 +540,6 @@
                         Text="{TemplateBinding MenuItem.InputGestureText}" />
                     </Grid>
                   </Border>
-
 
                   <ControlTemplate.Triggers>
                     <Trigger Property="MenuItem.Icon" Value="{x:Null}">

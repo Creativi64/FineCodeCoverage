@@ -84,6 +84,7 @@
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReplaceElementExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\WatermarkVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
