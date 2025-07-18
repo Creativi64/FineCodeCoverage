@@ -234,113 +234,374 @@
       </Setter.Value>
     </Setter>
   </Style>
+
   <Style
     TargetType="{x:Type local:FindRestylingFlowDocumentReader}">
     <Setter Property="FocusVisualStyle" Value="{StaticResource FlowDocumentReaderFocusVisualStyle}" />
     <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
     <Setter Property="FindToolbarContent">
       <Setter.Value>
-        <StackPanel
-          Margin="12,0,0,0"
-          Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
-          Orientation="Horizontal">
-          <StackPanel.Resources>
-            <vsPlatformUI:VisibleIfEqualValueConverter
-              x:Key="visibleIfEqualConverter"
-              VisibilityIfNotEqual="Collapsed" />
-            <Canvas
-              x:Key="FindPreviousContent"
-              Width="6"
-              Height="7">
-              <Path
-                x:Uid="Path_2"
-                Data="F1 M 4,0 L 4,7 -2,3.818359 "
-                Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
-            </Canvas>
-            <Canvas
-              x:Key="FindNextContent"
-              Width="6"
-              Height="7">
-              <Path
-                x:Uid="Path_3"
-                Data="F1 M -1,0 L -1,7 5,3.818359 "
-                Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
-            </Canvas>
-            <Style
-              TargetType="{x:Type Button}">
-              <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
-              <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
-              <Setter Property="Control.BorderThickness" Value="0" />
-              <Setter Property="FrameworkElement.Width" Value="15" />
-              <Setter Property="FrameworkElement.Height" Value="18" />
-              <Setter Property="Control.Padding" Value="0" />
-              <Setter Property="FrameworkElement.Margin" Value="0" />
-              <Setter Property="Control.BorderBrush" Value="Transparent" />
-              <Setter Property="Control.Template">
-                <Setter.Value>
-                  <ControlTemplate
-                    TargetType="{x:Type Button}">
-                    <Border
-                      Margin="{TemplateBinding FrameworkElement.Margin}"
-                      Padding="{TemplateBinding Control.Padding}"
-                      Background="Transparent">
-                      <Grid
-                        Width="{TemplateBinding FrameworkElement.Width}"
-                        Height="{TemplateBinding FrameworkElement.Height}">
-                        <Border x:Name="TrimBorder"
-                          Background="Transparent"
-                          BorderThickness="1">
-                          <ContentPresenter x:Name="ButtonContent" />
-                        </Border>
-                      </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                      <Trigger Property="UIElement.IsEnabled" Value="false">
-                        <Setter TargetName="ButtonContent" Property="UIElement.Opacity" Value="0.3" />
-                      </Trigger>
-                    </ControlTemplate.Triggers>
-                  </ControlTemplate>
-                </Setter.Value>
-              </Setter>
-            </Style>
-          </StackPanel.Resources>
-          <Grid
-            VerticalAlignment="Center">
-            <TextBox x:Name="findTextBox"
-              Width="183"
-              Margin="0"
-              Padding="0"
-              HorizontalAlignment="Left"
+        <Border x:Name="FindTextBoxBorder"
+          Margin="5,1,0,1"
+          Padding="0"
+          BorderBrush="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarBorderBrushKey}}"
+          BorderThickness="1"
+          SnapsToDevicePixels="true">
+
+          <StackPanel
+            Orientation="Horizontal">
+            <StackPanel.Resources>
+              <vsPlatformUI:VisibleIfEqualValueConverter
+                x:Key="visibleIfEqualConverter"
+                VisibilityIfNotEqual="Collapsed" />
+              <Canvas
+                x:Key="FindPreviousContent"
+                Width="6"
+                Height="7">
+                <Path
+                  Data="F1 M 4,0 L 4,7 -2,3.818359 "
+                  Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
+              </Canvas>
+              <Canvas
+                x:Key="FindNextContent"
+                Width="6"
+                Height="7">
+                <Path
+                  Data="F1 M -1,0 L -1,7 5,3.818359 "
+                  Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
+              </Canvas>
+              <Style
+                TargetType="ToolTip">
+                <Setter Property="FontFamily" Value="{DynamicResource ResourceKey={x:Static vsShell:VsFonts.EnvironmentFontFamilyKey}}" />
+                <Setter Property="FontSize" Value="{DynamicResource ResourceKey={x:Static vsShell:VsFonts.EnvironmentFontSizeKey}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolTipBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolTipTextBrushKey}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolTipBorderBrushKey}}" />
+              </Style>
+
+              <Style
+                TargetType="Menu">
+                <Setter Property="FontFamily" Value="{DynamicResource ResourceKey={x:Static vsShell:VsFonts.EnvironmentFontFamilyKey}}" />
+                <Setter Property="FontSize" Value="{DynamicResource ResourceKey={x:Static vsShell:VsFonts.EnvironmentFontSizeKey}}" />
+              </Style>
+              <Style
+                x:Key="OptionsMenuItemStyle"
+                TargetType="{x:Type MenuItem}">
+                <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+                <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
+                <Setter Property="Control.BorderThickness" Value="0" />
+                <Setter Property="FrameworkElement.Width" Value="15" />
+                <Setter Property="FrameworkElement.Height" Value="18" />
+                <Setter Property="FrameworkElement.Margin" Value="0,0,1,0" />
+                <Setter Property="Control.Padding" Value="0" />
+                <Setter Property="Control.BorderBrush" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownTextBrushKey}}" />
+                <Setter Property="Control.Template">
+                  <Setter.Value>
+                    <ControlTemplate
+                      TargetType="{x:Type MenuItem}">
+                      <Border
+                        Margin="{TemplateBinding FrameworkElement.Margin}"
+                        Padding="{TemplateBinding Control.Padding}"
+                        Background="Transparent">
+                        <Grid
+                          Width="{TemplateBinding FrameworkElement.Width}"
+                          Height="{TemplateBinding FrameworkElement.Height}">
+                          <Border x:Name="TrimBorder"
+                            Background="Transparent"
+                            BorderThickness="1">
+                            <Canvas
+                              Width="5"
+                              Height="4">
+                              <!--  Drop down  -->
+                              <Path x:Name="FindOptionsIcon"
+                                Data="F1 M -2,0 L 5,0 1.5,4 "
+                                Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownGlyphBrushKey}}" />
+                            </Canvas>
+                          </Border>
+                          <Popup x:Name="SubMenuPopup"
+                            AllowsTransparency="true"
+                            Focusable="false"
+                            IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                            Placement="Bottom"
+                            PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                            VerticalOffset="0">
+                            <Grid
+                              Name="SubMenu">
+                              <Border
+                                Name="SubMenuBorder"
+                                Background="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownPopupBorderBrushKey}}"
+                                BorderThickness="1" />
+                              <ScrollViewer
+                                Margin="1"
+                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
+                                                                              ResourceId=MenuScrollViewer}}"
+                                CanContentScroll="true">
+                                <ItemsPresenter
+                                  Margin="2"
+                                  KeyboardNavigation.DirectionalNavigation="Cycle" />
+                              </ScrollViewer>
+                            </Grid>
+                          </Popup>
+                        </Grid>
+                      </Border>
+                      <!--  drop down button  -->
+                      <ControlTemplate.Triggers>
+                        <Trigger Property="UIElement.IsEnabled" Value="false">
+                          <Setter TargetName="FindOptionsIcon" Property="Fill" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownDisabledGlyphBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="UIElement.IsMouseOver" Value="true">
+                          <Setter TargetName="TrimBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverBackgroundBrushKey}}" />
+                          <Setter TargetName="TrimBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverSeparatorBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+                          <Setter TargetName="TrimBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverBackgroundBrushKey}}" />
+                          <Setter TargetName="TrimBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverSeparatorBrushKey}}" />
+                        </Trigger>
+                        <MultiTrigger>
+                          <MultiTrigger.Conditions>
+                            <Condition Property="UIElement.IsMouseOver" Value="true" />
+                            <Condition Property="UIElement.IsKeyboardFocused" Value="true" />
+                          </MultiTrigger.Conditions>
+                          <Setter TargetName="TrimBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverBackgroundBrushKey}}" />
+                          <Setter TargetName="TrimBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverSeparatorBrushKey}}" />
+                        </MultiTrigger>
+                        <Trigger Property="MenuItem.IsPressed" Value="true">
+                          <Setter TargetName="TrimBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseDownBackgroundBrushKey}}" />
+                          <Setter TargetName="TrimBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverSeparatorBrushKey}}" />
+                        </Trigger>
+                      </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+              <Style
+                TargetType="{x:Type Button}">
+                <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+                <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
+                <Setter Property="Control.BorderThickness" Value="0" />
+                <Setter Property="FrameworkElement.Width" Value="15" />
+                <Setter Property="FrameworkElement.Height" Value="18" />
+                <Setter Property="Control.Padding" Value="0" />
+                <Setter Property="FrameworkElement.Margin" Value="0" />
+                <Setter Property="Control.BorderBrush" Value="Transparent" />
+                <Setter Property="Control.Template">
+                  <Setter.Value>
+                    <ControlTemplate
+                      TargetType="{x:Type Button}">
+                      <Border
+                        Margin="{TemplateBinding FrameworkElement.Margin}"
+                        Padding="{TemplateBinding Control.Padding}"
+                        Background="Transparent">
+                        <Grid
+                          Width="{TemplateBinding FrameworkElement.Width}"
+                          Height="{TemplateBinding FrameworkElement.Height}">
+                          <Border x:Name="TrimBorder"
+                            Background="Transparent"
+                            BorderThickness="1">
+                            <ContentPresenter x:Name="ButtonContent" />
+                          </Border>
+                        </Grid>
+                      </Border>
+                      <ControlTemplate.Triggers>
+                        <Trigger Property="UIElement.IsEnabled" Value="false">
+                          <Setter TargetName="ButtonContent" Property="UIElement.Opacity" Value="0.3" />
+                        </Trigger>
+                      </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </StackPanel.Resources>
+            <Grid
               VerticalAlignment="Center"
-              Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
-              Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextBrushKey}}"
-              AllowDrop="True"
-              BorderThickness="0"
-              Text="{Binding FindText, UpdateSourceTrigger=PropertyChanged}" />
+              Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}">
+              <TextBox x:Name="findTextBox"
+                Width="183"
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
+                Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextBrushKey}}"
+                AllowDrop="True"
+                BorderThickness="0"
+                Text="{Binding FindText, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Search for a word or phrase in this document."
+                ToolTipService.ShowOnDisabled="true" />
 
-            <!--  Label acts as placeholder  -->
-            <Label
-              Width="180"
-              Margin="3,0,0,0"
-              Padding="0,0,0,0"
-              HorizontalAlignment="Left"
+              <!--  Label acts as placeholder  -->
+              <Label
+                Width="180"
+                Margin="3,0,0,0"
+                Padding="0,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextDisabledBrushKey}}"
+                Content="Search…"
+                FontStyle="Italic"
+                IsHitTestVisible="False"
+                Visibility="{Binding FindText, Converter={StaticResource ResourceKey=visibleIfEqualConverter}, ConverterParameter=''}" />
+
+            </Grid>
+
+            <Button
+              Command="{Binding PreviousCommand}"
+              Content="{StaticResource FindPreviousContent}"
+              ToolTip="Find Previous"
+              ToolTipService.ShowOnDisabled="true" />
+
+            <Button
+              Command="{Binding NextCommand}"
+              Content="{StaticResource FindNextContent}"
+              ToolTip="Find Next"
+              ToolTipService.ShowOnDisabled="true" />
+
+            <Menu x:Name="OptionsMenu"
               VerticalAlignment="Center"
-              Foreground="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxTextDisabledBrushKey}}"
-              Content="Search…"
-              FontStyle="Italic"
-              IsHitTestVisible="False"
-              Visibility="{Binding FindText, Converter={StaticResource ResourceKey=visibleIfEqualConverter}, ConverterParameter=''}" />
+              Background="Transparent"
+              IsMainMenu="false"
+              IsTabStop="false"
+              KeyboardNavigation.DirectionalNavigation="Continue"
+              KeyboardNavigation.TabNavigation="Continue">
+              <Menu.Resources>
+                <ControlTemplate
+                  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem},
+                                               ResourceId=SubmenuItemTemplateKey}"
+                  TargetType="{x:Type MenuItem}">
+                  <Border x:Name="templateRoot"
+                    Background="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuBackgroundGradientBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuBorderBrushKey}}"
+                    BorderThickness="{TemplateBinding Control.BorderThickness}"
+                    SnapsToDevicePixels="true">
+                    <Grid
+                      Margin="-1">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                          Width="Auto"
+                          MinWidth="22"
+                          SharedSizeGroup="MenuItemIconColumnGroup" />
+                        <ColumnDefinition
+                          Width="13" />
+                        <ColumnDefinition
+                          Width="*" />
+                        <ColumnDefinition
+                          Width="30" />
+                        <ColumnDefinition
+                          Width="Auto"
+                          SharedSizeGroup="MenuItemIGTColumnGroup" />
+                        <ColumnDefinition
+                          Width="20" />
+                      </Grid.ColumnDefinitions>
+                      <ContentPresenter x:Name="Icon"
+                        Width="16"
+                        Height="16"
+                        Margin="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ContentSource="Icon"
+                        SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                      <Border x:Name="GlyphPanel"
+                        Width="22"
+                        Height="22"
+                        Margin="-1,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuIconBackgroundBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuBorderBrushKey}}"
+                        BorderThickness="1"
+                        ClipToBounds="false"
+                        Visibility="Hidden">
+                        <Path x:Name="Glyph"
+                          Width="10"
+                          Height="11"
+                          Fill="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuGlyphBrushKey}}"
+                          FlowDirection="LeftToRight">
+                          <Path.Data>
+                            <Geometry>
+                              F1 M 10.0,1.2 L 4.7,9.1 L 4.5,9.1 L 0,5.2 L 1.3,3.5 L 4.3,6.1L 8.3,0 L 10.0,1.2 Z
+                            </Geometry>
+                          </Path.Data>
+                        </Path>
+                      </Border>
+                      <ContentPresenter x:Name="menuHeaderContainer"
+                        Grid.Column="2"
+                        Margin="{TemplateBinding Control.Padding}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        ContentSource="Header"
+                        RecognizesAccessKey="true"
+                        SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                      <TextBlock x:Name="menuGestureText"
+                        Grid.Column="4"
+                        Margin="{TemplateBinding Control.Padding}"
+                        VerticalAlignment="Center"
+                        Opacity="0.7"
+                        Text="{TemplateBinding MenuItem.InputGestureText}" />
+                    </Grid>
+                  </Border>
 
-          </Grid>
 
-          <Button
-            Command="{Binding PreviousCommand}"
-            Content="{StaticResource FindPreviousContent}" />
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="MenuItem.Icon" Value="{x:Null}">
+                      <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed" />
+                    </Trigger>
+                    <Trigger Property="MenuItem.IsChecked" Value="true">
+                      <Setter TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible" />
+                      <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed" />
+                    </Trigger>
+                    <Trigger Property="MenuItem.IsHighlighted" Value="true">
+                      <Setter TargetName="templateRoot" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuItemMouseOverBrushKey}}" />
+                      <Setter TargetName="templateRoot" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuItemMouseOverBorderBrushKey}}" />
+                      <Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarMenuItemMouseOverTextBrushKey}}" />
+                    </Trigger>
+                    <Trigger Property="UIElement.IsEnabled" Value="false">
+                      <Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.CommandBarTextInactiveBrushKey}}" />
+                    </Trigger>
+                    <MultiTrigger>
+                      <MultiTrigger.Conditions>
+                        <Condition Property="MenuItem.IsHighlighted" Value="true" />
+                        <Condition Property="UIElement.IsEnabled" Value="false" />
+                      </MultiTrigger.Conditions>
+                      <!--  todo  -->
+                    </MultiTrigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
 
-          <Button
-            Command="{Binding NextCommand}"
-            Content="{StaticResource FindNextContent}" />
-        </StackPanel>
+              </Menu.Resources>
+
+              <MenuItem x:Name="OptionsMenuItem"
+                Style="{StaticResource OptionsMenuItemStyle}"
+                IsTabStop="true"
+                KeyboardNavigation.DirectionalNavigation="Continue"
+                KeyboardNavigation.TabNavigation="Continue"
+                ToolTip="Find..."
+                ToolTipService.ShowOnDisabled="true">
+                <MenuItem x:Name="OptionsWholeWordMenuItem"
+                  Header="Match _whole word only"
+                  IsCheckable="true"
+                  IsChecked="{Binding MatchWholeWord}" />
+                <MenuItem x:Name="OptionsCaseMenuItem"
+                  Header="Match _case"
+                  IsCheckable="true"
+                  IsChecked="{Binding MatchCase}" />
+                <MenuItem x:Name="OptionsDiacriticMenuItem"
+                  Header="Match _diacritic"
+                  IsCheckable="true"
+                  IsChecked="{Binding MatchDiacritic}" />
+                <MenuItem x:Name="OptionsKashidaMenuItem"
+                  Header="Match _kashida"
+                  IsCheckable="true"
+                  IsChecked="{Binding MatchKashida}" />
+                <MenuItem x:Name="OptionsAlefHamzaMenuItem"
+                  Header="Match _alef hamza"
+                  IsCheckable="true"
+                  IsChecked="{Binding MatchAlefHamza}" />
+              </MenuItem>
+            </Menu>
+          </StackPanel>
+        </Border>
       </Setter.Value>
     </Setter>
   </Style>

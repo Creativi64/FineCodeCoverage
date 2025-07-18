@@ -44,6 +44,21 @@ namespace FineCodeCoverage.Readme
             set => _wrapper.SelectOptionsCaseMenuItem(value);
         }
 
+        public bool MatchDiacritic
+        {
+            set => _wrapper.SelectOptionsDiacriticMenuItem(value);
+        }
+
+        public bool MatchKashida
+        {
+            set => _wrapper.SelectOptionsKashidaMenuItem(value);
+        }
+
+        public bool MatchAlefHamza
+        {
+            set => _wrapper.SelectOptionsAlefHamzaMenuItem(value);
+        }
+
         public bool IsSearchUp
         {
             get => _isSearchUp;
