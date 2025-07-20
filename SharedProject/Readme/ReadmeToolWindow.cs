@@ -59,9 +59,8 @@ namespace FineCodeCoverage.Readme
         {
             if (m.IsFindMessage())
             {
-                // If the message is a Ctrl+F, we handle it here
                 RaiseFind();
-                return true; // Indicate message was handled
+                return true;
             }
 
             return base.PreProcessMessage(ref m);
