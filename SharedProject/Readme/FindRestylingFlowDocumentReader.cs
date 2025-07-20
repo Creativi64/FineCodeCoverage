@@ -57,9 +57,14 @@ namespace FineCodeCoverage.Readme
             _originalFindToolBarHost = GetTemplateChild("PART_FindToolBarHost") as Decorator;
         }
 
+        public bool IsShowingFindToolbar { get; private set; }
+
+        public void ExecuteFindCommand() => ApplicationCommands.Find.Execute(null, this);
+
         protected override void OnFindCommand()
         {
             bool removing = _shimFindToolbarHost != null;
+            IsShowingFindToolbar = !removing;
             base.OnFindCommand();
             if (Document == null || !IsFindEnabled)
             {
@@ -68,11 +73,8 @@ namespace FineCodeCoverage.Readme
 
             if (removing)
             {
-                _originalFindToolBarHost.Child = null;
-                MoveHostProperties(_originalFindToolBarHost, _shimFindToolbarHost, true);
-                _shimFindToolbarHost.ResetOriginalDecorator();
-                ResetOriginalToolbarHost();
-                _shimFindToolbarHost = null;
+                Restore();
+                return;
             }
 
             if (!(_originalFindToolBarHost.Child is ToolBar findToolBar))
@@ -88,6 +90,16 @@ namespace FineCodeCoverage.Readme
             {
                 DoRestyleFindToolBar(findToolBar);
             }
+        }
+
+        private void Restore()
+        {
+            _originalFindToolBarHost.Child = null;
+            MoveHostProperties(_originalFindToolBarHost, _shimFindToolbarHost, true);
+            _shimFindToolbarHost.ResetOriginalDecorator();
+            ResetOriginalToolbarHost();
+            _shimFindToolbarHost = null;
+            IsShowingFindToolbar = false;
         }
 
         private static FieldInfo s_findToolBarHostField;
@@ -194,6 +206,12 @@ namespace FineCodeCoverage.Readme
             }
 
             base.OnKeyDown(e);
+            if (e.Key != Key.Escape || _shimFindToolbarHost == null || !IsFindEnabled)
+            {
+                return;
+            }
+
+            Restore();
         }
 
         private void ResetOriginalToolbarHost() => FindToolBarHostField.SetValue(this, _originalFindToolBarHost);

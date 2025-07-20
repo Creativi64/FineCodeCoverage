@@ -80,6 +80,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\FindRestylingFlowDocumentReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\FindToolBarShimDecorator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\FindToolBarViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\MessageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
       <DependentUpon>ReadmeControl.xaml</DependentUpon>
     </Compile>

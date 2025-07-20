@@ -12,7 +12,7 @@
   d:DesignHeight="300"
   d:DesignWidth="300"
   mc:Ignorable="d">
-  <local:FindRestylingFlowDocumentReader
+    <local:FindRestylingFlowDocumentReader x:Name="findRestylingFlowDocumentReader"
     Document="{Binding ElementName=readmeControl, Path=DataContext.FlowDocument}"
     ScrollViewer.VerticalScrollBarVisibility="Auto"
     ViewingMode="Scroll" />

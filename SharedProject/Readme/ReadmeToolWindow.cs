@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using FineCodeCoverage.Output;
 using Microsoft.VisualStudio.Shell;
 
@@ -51,6 +52,30 @@ namespace FineCodeCoverage.Readme
             {
                 DataContext = context.ReadMeMarkdownViewModel,
             };
+        }
+
+        protected override bool PreProcessMessage(
+            ref Message m)
+        {
+            if (m.IsFindMessage())
+            {
+                // If the message is a Ctrl+F, we handle it here
+                RaiseFind();
+                return true; // Indicate message was handled
+            }
+
+            return base.PreProcessMessage(ref m);
+        }
+
+        private void RaiseFind()
+        {
+            FindRestylingFlowDocumentReader findRestylingFlowDocumentReader = (Content as ReadmeControl).FlowDocumentReader;
+            if (findRestylingFlowDocumentReader.IsShowingFindToolbar)
+            {
+                return;
+            }
+
+            findRestylingFlowDocumentReader.ExecuteFindCommand();
         }
     }
 }
