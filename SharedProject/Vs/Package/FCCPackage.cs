@@ -55,7 +55,7 @@ namespace FineCodeCoverage.Output
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
-    [ProvideToolWindow(typeof(ReadmeToolWindow), Orientation = ToolWindowOrientation.Right, Style = VsDockStyle.Tabbed, Width = 600, Height = 700)]
+    [ProvideToolWindow(typeof(ReadmeToolWindow), PositionX = 250, PositionY = 250, Width = 900, Height = 700)]
     [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption, typeof(FCCPackage), Arguments = "0")]
     public sealed class FCCPackage : AsyncPackage
     {
@@ -93,10 +93,8 @@ namespace FineCodeCoverage.Output
             InstantiateAllDialogPages();
             await InitializeSolutionOptionsAsync(componentModel);
             ReflectionMEFToolWindowContextProvider.ComponentModel = componentModel;
-            await InitializeCommandsAsync(componentModel);
-
-            // note that exporting the package does not work
-            componentModel.GetService<IToolWindowServiceInit>().Package = this;
+            IToolWindowService toolWindowService = await componentModel.GetService<IToolWindowServiceInit>().InitializeAsync(this);
+            await InitializeCommandsAsync(componentModel, toolWindowService);
             await componentModel.GetService<IInitializer>().InitializeAsync(cancellationToken);
         }
 
@@ -128,9 +126,9 @@ namespace FineCodeCoverage.Output
 
         protected override void OnSaveOptions(string key, Stream stream) => _solutionOptions.SaveOptions(key, stream);
 
-        private async Task InitializeCommandsAsync(IComponentModel componentModel)
+        private async Task InitializeCommandsAsync(IComponentModel componentModel, IToolWindowService toolWindowService)
         {
-            ICommandPackageServices commandPackageServices = await CommandPackageServices.CreateAsync(this, componentModel.GetService<ILogger>());
+            ICommandPackageServices commandPackageServices = await CommandPackageServices.CreateAsync(this, toolWindowService, componentModel.GetService<ILogger>());
             foreach (ICommandInitializer command in componentModel.GetExtensions<ICommandInitializer>())
             {
                 await command.InitializeAsync(commandPackageServices);

@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Output
 {
     internal interface IToolWindowServiceInit
     {
-        AsyncPackage Package { set; }
+        Task<IToolWindowService> InitializeAsync(AsyncPackage package);
     }
 }

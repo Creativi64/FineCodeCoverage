@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Threading;
 using FineCodeCoverage.Output;
 using FineCodeCoverage.VSAbstractions.Store;
 
