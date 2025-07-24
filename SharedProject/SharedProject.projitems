@@ -88,6 +88,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\WatermarkVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\AlwaysPositionWhenFCCDebugging.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Debugging\FCCDebugStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Debugging\IFCCDebugStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\IShouldAlwaysPositionToolWindows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
       <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
     </Compile>
@@ -677,10 +681,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Debugging\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Vs\WindowServices\" />
     <Folder Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\" />
   </ItemGroup>
 </Project>

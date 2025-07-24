@@ -11,6 +11,7 @@ using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Readme;
+using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft;
 using Microsoft.VisualStudio.ComponentModelHost;
@@ -55,7 +56,18 @@ namespace FineCodeCoverage.Output
     [ProvideProfile(typeof(ProfileManager), Vsix.Name, Vsix.Name, 101, 102, false)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [ProvideToolWindow(typeof(ReportToolWindow), Style = VsDockStyle.Tabbed, DockedHeight = 300, Window = EnvDTE.Constants.vsWindowKindOutput)]
-    [ProvideToolWindow(typeof(ReadmeToolWindow), PositionX = 250, PositionY = 250, Width = 900, Height = 700)]
+    /*
+        vs bug.  The ProvideToolWindowAttribute will register Float - left, top, right, bottom
+        but this is the Rect.Parse which is x, y, width, height.
+        So need to take PositionX off of desired Width and PositionY off of desired Height.
+        https://developercommunity.visualstudio.com/t/ProvideToolWindowAttribute-Width-and-Hei/10941671
+
+        Note that here using the desired Width and Height and the ToolWindowService will size and position the tool window
+        Also when debugging we always size and position so that can experiment on getting size and position correct
+        without having to Reset the experimental instance and clear roaming settings.
+        https://developercommunity.visualstudio.com/t/CreateExpInstance-does-not-delete-roamin/10941151
+    */
+    [ProvideToolWindow(typeof(ReadmeToolWindow), PositionX = 250, PositionY = 250, Width = 950, Height = 700, Style = VsDockStyle.AlwaysFloat)]
     [ProvideAppCommandLine(ClearSettingsOnShutdown.ClearSettingsOnShutdownOption, typeof(FCCPackage), Arguments = "0")]
     public sealed class FCCPackage : AsyncPackage
     {

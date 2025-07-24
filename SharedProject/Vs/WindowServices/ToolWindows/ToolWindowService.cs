@@ -6,9 +6,11 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using FineCodeCoverage.VSAbstractions.Store;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Task = System.Threading.Tasks.Task;
 
 namespace FineCodeCoverage.Output
 {
@@ -37,23 +39,30 @@ namespace FineCodeCoverage.Output
 
         private const string PositionedToolWindowSettingsCollectionName = "FCCPositionedToolWindows";
         private readonly IWritableUserSettingsStoreProvider _writableUserSettingsStoreProvider;
+        private readonly bool _alwaysPosition;
         private AsyncPackage _package;
         private IWritableSettingsStore _userSettingsStore;
         private List<PositionedToolWindow> _positionedToolWindows;
 
         [ImportingConstructor]
-        public ToolWindowService(IWritableUserSettingsStoreProvider writeableUserSettingsStoreProvider)
-            => _writableUserSettingsStoreProvider = writeableUserSettingsStoreProvider;
+        public ToolWindowService(
+            IWritableUserSettingsStoreProvider writeableUserSettingsStoreProvider,
+            IShouldAlwaysPositionToolWindows shouldAlwaysPositionToolWindows)
+        {
+            _writableUserSettingsStoreProvider = writeableUserSettingsStoreProvider;
+            _alwaysPosition = shouldAlwaysPositionToolWindows.AlwaysPosition;
+        }
 
         public async Task<IToolWindowService> InitializeAsync(AsyncPackage package)
         {
             _package = package;
             _userSettingsStore = await _writableUserSettingsStoreProvider.ProvideAsync();
-            GetPositionedToolWindows();
+            SetPositionedToolWindows();
             return this;
         }
 
-        private void GetPositionedToolWindows() => _positionedToolWindows = _package.GetType().GetCustomAttributes<ProvideToolWindowAttribute>()
+        private void SetPositionedToolWindows()
+            => _positionedToolWindows = _package.GetType().GetCustomAttributes<ProvideToolWindowAttribute>()
                 .Select(provideToolWindowAttribute => new PositionedToolWindow(provideToolWindowAttribute))
                 .Where(ptw => ptw.Rect.Size != new Size(0, 0)).ToList();
 
@@ -61,37 +70,67 @@ namespace FineCodeCoverage.Output
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             PositionedToolWindow positionedToolWindow = _positionedToolWindows.FirstOrDefault(ptw => ptw.ToolWindowType == toolWindowType);
-            if (positionedToolWindow?.HasPositioned == false)
+            if (positionedToolWindow != null)
             {
-                bool hasPositioned = false;
-                if (_userSettingsStore.CollectionExists(PositionedToolWindowSettingsCollectionName))
-                {
-                    hasPositioned = _userSettingsStore.GetBoolean(PositionedToolWindowSettingsCollectionName, toolWindowType.FullName,false);
-                }
-                else
-                {
-                    _userSettingsStore.CreateCollection(PositionedToolWindowSettingsCollectionName);
-                }
-
-                if (!hasPositioned)
-                {
-                    _userSettingsStore.SetBoolean(PositionedToolWindowSettingsCollectionName, toolWindowType.FullName, true);
-                    ToolWindowPane toolWindow = await _package.FindToolWindowAsync(toolWindowType, id, create, cancellationToken);
-                    var frame = toolWindow.Frame as IVsWindowFrame;
-                    Guid empty = Guid.Empty;
-                    _ = frame.SetFramePos(
-                        VSSETFRAMEPOS.SFP_fSize | VSSETFRAMEPOS.SFP_fMove,
-                        ref empty,
-                        (int)positionedToolWindow.Rect.Left,
-                        (int)positionedToolWindow.Rect.Top,
-                        (int)positionedToolWindow.Rect.Width,
-                        (int)positionedToolWindow.Rect.Height);
-                }
-
-                positionedToolWindow.HasPositioned = true;
+                await PossiblyPositionAsync(positionedToolWindow, toolWindowType, id, create, cancellationToken);
             }
 
             return await _package.ShowToolWindowAsync(toolWindowType, id, create, cancellationToken);
+        }
+
+        private async Task PossiblyPositionAsync(PositionedToolWindow positionedToolWindow, Type toolWindowType, int id, bool create, CancellationToken cancellationToken)
+        {
+            if (_alwaysPosition)
+            {
+                // always set to make designing easier
+                await PositionAsync(positionedToolWindow, toolWindowType, id, create, cancellationToken);
+            }
+            else if (!positionedToolWindow.HasPositioned)
+            {
+                await PositionIfFirstTimeAsync(positionedToolWindow, toolWindowType, id, create, cancellationToken);
+            }
+        }
+
+        private async Task PositionIfFirstTimeAsync(PositionedToolWindow positionedToolWindow, Type toolWindowType, int id, bool create, CancellationToken cancellationToken)
+        {
+            bool hasPositioned = false;
+            if (_userSettingsStore.CollectionExists(PositionedToolWindowSettingsCollectionName))
+            {
+                hasPositioned = _userSettingsStore.GetBoolean(PositionedToolWindowSettingsCollectionName, toolWindowType.FullName, false);
+            }
+            else
+            {
+                _userSettingsStore.CreateCollection(PositionedToolWindowSettingsCollectionName);
+            }
+
+            if (hasPositioned)
+            {
+                return;
+            }
+
+            await PositionAsync(positionedToolWindow, toolWindowType, id, create, cancellationToken);
+            _userSettingsStore.SetBoolean(PositionedToolWindowSettingsCollectionName, toolWindowType.FullName, true);
+        }
+
+        /*
+          this allows ProvideToolWindowAttribute Width and Height to work properly
+          https://developercommunity.visualstudio.com/t/ProvideToolWindowAttribute-Width-and-Hei/10941671
+        */
+        private async Task PositionAsync(PositionedToolWindow positionedToolWindow, Type toolWindowType, int id, bool create, CancellationToken cancellationToken)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            ToolWindowPane toolWindow = await _package.FindToolWindowAsync(toolWindowType, id, create, cancellationToken);
+            var frame = toolWindow.Frame as IVsWindowFrame;
+            Guid empty = Guid.Empty;
+            _ = frame.SetFramePos(
+                VSSETFRAMEPOS.SFP_fSize | VSSETFRAMEPOS.SFP_fMove,
+                ref empty,
+                (int)positionedToolWindow.Rect.Left,
+                (int)positionedToolWindow.Rect.Top,
+                (int)positionedToolWindow.Rect.Width,
+                (int)positionedToolWindow.Rect.Height);
+
+            positionedToolWindow.HasPositioned = true;
         }
 
         public Task<ToolWindowPane> ShowToolWindowAsync(Type toolWindowType, int id, bool create)
