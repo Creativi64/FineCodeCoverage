@@ -2,7 +2,7 @@
 using FineCodeCoverage.Utilities.ComponentModel;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.OutputWindow.Logging
 {
     internal static class LoggerSingleton
     {

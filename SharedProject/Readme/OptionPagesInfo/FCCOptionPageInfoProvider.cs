@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.Vs.Package;
 
 namespace FineCodeCoverage.Readme.OptionPagesInfo
 {

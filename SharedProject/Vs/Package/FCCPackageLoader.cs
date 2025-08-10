@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Core.Initialization
+namespace FineCodeCoverage.Vs.Package
 {
     [Export(typeof(IFCCPackageLoader))]
     internal sealed class FCCPackageLoader : IFCCPackageLoader

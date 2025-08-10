@@ -8,7 +8,7 @@ using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Output.Pane
+namespace FineCodeCoverage.Vs.OutputWindow
 {
     [Export(typeof(IFCCOutputWindowPaneCreator))]
     [Export(typeof(IFCCOutputWindowPaneWritableCreator))]
@@ -80,14 +80,14 @@ namespace FineCodeCoverage.Output.Pane
             return dte.Windows.Item(EnvDTE.Constants.vsWindowKindOutput);
         }
 
-        private async System.Threading.Tasks.Task<TextDocument> GetPaneTextDocumentAsync(Window outputWindowWindow)
+        private static async System.Threading.Tasks.Task<TextDocument> GetPaneTextDocumentAsync(Window outputWindowWindow)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            return ((OutputWindow)outputWindowWindow.Object).OutputWindowPanes.Cast<OutputWindowPane>()
+            return ((EnvDTE.OutputWindow)outputWindowWindow.Object).OutputWindowPanes.Cast<OutputWindowPane>()
                 .First(IsFCCPane).TextDocument;
         }
 
-        private bool IsFCCPane(OutputWindowPane owp)
+        private static bool IsFCCPane(OutputWindowPane owp)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             return owp.Guid == FCCPaneGuidString;

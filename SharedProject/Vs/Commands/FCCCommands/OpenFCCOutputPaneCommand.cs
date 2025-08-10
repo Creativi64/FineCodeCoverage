@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Output.Pane;
 using FineCodeCoverage.Vs.Commands.CommandInitializer;
+using FineCodeCoverage.Vs.OutputWindow;
 
 namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {

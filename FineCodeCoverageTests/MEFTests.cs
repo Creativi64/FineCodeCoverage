@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Output;
+﻿using FineCodeCoverage.Vs.Package;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

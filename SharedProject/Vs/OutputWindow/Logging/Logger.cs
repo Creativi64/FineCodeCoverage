@@ -10,7 +10,7 @@ using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Output.Pane
+namespace FineCodeCoverage.Vs.OutputWindow.Logging
 {
     [Export(typeof(ILogger))]
     internal sealed class Logger : ILogger

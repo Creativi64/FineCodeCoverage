@@ -1,6 +1,6 @@
 ﻿using System;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Utilities.Telemetry;
+using FineCodeCoverage.Vs.OutputWindow.Logging;
 using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Utilities.Threading

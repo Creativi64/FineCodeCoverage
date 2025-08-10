@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Output.Pane
+namespace FineCodeCoverage.Vs.OutputWindow
 {
     internal static class IVsOutputWindowPaneExtensions
     {

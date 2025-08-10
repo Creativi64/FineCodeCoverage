@@ -9,6 +9,7 @@ using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Core.Utilities.Solution;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Options;
+using FineCodeCoverage.Output;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Utilities.ImageLibrary;
 using FineCodeCoverage.Vs.Commands.CommandInitializer;
@@ -19,7 +20,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Package
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.

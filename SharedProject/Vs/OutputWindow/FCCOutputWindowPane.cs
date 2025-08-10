@@ -3,7 +3,7 @@ using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Output.Pane
+namespace FineCodeCoverage.Vs.OutputWindow
 {
     internal sealed class FCCOutputWindowPane : IFCCOutputWindowPane, IFCCOutputWindowPaneWritable
     {

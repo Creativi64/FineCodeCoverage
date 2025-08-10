@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 
-namespace FineCodeCoverage.Output.Pane
+namespace FineCodeCoverage.Vs.OutputWindow
 {
     [Export(typeof(IShowFCCOutputPane))]
     internal sealed class ShowFCCOutputPane : IShowFCCOutputPane
