@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FineCodeCoverage.VSAbstractions.Threading;
 using Microsoft.VisualStudio.Threading;
 
-namespace FineCodeCoverage.Core.Utilities.VsThreading
+namespace FineCodeCoverage.Utilities.Threading
 {
     [Export(typeof(IThreadHelper))]
     internal sealed class VsThreadHelper : IThreadHelper

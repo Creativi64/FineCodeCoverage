@@ -1,7 +1,7 @@
 ﻿using FineCodeCoverage.VSAbstractions.Dialogs;
 using VsThemedDialogs;
 
-namespace FineCodeCoverage.Funding
+namespace FineCodeCoverage.Feedback.Funding
 {
     /// <summary>
     /// FundingDialogWindow.xaml.cs.

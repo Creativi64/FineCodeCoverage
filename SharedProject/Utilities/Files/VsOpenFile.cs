@@ -5,7 +5,7 @@ using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Files
 {
     [Export(typeof(IVsOpenFile))]
     internal sealed class VsOpenFile : IVsOpenFile

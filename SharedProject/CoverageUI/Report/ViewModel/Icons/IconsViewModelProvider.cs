@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Core.Utilities;
+﻿using FineCodeCoverage.Utilities.ComponentModel;
 
 namespace FineCodeCoverage.Output
 {

@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Versioning
 {
     [Guid("1EAA526A-0898-11d3-B868-00C04F79F802")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

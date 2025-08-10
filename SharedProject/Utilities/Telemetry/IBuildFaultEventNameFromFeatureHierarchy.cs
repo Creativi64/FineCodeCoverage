@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities.Telemetry
+﻿namespace FineCodeCoverage.Utilities.Telemetry
 {
     internal interface IBuildFaultEventNameFromFeatureHierarchy
     {

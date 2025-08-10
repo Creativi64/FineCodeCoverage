@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.ImageLibrary
 {
     /*
         If there are issues with .imagemanifest files - for use with CrispImage and when referenced in vsct

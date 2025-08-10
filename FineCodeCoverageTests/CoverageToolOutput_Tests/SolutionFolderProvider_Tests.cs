@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using FineCodeCoverage.Collection.CoverageToolOutput;
-using FineCodeCoverage.Engine;
 using FineCodeCoverage.Utilities.Wrappers;
 using NUnit.Framework;
 

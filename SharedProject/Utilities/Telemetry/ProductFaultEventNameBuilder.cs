@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Core.Utilities.Telemetry
+namespace FineCodeCoverage.Utilities.Telemetry
 {
     internal sealed class ProductFaultEventNameBuilder
     {

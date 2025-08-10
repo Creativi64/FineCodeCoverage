@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Utilities.ImageLibrary
 {
     internal enum TraceLevel
     {

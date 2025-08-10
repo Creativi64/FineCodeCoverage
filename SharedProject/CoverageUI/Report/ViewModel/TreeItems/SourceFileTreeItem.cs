@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Core.Utilities.Telemetry;
 using FineCodeCoverage.Options.Report;
+using FineCodeCoverage.Utilities.Telemetry;
+using FineCodeCoverage.Utilities.Threading;
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
 

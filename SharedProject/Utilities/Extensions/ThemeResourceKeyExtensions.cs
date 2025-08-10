@@ -3,7 +3,7 @@ using FineCodeCoverage.Utilities.Extensions;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Extensions
 {
     public static class ThemeResourceKeyExtensions
     {

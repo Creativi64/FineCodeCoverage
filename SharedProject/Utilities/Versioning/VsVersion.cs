@@ -4,7 +4,7 @@ using FineCodeCoverage.VSAbstractions.Versioning;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Versioning
 {
     [Export(typeof(IVsVersion))]
     internal sealed class VsVersion : IVsVersion

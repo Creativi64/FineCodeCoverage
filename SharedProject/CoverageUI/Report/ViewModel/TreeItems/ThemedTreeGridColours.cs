@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Media;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Extensions;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 

@@ -1,7 +1,7 @@
 ﻿using FineCodeCoverage.VSAbstractions.Dialogs;
 using VsThemedDialogs;
 
-namespace FineCodeCoverage.Github
+namespace FineCodeCoverage.Feedback.Github
 {
     /// <summary>
     /// new issue dialog window.

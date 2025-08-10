@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using FineCodeCoverage.Core.Utilities.Telemetry;
+using FineCodeCoverage.Utilities.Telemetry;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.ComponentModel
 {
     internal static class MefServiceProvider
     {

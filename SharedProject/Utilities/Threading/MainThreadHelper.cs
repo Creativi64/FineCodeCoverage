@@ -1,8 +1,9 @@
 ﻿using System;
-using FineCodeCoverage.Core.Utilities.Telemetry;
+using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Utilities.Telemetry;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Threading
 {
     /*
         https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.shell.vstasklibraryhelper.fileandforget?view=visualstudiosdk-2022

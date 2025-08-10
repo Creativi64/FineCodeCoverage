@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Threading
 {
     [Export(typeof(IDisposeAwareTaskRunner))]
     internal sealed class DisposeAwareTaskRunner : IDisposable, IDisposeAwareTaskRunner

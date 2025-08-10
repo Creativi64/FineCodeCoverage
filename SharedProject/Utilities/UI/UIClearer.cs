@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
+using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Utilities.UI
 {
     [Export(typeof(IUIClearer))]
     internal sealed class UIClearer : IUIClearer, IListener<CoverageStartingMessage>

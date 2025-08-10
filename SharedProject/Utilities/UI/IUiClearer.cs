@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Output
+﻿namespace FineCodeCoverage.Utilities.UI
 {
     internal interface IUIClearer
     {

@@ -1,5 +1,5 @@
-﻿using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Options.Base;
+﻿using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Utilities.ComponentModel;
 using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Options

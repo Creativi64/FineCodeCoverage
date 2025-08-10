@@ -5,7 +5,7 @@ using FineCodeCoverage.VSAbstractions.Threading;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Core.Utilities.VsThreading
+namespace FineCodeCoverage.Utilities.Threading
 {
     internal sealed class VsJoinableTaskFactory : IJoinableTaskFactory
     {

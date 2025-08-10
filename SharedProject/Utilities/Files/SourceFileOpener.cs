@@ -6,7 +6,7 @@ using FineCodeCoverage.VSAbstractions.Files;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;
 
-namespace FineCodeCoverage.Engine
+namespace FineCodeCoverage.Utilities.Files
 {
     [Export(typeof(ISourceFileOpener))]
     internal sealed class SourceFileOpener : ISourceFileOpener

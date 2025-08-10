@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using FineCodeCoverage.VSAbstractions.Threading;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Threading
 {
     internal sealed class CancellationTokenSourceWrapper : ICancellationTokenSource
     {

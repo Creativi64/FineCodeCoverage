@@ -3,7 +3,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Utilities.Files
 {
     [Export(typeof(IProjectFilePropertyWriter))]
     public class ProjectFilePropertyWriter : IProjectFilePropertyWriter

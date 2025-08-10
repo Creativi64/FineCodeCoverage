@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Utilities.Versioning
 {
     internal static class IsVs2022
     {

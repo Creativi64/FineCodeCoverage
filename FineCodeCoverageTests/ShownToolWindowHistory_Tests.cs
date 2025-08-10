@@ -1,5 +1,4 @@
 ﻿using AutoMoq;
-using FineCodeCoverage.Engine;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.History;
 using FineCodeCoverage.Utilities.Wrappers;

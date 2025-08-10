@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Imaging.Interop;
 
-namespace FineCodeCoverage.Funding
+namespace FineCodeCoverage.Feedback.Funding
 {
     public static class FundingMonikers
     {
