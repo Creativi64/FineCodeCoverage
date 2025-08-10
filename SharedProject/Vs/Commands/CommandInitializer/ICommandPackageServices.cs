@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Design;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.CommandInitializer
 {
     internal interface ICommandPackageServices : IPackageServices
     {

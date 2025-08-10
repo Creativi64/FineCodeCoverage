@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.Runners;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICancelCollectTUnitCommand))]
     internal sealed class CancelCollectTUnitCommand : CommandInitializerBase, ICancelCollectTUnitCommand

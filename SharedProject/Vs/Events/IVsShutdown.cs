@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.Events
 {
     internal interface IVsShutdown
     {

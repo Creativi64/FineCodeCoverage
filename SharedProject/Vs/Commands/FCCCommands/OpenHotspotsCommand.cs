@@ -6,9 +6,10 @@ using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Hotspots;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 using FineCodeCoverage.VSAbstractions.Files;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenHotspotsCommand : CommandInitializerBase, IListener<ReportFilesMessage>, IListener<OutdatedOutputMessage>

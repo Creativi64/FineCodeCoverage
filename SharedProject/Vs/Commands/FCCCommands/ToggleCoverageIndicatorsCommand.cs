@@ -2,8 +2,9 @@
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICommandInitializer))]
     internal sealed class ToggleCoverageIndicatorsCommand : CommandInitializerBase

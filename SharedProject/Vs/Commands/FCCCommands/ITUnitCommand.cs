@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Output
+﻿using FineCodeCoverage.Vs.Commands.CommandInitializer;
+
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     internal interface ITUnitCommand : ICommandInitializer
     {

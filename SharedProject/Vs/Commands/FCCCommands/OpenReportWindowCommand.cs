@@ -2,11 +2,13 @@
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using FineCodeCoverage.Initialization.History;
+using FineCodeCoverage.Output;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 using FineCodeCoverage.VSAbstractions.Commands;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICommandInitializer))]
     [Export(typeof(IReportToolWindowOpener))]

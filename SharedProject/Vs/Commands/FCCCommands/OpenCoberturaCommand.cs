@@ -4,9 +4,10 @@ using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 using FineCodeCoverage.VSAbstractions.Files;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICommandInitializer))]
     internal sealed class OpenCoberturaCommand : CommandInitializerBase, IListener<ReportFilesMessage>, IListener<OutdatedOutputMessage>

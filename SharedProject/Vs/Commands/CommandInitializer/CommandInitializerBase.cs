@@ -3,7 +3,7 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.CommandInitializer
 {
     internal abstract class CommandInitializerBase : ICommandInitializer
     {

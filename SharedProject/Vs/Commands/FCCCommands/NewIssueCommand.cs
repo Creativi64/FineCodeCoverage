@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Feedback.Github;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICommandInitializer))]
     internal sealed class NewIssueCommand : CommandInitializerBase

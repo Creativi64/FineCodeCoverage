@@ -3,8 +3,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Vs.Events;
 using FineCodeCoverage.VSAbstractions.Threading;
 using TreeGrid;
 

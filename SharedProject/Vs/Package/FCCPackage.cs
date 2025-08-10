@@ -11,6 +11,7 @@ using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Options;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Utilities.ImageLibrary;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft;
 using Microsoft.VisualStudio.ComponentModelHost;

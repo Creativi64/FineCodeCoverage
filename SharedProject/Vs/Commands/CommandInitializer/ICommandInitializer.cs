@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.CommandInitializer
 {
     internal interface ICommandInitializer
     {

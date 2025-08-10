@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.CommandInitializer
 {
     internal interface IPackageServices
     {

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.Runners;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {
     [Export(typeof(ICommandInitializer))]
     internal sealed class CollectOrCancelTUnitCoverage : ICommandInitializer

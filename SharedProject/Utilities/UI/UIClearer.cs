@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Output;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Vs.Events;
 
 namespace FineCodeCoverage.Utilities.UI
 {

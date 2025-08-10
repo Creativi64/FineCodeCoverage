@@ -5,7 +5,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.Events
 {
     [Export(typeof(IVsShutdown))]
     public class VsShutdown : IVsShutdown, IVsShellPropertyEvents

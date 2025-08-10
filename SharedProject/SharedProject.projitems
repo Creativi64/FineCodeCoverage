@@ -342,7 +342,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\FileRenameListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\SourceFileOpener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\VsOpenFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\CommandPackageServices.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\CommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\ICommandPackageServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\IPackageServices.cs" />
