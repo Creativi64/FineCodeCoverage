@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Editor.DynamicCoverage;
+﻿using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.Tagging.Base

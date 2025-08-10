@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     internal static class RunSettingsHelper
     {

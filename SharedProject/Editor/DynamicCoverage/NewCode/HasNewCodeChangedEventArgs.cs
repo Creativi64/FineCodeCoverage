@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.NewCode
 {
     internal sealed class HasNewCodeChangedEventArgs : EventArgs
     {

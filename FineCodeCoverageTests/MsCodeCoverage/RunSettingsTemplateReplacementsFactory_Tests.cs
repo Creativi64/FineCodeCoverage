@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+using FineCodeCoverage.Collection.Ms;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System.Linq;
 using System;

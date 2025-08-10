@@ -2,7 +2,7 @@
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     internal interface IUserRunSettingsProjectDetails
     {

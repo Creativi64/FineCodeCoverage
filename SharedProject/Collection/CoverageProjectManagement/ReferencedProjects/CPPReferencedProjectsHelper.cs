@@ -4,11 +4,10 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.VCProjectEngine;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects
 {
     [Export(typeof(ICPPReferencedProjectsHelper))]
     internal sealed class CPPReferencedProjectsHelper : ICPPReferencedProjectsHelper

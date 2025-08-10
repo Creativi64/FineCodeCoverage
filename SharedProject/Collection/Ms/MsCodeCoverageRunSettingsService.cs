@@ -11,7 +11,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.Engine;
-using FineCodeCoverage.Impl;
+using FineCodeCoverage.Collection.TestExplorer;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.Options.Base;
@@ -20,7 +20,7 @@ using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IMsCodeCoverageRunSettingsService))]
     [Export(typeof(IRunSettingsService))]

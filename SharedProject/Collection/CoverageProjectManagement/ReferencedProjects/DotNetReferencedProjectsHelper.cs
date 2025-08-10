@@ -4,12 +4,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using EnvDTE;
-using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using Microsoft.VisualStudio.Shell;
 using VSLangProj;
 using VSLangProj80;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects
 {
     [Export(typeof(IDotNetReferencedProjectsHelper))]
     internal sealed class DotNetReferencedProjectsHelper : IDotNetReferencedProjectsHelper

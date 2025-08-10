@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+﻿namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     /*
         adjusted from

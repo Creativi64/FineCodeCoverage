@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Collection.ReportGeneration;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Common
 {
     internal sealed class DynamicLine : IDynamicLine
     {

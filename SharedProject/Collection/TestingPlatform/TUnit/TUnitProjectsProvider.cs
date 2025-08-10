@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.ProjectSystem;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitProjectsProvider))]
     internal sealed class TUnitProjectsProvider : ITUnitProjectsProvider

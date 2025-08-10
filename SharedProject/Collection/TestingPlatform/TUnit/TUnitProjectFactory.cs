@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.ProjectSystem.Properties;
 using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio.Contracts;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitProjectFactory))]
     internal sealed class TUnitProjectFactory : ITUnitProjectFactory

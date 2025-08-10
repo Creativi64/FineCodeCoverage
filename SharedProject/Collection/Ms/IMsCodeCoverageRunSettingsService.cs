@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using FineCodeCoverage.Impl;
+using FineCodeCoverage.Collection.TestExplorer;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     internal interface IMsCodeCoverageRunSettingsService
     {

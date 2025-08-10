@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
+using FineCodeCoverage.Editor.DynamicCoverage.NewCode;
 using FineCodeCoverage.Utilities.Extensions;
 using Microsoft.VisualStudio.Text;
 

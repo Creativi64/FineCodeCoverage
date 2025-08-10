@@ -5,14 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+using FineCodeCoverage.Collection.Ms;
 using FineCodeCoverage.Utilities.Xml;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitCoverageProjectFactory))]
     internal sealed class TUnitCoverageProjectFactory : ITUnitCoverageProjectFactory

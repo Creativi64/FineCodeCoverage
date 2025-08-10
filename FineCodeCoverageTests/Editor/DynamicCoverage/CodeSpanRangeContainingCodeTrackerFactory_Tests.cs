@@ -1,6 +1,8 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Coverage;
+using FineCodeCoverage.Editor.DynamicCoverage.NotIncluded;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

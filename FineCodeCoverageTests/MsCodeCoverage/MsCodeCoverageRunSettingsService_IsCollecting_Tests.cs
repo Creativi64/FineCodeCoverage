@@ -1,8 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
 using AutoMoq;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
-using FineCodeCoverage.Impl;
+using FineCodeCoverage.Collection.Ms;
+using FineCodeCoverage.Collection.TestExplorer;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;

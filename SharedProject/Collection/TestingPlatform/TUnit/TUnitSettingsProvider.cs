@@ -11,7 +11,7 @@ using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.Utilities.Xml;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitSettingsProvider))]
     internal sealed class TUnitSettingsProvider : ITUnitSettingsProvider

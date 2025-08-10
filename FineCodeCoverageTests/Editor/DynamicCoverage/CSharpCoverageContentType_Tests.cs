@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Editor.DynamicCoverage;
+﻿using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
 using Moq;
 using NUnit.Framework;

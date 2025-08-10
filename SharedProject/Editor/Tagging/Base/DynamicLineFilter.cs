@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Output;
 
 namespace FineCodeCoverage.Editor.Tagging.Base

@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.VSAbstractions.Threading;
 

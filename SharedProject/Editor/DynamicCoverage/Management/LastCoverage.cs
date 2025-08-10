@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     internal sealed class LastCoverage : ILastCoverage

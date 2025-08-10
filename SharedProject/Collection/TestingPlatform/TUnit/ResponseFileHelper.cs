@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     internal static class ResponseFileHelper
     {

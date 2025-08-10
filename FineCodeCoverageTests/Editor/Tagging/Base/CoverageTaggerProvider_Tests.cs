@@ -1,5 +1,6 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;

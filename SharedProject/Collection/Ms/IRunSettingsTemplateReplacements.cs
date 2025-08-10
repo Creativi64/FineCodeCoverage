@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+﻿namespace FineCodeCoverage.Collection.Ms
 {
     // string values for string.Replace of templated values - e.g %fcc_modulepaths_exclude%
     internal interface IRunSettingsTemplateReplacements

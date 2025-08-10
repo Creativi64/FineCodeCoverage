@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Utilities.Extensions;
 using Microsoft.VisualStudio.Text;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.NewCode
 {
     internal sealed class NewCodeTracker : INewCodeTracker
     {

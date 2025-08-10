@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.Runners
 {
     internal interface ITUnitCoverage
     {

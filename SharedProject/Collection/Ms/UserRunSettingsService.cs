@@ -8,7 +8,7 @@ using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.Utilities.Xml;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IUserRunSettingsService))]
     internal sealed class UserRunSettingsService : IUserRunSettingsService

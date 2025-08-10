@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestWindow.Extensibility;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     internal interface ITestOperationFactory
     {

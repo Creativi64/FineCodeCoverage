@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 
 namespace FineCodeCoverage.Editor.Management
 {

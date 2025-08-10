@@ -1,7 +1,9 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
-using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
+using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
+using FineCodeCoverage.Editor.DynamicCoverage.NewCode;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Text;
 using Moq;

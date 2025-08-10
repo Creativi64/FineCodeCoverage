@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
-using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
+using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IBufferLineCoverageFactory))]

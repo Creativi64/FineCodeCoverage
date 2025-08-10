@@ -1,4 +1,5 @@
-﻿using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+﻿
+using FineCodeCoverage.Collection.Ms;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

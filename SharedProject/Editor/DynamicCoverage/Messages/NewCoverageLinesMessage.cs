@@ -1,4 +1,6 @@
-﻿namespace FineCodeCoverage.Editor.DynamicCoverage
+﻿using FineCodeCoverage.Editor.DynamicCoverage.Management;
+
+namespace FineCodeCoverage.Editor.DynamicCoverage.Messages
 {
     internal sealed class NewCoverageLinesMessage
     {

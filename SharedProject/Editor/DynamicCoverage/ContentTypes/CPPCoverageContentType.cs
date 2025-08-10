@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
-using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes
 {

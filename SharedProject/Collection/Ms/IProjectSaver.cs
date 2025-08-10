@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     internal interface IProjectSaver
     {

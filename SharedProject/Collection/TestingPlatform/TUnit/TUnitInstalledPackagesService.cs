@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.Threading;
 using NuGet.VisualStudio.Contracts;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitInstalledPackagesService))]
     internal sealed class TUnitInstalledPackagesService : ITUnitInstalledPackagesService

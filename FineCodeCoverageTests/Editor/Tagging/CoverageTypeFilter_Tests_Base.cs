@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Editor.DynamicCoverage;
+﻿using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
 using NUnit.Framework;

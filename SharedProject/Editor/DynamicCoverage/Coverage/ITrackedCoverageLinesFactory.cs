@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Coverage
 {
     internal interface ITrackedCoverageLinesFactory
     {

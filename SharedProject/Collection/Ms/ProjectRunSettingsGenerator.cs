@@ -10,7 +10,7 @@ using FineCodeCoverage.Utilities.Xml;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IProjectRunSettingsGenerator))]
     internal sealed class ProjectRunSettingsGenerator : IProjectRunSettingsGenerator

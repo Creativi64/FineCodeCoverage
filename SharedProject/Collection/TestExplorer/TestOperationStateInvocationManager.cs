@@ -4,7 +4,7 @@ using FineCodeCoverage.Initialization;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     [Export(typeof(ITestOperationStateInvocationManager))]
     internal sealed class TestOperationStateInvocationManager : ITestOperationStateInvocationManager

@@ -8,7 +8,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Options.IncludesExcludes;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IRunSettingsTemplateReplacementsFactory))]
     internal sealed class RunSettingsTemplateReplacementsFactory : IRunSettingsTemplateReplacementsFactory

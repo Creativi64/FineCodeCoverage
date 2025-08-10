@@ -1,5 +1,7 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.NewCode;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

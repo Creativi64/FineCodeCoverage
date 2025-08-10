@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes
 {
     internal sealed class CoverageContentTypes : ICoverageContentTypes
     {

@@ -2,6 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage.Coverage;
+using FineCodeCoverage.Editor.DynamicCoverage.NotIncluded;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

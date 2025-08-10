@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Xml.XPath;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+using FineCodeCoverage.Collection.Ms;
 using AutoMoq;
 using Moq;
 using Microsoft.VisualStudio.TestWindow.Extensibility;

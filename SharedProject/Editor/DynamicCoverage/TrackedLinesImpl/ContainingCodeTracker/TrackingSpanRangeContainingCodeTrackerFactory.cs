@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
+using FineCodeCoverage.Editor.DynamicCoverage.Dirty;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage
 {

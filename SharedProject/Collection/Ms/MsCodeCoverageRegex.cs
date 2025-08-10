@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+﻿namespace FineCodeCoverage.Collection.Ms
 {
     internal static class MsCodeCoverageRegex
     {

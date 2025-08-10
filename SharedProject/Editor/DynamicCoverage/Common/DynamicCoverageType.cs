@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Editor.DynamicCoverage
+﻿namespace FineCodeCoverage.Editor.DynamicCoverage.Common
 {
     internal enum DynamicCoverageType
     {

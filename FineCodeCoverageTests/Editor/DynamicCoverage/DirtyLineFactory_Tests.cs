@@ -1,5 +1,7 @@
 ﻿using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Dirty;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;
 using Moq;

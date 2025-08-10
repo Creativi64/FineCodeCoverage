@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
 using System.IO;
 using System;
 using AutoMoq;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Collection.Ms;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {

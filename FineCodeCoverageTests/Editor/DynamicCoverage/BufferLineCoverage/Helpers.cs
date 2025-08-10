@@ -8,6 +8,9 @@ using System;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 
 namespace FineCodeCoverageTests.Editor.DynamicCoverage.BufferLineCoverageTests
 {

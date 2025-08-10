@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
+using FineCodeCoverage.Collection.TestingPlatform.TUnit;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Output;
 using FineCodeCoverage.Options.Run;
@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.ProjectSystem.Build;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform
 {
     // https://github.com/dotnet/project-system
     // https://github.com/microsoft/VSProjectSystem/blob/master/doc/extensibility/IProjectGlobalPropertiesProvider.md
@@ -62,9 +62,9 @@ namespace FineCodeCoverage.Engine.MsTestPlatform.TestingPlatform
         private static async Task<bool> IsTestProjectAsync(ConfiguredProject configuredProject)
         {
             Microsoft.VisualStudio.ProjectSystem.Properties.IProjectProperties commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
-            string isTestProjectPropertValue = await commonProperties.GetEvaluatedPropertyValueAsync("IsTestProject");
-            return !string.IsNullOrEmpty(isTestProjectPropertValue) &&
-                bool.TryParse(isTestProjectPropertValue, out bool isTestProject) && isTestProject;
+            string isTestProjectPropertyValue = await commonProperties.GetEvaluatedPropertyValueAsync("IsTestProject");
+            return !string.IsNullOrEmpty(isTestProjectPropertyValue) &&
+                bool.TryParse(isTestProjectPropertyValue, out bool isTestProject) && isTestProject;
         }
 
         private static async Task<bool> NoTUnitPackageReferenceAsync(ConfiguredProject configuredProject)

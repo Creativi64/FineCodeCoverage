@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.Text;
+﻿using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using Microsoft.VisualStudio.Text;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.NewCode
 {
     internal sealed class TrackedNewCodeLine : ITrackedNewCodeLine
     {

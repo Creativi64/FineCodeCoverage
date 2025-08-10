@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;
 using FineCodeCoverage.Utilities.Events;
@@ -9,7 +12,7 @@ using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     internal sealed class BufferLineCoverage :
         IBufferLineCoverage,

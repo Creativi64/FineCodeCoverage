@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     internal sealed class FileLines : IFileLines
     {

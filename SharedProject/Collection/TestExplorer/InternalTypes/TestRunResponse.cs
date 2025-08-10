@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ReflectObject;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer.InternalTypes
 {
     public class TestRunResponse : ReflectObjectProperties
     {

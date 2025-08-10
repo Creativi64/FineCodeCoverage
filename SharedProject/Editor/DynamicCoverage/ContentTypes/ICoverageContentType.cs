@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction
+﻿namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes
 {
     internal interface ICoverageContentType
     {

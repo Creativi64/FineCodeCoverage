@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Utilities.Events;
 using Microsoft.VisualStudio.Text;

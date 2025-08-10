@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer.InternalTypes
 {
     internal sealed class TestContainerDiscoveryReflectionException : Exception
     {

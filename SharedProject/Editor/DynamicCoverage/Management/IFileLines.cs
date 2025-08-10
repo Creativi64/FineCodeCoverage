@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FineCodeCoverage.Collection.ReportGeneration;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     internal interface IFileLines
     {

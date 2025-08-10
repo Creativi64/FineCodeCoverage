@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using ReflectObject;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer.InternalTypes
 {
     public class ContainerData : ReflectObjectProperties
     {

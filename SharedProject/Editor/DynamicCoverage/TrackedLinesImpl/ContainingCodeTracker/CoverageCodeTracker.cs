@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Dirty;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.DynamicCoverage

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.TestExplorer.InternalTypes;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using ReflectObject;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     [Export(typeof(ITestOperationFactory))]
     internal sealed class TestOperationFactory : ITestOperationFactory

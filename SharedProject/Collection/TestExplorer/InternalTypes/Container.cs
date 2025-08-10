@@ -1,6 +1,6 @@
 ﻿using ReflectObject;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer.InternalTypes
 {
     public class Container : ReflectObjectProperties
     {

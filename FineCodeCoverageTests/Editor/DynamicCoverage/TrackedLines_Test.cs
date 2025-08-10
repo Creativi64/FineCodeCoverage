@@ -1,4 +1,7 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes;
+using FineCodeCoverage.Editor.DynamicCoverage.NewCode;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text;
 using Moq;

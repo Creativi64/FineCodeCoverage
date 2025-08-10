@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using Microsoft.VisualStudio.Text;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Coverage
 {
     internal sealed class TrackedCoverageLine : ITrackedCoverageLine
     {

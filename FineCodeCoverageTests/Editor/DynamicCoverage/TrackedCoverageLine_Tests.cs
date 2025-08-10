@@ -2,6 +2,8 @@
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Coverage;
 using Microsoft.VisualStudio.Text;
 using Moq;
 using NUnit.Framework;

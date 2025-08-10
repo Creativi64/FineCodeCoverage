@@ -2,13 +2,12 @@
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     [Export(typeof(IVsBuildFCCSettingsProvider))]
     internal sealed class VsBuildFCCSettingsProvider : IVsBuildFCCSettingsProvider

@@ -1,4 +1,6 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
 using FineCodeCoverage.Editor.Tagging.Base;
 using Microsoft.VisualStudio.Text;
 using Moq;

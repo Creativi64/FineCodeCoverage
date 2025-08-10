@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Media;
 using FineCodeCoverage.Core.Initialization;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Initialization;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
@@ -18,7 +19,7 @@ namespace FineCodeCoverage.Editor.Management
         private const string CoveredEditorFormatDefinitionName = "Coverage Touched Area FCC";
         private const string NewLinesEditorFormatDefinitionName = "Coverage New Lines Area FCC";
         private const string DirtyEditorFormatDefinitionName = "Coverage Dirty Area FCC";
-        private const string NotIncludedEditorFormatDefintionName = "Coverage Not Included Area FCC";
+        private const string NotIncludedEditorFormatDefinitionName = "Coverage Not Included Area FCC";
 
         private readonly ICoverageClassificationColourService _coverageClassificationColourService;
         private readonly IFontAndColorsInfosProvider _fontAndColorsInfosProvider;
@@ -26,7 +27,7 @@ namespace FineCodeCoverage.Editor.Management
         private readonly ITextFormattingRunPropertiesFactory _textFormattingRunPropertiesFactory;
 
         [Export]
-        [Name(NotIncludedEditorFormatDefintionName)]
+        [Name(NotIncludedEditorFormatDefinitionName)]
         [UserVisible(true)]
         public EditorFormatDefinition NotIncludedEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Colors.LightPink);
 
@@ -76,7 +77,7 @@ namespace FineCodeCoverage.Editor.Management
                     PartiallyCoveredEditorFormatDefinitionName,
                     NewLinesEditorFormatDefinitionName,
                     DirtyEditorFormatDefinitionName,
-                    NotIncludedEditorFormatDefintionName));
+                    NotIncludedEditorFormatDefinitionName));
             coverageFontAndColorsCategoryItemNamesManager.Changed += (sender, args) => Changed();
             fontAndColorsInfosProvider.CoverageFontAndColorsCategoryItemNames = coverageFontAndColorsCategoryItemNamesManager.CategoryItemNames;
 
@@ -92,7 +93,7 @@ namespace FineCodeCoverage.Editor.Management
 
                     NewLinesEditorFormatDefinitionName,
                     DirtyEditorFormatDefinitionName,
-                    NotIncludedEditorFormatDefintionName,
+                    NotIncludedEditorFormatDefinitionName,
                 },
                 () => Changed());
 

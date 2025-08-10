@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
-using FineCodeCoverage.Editor.DynamicCoverage.TrackedLinesImpl.Construction;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.EditorCoverageColouring;

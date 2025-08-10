@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     public class MsTemplateReplacementException : Exception
     {

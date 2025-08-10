@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     internal interface ITestOperationStateInvocationManager
     {

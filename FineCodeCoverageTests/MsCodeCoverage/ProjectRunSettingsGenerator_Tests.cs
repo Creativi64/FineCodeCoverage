@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+using FineCodeCoverage.Collection.Ms;
 using AutoMoq;
 using System.Collections.Generic;
 using System.Threading.Tasks;

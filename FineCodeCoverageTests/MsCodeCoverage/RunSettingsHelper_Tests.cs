@@ -1,4 +1,4 @@
-﻿using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+﻿using FineCodeCoverage.Collection.Ms;
 using NUnit.Framework;
 using System.Xml.Linq;
 

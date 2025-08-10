@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Threading.Tasks;
+using FineCodeCoverage.Collection.TestExplorer.InternalTypes;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     [Export(typeof(IRunSettingsRetriever))]
     internal sealed class RunSettingsRetriever : IRunSettingsRetriever

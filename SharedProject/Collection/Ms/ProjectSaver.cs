@@ -5,7 +5,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IProjectSaver))]
     internal sealed class ProjectSaver : IProjectSaver

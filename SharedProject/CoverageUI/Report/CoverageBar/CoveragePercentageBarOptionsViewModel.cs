@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Media;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Report;
@@ -95,8 +96,8 @@ namespace FineCodeCoverage.Output
             if (_fontsAndColorsCoverageBarColours == null || _coverageColoursDirty)
             {
                 ICoverageColours coverageColours = _coverageColoursProvider.GetCoverageColours();
-                Color coveredColor = coverageColours.GetColour(Editor.DynamicCoverage.DynamicCoverageType.Covered).Background;
-                Color notCoveredColor = coverageColours.GetColour(Editor.DynamicCoverage.DynamicCoverageType.NotCovered).Background;
+                Color coveredColor = coverageColours.GetColour(DynamicCoverageType.Covered).Background;
+                Color notCoveredColor = coverageColours.GetColour(DynamicCoverageType.NotCovered).Background;
                 _fontsAndColorsCoverageBarColours = new FontsAndColorsCoverageBarColours(coveredColor, notCoveredColor);
                 _coverageColoursDirty = false;
             }

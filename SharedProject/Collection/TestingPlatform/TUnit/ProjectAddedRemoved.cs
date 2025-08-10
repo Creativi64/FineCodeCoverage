@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     internal sealed class ProjectAddedRemoved
     {

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using FineCodeCoverage.Collection.TestExplorer.InternalTypes;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     internal interface IRunSettingsRetriever
     {

@@ -1,5 +1,5 @@
 ﻿using FineCodeCoverage.Collection.ReportGeneration;
-using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using Moq;
 using NUnit.Framework;

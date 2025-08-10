@@ -1,5 +1,8 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Editor.IndicatorVisibility;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Utilities.Events;

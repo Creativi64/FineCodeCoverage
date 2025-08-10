@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.NewCode
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(INewCodeTrackerFactory))]

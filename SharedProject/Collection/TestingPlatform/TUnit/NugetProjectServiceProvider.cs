@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell.ServiceBroker;
 using Microsoft.VisualStudio.Threading;
 using NuGet.VisualStudio.Contracts;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(INugetProjectServiceProvider))]
     internal sealed class NugetProjectServiceProvider : INugetProjectServiceProvider

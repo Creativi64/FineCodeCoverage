@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using Microsoft.VisualStudio.Text;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Coverage
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(ITrackedCoverageLineFactory))]

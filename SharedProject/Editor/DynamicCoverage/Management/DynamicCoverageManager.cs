@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using FineCodeCoverage.Collection.Messages;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Utilities.Events;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     [Export(typeof(IInitializable))]
     [Export(typeof(IDynamicCoverageManager))]

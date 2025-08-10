@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
+using FineCodeCoverage.Collection.Ms;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using FineCodeCoverageTests.TestHelpers;

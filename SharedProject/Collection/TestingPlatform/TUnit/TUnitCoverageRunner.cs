@@ -11,7 +11,7 @@ using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using FineCodeCoverage.VSAbstractions.Threading;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitCoverageRunner))]
     [Export(typeof(IAppDataFolderPathDependent))]

@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.Engine;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage;
-using FineCodeCoverage.Impl.TestContainerDiscovery;
+using FineCodeCoverage.Collection.Ms;
+using FineCodeCoverage.Collection.TestExplorer;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
@@ -20,7 +20,7 @@ using Microsoft.VisualStudio.Utilities;
 using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.Runners
 {
     [Name("FineCodeCoverage.TestContainerDiscoverer")]
 

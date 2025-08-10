@@ -1,5 +1,6 @@
 ﻿using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Text;

@@ -5,7 +5,7 @@ using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Utilities.Wrappers;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IShimCopier))]
     internal sealed class ShimCopier : IShimCopier

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     internal interface IRunSettingsToConfiguration
     {

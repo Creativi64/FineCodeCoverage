@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Editor.Tagging.Base;
 using FineCodeCoverage.Editor.Tagging.Classification;
 using FineCodeCoverage.Options.EditorCoverageColouring;

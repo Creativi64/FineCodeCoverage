@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Impl.TestContainerDiscovery
+namespace FineCodeCoverage.Collection.Runners
 {
     internal interface ICoverageCollectableFromTestExplorer
     {

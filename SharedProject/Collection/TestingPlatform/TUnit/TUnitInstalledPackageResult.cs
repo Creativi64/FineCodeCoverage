@@ -1,6 +1,6 @@
 ﻿using NuGet.VisualStudio.Contracts;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     internal sealed class TUnitInstalledPackageResult
     {

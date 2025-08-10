@@ -1,6 +1,7 @@
 ﻿using AutoMoq;
 using Castle.Core.Internal;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverageTests.TestHelpers;
 using Microsoft.VisualStudio.Text.Classification;

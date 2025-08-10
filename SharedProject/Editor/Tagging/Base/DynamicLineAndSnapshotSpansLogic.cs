@@ -2,6 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
 using Microsoft.VisualStudio.Text;
 
 namespace FineCodeCoverage.Editor.Tagging.Base

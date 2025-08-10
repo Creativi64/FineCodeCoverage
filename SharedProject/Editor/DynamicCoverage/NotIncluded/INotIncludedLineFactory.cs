@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.NotIncluded
 {
     internal interface INotIncludedLineFactory
     {

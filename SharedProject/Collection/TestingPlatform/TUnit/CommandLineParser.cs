@@ -3,7 +3,7 @@ using System.CommandLine.Parsing;
 using System.ComponentModel.Composition;
 using System.Linq;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     /*
         Adjusted from

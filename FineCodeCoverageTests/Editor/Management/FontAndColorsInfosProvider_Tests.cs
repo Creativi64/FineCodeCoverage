@@ -1,5 +1,6 @@
 ﻿using AutoMoq;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.VSAbstractions.Threading;

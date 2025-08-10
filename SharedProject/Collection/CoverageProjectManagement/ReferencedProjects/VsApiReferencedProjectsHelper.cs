@@ -5,13 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using EnvDTE;
 using EnvDTE80;
-using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.VisualStudio.VCProjectEngine;
 using VSLangProj;
 
-namespace FineCodeCoverage.Engine.Model
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects
 {
     [Export(typeof(IVsApiReferencedProjectsHelper))]
     internal sealed class VsApiReferencedProjectsHelper : IVsApiReferencedProjectsHelper

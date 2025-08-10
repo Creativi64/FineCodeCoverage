@@ -4,7 +4,7 @@ using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
 using FineCodeCoverage.VSAbstractions.Files;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     [Export(typeof(IReportFileLineCoverageFactory))]
     internal sealed class ReportFileLineCoverageFactory : IReportFileLineCoverageFactory

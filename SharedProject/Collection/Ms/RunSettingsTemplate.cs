@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using FineCodeCoverage.Utilities.Xml;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(IRunSettingsTemplate))]
     internal sealed class RunSettingsTemplate : IRunSettingsTemplate

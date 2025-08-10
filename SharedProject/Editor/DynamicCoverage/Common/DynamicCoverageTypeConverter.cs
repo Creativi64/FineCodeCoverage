@@ -1,6 +1,7 @@
 ﻿using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage.Management;
 
-namespace FineCodeCoverage.Editor.DynamicCoverage
+namespace FineCodeCoverage.Editor.DynamicCoverage.Common
 {
     internal static class DynamicCoverageTypeConverter
     {

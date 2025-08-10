@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(IRunSettingsToConfiguration))]
     internal sealed class RunSettingsToConfiguration : IRunSettingsToConfiguration

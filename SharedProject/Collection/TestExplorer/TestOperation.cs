@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.TestExplorer.InternalTypes;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     internal sealed class TestOperation : ITestOperation
     {

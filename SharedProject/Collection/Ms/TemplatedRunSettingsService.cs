@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(ITemplatedRunSettingsService))]
     internal sealed class TemplatedRunSettingsService : ITemplatedRunSettingsService

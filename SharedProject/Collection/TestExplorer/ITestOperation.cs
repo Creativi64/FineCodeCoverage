@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 
-namespace FineCodeCoverage.Impl
+namespace FineCodeCoverage.Collection.TestExplorer
 {
     internal interface ITestOperation
     {

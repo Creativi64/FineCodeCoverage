@@ -2,6 +2,7 @@
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Messages;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Output;

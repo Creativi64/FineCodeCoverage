@@ -2,7 +2,7 @@
 using System.IO;
 using FineCodeCoverage.Utilities.Wrappers;
 
-namespace FineCodeCoverage.Engine.MsTestPlatform.CodeCoverage
+namespace FineCodeCoverage.Collection.Ms
 {
     [Export(typeof(ICustomRunSettingsTemplateProvider))]
     internal sealed class CustomRunSettingsTemplateProvider : ICustomRunSettingsTemplateProvider

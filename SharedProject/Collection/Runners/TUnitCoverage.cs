@@ -8,14 +8,14 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageToolOutput;
 using FineCodeCoverage.Collection.Engine;
 using FineCodeCoverage.Collection.Messages;
-using FineCodeCoverage.Impl.TestContainerDiscovery;
+using FineCodeCoverage.Collection.TestingPlatform.TUnit;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Logging;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using FineCodeCoverage.VSAbstractions.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Core.MsTestPlatform.TestingPlatform
+namespace FineCodeCoverage.Collection.Runners
 {
     [Export(typeof(ITUnitCoverage))]
     [Export(typeof(ICoverageCollectableFromTestExplorer))]

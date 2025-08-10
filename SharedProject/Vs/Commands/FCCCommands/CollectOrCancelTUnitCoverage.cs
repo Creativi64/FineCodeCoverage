@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.MsTestPlatform.TestingPlatform;
+using FineCodeCoverage.Collection.Runners;
 
 namespace FineCodeCoverage.Output
 {
