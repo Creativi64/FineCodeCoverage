@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FineCodeCoverage.Readme.OptionPagesInfo
+namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
     internal interface IOptionPageInfoProvider
     {

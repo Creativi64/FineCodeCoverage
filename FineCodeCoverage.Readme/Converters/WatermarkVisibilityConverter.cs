@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FineCodeCoverage.Readme
+namespace FineCodeCoverage.Readme.Converters
 {
-    internal sealed class WatermarkVisibilityConverter : IValueConverter
+    public sealed class WatermarkVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             => value == null

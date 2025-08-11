@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using FineCodeCoverage.Readme;
 using FineCodeCoverage.Vs.Commands.CommandInitializer;
+using FineCodeCoverage.VSAbstractions.Readme;
 
 namespace FineCodeCoverage.Vs.Commands.FCCCommands
 {

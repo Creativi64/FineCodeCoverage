@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using FineCodeCoverage.Github;
-using FineCodeCoverage.Readme;
 using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.VSAbstractions.Dialogs;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
+using FineCodeCoverage.VSAbstractions.Readme;
 using FineCodeCoverage.VSAbstractions.Versioning;
 using WpfHelpers;
 
@@ -159,7 +159,7 @@ namespace FineCodeCoverage.Feedback.Github
 
             await GetFCCOutputAsync();
             INewIssueViewModel viewModel = this;
-            _dialogWindowService.ShowModal(viewModel);
+            _ = _dialogWindowService.ShowModal(viewModel);
         }
 
         private async Task GetFCCOutputAsync()

@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Readme.OptionPagesInfo
+﻿namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
     internal sealed class OptionPropertyInfoWithCategory : OptionPropertyInfo
     {

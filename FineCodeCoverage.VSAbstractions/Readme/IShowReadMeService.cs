@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Readme
+﻿namespace FineCodeCoverage.VSAbstractions.Readme
 {
     public interface IShowReadMeService
     {

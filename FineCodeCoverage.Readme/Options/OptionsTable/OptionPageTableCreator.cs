@@ -2,10 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Documents;
-using FineCodeCoverage.Readme.OptionPagesInfo;
+using FineCodeCoverage.Readme.Options.OptionPagesInfo;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
 
-namespace FineCodeCoverage.Readme
+namespace FineCodeCoverage.Readme.Options.OptionsTable
 {
     [Export(typeof(IOptionPageTableCreator))]
     internal sealed class OptionPageTableCreator : IOptionPageTableCreator

@@ -1,7 +1,7 @@
 ﻿using System;
 using Markdig.Helpers;
 
-namespace FineCodeCoverage.Readme
+namespace FineCodeCoverage.Readme.MarkdigFCC
 {
     internal static class MarkdigExtensionMethods
     {
@@ -12,9 +12,7 @@ namespace FineCodeCoverage.Readme
             where TCreated : class, TItem
         {
             if (list.Contains<TCreated>())
-            {
                 return;
-            }
 
             list.Add(creator());
         }

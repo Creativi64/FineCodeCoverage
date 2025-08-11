@@ -9,10 +9,6 @@
     <Import_RootNamespace>FineCodeCoverage</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Readme\ReadMeResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,11 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\BranchViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Extensions\MessageExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeControl.xaml.cs">
-      <DependentUpon>ReadmeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Converters\WatermarkVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Readme\MessageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\AlwaysPositionWhenFCCDebugging.cs" />
@@ -128,23 +120,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Vsix.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackageLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\FCCMarkdownFlowDocumentProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Converters\HyperlinkContainsImageConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\IFCCMarkdownFlowDocumentProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\Table\IOptionPageTableCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\IReadMeFlowDocumentStylesSetter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Template\ITemplatedReadmeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Extensions\MarkdigExtensionMethods.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\Table\OptionPageTableCellAlignment.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\Table\OptionPageTableCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\Table\OptionPageTableDisplayInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeFlowDocumentStyleSetter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeMarkdownViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ShowReadMeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Template\TemplatedReadmeInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Template\TemplatedReadmeProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindows\DialogWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ApplicationResourcesLoader.cs" />
@@ -284,18 +263,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\TextSnapshotToSyntaxService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\VBContainingCodeVisitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingMonikers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigFCC\FCCMarkdigWpfRenderer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigFCC\IReadMePipelineProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigFCC\ReadMePipeLineProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\MarkdigFCC\TableReplacerMarkdownExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\CategorizedOptionPropertyInfos.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\FCCOptionPageInfoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\IFCCOptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\IOptionPageInfoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\OptionPageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\OptionPageInfoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\OptionPropertyInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\OptionPropertyInfoWithCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ThemeResourceKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ImageLibrary\TraceImageLibraryRegistrationAttribute.cs" />
@@ -665,23 +635,10 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)..\README-Template.md">
-      <Link>ReadMeAndAssets\README-Template.md</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\Art\*.png">
-      <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-  </ItemGroup>
+
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\Settings\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Readme\Converters\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Readme\Extensions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Readme\Template\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Readme\Options\Table\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Debugging\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\" />

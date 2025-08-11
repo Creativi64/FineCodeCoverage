@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace FineCodeCoverage.Readme.OptionPagesInfo
+namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
-    internal sealed class CategorizedOptionPropertyInfos
+    public sealed class CategorizedOptionPropertyInfos
     {
         public CategorizedOptionPropertyInfos(
             string category, IEnumerable<OptionPropertyInfo> optionPropertyInfos)

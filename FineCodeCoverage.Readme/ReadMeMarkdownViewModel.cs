@@ -2,6 +2,7 @@
 using System.Windows.Documents;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Misc;
+using FineCodeCoverage.Readme.Template;
 using FineCodeCoverage.Utilities.Wpf.Commands;
 using FineCodeCoverage.Utilities.Wrappers;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
@@ -10,7 +11,7 @@ using WpfHelpers;
 namespace FineCodeCoverage.Readme
 {
     [Export(typeof(ReadMeMarkdownViewModel))]
-    internal sealed class ReadMeMarkdownViewModel : ObservableBase
+    public sealed class ReadMeMarkdownViewModel : ObservableBase
     {
         private readonly ITemplatedReadmeProvider _templatedReadmeProvider;
         private readonly IFCCMarkdownFlowDocumentProvider _fccMarkdownFlowDocumentProvider;

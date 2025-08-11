@@ -233,6 +233,10 @@
       <Project>{94e28cea-8b1f-4841-9c5f-7e7b636a2d67}</Project>
       <Name>FineCodeCoverage.Options</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
+      <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>
+      <Name>FineCodeCoverage.Readme</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj">
       <Project>{9a8f0ebc-af9d-448d-928d-27e08a77ab23}</Project>
       <Name>FineCodeCoverage.Utilities</Name>

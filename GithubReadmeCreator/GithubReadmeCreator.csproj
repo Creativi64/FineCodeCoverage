@@ -59,6 +59,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
+      <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>
+      <Name>FineCodeCoverage.Readme</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage2022\FineCodeCoverage2022.csproj">
       <Project>{59a22196-a750-4ba4-b30e-be1422e68b8e}</Project>
       <Name>FineCodeCoverage2022</Name>

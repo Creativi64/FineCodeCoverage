@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Readme.OptionPagesInfo
+namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
     internal sealed class OptionPageInfoProvider : IOptionPageInfoProvider
     {

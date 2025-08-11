@@ -1,6 +1,6 @@
-﻿namespace FineCodeCoverage.Readme
+﻿namespace FineCodeCoverage.Readme.Options.OptionsTable
 {
-    internal static class OptionPageTableDisplayInfo
+    public static class OptionPageTableDisplayInfo
     {
         public const string OptionHeader = "Option";
         public const OptionPageTableCellAlignment OptionCellAlignment = OptionPageTableCellAlignment.Left;

@@ -1,6 +1,6 @@
-﻿namespace FineCodeCoverage.Readme.OptionPagesInfo
+﻿namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
-    internal class OptionPropertyInfo
+    public class OptionPropertyInfo
     {
         public OptionPropertyInfo(string displayName, string description, string name, bool isCoverageSetting)
         {

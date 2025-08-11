@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace FineCodeCoverage.Readme
+namespace FineCodeCoverage.Readme.Template
 {
     [Export(typeof(ITemplatedReadmeProvider))]
     internal sealed class TemplatedReadmeProvider : ITemplatedReadmeProvider

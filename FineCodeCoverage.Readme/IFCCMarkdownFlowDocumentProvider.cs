@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
+using FineCodeCoverage.Readme.Template;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
 
 namespace FineCodeCoverage.Readme
 {
-    internal interface IFCCMarkdownFlowDocumentProvider
+    public interface IFCCMarkdownFlowDocumentProvider
     {
         Func<FlowDocumentElementMarkers> Provide(
             TemplatedReadmeInfo templatedReadMeInfo,

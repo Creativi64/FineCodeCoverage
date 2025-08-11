@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Documents;
 using System.Windows.Input;
 using FineCodeCoverage.Readme.MarkdigFCC;
+using FineCodeCoverage.Readme.Options.OptionsTable;
+using FineCodeCoverage.Readme.Template;
 using Markdig;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
 

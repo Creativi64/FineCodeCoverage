@@ -2,6 +2,7 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="clr-namespace:FineCodeCoverage.Readme"
+  xmlns:readmeConverters="clr-namespace:FineCodeCoverage.Readme.Converters;assembly=FineCodeCoverage.Readme"
   xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
   xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
   xmlns:markdigExtended="clr-namespace:MarkdigExtended.NotifyingWpfRenderers.Base;assembly=MarkdigExtended"
@@ -9,7 +10,7 @@
   xmlns:sfdr="clr-namespace:StylableFindFlowDocumentReader;assembly=StylableFindFlowDocumentReader">
   <!--  visual studio 2022 has a resource dictionary Source="/Microsoft.VisualStudio.Shell.UI.Internal;component/Common/Markdown/ThemedMarkdig.xaml"  -->
   <!--  although the What's New Page overrides the style of the flow document to use Environment111PercentFontSizeKey  -->
-  <local:HyperlinkContainsImageConverter
+  <readmeConverters:HyperlinkContainsImageConverter
     x:Key="HyperlinkContainsImageConverter" />
   <Style
     x:Key="HyperlinkFocusVisualStyle">
@@ -265,7 +266,7 @@
           <StackPanel
             Orientation="Horizontal">
             <StackPanel.Resources>
-              <local:WatermarkVisibilityConverter
+              <readmeConverters:WatermarkVisibilityConverter
                 x:Key="WatermarkVisibilityConverter" />
               <Canvas
                 x:Key="FindPreviousContent"

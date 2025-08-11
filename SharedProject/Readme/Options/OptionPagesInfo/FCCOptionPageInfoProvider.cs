@@ -4,7 +4,7 @@ using System.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
 using FineCodeCoverage.Vs.Package;
 
-namespace FineCodeCoverage.Readme.OptionPagesInfo
+namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
     [Export(typeof(IFCCOptionPageInfoProvider))]
     internal sealed class FCCOptionPageInfoProvider : IFCCOptionPageInfoProvider

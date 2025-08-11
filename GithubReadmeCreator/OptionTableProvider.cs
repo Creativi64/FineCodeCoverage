@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FineCodeCoverage.Readme;
-using FineCodeCoverage.Readme.OptionPagesInfo;
+using FineCodeCoverage.Readme.Options.OptionPagesInfo;
+using FineCodeCoverage.Readme.Options.OptionsTable;
 
 namespace GithubReadmeCreator
 {

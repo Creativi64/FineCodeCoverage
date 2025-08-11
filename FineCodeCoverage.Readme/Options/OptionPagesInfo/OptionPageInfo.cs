@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace FineCodeCoverage.Readme.OptionPagesInfo
+namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
-    internal sealed class OptionPageInfo
+    public sealed class OptionPageInfo
     {
         public OptionPageInfo(Type optionType, string pageName, List<string> coverageSettingsPropertyNames)
         {

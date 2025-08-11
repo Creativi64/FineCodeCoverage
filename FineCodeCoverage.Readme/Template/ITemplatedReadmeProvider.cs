@@ -1,6 +1,6 @@
-﻿namespace FineCodeCoverage.Readme
+﻿namespace FineCodeCoverage.Readme.Template
 {
-    internal interface ITemplatedReadmeProvider
+    public interface ITemplatedReadmeProvider
     {
         TemplatedReadmeInfo GetTemplatedReadme();
     }

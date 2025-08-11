@@ -3,7 +3,7 @@ using MarkdigExtended.NotifyingWpfRenderers.Base;
 
 namespace FineCodeCoverage.Readme
 {
-    internal interface IReadMeFlowDocumentStylesSetter
+    public interface IReadMeFlowDocumentStylesSetter
     {
         void SetStyles(IReadOnlyList<ElementAndMarker> elementAndMarkers);
     }

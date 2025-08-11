@@ -1,6 +1,6 @@
-﻿namespace FineCodeCoverage.Readme
+﻿namespace FineCodeCoverage.Readme.Template
 {
-    internal sealed class TemplatedReadmeInfo
+    public sealed class TemplatedReadmeInfo
     {
         public TemplatedReadmeInfo(string readme, string directory)
         {
