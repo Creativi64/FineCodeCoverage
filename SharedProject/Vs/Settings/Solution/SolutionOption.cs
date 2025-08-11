@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using FineCodeCoverage.Utilities.Wrappers;
 
-namespace FineCodeCoverage.Core.Utilities.Solution
+namespace FineCodeCoverage.Vs.Settings.Solution
 {
     internal abstract class SolutionOption<T> : ISolutionOption
     {

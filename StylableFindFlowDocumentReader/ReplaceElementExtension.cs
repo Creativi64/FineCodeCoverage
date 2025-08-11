@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace FineCodeCoverage.Readme
+namespace StylableFindFlowDocumentReader
 {
     public static class ReplaceElementExtension
     {

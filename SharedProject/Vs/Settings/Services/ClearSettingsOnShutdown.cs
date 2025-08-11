@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
 
-namespace FineCodeCoverage.Core.Initialization
+namespace FineCodeCoverage.Vs.Settings.Services
 {
     [Export(typeof(IClearSettingsOnShutdown))]
     internal sealed class ClearSettingsOnShutdown : IClearSettingsOnShutdown

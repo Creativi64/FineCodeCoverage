@@ -1,7 +1,7 @@
 ﻿using FineCodeCoverage.VSAbstractions.Store;
 using Microsoft.VisualStudio.Settings;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Store
 {
     internal sealed class SettingsStoreWrapper : ISettingsStore
     {

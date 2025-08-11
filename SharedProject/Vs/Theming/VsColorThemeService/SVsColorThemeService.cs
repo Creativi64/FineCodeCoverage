@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.Theming.VsColorThemeService
 {
     [ComImport]
     [Guid("0D915B59-2ED7-472A-9DE8-9161737EA1C5")]

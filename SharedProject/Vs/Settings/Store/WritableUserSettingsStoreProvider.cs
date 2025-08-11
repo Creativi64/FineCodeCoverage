@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.VisualStudio.Threading;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Store
 {
     [Export(typeof(IWritableUserSettingsStoreProvider))]
     internal sealed class WritableUserSettingsStoreProvider : IWritableUserSettingsStoreProvider

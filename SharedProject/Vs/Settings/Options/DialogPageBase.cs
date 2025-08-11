@@ -2,7 +2,7 @@
 using FineCodeCoverage.Utilities.ComponentModel;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal abstract class DialogPageBase<TOptions> : DialogPage
         where TOptions : class

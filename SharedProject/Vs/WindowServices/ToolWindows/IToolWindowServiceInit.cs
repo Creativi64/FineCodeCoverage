@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.WindowServices.ToolWindows
 {
     internal interface IToolWindowServiceInit
     {

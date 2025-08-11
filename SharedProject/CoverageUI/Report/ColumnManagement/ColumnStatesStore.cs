@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Initialization;
+using FineCodeCoverage.Vs.Settings.Services;
 using FineCodeCoverage.VSAbstractions.Store;
 
 namespace FineCodeCoverage.Output

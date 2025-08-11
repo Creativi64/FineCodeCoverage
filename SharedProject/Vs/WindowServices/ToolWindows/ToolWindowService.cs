@@ -6,13 +6,12 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using FineCodeCoverage.VSAbstractions.Store;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.WindowServices.ToolWindows
 {
     [Export(typeof(IToolWindowService))]
     [Export(typeof(IToolWindowServiceInit))]

@@ -287,6 +287,8 @@
     <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
       <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>
       <Name>FineCodeCoverage.Readme</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj">
       <Project>{7b206c15-d01c-4144-978d-c37ca9962e69}</Project>
@@ -297,6 +299,10 @@
     <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj">
       <Project>{96cd0faf-b8df-4cb4-a423-e2f7566ba4a1}</Project>
       <Name>MarkdigExtended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader.csproj">
+      <Project>{6244ad21-074b-45fe-9d75-a718387a626a}</Project>
+      <Name>StylableFindFlowDocumentReader</Name>
     </ProjectReference>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>

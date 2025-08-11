@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Theming
 {
     // https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/images-and-icons-for-visual-studio?view=vs-2022#notifications
     public static class VisualStudioNotificationColors

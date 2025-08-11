@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Reflection;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.Theming.VsColorThemeService
 {
     [Export(typeof(IVsColorTheme))]
     public class VsColorTheme : IVsColorTheme

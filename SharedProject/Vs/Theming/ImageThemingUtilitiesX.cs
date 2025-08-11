@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.PlatformUI;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.Theming
 {
     internal static class ImageThemingUtilitiesX
     {

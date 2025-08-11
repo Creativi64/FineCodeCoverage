@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FineCodeCoverage.Core.Utilities.Solution
+namespace FineCodeCoverage.Vs.Settings.Solution
 {
     internal interface ISolutionOptions
     {

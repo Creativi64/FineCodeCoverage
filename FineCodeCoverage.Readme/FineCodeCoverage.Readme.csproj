@@ -1,5 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
+    <UseWPF>True</UseWPF>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Github\FineCodeCoverage.Github.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.Options\FineCodeCoverage.Options.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj" />
+    <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj" />
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
 </Project>

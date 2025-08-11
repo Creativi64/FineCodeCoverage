@@ -1,4 +1,5 @@
 ﻿using FineCodeCoverage.Readme;
+using FineCodeCoverage.Readme.MarkdigFCC;
 using Markdig;
 using MarkdigExtended.Extensions;
 using NUnit.Framework;

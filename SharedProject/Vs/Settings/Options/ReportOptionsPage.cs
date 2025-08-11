@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Options.Report;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal sealed class ReportOptionsPage : DialogPageBase<ReportOptions>
     {

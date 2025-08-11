@@ -4,6 +4,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FineCodeCoverage.Github\FineCodeCoverage.Github.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj" />

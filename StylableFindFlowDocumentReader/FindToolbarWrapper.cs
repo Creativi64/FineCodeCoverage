@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows.Controls;
 
-namespace FineCodeCoverage
+namespace StylableFindFlowDocumentReader
 {
     public class FindToolbarWrapper
     {

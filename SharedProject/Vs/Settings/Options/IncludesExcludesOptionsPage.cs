@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Options.IncludesExcludes;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal sealed class IncludesExcludesOptionsPage : DialogPageBase<IncludesExcludesOptions>
     {

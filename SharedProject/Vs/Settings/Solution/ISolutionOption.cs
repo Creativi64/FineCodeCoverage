@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace FineCodeCoverage.Core.Utilities.Solution
+namespace FineCodeCoverage.Vs.Settings.Solution
 {
     internal interface ISolutionOption
     {

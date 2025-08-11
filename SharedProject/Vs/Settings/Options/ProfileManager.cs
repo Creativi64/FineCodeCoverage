@@ -8,7 +8,7 @@ using FineCodeCoverage.Utilities.Wrappers;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal sealed class ProfileManager : Component, IProfileManager
     {

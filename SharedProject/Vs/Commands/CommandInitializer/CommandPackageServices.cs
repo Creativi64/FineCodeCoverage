@@ -2,7 +2,7 @@
 using System.ComponentModel.Design;
 using System.Threading;
 using System.Threading.Tasks;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using Microsoft.VisualStudio.Shell;
 

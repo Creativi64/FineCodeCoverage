@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.VisualStudio.PlatformUI;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.Theming
 {
     public class ThemeChangedWeakEventManager : WeakEventManager
     {

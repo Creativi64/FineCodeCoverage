@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Threading;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using FineCodeCoverage.VSAbstractions.Store;
 
 namespace FineCodeCoverage.Readme

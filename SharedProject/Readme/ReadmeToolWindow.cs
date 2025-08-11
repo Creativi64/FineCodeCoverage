@@ -1,10 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Controls;
 using System.Windows.Forms;
-using FineCodeCoverage.Output;
+using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
+using StylableFindFlowDocumentReader;
 
 namespace FineCodeCoverage.Readme
 {
@@ -23,6 +23,7 @@ namespace FineCodeCoverage.Readme
     internal sealed class ReadmeToolWindow
         : ToolWindowPane
     {
+        private FindRestylingFlowDocumentReader _findRestylingFlowDocumentReader;
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadmeToolWindow"/> class.
         /// </summary>
@@ -47,13 +48,13 @@ namespace FineCodeCoverage.Readme
 
             BitmapImageMoniker = Microsoft.VisualStudio.Imaging.KnownMonikers.WelcomeUserGuide;
 
-            // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
-            // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
-            // the object returned by the Content property.
-            Content = new ReadmeControl()
+            _findRestylingFlowDocumentReader = new FindRestylingFlowDocumentReader
             {
+                Document = context.ReadMeMarkdownViewModel.FlowDocument,
+                ViewingMode = FlowDocumentReaderViewingMode.Scroll,
                 DataContext = context.ReadMeMarkdownViewModel,
             };
+            Content = _findRestylingFlowDocumentReader;
         }
 
         protected override bool PreProcessMessage(
@@ -70,13 +71,12 @@ namespace FineCodeCoverage.Readme
 
         private void RaiseFind()
         {
-            FindRestylingFlowDocumentReader findRestylingFlowDocumentReader = (Content as ReadmeControl).FlowDocumentReader;
-            if (findRestylingFlowDocumentReader.IsShowingFindToolbar)
+            if (_findRestylingFlowDocumentReader.IsShowingFindToolbar)
             {
                 return;
             }
 
-            findRestylingFlowDocumentReader.ExecuteFindCommand();
+            _findRestylingFlowDocumentReader.ExecuteFindCommand();
         }
     }
 }

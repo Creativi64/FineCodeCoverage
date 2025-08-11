@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.VisualStudio.Threading;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Store
 {
     [ExcludeFromCodeCoverage]
     [Export(typeof(IReadOnlyConfigSettingsStoreProvider))]

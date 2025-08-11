@@ -2,7 +2,7 @@
 using FineCodeCoverage.Utilities.Caching;
 using Microsoft.VisualStudio.PlatformUI;
 
-namespace FineCodeCoverage.Core.Utilities
+namespace FineCodeCoverage.Vs.Theming
 {
     public class VsThemeLifetimeCache<TKey, TValue>
         where TValue : class

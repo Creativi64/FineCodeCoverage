@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using FineCodeCoverage.Core.Utilities;
+using FineCodeCoverage.Vs.Theming;
 using TreeGrid;
 
 namespace FineCodeCoverage.Output

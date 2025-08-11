@@ -1,8 +1,8 @@
-﻿namespace FineCodeCoverage.Feedback.Github
+﻿namespace FineCodeCoverage.Github
 {
     public static class FCCGithub
     {
-        internal const string Repo = "https://github.com/FortuneN/FineCodeCoverage";
+        public const string Repo = "https://github.com/FortuneN/FineCodeCoverage";
 
         public static string MasterBlob { get; } = $"{Repo}/blob/master/";
 

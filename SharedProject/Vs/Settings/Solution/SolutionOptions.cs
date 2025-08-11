@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FineCodeCoverage.Vs.Events;
 
-namespace FineCodeCoverage.Core.Utilities.Solution
+namespace FineCodeCoverage.Vs.Settings.Solution
 {
     [Export(typeof(ISolutionOptions))]
     internal sealed class SolutionOptions : ISolutionOptions

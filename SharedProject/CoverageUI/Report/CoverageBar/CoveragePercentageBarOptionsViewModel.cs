@@ -5,6 +5,7 @@ using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Report;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.Vs.Theming;
 using WpfHelpers;
 
 namespace FineCodeCoverage.Output

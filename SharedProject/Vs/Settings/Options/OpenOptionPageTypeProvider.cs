@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Misc;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     [Export(typeof(IOpenOptionPageTypeProvider))]
     internal sealed class OpenOptionPageTypeProvider : IOpenOptionPageTypeProvider

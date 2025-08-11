@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using FineCodeCoverage.Github;
 using FineCodeCoverage.Readme;
 using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.VSAbstractions.Dialogs;

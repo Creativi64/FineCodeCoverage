@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Options.OpenCover;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal sealed class OpenCoverOptionsPage : DialogPageBase<OpenCoverOptions>
     {

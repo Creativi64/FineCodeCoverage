@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Options.Run;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal sealed class RunOptionsPage : DialogPageBase<RunOptions>
     {

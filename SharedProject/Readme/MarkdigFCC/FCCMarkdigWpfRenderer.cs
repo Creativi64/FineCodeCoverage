@@ -5,7 +5,7 @@ using Markdig.Renderers.Wpf.Inlines;
 using MarkdigExtended.NotifyingWpfRenderers.Base;
 using NotifyingRenderers = MarkdigExtended.NotifyingWpfRenderers.Renderers;
 
-namespace FineCodeCoverage.Readme
+namespace FineCodeCoverage.Readme.MarkdigFCC
 {
     internal sealed class FCCMarkdigWpfRenderer : NotifyingWpfRenderer
     {
@@ -30,8 +30,8 @@ namespace FineCodeCoverage.Readme
             ObjectRenderers.Add(new NotifyingRenderers.TaskListRenderer());
             ObjectRenderers.Add(new NotifyingRenderers.CodeInlineRenderer());
             ObjectRenderers.Add(new NotifyingRenderers.EmphasisInlineRenderer());
-            ObjectRenderers.Add(
-                new NotifyingRenderers.LinkInlineRenderer(_readMeDirectory, FCCGithub.MasterBlob, _navigateCommand));
+            //ObjectRenderers.Add(
+            //    new NotifyingRenderers.LinkInlineRenderer(_readMeDirectory, FCCGithub.MasterBlob, _navigateCommand));
             ObjectRenderers.Add(new NotifyingRenderers.AutolinkInlineRenderer(_navigateCommand));
 
             // markdig

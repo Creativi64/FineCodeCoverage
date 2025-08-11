@@ -5,7 +5,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 
-namespace FineCodeCoverage.Output
+namespace FineCodeCoverage.Vs.WindowServices.ToolWindows
 {
     internal static class ReflectionMEFToolWindowContextProvider
     {

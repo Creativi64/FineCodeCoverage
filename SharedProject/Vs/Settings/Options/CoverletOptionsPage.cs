@@ -1,6 +1,6 @@
 ﻿using FineCodeCoverage.Options.Coverlet;
 
-namespace FineCodeCoverage.Options
+namespace FineCodeCoverage.Vs.Settings.Options
 {
     internal sealed class CoverletOptionsPage : DialogPageBase<CoverletOptions>
     {

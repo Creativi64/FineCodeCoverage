@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FineCodeCoverage.Readme
+namespace StylableFindFlowDocumentReader
 {
     internal sealed class FindToolBarShimDecorator : Decorator
     {
@@ -41,21 +40,5 @@ namespace FineCodeCoverage.Readme
             => stackTrace.TypeIsACaller<FlowDocumentReader>();
 
         internal void ResetOriginalDecorator() => this.Replace(_originalDecorator);
-    }
-
-    internal static class StackTraceExtensions
-    {
-        public static bool TypeIsACaller<T>(this StackTrace stackTrace)
-        {
-            foreach (StackFrame frame in stackTrace.GetFrames() ?? Array.Empty<StackFrame>())
-            {
-                if (frame.GetMethod()?.DeclaringType == typeof(T))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
 }

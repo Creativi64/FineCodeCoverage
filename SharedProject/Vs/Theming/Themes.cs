@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.PlatformUI;
 
-namespace FineCodeCoverage.Wpf
+namespace FineCodeCoverage.Vs.Theming
 {
     /*
         Taken from Community.VisualStudio.Toolkit minus the additional resource dictionary

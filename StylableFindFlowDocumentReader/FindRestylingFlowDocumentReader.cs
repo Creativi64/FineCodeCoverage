@@ -3,36 +3,10 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace FineCodeCoverage.Readme
+namespace StylableFindFlowDocumentReader
 {
-    internal static class VisualTreeUtilities
-    {
-        public static T FindByName<T>(DependencyObject parent, string name)
-            where T : FrameworkElement
-        {
-            int count = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T typed && typed.Name == name)
-                {
-                    return typed;
-                }
-
-                T result = FindByName<T>(child, name);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
-        }
-    }
-
     public class FindRestylingFlowDocumentReader : FlowDocumentReader
     {
         private Decorator _originalFindToolBarHost;

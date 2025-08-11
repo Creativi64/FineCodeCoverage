@@ -1,4 +1,4 @@
-﻿namespace FineCodeCoverage.Core.Utilities
+﻿namespace FineCodeCoverage.Vs.Theming.VsColorThemeService
 {
     public class VsColorEntry
     {

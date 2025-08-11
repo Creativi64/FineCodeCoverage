@@ -4,15 +4,12 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:local="clr-namespace:FineCodeCoverage.Readme"
-  xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-  xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-  xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+  xmlns:sfdr="clr-namespace:StylableFindFlowDocumentReader;assembly=StylableFindFlowDocumentReader"
   Name="readmeControl"
   d:DesignHeight="300"
   d:DesignWidth="300"
   mc:Ignorable="d">
-    <local:FindRestylingFlowDocumentReader x:Name="findRestylingFlowDocumentReader"
+    <sfdr:FindRestylingFlowDocumentReader x:Name="findRestylingFlowDocumentReader"
     Document="{Binding ElementName=readmeControl, Path=DataContext.FlowDocument}"
     ScrollViewer.VerticalScrollBarVisibility="Auto"
     ViewingMode="Scroll" />

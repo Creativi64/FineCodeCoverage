@@ -5,7 +5,7 @@ using System.Reflection;
 using FineCodeCoverage.VSAbstractions.Dialogs;
 using Microsoft.VisualStudio.PlatformUI;
 
-namespace FineCodeCoverage.Vs
+namespace FineCodeCoverage.Vs.WindowServices.DialogWindows
 {
     [Export(typeof(IDialogWindowService))]
     internal sealed class DialogWindowService : IDialogWindowService

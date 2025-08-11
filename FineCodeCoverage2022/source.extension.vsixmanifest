@@ -36,5 +36,6 @@
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Options" Path="|FineCodeCoverage.Options|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Collection" Path="|FineCodeCoverage.Collection|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Hotspots" Path="|FineCodeCoverage.Hotspots|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Readme" Path="|FineCodeCoverage.Readme|" />
     </Assets>
 </PackageManifest>

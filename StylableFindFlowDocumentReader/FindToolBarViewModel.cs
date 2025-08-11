@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
-using WpfHelpers;
 
-namespace FineCodeCoverage.Readme
+namespace StylableFindFlowDocumentReader
 {
     public class FindToolBarViewModel : INotifyPropertyChanged
     {
