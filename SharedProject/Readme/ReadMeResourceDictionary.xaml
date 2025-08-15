@@ -375,7 +375,7 @@
                         </MultiTrigger>
                         <Trigger Property="MenuItem.IsPressed" Value="true">
                           <Setter TargetName="TrimBorder" Property="Border.Background" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseDownBackgroundBrushKey}}" />
-                          <Setter TargetName="TrimBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseOverSeparatorBrushKey}}" />
+                          <Setter TargetName="TrimBorder" Property="Border.BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.DropDownButtonMouseDownSeparatorBrushKey}}" />
                         </Trigger>
                       </ControlTemplate.Triggers>
                     </ControlTemplate>

@@ -25,11 +25,11 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README-Template.md">
       <Link>ReadMeAndAssets\README-Template.md</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\Art\*.png">
       <Link>ReadMeAndAssets\Art\%(FileName)%(Extension)</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 </Project>
