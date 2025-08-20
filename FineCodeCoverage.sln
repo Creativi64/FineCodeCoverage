@@ -66,9 +66,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VsThemedDialogs2019", "VsTh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfGridExtensions", "WpfGridExtensions\WpfGridExtensions.csproj", "{5196DEC6-4B81-40C9-A789-024C7E1B18B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StylableFindFlowDocumentReader", "StylableFindFlowDocumentReader\StylableFindFlowDocumentReader.csproj", "{6244AD21-074B-45FE-9D75-A718387A626A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineCodeCoverage.Github", "FineCodeCoverage.Github\FineCodeCoverage.Github.csproj", "{F2DBD862-E3F9-497F-A33E-CDBADF2F8FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StylableFindFlowDocumentReader", "..\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader.csproj", "{8F46F914-4BF0-931B-C05F-EB1CD6CED049}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,14 +152,14 @@ Global
 		{5196DEC6-4B81-40C9-A789-024C7E1B18B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5196DEC6-4B81-40C9-A789-024C7E1B18B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5196DEC6-4B81-40C9-A789-024C7E1B18B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6244AD21-074B-45FE-9D75-A718387A626A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6244AD21-074B-45FE-9D75-A718387A626A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6244AD21-074B-45FE-9D75-A718387A626A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6244AD21-074B-45FE-9D75-A718387A626A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2DBD862-E3F9-497F-A33E-CDBADF2F8FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2DBD862-E3F9-497F-A33E-CDBADF2F8FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2DBD862-E3F9-497F-A33E-CDBADF2F8FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2DBD862-E3F9-497F-A33E-CDBADF2F8FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F46F914-4BF0-931B-C05F-EB1CD6CED049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F46F914-4BF0-931B-C05F-EB1CD6CED049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F46F914-4BF0-931B-C05F-EB1CD6CED049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F46F914-4BF0-931B-C05F-EB1CD6CED049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

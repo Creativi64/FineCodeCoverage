@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using Microsoft.VisualStudio.Shell;
-using StylableFindFlowDocumentReader;
+using StylableFindFlowDocumentReader.Reader;
 
 namespace FineCodeCoverage.Readme
 {
@@ -24,6 +24,7 @@ namespace FineCodeCoverage.Readme
         : ToolWindowPane
     {
         private FindRestylingFlowDocumentReader _findRestylingFlowDocumentReader;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadmeToolWindow"/> class.
         /// </summary>
@@ -71,10 +72,10 @@ namespace FineCodeCoverage.Readme
 
         private void RaiseFind()
         {
-            if (_findRestylingFlowDocumentReader.IsShowingFindToolbar)
-            {
-                return;
-            }
+            //if (_findRestylingFlowDocumentReader.IsShowingFindToolbar)
+            //{
+            //    return;
+            //}
 
             _findRestylingFlowDocumentReader.ExecuteFindCommand();
         }

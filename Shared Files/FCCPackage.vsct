@@ -250,7 +250,7 @@
         </Strings>
       </Menu>
 	</Menus>
-
+	
     <Groups>
 		<Group guid="guidFCCPackageCmdSet" id="FCCToolsMenuGroup" priority="0x0600">
 			<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />

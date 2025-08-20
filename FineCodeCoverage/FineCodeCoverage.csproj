@@ -269,6 +269,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader.csproj">
+      <Project>{8f46f914-4bf0-931b-c05f-eb1cd6ced049}</Project>
+      <Name>StylableFindFlowDocumentReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
       <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>
       <Name>FineCodeCoverage.Collection</Name>
@@ -312,10 +316,6 @@
     <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj">
       <Project>{96cd0faf-b8df-4cb4-a423-e2f7566ba4a1}</Project>
       <Name>MarkdigExtended</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader.csproj">
-      <Project>{6244ad21-074b-45fe-9d75-a718387a626a}</Project>
-      <Name>StylableFindFlowDocumentReader</Name>
     </ProjectReference>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
