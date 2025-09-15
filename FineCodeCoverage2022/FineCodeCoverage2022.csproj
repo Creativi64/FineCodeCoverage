@@ -254,9 +254,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader\StylableFindFlowDocumentReader.csproj">
-      <Project>{8f46f914-4bf0-931b-c05f-eb1cd6ced049}</Project>
-      <Name>StylableFindFlowDocumentReader</Name>
+    <ProjectReference Include="..\..\EnhancedFlowDocumentControls\EnhancedFlowDocumentControls\EnhancedFlowDocumentControls.csproj">
+      <Project>{1317cfa6-5567-49f2-19cd-cd21f995f4ca}</Project>
+      <Name>EnhancedFlowDocumentControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
       <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>

@@ -2,9 +2,9 @@
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using EnhancedFlowDocumentControls.FlowDocumentControls;
 using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using Microsoft.VisualStudio.Shell;
-using StylableFindFlowDocumentReader.Reader;
 
 namespace FineCodeCoverage.Readme
 {
@@ -23,7 +23,7 @@ namespace FineCodeCoverage.Readme
     internal sealed class ReadmeToolWindow
         : ToolWindowPane
     {
-        private FindRestylingFlowDocumentReader _findRestylingFlowDocumentReader;
+        private EnhancedFlowDocumentReader _enhancedFlowDocumentReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadmeToolWindow"/> class.
@@ -49,13 +49,13 @@ namespace FineCodeCoverage.Readme
 
             BitmapImageMoniker = Microsoft.VisualStudio.Imaging.KnownMonikers.WelcomeUserGuide;
 
-            _findRestylingFlowDocumentReader = new FindRestylingFlowDocumentReader
+            _enhancedFlowDocumentReader = new EnhancedFlowDocumentReader
             {
                 Document = context.ReadMeMarkdownViewModel.FlowDocument,
                 ViewingMode = FlowDocumentReaderViewingMode.Scroll,
                 DataContext = context.ReadMeMarkdownViewModel,
             };
-            Content = _findRestylingFlowDocumentReader;
+            Content = _enhancedFlowDocumentReader;
         }
 
         protected override bool PreProcessMessage(
@@ -63,21 +63,11 @@ namespace FineCodeCoverage.Readme
         {
             if (m.IsFindMessage())
             {
-                RaiseFind();
+                _enhancedFlowDocumentReader.Find();
                 return true;
             }
 
             return base.PreProcessMessage(ref m);
-        }
-
-        private void RaiseFind()
-        {
-            //if (_findRestylingFlowDocumentReader.IsShowingFindToolbar)
-            //{
-            //    return;
-            //}
-
-            _findRestylingFlowDocumentReader.ExecuteFindCommand();
         }
     }
 }
