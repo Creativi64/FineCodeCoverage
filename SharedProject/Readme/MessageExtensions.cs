@@ -1,38 +1,32 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace FineCodeCoverage.Readme
 {
     internal static class MessageExtensions
     {
-        public static bool IsFindMessage(this Message message, FindKeys findKeys = FindKeys.CtrlF | FindKeys.F3)
+        public static bool? IsKeyUpOrDown(this Message message)
         {
-            if (!message.IsKeyDown())
+            bool isKeyDown = message.IsKeyDown();
+
+            if (!isKeyDown)
             {
-                return false;
+                bool isKeyUp = message.IsKeyUp();
+                if (!isKeyUp)
+                {
+                    return null;
+                }
             }
 
-            Keys key = message.GetKeys();
-            return IsFind(key, findKeys);
+            return isKeyDown;
         }
-
-        private static bool IsFind(Keys key, FindKeys findKeys)
-            => ((findKeys & FindKeys.CtrlF) == FindKeys.CtrlF &&
-                key == Keys.F &&
-                (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
-            || ((findKeys & FindKeys.F3) == FindKeys.F3 &&
-                key == Keys.F3 &&
-                System.Windows.Forms.Control.ModifierKeys == Keys.None);
 
         public static bool IsKeyDown(this Message message) => message.Msg == 0x0100;
 
-        public static Keys GetKeys(this Message message) => (Keys)(int)message.WParam;
-    }
+        public static bool IsKeyUp(this Message m)
+            => m.Msg == 0x0101 /* WM_KEYUP */ || m.Msg == 0x0105 /* WM_SYSKEYUP */;
 
-    [Flags]
-    internal enum FindKeys
-    {
-        CtrlF = 1,
-        F3 = 2,
+        public static Keys GetKeys(this Message message) => (Keys)(int)message.WParam;
+
+        public static bool HasFlag(this Message message, Keys keys) => message.GetKeys().HasFlag(keys);
     }
 }

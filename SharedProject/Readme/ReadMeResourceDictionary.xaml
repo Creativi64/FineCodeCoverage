@@ -256,8 +256,8 @@
     <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
     <Setter Property="FindToolBar">
       <Setter.Value>
-        <findControls:FindToolBar>
-                    <findControls:FindToolBar.Resources>
+        <findControls:FindToolBar Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}">
+          <findControls:FindToolBar.Resources>
                         <Style
     x:Key="FindButtonFocusVisual">
                             <Setter Property="Control.Template">
@@ -275,10 +275,10 @@
                         </Style>
                     </findControls:FindToolBar.Resources>
           <Border x:Name="FindTextBoxBorder"
-            Margin="5,1,0,1"
+            Margin="5,0,15,0"
             Padding="0"
             Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
-            BorderBrush="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBorderBrushKey}}"
+            BorderBrush="Transparent"
             BorderThickness="1"
             SnapsToDevicePixels="true">
             <StackPanel

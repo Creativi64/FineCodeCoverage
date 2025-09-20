@@ -635,7 +635,6 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\Settings\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\" />

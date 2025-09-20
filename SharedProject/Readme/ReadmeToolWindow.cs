@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
 using EnhancedFlowDocumentControls.FlowDocumentControls;
 using FineCodeCoverage.Vs.WindowServices.ToolWindows;
 using Microsoft.VisualStudio.Shell;
@@ -24,6 +27,28 @@ namespace FineCodeCoverage.Readme
         : ToolWindowPane
     {
         private EnhancedFlowDocumentReader _enhancedFlowDocumentReader;
+
+        private sealed class FlagsKey
+        {
+            public FlagsKey(Key key, Keys flag, params Keys[] modifiers)
+            {
+                Key = key;
+                Flag = flag;
+                Modifiers = modifiers;
+            }
+
+            public Key Key { get; }
+
+            public Keys Flag { get; }
+
+            public Keys[] Modifiers { get; }
+        }
+
+        private static readonly IEnumerable<FlagsKey> s_flowDocumentReaderShortcuts = new List<FlagsKey>()
+        {
+            new FlagsKey(Key.F3, Keys.F3),
+            new FlagsKey(Key.M, Keys.M, Keys.Control),
+        };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadmeToolWindow"/> class.
@@ -61,13 +86,36 @@ namespace FineCodeCoverage.Readme
         protected override bool PreProcessMessage(
             ref Message m)
         {
-            if (m.IsFindMessage())
+            if (!(Content is EnhancedFlowDocumentReader target && target.IsKeyboardFocusWithin && m.IsKeyUpOrDown() is bool isKeyDown))
             {
-                _enhancedFlowDocumentReader.Find();
-                return true;
+                return base.PreProcessMessage(ref m);
+            }
+
+            foreach (FlagsKey flowDocumentReaderShortcut in s_flowDocumentReaderShortcuts)
+            {
+                if (m.HasFlag(flowDocumentReaderShortcut.Flag) && flowDocumentReaderShortcut.Modifiers.All(modifier => System.Windows.Forms.Control.ModifierKeys.HasFlag(modifier)))
+                {
+                    System.Windows.Input.KeyEventArgs keyEventArgs = CreateKeyEventArgs(flowDocumentReaderShortcut.Key, isKeyDown);
+                    _ = InputManager.Current.ProcessInput(keyEventArgs);
+                    return true;
+                }
             }
 
             return base.PreProcessMessage(ref m);
+        }
+
+        private static System.Windows.Input.KeyEventArgs CreateKeyEventArgs(Key key, bool isDown)
+        {
+            KeyboardDevice keyboardDevice = InputManager.Current.PrimaryKeyboardDevice;
+
+            return new System.Windows.Input.KeyEventArgs(
+                keyboardDevice,
+                keyboardDevice.ActiveSource,
+                0,
+                key)
+            {
+                RoutedEvent = isDown ? Keyboard.KeyDownEvent : Keyboard.KeyUpEvent,
+            };
         }
     }
 }
