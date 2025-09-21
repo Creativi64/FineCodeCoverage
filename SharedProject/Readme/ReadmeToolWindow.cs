@@ -28,9 +28,9 @@ namespace FineCodeCoverage.Readme
     {
         private EnhancedFlowDocumentReader _enhancedFlowDocumentReader;
 
-        private sealed class FlagsKey
+        private sealed class FlowDocumentReaderShortcut
         {
-            public FlagsKey(Key key, Keys flag, params Keys[] modifiers)
+            public FlowDocumentReaderShortcut(Key key, Keys flag, params Keys[] modifiers)
             {
                 Key = key;
                 Flag = flag;
@@ -44,10 +44,10 @@ namespace FineCodeCoverage.Readme
             public Keys[] Modifiers { get; }
         }
 
-        private static readonly IEnumerable<FlagsKey> s_flowDocumentReaderShortcuts = new List<FlagsKey>()
+        private static readonly IEnumerable<FlowDocumentReaderShortcut> s_flowDocumentReaderShortcuts = new List<FlowDocumentReaderShortcut>()
         {
-            new FlagsKey(Key.F3, Keys.F3),
-            new FlagsKey(Key.M, Keys.M, Keys.Control),
+            new FlowDocumentReaderShortcut(Key.F3, Keys.F3),
+            new FlowDocumentReaderShortcut(Key.M, Keys.M, Keys.Control),
         };
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace FineCodeCoverage.Readme
                 return base.PreProcessMessage(ref m);
             }
 
-            foreach (FlagsKey flowDocumentReaderShortcut in s_flowDocumentReaderShortcuts)
+            foreach (FlowDocumentReaderShortcut flowDocumentReaderShortcut in s_flowDocumentReaderShortcuts)
             {
                 if (m.HasFlag(flowDocumentReaderShortcut.Flag) && flowDocumentReaderShortcut.Modifiers.All(modifier => System.Windows.Forms.Control.ModifierKeys.HasFlag(modifier)))
                 {
