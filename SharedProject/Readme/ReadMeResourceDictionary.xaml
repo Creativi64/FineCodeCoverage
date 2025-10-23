@@ -229,7 +229,7 @@
       <Setter.Value>
         <ControlTemplate>
           <Rectangle
-            Margin="0"
+            Margin="1"
             SnapsToDevicePixels="true"
             Stroke="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"
             StrokeDashArray="1 2"
@@ -250,13 +250,12 @@
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolTipTextBrushKey}}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolTipBorderBrushKey}}" />
             </Style>
-
         </Style.Resources>
     <Setter Property="FocusVisualStyle" Value="{StaticResource FlowDocumentReaderFocusVisualStyle}" />
     <Setter Property="Foreground" Value="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}" />
     <Setter Property="FindToolBar">
       <Setter.Value>
-        <findControls:FindToolBar Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}">
+        <findControls:FindToolBar Margin="4,0,0,0" Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}">
           <findControls:FindToolBar.Resources>
                         <Style
     x:Key="FindButtonFocusVisual">
@@ -275,7 +274,7 @@
                         </Style>
                     </findControls:FindToolBar.Resources>
           <Border x:Name="FindTextBoxBorder"
-            Margin="5,0,15,0"
+            Margin="4,0,4,0"
             Padding="0"
             Background="{DynamicResource {x:Static vsPlatformUI:CommonControlsColors.TextBoxBackgroundBrushKey}}"
             BorderBrush="Transparent"
