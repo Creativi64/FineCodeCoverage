@@ -24,7 +24,7 @@ namespace Test
             {
                 successCallbackCalled = true;
             };
-            
+
         }
 
         [Test]
@@ -36,15 +36,17 @@ namespace Test
                 Output = "This will be exception message"
             };
             var callbackExitCode = 0;
-            Assert.ThrowsAsync<ProcessResponseException>(async () =>
-            {
-                await processor.ProcessAsync(executeResponse, exitCode =>
-                {
-                    callbackExitCode = exitCode;
-                    return false;
-                }, true, null, null);
-            }, executeResponse.Output);
-            Assert.AreEqual(executeResponse.ExitCode, callbackExitCode);
+            Func<Task> func = async () =>
+			 {
+				 await processor.ProcessAsync(executeResponse, exitCode =>
+				 {
+					 callbackExitCode = exitCode;
+					 return false;
+				 }, true, null, null);
+			 };
+			var ex = Assert.ThrowsAsync<ProcessResponseException>(func);
+			Assert.AreEqual(executeResponse.Output, ex.Message);
+			Assert.AreEqual(executeResponse.ExitCode, callbackExitCode);
         }
 
         [Test]

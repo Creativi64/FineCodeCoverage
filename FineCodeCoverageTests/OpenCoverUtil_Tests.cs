@@ -15,114 +15,115 @@ using System.Threading.Tasks;
 
 namespace FineCodeCoverageTests
 {
-    internal class OpenCoverUtil_Tests
-    {
-        private AutoMoqer mocker;
-        private OpenCoverUtil openCoverUtil;
-        private Mock<IFileUtil> mockFileUtil;
-        private const string openCoverExePath = "OpenCover.Console.exe";
+	internal class OpenCoverUtil_Tests
+	{
+		private AutoMoqer mocker;
+		private OpenCoverUtil openCoverUtil;
+		private Mock<IFileUtil> mockFileUtil;
+		private const string openCoverExePath = "OpenCover.Console.exe";
 
-        [SetUp]
-        public void SetUp()
-        {
-            mocker = new AutoMoqer();
-            openCoverUtil = mocker.Create<OpenCoverUtil>();
-        }
+		[SetUp]
+		public void SetUp()
+		{
+			mocker = new AutoMoqer();
+			openCoverUtil = mocker.Create<OpenCoverUtil>();
+		}
 
-        [Test]
-        public void Should_Ensure_Unzipped_For_The_OpenCover_Exe_Path_When_Initialize()
-        {
-            Initialize();
+		[Test]
+		public void Should_Ensure_Unzipped_For_The_OpenCover_Exe_Path_When_Initialize()
+		{
+			Initialize();
 
-            mockFileUtil.VerifyAll();
-        }
+			mockFileUtil.VerifyAll();
+		}
 
-        private void Initialize()
-        {
-            var ct = CancellationToken.None;
+		private void Initialize()
+		{
+			var ct = CancellationToken.None;
 
-            mocker.Setup<IToolUnzipper, string>(toolUnzipper => toolUnzipper.EnsureUnzipped("appDataFolder", "openCover", "openCover", ct)).Returns("toolFolderPath");
-            mockFileUtil = mocker.GetMock<IFileUtil>();
+			mocker.Setup<IToolUnzipper, string>(toolUnzipper => toolUnzipper.EnsureUnzipped("appDataFolder", "openCover", "openCover", ct)).Returns("toolFolderPath");
+			mockFileUtil = mocker.GetMock<IFileUtil>();
 
-            mockFileUtil.Setup(fileUtil => fileUtil.GetFiles("toolFolderPath", "OpenCover.Console.exe", System.IO.SearchOption.AllDirectories))
-                .Returns(new string[] {openCoverExePath });
+			mockFileUtil.Setup(fileUtil => fileUtil.GetFiles("toolFolderPath", "OpenCover.Console.exe", System.IO.SearchOption.AllDirectories))
+				.Returns(new string[] { openCoverExePath });
 
-            openCoverUtil.Initialize("appDataFolder", ct);
-        }
+			openCoverUtil.Initialize("appDataFolder", ct);
+		}
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public async Task Should_Delete_The_Test_Pdb_When_RunOpenCoverAsync_And_IncludeTestAssembly_Is_False_Async(bool includeTestAssembly)
-        {
-            var ct = CancellationToken.None;
-            mocker.Setup<IOpenCoverExeArgumentsProvider,List<string>>(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(
-                It.IsAny<ICoverageProject>(),It.IsAny<string>())).Returns(new List<string>());
-                
-            var mockProcessUtil = mocker.GetMock<IProcessUtil>();
-            mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(),ct)).ReturnsAsync(new ExecuteResponse());
+		[TestCase(true)]
+		[TestCase(false)]
+		public async Task Should_Delete_The_Test_Pdb_When_RunOpenCoverAsync_And_IncludeTestAssembly_Is_False_Async(bool includeTestAssembly)
+		{
+			var ct = CancellationToken.None;
+			mocker.Setup<IOpenCoverExeArgumentsProvider, List<string>>(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(
+				It.IsAny<ICoverageProject>(), It.IsAny<string>())).Returns(new List<string>());
 
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(includeTestAssembly);
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.ProjectOutputFolder).Returns("projectOutputFolder");
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.TestDllFile).Returns("ATestDll.dll");
+			var mockProcessUtil = mocker.GetMock<IProcessUtil>();
+			mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse());
 
-            await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct);
+			var mockCoverageProject = new Mock<ICoverageProject>();
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(includeTestAssembly);
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.ProjectOutputFolder).Returns("projectOutputFolder");
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.TestDllFile).Returns("ATestDll.dll");
 
-            var pdbFilePath = Path.Combine("projectOutputFolder", "ATestDll.pdb");
-            mocker.Verify<IFileUtil>(fileUtil => fileUtil.DeleteFile(pdbFilePath), includeTestAssembly ? Times.Never() : Times.Once());
-        }
+			await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct);
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public async Task Should_Execute_OpenCover_With_The_Provided_Arguments_When_RunOpenCoverAsync(bool useCustomExe)
-        {
-            var ct = CancellationToken.None;
-            mocker.Setup<IVsTestInstaller, string>(msTestPlatformUtil => msTestPlatformUtil.InstallPath).Returns("MsTestPlatformExePath");
-            var mockProcessUtil = mocker.GetMock<IProcessUtil>();
-            mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse());
+			var pdbFilePath = Path.Combine("projectOutputFolder", "ATestDll.pdb");
+			mocker.Verify<IFileUtil>(fileUtil => fileUtil.DeleteFile(pdbFilePath), includeTestAssembly ? Times.Never() : Times.Once());
+		}
 
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(true);
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.OpenCoverCustomPath).Returns(useCustomExe ? "CustomOpenCoverExePath" : null);
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.ProjectOutputFolder).Returns("ProjectOutputFolder");
+		[TestCase(true)]
+		[TestCase(false)]
+		public async Task Should_Execute_OpenCover_With_The_Provided_Arguments_When_RunOpenCoverAsync(bool useCustomExe)
+		{
+			var ct = CancellationToken.None;
+			mocker.Setup<IVsTestInstaller, string>(msTestPlatformUtil => msTestPlatformUtil.InstallPath).Returns("MsTestPlatformExePath");
+			var mockProcessUtil = mocker.GetMock<IProcessUtil>();
+			mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse());
 
-            var arguments = new List<string> { "First","Second"};
-            var mockOpenCoverExeArgumentsProvider = mocker.GetMock<IOpenCoverExeArgumentsProvider>();
-            mockOpenCoverExeArgumentsProvider.Setup(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(mockCoverageProject.Object, "MsTestPlatformExePath"))
-                .Returns(arguments);
+			var mockCoverageProject = new Mock<ICoverageProject>();
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(true);
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.OpenCoverCustomPath).Returns(useCustomExe ? "CustomOpenCoverExePath" : null);
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.ProjectOutputFolder).Returns("ProjectOutputFolder");
 
-            Initialize();
-            await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct);
+			var arguments = new List<string> { "First", "Second" };
+			var mockOpenCoverExeArgumentsProvider = mocker.GetMock<IOpenCoverExeArgumentsProvider>();
+			mockOpenCoverExeArgumentsProvider.Setup(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(mockCoverageProject.Object, "MsTestPlatformExePath"))
+				.Returns(arguments);
 
-            var expectedArguments = string.Join(" ", arguments);
-            var expectedExePath = useCustomExe ? "CustomOpenCoverExePath" : openCoverExePath;
-            mockProcessUtil.Verify(processUtil => processUtil.ExecuteAsync(
-                It.Is<ExecuteRequest>(
-                    executeRequest => executeRequest.FilePath == expectedExePath && executeRequest.Arguments == expectedArguments && executeRequest.WorkingDirectory == "ProjectOutputFolder"), ct), 
-                    Times.Once()
-            );
-        }
+			Initialize();
+			await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct);
 
-        [Test]
-        public void Should_Throw_Exception_With_The_Result_Output_When_ExitCode_Is_Not_0()
-        {
-            var ct = CancellationToken.None;
-            mocker.Setup<IOpenCoverExeArgumentsProvider, List<string>>(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(
-                It.IsAny<ICoverageProject>(), It.IsAny<string>())).Returns(new List<string>());
-            mocker.Setup<IVsTestInstaller, string>(msTestPlatformUtil => msTestPlatformUtil.InstallPath).Returns("MsTestPlatformExePath");
-            var mockProcessUtil = mocker.GetMock<IProcessUtil>();
-            mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse
-            {
-                ExitCode = 1,
-                Output = "Output"
-            });
+			var expectedArguments = string.Join(" ", arguments);
+			var expectedExePath = useCustomExe ? "CustomOpenCoverExePath" : openCoverExePath;
+			mockProcessUtil.Verify(processUtil => processUtil.ExecuteAsync(
+				It.Is<ExecuteRequest>(
+					executeRequest => executeRequest.FilePath == expectedExePath && executeRequest.Arguments == expectedArguments && executeRequest.WorkingDirectory == "ProjectOutputFolder"), ct),
+					Times.Once()
+			);
+		}
 
-            var mockCoverageProject = new Mock<ICoverageProject>();
-            mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(true);
+		[Test]
+		public async Task Should_Throw_Exception_With_The_Result_Output_When_ExitCode_Is_Not_0()
+		{
+			var ct = CancellationToken.None;
+			mocker.Setup<IOpenCoverExeArgumentsProvider, List<string>>(openCoverExeArgumentsProvider => openCoverExeArgumentsProvider.Provide(
+				It.IsAny<ICoverageProject>(), It.IsAny<string>())).Returns(new List<string>());
+			mocker.Setup<IVsTestInstaller, string>(msTestPlatformUtil => msTestPlatformUtil.InstallPath).Returns("MsTestPlatformExePath");
+			var mockProcessUtil = mocker.GetMock<IProcessUtil>();
+			mockProcessUtil.Setup(processUtil => processUtil.ExecuteAsync(It.IsAny<ExecuteRequest>(), ct)).ReturnsAsync(new ExecuteResponse
+			{
+				ExitCode = 1,
+				Output = "Output"
+			});
 
-            Assert.ThrowsAsync<OpenCoverExitCodeException>(async () =>  await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct), "Output");
-        }
+			var mockCoverageProject = new Mock<ICoverageProject>();
+			mockCoverageProject.SetupGet(coverageProject => coverageProject.Settings.IncludeTestAssembly).Returns(true);
 
-        //todo logging tests
-    }
+			Func<Task> func = async () => await openCoverUtil.RunOpenCoverAsync(mockCoverageProject.Object, ct);
+			Assert.ThrowsAsync<OpenCoverExitCodeException>(func);
+		}
+
+		//todo logging tests
+	}
 }

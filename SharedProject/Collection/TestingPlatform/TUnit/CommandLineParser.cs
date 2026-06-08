@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.CommandLine.Parsing;
 using System.ComponentModel.Composition;
 using System.Linq;
 
@@ -17,8 +16,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
         public CommandLineParseResult Parse(string argumentsString)
         {
-            var args = CommandLineStringSplitter.Instance.Split(argumentsString).ToList();
-            return args.Count == 0 ? CommandLineParseResult.Empty : Parse(args);
+            var parser = new CommandLineParser();
+            CommandLineParseResult args = parser.Parse(argumentsString);
+            var argumentList = args.Options
+                .SelectMany(n => new[] { n.Name }.Concat(n.Arguments))
+                .ToList();
+
+            return args.Options.Count == 0 ? CommandLineParseResult.Empty : Parse(argumentList);
         }
 
         private static CommandLineParseResult Parse(List<string> args)

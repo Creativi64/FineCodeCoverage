@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <UseWPF>True</UseWPF>
     <AssemblyName>VsThemedDialogs</AssemblyName>
     <RootNamespace>VsThemedDialogs</RootNamespace>
@@ -15,7 +16,8 @@
     </AssemblyAttribute>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="16.1.28917.181" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.14.40264" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\VsThemedDialogsSharedFiles\Themes\Generic.xaml" Link="Themes\Generic.xaml" />
