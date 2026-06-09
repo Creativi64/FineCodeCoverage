@@ -196,6 +196,10 @@ namespace FineCodeCoverage.Collection.Engine
                 ReportResult result = await reportResultProvider(vsShutdownLinkedCancellationToken);
                 await LogCoverageStatusAsync("Done");
                 _eventAggregator.SendMessage(new CoverageEndedMessage());
+
+                if (result.Report == null)
+                    return;
+
                 _eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects));
                 RaiseReportFiles(result);
             }
