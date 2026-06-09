@@ -94,14 +94,13 @@ namespace Test
             RaiseOperationStateChanged(TestOperationStates.TestExecutionCanceling);
         }
 
-        private void AssertShouldNotReloadCoverage()
+        private void AssertShouldNotCollect()
         {
-            mocker.Verify<IFCCEngine>(engine => engine.ReloadCoverage(It.IsAny<Func<Task<List<ICoverageProject>>>>()), Times.Never());
-        }
-
-        private void AssertReloadsCoverage()
-        {
-            mocker.Verify<IFCCEngine>(engine => engine.ReloadCoverage(It.IsAny<Func<Task<List<ICoverageProject>>>>()), Times.Once());
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<IMsCodeCoverageRunSettingsService>(
+                msCodeCoverageRunSettingsService => msCodeCoverageRunSettingsService.CollectAsync(It.IsAny<IOperation>(), It.IsAny<ITestOperation>()),
+                Times.Never());
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         private void SetUpOptions(RunOptions runOptions)
@@ -215,41 +214,6 @@ namespace Test
 
 
         [Test]
-        public void Should_Not_ReloadCoverage_When_TestExecutionStarting_And_Settings_RunInParallel_Is_False()
-        {
-            SetUpOptions(new RunOptions { Enabled = true, RunInParallel = false });
-           
-            RaiseTestExecutionStarting();
-
-            AssertShouldNotReloadCoverage();
-        }
-
-        [Test]
-        public void Should_Not_ReloadCoverage_When_TestExecutionFinished_And_Reloading_When_Tests_Start()
-        {
-            SetUpOptions(new RunOptions { Enabled = true, RunInParallel = true });
-
-            RaiseTestExecutionFinished();
-
-            AssertShouldNotReloadCoverage();
-        }
-
-        [Test]
-        public void Should_ReloadCoverage_When_TestExecutionFinished_If_RunInParallel_And_Not_Collecting_With_MsCodeCoverage()
-        {
-            var (operation,_,__) = SetUpForProceedPath();
-            SetUpOptions(new RunOptions { 
-                Enabled = true,
-                RunInParallel = true,
-                RunMsCodeCoverage = RunMsCodeCoverage.Yes
-            });
-
-            RaiseTestExecutionFinished(operation);
-
-            mocker.Verify<IFCCEngine>(engine => engine.ReloadCoverage(It.IsAny<Func<Task<List<ICoverageProject>>>>()));
-        }
-
-        [Test]
         public void Should_Collect_Ms_Code_Coverage_When_TestExecutionFinished_And_Ms_Code_Coverage_Collecting()
         {
             SetMsCodeCoverageCollecting();
@@ -268,83 +232,45 @@ namespace Test
 #pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
-        [Test]
-        public async Task Should_ReloadCoverage_When_TestExecutionStarting_And_Settings_RunInParallel_Is_True_Async()
+        [TestCase(true, 10, 1, 0, true, Description = "Should collect when tests fail if settings RunWhenTestsFail is true")]
+        [TestCase(false, 10, 1, 0, false, Description = "Should not collect when tests fail if settings RunWhenTestsFail is false")]
+        [TestCase(false, 0, 1, 1, false, Description = "Should not collect when total tests does not exceed the RunWhenTestsExceed setting")]
+        [TestCase(false, 0, 1, 0, true, Description = "Should collect when total tests does not exceed the RunWhenTestsExceed setting")]
+        public void Conditional_Collect_Coverage_When_TestExecutionFinished(bool runWhenTestsFail, long numberFailedTests, long totalTests, int runWhenTestsExceed, bool expectCollect)
         {
-            SetUpOptions(new RunOptions { Enabled = true, RunInParallel = true });
-            var (operation, coverageProjects, mockTestOperation) = SetUpForProceedPath();
-            Task<List<ICoverageProject>> reloadCoverageTask = null;
-            mocker.GetMock<IFCCEngine>().Setup(engine => engine.ReloadCoverage(It.IsAny<Func<Task<List<ICoverageProject>>>>())).
-                Callback<Func<Task<List<ICoverageProject>>>>(callback =>
-                {
-                    reloadCoverageTask = callback();
-                });
-            RaiseTestExecutionStarting(operation);
-            Assert.AreSame(coverageProjects, await reloadCoverageTask);
-        }
-
-        [Test]
-        public void Should_Not_ReloadCoverage_When_TestExecutionStarting_And_Settings_RunInParallel_Is_True_When_Enabled_Is_False_And_DisabledNoCoverage_True()
-        {
-            SetUpOptions(new RunOptions { Enabled = false, RunInParallel = true, DisabledNoCoverage = true });
-
-            RaiseTestExecutionStarting();
-
-            AssertShouldNotReloadCoverage();
-        }
-
-        [Test]
-        public void Should_ReloadCoverage_When_TestExecutionStarting_And_Settings_RunInParallel_Is_True_When_Enabled_Is_False_And_DisabledNoCoverage_False()
-        {
-            SetUpOptions(new RunOptions { Enabled = false, RunInParallel = true, DisabledNoCoverage = false });
-
-            RaiseTestExecutionStarting();
-
-            AssertReloadsCoverage();
-        }
-
-        [TestCase(true, 10, 1, 0, true, Description = "Should run when tests fail if settings RunWhenTestsFail is true")]
-        [TestCase(false, 10, 1, 0, false, Description = "Should not run when tests fail if settings RunWhenTestsFail is false")]
-        [TestCase(false, 0, 1, 1, false, Description = "Should not run when total tests does not exceed the RunWhenTestsExceed setting")]
-        [TestCase(false, 0, 1, 0, true, Description = "Should run when total tests does not exceed the RunWhenTestsExceed setting")]
-        public async Task Conditional_Run_Coverage_When_TestExecutionFinished_Async(bool runWhenTestsFail, long numberFailedTests, long totalTests, int runWhenTestsExceed, bool expectReloadedCoverage)
-        {
-            var (operation, coverageProjects, mockTestOperation) = SetUpForProceedPath();
+            var operation = new Mock<IOperation>().Object;
+            var mockTestOperation = new Mock<ITestOperation>();
             mockTestOperation.Setup(o => o.FailedTests).Returns(numberFailedTests);
             mockTestOperation.Setup(o => o.TotalTests).Returns(totalTests);
-            SetUpOptions(new RunOptions { Enabled = true, RunInParallel = false, RunWhenTestsFail = runWhenTestsFail, RunWhenTestsExceed = runWhenTestsExceed });
-            Task<List<ICoverageProject>> reloadCoverageTask = null;
-            mocker.GetMock<IFCCEngine>().Setup(engine => engine.ReloadCoverage(It.IsAny<Func<Task<List<ICoverageProject>>>>())).
-                Callback<Func<Task<List<ICoverageProject>>>>(callback =>
-                {
-                    reloadCoverageTask = callback();
-                });
+            var testOperation = mockTestOperation.Object;
+            mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(testOperation);
+
+            var mockMsCodeCoverageRunSettingsService = mocker.GetMock<IMsCodeCoverageRunSettingsService>();
+            mockMsCodeCoverageRunSettingsService.Setup(s => s.IsCollectingAsync(It.IsAny<ITestOperation>())).ReturnsAsync(MsCodeCoverageCollectionStatus.Collecting);
+
+            SetUpOptions(new RunOptions { Enabled = true, RunWhenTestsFail = runWhenTestsFail, RunWhenTestsExceed = runWhenTestsExceed });
+            RaiseTestExecutionStarting(operation);
             RaiseTestExecutionFinished(operation);
 
-            if (expectReloadedCoverage)
-            {
-                Assert.AreSame(coverageProjects, await reloadCoverageTask);
-            }
-            else
-            {
-                AssertShouldNotReloadCoverage();
-            }
-            
+            var times = expectCollect ? Times.Once() : Times.Never();
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mockMsCodeCoverageRunSettingsService.Verify(s => s.CollectAsync(operation, testOperation), times);
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
         [Test]
-        public void Should_Not_Run_Coverage_When_TestExecutionFinished_If_Enabled_Is_False()
+        public void Should_Not_Collect_Coverage_When_TestExecutionFinished_If_Enabled_Is_False()
         {
             var operation = new Mock<IOperation>().Object;
             var mockTestOperation = new Mock<ITestOperation>();
             mockTestOperation.Setup(t => t.TotalTests).Returns(1);
             mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(mockTestOperation.Object);
 
-            SetUpOptions(new RunOptions { Enabled = false, RunWhenTestsFail = true, RunWhenTestsExceed = 0, RunInParallel = false });
+            SetUpOptions(new RunOptions { Enabled = false, RunWhenTestsFail = true, RunWhenTestsExceed = 0 });
 
             RaiseTestExecutionFinished();
 
-            AssertShouldNotReloadCoverage();
+            AssertShouldNotCollect();
         }
 
         [Test]

@@ -8,10 +8,10 @@ namespace FineCodeCoverage.Options.Run
     {
         public void Set(RunOptions options)
         {
-            options.RunMsCodeCoverage = RunMsCodeCoverage.Yes;
             options.RunWhenTestsFail = true;
             options.Enabled = true;
             options.DisabledNoCoverage = true;
+            options.CollectTestingPlatformCoverageAfterTestRun = true;
         }
     }
 }

@@ -610,13 +610,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilterChangedMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ICoverageTypeFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\CoverletOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\EditorCoverageColouringOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\HotspotThresholdsOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\IncludesExcludesOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\MiscOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OpenOptionPageTypeProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OpenCoverOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OutputOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ReportOptionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\RunOptionsPage.cs" />

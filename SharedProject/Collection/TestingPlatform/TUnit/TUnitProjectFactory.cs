@@ -21,6 +21,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
         {
             private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
             private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
+            private const string IsTestingPlatformApplicationPropertyName = "IsTestingPlatformApplication";
             private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
             private readonly ICommandLineParser _commandLineParser;
             private readonly IProjectProperties _commonProperties;
@@ -71,6 +72,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 }
 
                 return hasTestingPlatformCommandLineArgumentsPropertyName ? false : (bool?)null;
+            }
+
+            private async Task<bool> IsTestingPlatformApplicationAsync()
+            {
+                // absence evaluates to empty string; MTP SDKs set this to "true"
+                string value = await _commonProperties.GetEvaluatedPropertyValueAsync(IsTestingPlatformApplicationPropertyName);
+                return string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
             }
 
             private async Task ParseTestingPlatformCommandLineArgumentsAsync()
@@ -146,8 +154,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                         installedPackagesResult = _tUnitInstalledPackagesService.GetTUnitInstalledPackages(_packageReferenceItems);
                     }
 
-                    IsTUnit = installedPackagesResult.HasTUnit;
                     HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
+
+                    // IsTUnit now means "is a Microsoft.Testing.Platform test project we can collect coverage for".
+                    // Package detection misses SDK-style MTP projects (e.g. MSTest.Sdk references the platform
+                    // transitively, not as a PackageReference), so the reliable signal is the IsTestingPlatformApplication
+                    // MSBuild property, which every MTP SDK (TUnit, MSTest.Sdk, xUnit v3, NUnit-MTP) sets to true.
+                    IsTUnit = installedPackagesResult.HasTUnit || await IsTestingPlatformApplicationAsync();
 
                     _requiresUpdate = false;
                 }

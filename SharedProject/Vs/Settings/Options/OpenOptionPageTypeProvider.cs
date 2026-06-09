@@ -15,8 +15,6 @@ namespace FineCodeCoverage.Vs.Settings.Options
             { OpenOptionPage.IncludesExcludes, typeof(IncludesExcludesOptionsPage) },
             { OpenOptionPage.Report, typeof(ReportOptionsPage) },
             { OpenOptionPage.Output, typeof(OutputOptionsPage) },
-            { OpenOptionPage.Coverlet, typeof(CoverletOptionsPage) },
-            { OpenOptionPage.OpenCover, typeof(OpenCoverOptionsPage) },
             { OpenOptionPage.EditorCoverageColouring, typeof(EditorCoverageColouringOptionsPage) },
             { OpenOptionPage.HotspotThresholds, typeof(HotspotThresholdsOptionsPage) },
             { OpenOptionPage.Misc, typeof(MiscOptionsPage) },

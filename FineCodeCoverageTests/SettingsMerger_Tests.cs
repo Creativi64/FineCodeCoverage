@@ -1,8 +1,5 @@
 using AutoMoq;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Options.OpenCover;
-using FineCodeCoverage.VSAbstractions.OutputWindow;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -67,63 +64,18 @@ namespace FineCodeCoverageTests
         }
 
         [Test]
-        public async Task Should_Overwrite_Enum_Properties_Async()
-        {
-            var coverageSettings = new CoverageSettings
-            {
-                OpenCoverRegister = OpenCoverRegister.User
-            };
-            var enumElement = XElement.Parse($@"
-<Root>
-    <OpenCoverRegister>Path64</OpenCoverRegister>
-</Root>
-");
-
-            await settingsMerger.MergeAsync(
-                coverageSettings,
-                CoverageSettingsPropertyInfos,
-                new List<XElement> { },
-                enumElement);
-
-            Assert.AreEqual(OpenCoverRegister.Path64, coverageSettings.OpenCoverRegister);
-        }
-
-        [Test]
-        public async Task Should_Overwrite_String_Properties_Async()
-        {
-            var coverageSettings = new CoverageSettings
-            {
-                CoverletConsoleCustomPath = "CoverletConsoleCustomPath"
-            };
-
-            var stringElement = XElement.Parse($@"
-<Root>
-    <CoverletConsoleCustomPath>Overridden</CoverletConsoleCustomPath>
-</Root>
-");
-
-            await settingsMerger.MergeAsync(
-                coverageSettings,
-                CoverageSettingsPropertyInfos,
-                new List<XElement> { },
-                stringElement);
-
-            Assert.AreEqual("Overridden", coverageSettings.CoverletConsoleCustomPath);
-        }
-
-        [Test]
         public async Task Should_Overwrite_String_Array_By_Default_Async()
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = new string[] { "global" }
+                ModulePathsExclude = new string[] { "global" }
             };
             var stringArrayElement = XElement.Parse($@"
             <Root>
-              <Exclude>
+              <ModulePathsExclude>
                 1
                 2
-              </Exclude>
+              </ModulePathsExclude>
             </Root>
             ");
 
@@ -133,7 +85,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.Exclude);
+            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -141,14 +93,14 @@ namespace FineCodeCoverageTests
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = new string[] { "global" }
+                ModulePathsExclude = new string[] { "global" }
             };
             var stringArrayElement = XElement.Parse($@"
 <Root defaultMerge='false'>
-  <Exclude>
+  <ModulePathsExclude>
     1
     2
-  </Exclude>
+  </ModulePathsExclude>
 </Root>
 ");
 
@@ -158,7 +110,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.Exclude);
+            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -166,14 +118,14 @@ namespace FineCodeCoverageTests
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = new string[] { "global" }
+                ModulePathsExclude = new string[] { "global" }
             };
             var stringArrayElement = XElement.Parse($@"
             <Root defaultMerge='true'>
-              <Exclude merge='false'>
+              <ModulePathsExclude merge='false'>
                 1
                 2
-              </Exclude>
+              </ModulePathsExclude>
             </Root>
             ");
 
@@ -183,7 +135,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.Exclude);
+            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -191,14 +143,14 @@ namespace FineCodeCoverageTests
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = new string[] { "global" }
+                ModulePathsExclude = new string[] { "global" }
             };
             var stringArrayElement = XElement.Parse($@"
             <Root defaultMerge='xxx'>
-              <Exclude>
+              <ModulePathsExclude>
                 1
                 2
-              </Exclude>
+              </ModulePathsExclude>
             </Root>
             ");
 
@@ -208,7 +160,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.Exclude);
+            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -216,15 +168,15 @@ namespace FineCodeCoverageTests
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = new string[] { "global" }
+                ModulePathsExclude = new string[] { "global" }
             };
 
             var stringArrayElement = XElement.Parse($@"
             <Root defaultMerge='true'>
-              <Exclude>
+              <ModulePathsExclude>
                 1
                 2
-              </Exclude>
+              </ModulePathsExclude>
             </Root>
             ");
 
@@ -234,7 +186,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "global", "1", "2" }, coverageSettings.Exclude);
+            Assert.AreEqual(new string[] { "global", "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -242,15 +194,15 @@ namespace FineCodeCoverageTests
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = new string[] { "global" }
+                ModulePathsExclude = new string[] { "global" }
             };
 
             var stringArrayElement = XElement.Parse($@"
             <Root defaultMerge='false'>
-              <Exclude merge='true'>
+              <ModulePathsExclude merge='true'>
                 1
                 2
-              </Exclude>
+              </ModulePathsExclude>
             </Root>
             ");
 
@@ -260,55 +212,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "global", "1", "2" }, coverageSettings.Exclude);
-        }
-
-        [Test]
-        public async Task Should_Log_Failed_To_Get_Setting_From_Project_Settings_Exception_And_Not_Throw_Async()
-        {
-            
-            var element = XElement.Parse($@"
-            <Root>
-              <OpenCoverRegister>
-                DefaultX
-              </OpenCoverRegister>
-            </Root>
-            ");
-
-            var coverageSettings = new CoverageSettings();
-            await settingsMerger.MergeAsync(
-                coverageSettings,
-                CoverageSettingsPropertyInfos,
-                new List<XElement> { },
-                element);
-
-            var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from project settings", It.IsAny<string>()));
-            Assert.AreEqual(coverageSettings.OpenCoverRegister, OpenCoverRegister.Default);
-        }
-
-        [Test]
-        public async Task Should_Log_Failed_To_Get_Setting_From_Settings_File_Exception_And_Not_Throw_Async()
-        {
-
-            var element = XElement.Parse($@"
-<Root>
-  <OpenCoverRegister>
-    DefaultX
-  </OpenCoverRegister>
-</Root>
-");
-
-            var coverageSettings = new CoverageSettings();
-            await settingsMerger.MergeAsync(
-                coverageSettings,
-                CoverageSettingsPropertyInfos,
-                new List<XElement> { element },
-                null);
-
-            var mockLogger = mocker.GetMock<ILogger>();
-            mockLogger.Verify(logger => logger.LogAsync("Failed to get 'OpenCoverRegister' setting from settings file", It.IsAny<string>()));
-            Assert.AreEqual(coverageSettings.OpenCoverRegister, OpenCoverRegister.Default);
+            Assert.AreEqual(new string[] { "global", "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -316,15 +220,15 @@ namespace FineCodeCoverageTests
         {
             var coverageSettings = new CoverageSettings
             {
-                Exclude = null
+                ModulePathsExclude = null
             };
 
             var stringArrayElement = XElement.Parse($@"
 <Root>
-  <Exclude merge='true'>
+  <ModulePathsExclude merge='true'>
     1
     2
-  </Exclude>
+  </ModulePathsExclude>
 </Root>
 ");
             await settingsMerger.MergeAsync(
@@ -333,7 +237,7 @@ namespace FineCodeCoverageTests
                 new List<XElement> { },
                 stringArrayElement);
 
-            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.Exclude);
+            Assert.AreEqual(new string[] { "1", "2" }, coverageSettings.ModulePathsExclude);
         }
 
         [Test]
@@ -409,7 +313,7 @@ false
             {
 
                 var value = SettingsMerger.GetValueFromXml(element, property.PropertyType, "");
-                
+
                 property.SetValue(demoType, value);
             }
         }
@@ -419,7 +323,7 @@ false
         {
             var cases = new object[]
             {
-                
+
                 new object[]
                 {
                     new XElement("Element","1.1"),

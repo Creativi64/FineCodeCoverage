@@ -5,7 +5,6 @@
     */
     internal interface IIncludesExcludesOptions :
         IMsCodeCoverageIncludesExcludesOptions,
-        IOpenCoverCoverletExcludeIncludeOptions,
         IFCCCommonIncludesExcludes
     {
     }

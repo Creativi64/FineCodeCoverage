@@ -41,9 +41,9 @@ namespace FineCodeCoverage.Collection.Runners
         private readonly IMsCodeCoverageRunSettingsService _msCodeCoverageRunSettingsService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ICoverageCollectableFromTestExplorer _coverageCollectableFromTestExplorer;
+        private readonly ITUnitCoverage _tUnitCoverage;
         private bool _cancelling;
         private MsCodeCoverageCollectionStatus _msCodeCoverageCollectionStatus;
-        private bool _runningInParallel;
         private RunOptions _runOptions;
         private int _coverageRunNumber = 1;
 
@@ -74,12 +74,14 @@ namespace FineCodeCoverage.Collection.Runners
             IOptionsProvider<RunOptions> runOptionsProvider,
             IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
             IEventAggregator eventAggregator,
-            ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer)
+            ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer,
+            ITUnitCoverage tUnitCoverage)
         {
             _runOptionsProvider = runOptionsProvider;
             _msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
             _eventAggregator = eventAggregator;
             _coverageCollectableFromTestExplorer = coverageCollectableFromTestExplorer;
+            _tUnitCoverage = tUnitCoverage;
             _fccEngine = fccEngine;
             _testOperationStateInvocationManager = testOperationStateInvocationManager;
             _testOperationFactory = testOperationFactory;
@@ -105,7 +107,6 @@ namespace FineCodeCoverage.Collection.Runners
         {
             _eventAggregator.SendMessage(new TestExecutionStartingMessage());
             _cancelling = false;
-            _runningInParallel = false;
             StopCoverage();
 
             RunOptions settings = _runOptionsProvider.Get();
@@ -121,21 +122,7 @@ namespace FineCodeCoverage.Collection.Runners
                 _testOperationFactory.Create(operation));
             if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.NotCollecting)
             {
-                if (settings.RunInParallel)
-                {
-                    RaiseCoverageStarted(true);
-                    _runningInParallel = true;
-                    _fccEngine.ReloadCoverage(async () =>
-                    {
-                        ITestOperation testOperation = _testOperationFactory.Create(operation);
-                        return await testOperation.GetCoverageProjectsAsync();
-                    });
-                }
-                else
-                {
-                    RaiseCoverageStarted(false);
-                    await _logger.LogAsync("Coverage collected when tests finish. RunInParallel option true for immediate");
-                }
+                await _logger.LogAsync("Ms code coverage not collecting for this run.");
             }
 
             if (_msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
@@ -179,7 +166,7 @@ namespace FineCodeCoverage.Collection.Runners
         private bool ShouldNotCollectWhenTestExecutionFinished()
         {
             _runOptions = _runOptionsProvider.Get();
-            return CoverageDisabled(_runOptions) || _runningInParallel || MsCodeCoverageErrored;
+            return CoverageDisabled(_runOptions) || MsCodeCoverageErrored;
         }
 
         private async Task TestExecutionFinishedCollectionAsync(IOperation operation, ITestOperation testOperation)
@@ -187,10 +174,6 @@ namespace FineCodeCoverage.Collection.Runners
             if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
             {
                 await _msCodeCoverageRunSettingsService.CollectAsync(operation, testOperation);
-            }
-            else
-            {
-                _fccEngine.ReloadCoverage(testOperation.GetCoverageProjectsAsync);
             }
         }
 
@@ -219,14 +202,9 @@ namespace FineCodeCoverage.Collection.Runners
 
         private void StopCoverage()
         {
-            switch (_msCodeCoverageCollectionStatus)
+            if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
             {
-                case MsCodeCoverageCollectionStatus.Collecting:
-                    _msCodeCoverageRunSettingsService.StopCoverage();
-                    break;
-                case MsCodeCoverageCollectionStatus.NotCollecting:
-                    _fccEngine.StopCoverage();
-                    break;
+                _msCodeCoverageRunSettingsService.StopCoverage();
             }
         }
 
@@ -271,9 +249,22 @@ namespace FineCodeCoverage.Collection.Runners
         private async Task OperationState_StateChangedAsync(OperationStateChangedEventArgs e)
         {
             if (!TestOperationStateChangeHandlers.TryGetValue(e.State, out Func<IOperation, Task> handler)
-                || !await _coverageCollectableFromTestExplorer.IsCollectableAsync()
                 || !await _testOperationStateInvocationManager.CanInvokeAsync(e.State))
             {
+                return;
+            }
+
+            if (!await _coverageCollectableFromTestExplorer.IsCollectableAsync())
+            {
+                // Microsoft.Testing.Platform projects are present.  They run on MTP, which produces no
+                // VSTest data-collector coverage, so the classic Test Explorer collection cannot work.
+                // Optionally re-run the test hosts under --coverage once the test run has finished.
+                if (e.State == TestOperationStates.TestExecutionFinished
+                    && _runOptionsProvider.Get().CollectTestingPlatformCoverageAfterTestRun)
+                {
+                    _tUnitCoverage.CollectCoverage();
+                }
+
                 return;
             }
 

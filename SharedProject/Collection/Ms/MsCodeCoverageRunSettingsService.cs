@@ -81,7 +81,6 @@ namespace FineCodeCoverage.Collection.Ms
         private string _shimPath;
         private CoverageProjectsByType _coverageProjectsByType;
         private bool _useMsCodeCoverage;
-        private RunMsCodeCoverage _runMsCodeCoverage;
 
         private bool IsCollecting => CollectionStatus == MsCodeCoverageCollectionStatus.Collecting;
 
@@ -124,10 +123,7 @@ namespace FineCodeCoverage.Collection.Ms
         public async Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(ITestOperation testOperation)
         {
             await InitializeIsCollectingAsync(testOperation);
-            if (_runMsCodeCoverage != RunMsCodeCoverage.No)
-            {
-                await TrySetUpForCollectionAsync(testOperation.SolutionDirectory);
-            }
+            await TrySetUpForCollectionAsync(testOperation.SolutionDirectory);
 
             return CollectionStatus;
         }
@@ -163,8 +159,8 @@ namespace FineCodeCoverage.Collection.Ms
 
         private Task InitializeIsCollectingAsync(ITestOperation testOperation)
         {
-            _runMsCodeCoverage = _runOptionsProvider.Get().RunMsCodeCoverage;
-            _useMsCodeCoverage = _runMsCodeCoverage == RunMsCodeCoverage.Yes;
+            // Ms code coverage is always-on for classic VSTest projects (the Coverlet/OpenCover fallback was removed).
+            _useMsCodeCoverage = true;
             UserRunSettingsProjectDetailsLookup = null;
             return CleanUpAsync(testOperation);
         }

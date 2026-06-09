@@ -122,18 +122,6 @@
       <Link>Monikers.imagemanifest</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\Shared Files\ZippedTools\openCover.4.7.1221.zip">
-      <Link>ZippedTools\openCover.4.7.1221.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\ZippedTools\coverlet.collector.6.0.4.zip">
-      <Link>ZippedTools\coverlet.collector.6.0.4.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\ZippedTools\coverlet.console.6.0.4.zip">
-      <Link>ZippedTools\coverlet.console.6.0.4.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="..\Shared Files\ZippedTools\microsoft.codecoverage.17.13.0.zip">
       <Link>ZippedTools\microsoft.codecoverage.17.13.0.zip</Link>
       <IncludeInVSIX>true</IncludeInVSIX>

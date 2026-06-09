@@ -95,8 +95,6 @@ namespace FineCodeCoverageTests
         {
             var coverageSettingsFromAppOptions = new CoverageSettings
             {
-                Exclude = new string[] { "oldexclude" },
-                Include = new string[] { "oldinclude" },
                 ModulePathsExclude = new string[] { "msexclude" },
                 ModulePathsInclude = new string[] { "msinclude" },
                 ExcludeAssemblies = new string[] { "excludeassembly", " " },
@@ -105,8 +103,6 @@ namespace FineCodeCoverageTests
 
             await ActAsync(coverageSettingsFromAppOptions);
 
-            Assert.That(coverageSettings.Exclude, Is.EquivalentTo(new string[] { "oldexclude", "[excludeassembly]*" }));
-            Assert.That(coverageSettings.Include, Is.EquivalentTo(new string[] { "oldinclude", "[includeassembly]*" }));
             Assert.That(coverageSettings.ModulePathsExclude, Is.EquivalentTo(new string[] { "msexclude", ".*\\excludeassembly.dll$" }));
             Assert.That(coverageSettings.ModulePathsInclude, Is.EquivalentTo(new string[] { "msinclude", ".*\\includeassembly.dll$" }));
         }

@@ -63,36 +63,27 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 
         private static void AddCommonAssemblyExcludesIncludes(CoverageSettings coverageSettings)
         {
-            (string[] newOldStyleExclude, string[] newMsExclude) = AddCommon(
-                coverageSettings.Exclude, coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
-            (string[] newOldStyleInclude, string[] newMsInclude) = AddCommon(
-                coverageSettings.Include, coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
-            coverageSettings.Exclude = newOldStyleExclude;
-            coverageSettings.Include = newOldStyleInclude;
-            coverageSettings.ModulePathsExclude = newMsExclude;
-            coverageSettings.ModulePathsInclude = newMsInclude;
+            coverageSettings.ModulePathsExclude = AddCommon(coverageSettings.ModulePathsExclude, coverageSettings.ExcludeAssemblies);
+            coverageSettings.ModulePathsInclude = AddCommon(coverageSettings.ModulePathsInclude, coverageSettings.IncludeAssemblies);
         }
 
-        private static (string[] newOldStyle, string[] newMs) AddCommon(string[] oldStyle, string[] ms, string[] common)
+        private static string[] AddCommon(string[] ms, string[] common)
         {
             if (common == null)
             {
-                return (oldStyle, ms);
+                return ms;
             }
 
             List<string> newMs = ListFromExisting(ms);
-            List<string> newOldStyle = ListFromExisting(oldStyle);
 
             IEnumerable<string> nonWhitespaceCommon = common.Where(c => !string.IsNullOrWhiteSpace(c));
             foreach (string assemblyFileName in nonWhitespaceCommon)
             {
                 string msModulePath = $".*\\{assemblyFileName}.dll$";
                 newMs.Add(msModulePath);
-                string old = $"[{assemblyFileName}]*";
-                newOldStyle.Add(old);
             }
 
-            return (newOldStyle.ToArray(), newMs.ToArray());
+            return newMs.ToArray();
         }
 
         private static List<string> ListFromExisting(string[] existing)

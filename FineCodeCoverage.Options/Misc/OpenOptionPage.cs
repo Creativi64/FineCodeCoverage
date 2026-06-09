@@ -6,8 +6,6 @@
         Run,
         Report,
         Output,
-        Coverlet,
-        OpenCover,
         EditorCoverageColouring,
         HotspotThresholds,
         Misc,

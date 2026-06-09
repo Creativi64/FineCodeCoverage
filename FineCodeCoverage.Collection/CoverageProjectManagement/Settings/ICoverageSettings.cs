@@ -1,31 +1,7 @@
-﻿using FineCodeCoverage.Options.OpenCover;
-
-namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
+﻿namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
     public interface ICoverageSettings
     {
-        #region ICoverletOptions
-        string CoverletConsoleCustomPath { get; }
-
-        bool CoverletConsoleGlobal { get; }
-
-        bool CoverletConsoleLocal { get; }
-
-        bool RunSettingsOnly { get; }
-
-        string CoverletCollectorDirectoryPath { get; }
-
-        #endregion
-        #region IOpenCoverOptions
-        string OpenCoverTarget { get; }
-
-        string OpenCoverTargetArgs { get; }
-
-        OpenCoverRegister OpenCoverRegister { get; }
-
-        string OpenCoverCustomPath { get; }
-
-        #endregion
         #region IEnabledOption
         bool Enabled { get; }
 
@@ -39,15 +15,6 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 
         string[] IncludeAssemblies { get; }
 
-        #endregion
-        #region IOpenCoverCoverletExcludeIncludeOptions
-        string[] Exclude { get; }
-
-        string[] Include { get; }
-
-        string[] ExcludeByFile { get; set; }
-
-        string[] ExcludeByAttribute { get; }
         #endregion
         #region IMsCodeCoverageIncludesExcludesOptions
 

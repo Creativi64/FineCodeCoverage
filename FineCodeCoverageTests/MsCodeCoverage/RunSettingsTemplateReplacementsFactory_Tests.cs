@@ -10,7 +10,6 @@ using System.Xml.Linq;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjects;
 using FineCodeCoverage.Collection.CoverageProjectManagement.Settings;
-using FineCodeCoverage.Options.OpenCover;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {
@@ -36,19 +35,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         public string[] ExcludeAssemblies { get; set; }
         public string[] IncludeAssemblies { get; set; }
         public bool DisabledNoCoverage { get; set; }
-        public string CoverletConsoleCustomPath { get; }
-        public bool CoverletConsoleGlobal { get; }
-        public bool CoverletConsoleLocal { get; }
-        public bool RunSettingsOnly { get; }
-        public string CoverletCollectorDirectoryPath { get; }
-        public string OpenCoverTarget { get; }
-        public string OpenCoverTargetArgs { get; }
-        public OpenCoverRegister OpenCoverRegister { get; }
-        public string OpenCoverCustomPath { get; }
-        public string[] Exclude { get; }
-        public string[] Include { get; }
-        public string[] ExcludeByFile { get; set; }
-        public string[] ExcludeByAttribute { get; }
     }
 
     internal static class ReplacementsAssertions
@@ -852,27 +838,6 @@ namespace FineCodeCoverageTests.MsCodeCoverage
     [ExcludeFromCodeCoverage]
     internal class TestCoverageProjectOptions : ICoverageSettings
     {
-        public string[] Exclude { get; set; }
-
-        public string[] ExcludeByAttribute { get; set; }
-
-        public string[] ExcludeByFile { get; set; }
-
-        public string[] Include { get; set; }
-
-
-        public bool RunSettingsOnly { get; set; }
-
-        public bool CoverletConsoleGlobal { get; set; }
-
-        public string CoverletConsoleCustomPath { get; set; }
-
-        public bool CoverletConsoleLocal { get; set; }
-
-        public string CoverletCollectorDirectoryPath { get; set; }
-
-        public string OpenCoverCustomPath { get; set; }
-
         public string[] ModulePathsExclude { get; set; }
         public string[] ModulePathsInclude { get; set; }
         public string[] CompanyNamesExclude { get; set; }
@@ -894,8 +859,5 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
         public string[] ExcludeAssemblies { get; set; }
         public string[] IncludeAssemblies { get; set; }
-        public OpenCoverRegister OpenCoverRegister { get; set; }
-        public string OpenCoverTarget { get; set; }
-        public string OpenCoverTargetArgs { get; set; }
     }
 }

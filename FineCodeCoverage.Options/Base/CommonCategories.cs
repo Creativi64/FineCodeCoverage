@@ -6,7 +6,6 @@
         {
         }
 
-        public const string CoverletOpenCover = "Coverlet / OpenCover";
         public const string Common = "Common";
     }
 }

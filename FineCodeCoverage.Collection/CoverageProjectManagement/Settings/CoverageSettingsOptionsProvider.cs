@@ -2,9 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using FineCodeCoverage.Options.Base;
-using FineCodeCoverage.Options.Coverlet;
 using FineCodeCoverage.Options.IncludesExcludes;
-using FineCodeCoverage.Options.OpenCover;
 using FineCodeCoverage.Options.Run;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
@@ -17,14 +15,10 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
         [ImportingConstructor]
         public CoverageSettingsOptionsProvider(
             IOptionsProvider<IncludesExcludesOptions> includesExcludesOptionsProvider,
-            IOptionsProvider<RunOptions> runOptionsProvider,
-            IOptionsProvider<CoverletOptions> coverletOptionsProvider,
-            IOptionsProvider<OpenCoverOptions> openCoverOptionsProvider)
+            IOptionsProvider<RunOptions> runOptionsProvider)
         {
             _optionsProviders.Add(includesExcludesOptionsProvider);
             _optionsProviders.Add(runOptionsProvider);
-            _optionsProviders.Add(coverletOptionsProvider);
-            _optionsProviders.Add(openCoverOptionsProvider);
         }
 
         public IEnumerable<object> Get() => _optionsProviders.Select(g => g.Options);

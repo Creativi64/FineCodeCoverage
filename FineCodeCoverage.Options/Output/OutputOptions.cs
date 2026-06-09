@@ -13,8 +13,8 @@ namespace FineCodeCoverage.Options.Output
         [DisplayName("Solution Output Directory Name")]
         public string FCCSolutionOutputDirectoryName { get; set; }
 
-        [Description("If your tests are dependent upon their path set this to true. OpenCover / Coverlet")]
-        [Category(CommonCategories.CoverletOpenCover)]
+        [Description("If your tests are dependent upon their path set this to true.")]
+        [Category(CommonCategories.Common)]
         [DisplayName("Adjacent Build Output")]
         public bool AdjacentBuildOutput { get; set; }
     }

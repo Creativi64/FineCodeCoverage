@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.CoverageToolOutput;
-using FineCodeCoverage.Collection.CoverletOpenCover;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Utilities.Events;
@@ -32,7 +30,6 @@ namespace FineCodeCoverage.Collection.Engine
 
         internal const string InitializationFailedMessagePrefix = "Initialization failed.  Please check the following error which may be resolved by reopening visual studio which will start the initialization process again.";
 
-        private readonly ICoverageUtilManager _coverageUtilManager;
         private readonly IReportGeneratorUtil _reportGeneratorUtil;
         private readonly ILogger _logger;
         private readonly ICoverageToolOutputManager _coverageOutputManager;
@@ -43,7 +40,6 @@ namespace FineCodeCoverage.Collection.Engine
 
         [ImportingConstructor]
         public FCCEngine(
-            ICoverageUtilManager coverageUtilManager,
             IReportGeneratorUtil reportGeneratorUtil,
             ILogger logger,
             ICoverageToolOutputManager coverageOutputManager,
@@ -55,7 +51,6 @@ namespace FineCodeCoverage.Collection.Engine
             _disposeAwareTaskRunner = disposeAwareTaskRunner;
             _threadHelper = threadHelper;
             _coverageOutputManager = coverageOutputManager;
-            _coverageUtilManager = coverageUtilManager;
             _reportGeneratorUtil = reportGeneratorUtil;
             _logger = logger;
         }
@@ -84,39 +79,6 @@ namespace FineCodeCoverage.Collection.Engine
             _cancellationTokenSource = _disposeAwareTaskRunner.CreateLinkedTokenSource();
         }
 
-        private async Task<string[]> RunCoverageAsync(List<ICoverageProject> coverageProjects, CancellationToken vsShutdownLinkedCancellationToken)
-        {
-            // process pipeline
-            await PrepareCoverageProjectsAsync(coverageProjects, vsShutdownLinkedCancellationToken);
-
-            foreach (ICoverageProject coverageProject in coverageProjects)
-            {
-                await coverageProject.StepAsync("Run Coverage Tool", async (project) =>
-                {
-                    DateTime start = DateTime.Now;
-
-                    await _coverageUtilManager.RunCoverageAsync(project, vsShutdownLinkedCancellationToken);
-
-                    TimeSpan duration = DateTime.Now - start;
-                    string durationMessage = $"Completed coverage for ({coverageProject.ProjectName}) : {duration}";
-                    await _logger.LogAsync(durationMessage);
-                });
-
-                if (coverageProject.HasFailed)
-                {
-                    string coverageStagePrefix = string.IsNullOrEmpty(coverageProject.FailureStage) ? string.Empty : $"{coverageProject.FailureStage} ";
-                    string failureMessage = $"{coverageProject.FailureStage}({coverageProject.ProjectName}) Failed.";
-                    await _logger.LogAsync(failureMessage, coverageProject.FailureDescription);
-                }
-            }
-
-            IEnumerable<ICoverageProject> passedProjects = coverageProjects.Where(p => !p.HasFailed);
-
-            return passedProjects
-                    .Select(x => x.CoverageOutputFile)
-                    .ToArray();
-        }
-
         private async Task<ReportResult> RunAndProcessReportAsync(
             string[] coverOutputFiles,
             List<ICoverageProject> coverageProjects,
@@ -137,33 +99,6 @@ namespace FineCodeCoverage.Collection.Engine
                 Report = result.ReportResult,
                 CoverageProjects = coverageProjects,
             };
-        }
-
-        private async Task PrepareCoverageProjectsAsync(List<ICoverageProject> coverageProjects, CancellationToken cancellationToken)
-        {
-            foreach (ICoverageProject project in coverageProjects)
-            {
-                if (string.IsNullOrWhiteSpace(project.ProjectFilePath))
-                {
-                    project.FailureDescription = $"Unsupported project type for DLL '{project.TestDllFile}'";
-                    continue;
-                }
-
-                if (!project.Settings.Enabled)
-                {
-                    project.FailureDescription = "Disabled";
-                    continue;
-                }
-
-                CoverageProjectFileSynchronizationDetails fileSynchronizationDetails = await project.PrepareForCoverageAsync(cancellationToken);
-                List<string> logs = fileSynchronizationDetails.Logs;
-                if (logs.Count != 0)
-                {
-                    logs.Insert(0, "File synchronization :");
-                    logs.Add($"File synchronization duration : {fileSynchronizationDetails.Duration}");
-                    await _logger.LogAsync(logs);
-                }
-            }
         }
 
         private void RaiseReportFiles(ReportResult reportResult)
@@ -233,24 +168,5 @@ namespace FineCodeCoverage.Collection.Engine
                 _cancellationTokenSource.Dispose();
             });
         }
-
-        public void ReloadCoverage(Func<Task<List<ICoverageProject>>> coverageRequestCallback)
-            => RunCancellableCoverageTask(
-                async (vsShutdownLinkedCancellationToken) =>
-                {
-                    var reportResult = new ReportResult();
-
-                    List<ICoverageProject> coverageProjects = await coverageRequestCallback();
-                    vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
-
-                    await _coverageOutputManager.SetProjectCoverageOutputFolderAsync(coverageProjects);
-
-                    string[] coverOutputFiles = await RunCoverageAsync(coverageProjects, vsShutdownLinkedCancellationToken);
-                    if (coverOutputFiles.Length != 0)
-                        reportResult = await RunAndProcessReportAsync(coverOutputFiles, coverageProjects, vsShutdownLinkedCancellationToken);
-
-                    return reportResult;
-                },
-                null);
     }
 }
