@@ -1,39 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{01F70D01-062D-4391-AF82-8325B22B87AB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FineCodeCoverageTests</RootNamespace>
-    <AssemblyName>FineCodeCoverageTests</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <RunSettingsFilePath>
-    </RunSettingsFilePath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <UseWPF>True</UseWPF>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -41,219 +10,34 @@
       <HintPath>..\FineCodeCoverage2022\dlls\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="netstandard" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cobertura\Class.cs" />
-    <Compile Include="Cobertura\CoberturaReport.cs" />
-    <Compile Include="Cobertura\Condition.cs" />
-    <Compile Include="Cobertura\Conditions.cs" />
-    <Compile Include="Cobertura\Line.cs" />
-    <Compile Include="Cobertura\Method.cs" />
-    <Compile Include="Cobertura\Package.cs" />
-    <Compile Include="Cobertura\Sources.cs" />
-    <Compile Include="Readme_Tests.cs" />
-    <Compile Include="CoverageProjectSettingsManager_Tests.cs" />
-    <Compile Include="CoverageProjectSettingsProvider_Tests.cs" />
-    <Compile Include="CoverageSettingsReflectionService_Tests.cs" />
-    <Compile Include="CoverageToolOutput_Tests\AppOptionsCoverageToolOutputFolderSolutionProvider_Tests.cs" />
-    <Compile Include="CoverageToolOutput_Tests\CoverageToolOutputFolderFromSolutionProvider_Tests.cs" />
-    <Compile Include="CoverageToolOutput_Tests\CoverageToolOutputManager_Tests.cs" />
-    <Compile Include="CoverageToolOutput_Tests\CoverageToolOutput_Exports_Tests.cs" />
-    <Compile Include="CoverageToolOutput_Tests\FccOutputExistenceCoverageToolOutputFolderSolutionProvider_Tests.cs" />
-    <Compile Include="CoverageToolOutput_Tests\SolutionFolderProvider_Tests.cs" />
-    <Compile Include="CoverageProject_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BlazorCoverageContentType_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BlazorFileCodeSpanRangeService_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BlazorGeneratedFilePathMatcher_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_Applicable_ContentType_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_ClearLines_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_EditorCoverageColouringMode_Off_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_Event_Subscription_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_GetLines_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_LastCoverage_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_NewCoverageLinesMessage_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_Out_Of_Date_NewCoverageLinesMessage_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\BufferLineCoverage_TextChanged_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\BufferLineCoverage\Helpers.cs" />
-    <Compile Include="Editor\DynamicCoverage\CPPCoverageContentType_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\DirtyLineFactory_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\ReportFileLineCoverage_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\RoslynFileCodeSpanRangeService_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\VBCoverageContentType_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\CSharpCoverageContentType_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\LineExcluder_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\CoverageCodeTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackedCoverageLine_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackingLine_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\CodeSpanRangeContainingCodeTrackerFactory_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\NewCodeTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackingLineTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\OtherLinesTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TextInfo_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackedNewCodeLine_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\LineTracker_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackingSpanRangeUpdatingTracker_Tests.cs" />
-    <Compile Include="Editor\IndicatorVisibility\FileIndicatorVisibility_Tests.cs" />
-    <Compile Include="Editor\Management\CoverageClassificationTypeService_Tests.cs" />
-    <Compile Include="Editor\Management\CoverageFontAndColorsCategoryItemNames_Tests.cs" />
-    <Compile Include="Editor\Management\FontsAndColorsHelper_Tests.cs" />
-    <Compile Include="Editor\Roslyn\ContainingCodeVisitor_Tests_Base.cs" />
-    <Compile Include="Editor\Roslyn\CSharpContainingCodeVisitor_Tests.cs" />
-    <Compile Include="Editor\Roslyn\LanguageContainingCodeVisitorFactory_Tests.cs" />
-    <Compile Include="Editor\Roslyn\RoslynService_Tests.cs" />
-    <Compile Include="Editor\Roslyn\VBContainingCodeVisitor_Tests.cs" />
-    <Compile Include="Editor\Tagging\Classification\CoverageClassificationFilter_Tests.cs" />
-    <Compile Include="Editor\Management\CoverageColoursManager_Tests.cs" />
-    <Compile Include="Editor\Tagging\Classification\CoverageLineClassificationTaggerProvider_Tests.cs" />
-    <Compile Include="Editor\Tagging\GlyphMargin\CoverageLineGlyphFactory_Tests.cs" />
-    <Compile Include="Editor\Tagging\GlyphMargin\CoverageLineGlyphTaggerProvider_Tests.cs" />
-    <Compile Include="Editor\Tagging\GlyphMargin\CoverageLineGlyphTagger_Tests.cs" />
-    <Compile Include="Editor\Tagging\OverviewMargin\CoverageLineOverviewMarkTaggerProvider_Tests.cs" />
-    <Compile Include="Editor\Tagging\OverviewMargin\CoverageOverviewMargin_Tests.cs" />
-    <Compile Include="Editor\Tagging\Base\CoverageTaggerProvider_Tests.cs" />
-    <Compile Include="Editor\Tagging\Base\CoverageTagger_Tests.cs" />
-    <Compile Include="Editor\Tagging\Base\CoverageTypeFilterBase_Exception_Tests.cs" />
-    <Compile Include="Editor\Tagging\CoverageTypeFilter_Tests_Base.cs" />
-    <Compile Include="Editor\Tagging\Base\Types\DummyCoverageTypeFilter.cs" />
-    <Compile Include="Editor\Tagging\Base\Types\DummyTag.cs" />
-    <Compile Include="Editor\DynamicCoverage\DynamicCoverageManager_Tests.cs" />
-    <Compile Include="Editor\Management\EditorFormatMapTextSpecificListener_Tests.cs" />
-    <Compile Include="Editor\Management\Helpers\FontAndColorsInfoFactory.cs" />
-    <Compile Include="Editor\Management\FontAndColorsInfosProvider_Tests.cs" />
-    <Compile Include="Editor\Management\FontAndColorsInfo_Equatable_Tests.cs" />
-    <Compile Include="Editor\Tagging\GlyphMargin\GlyphFilter_Tests.cs" />
-    <Compile Include="Editor\Management\ItemCoverageColours_Equatable_Tests.cs" />
-    <Compile Include="Editor\Tagging\TaggerProviders_LanguageSupport_Tests.cs" />
-    <Compile Include="Editor\Tagging\Types\LineSpan.cs" />
-    <Compile Include="Editor\Tagging\Base\DynamicLineAndSnapshotSpansLogic_Tests.cs" />
-    <Compile Include="Editor\Tagging\Base\Types\OtherCoverageTypeFilter.cs" />
-    <Compile Include="Editor\Tagging\Types\SnapshotSpanFactory.cs" />
-    <Compile Include="Editor\Management\TextFormattingRunPropertiesFactory_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\ContainingCodeTrackedLinesBuilder_Tests.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackedCoverageLines_Test.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackedLines_Test.cs" />
-    <Compile Include="Editor\DynamicCoverage\TrackingSpanRange_Tests.cs" />
-    <Compile Include="FCCSettingsFilesProvider_Tests.cs" />
-    <Compile Include="FileLineCoverage_Tests.cs" />
-    <Compile Include="FirstTimeToolWindowOpener_Tests.cs" />
-    <Compile Include="MEFTests.cs" />
-    <Compile Include="Options_Tests.cs" />
-    <Compile Include="PalmediaReportResult_Tests.cs" />
-    <Compile Include="TreeExpander_Tests.cs" />
-    <Compile Include="ReportViewSelectorViewModel_Tests.cs" />
-    <Compile Include="ReportViews_Tests.cs" />
-    <Compile Include="SolutionOptions_Tests.cs" />
-    <Compile Include="TUnitRunner_Tests.cs" />
-    <Compile Include="MsCodeCoverage\ShimCopier_Tests.cs" />
-    <Compile Include="MsCodeCoverage\TemplatedRunSettingsService_Tests.cs" />
-    <Compile Include="MsCodeCoverage\CustomRunSettingsTemplateProvider_Tests.cs" />
-    <Compile Include="MsCodeCoverage\Helpers\XmlHelper.cs" />
-    <Compile Include="MsCodeCoverage\RunSettingsHelper_Tests.cs" />
-    <Compile Include="MsCodeCoverage\RunSettingsTemplate_Tests.cs" />
-    <Compile Include="MsCodeCoverage\MsCodeCoverageRunSettingsService_Collect_Tests.cs" />
-    <Compile Include="MsCodeCoverage\MsCodeCoverageRunSettingsService_IsCollecting_Tests.cs" />
-    <Compile Include="MsCodeCoverage\MsCodeCoverageRunSettingsService_Initialize_Tests.cs" />
-    <Compile Include="MsCodeCoverage\MsCodeCoverageRunSettingsService_IRunSettingsService_Tests.cs" />
-    <Compile Include="MsCodeCoverage\ProjectRunSettingsGenerator_Tests.cs" />
-    <Compile Include="MsCodeCoverage\Implementations\RunSettingsTemplateReplacements.cs" />
-    <Compile Include="MsCodeCoverage\UserRunSettingsService_AddFCCSettings_Tests.cs" />
-    <Compile Include="MsCodeCoverage\UserRunSettingsService_Analysis_Tests.cs" />
-    <Compile Include="MsCodeCoverage\RunSettingsTemplateReplacementsFactory_Tests.cs" />
-    <Compile Include="PackageLoader_Tests.cs" />
-    <Compile Include="ReportColumnManager_Tests.cs" />
-    <Compile Include="ReportColumnsManagmentViewModel_Tests.cs" />
-    <Compile Include="ShownToolWindowHistory_Tests.cs" />
-    <Compile Include="TestHelpers\ExportsInitializable.cs" />
-    <Compile Include="TestHelpers\MEFExportsHelper.cs" />
-    <Compile Include="TestHelpers\MefOrderAssertions.cs" />
-    <Compile Include="TestHelpers\MoqAssertionsHelper.cs" />
-    <Compile Include="TestHelpers\MoqExtensions.cs" />
-    <Compile Include="TestHelpers\MoqMatchers.cs" />
-    <Compile Include="TestHelpers\TestThreadHelper.cs" />
-    <Compile Include="TestHelpers\XmlAssert.cs" />
-    <Compile Include="ToolFolder_Tests.cs" />
-    <Compile Include="ToolUnzipper_Tests.cs" />
-    <Compile Include="ToolZipProvider_Tests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FCCEngine_Tests.cs" />
-    <Compile Include="SettingsMerger_Tests.cs" />
-    <Compile Include="Initializer_Tests.cs" />
-    <Compile Include="ReferencedProject_Tests.cs" />
-    <Compile Include="TestContainerDiscovery_Tests.cs" />
-    <Compile Include="UIClearer_Tests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
-      <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>
-      <Name>FineCodeCoverage.Collection</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj" />
     <ProjectReference Include="..\FineCodeCoverage.ReportGeneratorTool\FineCodeCoverage.ReportGeneratorTool.csproj">
-      <Name>FineCodeCoverage.ReportGeneratorTool</Name>
       <!-- PalmmediaReportGenerator launches the exe from the directory containing FineCodeCoverage.Collection.dll -->
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.Initialization\FineCodeCoverage.Initialization.csproj">
-      <Project>{48af8161-fab3-462d-b898-036b7c9897fb}</Project>
-      <Name>FineCodeCoverage.Initialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.Options\FineCodeCoverage.Options.csproj">
-      <Project>{94e28cea-8b1f-4841-9c5f-7e7b636a2d67}</Project>
-      <Name>FineCodeCoverage.Options</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
-      <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>
-      <Name>FineCodeCoverage.Readme</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj">
-      <Project>{9a8f0ebc-af9d-448d-928d-27e08a77ab23}</Project>
-      <Name>FineCodeCoverage.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj">
-      <Project>{7b206c15-d01c-4144-978d-c37ca9962e69}</Project>
-      <Name>FineCodeCoverage.VSAbstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage2022\FineCodeCoverage2022.csproj">
-      <Project>{59a22196-a750-4ba4-b30e-be1422e68b8e}</Project>
-      <Name>FineCodeCoverage2022</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj">
-      <Project>{96cd0faf-b8df-4cb4-a423-e2f7566ba4a1}</Project>
-      <Name>MarkdigExtended</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
-      <Project>{B1F5830C-2ACB-4ECC-AD8C-8EAADCA586DA}</Project>
-      <Name>TreeGrid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
-      <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
-      <Name>WpfHelpers</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Initialization\FineCodeCoverage.Initialization.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.Options\FineCodeCoverage.Options.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj" />
+    <ProjectReference Include="..\FineCodeCoverage2022\FineCodeCoverage2022.csproj" />
+    <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj" />
+    <ProjectReference Include="..\TreeGrid\TreeGrid.csproj" />
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMoq">
@@ -271,6 +55,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic">
       <Version>5.3.0</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.3.0" />
     <PackageReference Include="Microsoft.CSharp">
       <Version>4.7.0</Version>
     </PackageReference>
@@ -296,8 +81,9 @@
       <Version>2.11.1</Version>
     </PackageReference>
   </ItemGroup>
-  <PropertyGroup Label="FineCodeCoverage">
-    <IncludeReferencedProjects>true</IncludeReferencedProjects>
-  </PropertyGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
