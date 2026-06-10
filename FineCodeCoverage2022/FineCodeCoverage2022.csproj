@@ -130,6 +130,45 @@
       <Link>ZippedTools\dotnet-coverage.17.14.2.zip</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <!-- Runtime dependencies of FineCodeCoverage.ReportGeneratorTool.exe that the VSSDK strips from
+         BuiltProjectOutputGroupDependencies because VS provides them in-process.  The tool runs
+         out-of-process so they must be on disk next to the exe. -->
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\Microsoft.Bcl.AsyncInterfaces.dll">
+      <Link>Microsoft.Bcl.AsyncInterfaces.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Buffers.dll">
+      <Link>System.Buffers.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Collections.Immutable.dll">
+      <Link>System.Collections.Immutable.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.IO.Pipelines.dll">
+      <Link>System.IO.Pipelines.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Memory.dll">
+      <Link>System.Memory.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Numerics.Vectors.dll">
+      <Link>System.Numerics.Vectors.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Runtime.CompilerServices.Unsafe.dll">
+      <Link>System.Runtime.CompilerServices.Unsafe.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Text.Json.dll">
+      <Link>System.Text.Json.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Threading.Tasks.Extensions.dll">
+      <Link>System.Threading.Tasks.Extensions.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
       <Generator>VsixManifestGenerator</Generator>
@@ -279,6 +318,14 @@
       <Name>FineCodeCoverage.Options</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.ReportGeneratorTool\FineCodeCoverage.ReportGeneratorTool.csproj">
+      <Name>FineCodeCoverage.ReportGeneratorTool</Name>
+      <!-- Only the exe - its dependencies (ReportGenerator.Core + Microsoft.Extensions.*) are already
+           shipped via FineCodeCoverage.Collection.  Not referenced for compilation. -->
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly></IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
       <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>

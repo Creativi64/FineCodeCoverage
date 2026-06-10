@@ -21,6 +21,7 @@
   <Project Path="FineCodeCoverage.Initialization/FineCodeCoverage.Initialization.csproj" />
   <Project Path="FineCodeCoverage.Options/FineCodeCoverage.Options.csproj" />
   <Project Path="FineCodeCoverage.Readme/FineCodeCoverage.Readme.csproj" />
+  <Project Path="FineCodeCoverage.ReportGeneratorTool/FineCodeCoverage.ReportGeneratorTool.csproj" />
   <Project Path="FineCodeCoverage.Utilities/FineCodeCoverage.Utilities.csproj" />
   <Project Path="FineCodeCoverage.VSAbstractions/FineCodeCoverage.VSAbstractions.csproj" />
   <Project Path="FineCodeCoverage/FineCodeCoverage.csproj" Id="31c104bb-d294-4942-b206-896aa7a5fcb9" />

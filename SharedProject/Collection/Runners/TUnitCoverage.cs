@@ -145,7 +145,7 @@ namespace FineCodeCoverage.Collection.Runners
                 }
                 else
                 {
-                    await _logger.LogAsync("No enabled Tunit test projects.");
+                    await _logger.LogAsync("No enabled Microsoft.Testing.Platform test projects.");
                 }
             }
             catch (OperationCanceledException)
@@ -186,7 +186,7 @@ namespace FineCodeCoverage.Collection.Runners
 
         private async Task<bool> CollectCoverageAsync(List<ITUnitCoverageProject> tUnitCoverageProjects, CancellationToken cancellationToken)
         {
-            await _logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled TUnit test projects with coverage extension");
+            await _logger.LogAsync($"Collecting coverage for {tUnitCoverageProjects.Count} enabled Microsoft.Testing.Platform test projects");
 
             List<ICoverageProject> coverageProjects = tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject);
             cancellationToken.ThrowIfCancellationRequested();

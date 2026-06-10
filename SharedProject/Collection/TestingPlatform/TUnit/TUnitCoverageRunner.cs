@@ -62,8 +62,11 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             bool hasCoverageExtension)
         {
             string path = hasCoverageExtension ? tUnitSettings.ExePath : _dotnetCoverageExePath;
-            string args = hasCoverageExtension ? $"--disable-logo --coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
-                    $"collect \"{tUnitSettings.ExePath}\" --disable-logo -f cobertura -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
+
+            // Note: do not pass --disable-logo - it is a TUnit-specific option that other Microsoft.Testing.Platform
+            // hosts (e.g. MSTest) reject with "Unknown option" (exit code 5).  The banner it suppressed is harmless.
+            string args = hasCoverageExtension ? $"--coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
+                    $"collect \"{tUnitSettings.ExePath}\" -f cobertura -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
             args = $"{args} {tUnitSettings.AdditionalArgs}";
             return (path, args);
         }
@@ -78,7 +81,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             (string path, string args) = GetExeAndArgs(tUnitSettings, hasCoverageExtension);
 
             // could have FCC option - hide-test-output or just allow them to supply their own
-            await _logger.LogAsync("Executing TUnit", path, "Arguments", args);
+            await _logger.LogAsync("Executing Microsoft.Testing.Platform test host", path, "Arguments", args);
             using (var process = new Process())
             {
                 process.StartInfo = new ProcessStartInfo
