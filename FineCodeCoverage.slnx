@@ -24,7 +24,6 @@
   <Project Path="FineCodeCoverage.ReportGeneratorTool/FineCodeCoverage.ReportGeneratorTool.csproj" />
   <Project Path="FineCodeCoverage.Utilities/FineCodeCoverage.Utilities.csproj" />
   <Project Path="FineCodeCoverage.VSAbstractions/FineCodeCoverage.VSAbstractions.csproj" />
-  <Project Path="FineCodeCoverage/FineCodeCoverage.csproj" Id="31c104bb-d294-4942-b206-896aa7a5fcb9" />
   <Project Path="FineCodeCoverage2022/FineCodeCoverage2022.csproj" Id="59a22196-a750-4ba4-b30e-be1422e68b8e" />
   <Project Path="FineCodeCoverageTests/FineCodeCoverageTests.csproj" Id="01f70d01-062d-4391-af82-8325b22b87ab" />
   <Project Path="GithubReadmeCreator/GithubReadmeCreator.csproj" Id="3a077997-e09a-46d4-a5b6-b2d15115ac19" />

@@ -125,12 +125,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\ShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindows\DialogWindowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\AncestorLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ApplicationResourcesLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\BindToMarkedAncestorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridPreventSelectAllBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridInvokeDataContextOnSelectionChanged.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\EnumStyleResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\IApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ISelectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceDictionaryHelper.cs" />
@@ -264,7 +261,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\VBContainingCodeVisitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingMonikers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\FCCOptionPageInfoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\IOptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\OptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ThemeResourceKeyExtensions.cs" />
@@ -272,10 +268,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ImageLibrary\TraceLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\UI\IUiClearer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\UI\UIClearer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\AssemblyUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\IAssemblyUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\IResourceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\ResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VisualStudioNotificationColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\CancelCollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ClearUICommand.cs" />
@@ -528,8 +520,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\GlyphFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageLineOverviewMarkTaggerProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageOverviewMarginFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\Colours\ColorUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Unused\Colours\ContrastComparisonResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\Logging\LoggerSingleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\DialogPageBase.cs" />
@@ -539,15 +529,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\SolutionOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\SolutionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\ReadOnlyConfigSettingsStoreProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\ReadOnlyUserSettingsStoreProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\SettingsStoreWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\WritableSettingsStoreWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\WritableUserSettingsStoreProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\ColorName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\IVsColorTheme.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\SVsColorThemeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\VsColorEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsColorThemeService\VsColorTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeResourceKeyTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemesResourceDictionary.cs" />
@@ -637,7 +621,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\Settings\" />
     <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\Debugging\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Unused\MarkupExtensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Vs\Settings\Services\" />

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
-using FineCodeCoverage.Core.Utilities;
 using FineCodeCoverage.Utilities.Extensions;
 using FineCodeCoverage.VSAbstractions.Threading;
 using Microsoft.VisualStudio;

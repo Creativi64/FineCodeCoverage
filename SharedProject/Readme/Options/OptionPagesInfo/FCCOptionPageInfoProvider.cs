@@ -10,7 +10,7 @@ namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
     internal sealed class FCCOptionPageInfoProvider : IFCCOptionPageInfoProvider
     {
         public IEnumerable<OptionPageInfo> Provide()
-            => new OptionPageInfoProvider().Provide(
+            => OptionPageInfoProvider.Provide(
                 typeof(FCCPackage),
                 typeof(CoverageSettings).GetProperties().Select(p => p.Name).ToList());
     }

@@ -110,10 +110,6 @@
       <LastGenOutput>FCCPackage.cs</LastGenOutput>
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
-    <Content Include="..\Shared Files\ZippedTools\microsoft.testplatform.16.9.1.zip">
-      <Link>ZippedTools\microsoft.testplatform.16.9.1.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="..\LICENSE">
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>

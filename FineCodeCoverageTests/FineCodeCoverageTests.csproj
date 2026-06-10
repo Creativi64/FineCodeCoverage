@@ -165,7 +165,6 @@
     <Compile Include="ReportViews_Tests.cs" />
     <Compile Include="SolutionOptions_Tests.cs" />
     <Compile Include="TUnitRunner_Tests.cs" />
-    <Compile Include="MsTestPlatformUtils_Tests.cs" />
     <Compile Include="MsCodeCoverage\ShimCopier_Tests.cs" />
     <Compile Include="MsCodeCoverage\TemplatedRunSettingsService_Tests.cs" />
     <Compile Include="MsCodeCoverage\CustomRunSettingsTemplateProvider_Tests.cs" />

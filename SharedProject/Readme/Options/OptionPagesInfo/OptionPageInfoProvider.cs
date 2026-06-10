@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FineCodeCoverage.Readme.Options.OptionPagesInfo
 {
-    internal sealed class OptionPageInfoProvider : IOptionPageInfoProvider
+    internal static class OptionPageInfoProvider
     {
-        public IEnumerable<OptionPageInfo> Provide(Type packageType, List<string> coverageSettingsPropertyNames)
+        public static IEnumerable<OptionPageInfo> Provide(Type packageType, List<string> coverageSettingsPropertyNames)
         {
             IEnumerable<ProvideOptionPageAttribute> provideOptionPageAttributes = packageType.GetCustomAttributes<ProvideOptionPageAttribute>();
             return provideOptionPageAttributes.Select(provideOptionPageAttribute

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
 {
-    public class SettingsMergeLogic : ISettingsMergeLogic
+    public class SettingsMergeLogic
     {
         private interface ITypeMerger
         {

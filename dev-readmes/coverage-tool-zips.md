@@ -1,14 +1,17 @@
 # Updating coverage tool zips procedure
 
-FCC uses 3 coverage providers, these are zip files included in the VSIX.
+FCC uses 2 coverage tool zips included in the VSIX.
 These get extracted to AppData\Local\FineCodeCoverage
+
+- **microsoft.codecoverage** - the MS Code Coverage data collector used for classic VSTest test projects.
+- **dotnet-coverage** - used to collect coverage for Microsoft.Testing.Platform (MTP) test projects that do not reference the `Microsoft.Testing.Extensions.CodeCoverage` package (when the package is present, FCC runs the test host's own `--coverage` extension instead).
 
 You need to debug FCC to ensure updates to these zips work. This will override the existing.
 
 ## All updated zips will need to follow this procedure.
 
 1. Add to \FineCodeCoverage\Shared Files\ZippedTools directory
-2. Add as a linked file to the FineCodeCoverage and FineCodeCoverage2022 projects
+2. Add as a linked file to the FineCodeCoverage2022 project
 
 Expand the project in solution explorer  
 Right click on the ZippedTools directory  
@@ -55,50 +58,9 @@ The shimPath needs to exist.
 4. Add the zip to the solution - see instruction at the top of this page.
 5. Debug
 
-Debug a project with the option MsCodeCoverage Yes
+Debug a classic (VSTest) test project.
 
-### coverletCollector
-
-1. [Download the nuget package](https://www.nuget.org/packages/coverlet.collector/).
-2. Change the file extension to zip
-3. Check to see if the zip is compatible
-   The name should be of the form coverlet.collector.VERSION.zip
-   It needs to be compatible with CoverletDataCollectorUtil
-
-```csharp
-public void Initialize(string appDataFolder,CancellationToken cancellationToken)
-{
-    var zipDestination = toolUnzipper.EnsureUnzipped(appDataFolder, zipDirectoryName, zipPrefix, cancellationToken);
-    var testAdapterPath = Path.Combine(zipDestination, "build", "netstandard2.0");
-    TestAdapterPathArg = $@"""{testAdapterPath}""";
-}
-```
-
-Given that it is a data collector like msCodeCoverage the testAdapterPath needs to be a directory that contains a ...collector.dll which is currently called coverlet.collector.dll. 4. Add the zip to the solution - see instruction at the top of this page. 5. Debug
-
-Debug an SDK style project with RunMsCodeCoverage No and with the test project having an MSBuild property `<UseDataCollector/>`
-
-### coverlet
-
-1. dotnet tool install --global coverlet.console
-
-This will create or update installation in username/.dotnet/tools directory
-
-2. Create a directory - coverlet.console.VERSION
-3. Create a sub directory - .store
-
-Copy the following from within username/.dotnet/tools
-coverlet.exe into coverlet.console.VERSION
-coverlet.console directory into .store.
-
-4. Add the zip to the solution - see instruction at the top of this page.
-5. Debug
-
-Debug an SDK style project with RunMsCodeCoverage No and with the test project **not** having an MSBuild property `<UseDataCollector/>`
-
-### dotent-coverage
-
-In a similar manner to coverlet.console
+### dotnet-coverage
 
 1. dotnet tool install --global dotnet-coverage
 
@@ -114,5 +76,5 @@ dotnet-coverage directory into .store.
 4. Add the zip to the solution - see instruction at the top of this page.
 5. Debug
 
-Debug a TUnit project that does not have Microsoft.Testing.Extensions.CodeCoverage as a package reference.
+Debug a Microsoft.Testing.Platform test project that does not have Microsoft.Testing.Extensions.CodeCoverage as a package reference.
 The TUnitRunner class will use dotnet-coverage when the button with id cmdidCollectTUnitCommand is pressed on the tool window.
