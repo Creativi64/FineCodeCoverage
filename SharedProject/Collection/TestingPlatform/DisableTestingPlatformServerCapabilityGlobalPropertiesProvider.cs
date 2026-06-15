@@ -114,7 +114,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform
 
             bool success = vsHierarchy.GetGuidProperty((uint)VSConstants.VSITEMID.Root, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid projectGuid) == VSConstants.S_OK;
 
-            return success ? projectGuid : (Guid?)null;
+            return success ? projectGuid : null;
         }
 
         private CoverageProject GetCoverageProject(Guid projectGuid)
@@ -127,6 +127,6 @@ namespace FineCodeCoverage.Collection.TestingPlatform
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)
             => await IsApplicableAsync() && !AllProjectsDisabled() && await ProjectEnabledAsync()
                 ? Empty.PropertiesMap.Add("DisableTestingPlatformServerCapability", "true")
-                : (IImmutableDictionary<string, string>)Empty.PropertiesMap;
+                : Empty.PropertiesMap;
     }
 }

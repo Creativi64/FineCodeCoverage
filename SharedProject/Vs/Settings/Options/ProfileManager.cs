@@ -66,7 +66,7 @@ namespace FineCodeCoverage.Vs.Settings.Options
                 foreach (PropertyDescriptor propertyDescriptor in optionProvider.LazyOptionsPropertyDescriptorCollection.Value)
                 {
                     Func<string, PropertyDescriptor, object> deserialize = propertyDescriptor.PropertyType == typeof(string[]) ?
-                        (Func<string, PropertyDescriptor, object>)DeserializeStringArray :
+                        DeserializeStringArray :
                         DeserializeFromPropertyDescriptor;
 
                     object obj = null;
@@ -126,7 +126,7 @@ namespace FineCodeCoverage.Vs.Settings.Options
                     if (propertyValue != null)
                     {
                         Func<object, PropertyDescriptor, string> serialize = propertyDescriptor.PropertyType == typeof(string[]) ?
-                            (Func<object, PropertyDescriptor, string>)SerializeStringArray :
+                            SerializeStringArray :
                             SerializeFromPropertyDescriptor;
 
                         _ = writer.WriteSettingString(propertyDescriptor.Name, serialize(propertyValue, propertyDescriptor));

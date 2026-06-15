@@ -71,7 +71,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                     }
                 }
 
-                return hasTestingPlatformCommandLineArgumentsPropertyName ? false : (bool?)null;
+                return hasTestingPlatformCommandLineArgumentsPropertyName ? false : null;
             }
 
             private async Task<bool> IsTestingPlatformApplicationAsync()

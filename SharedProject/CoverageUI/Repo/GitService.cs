@@ -46,7 +46,7 @@ namespace FineCodeCoverage.Output
     }
 #else
     [Export(typeof(IGitService))]
-    internal class GitService2019 : IGitService
+    internal sealed class GitService2019 : IGitService
     {
         public IGitRepo GetRepository(string selectedRepository) => throw new NotImplementedException();
 

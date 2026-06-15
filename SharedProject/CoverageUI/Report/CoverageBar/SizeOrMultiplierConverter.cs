@@ -12,7 +12,7 @@ namespace FineCodeCoverage.Output
             double? sizeOrMultiplier = values[0] as double?;
             double value = (double)values[1];
             return sizeOrMultiplier.HasValue
-                ? sizeOrMultiplier.Value > 1 ? sizeOrMultiplier.Value : (object)(value * sizeOrMultiplier.Value)
+                ? sizeOrMultiplier.Value > 1 ? sizeOrMultiplier.Value : value * sizeOrMultiplier.Value
                 : DependencyProperty.UnsetValue;
         }
 

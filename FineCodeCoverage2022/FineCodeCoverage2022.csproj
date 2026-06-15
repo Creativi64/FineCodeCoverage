@@ -1,22 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{59A22196-A750-4BA4-B30E-BE1422E68B8E}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FineCodeCoverage</RootNamespace>
     <AssemblyName>FineCodeCoverage2022</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <LangVersion>latest</LangVersion>
+    <!-- Keep the VSIX output at bin\$(Configuration)\ (no TFM subfolder), matching the legacy project. -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- We keep the hand-written Properties\AssemblyInfo.cs. -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- VSIX packaging.  VSSDKBuildToolsAutoSetup makes the Microsoft.VSSDK.BuildTools package import
+         Microsoft.VsSDK.targets (which builds the .vsix) and apply the standard VSIX defaults
+         (CreateVsixContainer, CopyLocalLockFileAssemblies, content inclusion).  Without it an SDK-style
+         project compiles but never produces a .vsix. -->
+    <VSSDKBuildToolsAutoSetup>true</VSSDKBuildToolsAutoSetup>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -27,29 +28,35 @@
     <StartAction>Program</StartAction>
     <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
+
+    <!-- Code style -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <RoslynatorVersion>4.13.1</RoslynatorVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <!-- The WPF markup-compile pass builds a throwaway "*_wpftmp" project just to resolve XAML types.
+       Running the IDE code-style analyzers there adds nothing and surfaces IDE0004 et al. as build
+       errors, so disable analysis for it.  The real compile still enforces code style. -->
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('_wpftmp'))">
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <RunAnalyzers>false</RunAnalyzers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;VS2022</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DeployExtension>True</DeployExtension>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <RoslynatorVersion>4.13.1</RoslynatorVersion>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-  </PropertyGroup>
+
+  <!-- Sources / VSCT that live outside the project cone and so are not auto-globbed. -->
   <ItemGroup>
     <Compile Include="..\Shared Files\FCCPackage.cs">
       <Link>FCCPackage.cs</Link>
@@ -57,13 +64,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FCCPackage.vsct</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source.extension.cs">
+    <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
+      <Link>FCCPackage.vsct</Link>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>FCCPackage.cs</LastGenOutput>
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+
+  <!-- Metadata for files the SDK already globs from the project folder. -->
+  <ItemGroup>
+    <Compile Update="source.extension.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
+    <None Update="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+      <Generator>VsixManifestGenerator</Generator>
+      <LastGenOutput>source.extension.cs</LastGenOutput>
+    </None>
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="..\Art\logo.png">
       <Link>Resources\logo.png</Link>
@@ -104,12 +126,6 @@
     <Resource Include="..\Shared Files\Resources\paypal.png">
       <Link>Resources\paypal.png</Link>
     </Resource>
-    <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
-      <Link>FCCPackage.vsct</Link>
-      <Generator>VsctGenerator</Generator>
-      <LastGenOutput>FCCPackage.cs</LastGenOutput>
-      <ResourceName>Menus.ctmenu</ResourceName>
-    </VSCTCompile>
     <Content Include="..\LICENSE">
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -165,35 +181,26 @@
       <Link>System.Threading.Tasks.Extensions.dll</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-      <Generator>VsixManifestGenerator</Generator>
-      <LastGenOutput>source.extension.cs</LastGenOutput>
-    </None>
+    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
+      <Link>Resources\ClearUICommand.png</Link>
+    </Resource>
   </ItemGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="themes">
       <HintPath>..\Shared Files\themes.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
     <Reference Include="WpfExtended">
       <HintPath>..\Shared Files\WpfExtended.dll</HintPath>
     </Reference>
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="EnhancedFlowDocumentControls">
       <Version>1.0.0</Version>
@@ -276,17 +283,7 @@
       <Version>4.3.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
-      <Link>Resources\ClearUICommand.png</Link>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Readme\VersionedReadMeResourceDictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
       <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>
@@ -374,10 +371,10 @@
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
+
   <Import Project="$(MSBuildProjectDirectory)\LibGit2SharpNativeFiles.targets" />
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+
   <Target Name="FilterRoslynatorAnalyzers" AfterTargets="ResolveNuGetPackageAssets">
     <ItemGroup>
       <Analyzer Remove="$(NuGetPackageRoot)roslynator.analyzers\$(RoslynatorVersion)\analyzers\dotnet\roslyn3.8\**\*" />
@@ -385,11 +382,5 @@
       <Analyzer Remove="$(NuGetPackageRoot)roslynator.refactorings\**\*" />
     </ItemGroup>
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

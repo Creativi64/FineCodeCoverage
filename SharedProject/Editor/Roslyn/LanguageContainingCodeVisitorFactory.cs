@@ -7,7 +7,7 @@ namespace FineCodeCoverage.Editor.Roslyn
     {
         public ILanguageContainingCodeVisitor Create(bool isCSharp)
             => isCSharp ?
-            new CSharpContainingCodeVisitor() as ILanguageContainingCodeVisitor :
+            new CSharpContainingCodeVisitor() :
             new VBContainingCodeVisitor();
     }
 }

@@ -34,7 +34,7 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.ReferencedProjec
 
             bool isDll = configuration.ConfigurationType == ConfigurationTypes.typeDynamicLibrary;
             bool isApplication = configuration.ConfigurationType == ConfigurationTypes.typeApplication;
-            return !isDll && !isApplication ? null : (bool?)isDll;
+            return !isDll && !isApplication ? null : isDll;
         }
 
         private static string GetCPPProjectReferenceProjectFilePath(VCProjectReference reference)

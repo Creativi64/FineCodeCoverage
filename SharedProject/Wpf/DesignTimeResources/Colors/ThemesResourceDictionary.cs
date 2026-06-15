@@ -19,7 +19,7 @@ namespace FineCodeCoverage.Wpf
         }
 
         private static object GetResource(Color color, ThemeResourceKeyType themeResourceKeyType)
-            => themeResourceKeyType.IsBrushType() ? new SolidColorBrush(color) : (object)color;
+            => themeResourceKeyType.IsBrushType() ? new SolidColorBrush(color) : color;
 
         internal void SetTheme(string themeName)
         {
