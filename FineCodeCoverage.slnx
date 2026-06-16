@@ -30,6 +30,8 @@
   <Project Path="FineCodeCoverageTests/FineCodeCoverageTests.csproj" Id="01f70d01-062d-4391-af82-8325b22b87ab" />
   <Project Path="GithubReadmeCreator/GithubReadmeCreator.csproj" Id="3a077997-e09a-46d4-a5b6-b2d15115ac19" />
   <Project Path="MarkdigExtended/MarkdigExtended.csproj" />
+  <Project Path="ThirdParty/EnhancedFlowDocumentControls/EnhancedFlowDocumentControls.csproj" />
+  <Project Path="ThirdParty/Markdig.Wpf/Markdig.Wpf.csproj" />
   <Project Path="SharedProject/SharedProject.shproj" />
   <Project Path="TreeGrid/TreeGrid.csproj" Id="b1f5830c-2acb-4ecc-ad8c-8eaadca586da" />
   <Project Path="VsThemedDialogs.ViewModelInterfaces/VsThemedDialogs.ViewModelInterfaces.csproj" />

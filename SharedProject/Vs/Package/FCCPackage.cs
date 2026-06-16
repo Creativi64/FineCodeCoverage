@@ -41,7 +41,6 @@ namespace FineCodeCoverage.Vs.Package
     /// </para>
     /// </remarks>
     [ProvideBindingPath]
-    [ProvideBindingPath(SubPath = "markdig-redirects")]
     [TraceImageLibraryRegistration(TraceLevel.Off)]
     [Guid(PackageGuids.guidFCCPackageString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]

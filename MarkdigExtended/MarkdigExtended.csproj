@@ -10,7 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" />
-    <PackageReference Include="Markdig.Wpf" />
+    <!-- Vendored (was the abandoned Markdig.Wpf NuGet package); see ThirdParty\Markdig.Wpf\VENDORED.md. -->
+    <ProjectReference Include="..\ThirdParty\Markdig.Wpf\Markdig.Wpf.csproj" />
   </ItemGroup>
 
 </Project>

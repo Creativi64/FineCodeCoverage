@@ -344,6 +344,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\ICPPReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\IDotNetReferencedProjectsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\VsApiReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\ReflectObjectVendored.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\ContainerData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\TestConfiguration.cs" />

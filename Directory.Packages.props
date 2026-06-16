@@ -17,15 +17,22 @@
 
   <ItemGroup>
     <!-- Extension / shared runtime -->
-    <PackageVersion Include="EnhancedFlowDocumentControls" Version="1.0.0" />
     <PackageVersion Include="LibGit2Sharp" Version="0.31.0" />
     <PackageVersion Include="Markdig" Version="1.2.0" />
-    <PackageVersion Include="Markdig.Wpf" Version="0.5.0.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageVersion Include="ReflectObject" Version="1.0.2" />
     <PackageVersion Include="ReportGenerator.Core" Version="5.5.10" />
     <PackageVersion Include="System.CommandLine" Version="2.0.8" />
     <PackageVersion Include="System.Composition" Version="10.0.8" />
+
+    <!-- BCL assemblies that must physically ship in the VSIX so the extension resolves them at
+         runtime (Markdig et al. depend on them).  Previously hand-copied into
+         FineCodeCoverage2022\markdig-redirects\ as loose binaries; now restored from NuGet.
+         Versions match what the rest of the dependency graph already resolves (via System.IO.Pipelines /
+         System.Threading.Tasks.Extensions) so there is a single, unified version of each in the VSIX. -->
+    <PackageVersion Include="System.Buffers" Version="4.6.1" />
+    <PackageVersion Include="System.Memory" Version="4.6.3" />
+    <PackageVersion Include="System.Numerics.Vectors" Version="4.6.1" />
+    <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
 
     <!-- Roslyn / code analysis -->
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />

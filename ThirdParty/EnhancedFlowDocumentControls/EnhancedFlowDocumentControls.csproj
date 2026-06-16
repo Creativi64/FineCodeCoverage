@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <!-- Vendored from https://github.com/tonyhallett/EnhancedFlowDocumentControls (MIT, by Tony Hallett).
+       Brought in-tree instead of as a NuGet package; see VENDORED.md.  Retargeted to net472 to match the
+       extension, the Fasterflect dependency was removed (ViewModel/FindToolBarReflector.cs now uses plain
+       System.Reflection), and the packaging / test-only attributes were dropped. -->
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>EnhancedFlowDocumentControls</AssemblyName>
+    <RootNamespace>EnhancedFlowDocumentControls</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <!-- Third-party code: keep FCC's analyzers/code-style off it. -->
+    <RunAnalyzers>false</RunAnalyzers>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

@@ -95,22 +95,6 @@
       <Link>Resources\preview-coverage.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="markdig-redirects\System.Buffers.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="markdig-redirects\System.Memory.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="markdig-redirects\System.Numerics.Vectors.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="markdig-redirects\System.Runtime.CompilerServices.Unsafe.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Resource Include="..\Shared Files\Resources\ReportWindow.png">
       <Link>Resources\ReportWindow.png</Link>
     </Resource>
@@ -186,21 +170,35 @@
     </Resource>
   </ItemGroup>
 
+  <!-- Referencing the v18 TestWindow.Interfaces from the installed VS pulls in v18 Microsoft.VisualStudio.GraphModel,
+       which RAR flags (MSB3277) against the v17.14 Microsoft.VisualStudio.SDK packages.  There is no v18 VS SDK
+       (Microsoft ships only 17.x; VS2026 runs 17-SDK extensions via back-compat), so this conflict can't be
+       "fixed" by a version bump.  It is harmless - the VS2026 host provides and unifies a single v18 GraphModel at
+       runtime - so the warning is downgraded to a message here. -->
+  <PropertyGroup>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
   <ItemGroup>
-    <!-- Hand-copied from the VS install (Microsoft-signed, v17.0.0.0 - the version VS loads at runtime).
-         Intentionally NOT a PackageReference: the only NuGet package (Microsoft.VisualStudio.TestWindow.Interfaces)
-         is stuck at v11.x, which would be an API downgrade.  SpecificVersion=False so it unifies with the VS host. -->
-    <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <!-- Microsoft.VisualStudio.TestWindow.Interfaces is not on NuGet at a usable version (the package is
+         frozen at v11.x - an API downgrade), and it can't be vendored as local C# either: the types here
+         (ITestContainerDiscoverer, IRunSettingsService, IOperation, IOperationState, ...) are MEF contracts
+         exchanged with the VS host (see [Export]/[Import] in SharedProject\Collection), so a copy with a
+         different assembly identity would break MEF composition and the test-explorer / MS Code Coverage
+         integration.  Instead we reference the real assembly straight out of the installed VS via
+         $(VsInstallRoot).  This is safe because the VSIX targets a single VS major (see the [18.0,19.0)
+         InstallationTarget in source.extension.vsixmanifest), so the build machine's VS and the runtime host
+         are the same major version.  SpecificVersion=False so it unifies with the host at runtime. -->
+    <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
+      <HintPath>$(VsInstallRoot)\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EnhancedFlowDocumentControls">
-    </PackageReference>
     <PackageReference Include="LibGit2Sharp">
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
@@ -232,8 +230,6 @@
     </PackageReference>
     <PackageReference Include="NuGet.VisualStudio.Contracts">
     </PackageReference>
-    <PackageReference Include="ReflectObject">
-    </PackageReference>
     <PackageReference Include="Roslynator.Analyzers">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -253,6 +249,17 @@
     <PackageReference Include="System.CommandLine">
     </PackageReference>
     <PackageReference Include="System.Composition">
+    </PackageReference>
+    <!-- BCL assemblies Markdig needs at runtime.  Declared as direct copy-local references so the
+         VSSDK packs them into the .vsix (CopyLocalLockFileAssemblies + IncludeCopyLocalReferencesInVSIXContainer).
+         Replaces the loose, hand-copied binaries that used to live in markdig-redirects\. -->
+    <PackageReference Include="System.Buffers">
+    </PackageReference>
+    <PackageReference Include="System.Memory">
+    </PackageReference>
+    <PackageReference Include="System.Numerics.Vectors">
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
     </PackageReference>
   </ItemGroup>
 
@@ -308,6 +315,8 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <!-- Vendored (was the EnhancedFlowDocumentControls NuGet package); see ThirdParty\EnhancedFlowDocumentControls\VENDORED.md. -->
+    <ProjectReference Include="..\ThirdParty\EnhancedFlowDocumentControls\EnhancedFlowDocumentControls.csproj" />
     <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj">
       <Project>{96cd0faf-b8df-4cb4-a423-e2f7566ba4a1}</Project>
       <Name>MarkdigExtended</Name>
