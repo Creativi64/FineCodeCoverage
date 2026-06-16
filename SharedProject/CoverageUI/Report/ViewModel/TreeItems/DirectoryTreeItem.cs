@@ -7,17 +7,25 @@ namespace FineCodeCoverage.Output
 {
     internal class DirectoryTreeItem : ReportTreeItemBase
     {
-        public DirectoryTreeItem(IDirectory directory, SourceFileStructure sourceFileStructure)
+        public DirectoryTreeItem(IDirectory directory, SourceFileStructure sourceFileStructure, IChangeset changeset = null)
         {
             Name = directory.Name;
             foreach (IDirectory subDirectory in directory.SubDirectories)
             {
-                ObservableChildren.Add(new DirectoryTreeItem(subDirectory, sourceFileStructure) { Parent = this });
+                var subDirectoryTreeItem = new DirectoryTreeItem(subDirectory, sourceFileStructure, changeset) { Parent = this };
+                if (changeset == null || subDirectoryTreeItem.HasChangesetContent)
+                {
+                    ObservableChildren.Add(subDirectoryTreeItem);
+                }
             }
 
             foreach (ISourceFile sourceFile in directory.SourceFiles)
             {
-                ObservableChildren.Add(new SourceFileTreeItem(sourceFile, sourceFileStructure) { Parent = this });
+                var sourceFileTreeItem = new SourceFileTreeItem(sourceFile, sourceFileStructure, changeset) { Parent = this };
+                if (changeset == null || sourceFileTreeItem.HasChangesetContent)
+                {
+                    ObservableChildren.Add(sourceFileTreeItem);
+                }
             }
 
             CoverableLines = ObservableChildren.Sum(c => c.CoverableLines);

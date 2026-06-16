@@ -8,7 +8,7 @@ namespace FineCodeCoverage.Output
 {
     public class AssemblyTreeItem : ReportTreeItemBase
     {
-        public AssemblyTreeItem(IAssembly assembly, bool isTestAssembly)
+        public AssemblyTreeItem(IAssembly assembly, bool isTestAssembly, IChangeset changeset = null)
         {
             Name = assembly.ShortName;
             ImageMoniker = isTestAssembly ? KnownMonikers.Test : KnownMonikers.Assembly;
@@ -19,10 +19,12 @@ namespace FineCodeCoverage.Output
                 return classNamespace;
             }).Select(namespaceGroup => new NamespaceTreeItem(
                 namespaceGroup.Key,
-                namespaceGroup.Select(clss => new ClassTreeItem(clss)))
+                namespaceGroup.Select(clss => new ClassTreeItem(clss, changeset)),
+                changeset)
             {
                 Parent = this,
-            });
+            })
+                .Where(namespaceTreeItem => changeset == null || namespaceTreeItem.HasChangesetContent);
 
             foreach (NamespaceTreeItem namespaceTreeItem in namespaceTreeItems)
             {

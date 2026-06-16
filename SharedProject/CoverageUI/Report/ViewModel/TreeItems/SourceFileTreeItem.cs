@@ -13,7 +13,7 @@ namespace FineCodeCoverage.Output
     {
         private bool _hasNewCode;
 
-        public SourceFileTreeItem(ISourceFile sourceFile, SourceFileStructure sourceFileStructure)
+        public SourceFileTreeItem(ISourceFile sourceFile, SourceFileStructure sourceFileStructure, IChangeset changeset = null)
         {
             Name = Path.GetFileName(sourceFile.Path);
             sourceFile.HasNewCodeChanged += (_, __) => MainThreadHelper.SwitchAndFileAndForget(
@@ -37,10 +37,10 @@ namespace FineCodeCoverage.Output
             switch (sourceFileStructure)
             {
                 case SourceFileStructure.Class:
-                    children = sourceFile.Classes.Select(clss => new ClassTreeItem(clss));
+                    children = sourceFile.Classes.Select(clss => new ClassTreeItem(clss, changeset));
                     break;
                 case SourceFileStructure.Method:
-                    children = sourceFile.Classes.SelectMany(c => c.CodeElements.Select(codeElement => new CodeElementTreeItem(codeElement)));
+                    children = sourceFile.Classes.SelectMany(c => c.CodeElements.Select(codeElement => new CodeElementTreeItem(codeElement, changeset)));
                     break;
                 case SourceFileStructure.NamespaceAndClass:
                     children = sourceFile.Classes.GroupBy(clss =>
@@ -49,11 +49,12 @@ namespace FineCodeCoverage.Output
                         return string.Join(".", classNameParts, 0, classNameParts.Length - 1);
                     }).Select(namespaceGroup => new NamespaceTreeItem(
                         namespaceGroup.Key,
-                        namespaceGroup.Select(clss => new ClassTreeItem(clss))));
+                        namespaceGroup.Select(clss => new ClassTreeItem(clss, changeset)),
+                        changeset));
                     break;
             }
 
-            foreach (ReportTreeItemBase child in children)
+            foreach (ReportTreeItemBase child in children.Where(child => changeset == null || child.HasChangesetContent))
             {
                 child.Parent = this;
                 ObservableChildren.Add(child);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
 
@@ -6,10 +7,10 @@ namespace FineCodeCoverage.Output
 {
     public class NamespaceTreeItem : ReportTreeItemBase
     {
-        public NamespaceTreeItem(string namespaceName, IEnumerable<ReportTreeItemBase> children)
+        public NamespaceTreeItem(string namespaceName, IEnumerable<ReportTreeItemBase> children, IChangeset changeset = null)
         {
             Name = namespaceName;
-            foreach (ReportTreeItemBase child in children)
+            foreach (ReportTreeItemBase child in children.Where(child => changeset == null || child.HasChangesetContent))
             {
                 ObservableChildren.Add(child);
                 child.Parent = this;

@@ -11,8 +11,9 @@ namespace FineCodeCoverage.Output
             IDirectory directory,
             string path,
             bool nameIsPath,
-            SourceFileStructure sourceFileStructure)
-            : base(directory, sourceFileStructure)
+            SourceFileStructure sourceFileStructure,
+            IChangeset changeset = null)
+            : base(directory, sourceFileStructure, changeset)
         {
             _name = Name;
             _path = path;

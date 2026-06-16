@@ -94,6 +94,10 @@ namespace FineCodeCoverage.Output
 
         public int NotCoveredBranches => TotalBranches - CoveredBranches;
 
+        // When filtering to a changeset, a node is kept only if it still has content.
+        // Containers have content when they have children; the code element leaf overrides this.
+        internal virtual bool HasChangesetContent => ObservableChildren.Count > 0;
+
         internal static double SharedAdditionalAdjustment { get; set; } = 26;
 
         // crisp image width and margin

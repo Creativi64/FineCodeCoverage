@@ -197,8 +197,8 @@ namespace FineCodeCoverage.Output
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                List<ReportTreeItemBase> newItems = _reportViews.ReportStyle == ReportStyle.Assembly ? CreateAssemblyTreeItems() :
-                    CreateSourceTreeItems();
+                List<ReportTreeItemBase> newItems = _reportViews.ReportStyle == ReportStyle.Assembly ? CreateAssemblyTreeItems(newChangeset) :
+                    CreateSourceTreeItems(newChangeset);
                 AddTotalRowIfRequired(newItems);
                 RestoreExpansionStateIfRequired(newItems);
                 AdjustWidths(newItems);
@@ -212,7 +212,7 @@ namespace FineCodeCoverage.Output
             _items.AddRange(newItems);
         }
 
-        private List<ReportTreeItemBase> CreateAssemblyTreeItems()
+        private List<ReportTreeItemBase> CreateAssemblyTreeItems(IChangeset changeset)
             => _lastReport.Assemblies.Select(assembly =>
             {
                 bool isTestAssembly = false;
@@ -221,25 +221,30 @@ namespace FineCodeCoverage.Output
                     isTestAssembly = true;
                 }
 
-                return (ReportTreeItemBase)new AssemblyTreeItem(assembly, isTestAssembly);
-            }).ToList();
+                return (ReportTreeItemBase)new AssemblyTreeItem(assembly, isTestAssembly, changeset);
+            })
+            .Where(assemblyTreeItem => changeset == null || assemblyTreeItem.HasChangesetContent)
+            .ToList();
 
-        private List<ReportTreeItemBase> CreateSourceTreeItems()
+        private List<ReportTreeItemBase> CreateSourceTreeItems(IChangeset changeset)
         {
             IDirectory rootDirectory = _lastReport.Directory;
             if (rootDirectory != null)
             {
                 if (rootDirectory.SourceFiles.Any())
                 {
-                    var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory, rootDirectory.Name, _rootDirectoryNameFromPath, _sourceFileStructure);
-                    return new List<ReportTreeItemBase>
-                    {
-                        directoryTreeItem,
-                    };
+                    var directoryTreeItem = new RootDirectoryTreeItem(rootDirectory, rootDirectory.Name, _rootDirectoryNameFromPath, _sourceFileStructure, changeset);
+                    return changeset != null && !directoryTreeItem.HasChangesetContent
+                        ? new List<ReportTreeItemBase>()
+                        : new List<ReportTreeItemBase>
+                        {
+                            directoryTreeItem,
+                        };
                 }
 
                 return rootDirectory.SubDirectories.Select(d => (ReportTreeItemBase)new RootDirectoryTreeItem(
-                    d, Path.Combine(rootDirectory.Name, d.Name), _rootDirectoryNameFromPath, _sourceFileStructure))
+                    d, Path.Combine(rootDirectory.Name, d.Name), _rootDirectoryNameFromPath, _sourceFileStructure, changeset))
+                .Where(directoryTreeItem => changeset == null || directoryTreeItem.HasChangesetContent)
                 .ToList();
             }
 

@@ -12,16 +12,18 @@ namespace FineCodeCoverage.Output
         private readonly IReadOnlyList<ICoberturaLine> _lines;
 
         public CodeElementTreeItem(
-            ICodeElement codeElement)
+            ICodeElement codeElement,
+            IChangeset changeset = null)
         {
             Name = codeElement.Name;
             ImageMoniker = codeElement.CodeElementType == CodeElementType.Method ?
                 KnownMonikers.Method : KnownMonikers.Property;
             _lines = codeElement.Lines;
-            CoverableLines = codeElement.Lines.Count;
-            CoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Covered);
-            NotCoveredLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.NotCovered);
-            PartialLines = codeElement.Lines.Count(l => l.CoverageType == CoverageType.Partial);
+            IReadOnlyList<ICoberturaLine> coverageLines = ChangesetLines(codeElement, changeset);
+            CoverableLines = coverageLines.Count;
+            CoveredLines = coverageLines.Count(l => l.CoverageType == CoverageType.Covered);
+            NotCoveredLines = coverageLines.Count(l => l.CoverageType == CoverageType.NotCovered);
+            PartialLines = coverageLines.Count(l => l.CoverageType == CoverageType.Partial);
             NPathComplexity = codeElement.NPathComplexity;
             CrapScore = codeElement.CrapScore;
             CyclomaticComplexity = codeElement.CyclomaticComplexity;
@@ -29,6 +31,21 @@ namespace FineCodeCoverage.Output
             CoveredBranches = codeElement.BranchesCovered;
             _codeElement = codeElement;
         }
+
+        // In changeset mode only the changed lines count towards coverage; the
+        // element drops out of the report when none of its lines were changed.
+        private static IReadOnlyList<ICoberturaLine> ChangesetLines(ICodeElement codeElement, IChangeset changeset)
+        {
+            if (changeset == null)
+            {
+                return codeElement.Lines;
+            }
+
+            var changedLineNumbers = new HashSet<int>(changeset.GetLineNumbers(codeElement.Path));
+            return codeElement.Lines.Where(line => changedLineNumbers.Contains(line.Number)).ToList();
+        }
+
+        internal override bool HasChangesetContent => CoverableLines > 0;
 
         public override ImageMoniker ImageMoniker { get; }
 

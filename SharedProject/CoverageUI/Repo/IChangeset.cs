@@ -2,7 +2,7 @@
 
 namespace FineCodeCoverage.Output
 {
-    internal interface IChangeset
+    public interface IChangeset
     {
         List<int> GetLineNumbers(string filePath);
     }

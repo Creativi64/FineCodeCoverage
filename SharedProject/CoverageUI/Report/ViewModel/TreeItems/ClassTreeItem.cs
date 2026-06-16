@@ -8,14 +8,15 @@ namespace FineCodeCoverage.Output
 {
     public class ClassTreeItem : ReportTreeItemBase
     {
-        public ClassTreeItem(IClass clss)
+        public ClassTreeItem(IClass clss, IChangeset changeset = null)
         {
             Name = clss.DisplayName.Split('.').Last();
             IEnumerable<CodeElementTreeItem> codeElements = clss.CodeElements.Select(
-                codeElement => new CodeElementTreeItem(codeElement)
+                codeElement => new CodeElementTreeItem(codeElement, changeset)
                 {
                     Parent = this,
-                });
+                })
+                .Where(codeElement => changeset == null || codeElement.HasChangesetContent);
 
             foreach (CodeElementTreeItem codeElement in codeElements)
             {
