@@ -9,10 +9,6 @@
     <Import_RootNamespace>FineCodeCoverage</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Readme\ReadMeResourceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -45,14 +41,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingDialogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Feedback\Github\NewIssueDialogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Demo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -72,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\BranchViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\MessageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\AlwaysPositionWhenFCCDebugging.cs" />
@@ -100,12 +87,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorWindow.xaml.cs">
       <DependentUpon>ReportViewSelectorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingDialogWindow.xaml.cs">
-      <DependentUpon>FundingDialogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback\Github\NewIssueDialogWindow.xaml.cs">
-      <DependentUpon>NewIssueDialogWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Demo.xaml.cs">
       <DependentUpon>Demo.xaml</DependentUpon>
     </Compile>
@@ -120,10 +101,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Vsix.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackageLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadMeFlowDocumentStyleSetter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ReadmeToolWindowContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\ShowReadMeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindows\DialogWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ApplicationResourcesLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridPreventSelectAllBehaviour.cs" />
@@ -259,9 +236,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\RoslynService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\TextSnapshotToSyntaxService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\VBContainingCodeVisitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Feedback\Funding\FundingMonikers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\FCCOptionPageInfoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Readme\Options\OptionPagesInfo\OptionPageInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ThemeResourceKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ImageLibrary\TraceImageLibraryRegistrationAttribute.cs" />
@@ -279,14 +253,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ICollectTUnitCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\ICommandInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ITUnitCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\NewIssueCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenCoberturaCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenFCCGithubCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenFCCOutputPaneCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenFundingCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenHotspotsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenMarketplaceRateAndReviewCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenReadMeCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenReportWindowCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenSettingsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ResetSettingsCommand.cs" />

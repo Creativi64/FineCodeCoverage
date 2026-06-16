@@ -85,31 +85,7 @@
 			</Strings>
 		</Button>
 		<!-- Toolwindow toolbar ***-->
-	
-		<!-- Read group	-->
-		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenReadMeCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReadGroup" />
-			<Icon guid="ImageCatalogGuid" id="WelcomeUserGuide" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>Open Readme</ButtonText>
-				<CommandName>FCC Readme</CommandName>
-				<CanonicalName>FCC.Readme</CanonicalName>
-				<LocCanonicalName>FCC.Readme</LocCanonicalName>
-			</Strings>
-		</Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCGithubCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="ReadGroup" />
-			<Icon guid="ImageCatalogGuid" id="3809" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>Open FCC Github</ButtonText>
-				<CommandName>FCC Open Github</CommandName>
-				<CanonicalName>FCC.OpenGithub</CanonicalName>
-				<LocCanonicalName>FCC.OpenGithub</LocCanonicalName>
-			</Strings>
-		</Button>
-	
+
 		<!-- Report details group-->
 		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFCCOutputPaneCommand" priority="0x0100" type="Button">
 			<Parent guid="guidFCCPackageCmdSet" id="ReportDetailsGroup" />
@@ -144,42 +120,7 @@
 				<LocCanonicalName>FCC.OpenHotspots</LocCanonicalName>
 			</Strings>
 		</Button>
-	  
-		<!-- Feedback group -->
-		<Button guid="guidFCCPackageCmdSet" id="cmdidNewIssueCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="FeedbackGroup" />
-			<Icon guid="ImageCatalogGuid" id="NewBug" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>New Issue</ButtonText>
-				<CommandName>FCC New Issue</CommandName>
-				<CanonicalName>FCC.NewIssue</CanonicalName>
-				<LocCanonicalName>FCC.NewIssue</LocCanonicalName>
-			</Strings>
-		</Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidMarketplaceRateAndReviewCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="FeedbackGroup" />
-			<Icon guid="ImageCatalogGuid" id="VisualStudioFeedback" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-			  <ButtonText>Rate and Review</ButtonText>
-			  <CommandName>FCC Rate and Review</CommandName>
-			  <CanonicalName>FCC.RateAndReview</CanonicalName>
-			  <LocCanonicalName>FCC.RateAndReview</LocCanonicalName>
-			</Strings>
-	    </Button>
-		<Button guid="guidFCCPackageCmdSet" id="cmdidOpenFundingCommand" priority="0x0100" type="Button">
-			<Parent guid="guidFCCPackageCmdSet" id="FeedbackGroup" />
-			<Icon guid="ImageCatalogGuid" id="3994" />
-			<CommandFlag>IconIsMoniker</CommandFlag>
-			<Strings>
-				<ButtonText>Open Funding</ButtonText>
-				<CommandName>FCC Funding</CommandName>
-				<CanonicalName>FCC.Funding</CanonicalName>
-				<LocCanonicalName>FCC.Funding</LocCanonicalName>
-			</Strings>
-		</Button>
-		
+
 		<!-- Configuration group-->
 		<Button guid="guidFCCPackageCmdSet" id="cmdidEditColumnsCommand" priority="0x0100" type="Button">
 			<Parent guid="guidFCCPackageCmdSet" id="ConfigurationGroup" />
@@ -255,12 +196,6 @@
 		<Group guid="guidFCCPackageCmdSet" id="FCCToolsMenuGroup" priority="0x0600">
 			<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
 		</Group>
-		<Group guid="guidFCCPackageCmdSet" id="ReadGroup" priority="0x0000">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
-		</Group>
-		<Group guid="guidFCCPackageCmdSet" id="FeedbackGroup" priority="0x0000">
-			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
-		</Group>
 		<Group guid="guidFCCPackageCmdSet" id="ReportDetailsGroup" priority="0x0000">
 			<Parent guid="guidFCCPackageCmdSet" id="ReportToolWindowToolbar" />
 		</Group>
@@ -280,8 +215,6 @@
 	<GuidSymbol value="{d58a999f-4a1b-42df-839a-cb31a0a4fed7}" name="guidFCCPackageCmdSet">
 		<IDSymbol value="4128" name="FCCToolsMenuGroup" />
 		<IDSymbol value="4129" name="ReportToolWindowToolbar" />
-		<IDSymbol value="4130" name="ReadGroup" />
-		<IDSymbol value="4131" name="FeedbackGroup" />
 		<IDSymbol value="4132" name="ReportDetailsGroup" />
 		<IDSymbol value="4133" name="ConfigurationGroup" />
 		<IDSymbol value="4136" name="RunGroup" />
@@ -289,14 +222,7 @@
 		<IDSymbol value="1" name="cmdidOpenReportWindowCommand" />
 		<IDSymbol value="2" name="cmdidToggleCoverageIndicatorsCommand" />
 		<IDSymbol value="3" name="cmdidClearUICommand" />
-	
-		<IDSymbol value="4" name="cmdidOpenReadMeCommand" />
-		<IDSymbol value="5" name="cmdidOpenFCCGithubCommand" />
-	
-		<IDSymbol value="6" name="cmdidNewIssueCommand" />
-		<IDSymbol value="7" name="cmdidMarketplaceRateAndReviewCommand" />
-		<IDSymbol value="8" name="cmdidOpenFundingCommand" />
-		
+
 		<IDSymbol value="9" name="cmdidOpenFCCOutputPaneCommand" />
 		<IDSymbol value="10" name="cmdidOpenCoberturaCommand" />
 		<IDSymbol value="11" name="cmdidOpenHotspotsCommand" />

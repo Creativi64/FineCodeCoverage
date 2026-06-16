@@ -30,19 +30,12 @@ namespace FineCodeCoverage
     {
         public const int FCCToolsMenuGroup = 0x1020;
         public const int ReportToolWindowToolbar = 0x1021;
-        public const int ReadGroup = 0x1022;
-        public const int FeedbackGroup = 0x1023;
         public const int ReportDetailsGroup = 0x1024;
         public const int ConfigurationGroup = 0x1025;
         public const int RunGroup = 0x1028;
         public const int cmdidOpenReportWindowCommand = 0x0001;
         public const int cmdidToggleCoverageIndicatorsCommand = 0x0002;
         public const int cmdidClearUICommand = 0x0003;
-        public const int cmdidOpenReadMeCommand = 0x0004;
-        public const int cmdidOpenFCCGithubCommand = 0x0005;
-        public const int cmdidNewIssueCommand = 0x0006;
-        public const int cmdidMarketplaceRateAndReviewCommand = 0x0007;
-        public const int cmdidOpenFundingCommand = 0x0008;
         public const int cmdidOpenFCCOutputPaneCommand = 0x0009;
         public const int cmdidOpenCoberturaCommand = 0x000A;
         public const int cmdidOpenHotspotsCommand = 0x000B;

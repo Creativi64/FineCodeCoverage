@@ -252,9 +252,10 @@
     </PackageReference>
     <PackageReference Include="System.Composition">
     </PackageReference>
-    <!-- BCL assemblies Markdig needs at runtime.  Declared as direct copy-local references so the
-         VSSDK packs them into the .vsix (CopyLocalLockFileAssemblies + IncludeCopyLocalReferencesInVSIXContainer).
-         Replaces the loose, hand-copied binaries that used to live in markdig-redirects\. -->
+    <!-- BCL assemblies that must physically ship in the VSIX so the extension resolves them at runtime
+         (Roslyn / VS SDK transitively depend on them via System.IO.Pipelines / System.Threading.Tasks.Extensions).
+         Declared as direct copy-local references so the VSSDK packs them into the .vsix
+         (CopyLocalLockFileAssemblies + IncludeCopyLocalReferencesInVSIXContainer). -->
     <PackageReference Include="System.Buffers">
     </PackageReference>
     <PackageReference Include="System.Memory">
@@ -269,12 +270,6 @@
     <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
       <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>
       <Name>FineCodeCoverage.Collection</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.Feedback\FineCodeCoverage.Feedback.csproj">
-      <Project>{1638D418-B831-44C7-8F3E-717FF1D21414}</Project>
-      <Name>FineCodeCoverage.Feedback</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
@@ -305,23 +300,11 @@
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
-    <ProjectReference Include="..\FineCodeCoverage.Readme\FineCodeCoverage.Readme.csproj">
-      <Project>{5553705c-a85b-46bc-a406-8f113fd18638}</Project>
-      <Name>FineCodeCoverage.Readme</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
     <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj">
       <Project>{7b206c15-d01c-4144-978d-c37ca9962e69}</Project>
       <Name>FineCodeCoverage.VSAbstractions</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
-    <!-- Vendored (was the EnhancedFlowDocumentControls NuGet package); see ThirdParty\EnhancedFlowDocumentControls\VENDORED.md. -->
-    <ProjectReference Include="..\ThirdParty\EnhancedFlowDocumentControls\EnhancedFlowDocumentControls.csproj" />
-    <ProjectReference Include="..\MarkdigExtended\MarkdigExtended.csproj">
-      <Project>{96cd0faf-b8df-4cb4-a423-e2f7566ba4a1}</Project>
-      <Name>MarkdigExtended</Name>
     </ProjectReference>
     <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
       <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>

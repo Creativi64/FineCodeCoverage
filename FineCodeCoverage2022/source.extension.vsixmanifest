@@ -26,12 +26,10 @@
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" d:Source="Project" d:ProjectName="%CurrentProject%" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|%CurrentProject%|" d:Source="Project" d:ProjectName="%CurrentProject%" />
-    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Feedback|" d:Source="Project" d:ProjectName="FineCodeCoverage.Feedback" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Utilities|" d:Source="Project" d:ProjectName="FineCodeCoverage.Utilities" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Initialization|" d:Source="Project" d:ProjectName="FineCodeCoverage.Initialization" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Options|" d:Source="Project" d:ProjectName="FineCodeCoverage.Options" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Collection|" d:Source="Project" d:ProjectName="FineCodeCoverage.Collection" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Hotspots|" d:Source="Project" d:ProjectName="FineCodeCoverage.Hotspots" />
-    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Readme|" d:Source="Project" d:ProjectName="FineCodeCoverage.Readme" />
   </Assets>
 </PackageManifest>

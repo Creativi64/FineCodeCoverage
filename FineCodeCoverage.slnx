@@ -15,12 +15,9 @@
     <File Path="Settings.XamlStyler" />
   </Folder>
   <Project Path="FineCodeCoverage.Collection/FineCodeCoverage.Collection.csproj" />
-  <Project Path="FineCodeCoverage.Feedback/FineCodeCoverage.Feedback.csproj" />
-  <Project Path="FineCodeCoverage.Github/FineCodeCoverage.Github.csproj" Id="f2dbd862-e3f9-497f-a33e-cdbadf2f8fea" />
   <Project Path="FineCodeCoverage.Hotspots/FineCodeCoverage.Hotspots.csproj" />
   <Project Path="FineCodeCoverage.Initialization/FineCodeCoverage.Initialization.csproj" />
   <Project Path="FineCodeCoverage.Options/FineCodeCoverage.Options.csproj" />
-  <Project Path="FineCodeCoverage.Readme/FineCodeCoverage.Readme.csproj" />
   <Project Path="FineCodeCoverage.ReportGeneratorTool/FineCodeCoverage.ReportGeneratorTool.csproj" />
   <Project Path="FineCodeCoverage.Utilities/FineCodeCoverage.Utilities.csproj" />
   <Project Path="FineCodeCoverage.VSAbstractions/FineCodeCoverage.VSAbstractions.csproj" />
@@ -28,10 +25,6 @@
     <Deploy Solution="Debug|*" />
   </Project>
   <Project Path="FineCodeCoverageTests/FineCodeCoverageTests.csproj" Id="01f70d01-062d-4391-af82-8325b22b87ab" />
-  <Project Path="GithubReadmeCreator/GithubReadmeCreator.csproj" Id="3a077997-e09a-46d4-a5b6-b2d15115ac19" />
-  <Project Path="MarkdigExtended/MarkdigExtended.csproj" />
-  <Project Path="ThirdParty/EnhancedFlowDocumentControls/EnhancedFlowDocumentControls.csproj" />
-  <Project Path="ThirdParty/Markdig.Wpf/Markdig.Wpf.csproj" />
   <Project Path="SharedProject/SharedProject.shproj" />
   <Project Path="TreeGrid/TreeGrid.csproj" Id="b1f5830c-2acb-4ecc-ad8c-8eaadca586da" />
   <Project Path="VsThemedDialogs.ViewModelInterfaces/VsThemedDialogs.ViewModelInterfaces.csproj" />
