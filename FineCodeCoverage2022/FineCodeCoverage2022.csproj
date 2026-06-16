@@ -201,6 +201,8 @@
   <ItemGroup>
     <PackageReference Include="LibGit2Sharp">
     </PackageReference>
+    <PackageReference Include="MessagePack" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text">

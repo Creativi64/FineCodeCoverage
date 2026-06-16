@@ -29,13 +29,15 @@ namespace FineCodeCoverage.Vs.OutputWindow.Logging
                 .Append('[')
                 .Append(now.ToString("d", CultureInfo.CurrentCulture))
                 .Append(' ')
-                .Append(now.ToString("h:mm:ss.fff tt", CultureInfo.CurrentCulture))
+                .Append(now.ToString("HH:mm:ss.fff", CultureInfo.CurrentCulture))
                 .Append(']')
                 .Append(' ').ToString();
         }
 
         private static IEnumerable<string> GetMessageList(IEnumerable<string> message)
-            => message?.Select(x => x?.Trim(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x));
+            // TrimEnd (not Trim) so leading indentation is preserved - e.g. the TUnit banner indents
+            // some of its rows with leading spaces and trimming them shifts the art out of alignment.
+            => message?.Select(x => x?.TrimEnd(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x));
 
         private async Task LogMessagesAsync(IEnumerable<string> messageList)
         {

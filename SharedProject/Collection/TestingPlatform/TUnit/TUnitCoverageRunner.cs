@@ -20,6 +20,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
         private const string ZipDirectoryName = "dotnet-coverage";
         private const string ZipPrefix = "dotnet-coverage";
         private const int SuccessExitCode = 0;
+
+        // The Microsoft.Testing.Platform test host writes its console output (banner, localized summary text)
+        // using the OEM code page (e.g. CP850 on German Windows, CP437 on US).  When the streams are redirected
+        // we must decode them with that same code page, otherwise box-drawing characters and accented letters
+        // turn into mojibake (e.g. the banner showing as "ÛÛÛÛ»" and "übersprungen" losing its "ü").
+        private static readonly System.Text.Encoding OemOutputEncoding =
+            System.Text.Encoding.GetEncoding(System.Globalization.CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
         private readonly ILogger _logger;
         private readonly IToolUnzipper _toolUnzipper;
         private readonly IThreadHelper _threadHelper;
@@ -92,6 +99,8 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                     CreateNoWindow = !showWindow,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
+                    StandardOutputEncoding = OemOutputEncoding,
+                    StandardErrorEncoding = OemOutputEncoding,
                 };
                 process.OutputDataReceived += Process_OutputDataReceived;
                 process.ErrorDataReceived += Process_ErrorDataReceived;

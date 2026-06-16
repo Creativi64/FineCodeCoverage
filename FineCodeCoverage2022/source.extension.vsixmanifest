@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-    <Metadata>
-        <Identity Id="FineCodeCoverage2022.ad53fb28-7a11-4465-a27a-3550499ea4a1" Version="1.1.0" Language="en-US" Publisher="Fortune Ngwenya" />
-        <DisplayName>Fine Code Coverage</DisplayName>
-        <Description xml:space="preserve">Visualize unit test code coverage easily for free in Visual Studio Community Edition (and other editions too)</Description>
-        <MoreInfo>https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage</MoreInfo>
-        <License>Resources\LICENSE</License>
-        <Icon>Resources\logo.png</Icon>
-        <Tags>visual studio; code coverage; c#; vb; .net core; coverlet; unit test; free; community edition</Tags>
-    </Metadata>
-    <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[18.0,19.0)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[18.0,19.0)">
-            <ProductArchitecture>arm64</ProductArchitecture>
-        </InstallationTarget>
-    </Installation>
-    <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7,)" />
-    </Dependencies>
-    <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[18.0,19.0)" DisplayName="Visual Studio core editor" />
-    </Prerequisites>
-    <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Feedback" Path="|FineCodeCoverage.Feedback|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Utilities" Path="|FineCodeCoverage.Utilities|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Initialization" Path="|FineCodeCoverage.Initialization|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Options" Path="|FineCodeCoverage.Options|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Collection" Path="|FineCodeCoverage.Collection|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Hotspots" Path="|FineCodeCoverage.Hotspots|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="FineCodeCoverage.Readme" Path="|FineCodeCoverage.Readme|" />
-    </Assets>
+  <Metadata>
+    <Identity Id="FineCodeCoverage2022.ad53fb28-7a11-4465-a27a-3550499ea4a1" Version="1.1.0" Language="en-US" Publisher="Fortune Ngwenya" />
+    <DisplayName>Fine Code Coverage</DisplayName>
+    <Description xml:space="preserve">Visualize unit test code coverage easily for free in Visual Studio Community Edition (and other editions too)</Description>
+    <MoreInfo>https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage</MoreInfo>
+    <License>Resources\LICENSE</License>
+    <Icon>Resources\logo.png</Icon>
+    <Tags>visual studio; code coverage; c#; vb; .net core; coverlet; unit test; free; community edition</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[18.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[18.0,19.0)">
+      <ProductArchitecture>arm64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="[4.7,)" d:Source="Manual" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" DisplayName="Visual Studio core editor" Version="[18.0,19.0)" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" d:Source="Project" d:ProjectName="%CurrentProject%" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|%CurrentProject%|" d:Source="Project" d:ProjectName="%CurrentProject%" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Feedback|" d:Source="Project" d:ProjectName="FineCodeCoverage.Feedback" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Utilities|" d:Source="Project" d:ProjectName="FineCodeCoverage.Utilities" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Initialization|" d:Source="Project" d:ProjectName="FineCodeCoverage.Initialization" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Options|" d:Source="Project" d:ProjectName="FineCodeCoverage.Options" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Collection|" d:Source="Project" d:ProjectName="FineCodeCoverage.Collection" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Hotspots|" d:Source="Project" d:ProjectName="FineCodeCoverage.Hotspots" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="|FineCodeCoverage.Readme|" d:Source="Project" d:ProjectName="FineCodeCoverage.Readme" />
+  </Assets>
 </PackageManifest>

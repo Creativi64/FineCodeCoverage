@@ -50,6 +50,8 @@
   <ItemGroup>
     <PackageReference Include="Castle.Core">
     </PackageReference>
+    <PackageReference Include="MessagePack" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic">
