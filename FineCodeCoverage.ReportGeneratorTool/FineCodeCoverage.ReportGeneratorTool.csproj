@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReportGenerator.Core" Version="5.5.10" />
+    <PackageReference Include="ReportGenerator.Core" />
   </ItemGroup>
 
 </Project>

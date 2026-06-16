@@ -4,7 +4,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ReportGenerator.Core" Version="5.5.10" />
+    <PackageReference Include="ReportGenerator.Core" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FineCodeCoverage.Initialization\FineCodeCoverage.Initialization.csproj" />

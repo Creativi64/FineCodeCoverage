@@ -24,7 +24,9 @@ namespace FineCodeCoverageTests
         {
             var mockReportViewSolutionOption = autoMoqer.GetMock<IReportViewSolutionOption>();
             mockReportViewSolutionOption.SetupAllProperties();
-            mockReportViewSolutionOption.SetupGet(reportViewSolutionOption => reportViewSolutionOption.Value).Returns(value);
+            // Set Value through the tracked property (not SetupGet, which would pin the getter and hide the
+            // production code's replacement of Value in SetUpdatedOptionValue).
+            mockReportViewSolutionOption.Object.Value = value;
         }
 
         [TestCase(ReportStyle.Assembly)]

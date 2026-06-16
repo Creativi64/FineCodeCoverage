@@ -11,7 +11,7 @@
   xmlns:vsPlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
   xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
   xmlns:treeGrid="clr-namespace:TreeGrid;assembly=TreeGrid"
-  xmlns:wpfExtended="clr-namespace:System.Windows.Media.Extensions.Effects;assembly=WpfExtended"
+  xmlns:wpfExtended="clr-namespace:WpfHelpers.ShaderEffects;assembly=WpfHelpers"
   d:DesignHeight="300"
   d:DesignWidth="500"
   mc:Ignorable="d">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -24,11 +25,23 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
             { typeof(int), new SettingsXmlParser<int, int?>(int.TryParse) },
             { typeof(short), new SettingsXmlParser<short, short?>(short.TryParse) },
             { typeof(long), new SettingsXmlParser<long, long?>(long.TryParse) },
-            { typeof(decimal), new SettingsXmlParser<decimal, decimal?>(decimal.TryParse) },
-            { typeof(double), new SettingsXmlParser<double, double?>(double.TryParse) },
-            { typeof(float), new SettingsXmlParser<float, float?>(float.TryParse) },
+            { typeof(decimal), new SettingsXmlParser<decimal, decimal?>(TryParseInvariant) },
+            { typeof(double), new SettingsXmlParser<double, double?>(TryParseInvariant) },
+            { typeof(float), new SettingsXmlParser<float, float?>(TryParseInvariant) },
             { typeof(char), new SettingsXmlParser<char, char?>(char.TryParse) },
         };
+
+        // Settings/runsettings numeric values are culture-invariant (e.g. "1.1" always means one-point-one).
+        // The framework TryParse(string, out T) overloads use the current culture, which mis-parses on
+        // locales whose decimal separator is not '.' (e.g. de-DE parses "1.1" as 11).
+        private static bool TryParseInvariant(string s, out decimal result)
+            => decimal.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out result);
+
+        private static bool TryParseInvariant(string s, out double result)
+            => double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
+
+        private static bool TryParseInvariant(string s, out float result)
+            => float.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
 
         private sealed class SettingsElementDefaultMerge
         {

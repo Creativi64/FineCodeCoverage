@@ -4,4 +4,11 @@
     <LangVersion>latest</LangVersion>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- Compiled HLSL pixel shader for MonochromeAlphaSwap, loaded via GetManifestResourceStream.
+         LogicalName fixes the manifest resource name the effect looks up at runtime. -->
+    <EmbeddedResource Include="ShaderEffects\MonochromeAlphaSwap.ps">
+      <LogicalName>WpfHelpers.MonochromeAlphaSwap.ps</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

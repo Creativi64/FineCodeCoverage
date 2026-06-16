@@ -175,6 +175,9 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             var testOperation = SetUpTestOperation(coverageProjects);
 
             SetupIUserRunSettingsServiceAnalyseAny().Returns(new UserRunSettingsAnalysisResult(true, false));
+            // MS code coverage is always-on, so the templated coverage project always triggers run-settings
+            // generation; provide a result so the (now-unconditional) generation path does not NRE.
+            SetupTemplatedRunSettingsServiceGenerateAsyncAllIsAny().ReturnsAsync(new ProjectRunSettingsFromTemplateResult());
 
             await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
 
@@ -208,7 +211,10 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             var testOperation = SetUpTestOperation(coverageProjects);
 
             SetupIUserRunSettingsServiceAnalyseAny().Returns(new UserRunSettingsAnalysisResult(true, false));
-            
+            // MS code coverage is always-on, so the templated coverage project always triggers run-settings
+            // generation; provide a result so the (now-unconditional) generation path does not NRE.
+            SetupTemplatedRunSettingsServiceGenerateAsyncAllIsAny().ReturnsAsync(new ProjectRunSettingsFromTemplateResult());
+
             await msCodeCoverageRunSettingsService.IsCollectingAsync(testOperation);
 
             var userRunSettingsProjectDetailsLookup = msCodeCoverageRunSettingsService.UserRunSettingsProjectDetailsLookup;

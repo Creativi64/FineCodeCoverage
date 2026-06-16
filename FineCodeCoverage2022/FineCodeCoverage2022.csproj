@@ -187,100 +187,72 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Hand-copied from the VS install (Microsoft-signed, v17.0.0.0 - the version VS loads at runtime).
+         Intentionally NOT a PackageReference: the only NuGet package (Microsoft.VisualStudio.TestWindow.Interfaces)
+         is stuck at v11.x, which would be an API downgrade.  SpecificVersion=False so it unifies with the VS host. -->
     <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="themes">
-      <HintPath>..\Shared Files\themes.dll</HintPath>
-    </Reference>
-    <Reference Include="WpfExtended">
-      <HintPath>..\Shared Files\WpfExtended.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EnhancedFlowDocumentControls">
-      <Version>1.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="EventAggregator.Net">
-      <Version>1.2.0</Version>
     </PackageReference>
     <PackageReference Include="LibGit2Sharp">
-      <Version>0.31.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-      <Version>5.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text">
-      <Version>4.14.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
-      <Version>10.0.300</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic">
-      <Version>5.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common">
-      <Version>5.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp">
-      <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.ProjectSystem">
-      <Version>17.9.380</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" ExcludeAssets="runtime">
+    <PackageReference Include="Microsoft.VisualStudio.SDK" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.TeamFoundation.Git.Extensibility">
-      <Version>17.0.32322.3</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="18.5.40034">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="NuGet.VisualStudio">
-      <Version>17.14.0</Version>
     </PackageReference>
     <PackageReference Include="NuGet.VisualStudio.Contracts">
-      <Version>17.14.0</Version>
     </PackageReference>
     <PackageReference Include="ReflectObject">
-      <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Roslynator.Analyzers">
-      <Version>4.15.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Roslynator.CodeFixes">
-      <Version>4.15.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Roslynator.Refactorings">
-      <Version>4.15.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
-      <Version>1.1.118</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.CommandLine">
-      <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="System.Composition">
-      <Version>10.0.8</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.Compression">
-      <Version>4.3.0</Version>
     </PackageReference>
   </ItemGroup>
 

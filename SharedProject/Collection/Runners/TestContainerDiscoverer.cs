@@ -206,6 +206,10 @@ namespace FineCodeCoverage.Collection.Runners
             {
                 _msCodeCoverageRunSettingsService.StopCoverage();
             }
+
+            // Cancel any in-flight engine work (e.g. report generation from a previous run) so a new test
+            // run starts from a clean slate.  Idempotent: no-op when nothing is running.
+            _fccEngine.StopCoverage();
         }
 
         private async Task CoverageCancelledAsync(string logMessage, IOperation operation)
