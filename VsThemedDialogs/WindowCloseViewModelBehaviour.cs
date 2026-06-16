@@ -112,8 +112,20 @@ namespace VsThemedDialogs
             void ViewModelDoneHandler(object _, bool ok)
             {
                 viewModelClosed = true;
-                window.DialogResult = ok;
-                window.Close();
+                try
+                {
+                    // When the window was shown via WPF Window.ShowDialog(), setting
+                    // DialogResult also closes the window.
+                    window.DialogResult = ok;
+                }
+                catch (InvalidOperationException)
+                {
+                    // The window was shown via VS DialogWindow.ShowModal() rather than
+                    // WPF Window.ShowDialog(), so DialogResult is not applicable - the
+                    // outcome is communicated through the view model's Done event. Close
+                    // the window directly to end the modal loop.
+                    window.Close();
+                }
             }
 #pragma warning restore SA1313 // Parameter names should begin with lower-case letter
 

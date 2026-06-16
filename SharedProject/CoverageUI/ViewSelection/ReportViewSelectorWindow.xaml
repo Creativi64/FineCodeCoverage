@@ -24,7 +24,7 @@
         </Style>
         <Style
           x:Key="comboBoxWithAutomationStyle"
-          BasedOn="{StaticResource {x:Static vsShell:VsResourceKeys.ComboBoxStyleKey}}"
+          BasedOn="{StaticResource {x:Static vsShell:VsResourceKeys.ComboBoxItemStyleKey}}"
           TargetType="ComboBoxItem">
           <Setter Property="AutomationProperties.Name" Value="{Binding Display}" />
           <Setter Property="AutomationProperties.AutomationId" Value="{Binding Display}" />
