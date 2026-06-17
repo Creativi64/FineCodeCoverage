@@ -16,34 +16,6 @@ namespace FineCodeCoverage.Collection.Ms
         private readonly IRunSettingsTemplateReplacementsFactory _runSettingsTemplateReplacementsFactory;
         private readonly IProjectRunSettingsGenerator _projectRunSettingsGenerator;
 
-        private sealed class ProjectRunSettingsFromTemplateResult : IProjectRunSettingsFromTemplateResult
-        {
-            private sealed class ExceptionReasonImpl : IExceptionReason
-            {
-                public ExceptionReasonImpl(Exception exc, string reason)
-                {
-                    Exception = exc;
-                    Reason = reason;
-                }
-
-                public Exception Exception { get; }
-
-                public string Reason { get; }
-            }
-
-            public IExceptionReason ExceptionReason { get; set; }
-
-            public List<string> CustomTemplatePaths { get; set; }
-
-            public List<ICoverageProject> CoverageProjectsWithFCCMsTestAdapter { get; set; }
-
-            public static ProjectRunSettingsFromTemplateResult FromException(Exception exception, string reason)
-                => new ProjectRunSettingsFromTemplateResult
-                {
-                    ExceptionReason = new ExceptionReasonImpl(exception, reason),
-                };
-        }
-
         [ImportingConstructor]
         public TemplatedRunSettingsService(
             IRunSettingsTemplate runSettingsTemplate,
@@ -55,64 +27,6 @@ namespace FineCodeCoverage.Collection.Ms
             _customRunSettingsTemplateProvider = customRunSettingsTemplateProvider;
             _runSettingsTemplateReplacementsFactory = runSettingsTemplateReplacementsFactory;
             _projectRunSettingsGenerator = projectRunSettingsGenerator;
-        }
-
-        public async Task<IProjectRunSettingsFromTemplateResult> GenerateAsync(IEnumerable<ICoverageProject> coverageProjectsWithoutRunSettings, string solutionDirectory, string fccMsTestAdapterPath)
-        {
-            IEnumerable<TemplatedCoverageProjectRunSettingsResult> projectsRunSettings;
-            try
-            {
-                projectsRunSettings = CreateProjectsRunSettings(
-                    coverageProjectsWithoutRunSettings, solutionDirectory, fccMsTestAdapterPath);
-            }
-            catch (Exception exc)
-            {
-                return ProjectRunSettingsFromTemplateResult.FromException(exc, "Exception generating runsettings from template");
-            }
-
-            try
-            {
-                await _projectRunSettingsGenerator.WriteProjectsRunSettingsAsync(projectsRunSettings);
-            }
-            catch (Exception exc)
-            {
-                try
-                {
-                    await _projectRunSettingsGenerator.RemoveGeneratedProjectSettingsAsync(coverageProjectsWithoutRunSettings);
-                }
-                catch
-                {
-                }
-
-                return ProjectRunSettingsFromTemplateResult.FromException(exc, "Exception writing templated runsettings");
-            }
-
-            return CreateSuccessResult(projectsRunSettings);
-        }
-
-        private static ProjectRunSettingsFromTemplateResult CreateSuccessResult(
-            IEnumerable<TemplatedCoverageProjectRunSettingsResult> templatedCoverageProjectsRunSettingsResult)
-        {
-            var customTemplatePaths = new List<string>();
-            var coverageProjectsWithFCCMsTestAdapter = new List<ICoverageProject>();
-            foreach (TemplatedCoverageProjectRunSettingsResult templatedCoverageProjectRunSettingsResult in templatedCoverageProjectsRunSettingsResult)
-            {
-                if (templatedCoverageProjectRunSettingsResult.ReplacedTestAdapter)
-                {
-                    coverageProjectsWithFCCMsTestAdapter.Add(templatedCoverageProjectRunSettingsResult.CoverageProject);
-                }
-
-                if (templatedCoverageProjectRunSettingsResult.CustomTemplatePath != null)
-                {
-                    customTemplatePaths.Add(templatedCoverageProjectRunSettingsResult.CustomTemplatePath);
-                }
-            }
-
-            return new ProjectRunSettingsFromTemplateResult
-            {
-                CustomTemplatePaths = customTemplatePaths,
-                CoverageProjectsWithFCCMsTestAdapter = coverageProjectsWithFCCMsTestAdapter,
-            };
         }
 
         public List<TemplatedCoverageProjectRunSettingsResult> CreateProjectsRunSettings(

@@ -124,11 +124,31 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         }
 
         [Test]
-        public async Task Should_Log_When_No_Cobertura_Files_Async()
+        public async Task Should_Log_When_No_Result_Attachments_Async()
         {
             await RunAndProcessReportAsync(null, Array.Empty<string>());
 #pragma warning disable VSTHRD110 // Observe result of async calls
-            autoMocker.Verify<ILogger>(logger => logger.LogAsync("No cobertura files for ms code coverage."));
+            autoMocker.Verify<ILogger>(logger => logger.LogAsync(
+                It.Is<IEnumerable<string>>(messages =>
+                    messages.First() == "No cobertura files for ms code coverage." &&
+                    messages.Skip(1).First().Contains("no result attachments"))));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
+        public async Task Should_Log_The_Result_Attachment_Paths_When_None_Are_Cobertura_Async()
+        {
+            var resultsUris = new List<Uri>()
+            {
+                new Uri(@"C:\SomePath\result.coverage", UriKind.Absolute),
+            };
+
+            await RunAndProcessReportAsync(resultsUris, Array.Empty<string>());
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(logger => logger.LogAsync(
+                It.Is<IEnumerable<string>>(messages =>
+                    messages.First() == "No cobertura files for ms code coverage." &&
+                    messages.Contains(@"C:\SomePath\result.coverage"))));
 #pragma warning restore VSTHRD110 // Observe result of async calls
         }
 

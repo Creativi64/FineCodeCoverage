@@ -7,7 +7,5 @@ namespace FineCodeCoverage.Collection.Ms
     internal interface IProjectRunSettingsGenerator
     {
         Task RemoveGeneratedProjectSettingsAsync(IEnumerable<ICoverageProject> coverageProjects);
-
-        Task WriteProjectsRunSettingsAsync(IEnumerable<ICoverageProjectRunSettings> coverageProjectsRunSettings);
     }
 }

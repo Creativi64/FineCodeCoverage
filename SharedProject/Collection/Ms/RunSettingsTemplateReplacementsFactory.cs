@@ -214,7 +214,13 @@ namespace FineCodeCoverage.Collection.Ms
             Dictionary<string, IUserRunSettingsProjectDetails> userRunSettingsProjectDetailsLookup,
             string testAdapter)
         {
-            var allProjectDetails = testContainers.Select(tc => userRunSettingsProjectDetailsLookup[tc.Source]).ToList();
+            // Only consider containers that are tracked coverage projects.  A run can include containers
+            // FCC does not collect (e.g. coverage-excluded projects); these must be skipped rather than
+            // throwing a KeyNotFoundException that would corrupt the whole run's runsettings.
+            var allProjectDetails = testContainers
+                .Where(tc => userRunSettingsProjectDetailsLookup.ContainsKey(tc.Source))
+                .Select(tc => userRunSettingsProjectDetailsLookup[tc.Source])
+                .ToList();
             string resultsDirectory = allProjectDetails[0].CoverageOutputFolder;
             IEnumerable<ICoverageSettings> allSettings = allProjectDetails.Select(pd => pd.Settings);
             bool allProjectsDisabled = allSettings.All(s => !s.Enabled);

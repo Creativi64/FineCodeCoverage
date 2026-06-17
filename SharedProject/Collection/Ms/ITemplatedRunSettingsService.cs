@@ -6,8 +6,6 @@ namespace FineCodeCoverage.Collection.Ms
 {
     internal interface ITemplatedRunSettingsService
     {
-        Task<IProjectRunSettingsFromTemplateResult> GenerateAsync(IEnumerable<ICoverageProject> coverageProjectsWithoutRunSettings, string solutionDirectory, string fccMsTestAdapterPath);
-
         Task CleanUpAsync(List<ICoverageProject> coverageProjects);
 
         List<TemplatedCoverageProjectRunSettingsResult> CreateProjectsRunSettings(

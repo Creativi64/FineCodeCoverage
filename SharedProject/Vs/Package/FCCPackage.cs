@@ -97,8 +97,31 @@ namespace FineCodeCoverage.Vs.Package
         }
 
         private void InstantiateAllDialogPages()
-            => typeof(FCCPackage).GetCustomAttributes<ProvideOptionPageAttribute>()
-            .Select(a => a.PageType).ToList().ForEach(t => _ = GetDialogPage(t));
+        {
+            // Eagerly instantiating each option page loads its persisted settings (via
+            // DialogPage.LoadSettingsFromStorage) into the shared option provider singletons,
+            // so automatic coverage collection picks up the saved settings without the user
+            // having to open the extension manually.
+            //
+            // Each page is instantiated in isolation: a transient MEF composition miss - e.g.
+            // the component model cache not yet rebuilt after a fresh install - must not abort
+            // package load, otherwise the rest of InitializeAsync (and the no-manual-start
+            // coverage collection it sets up) never runs. Worst case a page falls back to
+            // defaults until VS is restarted, by which point the cache is rebuilt.
+            foreach (Type pageType in typeof(FCCPackage).GetCustomAttributes<ProvideOptionPageAttribute>().Select(a => a.PageType))
+            {
+                try
+                {
+                    _ = GetDialogPage(pageType);
+                }
+                catch (Exception exception)
+                {
+                    ActivityLog.TryLogError(
+                        nameof(FCCPackage),
+                        $"Failed to instantiate option page '{pageType.Name}': {exception}");
+                }
+            }
+        }
 
         private static IComponentModel GetComponentModel() => (IComponentModel)GetGlobalService(typeof(SComponentModel));
 

@@ -574,6 +574,38 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             Assert.That(runSettingsTemplateReplacements.Enabled, Is.EqualTo(expectedEnabled));
         }
 
+        [Test]
+        public void Should_Ignore_Test_Containers_Not_In_The_Lookup()
+        {
+            // A run can include containers FCC does not collect (e.g. coverage-excluded projects); these
+            // must be skipped, not throw a KeyNotFoundException that would corrupt the run's runsettings.
+            var testContainers = new List<ITestContainer>()
+            {
+                CreateTestContainer("Tracked"),
+                CreateTestContainer("NotTracked"),
+            };
+
+            var userRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>
+            {
+                {
+                    "Tracked",
+                    new TestUserRunSettingsProjectDetails
+                    {
+                        CoverageOutputFolder = "TrackedOutput",
+                        TestDllFile = "",
+                        Settings = new TestMsCodeCoverageOptions{ IncludeTestAssembly = true},
+                        ExcludedReferencedProjects = new List<IReferencedProject>(),
+                        IncludedReferencedProjects = new List<IReferencedProject>(),
+                    }
+                },
+            };
+
+            var replacements = runSettingsTemplateReplacementsFactory.Create(testContainers, userRunSettingsProjectDetailsLookup, null);
+
+            // The untracked container is ignored and the tracked one still drives the results directory.
+            Assert.AreEqual("TrackedOutput", replacements.ResultsDirectory);
+        }
+
         private ITestContainer CreateTestContainer(string source)
         {
             var mockTestContainer = new Mock<ITestContainer>();

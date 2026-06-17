@@ -116,10 +116,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\CustomRunSettingsTemplateProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ICoverageProjectRunSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ICustomRunSettingsTemplateProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IExceptionReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IMsCodeCoverageRunSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IOperationExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IProjectRunSettingsFromTemplateResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IProjectRunSettingsGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IProjectSaver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IRunSettingsConfigurationInfoExtensions.cs" />

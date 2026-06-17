@@ -39,6 +39,7 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
         }
 
         private readonly Dictionary<Type, PropertyInfo[]> _coverageSettingsInterfacesPropertyInfosLookup;
+        private readonly object _optionsTypeLookupLock = new object();
         private Dictionary<Type, List<PropertyInfo>> _optionsTypeCoverageSettingsInterfacesPropertyLookup;
 
         public CoverageSettingsReflectionService()
@@ -51,25 +52,42 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
         private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
            IEnumerable<object> coverageSettingsOptions)
         {
-            IEnumerable<OptionInfo> optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option));
+            List<OptionInfo> optionInfos = coverageSettingsOptions.Select(option => new OptionInfo(option)).ToList();
             return GetOptionCoverageSettingsInterfacesPropertyInfos(optionInfos);
         }
 
         private IEnumerable<OptionCoverageSettingsInterfacesPropertyInfos> GetOptionCoverageSettingsInterfacesPropertyInfos(
-            IEnumerable<OptionInfo> optionInfos)
+            IReadOnlyList<OptionInfo> optionInfos)
         {
-            if (_optionsTypeCoverageSettingsInterfacesPropertyLookup == null)
-            {
-                CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(optionInfos);
-            }
+            // This is a shared MEF singleton.  The VS project system invokes the per-project
+            // IProjectGlobalPropertiesProvider concurrently across test projects, so the lazy
+            // initialization below must be synchronized - otherwise two threads mutate the same
+            // Dictionary at once and corrupt its internal arrays, surfacing as a NullReferenceException
+            // inside Dictionary.Insert.
+            Dictionary<Type, List<PropertyInfo>> lookup = GetOptionsTypeCoverageSettingsInterfacesPropertyLookup(optionInfos);
 
             return optionInfos.Select(o => new OptionCoverageSettingsInterfacesPropertyInfos(
-                o.Option, _optionsTypeCoverageSettingsInterfacesPropertyLookup[o.Type]));
+                o.Option, lookup[o.Type]));
         }
 
-        private void CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(IEnumerable<OptionInfo> optionInfos)
+        private Dictionary<Type, List<PropertyInfo>> GetOptionsTypeCoverageSettingsInterfacesPropertyLookup(
+            IReadOnlyList<OptionInfo> optionInfos)
         {
-            _optionsTypeCoverageSettingsInterfacesPropertyLookup = new Dictionary<Type, List<PropertyInfo>>();
+            lock (_optionsTypeLookupLock)
+            {
+                if (_optionsTypeCoverageSettingsInterfacesPropertyLookup == null)
+                {
+                    _optionsTypeCoverageSettingsInterfacesPropertyLookup =
+                        CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(optionInfos);
+                }
+
+                return _optionsTypeCoverageSettingsInterfacesPropertyLookup;
+            }
+        }
+
+        private Dictionary<Type, List<PropertyInfo>> CreateOptionsTypeCoverageSettingsInterfacesPropertyLookup(IEnumerable<OptionInfo> optionInfos)
+        {
+            var lookup = new Dictionary<Type, List<PropertyInfo>>();
             foreach (OptionInfo optionInfo in optionInfos)
             {
                 var optionInterfacesPropertyInfos = new List<PropertyInfo>();
@@ -81,8 +99,10 @@ namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
                     }
                 }
 
-                _optionsTypeCoverageSettingsInterfacesPropertyLookup[optionInfo.Type] = optionInterfacesPropertyInfos;
+                lookup[optionInfo.Type] = optionInterfacesPropertyInfos;
             }
+
+            return lookup;
         }
 
         public List<PropertyInfo> CoverageSettingsPropertyInfos { get; }

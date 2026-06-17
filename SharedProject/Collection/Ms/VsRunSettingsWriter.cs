@@ -29,20 +29,6 @@ namespace FineCodeCoverage.Collection.Ms
             _projectFilePropertyWriter = projectFilePropertyWriter;
         }
 
-        public async Task<bool> WriteRunSettingsFilePathAsync(Guid projectGuid, string projectRunSettingsFilePath)
-        {
-            bool success = false;
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var vsSolution = _serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-            Assumes.Present(vsSolution);
-            if (vsSolution.GetProjectOfGuid(ref projectGuid, out IVsHierarchy vsHierarchy) == VSConstants.S_OK)
-            {
-                success = await _projectFilePropertyWriter.WritePropertyAsync(vsHierarchy, ProjectRunSettingsFilePathElementName, projectRunSettingsFilePath);
-            }
-
-            return success;
-        }
-
         public async Task<bool> RemoveRunSettingsFilePathAsync(Guid projectGuid)
         {
             bool ok = false;
