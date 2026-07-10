@@ -1,5 +1,20 @@
 # Fine Code Coverage
 
+## About this fork
+
+Fork of [tonyhallett/FineCodeCoverage](https://github.com/tonyhallett/FineCodeCoverage). Main differences from upstream:
+
+- OpenCover and Coverlet are removed. Microsoft Code Coverage is the only engine and is always on — the `RunMsCodeCoverage` option is gone, along with the OpenCover/Coverlet options pages and bundled tools.
+- Microsoft.Testing.Platform coverage is no longer limited to TUnit. Any MTP test project (MSTest, NUnit, xUnit) is detected and covered by running the test host with `--coverage`, either manually from the tool window or automatically after a Test Explorer run.
+- Fixed coverage silently dropping on every other run: FCC no longer writes/removes `RunSettingsFilePath` in the .csproj (which raced project reloads); runsettings are injected in memory for all projects. (better but still not ideal)
+- Report generation runs in a separate process (`FineCodeCoverage.ReportGeneratorTool`) to avoid assembly binding conflicts inside Visual Studio.
+- Requires Visual Studio 2026 (v18). The VS2019 projects are removed.
+- Dependency cleanup: central package management, no binaries checked into the repo, abandoned single-author packages vendored or dropped, and the non-coverage UI (feedback buttons, in-VS readme viewer and its markdown stack) removed.
+
+Parts of the documentation below still describe upstream behaviour (OpenCover/Coverlet, `RunMsCodeCoverage`) and no longer apply.
+
+---
+
 [![YouTube Highlights video](Art/youtube-highlights.png)](https://youtu.be/CvrySUcTi7I)
 
 Download this extension from the [Visual Studio Market Place ( vs 2019 )](https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage), [Visual Studio Market Place ( vs 2022 )](https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage2022)
