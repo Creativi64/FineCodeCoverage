@@ -2,10 +2,12 @@
 using FineCodeCoverage.Collection.Ms;
 using Moq;
 using AutoMoq;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Utilities.Wrappers;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {
@@ -173,6 +175,20 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         {
             var (Suitable, _) = ValidateUserRunSettings("NotValid", useMsCodeCoverage);
             Assert.False(Suitable);
+        }
+
+        [Test]
+        public void Should_Log_And_Be_Unsuitable_When_RunSettings_Cannot_Be_Read()
+        {
+            var exception = new Exception("read failure");
+            mockFileUtil.Setup(f => f.ReadAllText("bad.runsettings")).Throws(exception);
+
+            var (Suitable, _) = userRunSettingsService.ValidateUserRunSettings("bad.runsettings", true);
+
+            Assert.False(Suitable);
+            autoMocker.Verify<ILogger>(logger => logger.LogFileAndForget(
+                "Ms code coverage - error reading or parsing runsettings 'bad.runsettings'.",
+                exception.ToString()));
         }
 
         private (bool Suitable, bool SpecifiedMsCodeCoverage) ValidateUserRunSettings(string runSettings, bool useMsCodeCoverage)

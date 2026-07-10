@@ -153,6 +153,58 @@ namespace FineCodeCoverageTests.MsCodeCoverage
         }
 
         [Test]
+        public async Task Should_Log_The_Cobertura_Files_Async()
+        {
+            var resultsUris = new List<Uri>()
+            {
+                new Uri(@"C:\SomePath\result1.cobertura.xml", UriKind.Absolute),
+                new Uri(@"C:\SomePath\result2.cobertura.xml", UriKind.Absolute),
+                new Uri(@"C:\SomePath\result3.xml", UriKind.Absolute),
+            };
+
+            var expectedCoberturaFiles = new string[] { @"C:\SomePath\result1.cobertura.xml", @"C:\SomePath\result2.cobertura.xml" };
+            await RunAndProcessReportAsync(resultsUris, expectedCoberturaFiles);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(logger => logger.LogAsync(
+                It.Is<IEnumerable<string>>(messages =>
+                    messages.First() == "Ms code coverage - 2 cobertura file(s) from 3 result attachment(s) -" &&
+                    messages.Contains(@"C:\SomePath\result1.cobertura.xml") &&
+                    messages.Contains(@"C:\SomePath\result2.cobertura.xml"))));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
+        public async Task Should_Log_When_The_Test_Platform_Did_Not_Take_FCC_RunSettings_Async()
+        {
+            await RunAndProcessReportAsync(null, Array.Empty<string>());
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            autoMocker.Verify<ILogger>(logger => logger.LogAsync(
+                It.Is<string[]>(messages =>
+                    messages.Length == 1 && messages.First().Contains("the test platform did not take fcc runsettings"))));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
+        public async Task Should_Log_The_Number_Of_Times_The_Test_Platform_Took_FCC_RunSettings_Async()
+        {
+            var countingAutoMocker = new AutoMoqer();
+            var service = countingAutoMocker.Create<MsCodeCoverageRunSettingsService>();
+            service.AddedFCCRunSettingsCount = 2;
+
+            var mockTestOperation = new Mock<ITestOperation>();
+            mockTestOperation.Setup(testOperation => testOperation.GetCoverageProjectsAsync()).ReturnsAsync(new List<ICoverageProject>());
+
+            await service.CollectAsync(new Mock<IOperation>().Object, mockTestOperation.Object);
+
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            countingAutoMocker.Verify<ILogger>(logger => logger.LogAsync(
+                It.Is<string[]>(messages =>
+                    messages.Length == 1 &&
+                    messages.First() == "Ms code coverage - fcc runsettings were taken by the test platform 2 time(s) for this test execution.")));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
         public async Task Should_Clean_Up_RunSettings_Coverage_Projects_From_IsCollecting_Async()
         {
             await RunAndProcessReportAsync(null, Array.Empty<string>());

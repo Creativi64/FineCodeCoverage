@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
+using System;
 using System.IO;
 using System.Xml.XPath;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading;
 using FineCodeCoverage.Collection.Ms;
 using System.Threading.Tasks;
 using FineCodeCoverage.Initialization.ToolZip;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 
 namespace FineCodeCoverageTests.MsCodeCoverage
 {
@@ -118,6 +120,88 @@ namespace FineCodeCoverageTests.MsCodeCoverage
 
             var addFCCRunSettingsInvocation = mockUserRunSettingsService.Invocations[0];
             Assert.AreSame(userRunSettingsProjectDetailsLookup, addFCCRunSettingsInvocation.Arguments[2]);
+        }
+
+        [Test]
+        public void Should_Return_Null_And_Log_When_Adding_FCC_RunSettings_Throws()
+        {
+            msCodeCoverageRunSettingsService.CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            SetuserRunSettingsProjectDetailsLookup(false);
+
+            var mockRunSettingsConfigurationInfo = new Mock<IRunSettingsConfigurationInfo>();
+            mockRunSettingsConfigurationInfo.Setup(ci => ci.RequestState).Returns(RunSettingConfigurationInfoState.Execution);
+
+            var exception = new Exception("add fcc runsettings exception");
+            autoMocker.GetMock<IUserRunSettingsService>()
+                .Setup(userRunSettingsService => userRunSettingsService.AddFCCRunSettings(
+                    It.IsAny<IXPathNavigable>(),
+                    It.IsAny<IRunSettingsConfigurationInfo>(),
+                    It.IsAny<Dictionary<string, IUserRunSettingsProjectDetails>>(),
+                    It.IsAny<string>()
+                )).Throws(exception);
+
+            Assert.IsNull(msCodeCoverageRunSettingsService.AddRunSettings(null, mockRunSettingsConfigurationInfo.Object, null));
+
+            autoMocker.Verify<ILogger>(logger => logger.LogFileAndForget(
+                "Ms code coverage - exception adding fcc runsettings to the test execution. There will be no coverage for this run.",
+                exception.ToString()));
+        }
+
+        [Test]
+        public void Should_Not_Delegate_To_UserRunSettingsService_When_No_Test_Execution_Containers_Are_In_The_Lookup()
+        {
+            msCodeCoverageRunSettingsService.CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService.UserRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>
+            {
+                { "InLookup.dll", null },
+            };
+
+            var mockRunSettingsConfigurationInfo = CreateExecutionConfigurationInfo("NotInLookup.dll");
+
+            Assert.IsNull(msCodeCoverageRunSettingsService.AddRunSettings(null, mockRunSettingsConfigurationInfo.Object, null));
+
+            autoMocker.Verify<IUserRunSettingsService>(userRunSettingsService => userRunSettingsService.AddFCCRunSettings(
+                It.IsAny<IXPathNavigable>(),
+                It.IsAny<IRunSettingsConfigurationInfo>(),
+                It.IsAny<Dictionary<string, IUserRunSettingsProjectDetails>>(),
+                It.IsAny<string>()), Times.Never());
+        }
+
+        [Test]
+        public void Should_Delegate_To_UserRunSettingsService_And_Count_When_Some_Test_Execution_Containers_Are_In_The_Lookup()
+        {
+            msCodeCoverageRunSettingsService.CollectionStatus = MsCodeCoverageCollectionStatus.Collecting;
+            msCodeCoverageRunSettingsService.UserRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>
+            {
+                { "InLookup.dll", null },
+            };
+
+            var mockRunSettingsConfigurationInfo = CreateExecutionConfigurationInfo("InLookup.dll", "NotInLookup.dll");
+
+            _ = msCodeCoverageRunSettingsService.AddRunSettings(null, mockRunSettingsConfigurationInfo.Object, null);
+
+            autoMocker.Verify<IUserRunSettingsService>(userRunSettingsService => userRunSettingsService.AddFCCRunSettings(
+                It.IsAny<IXPathNavigable>(),
+                It.IsAny<IRunSettingsConfigurationInfo>(),
+                It.IsAny<Dictionary<string, IUserRunSettingsProjectDetails>>(),
+                It.IsAny<string>()), Times.Once());
+            Assert.AreEqual(1, msCodeCoverageRunSettingsService.AddedFCCRunSettingsCount);
+        }
+
+        private static Mock<IRunSettingsConfigurationInfo> CreateExecutionConfigurationInfo(params string[] containerSources)
+        {
+            var mockRunSettingsConfigurationInfo = new Mock<IRunSettingsConfigurationInfo>();
+            mockRunSettingsConfigurationInfo.Setup(ci => ci.RequestState).Returns(RunSettingConfigurationInfoState.Execution);
+            var testContainers = new List<ITestContainer>();
+            foreach (var containerSource in containerSources)
+            {
+                var mockTestContainer = new Mock<ITestContainer>();
+                mockTestContainer.Setup(tc => tc.Source).Returns(containerSource);
+                testContainers.Add(mockTestContainer.Object);
+            }
+
+            mockRunSettingsConfigurationInfo.Setup(ci => ci.TestContainers).Returns(testContainers);
+            return mockRunSettingsConfigurationInfo;
         }
 
         private async Task<string> GetFCCMsTestAdapterPathAsync()

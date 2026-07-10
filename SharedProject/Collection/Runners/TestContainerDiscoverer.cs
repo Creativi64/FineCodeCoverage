@@ -258,11 +258,18 @@ namespace FineCodeCoverage.Collection.Runners
                 return;
             }
 
+            await _logger.LogAsync($"Test operation state - {e.State}.");
+
             if (!await _coverageCollectableFromTestExplorer.IsCollectableAsync())
             {
                 // Microsoft.Testing.Platform projects are present.  They run on MTP, which produces no
                 // VSTest data-collector coverage, so the classic Test Explorer collection cannot work.
                 // Optionally re-run the test hosts under --coverage once the test run has finished.
+                if (e.State == TestOperationStates.TestExecutionStarting)
+                {
+                    await _logger.LogAsync("Coverage is not collectable from the test explorer as Microsoft.Testing.Platform projects are present.");
+                }
+
                 if (e.State == TestOperationStates.TestExecutionFinished
                     && _runOptionsProvider.Get().CollectTestingPlatformCoverageAfterTestRun)
                 {

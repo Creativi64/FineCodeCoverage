@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Xml.Linq;
@@ -7,6 +8,7 @@ using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.Utilities.Xml;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
+using ILogger = FineCodeCoverage.VSAbstractions.OutputWindow.ILogger;
 
 namespace FineCodeCoverage.Collection.Ms
 {
@@ -16,6 +18,7 @@ namespace FineCodeCoverage.Collection.Ms
         private readonly IRunSettingsTemplate _runSettingsTemplate;
         private readonly IRunSettingsTemplateReplacementsFactory _runSettingsTemplateReplacementsFactory;
         private readonly IFileUtil _fileUtil;
+        private readonly ILogger _logger;
         private XDocument _runSettingsDoc;
         private string _fccMsTestAdapterPath;
 
@@ -32,11 +35,13 @@ namespace FineCodeCoverage.Collection.Ms
         public UserRunSettingsService(
             IFileUtil fileUtil,
             IRunSettingsTemplate runSettingsTemplate,
-            IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory)
+            IRunSettingsTemplateReplacementsFactory runSettingsTemplateReplacementsFactory,
+            ILogger logger)
         {
             _fileUtil = fileUtil;
             _runSettingsTemplate = runSettingsTemplate;
             _runSettingsTemplateReplacementsFactory = runSettingsTemplateReplacementsFactory;
+            _logger = logger;
         }
 
         #region analysis
@@ -48,6 +53,8 @@ namespace FineCodeCoverage.Collection.Ms
             foreach (ICoverageProject coverageProject in coverageProjectsWithRunSettings)
             {
                 (bool suitable, bool projectSpecifiedMsCodeCoverage) = ValidateUserRunSettings(coverageProject.RunSettingsFile, useMsCodeCoverage);
+                _logger.LogFileAndForget(
+                    $"Ms code coverage - runsettings '{coverageProject.RunSettingsFile}' (project '{coverageProject.ProjectName}') validation - suitable {suitable}, specifies ms data collector {projectSpecifiedMsCodeCoverage}.");
 
                 if (!suitable)
                 {
@@ -108,8 +115,9 @@ namespace FineCodeCoverage.Collection.Ms
                     ((bool Suitable, bool SpecifiedMsCodeCoverage))(true, true) :
                     ((bool Suitable, bool SpecifiedMsCodeCoverage))(useMsCodeCoverage, true);
             }
-            catch
+            catch (Exception exc)
             {
+                _logger.LogFileAndForget($"Ms code coverage - error reading or parsing runsettings '{userRunSettingsFile}'.", exc.ToString());
                 return (false, false);
             }
         }

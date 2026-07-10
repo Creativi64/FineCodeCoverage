@@ -89,6 +89,8 @@ namespace FineCodeCoverage.Collection.Ms
 
         internal MsCodeCoverageCollectionStatus CollectionStatus { get; set; }
 
+        internal int AddedFCCRunSettingsCount { get; set; }
+
         [ImportingConstructor]
         public MsCodeCoverageRunSettingsService(
             IToolUnzipper toolUnzipper,
@@ -122,10 +124,23 @@ namespace FineCodeCoverage.Collection.Ms
 
         public async Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(ITestOperation testOperation)
         {
+            AddedFCCRunSettingsCount = 0;
             await InitializeIsCollectingAsync(testOperation);
+            await LogTestOperationCoverageProjectsAsync();
             await TrySetUpForCollectionAsync();
 
             return CollectionStatus;
+        }
+
+        private Task LogTestOperationCoverageProjectsAsync()
+        {
+            var messages = new List<string> { $"Ms code coverage - the test operation has {_coverageProjectsByType.All.Count} test container(s)." };
+            messages.AddRange(_coverageProjectsByType.All.Select(coverageProject =>
+            {
+                string runSettings = coverageProject.RunSettingsFile == null ? "(none)" : $"'{coverageProject.RunSettingsFile}'";
+                return $"  Project '{coverageProject.ProjectName}' - test dll '{coverageProject.TestDllFile}', runsettings {runSettings}.";
+            }));
+            return _logger.LogAsync(messages);
         }
 
         private async Task TrySetUpForCollectionAsync()
@@ -133,6 +148,12 @@ namespace FineCodeCoverage.Collection.Ms
             IUserRunSettingsAnalysisResult analysisResult = await TryAnalyseUserRunSettingsAsync();
             if (!analysisResult.Ok())
             {
+                // null signifies an exception which has already been logged with Error collection status.
+                if (analysisResult != null)
+                {
+                    await _logger.LogAsync("Ms code coverage - not collecting as a runsettings file is not suitable. See the validation messages above.");
+                }
+
                 return;
             }
 
@@ -142,7 +163,7 @@ namespace FineCodeCoverage.Collection.Ms
         private async Task SetUpForCollectionAsync()
         {
             await PrepareCoverageProjectsAsync();
-            SetUserRunSettingsProjectDetails();
+            await SetUserRunSettingsProjectDetailsAsync();
 
             // FCC injects the Code Coverage data collector and its test adapter path in-memory through
             // IRunSettingsService.AddRunSettings (see UserRunSettingsService.AddFCCRunSettings) for every
@@ -205,10 +226,11 @@ namespace FineCodeCoverage.Collection.Ms
             }
         }
 
-        private void SetUserRunSettingsProjectDetails()
+        private Task SetUserRunSettingsProjectDetailsAsync()
         {
             // Every collected project (with or without its own runsettings) is keyed by its test dll so
             // that AddFCCRunSettings can inject coverage for whichever containers are in a given run.
+            var messages = new List<string> { "Ms code coverage - runsettings injection lookup." };
             UserRunSettingsProjectDetailsLookup = new Dictionary<string, IUserRunSettingsProjectDetails>();
             foreach (ICoverageProject coverageProject in _coverageProjectsByType.All)
             {
@@ -216,6 +238,7 @@ namespace FineCodeCoverage.Collection.Ms
                 // so skip it rather than failing the whole collection set up.
                 if (string.IsNullOrEmpty(coverageProject.TestDllFile))
                 {
+                    messages.Add($"  Project '{coverageProject.ProjectName}' has no test dll and will not have coverage.");
                     continue;
                 }
 
@@ -227,7 +250,10 @@ namespace FineCodeCoverage.Collection.Ms
                     ExcludedReferencedProjects = coverageProject.ExcludedReferencedProjects,
                     IncludedReferencedProjects = coverageProject.IncludedReferencedProjects,
                 };
+                messages.Add($"  '{coverageProject.TestDllFile}' - coverage output folder '{coverageProject.CoverageOutputFolder}'.");
             }
+
+            return _logger.LogAsync(messages);
         }
 
         #endregion
@@ -236,13 +262,116 @@ namespace FineCodeCoverage.Collection.Ms
         public IXPathNavigable AddRunSettings(
             IXPathNavigable inputRunSettingDocument,
             IRunSettingsConfigurationInfo configurationInfo,
-            Microsoft.VisualStudio.TestWindow.Extensibility.ILogger log) => configurationInfo.IsTestExecution() && ShouldAddFCCRunSettings()
-                ? _userRunSettingsService.AddFCCRunSettings(
-                    inputRunSettingDocument,
-                    configurationInfo,
-                    UserRunSettingsProjectDetailsLookup,
-                    _fccMsTestAdapterPath)
-                : null;
+            Microsoft.VisualStudio.TestWindow.Extensibility.ILogger log)
+        {
+            // The test platform calls for every operation - only test execution is relevant
+            // (and discovery is far too frequent to log).
+            if (!configurationInfo.IsTestExecution())
+            {
+                return null;
+            }
+
+            try
+            {
+                return AddFCCRunSettingsForTestExecution(inputRunSettingDocument, configurationInfo);
+            }
+            catch (Exception exc)
+            {
+                // Returning null means the execution proceeds with unmodified runsettings (no coverage),
+                // which is preferable to the exception failing or corrupting the test run.
+                _logger.LogFileAndForget(
+                    "Ms code coverage - exception adding fcc runsettings to the test execution. There will be no coverage for this run.",
+                    exc.ToString());
+                return null;
+            }
+        }
+
+        private IXPathNavigable AddFCCRunSettingsForTestExecution(
+            IXPathNavigable inputRunSettingDocument,
+            IRunSettingsConfigurationInfo configurationInfo)
+        {
+            if (!ShouldAddFCCRunSettings())
+            {
+                // When fcc is collecting for this run and this is logged, the test platform requested the
+                // execution runsettings before IsCollectingAsync completed - compare the timestamps.
+                _logger.LogFileAndForget(
+                    $"Ms code coverage - not adding fcc runsettings to the test execution. Collection status '{CollectionStatus}', injection lookup entries {UserRunSettingsProjectDetailsLookup?.Count.ToString() ?? "(lookup not created)"}.");
+                return null;
+            }
+
+            if (!TestExecutionContainersAreInLookup(configurationInfo))
+            {
+                return null;
+            }
+
+            IXPathNavigable fccRunSettings = _userRunSettingsService.AddFCCRunSettings(
+                inputRunSettingDocument,
+                configurationInfo,
+                UserRunSettingsProjectDetailsLookup,
+                _fccMsTestAdapterPath);
+
+            AddedFCCRunSettingsCount++;
+            if (fccRunSettings == null)
+            {
+                // Null (only) when the input runsettings are fcc generated (CreateProjectsRunSettings) -
+                // they already contain the ms data collector and are used unchanged.
+                _logger.LogFileAndForget("Ms code coverage - the test execution runsettings are fcc generated and are used unchanged.");
+            }
+            else
+            {
+                _logger.LogFileAndForget(
+                    "Ms code coverage - fcc runsettings added to the test execution.",
+                    "Input runsettings -",
+                    GetFullXml(inputRunSettingDocument),
+                    "Fcc runsettings -",
+                    GetFullXml(fccRunSettings));
+            }
+
+            return fccRunSettings;
+        }
+
+        private bool TestExecutionContainersAreInLookup(IRunSettingsConfigurationInfo configurationInfo)
+        {
+            List<string> containerSources = configurationInfo.TestContainers?.Select(testContainer => testContainer.Source).ToList();
+            if (containerSources == null || containerSources.Count == 0)
+            {
+                return true;
+            }
+
+            var sourcesNotInLookup = containerSources.Where(source => !UserRunSettingsProjectDetailsLookup.ContainsKey(source)).ToList();
+            if (sourcesNotInLookup.Count == containerSources.Count)
+            {
+                var messages = new List<string> { "Ms code coverage - not adding fcc runsettings as none of the test execution containers are in the injection lookup. There will be no coverage for this run. Containers -" };
+                messages.AddRange(containerSources.Select(source => $"  {source}"));
+                messages.Add("Lookup -");
+                messages.AddRange(UserRunSettingsProjectDetailsLookup.Keys.Select(key => $"  {key}"));
+                _logger.LogFileAndForget(messages.ToArray());
+                return false;
+            }
+
+            if (sourcesNotInLookup.Count > 0)
+            {
+                var messages = new List<string> { "Ms code coverage - test execution container(s) not in the injection lookup will not have coverage -" };
+                messages.AddRange(sourcesNotInLookup.Select(source => $"  {source}"));
+                _logger.LogFileAndForget(messages.ToArray());
+            }
+
+            return true;
+        }
+
+        private static string GetFullXml(IXPathNavigable xPathNavigable)
+        {
+            try
+            {
+                XPathNavigator navigator = xPathNavigable.CreateNavigator();
+                navigator.MoveToRoot();
+                return navigator.OuterXml;
+            }
+            catch (Exception exc)
+            {
+                return $"(unable to get the xml - {exc.Message})";
+            }
+        }
 
         private bool ShouldAddFCCRunSettings()
             => IsCollecting && UserRunSettingsProjectDetailsLookup?.Count > 0;
@@ -251,6 +380,7 @@ namespace FineCodeCoverage.Collection.Ms
 
         public async Task CollectAsync(IOperation operation, ITestOperation testOperation)
         {
+            await LogFCCRunSettingsUseAsync();
             await CleanUpAsync(testOperation);
 
             Uri[] resultUris = operation.GetRunSettingsMsDataCollectorResultUri()?.ToArray() ?? Array.Empty<Uri>();
@@ -259,9 +389,22 @@ namespace FineCodeCoverage.Collection.Ms
             {
                 await LogNoCoberturaFilesAsync(resultUris);
             }
+            else
+            {
+                await _logger.LogAsync(
+                    new[] { $"Ms code coverage - {coberturaFiles.Length} cobertura file(s) from {resultUris.Length} result attachment(s) -" }
+                        .Concat(coberturaFiles));
+            }
 
             _fccEngine.RunAndProcessReport(coberturaFiles, _coverageProjectsByType.All);
         }
+
+        // Distinguishes the two 'no cobertura files' failure modes - the test platform never took fcc
+        // modified runsettings (no collector ran) vs the collector ran but produced no/unusable output.
+        private Task LogFCCRunSettingsUseAsync()
+            => AddedFCCRunSettingsCount == 0
+                ? _logger.LogAsync("Ms code coverage - the test platform did not take fcc runsettings for this test execution so the ms data collector will not have run. Possible causes - the runsettings were requested before fcc set up for collection (compare timestamps above) or the test containers were not in the injection lookup.")
+                : _logger.LogAsync($"Ms code coverage - fcc runsettings were taken by the test platform {AddedFCCRunSettingsCount} time(s) for this test execution.");
 
         private static string[] GetCoberturaFiles(Uri[] resultUris)
             => resultUris.Select(uri => uri.LocalPath).Where(f => f.EndsWith(".cobertura.xml")).ToArray();
@@ -290,8 +433,11 @@ namespace FineCodeCoverage.Collection.Ms
 
         public void StopCoverage() => _fccEngine.StopCoverage();
 
-        public Task TestExecutionNotFinishedAsync(ITestOperation testOperation)
-            => CleanUpAsync(testOperation);
+        public async Task TestExecutionNotFinishedAsync(ITestOperation testOperation)
+        {
+            await _logger.LogAsync("Ms code coverage - cleaning up without collecting (test execution did not finish normally or coverage was skipped).");
+            await CleanUpAsync(testOperation);
+        }
 
         private async Task CleanUpAsync(ITestOperation testOperation)
         {
