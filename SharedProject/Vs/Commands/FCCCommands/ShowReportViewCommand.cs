@@ -1,0 +1,22 @@
+﻿using System;
+using System.ComponentModel.Composition;
+using FineCodeCoverage.Output;
+using FineCodeCoverage.Vs.Commands.CommandInitializer;
+
+namespace FineCodeCoverage.Vs.Commands.FCCCommands
+{
+    [Export(typeof(ICommandInitializer))]
+    internal sealed class ShowReportViewCommand : CommandInitializerBase
+    {
+        private readonly IReportViewService _reportViewService;
+
+        protected override int CommandId { get; } = PackageIds.cmdidShowReportViewCommand;
+
+        protected override Guid CommandSet { get; } = PackageGuids.guidFCCPackageCmdSet;
+
+        [ImportingConstructor]
+        public ShowReportViewCommand(IReportViewService reportViewService) => _reportViewService = reportViewService;
+
+        protected override void Execute(object sender, EventArgs e) => _reportViewService.Show();
+    }
+}

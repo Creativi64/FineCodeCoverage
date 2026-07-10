@@ -1,0 +1,43 @@
+﻿using System.ComponentModel.Composition;
+using System.IO;
+using System.Linq;
+using FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Roslyn;
+using FineCodeCoverage.Editor.Tagging.Base;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
+
+namespace FineCodeCoverage.Editor.DynamicCoverage.ContentTypes.Blazor
+{
+    [Export(typeof(ICoverageContentType))]
+    [Export(typeof(IFileExcluder))]
+    internal sealed class BlazorCoverageContentType : ICoverageContentType, IFileExcluder
+    {
+        private readonly IBlazorFileCodeSpanRangeService _blazorFileCodeSpanRangeService;
+        private readonly IOptionsProvider<EditorCoverageColouringOptions> _editorCoverageColouringOptionsProvider;
+
+        [ImportingConstructor]
+        public BlazorCoverageContentType(
+            IBlazorFileCodeSpanRangeService blazorFileCodeSpanRangeService,
+            IOptionsProvider<EditorCoverageColouringOptions> editorCoverageColouringOptionsProvider)
+        {
+            _blazorFileCodeSpanRangeService = blazorFileCodeSpanRangeService;
+            _editorCoverageColouringOptionsProvider = editorCoverageColouringOptionsProvider;
+        }
+
+        public const string ContentType = "Razor";
+
+        public string ContentTypeName => ContentType;
+
+        public IFileCodeSpanRangeService FileCodeSpanRangeService => _blazorFileCodeSpanRangeService;
+
+        public bool CoverageOnlyFromFileCodeSpanRangeService => _editorCoverageColouringOptionsProvider.Get().BlazorCoverageLinesFromGeneratedSource;
+
+        // Unfortunately, the generated docuent from the workspace is not up to date
+        public bool UseFileCodeSpanRangeServiceForChanges => false;
+
+        public ILineExcluder LineExcluder { get; } = new LineExcluder(
+            CSharpCoverageContentType.Exclusions.Concat(new string[] { "<", "@" }).ToArray());
+
+        public bool Exclude(string filePath) => Path.GetExtension(filePath) != ".razor";
+    }
+}

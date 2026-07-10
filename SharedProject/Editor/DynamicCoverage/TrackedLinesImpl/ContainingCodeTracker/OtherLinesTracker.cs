@@ -1,0 +1,21 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using Microsoft.VisualStudio.Text;
+
+namespace FineCodeCoverage.Editor.DynamicCoverage
+{
+    internal sealed class OtherLinesTracker : IUpdatableDynamicLines
+    {
+        public IEnumerable<IDynamicLine> Lines { get; } = Enumerable.Empty<IDynamicLine>();
+
+        public void Deleted()
+        {
+        }
+
+        public IEnumerable<int> GetUpdatedLineNumbers(
+            TrackingSpanRangeProcessResult trackingSpanRangeProcessResult,
+            ITextSnapshot currentSnapshot,
+            List<LineRange> newSpanAndLineRanges) => Enumerable.Empty<int>();
+    }
+}

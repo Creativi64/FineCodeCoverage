@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <LangVersion>latest</LangVersion>
+    <!-- The exe is shipped without a config file - assembly version drift between ReportGenerator.Core's
+         compiled-against versions and the shipped Microsoft.Extensions.* files is handled by an
+         AssemblyResolve handler in Program. -->
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReportGenerator.Core" />
+  </ItemGroup>
+
+</Project>

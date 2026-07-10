@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.Model;
-using FineCodeCoverageTests.Test_helpers;
+using FineCodeCoverage.Collection.CoverageProjectManagement;
+using FineCodeCoverage.Collection.CoverageToolOutput;
+using FineCodeCoverage.Utilities.MEF;
+using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
 
@@ -73,9 +70,9 @@ namespace FineCodeCoverageTests.CoverageToolOutput_Tests
         public void Should_Provide_The_Solution_Folder_Once_From_The_Solution_Folder_Provider_Wth_ProjectFile_Of_First_CoverageProject()
         {
             var mockProject1 = new Mock<ICoverageProject>();
-            mockProject1.Setup(p => p.ProjectFile).Returns("project.csproj");
+            mockProject1.Setup(p => p.ProjectFilePath).Returns("project.csproj");
             var mockProject2 = new Mock<ICoverageProject>();
-            mockProject2.Setup(p => p.ProjectFile).Returns("project2.csproj");
+            mockProject2.Setup(p => p.ProjectFilePath).Returns("project2.csproj");
             var coverageProjects = new List<ICoverageProject>{ mockProject1.Object, mockProject2.Object};
 
             var mockOrderMetadata1 = new Mock<IOrderMetadata>();

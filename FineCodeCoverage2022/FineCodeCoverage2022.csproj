@@ -1,21 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{59A22196-A750-4BA4-B30E-BE1422E68B8E}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FineCodeCoverage2022</RootNamespace>
+    <RootNamespace>FineCodeCoverage</RootNamespace>
     <AssemblyName>FineCodeCoverage2022</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <!-- Keep the VSIX output at bin\$(Configuration)\ (no TFM subfolder), matching the legacy project. -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- We keep the hand-written Properties\AssemblyInfo.cs. -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- VSIX packaging.  VSSDKBuildToolsAutoSetup makes the Microsoft.VSSDK.BuildTools package import
+         Microsoft.VsSDK.targets (which builds the .vsix) and apply the standard VSIX defaults
+         (CreateVsixContainer, CopyLocalLockFileAssemblies, content inclusion).  Without it an SDK-style
+         project compiles but never produces a .vsix. -->
+    <VSSDKBuildToolsAutoSetup>true</VSSDKBuildToolsAutoSetup>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -26,144 +28,325 @@
     <StartAction>Program</StartAction>
     <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
+
+    <!-- Code style -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <RoslynatorVersion>4.13.1</RoslynatorVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <!-- The WPF markup-compile pass builds a throwaway "*_wpftmp" project just to resolve XAML types.
+       Running the IDE code-style analyzers there adds nothing and surfaces IDE0004 et al. as build
+       errors, so disable analysis for it.  The real compile still enforces code style. -->
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('_wpftmp'))">
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <RunAnalyzers>false</RunAnalyzers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;VS2022</DefineConstants>
+    <DeployExtension>True</DeployExtension>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+
+  <!-- Sources / VSCT that live outside the project cone and so are not auto-globbed. -->
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source.extension.cs">
+    <Compile Include="..\Shared Files\FCCPackage.cs">
+      <Link>FCCPackage.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FCCPackage.vsct</DependentUpon>
+    </Compile>
+    <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
+      <Link>FCCPackage.vsct</Link>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>FCCPackage.cs</LastGenOutput>
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+
+  <!-- Metadata for files the SDK already globs from the project folder. -->
+  <ItemGroup>
+    <Compile Update="source.extension.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
+    <None Update="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+      <Generator>VsixManifestGenerator</Generator>
+      <LastGenOutput>source.extension.cs</LastGenOutput>
+    </None>
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="..\Art\logo.png">
       <Link>Resources\logo.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\Art\preview-subject.png">
-      <Link>Resources\preview-subject.png</Link>
+    <Content Include="..\Art\preview-coverage.png">
+      <Link>Resources\preview-coverage.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <VSCTCompile Include="..\Shared Files\OutputToolWindowPackage.vsct">
-      <Link>OutputToolWindowPackage.vsct</Link>
-      <ResourceName>Menus.ctmenu</ResourceName>
-    </VSCTCompile>
-    <Content Include="..\Shared Files\ZippedTools\coverlet.collector.3.0.3.zip">
-      <Link>ZippedTools\coverlet.collector.3.0.3.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\ZippedTools\coverlet.console.3.0.3.zip">
-      <Link>ZippedTools\coverlet.console.3.0.3.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\ZippedTools\microsoft.testplatform.16.9.1.zip">
-      <Link>ZippedTools\microsoft.testplatform.16.9.1.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\ZippedTools\openCover.4.7.922.zip">
-      <Link>ZippedTools\openCover.4.7.922.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\ZippedTools\reportGenerator.4.7.1.zip">
-      <Link>ZippedTools\reportGenerator.4.7.1.zip</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
+    <Resource Include="..\Shared Files\Resources\ReportWindow.png">
+      <Link>Resources\ReportWindow.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\buymeacoffee.png">
+      <Link>Resources\buymeacoffee.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\kofi.png">
+      <Link>Resources\kofi.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\liberapay.png">
+      <Link>Resources\liberapay.png</Link>
+    </Resource>
+    <Resource Include="..\Shared Files\Resources\paypal.png">
+      <Link>Resources\paypal.png</Link>
+    </Resource>
     <Content Include="..\LICENSE">
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="..\Shared Files\Monikers.imagemanifest">
+      <Link>Monikers.imagemanifest</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\Shared Files\ZippedTools\microsoft.codecoverage.17.13.0.zip">
+      <Link>ZippedTools\microsoft.codecoverage.17.13.0.zip</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\Shared Files\ZippedTools\dotnet-coverage.17.14.2.zip">
+      <Link>ZippedTools\dotnet-coverage.17.14.2.zip</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <!-- Runtime dependencies of FineCodeCoverage.ReportGeneratorTool.exe that the VSSDK strips from
+         BuiltProjectOutputGroupDependencies because VS provides them in-process.  The tool runs
+         out-of-process so they must be on disk next to the exe. -->
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\Microsoft.Bcl.AsyncInterfaces.dll">
+      <Link>Microsoft.Bcl.AsyncInterfaces.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Buffers.dll">
+      <Link>System.Buffers.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Collections.Immutable.dll">
+      <Link>System.Collections.Immutable.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.IO.Pipelines.dll">
+      <Link>System.IO.Pipelines.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Memory.dll">
+      <Link>System.Memory.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Numerics.Vectors.dll">
+      <Link>System.Numerics.Vectors.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Runtime.CompilerServices.Unsafe.dll">
+      <Link>System.Runtime.CompilerServices.Unsafe.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Text.Json.dll">
+      <Link>System.Text.Json.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\FineCodeCoverage.ReportGeneratorTool\bin\$(Configuration)\net472\System.Threading.Tasks.Extensions.dll">
+      <Link>System.Threading.Tasks.Extensions.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Resource Include="..\Shared Files\Resources\ClearUICommand.png">
+      <Link>Resources\ClearUICommand.png</Link>
+    </Resource>
   </ItemGroup>
+
+  <!-- Referencing the v18 TestWindow.Interfaces from the installed VS pulls in v18 Microsoft.VisualStudio.GraphModel,
+       which RAR flags (MSB3277) against the v17.14 Microsoft.VisualStudio.SDK packages.  There is no v18 VS SDK
+       (Microsoft ships only 17.x; VS2026 runs 17-SDK extensions via back-compat), so this conflict can't be
+       "fixed" by a version bump.  It is harmless - the VS2026 host provides and unifies a single v18 GraphModel at
+       runtime - so the warning is downgraded to a message here. -->
+  <PropertyGroup>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
+    <!-- Microsoft.VisualStudio.TestWindow.Interfaces is not on NuGet at a usable version (the package is
+         frozen at v11.x - an API downgrade), and it can't be vendored as local C# either: the types here
+         (ITestContainerDiscoverer, IRunSettingsService, IOperation, IOperationState, ...) are MEF contracts
+         exchanged with the VS host (see [Export]/[Import] in SharedProject\Collection), so a copy with a
+         different assembly identity would break MEF composition and the test-explorer / MS Code Coverage
+         integration.  Instead we reference the real assembly straight out of the installed VS via
+         $(VsInstallRoot).  This is safe because the VSIX targets a single VS major (see the [18.0,19.0)
+         InstallationTarget in source.extension.vsixmanifest), so the build machine's VS and the runtime host
+         are the same major version.  SpecificVersion=False so it unifies with the host at runtime. -->
+    <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(VsInstallRoot)\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="CliWrap">
-      <Version>3.2.2</Version>
+    <PackageReference Include="LibGit2Sharp">
     </PackageReference>
-    <PackageReference Include="Microsoft.Build.Locator">
-      <Version>1.4.1</Version>
+    <PackageReference Include="MessagePack" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild">
-      <Version>4.0.1</Version>
+    <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text">
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.31902.203" ExcludeAssets="runtime">
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.TestWindow.Interfaces">
-      <Version>11.0.61030</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="ReflectObject">
-      <Version>1.0.0</Version>
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic">
     </PackageReference>
-    <PackageReference Include="RSA.Fizzler.Systems.HtmlAgilityPack">
-      <Version>1.0.0</Version>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common">
+    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp">
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.ProjectSystem">
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" ExcludeAssets="runtime">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.TeamFoundation.Git.Extensibility">
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="NuGet.VisualStudio">
+    </PackageReference>
+    <PackageReference Include="NuGet.VisualStudio.Contracts">
+    </PackageReference>
+    <PackageReference Include="Roslynator.Analyzers">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Roslynator.CodeFixes">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Roslynator.Refactorings">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.CommandLine">
     </PackageReference>
     <PackageReference Include="System.Composition">
-      <Version>5.0.1</Version>
     </PackageReference>
-    <PackageReference Include="System.IO.Compression">
-      <Version>4.3.0</Version>
+    <!-- BCL assemblies that must physically ship in the VSIX so the extension resolves them at runtime
+         (Roslyn / VS SDK transitively depend on them via System.IO.Pipelines / System.Threading.Tasks.Extensions).
+         Declared as direct copy-local references so the VSSDK packs them into the .vsix
+         (CopyLocalLockFileAssemblies + IncludeCopyLocalReferencesInVSIXContainer). -->
+    <PackageReference Include="System.Buffers">
+    </PackageReference>
+    <PackageReference Include="System.Memory">
+    </PackageReference>
+    <PackageReference Include="System.Numerics.Vectors">
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
     </PackageReference>
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\ReportGeneratorPlugins\ReportGeneratorPlugins.csproj">
-      <Project>{14fb668b-4b70-41e4-964b-405e5c9a6a58}</Project>
-      <Name>ReportGeneratorPlugins</Name>
+    <ProjectReference Include="..\FineCodeCoverage.Collection\FineCodeCoverage.Collection.csproj">
+      <Project>{ed130de3-9267-48cb-a3fb-568dc9ee03bb}</Project>
+      <Name>FineCodeCoverage.Collection</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Hotspots\FineCodeCoverage.Hotspots.csproj">
+      <Project>{8b3c2717-8c77-97ec-e37a-3a903bbc368c}</Project>
+      <Name>FineCodeCoverage.Hotspots</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Initialization\FineCodeCoverage.Initialization.csproj">
+      <Project>{48af8161-fab3-462d-b898-036b7c9897fb}</Project>
+      <Name>FineCodeCoverage.Initialization</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Options\FineCodeCoverage.Options.csproj">
+      <Project>{94e28cea-8b1f-4841-9c5f-7e7b636a2d67}</Project>
+      <Name>FineCodeCoverage.Options</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.ReportGeneratorTool\FineCodeCoverage.ReportGeneratorTool.csproj">
+      <Name>FineCodeCoverage.ReportGeneratorTool</Name>
+      <!-- Only the exe - its dependencies (ReportGenerator.Core + Microsoft.Extensions.*) are already
+           shipped via FineCodeCoverage.Collection.  Not referenced for compilation. -->
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.VSAbstractions\FineCodeCoverage.VSAbstractions.csproj">
+      <Project>{7b206c15-d01c-4144-978d-c37ca9962e69}</Project>
+      <Name>FineCodeCoverage.VSAbstractions</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\TreeGrid\TreeGrid.csproj">
+      <Project>{b1f5830c-2acb-4ecc-ad8c-8eaadca586da}</Project>
+      <Name>TreeGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VsThemedDialogs.ViewModelInterfaces\VsThemedDialogs.ViewModelInterfaces.csproj">
+      <Project>{77d67fb3-bb31-4937-9866-4a7c53822a43}</Project>
+      <Name>VsThemedDialogs.ViewModelInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VsThemedDialogs2019\VsThemedDialogs2019.csproj">
+      <Project>{41f2b243-d408-40c0-b2f9-10a57633fbc7}</Project>
+      <Name>VsThemedDialogs2019</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VsThemedDialogs2022\VsThemedDialogs2022.csproj">
+      <Project>{111e8f1c-17f3-4aa5-a4f4-b1b834665b27}</Project>
+      <Name>VsThemedDialogs2022</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfGridExtensions\WpfGridExtensions.csproj">
+      <Project>{5196dec6-4b81-40c9-a789-024c7e1b18b2}</Project>
+      <Name>WpfGridExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
+      <Project>{2bcb9c3e-ffcf-4609-846b-b1562dab39a7}</Project>
+      <Name>WpfHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FineCodeCoverage.Utilities\FineCodeCoverage.Utilities.csproj">
+      <Project>{9a8f0ebc-af9d-448d-928d-27e08a77ab23}</Project>
+      <Name>FineCodeCoverage.Utilities</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\Shared Files\Resources\ClearUICommand.png">
-      <Link>Resources\ClearUICommand.png</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\Shared Files\Resources\OutputToolWindowCommand.png">
-      <Link>Resources\OutputToolWindowCommand.png</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-  </ItemGroup>
+
+  <Import Project="$(MSBuildProjectDirectory)\LibGit2SharpNativeFiles.targets" />
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+
+  <Target Name="FilterRoslynatorAnalyzers" AfterTargets="ResolveNuGetPackageAssets">
+    <ItemGroup>
+      <Analyzer Remove="$(NuGetPackageRoot)roslynator.analyzers\$(RoslynatorVersion)\analyzers\dotnet\roslyn3.8\**\*" />
+      <Analyzer Remove="$(NuGetPackageRoot)roslynator.codefixes\**\*" />
+      <Analyzer Remove="$(NuGetPackageRoot)roslynator.refactorings\**\*" />
+    </ItemGroup>
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

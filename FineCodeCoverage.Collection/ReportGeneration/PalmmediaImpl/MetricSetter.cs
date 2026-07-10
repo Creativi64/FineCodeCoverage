@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using PalmmediaMetric = Palmmedia.ReportGenerator.Core.Parser.Analysis.Metric;
+
+namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
+{
+    internal static class MetricSetter
+    {
+        private static readonly Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>> s_metricSetters
+            = new Dictionary<string, Func<PalmmediaCodeElement, decimal?, MetricType>>
+            {
+                {
+                    MetricNames.BlocksCovered,
+                    (pce, value) =>
+                    {
+                        pce.BlocksCovered = (int)value;
+                        return MetricType.BlocksCovered;
+                    }
+                },
+                {
+                    MetricNames.BlocksNotCovered,
+                    (pce, value) =>
+                    {
+                        pce.BlocksNotCovered = (int)value;
+                        return MetricType.BlocksNotCovered;
+                    }
+                },
+                {
+                    MetricNames.Crap,
+                    (pce, value) =>
+                    {
+                        pce.CrapScore = (int)value;
+                        return MetricType.Crap;
+                    }
+                },
+                {
+                    MetricNames.NPath,
+                    (pce, value) =>
+                    {
+                        pce.NPathComplexity = (int)value;
+                        return MetricType.NPath;
+                    }
+                },
+                {
+                    MetricNames.CyclomaticComplexity,
+                    (pce, value) =>
+                    {
+                        pce.CyclomaticComplexity = (int)value;
+                        return MetricType.CyclomaticComplexity;
+                    }
+                },
+            };
+
+        public static List<MetricType> SetMetricProperties(
+            this PalmmediaCodeElement palmmediaCodeElement,
+            IEnumerable<PalmmediaMetric> metrics)
+        {
+            var metricTypes = new List<MetricType>();
+            foreach (PalmmediaMetric metric in metrics)
+            {
+                _ = s_metricSetters.TryGetValue(metric.Name, out Func<PalmmediaCodeElement, decimal?, MetricType> setter);
+                if (setter != null)
+                {
+                    MetricType metricType = setter(palmmediaCodeElement, metric.Value);
+                    metricTypes.Add(metricType);
+                }
+            }
+
+            return metricTypes;
+        }
+    }
+}

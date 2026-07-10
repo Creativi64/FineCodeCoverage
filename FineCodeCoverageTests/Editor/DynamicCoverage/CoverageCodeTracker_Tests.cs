@@ -1,0 +1,219 @@
+﻿using AutoMoq;
+using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.DynamicCoverage.Dirty;
+using FineCodeCoverageTests.TestHelpers;
+using Microsoft.VisualStudio.Text;
+using Moq;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FineCodeCoverageTests.Editor.DynamicCoverage
+{
+    internal class CoverageCodeTracker_Tests
+    {
+        [Test]
+        public void Should_Return_Lines_From_TrackedCoverageLines_When_No_DirtyLine()
+        {
+            var autoMoqer = new AutoMoqer();
+            var trackedLines = new List<IDynamicLine> { new Mock<IDynamicLine>().Object };
+            autoMoqer.Setup<ITrackedCoverageLines, IEnumerable<IDynamicLine>>(trackedCoverageLines => trackedCoverageLines.Lines)
+                .Returns(trackedLines);
+            var containingCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+
+            Assert.That(trackedLines, Is.SameAs(containingCodeTracker.Lines));
+
+        }
+
+        private static IDynamicLine CreateDynamicLine(int lineNumber)
+        {
+            var mockDynamicLine = new Mock<IDynamicLine>();
+            mockDynamicLine.SetupGet(dynamicLine => dynamicLine.LineNumber).Returns(lineNumber);
+            return mockDynamicLine.Object;
+        }
+
+        [TestCase(true,true)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(false,false)]
+        public void Should_Create_The_DirtyLine_When_Text_Changed_And_Intersected(bool textChanged, bool intersected)
+        {
+            var expectedCreatedDirtyLine = textChanged && intersected;
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
+            var newLineRanges = new List<LineRange> { new LineRange( 0, 1) };
+            var autoMoqer = new AutoMoqer();
+            var mockDynamicCodeElement = new Mock<IDynamicCodeElement>();
+            var mockStartDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>();
+            mockStartDynamicCoberturaLine.SetupGet(startDynamicCoberturaLine => startDynamicCoberturaLine.CodeElement).Returns(mockDynamicCodeElement.Object);
+            autoMoqer.Setup<ITrackedCoverageLines, FirstTrackedCoverageLineInfo>(trackedCoverageLines => trackedCoverageLines.GetFirstTrackedCoverageLineInfo())
+                .Returns(new FirstTrackedCoverageLineInfo(123, mockStartDynamicCoberturaLine.Object));
+            var mockTrackingSpanRange = new Mock<ITrackingSpanRange>();
+            var firstTrackingSpan = new Mock<ITrackingSpan>().Object;
+            mockTrackingSpanRange.Setup(trackingSpanRange => trackingSpanRange.GetFirstTrackingSpan()).Returns(firstTrackingSpan);
+
+            var mockDirtyLineFactory = autoMoqer.GetMock<IDirtyLineFactory>();
+            var mockDirtyLine = new Mock<ITrackingLine>();
+            var dirtyDynamicLine = new Mock<IDynamicLine>().Object;
+            mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line).Returns(dirtyDynamicLine);
+            mockDirtyLineFactory.Setup(
+                dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, 123, mockStartDynamicCoberturaLine.Object)
+            ).Returns(mockDirtyLine.Object);
+
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+
+            var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(
+                    mockTrackingSpanRange.Object,
+                    intersected ? new List<LineRange>() : newLineRanges,
+                    false,
+                    textChanged
+            );
+            coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newLineRanges);
+
+            mockDirtyLineFactory.Verify(
+                dirtyLineFactory => dirtyLineFactory.Create(firstTrackingSpan, 123, It.IsAny<IDynamicCoberturaLine>()),
+                MoqAssertionsHelper.ExpectedTimes(expectedCreatedDirtyLine));
+
+            var lines = coverageCodeTracker.Lines;
+            if (expectedCreatedDirtyLine)
+            {
+                Assert.That(lines.Single(), Is.SameAs(dirtyDynamicLine));
+                mockDynamicCodeElement.Verify(dynamicCodeElement => dynamicCodeElement.IsDirty());
+            }
+            else
+            {
+                Assert.That(lines, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Should_Return_The_Dirty_Line_Number_And_All_Tracked_Line_Numbers_When_Create_Dirty_Line()
+        {
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
+            
+            var autoMoqer = new AutoMoqer();
+            var coverageLines = new List<IDynamicLine> { CreateDynamicLine(1), CreateDynamicLine(2) };
+            autoMoqer.Setup<ITrackedCoverageLines, IEnumerable<IDynamicLine>>(
+                trackedCoverageLines => trackedCoverageLines.Lines
+                ).Returns(coverageLines);
+            var mockDirtyLineFactory = autoMoqer.GetMock<IDirtyLineFactory>();
+            var mockDirtyLine = new Mock<ITrackingLine>();
+            mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line.LineNumber).Returns(10);
+            mockDirtyLineFactory.Setup(
+                dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(), It.IsAny<int>(), It.IsAny<IDynamicCoberturaLine>())
+            ).Returns(mockDirtyLine.Object);
+            autoMoqer.Setup<ITrackedCoverageLines, FirstTrackedCoverageLineInfo>(trackedCoverageLines => trackedCoverageLines.GetFirstTrackedCoverageLineInfo())
+                .Returns(new FirstTrackedCoverageLineInfo(1, null));
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+
+            var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(
+                    new Mock<ITrackingSpanRange>().Object,
+                    new List<LineRange>(),
+                    false,
+                    true
+            );
+            
+            var updatedLineNumbers = coverageCodeTracker.GetUpdatedLineNumbers(
+                trackingSpanRangeProcessResult, 
+                textSnapshot, 
+                new List<LineRange> { new LineRange(0, 1) });
+
+            Assert.That(updatedLineNumbers, Is.EqualTo(new List<int> { 10, 1, 2 }));
+        }
+
+        [Test]
+        public void Should_Update_TrackedCoverageLines_When_Do_Not_Create_DirtyLine()
+        {
+            var textSnapshot = new Mock<ITextSnapshot>().Object;
+            var autoMoqer = new AutoMoqer();
+            var mockTrackedCoverageLines = autoMoqer.GetMock<ITrackedCoverageLines>();
+            var trackedCoverageLinesUpdatedLineNumbers = new List<int> { 1, 2 };
+            mockTrackedCoverageLines.Setup(trackedCoverageLines => trackedCoverageLines.GetUpdatedLineNumbers(textSnapshot))
+                .Returns(trackedCoverageLinesUpdatedLineNumbers);
+            var newSpanAndLineRanges = new List<LineRange> { new LineRange(0, 1) };
+            var trackingSpanRangeProcessResult = new TrackingSpanRangeProcessResult(
+                new Mock<ITrackingSpanRange>().Object,
+                new List<LineRange>(),
+                false,
+                false
+            );
+
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+
+            var updatedLineNumbers = coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult, textSnapshot, newSpanAndLineRanges);
+
+            Assert.That(updatedLineNumbers, Is.SameAs(trackedCoverageLinesUpdatedLineNumbers));
+        }
+
+        [Test]
+        public void Should_Update_DirtyLine_When_DirtyLine()
+        {
+            var textSnapshot2 = new Mock<ITextSnapshot>().Object;
+            var spanAndLineRange2 = new List<LineRange>() { new LineRange(0, 0) };
+            var autoMoqer = new AutoMoqer();
+            var mockDirtyLineFactory = autoMoqer.GetMock<IDirtyLineFactory>();
+            var mockDirtyLine = new Mock<ITrackingLine>();
+            mockDirtyLine.SetupGet(dirtyLine => dirtyLine.Line.LineNumber).Returns(10);
+            var dirtyLineUpdatedLineNumbers =new List<int> { 10, 20 };
+            mockDirtyLine.Setup(dirtyLine => dirtyLine.GetUpdatedLineNumbers(textSnapshot2)).Returns(dirtyLineUpdatedLineNumbers);
+            mockDirtyLineFactory.Setup(dirtyLineFactory => dirtyLineFactory.Create(It.IsAny<ITrackingSpan>(),1, It.IsAny<IDynamicCoberturaLine>()))
+                .Returns(mockDirtyLine.Object);
+            autoMoqer.Setup<ITrackedCoverageLines, FirstTrackedCoverageLineInfo>(trackedCoverageLines => trackedCoverageLines.GetFirstTrackedCoverageLineInfo())
+                .Returns(new FirstTrackedCoverageLineInfo(1, null));
+
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+
+            var trackingSpanRangeProcessResult1 = new TrackingSpanRangeProcessResult(
+                new Mock<ITrackingSpanRange>().Object,
+                new List<LineRange>(),
+                false,
+                true
+            );
+            coverageCodeTracker.GetUpdatedLineNumbers(trackingSpanRangeProcessResult1, new Mock<ITextSnapshot>().Object, new List<LineRange>() { new LineRange(0, 0) });
+
+            var trackingSpanRangeProcessResult2 = new TrackingSpanRangeProcessResult(
+                new Mock<ITrackingSpanRange>().Object,
+                new List<LineRange>(),
+                false,
+                true
+            );
+
+            var updatedLineNumbers = coverageCodeTracker.GetUpdatedLineNumbers(
+                trackingSpanRangeProcessResult2, textSnapshot2, spanAndLineRange2);
+
+            Assert.That(updatedLineNumbers, Is.EqualTo(dirtyLineUpdatedLineNumbers));
+
+        }
+
+        [Test]
+        public void Should_Update_DynamicCodeElement_When_Deleted()
+        {
+            var autoMoqer = new AutoMoqer();
+            var mockDynamicCodeElement = new Mock<IDynamicCodeElement>();
+            var mockDynamicCoberturaLine = new Mock<IDynamicCoberturaLine>();
+            mockDynamicCoberturaLine.SetupGet(dynamicCoberturaLine => dynamicCoberturaLine.CodeElement)
+                .Returns(mockDynamicCodeElement.Object);
+            autoMoqer.Setup<ITrackedCoverageLines, FirstTrackedCoverageLineInfo>(trackedCoverageLines => trackedCoverageLines.GetFirstTrackedCoverageLineInfo())
+                .Returns(new FirstTrackedCoverageLineInfo(0, mockDynamicCoberturaLine.Object));
+
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+            coverageCodeTracker.Deleted();
+
+            mockDynamicCodeElement.Verify(dynamicCodeElement => dynamicCodeElement.Deleted());
+        }
+
+        [Test]
+        public void Should_Not_Throw_When_Deleted_And_Not_A_DynamicCoberturaLine()
+        {
+            var autoMoqer = new AutoMoqer();
+            autoMoqer.Setup<ITrackedCoverageLines, FirstTrackedCoverageLineInfo>(trackedCoverageLines => trackedCoverageLines.GetFirstTrackedCoverageLineInfo())
+                .Returns(new FirstTrackedCoverageLineInfo(1, null));
+
+            var coverageCodeTracker = autoMoqer.Create<CoverageCodeTracker>();
+            coverageCodeTracker.Deleted();
+        }
+    }
+    
+
+}

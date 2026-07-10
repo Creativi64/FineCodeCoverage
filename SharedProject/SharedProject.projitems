@@ -6,168 +6,593 @@
     <SharedGUID>9353044c-5d39-4e70-8e78-28213e05217a</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>SharedProject</Import_RootNamespace>
+    <Import_RootNamespace>FineCodeCoverage</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Core\AppDataFolder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Class.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Classes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoberturaUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Condition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Conditions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\CoverageReport.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\ICoberturaUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Line.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Lines.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Method.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Methods.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Package.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Packages.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Cobertura\Sources.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\AppOptionsCoverageToolOutputFolderSolutionProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\CoverageToolOutputFolderFromSolutionProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\CoverageToolOutputManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\FccOutputExistenceCoverageToolOutputFolderSolutionProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\ICoverageToolOutputFolderProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\ICoverageToolOutputFolderSolutionProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\ICoverageToolOutputManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\ISolutionFolderProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageToolOutput\SolutionFolderProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageUIEvents.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CoverageUtilManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleCustomPathExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleDotnetToolsGlobalExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleDotnetToolsLocalExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\CoverletConsoleUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\DotNetToolListCoverlet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\FCCCoverletConsoleExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\ICoverletConsoleExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\ICoverletConsoleUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\IDotNetToolListCoverlet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\Console\IFCCCoverletConsoleExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\CoverletUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\CoverletDataCollectorGeneratedCobertura.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\CoverletDataCollectorUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\DataCollectorSettingsBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\DataCollectorSettingsBuilderFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\interfaces\ICoverletDataCollectorGeneratedCobertura.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\interfaces\ICoverletDataCollectorUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\interfaces\IDataCollectorSettingsBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\interfaces\IDataCollectorSettingsBuilderFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\interfaces\IRunSettingsCoverletConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\interfaces\IRunSettingsCoverletConfigurationFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\RunSettingsCoverletConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\DataCollector\RunSettingsCoverletConfigurationFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Coverlet\ICoverletUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\EnvironmentVariable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\FCCEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\FileSynchronization\FileSynchronization.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\IAppDataFolder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ICoverageUtilManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\IEnvironmentVariable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\IFCCEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\IMessageBox.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ISourceFileOpener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MessageBoxWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageLine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\CoverageProjectFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ICoverageProjectFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Model\ReferencedProject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\IMsTestPlatformUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\MsTestPlatform\MsTestPlatformUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\IOpenCoverUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\OpenCover\OpenCoverUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ReportGenerator\ReportGeneratorUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\SourceFileOpener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\SVsColorThemeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\AssemblyUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ComparableFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\DotNetConfigFinder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\DotNetToolListExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\DotNetToolListParser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\IDotNetConfigFinder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\IDotNetToolListExecutor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\DotNet\IDotNetToolListParser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileSystemInfoDeleteExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\FileUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IAssemblyUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IFileUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IProcessResponseProcessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IProcessUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\IZipFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\LinqExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\MEF.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ProcessResponseProcessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ProcessUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ReflectionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\IToolFolder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\IToolZipProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\ToolFolder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ToolZip\ToolZipProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\XElementUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Utilities\ZipFileWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\CoverageColorProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\CoverageLineGlyphFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\CoverageLineGlyphFactoryProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\CoverageLineGlyphTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\CoverageLineGlyphTagger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\CoverageLineGlyphTaggerProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\ICoverageColours.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\ICoverageColoursProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\ILogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\RunSettingsRetriever.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Container.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ContainerData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\IInitializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\IInitializeStatusProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Initializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\InitializeStatus.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\IPackageInitializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ITestOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\ITestOperationFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\Operation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\PackageInitializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestContainerDiscoverer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestOperationFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\TestContainerDiscovery\TestRunResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\Vsix.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptions.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Options\AppOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptionsProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\IAppOptionsStorageProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ClearUICommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\IProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowControl.xaml.cs">
-      <DependentUpon>OutputToolWindowControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowPackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ProcessWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Output\ScriptManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Output\OutputToolWindowControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButtonX.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsImageButtonResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\VsPathButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Demo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\Crispy.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Output\VSPackage.resx">
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\BranchViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\AlwaysPositionWhenFCCDebugging.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Debugging\FCCDebugStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Debugging\IFCCDebugStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\IShouldAlwaysPositionToolWindows.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton2.xaml.cs">
+      <DependentUpon>VsCrispImageButton2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButtonX.xaml.cs">
+      <DependentUpon>VsCrispImageButtonX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsImageButton.xaml.cs">
+      <DependentUpon>VsImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsPathButton.xaml.cs">
+      <DependentUpon>VsPathButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementUserControl.xaml.cs">
+      <DependentUpon>ColumnsManagementUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ColumnsManagementWindow.xaml.cs">
+      <DependentUpon>ColumnsManagementWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorWindow.xaml.cs">
+      <DependentUpon>ReportViewSelectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Demo.xaml.cs">
+      <DependentUpon>Demo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBar.xaml.cs">
+      <DependentUpon>CoveragePercentageBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindowControl.xaml.cs">
+      <DependentUpon>ReportToolWindowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\Crispy.xaml.cs">
+      <DependentUpon>Crispy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Vsix.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackageLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindows\DialogWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ApplicationResourcesLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridPreventSelectAllBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\DataGridInvokeDataContextOnSelectionChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\IApplicationResourcesLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ISelectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceDictionaryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\ResourceKeyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\Themes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsCrispImageButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\VsImageButtonX.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\CustomRunSettingsTemplateDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\CustomRunSettingsTemplateProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ICoverageProjectRunSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ICustomRunSettingsTemplateProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IMsCodeCoverageRunSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IOperationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IProjectRunSettingsGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IProjectSaver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IRunSettingsConfigurationInfoExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IRunSettingsTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IRunSettingsTemplateReplacements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IRunSettingsTemplateReplacementsFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IShimCopier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ITemplatedRunSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ITemplateReplacementResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IUserRunSettingsAnalysisResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IUserRunSettingsProjectDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IUserRunSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\IVsRunSettingsWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\MsCodeCoverageCollectionStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\MsCodeCoverageRegex.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\MsCodeCoverageRunSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\MsTemplateReplacementException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ProjectRunSettingsGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ProjectSaver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\RunSettingsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\RunSettingsTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\RunSettingsTemplateReplacementsFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\ShimCopier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\TemplatedCoverageProjectRunSettingsResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\TemplatedRunSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\UserRunSettingsAnalysisResultExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\UserRunSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\VsRunSettingsWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\XPathNavigatorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ICoverageCollectableFromTestExplorer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ITUnitCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\TestContainerDiscoverer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\TUnitCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\Settings\VsBuildFCCSettingsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\IRunSettingsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\ITestOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\ITestOperationFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\ITestOperationStateInvocationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\RunSettingsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\TestOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\TestOperationFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\TestOperationStateInvocationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\DisableTestingPlatformServerCapabilityGlobalPropertiesProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\EditableColumn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\IReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ReportColumnsManagementViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ColumnManagementUI\ReportColumnsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\Changeset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\GitRepo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\GitService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\IChangeset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\IGitRepo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Repo\IGitService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViewSelectorModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\IReportViewSolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportContentTypeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportStyleViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSelectorViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewSolutionOptionValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\ReportViewState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\IndicatorVisibility\FileIndicatorVisibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\IndicatorVisibility\IFileIndicatorVisibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\IndicatorVisibility\ToggleCoverageIndicatorsMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ColoursClassificationFormatDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageClassificationTypeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageColoursChangedMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageColoursManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageFontAndColorsCategoryItemNamesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageTypeColour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\DelayedMainThreadInvocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\EditorFormatMapTextSpecificListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\FCCEditorFormatDefinitionNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\FontAndColorsCategoryItemName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\FontAndColorsInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\FontAndColorsInfosProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\FontsAndColorsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageClassificationColourService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageColoursEditorFormatMapNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageColoursProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageFontAndColorsCategoryItemNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageFontAndColorsCategoryItemNamesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageTypeColour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ICoverageTypeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IDelayedMainThreadInvocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IEditorFormatMapTextSpecificListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IFontAndColorsInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IFontAndColorsInfosProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IFontsAndColorsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IItemCoverageColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ItemCoverageColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\ITextFormattingRunPropertiesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\IVsHasCoverageMarkersLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\MarkerTypeNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\TextFormattingRunPropertiesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\VsHasCoverageMarkersLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\CSharpContainingCodeVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\ICSharpCodeCoverageNodeVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\ILanguageContainingCodeVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\ILanguageContainingCodeVisitorFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\IRoslynService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\ITextSnapshotToSyntaxService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\LanguageContainingCodeVisitorFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\RootNodeAndLanguage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\RoslynService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\TextSnapshotToSyntaxService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Roslyn\VBContainingCodeVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ServiceProviderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions\ThemeResourceKeyExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ImageLibrary\TraceImageLibraryRegistrationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ImageLibrary\TraceLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UI\IUiClearer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UI\UIClearer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VisualStudioNotificationColors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\CancelCollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ClearUICommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\CollectOrCancelTUnitCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\CollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\CommandInitializerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\EditColumnsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ICancelCollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ICollectTUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\ICommandInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ITUnitCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenCoberturaCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenFCCOutputPaneCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenHotspotsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenReportWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\OpenSettingsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ResetSettingsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ShowReportViewCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\ToggleCoverageIndicatorsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\ISolutionEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\IVsShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\SolutionEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Events\VsShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\FileRenameListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\SourceFileOpener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\VsOpenFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\CommandPackageServices.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Package\FCCPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\ICommandPackageServices.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\IPackageServices.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\FCCOutputWindowPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\FCCOutputWindowPaneCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IShowFCCOutputPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IVsOutputWindowPaneExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\ShowFCCOutputPane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\IProjectFilePropertyWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Files\ProjectFilePropertyWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ComponentModel\MefServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Services\ClearSettingsOnShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Services\IClearSettingsOnShutdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\FaultEventName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\FCCFaultEventName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\IBuildFaultEventNameFromFeatureHierarchy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Telemetry\ProductFaultEventNameBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ImageThemingUtilitiesX.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\ThemeChangedWeakEventManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Theming\VsThemeLifetimeCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\CancellationTokenSourceWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\DisposeAwareTaskRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\MainThreadHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\VsJoinableTaskFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Threading\VsThreadHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\IToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\IToolWindowServiceInit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\ReflectionMEFToolWindowContextProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\WindowServices\ToolWindows\ToolWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\IsVs2022.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\IVsAppId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\SVsAppId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Versioning\VsVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedNotifierBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesChangedUserControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\DependentPropertiesDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DependentPropertiesChange\IPropertyDependencyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\DesignTimeImageThemingUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\CPPReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\DotNetReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\ICPPReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\IDotNetReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\ReferencedProjects\VsApiReferencedProjectsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\ReflectObjectVendored.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\Container.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\ContainerData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\TestConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\TestContainerDiscoveryReflectionException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\TestRunRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestExplorer\InternalTypes\TestRunResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\BuildCompletionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\BuildHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\BuildStartEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\BuildStartEndArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\CommandLineParseOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\CommandLineParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\CommandLineParseResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\CPSTestProjectService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\IBuildHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ICommandLineParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ICPSTestProjectService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\INugetProjectServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\IRunSettingsToConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ISolutionProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitChangeNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitCoverageProject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitCoverageProjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitCoverageRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitInstalledPackagesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitProject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitProjectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitProjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitSettingsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\IVsHierarchyExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\NugetProjectServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ProjectAddedRemoved.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ResponseFileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\RunSettingsToConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\SolutionProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitChangeNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitCoverageProjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitCoverageRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitInstalledPackageResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitInstalledPackagesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitProjectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitProjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitSettingsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ColumnStatesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\IColumnStatesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\IReportColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\IReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\MetricColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ReportColumnData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ReportColumnManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ColumnManagement\ReportColumnState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBarBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBarOptionsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoveragePercentageBarOptionsViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoverageTooltipTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\CoverageTooltipViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\DefaultLineBrushCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\ILineBrushCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\CoverageBar\SizeOrMultiplierConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\DirectoryResultsTreeBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\IDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\ISourceFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\ReportModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\SourceFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\Model\SourceFileClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ToolWindow\ReportToolWindowContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ClearReportMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\IReportTreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportTreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\WpfConverters\BrushToSolidColorBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\WpfConverters\PercentageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\WpfConverters\ZeroToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\ClearLinesMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicCoverageTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\ITrackingLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\TrackingLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\TrackingLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\CPPCoverageContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ITrackedCoverageLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ITrackedCoverageLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\ITrackedCoverageLinesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Coverage\TrackedCoverageLinesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Dirty\DirtyLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Dirty\DirtyTrackingLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Dirty\IDirtyLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\BufferLineCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\BufferLineCoverageFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\CoverageChangedMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\CoverageContentTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\DynamicCoverageManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\DynamicCoverageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\FileLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IBufferLineCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IBufferLineCoverageFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\ICoverageContentTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IDynamicCoverageManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Common\IDynamicLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IFileLineCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IFileLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ILastCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\IReportFileLineCoverageFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ITrackedLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ITrackedLinesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\LastCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\NewCoverageLinesMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ReportFileLineCoverage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Management\ReportFileLineCoverageFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\INewCodeTrackerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\ITrackedNewCodeLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\ITrackedNewCodeLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\NewCodeTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\NewCodeTrackerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\TrackedNewCodeLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\TrackedNewCodeLineUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\TrackedNewLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\INotIncludedLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NotIncluded\NotIncludedLineFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\ContainingCodeTrackedLinesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\ContainingCodeTrackerState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\HasNewCodeChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\IContainingCodeTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\IContainingCodeTrackerProcessResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\IContainingCodeTrackerTrackedLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\IFileCodeSpanRangeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\NewCode\INewCodeTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\LineRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLines\TrackedLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\DateTimeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\IDateTimeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ILineTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ISyntaxNodeLocationMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ITextInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ITextInfoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ITextSnapshotText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\ITrackingSpanFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\LineTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\SyntaxNodeLocationMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TextInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TextInfoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TextSnapshotText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Utilities\TrackedLineInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTaggerProviderFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineAndSnapshotSpan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineAndSnapshotSpansLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\DynamicLineFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ICoverageTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ICoverageTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ICoverageTaggerProviderFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineAndSnapshotSpan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineAndSnapshotSpansLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IDynamicLineFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\IFileExcluder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ILineSpanTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Classification\CoverageClassificationFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Classification\CoverageLineClassificationTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\CoverageLineGlyphFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\CoverageLineGlyphFactoryProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\CoverageLineGlyphTag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\CoverageLineGlyphTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\CoverageLineGlyphTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\GlyphMargin\GlyphFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageLineOverviewMarkTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\OverviewMargin\CoverageOverviewMarginFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\Logging\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\Logging\LoggerSingleton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\DialogPageBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ProfileManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\ISolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\ISolutionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\SolutionOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Solution\SolutionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\ReadOnlyConfigSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\SettingsStoreWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\WritableSettingsStoreWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Store\WritableUserSettingsStoreProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeResourceKeyTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\ThemesResourceDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\VsDesignTimeColors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\DesignModeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\ImageLibraryLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\CrispImage\VsInstallationPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\Icons\IconsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\Icons\IconsViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\Icons\IIconMeasurementOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportHeader\ReportHeaderBrushesViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\ReportHeader\ReportHeaderBrushesViewModelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\AssemblyTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\ClassTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\CodeElementTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\DirectoryTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\NamespaceTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\ReportTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\RootDirectoryTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\SourceFileTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\ThemedTreeGridColours.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\TotalTreeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\Report\ViewModel\TreeItems\VisualStudioTreeItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorCoverageContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorFileCodeSpanRangeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorGeneratedDocumentRootFinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\BlazorGeneratedFilePathMatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\IBlazorFileCodeSpanRangeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\IBlazorGeneratedDocumentRootFinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Blazor\IBlazorGeneratedFilePathMatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\CSharpCoverageContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\IRoslynFileCodeSpanRangeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\RoslynFileCodeSpanRangeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\Roslyn\VBCoverageContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\CodeSpanRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\CodeSpanRangeContainingCodeTrackerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\ContainingCodeTrackedLinesBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\ICodeSpanRangeContainingCodeTrackerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\IContainingCodeTrackedLinesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\ContentTypes\ICoverageContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\ITrackingSpanRangeContainingCodeTrackerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\ITrackingSpanRangeFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\NewCodeChangedMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\TrackingSpanRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\TrackingSpanRangeFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\Construction\TrackingSpanRangeProcessResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\ContainingCodeTrackerProcessResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\CoverageCodeTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\FirstTrackedCoverageLineInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\ITrackedCoverageLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\ITrackingLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\ITrackingSpanRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\IUpdatableDynamicLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\OtherLinesTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\TrackingLineTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\TrackingSpanRangeContainingCodeTrackerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\ContainingCodeTracker\TrackingSpanRangeUpdatingTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\LineExclusion\ILineExcluder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\TrackedLinesImpl\LineExclusion\LineExcluder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilterBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\CoverageTypeFilterChangedMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Tagging\Base\ICoverageTypeFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\EditorCoverageColouringOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\HotspotThresholdsOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\IncludesExcludesOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\MiscOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OpenOptionPageTypeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\OutputOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\ReportOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vs\Settings\Options\RunOptionsPage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Vs\Package\VSPackage.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="$(MSBuildThisFileDirectory)Resources\OutputToolWindowPackage.ico" />
+    <Resource Include="$(MSBuildThisFileDirectory)Vs\Package\Resources\OutputToolWindowPackage.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Wpf\DesignTimeResources\Colors\themes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Collection\CoverageProjectManagement\Settings\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Editor\DynamicCoverage\Messages\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\Debugging\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\CommandInitializer\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\Commands\FCCCommands\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\Settings\Services\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Vs\WindowServices\DialogWindows\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Wpf\ResourceServices\" />
   </ItemGroup>
 </Project>

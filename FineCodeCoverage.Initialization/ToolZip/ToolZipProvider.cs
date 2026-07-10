@@ -1,0 +1,29 @@
+﻿using System.ComponentModel.Composition;
+using System.IO;
+using System.Reflection;
+
+namespace FineCodeCoverage.Initialization.ToolZip
+{
+    [Export(typeof(IToolZipProvider))]
+    internal sealed class ToolZipProvider : IToolZipProvider
+    {
+        internal const string ZippedToolsDirectoryName = "ZippedTools";
+
+        internal string ExtensionDirectory { get; set; }
+
+        public ToolZipProvider()
+            => ExtensionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        public ZipDetails ProvideZip(string zipPrefix)
+        {
+            string zipFolder = Path.Combine(ExtensionDirectory, ZippedToolsDirectoryName);
+            string[] matchingZipFiles = Directory.GetFiles(zipFolder, $"{zipPrefix}.*.zip");
+            string zipPath = matchingZipFiles[0];
+
+            string zipFileName = Path.GetFileName(zipPath);
+            string version = zipFileName.Replace($"{zipPrefix}.", string.Empty).Replace(".zip", string.Empty);
+
+            return new ZipDetails { Path = zipPath, Version = version };
+        }
+    }
+}

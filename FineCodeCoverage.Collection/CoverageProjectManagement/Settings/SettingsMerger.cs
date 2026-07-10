@@ -1,0 +1,294 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+
+namespace FineCodeCoverage.Collection.CoverageProjectManagement.Settings
+{
+    [Export(typeof(ISettingsMerger))]
+    internal sealed class SettingsMerger : ISettingsMerger
+    {
+        private const bool ProjectSettingsDefaultMerge = false;
+        private const bool SettingsFileDefaultMerge = false;
+        private const string DefaultMergeAttributeName = "defaultMerge";
+        private const string MergeAttributeName = "merge";
+        private readonly ILogger _logger;
+        private readonly SettingsMergeLogic _settingsMergeLogic = new SettingsMergeLogic();
+        private static readonly Dictionary<Type, ISettingsXmlParser> s_parsers = new Dictionary<Type, ISettingsXmlParser>()
+        {
+            { typeof(bool), new SettingsXmlParser<bool, bool?>(bool.TryParse) },
+            { typeof(int), new SettingsXmlParser<int, int?>(int.TryParse) },
+            { typeof(short), new SettingsXmlParser<short, short?>(short.TryParse) },
+            { typeof(long), new SettingsXmlParser<long, long?>(long.TryParse) },
+            { typeof(decimal), new SettingsXmlParser<decimal, decimal?>(TryParseInvariant) },
+            { typeof(double), new SettingsXmlParser<double, double?>(TryParseInvariant) },
+            { typeof(float), new SettingsXmlParser<float, float?>(TryParseInvariant) },
+            { typeof(char), new SettingsXmlParser<char, char?>(char.TryParse) },
+        };
+
+        // Settings/runsettings numeric values are culture-invariant (e.g. "1.1" always means one-point-one).
+        // The framework TryParse(string, out T) overloads use the current culture, which mis-parses on
+        // locales whose decimal separator is not '.' (e.g. de-DE parses "1.1" as 11).
+        private static bool TryParseInvariant(string s, out decimal result)
+            => decimal.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out result);
+
+        private static bool TryParseInvariant(string s, out double result)
+            => double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
+
+        private static bool TryParseInvariant(string s, out float result)
+            => float.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
+
+        private sealed class SettingsElementDefaultMerge
+        {
+            public XElement SettingsElement { get; set; }
+
+            public bool DefaultMerge { get; set; }
+
+            public bool FromProjectSettings { get; internal set; }
+        }
+
+        private List<PropertyInfo> _settingsPropertyInfos;
+
+        [ImportingConstructor]
+        public SettingsMerger(
+            ILogger logger) => _logger = logger;
+
+        public async Task MergeAsync(
+            CoverageSettings coverageSettings,
+            List<PropertyInfo> coverageSettingsPropertyInfos,
+            List<XElement> settingsFileElements,
+            XElement projectSettingsElement)
+        {
+            _settingsPropertyInfos = coverageSettingsPropertyInfos;
+            await MergeAsync(
+                coverageSettings,
+                GetElementDefaultMergeStrategies(settingsFileElements, projectSettingsElement));
+        }
+
+        private static List<SettingsElementDefaultMerge> GetElementDefaultMergeStrategies(
+            List<XElement> settingsFileElements, XElement projectSettingsElement)
+        {
+            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy =
+                settingsFileElements.ConvertAll(e => new SettingsElementDefaultMerge
+                {
+                    SettingsElement = e,
+                    DefaultMerge = SettingsFileDefaultMerge,
+                    FromProjectSettings = false,
+                });
+
+            if (projectSettingsElement != null)
+            {
+                settingsElementsWithDefaultMergeStrategy.Add(
+                    new SettingsElementDefaultMerge
+                    {
+                        SettingsElement = projectSettingsElement,
+                        DefaultMerge = ProjectSettingsDefaultMerge,
+                        FromProjectSettings = true,
+                    });
+            }
+
+            return settingsElementsWithDefaultMergeStrategy;
+        }
+
+        private async Task MergeAsync(CoverageSettings coverageSettings, List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
+        {
+            foreach (PropertyInfo settingsProperty in _settingsPropertyInfos)
+            {
+                await MergeAsync(coverageSettings, settingsProperty, settingsElementsWithDefaultMergeStrategy);
+            }
+        }
+
+        private async Task MergeAsync(
+            CoverageSettings coverageSettings,
+            PropertyInfo settingPropertyInfo,
+            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
+        {
+            bool canMerge = _settingsMergeLogic.CanMerge(settingPropertyInfo.PropertyType);
+            if (canMerge)
+            {
+                await MergeOrOverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
+            }
+            else
+            {
+                await OverwriteAsync(coverageSettings, settingPropertyInfo, settingsElementsWithDefaultMergeStrategy);
+            }
+        }
+
+        private async Task MergeOrOverwriteAsync(
+            CoverageSettings coverageSettings,
+            PropertyInfo settingPropertyInfo,
+            List<SettingsElementDefaultMerge> settingsElementsWithDefaultMergeStrategy)
+        {
+            foreach (SettingsElementDefaultMerge settingsElementWithDefaultMerge in settingsElementsWithDefaultMergeStrategy)
+            {
+                XElement settingsElement = settingsElementWithDefaultMerge.SettingsElement;
+                bool defaultMerge = GetDefaultMerge(settingsElementWithDefaultMerge.DefaultMerge, settingsElement);
+                XElement propertyElement = GetPropertyElement(settingsElement, settingPropertyInfo.Name);
+                if (propertyElement != null)
+                {
+                    await ApplyPropertyElementAsync(
+                        coverageSettings,
+                        propertyElement,
+                        settingPropertyInfo,
+                        defaultMerge,
+                        settingsElementWithDefaultMerge.FromProjectSettings);
+                }
+            }
+        }
+
+        private async Task ApplyPropertyElementAsync(
+            CoverageSettings coverageSettings,
+            XElement propertyElement,
+            PropertyInfo settingPropertyInfo,
+            bool defaultMerge,
+            bool fromProjectSettings)
+        {
+            bool merge = GetMerge(defaultMerge, propertyElement);
+            if (merge)
+            {
+                await MergeAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
+            }
+            else
+            {
+                await OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, fromProjectSettings);
+            }
+        }
+
+        private async Task MergeAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
+        {
+            object value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
+            if (value == null)
+            {
+                return;
+            }
+
+            object currentValue = settingPropertyInfo.GetValue(coverageSettings);
+            object merged = currentValue == null ?
+                value :
+                _settingsMergeLogic.Merge(settingPropertyInfo.PropertyType, currentValue, value);
+            settingPropertyInfo.SetValue(coverageSettings, merged);
+        }
+
+        private static bool GetMerge(bool defaultMerge, XElement propertyElement)
+        {
+            XAttribute mergeAttribute = propertyElement.Attribute(MergeAttributeName);
+            return mergeAttribute == null ?
+                defaultMerge :
+                string.Equals(mergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool GetDefaultMerge(bool defaultDefaultMerge, XElement root)
+        {
+            XAttribute defaultMergeAttribute = root.Attribute(DefaultMergeAttributeName);
+            return defaultMergeAttribute == null
+                ? defaultDefaultMerge
+                : string.Equals(defaultMergeAttribute.Value, "true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, IEnumerable<SettingsElementDefaultMerge> settingsElementsDefaultMerge)
+        {
+            foreach (SettingsElementDefaultMerge settingsElementDefaultMerge in settingsElementsDefaultMerge)
+            {
+                XElement propertyElement = GetPropertyElement(settingsElementDefaultMerge.SettingsElement, settingPropertyInfo.Name);
+                if (propertyElement != null)
+                {
+                    await OverwriteAsync(coverageSettings, settingPropertyInfo, propertyElement, settingsElementDefaultMerge.FromProjectSettings);
+                }
+            }
+        }
+
+        private async Task OverwriteAsync(CoverageSettings coverageSettings, PropertyInfo settingPropertyInfo, XElement propertyElement, bool fromProjectSettings)
+        {
+            object value = await TryGetValueFromXmlAsync(propertyElement, settingPropertyInfo, fromProjectSettings);
+            if (value == null)
+            {
+                return;
+            }
+
+            settingPropertyInfo.SetValue(coverageSettings, value);
+        }
+
+        private static XElement GetPropertyElement(XElement settingsElement, string propertyName)
+            => settingsElement.Descendants()
+            .FirstOrDefault(x => x.Name.LocalName.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
+
+        private async Task<object> TryGetValueFromXmlAsync(XElement settingsElement, PropertyInfo property, bool fromProjectSettings)
+        {
+            try
+            {
+                return GetValueFromXml(settingsElement, property.PropertyType, property.Name);
+            }
+            catch (Exception exception)
+            {
+                string from = fromProjectSettings ? "project settings" : "settings file";
+                await _logger.LogAsync($"Failed to get '{property.Name}' setting from {from}", exception.ToString());
+            }
+
+            return null;
+        }
+
+        internal static object GetValueFromXml(XElement xproperty, Type type, string name)
+        {
+            if (xproperty == null)
+            {
+                return null;
+            }
+
+            string strValue = xproperty.Value;
+
+            string[] strValueArr = strValue.Split('\n', '\r').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
+
+            return GetValueFromXml(strValueArr, type, name);
+        }
+
+        private static object GetValueFromXml(string[] strValueArr, Type type, string name)
+        {
+            if (type == typeof(string))
+            {
+                string value = strValueArr.FirstOrDefault();
+                return value ?? string.Empty;
+            }
+
+            return type.IsEnum
+                ? Enum.Parse(type, strValueArr.FirstOrDefault(), true)
+                : type == typeof(string[]) ?
+                    strValueArr :
+                    GetValueFromParsers(strValueArr, type, name);
+        }
+
+        private static (Type lookupType, bool isNullable) GetLookupTypeInfo(Type type)
+        {
+            Type underlying = Nullable.GetUnderlyingType(type);
+            return underlying != null ? ((Type lookupType, bool isNullable))(underlying, true) :
+                ((Type lookupType, bool isNullable))(type, false);
+        }
+
+        private static object GetValueFromParsers(string[] strValueArr, Type type, string name)
+        {
+            if (type.IsArray)
+            {
+                Type elementType = type.GetElementType();
+                (Type lookupType, bool isNullable) = GetLookupTypeInfo(elementType);
+                if (s_parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
+                {
+                    return parser.ParseArray(strValueArr, isNullable);
+                }
+            }
+            else
+            {
+                (Type lookupType, bool _) = GetLookupTypeInfo(type);
+                if (s_parsers.TryGetValue(lookupType, out ISettingsXmlParser parser))
+                {
+                    return parser.Parse(strValueArr.FirstOrDefault());
+                }
+            }
+
+            throw new UnexpectedSettingsTypeException($"Unexpected settings type '{type.Name}' for setting {name} in settings merger GetValueFromXml");
+        }
+    }
+}

@@ -1,0 +1,17 @@
+﻿using Microsoft.VisualStudio.Shell.Interop;
+
+namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
+{
+    internal sealed class ProjectAddedRemoved
+    {
+        public ProjectAddedRemoved(bool added, IVsHierarchy project)
+        {
+            Added = added;
+            Project = project;
+        }
+
+        public bool Added { get; }
+
+        public IVsHierarchy Project { get; }
+    }
+}

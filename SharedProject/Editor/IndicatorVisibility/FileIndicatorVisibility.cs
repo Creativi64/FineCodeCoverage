@@ -1,0 +1,28 @@
+﻿using System;
+using System.ComponentModel.Composition;
+using FineCodeCoverage.Initialization;
+using FineCodeCoverage.Utilities.Events;
+
+namespace FineCodeCoverage.Editor.IndicatorVisibility
+{
+    [Export(typeof(IInitializable))]
+    [Export(typeof(IFileIndicatorVisibility))]
+    internal sealed class FileIndicatorVisibility : IFileIndicatorVisibility, IListener<ToggleCoverageIndicatorsMessage>, IInitializable
+    {
+        private bool _showIndicators = true;
+
+        public event EventHandler VisibilityChanged;
+
+        [ImportingConstructor]
+        public FileIndicatorVisibility(IEventAggregator eventAggregator)
+            => _ = eventAggregator.AddListener(this);
+
+        public bool IsVisible(string filePath) => _showIndicators;
+
+        public void Handle(ToggleCoverageIndicatorsMessage message)
+        {
+            _showIndicators = !_showIndicators;
+            VisibilityChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+}

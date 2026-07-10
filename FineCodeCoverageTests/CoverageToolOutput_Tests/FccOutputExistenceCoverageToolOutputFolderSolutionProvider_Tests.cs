@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using AutoMoq;
-using FineCodeCoverage.Core.Utilities;
-using FineCodeCoverage.Engine;
-using FineCodeCoverageTests.Test_helpers;
+using FineCodeCoverage.Collection.CoverageToolOutput;
+using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverageTests.TestHelpers;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests.CoverageToolOutput_Tests

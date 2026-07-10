@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>39d84439-f11e-4ffe-b0dc-e6519f97ec85</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>VsThemedDialogs</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ColorConversionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IPersistentWindowStateFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PersistentWindowStateFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PersistWindowState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SizeToContentThenManualBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SizeToContentWidthAndHeightFixer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThemeChangeObservable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThemeColorTransparentFallbackConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogCloseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogTitleContent.xaml.cs">
+      <DependentUpon>ThemedDialogTitleContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogTitleNoButtonsContent.xaml.cs">
+      <DependentUpon>ThemedDialogTitleNoButtonsContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogTitleOkCancel.xaml.cs">
+      <DependentUpon>ThemedDialogTitleOkCancel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedDialogWindowTitle.xaml.cs">
+      <DependentUpon>ThemedDialogWindowTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ThemedSectionDivider.xaml.cs">
+      <DependentUpon>ThemedSectionDivider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ThemeResourceKeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VisualTreeUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowCloseFrom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowCloseViewModelBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowDragBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowHeaderControl.xaml.cs">
+      <DependentUpon>WindowHeaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)WindowPersistenceBehaviour.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)ThemedDialogTitleContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ThemedDialogTitleNoButtonsContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ThemedDialogTitleOkCancel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ThemedDialogWindowTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ThemedSectionDivider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)WindowHeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

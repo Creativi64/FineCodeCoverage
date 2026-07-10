@@ -1,0 +1,32 @@
+﻿using System;
+using System.ComponentModel.Composition;
+using System.IO;
+using FineCodeCoverage.Options.Base;
+using FineCodeCoverage.Options.Output;
+using FineCodeCoverage.Utilities.MEF;
+
+namespace FineCodeCoverage.Collection.CoverageToolOutput
+{
+    [Order(1, typeof(ICoverageToolOutputFolderSolutionProvider))]
+    internal sealed class AppOptionsCoverageToolOutputFolderSolutionProvider : ICoverageToolOutputFolderSolutionProvider
+    {
+        private readonly IOptionsProvider<OutputOptions> _outputOptionsProvider;
+
+        [ImportingConstructor]
+        public AppOptionsCoverageToolOutputFolderSolutionProvider(
+            IOptionsProvider<OutputOptions> outputOptionsProvider)
+            => _outputOptionsProvider = outputOptionsProvider;
+
+        public string Provide(Func<string> solutionFolderProvider)
+        {
+            OutputOptions appOptions = _outputOptionsProvider.Get();
+            if (string.IsNullOrEmpty(appOptions.FCCSolutionOutputDirectoryName))
+            {
+                return null;
+            }
+
+            string solutionFolder = solutionFolderProvider();
+            return solutionFolder != null ? Path.Combine(solutionFolder, appOptions.FCCSolutionOutputDirectoryName) : null;
+        }
+    }
+}

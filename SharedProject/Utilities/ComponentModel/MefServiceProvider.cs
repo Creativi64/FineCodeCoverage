@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.Shell;
+
+namespace FineCodeCoverage.Utilities.ComponentModel
+{
+    internal static class MefServiceProvider
+    {
+        private static IComponentModel s_vsComponentModel;
+        private static bool s_triedGetVsComponentModel;
+
+        // Property to override the default IComponentModel for testing purposes
+        public static IComponentModel TestComponentModel { get; set; }
+
+        private static IComponentModel VsComponentModel
+        {
+            get
+            {
+                if (s_triedGetVsComponentModel)
+                {
+                    return s_vsComponentModel;
+                }
+
+                s_vsComponentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
+                s_triedGetVsComponentModel = true;
+                return s_vsComponentModel;
+            }
+        }
+
+        private static IComponentModel ComponentModel
+        {
+            get
+            {
+                IComponentModel componentModel = TestComponentModel ?? VsComponentModel;
+                return componentModel ?? throw new InvalidOperationException("IComponentModel service not available.");
+            }
+        }
+
+        public static T Get<T>()
+            where T : class => ComponentModel.GetService<T>();
+
+        public static IEnumerable<T> GetAll<T>()
+            where T : class => ComponentModel.GetExtensions<T>();
+    }
+}

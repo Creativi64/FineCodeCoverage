@@ -1,113 +1,145 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using AutoMoq;
-using FineCodeCoverage.Core.Model;
-using FineCodeCoverage.Engine;
-using FineCodeCoverage.Engine.Model;
-using FineCodeCoverage.Impl;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FineCodeCoverage.Initialization;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using Moq;
 using NUnit.Framework;
 
 namespace Test
 {
     public class Initializer_Tests
     {
-        private AutoMoqer mocker;
-        private Initializer initializer;
-
-        [SetUp]
-        public void SetUp()
-        {
-            mocker = new AutoMoqer();
-            initializer = mocker.Create<Initializer>();
+		[Test]
+		public void Should_ImportMany_IInitializable()
+		{
+			var constructor = typeof(Initializer).GetConstructors().Single();
+			var initializablesConstructorParameter = constructor.GetParameters().Single(p => p.ParameterType == typeof(IInitializable[]));
+			var hasImportManyAttribute = initializablesConstructorParameter.GetCustomAttributes(typeof(ImportManyAttribute), false).Any();
+			Assert.True(hasImportManyAttribute);
         }
 
 		[Test]
 		public void Should_Have_Initial_InitializeStatus_As_Initializing()
         {
+			var initializer = new Initializer(null, null, null, null, null);
 			Assert.AreEqual(InitializeStatus.Initializing, initializer.InitializeStatus);
         }
 
 		[Test]
-		public void Should_Log_Initializing_When_Initialize()
+		public async Task Should_Log_Initializing_When_Initialize_Async()
         {
-			initializer.Initialize();
-			mocker.Verify<ILogger>(l => l.Log("Initializing"));
+			var mockLogger = new Mock<ILogger>();
+			var initializer = new Initializer(new Mock<IAppDataFolder>().Object, new IAppDataFolderPathDependent[0], mockLogger.Object, new Mock<IFirstTimeToolWindowOpener>().Object, new IInitializable[0]);
+			await initializer.InitializeAsync(CancellationToken.None);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mockLogger.Verify(l => l.LogAsync("Initializing"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
         }
 
-		private void InitializeWithException(Action<Exception> callback = null)
+		private async Task InitializeWithExceptionAsync(Action<Initializer,Exception,Mock<ILogger>> callback = null)
 		{
-			var initializeException = new Exception("initialize exception");
-			mocker.Setup<ICoverageProjectFactory>(a => a.Initialize()).Throws(initializeException);
-			
-			initializer.Initialize();
-			callback?.Invoke(initializeException);
+            var mockLogger = new Mock<ILogger>();
+			var mockAppDataFolder = new Mock<IAppDataFolder>();
+            var initializeException = new Exception("initialize exception");
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mockAppDataFolder.Setup(appDataFolder => appDataFolder.InitializeAsync(It.IsAny<CancellationToken>()))
+                .Throws(initializeException);
+#pragma warning restore VSTHRD110 // Observe result of async calls
+            var initializer = new Initializer(mockAppDataFolder.Object, new IAppDataFolderPathDependent[0], mockLogger.Object, new Mock<IFirstTimeToolWindowOpener>().Object, new IInitializable[0]);
+			await initializer.InitializeAsync(CancellationToken.None);
+
+			callback?.Invoke(initializer,initializeException,mockLogger);
 
 		}
 		[Test]
-		public void Should_Set_InitializeStatus_To_Error_If_Exception_When_Initialize()
+		public async Task Should_Set_InitializeStatus_To_Error_If_Exception_When_Initialize_Async()
 		{
-			InitializeWithException();
+			Initializer initializer = null;
+			await InitializeWithExceptionAsync((_initializer,_,__) =>
+			{
+				initializer = _initializer;
+			});
 			Assert.AreEqual(InitializeStatus.Error, initializer.InitializeStatus);
 		}
 
 		[Test]
-		public void Should_Set_InitializeExceptionMessage_If_Exception_When_Initialize()
+		public async Task Should_Set_InitializeExceptionMessage_If_Exception_When_Initialize_Async()
 		{
-			InitializeWithException();
-			Assert.AreEqual("initialize exception", initializer.InitializeExceptionMessage);
-		}
+            Initializer initializer = null;
+            await InitializeWithExceptionAsync((_initializer, _, __) =>
+            {
+                initializer = _initializer;
+            });
+            Assert.AreEqual("initialize exception", initializer.InitializeExceptionMessage);
+        }
 
 		[Test]
-		public void Should_Log_Failed_Initialization_With_Exception_if_Exception_When_Initialize()
+		public async Task Should_Log_Failed_Initialization_With_Exception_if_Exception_When_Initialize_Async()
         {
-			Exception initializeException = null;
-			InitializeWithException(exc => initializeException = exc);
-			mocker.Verify<ILogger>(l => l.Log("Failed Initialization", initializeException));
+            Exception initializeException = null;
+			Mock<ILogger> mockLogger = null;
+            await InitializeWithExceptionAsync((_, exc, mLogger) =>
+            {
+				initializeException = exc;
+				mockLogger = mLogger;
+            });
+
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mockLogger.Verify(l => l.LogAsync("Failed Initialization", initializeException.ToString()));
+#pragma warning restore VSTHRD110 // Observe result of async calls
 		}
 
 		[Test]
-		public void Should_Set_InitializeStatus_To_Initialized_When_Successfully_Completed()
+		public async Task Should_Set_InitializeStatus_To_Initialized_When_Successfully_Completed_Async()
 		{
-			initializer.Initialize();
-			Assert.AreEqual(InitializeStatus.Initialized, initializer.InitializeStatus);
-		}
+            var initializer = new Initializer(new Mock<IAppDataFolder>().Object, new IAppDataFolderPathDependent[0], new Mock<ILogger>().Object, new Mock<IFirstTimeToolWindowOpener>().Object, new IInitializable[0]);
+            await initializer.InitializeAsync(CancellationToken.None);
+            Assert.AreEqual(InitializeStatus.Initialized, initializer.InitializeStatus);
+        }
 
 		[Test]
-		public void Should_Log_Initialized_When_Successfully_Completed()
+		public async Task Should_Log_Initialized_When_Successfully_Completed_Async()
 		{
-			initializer.Initialize();
-			mocker.Verify<ILogger>(l => l.Log("Initialized"));
+			var mockLogger = new Mock<ILogger>();
+            var initializer = new Initializer(new Mock<IAppDataFolder>().Object, new IAppDataFolderPathDependent[0], mockLogger.Object, new Mock<IFirstTimeToolWindowOpener>().Object, new IInitializable[0]);
+            await initializer.InitializeAsync(CancellationToken.None);
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mockLogger.Verify(l => l.LogAsync("Initialized"));
+#pragma warning restore VSTHRD110 // Observe result of async calls
 		}
 
 		[Test]
-		public void Should_Initialize_Dependencies_In_Order()
+		public async Task Should_Initialize_AppDataFolder_Then_Dependents_In_Order_Then_Open_ToolWindow_If_First_Time_Async()
         {
-			List<int> callOrder = new List<int>();
-			mocker.GetMock<ICoverageProjectFactory>().Setup(cp => cp.Initialize()).Callback(() =>
+			var mockAppDataFolder = new Mock<IAppDataFolder>();
+			mockAppDataFolder.SetupGet(appDataFolder => appDataFolder.DirectoryPath).Returns("DirectoryPath");
+			var mockAppDataFolderDependent = new Mock<IAppDataFolderPathDependent>();
+			var mockFirstTimeToolWindowOpener = new Mock<IFirstTimeToolWindowOpener>();
+
+            var initializer = new Initializer(mockAppDataFolder.Object, new IAppDataFolderPathDependent[] { mockAppDataFolderDependent.Object }, new Mock<ILogger>().Object, mockFirstTimeToolWindowOpener.Object, new IInitializable[0]);
+            var cancellationToken = CancellationToken.None;
+            List<int> callOrder = new List<int>();
+
+			mockAppDataFolder.Setup(appDataFolder => appDataFolder.InitializeAsync(cancellationToken)).Callback(() =>
 			{
 				callOrder.Add(1);
 			});
-			mocker.GetMock<IFCCEngine>().Setup(engine => engine.Initialize(initializer)).Callback(() =>
+			mockAppDataFolderDependent.Setup(appDataFolderDependent => appDataFolderDependent.InitializeAsync("DirectoryPath", cancellationToken)).Callback(() =>
 			{
-				callOrder.Add(2);
-			});
-
-			mocker.GetMock<IPackageInitializer>().Setup(p => p.Initialize()).Callback(() =>
+                callOrder.Add(2);
+            });
+            mockFirstTimeToolWindowOpener.Setup(firstTimeToolWindowOpener => firstTimeToolWindowOpener.OpenIfFirstTimeAsync(cancellationToken)).Callback(() =>
 			{
 				callOrder.Add(3);
 			});
 
-			initializer.Initialize();
-			Assert.AreEqual(new List<int> { 1, 2, 3 }, callOrder);
+			await initializer.InitializeAsync(cancellationToken);
+			
+			Assert.AreEqual(new List<int> { 1, 2, 3}, callOrder);
 		}
-
-		[Test]
-		public void Should_Pass_Itself_To_FCCEngine_For_InitializeStatus()
-        {
-			initializer.Initialize();
-			mocker.Verify<IFCCEngine>(engine => engine.Initialize(initializer));
-        }
-
 	}
 }

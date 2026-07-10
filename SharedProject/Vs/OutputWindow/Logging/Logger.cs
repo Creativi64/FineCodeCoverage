@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using FineCodeCoverage.Utilities.Telemetry;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
+using Microsoft.VisualStudio.Shell;
+using Task = System.Threading.Tasks.Task;
+
+namespace FineCodeCoverage.Vs.OutputWindow.Logging
+{
+    [Export(typeof(ILogger))]
+    internal sealed class Logger : ILogger
+    {
+        private readonly IFCCOutputWindowPaneWritableCreator _fccOutputWindowCreator;
+        private readonly FaultEventName _logFaultEventName = FCCFaultEventName.Create<Logger>("LoggingSync");
+
+        [ImportingConstructor]
+        public Logger(
+            IFCCOutputWindowPaneWritableCreator fccOutputWindowCreator) => _fccOutputWindowCreator = fccOutputWindowCreator;
+
+        private static string GetFormattedNow()
+        {
+            DateTime now = DateTime.Now;
+            return new StringBuilder()
+                .Append('[')
+                .Append(now.ToString("d", CultureInfo.CurrentCulture))
+                .Append(' ')
+                .Append(now.ToString("HH:mm:ss.fff", CultureInfo.CurrentCulture))
+                .Append(']')
+                .Append(' ').ToString();
+        }
+
+        private static IEnumerable<string> GetMessageList(IEnumerable<string> message)
+            // TrimEnd (not Trim) so leading indentation is preserved - e.g. the TUnit banner indents
+            // some of its rows with leading spaces and trimming them shifts the art out of alignment.
+            => message?.Select(x => x?.TrimEnd(' ', '\r', '\n')).Where(x => !string.IsNullOrWhiteSpace(x));
+
+        private async Task LogMessagesAsync(IEnumerable<string> messageList)
+        {
+            try
+            {
+                if (!messageList.Any())
+                {
+                    return;
+                }
+
+                IFCCOutputWindowPaneWritable pane = await _fccOutputWindowCreator.GetOrCreateWritableAsync();
+                if (pane == null)
+                {
+                    return;
+                }
+
+                string logs = string.Join(Environment.NewLine, messageList);
+                await pane.OutputStringThreadSafeAsync($"{GetFormattedNow()}: {logs}{Environment.NewLine}");
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex);
+            }
+        }
+
+        public Task LogAsync(IEnumerable<string> message) => LogMessagesAsync(GetMessageList(message));
+
+        public Task LogAsync(params string[] message) => LogAsync(message as IEnumerable<string>);
+
+        public void LogFileAndForget(params string[] message)
+            => LogAsync(message).FileAndForget(_logFaultEventName.ToString());
+    }
+}

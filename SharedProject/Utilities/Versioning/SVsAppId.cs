@@ -1,0 +1,14 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace FineCodeCoverage.Utilities.Versioning
+{
+    [Guid("1EAA526A-0898-11d3-B868-00C04F79F802")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport]
+#pragma warning disable IDE1006, CA1715, SA1302
+    public interface SVsAppId
+#pragma warning restore IDE1006, CA1715, SA1302
+    {
+    }
+}

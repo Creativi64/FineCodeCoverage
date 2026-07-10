@@ -1,0 +1,21 @@
+﻿using System.ComponentModel.Composition;
+using System.Diagnostics.CodeAnalysis;
+using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using Microsoft.VisualStudio.Text;
+
+namespace FineCodeCoverage.Editor.DynamicCoverage.Coverage
+{
+    [ExcludeFromCodeCoverage]
+    [Export(typeof(ITrackedCoverageLineFactory))]
+    internal sealed class TrackedCoverageLineFactory : ITrackedCoverageLineFactory
+    {
+        private readonly ILineTracker _lineTracker;
+
+        [ImportingConstructor]
+        public TrackedCoverageLineFactory(ILineTracker lineTracker) => _lineTracker = lineTracker;
+
+        public ITrackedCoverageLine Create(ITrackingSpan trackingSpan, ICoberturaLine line)
+            => new TrackedCoverageLine(trackingSpan, line, _lineTracker);
+    }
+}

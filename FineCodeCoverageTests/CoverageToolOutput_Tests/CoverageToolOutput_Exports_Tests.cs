@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FineCodeCoverage.Engine;
-using FineCodeCoverageTests.Test_helpers;
+﻿using FineCodeCoverage.Collection.CoverageToolOutput;
+using FineCodeCoverageTests.TestHelpers;
 using NUnit.Framework;
 
 namespace FineCodeCoverageTests

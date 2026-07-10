@@ -1,0 +1,60 @@
+<Project>
+  <!--
+    Central Package Management (CPM).
+    Every NuGet package version used anywhere in the solution is declared here exactly once, so the
+    same version is used by every project.  Individual projects reference packages WITHOUT a Version
+    attribute, e.g. <PackageReference Include="Newtonsoft.Json" />.
+
+    This eliminates the version-drift class of bugs (e.g. a binding-redirect referencing one version
+    while a different one is restored).  To override for a single project use VersionOverride on that
+    project's PackageReference.
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Extension / shared runtime -->
+    <PackageVersion Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageVersion Include="MessagePack" Version="3.1.7" />
+    <PackageVersion Include="Microsoft.Build.Tasks.Core" Version="18.7.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageVersion Include="ReportGenerator.Core" Version="5.5.10" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.9" />
+    <PackageVersion Include="System.Composition" Version="10.0.9" />
+    <!-- BCL assemblies that must physically ship in the VSIX so the extension resolves them at
+         runtime (Roslyn / VS SDK transitively depend on them).  Now restored from NuGet.
+         Versions match what the rest of the dependency graph already resolves (via System.IO.Pipelines /
+         System.Threading.Tasks.Extensions) so there is a single, unified version of each in the VSIX. -->
+    <PackageVersion Include="System.Buffers" Version="4.6.1" />
+    <PackageVersion Include="System.Memory" Version="4.6.3" />
+    <PackageVersion Include="System.Numerics.Vectors" Version="4.6.1" />
+    <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <!-- Roslyn / code analysis -->
+    <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.3.0" />
+    <!-- Visual Studio SDK -->
+    <PackageVersion Include="Microsoft.VisualStudio.ProjectSystem" Version="17.9.380" />
+    <PackageVersion Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" />
+    <PackageVersion Include="Microsoft.VisualStudio.Shell.15.0" Version="17.14.40264" />
+    <PackageVersion Include="Microsoft.VisualStudio.TeamFoundation.Git.Extensibility" Version="17.0.32322.3" />
+    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="18.5.40034" />
+    <PackageVersion Include="NuGet.VisualStudio" Version="17.14.0" />
+    <PackageVersion Include="NuGet.VisualStudio.Contracts" Version="17.14.0" />
+    <!-- Build-time analyzers (PrivateAssets) -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.301" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
+    <PackageVersion Include="Roslynator.CodeFixes" Version="4.15.0" />
+    <PackageVersion Include="Roslynator.Refactorings" Version="4.15.0" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    <!-- Test-only -->
+    <PackageVersion Include="Castle.Core" Version="5.2.1" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="Moq.AutoMock" Version="4.0.2" />
+    <PackageVersion Include="NUnit" Version="4.6.1" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
+    <PackageVersion Include="XMLUnit.NUnit3.Constraints" Version="2.11.1" />
+  </ItemGroup>
+</Project>

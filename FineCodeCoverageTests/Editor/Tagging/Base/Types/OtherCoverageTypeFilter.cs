@@ -1,0 +1,30 @@
+﻿using FineCodeCoverage.Editor.DynamicCoverage;
+using FineCodeCoverage.Editor.DynamicCoverage.Common;
+using FineCodeCoverage.Editor.Tagging.Base;
+using FineCodeCoverage.Options.EditorCoverageColouring;
+using System;
+
+namespace FineCodeCoverageTests.Editor.Tagging.Base.Types
+{
+    internal class OtherCoverageTypeFilter : ICoverageTypeFilter
+    {
+        public bool Disabled => throw new NotImplementedException();
+
+        public string TypeIdentifier => "Other";
+
+        public bool Changed(ICoverageTypeFilter other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Initialize(EditorCoverageColouringOptions appOptions)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Show(DynamicCoverageType coverageType)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
