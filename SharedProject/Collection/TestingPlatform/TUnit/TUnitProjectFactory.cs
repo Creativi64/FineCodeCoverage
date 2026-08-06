@@ -26,7 +26,9 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             private readonly ICommandLineParser _commandLineParser;
             private readonly IProjectProperties _commonProperties;
             private readonly IDisposable _packageChangeSubscription;
+            private readonly IDisposable _snapshotSubscription;
             private IImmutableDictionary<string, IImmutableDictionary<string, string>> _packageReferenceItems;
+            private Microsoft.Build.Execution.ProjectInstance _projectInstance;
             private bool _requiresUpdate = true;
             private bool _disposedValue;
 
@@ -49,13 +51,32 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 _tUnitInstalledPackagesService = tUnitInstalledPackagesService;
                 _commandLineParser = commandLineParser;
                 _packageChangeSubscription = SubscribeToPackageReferenceChanges(configuredProject);
+                _snapshotSubscription = SubscribeToProjectSnapshotChanges(configuredProject);
             }
 
             /*
-                cannot use GetEvaluatedPropertyValueAsync as absence returns empty string
+                cannot use GetEvaluatedPropertyValueAsync as absence returns empty string.
+
+                GetCommonProperties() is backed by the project file itself, so its GetPropertyNamesAsync
+                only enumerates properties authored in the .csproj - a property coming from an import
+                such as Directory.Build.props is invisible to it.  The evaluated ProjectInstance from the
+                project snapshot sees the whole evaluation, imports included, and GetProperty returns null
+                for a property that was never defined, so it distinguishes absence from empty.
             */
             private async Task<bool?> UseFCCTestingPlatformCommandLineArgumentsPropertyNameAsync()
             {
+                Microsoft.Build.Execution.ProjectInstance projectInstance = _projectInstance;
+                if (projectInstance != null)
+                {
+                    if (projectInstance.GetProperty(FCCTestingPlatformCommandLineArgumentsPropertyName) != null)
+                    {
+                        return true;
+                    }
+
+                    return projectInstance.GetProperty(TestingPlatformCommandLineArgumentsPropertyName) != null ? false : null;
+                }
+
+                // the snapshot has not arrived yet - fall back to the project file properties
                 System.Collections.Generic.IEnumerable<string> propertyNames = await _commonProperties.GetPropertyNamesAsync();
                 bool hasTestingPlatformCommandLineArgumentsPropertyName = false;
                 foreach (string propertyName in propertyNames)
@@ -72,6 +93,14 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 }
 
                 return hasTestingPlatformCommandLineArgumentsPropertyName ? false : null;
+            }
+
+            private async Task<string> GetCommandLineArgumentsPropertyValueAsync(string propertyName)
+            {
+                Microsoft.Build.Execution.ProjectInstance projectInstance = _projectInstance;
+                return projectInstance != null
+                    ? projectInstance.GetProperty(propertyName)?.EvaluatedValue
+                    : await _commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
             }
 
             private async Task<bool> IsTestingPlatformApplicationAsync()
@@ -91,7 +120,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 else
                 {
                     string propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
-                    string testingPlatformCommandLineArguments = await _commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
+                    string testingPlatformCommandLineArguments = await GetCommandLineArgumentsPropertyValueAsync(propertyName);
 
                     CommandLineParseResult = _commandLineParser.Parse(testingPlatformCommandLineArguments);
                 }
@@ -134,6 +163,15 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 return Task.CompletedTask;
             }
 
+            private IDisposable SubscribeToProjectSnapshotChanges(ConfiguredProject configuredProject)
+            {
+                var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSnapshot>>(SnapshotUpdate);
+                return configuredProject.Services.ProjectSnapshotService.SourceBlock.LinkTo(receivingBlock);
+            }
+
+            private void SnapshotUpdate(IProjectVersionedValue<IProjectSnapshot> snapshot)
+                => _projectInstance = snapshot.Value.ProjectInstance;
+
             public bool IsTUnit { get; private set; }
 
             public bool HasCoverageExtension { get; private set; }
@@ -170,26 +208,6 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                     return;
                 }
 
-                /*
-                    alternative is
-                    var projectSnapshotService = configuredProject.Services.ProjectSnapshotService;
-                    var receivingBlock = new ActionBlock<IProjectVersionedValue<IProjectSnapshot>>((pvv) =>
-                    {
-                        var projectInstance = pvv.Value.ProjectInstance;
-                        var argsProperty = projectInstance.GetProperty(FCCTestingPlatformCommandLineArgumentsPropertyName);
-                        if (argsProperty == null)
-                        {
-                            argsProperty = projectInstance.GetProperty(TestingPlatformCommandLineArgumentsPropertyName);
-                        }
-                        if(argsProperty != null)
-                        {
-                            var value = argsProperty.EvaluatedValue;
-                        }
-
-                    });
-                    return projectSnapshotService.SourceBlock.LinkTo(receivingBlock);
-
-                */
                 await ParseTestingPlatformCommandLineArgumentsAsync();
             }
 
@@ -203,6 +221,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 if (disposing)
                 {
                     _packageChangeSubscription.Dispose();
+                    _snapshotSubscription.Dispose();
                 }
 
                 _disposedValue = true;

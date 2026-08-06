@@ -248,14 +248,16 @@ namespace FineCodeCoverageTests.MsCodeCoverage
             mockRunOptionsProvider.Setup(p => p.Get()).Returns(new RunOptions());
             await msCodeCoverageRunSettingsService.IsCollectingAsync(mockTestOperation.Object);
 
-            await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);
+            // the caller runs the report, combining this with any other collector's coverage
+            var result = await msCodeCoverageRunSettingsService.CollectAsync(mockOperation.Object, mockTestOperation.Object);
 
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.CoberturaFiles, Is.EquivalentTo(expectedCoberturaFiles));
+                Assert.That(result.CoverageProjects, Is.EqualTo(coverageProjects));
+            });
             autoMocker.Verify<IFCCEngine>(engine => engine.RunAndProcessReport(
-                    It.Is<string[]>(coberturaFiles => !expectedCoberturaFiles.Except(coberturaFiles).Any() && !coberturaFiles.Except(expectedCoberturaFiles).Any()),
-                    coverageProjects, null
-                )
-            );
+                    It.IsAny<string[]>(), It.IsAny<List<ICoverageProject>>(), It.IsAny<Action>()), Times.Never());
         }
 
         private ICoverageProject CreateCoverageProject(string runSettingsFile)

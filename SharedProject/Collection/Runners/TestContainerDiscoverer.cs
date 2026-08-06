@@ -40,10 +40,10 @@ namespace FineCodeCoverage.Collection.Runners
         private readonly IOptionsProvider<RunOptions> _runOptionsProvider;
         private readonly IMsCodeCoverageRunSettingsService _msCodeCoverageRunSettingsService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly ICoverageCollectableFromTestExplorer _coverageCollectableFromTestExplorer;
         private readonly ITUnitCoverage _tUnitCoverage;
         private bool _cancelling;
         private MsCodeCoverageCollectionStatus _msCodeCoverageCollectionStatus;
+        private IReadOnlyCollection<string> _testingPlatformProjectFilePaths = Array.Empty<string>();
         private RunOptions _runOptions;
         private int _coverageRunNumber = 1;
 
@@ -74,13 +74,11 @@ namespace FineCodeCoverage.Collection.Runners
             IOptionsProvider<RunOptions> runOptionsProvider,
             IMsCodeCoverageRunSettingsService msCodeCoverageRunSettingsService,
             IEventAggregator eventAggregator,
-            ICoverageCollectableFromTestExplorer coverageCollectableFromTestExplorer,
             ITUnitCoverage tUnitCoverage)
         {
             _runOptionsProvider = runOptionsProvider;
             _msCodeCoverageRunSettingsService = msCodeCoverageRunSettingsService;
             _eventAggregator = eventAggregator;
-            _coverageCollectableFromTestExplorer = coverageCollectableFromTestExplorer;
             _tUnitCoverage = tUnitCoverage;
             _fccEngine = fccEngine;
             _testOperationStateInvocationManager = testOperationStateInvocationManager;
@@ -107,6 +105,7 @@ namespace FineCodeCoverage.Collection.Runners
         {
             _eventAggregator.SendMessage(new TestExecutionStartingMessage());
             _cancelling = false;
+            _testingPlatformProjectFilePaths = Array.Empty<string>();
             StopCoverage();
 
             RunOptions settings = _runOptionsProvider.Get();
@@ -118,19 +117,45 @@ namespace FineCodeCoverage.Collection.Runners
             }
 
             await LogCoverageStartingAsync();
+
+            /*
+                A solution can mix classic VSTest projects with Microsoft.Testing.Platform projects.
+                They are collected by entirely different mechanisms, so both collectors are set up and
+                the coverage they produce is combined into a single report when the run has finished.
+
+                The testing platform projects go first - preparing a project empties its coverage output
+                folder, and they must be kept away from the VSTest collector which cannot collect them.
+            */
+            _testingPlatformProjectFilePaths = await PrepareTestingPlatformAsync();
             _msCodeCoverageCollectionStatus = await _msCodeCoverageRunSettingsService.IsCollectingAsync(
-                _testOperationFactory.Create(operation));
+                _testOperationFactory.Create(operation),
+                _testingPlatformProjectFilePaths);
             if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.NotCollecting)
             {
                 await _logger.LogAsync("Ms code coverage not collecting for this run.");
             }
 
-            if (_msCodeCoverageCollectionStatus != MsCodeCoverageCollectionStatus.Collecting)
+            if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting
+                || _testingPlatformProjectFilePaths.Count > 0)
             {
-                return;
+                RaiseCoverageStarted();
+            }
+        }
+
+        private async Task<IReadOnlyCollection<string>> PrepareTestingPlatformAsync()
+        {
+            if (!_runOptionsProvider.Get().CollectTestingPlatformCoverageAfterTestRun)
+            {
+                return Array.Empty<string>();
             }
 
-            RaiseCoverageStarted();
+            IReadOnlyCollection<string> projectFilePaths = await _tUnitCoverage.PrepareForTestRunAsync();
+            if (projectFilePaths.Count > 0)
+            {
+                await _logger.LogAsync($"Microsoft.Testing.Platform - collecting for {projectFilePaths.Count} project(s).");
+            }
+
+            return projectFilePaths;
         }
 
         private async Task TestExecutionFinishedAsync(IOperation operation)
@@ -146,6 +171,8 @@ namespace FineCodeCoverage.Collection.Runners
                 {
                     await _msCodeCoverageRunSettingsService.TestExecutionNotFinishedAsync(testOperation);
                 }
+
+                _tUnitCoverage.Cancel();
             }
         }
 
@@ -171,10 +198,25 @@ namespace FineCodeCoverage.Collection.Runners
 
         private async Task TestExecutionFinishedCollectionAsync(IOperation operation, ITestOperation testOperation)
         {
-            if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
+            CoverageCollectionResult msCodeCoverageResult = _msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting
+                ? await _msCodeCoverageRunSettingsService.CollectAsync(operation, testOperation)
+                : CoverageCollectionResult.Empty;
+            CoverageCollectionResult testingPlatformResult = _testingPlatformProjectFilePaths.Count > 0
+                ? await _tUnitCoverage.CollectAfterTestRunAsync()
+                : CoverageCollectionResult.Empty;
+
+            CoverageCollectionResult combined = CoverageCollectionResult.Combine(msCodeCoverageResult, testingPlatformResult);
+            if (!combined.HasCoverage)
             {
-                await _msCodeCoverageRunSettingsService.CollectAsync(operation, testOperation);
+                await _logger.LogAsync("No coverage was produced by the test run.");
+                RaiseCoverageEnded();
+                return;
             }
+
+            // one report for the whole run, however many collectors contributed to it
+            _fccEngine.RunAndProcessReport(
+                combined.CoberturaFiles.ToArray(),
+                combined.CoverageProjects.ToList());
         }
 
         private async Task<bool> CoverageConditionsMetAsync(ITestOperation testOperation)
@@ -259,25 +301,6 @@ namespace FineCodeCoverage.Collection.Runners
             }
 
             await _logger.LogAsync($"Test operation state - {e.State}.");
-
-            if (!await _coverageCollectableFromTestExplorer.IsCollectableAsync())
-            {
-                // Microsoft.Testing.Platform projects are present.  They run on MTP, which produces no
-                // VSTest data-collector coverage, so the classic Test Explorer collection cannot work.
-                // Optionally re-run the test hosts under --coverage once the test run has finished.
-                if (e.State == TestOperationStates.TestExecutionStarting)
-                {
-                    await _logger.LogAsync("Coverage is not collectable from the test explorer as Microsoft.Testing.Platform projects are present.");
-                }
-
-                if (e.State == TestOperationStates.TestExecutionFinished
-                    && _runOptionsProvider.Get().CollectTestingPlatformCoverageAfterTestRun)
-                {
-                    _tUnitCoverage.CollectCoverage();
-                }
-
-                return;
-            }
 
             await handler(e.Operation);
         }

@@ -16,13 +16,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
         public CommandLineParseResult Parse(string argumentsString)
         {
-            var parser = new CommandLineParser();
-            CommandLineParseResult args = parser.Parse(argumentsString);
-            var argumentList = args.Options
-                .SelectMany(n => new[] { n.Name }.Concat(n.Arguments))
-                .ToList();
+            if (string.IsNullOrWhiteSpace(argumentsString))
+            {
+                return CommandLineParseResult.Empty;
+            }
 
-            return args.Options.Count == 0 ? CommandLineParseResult.Empty : Parse(argumentList);
+            List<string> argumentList = ResponseFileHelper.SplitCommandLine(argumentsString).ToList();
+            return argumentList.Count == 0 ? CommandLineParseResult.Empty : Parse(argumentList);
         }
 
         private static CommandLineParseResult Parse(List<string> args)

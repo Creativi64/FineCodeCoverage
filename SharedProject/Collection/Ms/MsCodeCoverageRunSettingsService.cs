@@ -52,9 +52,18 @@ namespace FineCodeCoverage.Collection.Ms
 
             public bool HasTemplated() => Templated.Count > 0;
 
-            public static async Task<CoverageProjectsByType> CreateAsync(ITestOperation testOperation)
+            public static async Task<CoverageProjectsByType> CreateAsync(
+                ITestOperation testOperation,
+                IReadOnlyCollection<string> excludedProjectFilePaths)
             {
                 List<ICoverageProject> coverageProjects = await testOperation.GetCoverageProjectsAsync();
+                if (excludedProjectFilePaths?.Count > 0)
+                {
+                    coverageProjects = coverageProjects
+                        .Where(coverageProject => !excludedProjectFilePaths.Contains(coverageProject.ProjectFilePath, StringComparer.OrdinalIgnoreCase))
+                        .ToList();
+                }
+
                 var coverageProjectsWithRunSettings = coverageProjects.Where(coverageProject => coverageProject.RunSettingsFile != null).ToList();
                 var coverageProjectsWithoutRunSettings = coverageProjects.Except(coverageProjectsWithRunSettings).ToList();
                 return new CoverageProjectsByType
@@ -80,6 +89,7 @@ namespace FineCodeCoverage.Collection.Ms
         private string _fccMsTestAdapterPath;
         private string _shimPath;
         private CoverageProjectsByType _coverageProjectsByType;
+        private IReadOnlyCollection<string> _excludedProjectFilePaths;
         private bool _useMsCodeCoverage;
 
         private bool IsCollecting => CollectionStatus == MsCodeCoverageCollectionStatus.Collecting;
@@ -122,11 +132,20 @@ namespace FineCodeCoverage.Collection.Ms
 
         #region set up for collection
 
-        public async Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(ITestOperation testOperation)
+        public async Task<MsCodeCoverageCollectionStatus> IsCollectingAsync(
+            ITestOperation testOperation,
+            IReadOnlyCollection<string> excludedProjectFilePaths = null)
         {
             AddedFCCRunSettingsCount = 0;
-            await InitializeIsCollectingAsync(testOperation);
+            await InitializeIsCollectingAsync(testOperation, excludedProjectFilePaths);
             await LogTestOperationCoverageProjectsAsync();
+            if (_coverageProjectsByType.All.Count == 0 && excludedProjectFilePaths?.Count > 0)
+            {
+                // every project in the run belongs to another collector
+                await _logger.LogAsync("Ms code coverage - not collecting as every project in the run is a Microsoft.Testing.Platform project.");
+                return CollectionStatus;
+            }
+
             await TrySetUpForCollectionAsync();
 
             return CollectionStatus;
@@ -177,11 +196,12 @@ namespace FineCodeCoverage.Collection.Ms
             CopyShimWhenCollecting(_coverageProjectsByType.All);
         }
 
-        private Task InitializeIsCollectingAsync(ITestOperation testOperation)
+        private Task InitializeIsCollectingAsync(ITestOperation testOperation, IReadOnlyCollection<string> excludedProjectFilePaths)
         {
             // Ms code coverage is always-on for classic VSTest projects (the Coverlet/OpenCover fallback was removed).
             _useMsCodeCoverage = true;
             UserRunSettingsProjectDetailsLookup = null;
+            _excludedProjectFilePaths = excludedProjectFilePaths;
             return CleanUpAsync(testOperation);
         }
 
@@ -378,7 +398,7 @@ namespace FineCodeCoverage.Collection.Ms
 
         #endregion
 
-        public async Task CollectAsync(IOperation operation, ITestOperation testOperation)
+        public async Task<CoverageCollectionResult> CollectAsync(IOperation operation, ITestOperation testOperation)
         {
             await LogFCCRunSettingsUseAsync();
             await CleanUpAsync(testOperation);
@@ -396,7 +416,8 @@ namespace FineCodeCoverage.Collection.Ms
                         .Concat(coberturaFiles));
             }
 
-            _fccEngine.RunAndProcessReport(coberturaFiles, _coverageProjectsByType.All);
+            // the caller runs the report - a mixed solution has coverage from more than one collector
+            return new CoverageCollectionResult(coberturaFiles, _coverageProjectsByType.All);
         }
 
         // Distinguishes the two 'no cobertura files' failure modes - the test platform never took fcc
@@ -441,7 +462,7 @@ namespace FineCodeCoverage.Collection.Ms
 
         private async Task CleanUpAsync(ITestOperation testOperation)
         {
-            _coverageProjectsByType = await CoverageProjectsByType.CreateAsync(testOperation);
+            _coverageProjectsByType = await CoverageProjectsByType.CreateAsync(testOperation, _excludedProjectFilePaths);
             await _templatedRunSettingsService.CleanUpAsync(_coverageProjectsByType.RunSettings);
             CollectionStatus = MsCodeCoverageCollectionStatus.NotCollecting;
         }

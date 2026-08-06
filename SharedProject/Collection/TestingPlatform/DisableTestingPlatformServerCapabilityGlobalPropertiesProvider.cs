@@ -59,6 +59,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform
             return !appOptions.Enabled && appOptions.DisabledNoCoverage;
         }
 
+        /*
+            FCC now injects the coverage options into the native Microsoft.Testing.Platform run
+            (see ITestConfigInjector), so there is no longer a reason to force these projects back
+            to VSTest.  This remains as the escape hatch for when injection is not possible.
+        */
+        private bool ForcedToVsTest() => _runOptionsProvider.Get().DisableTestingPlatformServer;
+
         private static async Task<bool> IsTestProjectAsync(ConfiguredProject configuredProject)
         {
             Microsoft.VisualStudio.ProjectSystem.Properties.IProjectProperties commonProperties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
@@ -125,7 +132,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform
             };
 
         public override async Task<IImmutableDictionary<string, string>> GetGlobalPropertiesAsync(CancellationToken cancellationToken)
-            => await IsApplicableAsync() && !AllProjectsDisabled() && await ProjectEnabledAsync()
+            => ForcedToVsTest() && await IsApplicableAsync() && !AllProjectsDisabled() && await ProjectEnabledAsync()
                 ? Empty.PropertiesMap.Add("DisableTestingPlatformServerCapability", "true")
                 : Empty.PropertiesMap;
     }

@@ -72,8 +72,8 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
             // Note: do not pass --disable-logo - it is a TUnit-specific option that other Microsoft.Testing.Platform
             // hosts (e.g. MSTest) reject with "Unknown option" (exit code 5).  The banner it suppressed is harmless.
-            string args = hasCoverageExtension ? $"--coverage --coverage-output-format cobertura --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
-                    $"collect \"{tUnitSettings.ExePath}\" -f cobertura -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
+            string args = hasCoverageExtension ? $"--coverage --coverage-output-format {tUnitSettings.OutputFormat} --coverage-settings \"{tUnitSettings.SettingsPath}\" --coverage-output  \"{tUnitSettings.OutputPath}\"" :
+                    $"collect \"{tUnitSettings.ExePath}\" -f {tUnitSettings.OutputFormat} -o \"{tUnitSettings.OutputPath}\" -s \"{tUnitSettings.SettingsPath}\" --nologo";
             args = $"{args} {tUnitSettings.AdditionalArgs}";
             return (path, args);
         }

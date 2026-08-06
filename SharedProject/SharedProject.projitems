@@ -147,7 +147,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\UserRunSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\VsRunSettingsWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Ms\XPathNavigatorExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ICoverageCollectableFromTestExplorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\ITUnitCoverage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\TestContainerDiscoverer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\Runners\TUnitCoverage.cs" />
@@ -332,6 +331,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\INugetProjectServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\IRunSettingsToConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ISolutionProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITestConfigInjector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITestingPlatformVersionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitChangeNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitCoverageProject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ITUnitCoverageProjectFactory.cs" />
@@ -348,6 +349,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\ResponseFileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\RunSettingsToConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\SolutionProjectsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TestConfigInjectionResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TestConfigInjector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TestingPlatformVersionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitChangeNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TUnit\TUnitCoverageProjectFactory.cs" />

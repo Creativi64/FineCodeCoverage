@@ -10,17 +10,24 @@ using FineCodeCoverage.Options.Base;
 using FineCodeCoverage.Options.Run;
 using FineCodeCoverage.Utilities.Wrappers;
 using FineCodeCoverage.Utilities.Xml;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 
 namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
     [Export(typeof(ITUnitSettingsProvider))]
     internal sealed class TUnitSettingsProvider : ITUnitSettingsProvider
     {
+        private const string DefaultTestResultsFolderName = "TestResults";
+
+        private static readonly HashSet<string> s_reportGeneratorReadableFormats
+            = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase) { "cobertura", "xml" };
+
         private readonly IFileUtil _fileUtil;
         private readonly IXmlUtils _xmlUtils;
         private readonly IRunSettingsToConfiguration _runSettingsToConfiguration;
         private readonly IOptionsProvider<RunOptions> _runOptionsProvider;
         private readonly IEnvironment _environment;
+        private readonly ILogger _logger;
         private int _fccRunWhenTestsExceed;
         private bool _fccRunWhenTestsFail;
 
@@ -30,13 +37,15 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             IXmlUtils xmlUtils,
             IRunSettingsToConfiguration runSettingsToConfiguration,
             IOptionsProvider<RunOptions> runOptionsProvider,
-            IEnvironment environment)
+            IEnvironment environment,
+            ILogger logger)
         {
             _fileUtil = fileUtil;
             _xmlUtils = xmlUtils;
             _runSettingsToConfiguration = runSettingsToConfiguration;
             _runOptionsProvider = runOptionsProvider;
             _environment = environment;
+            _logger = logger;
             TakeFCCOptions(runOptionsProvider.Get());
             _runOptionsProvider.OptionsChanged += TakeFCCOptions;
         }
@@ -49,12 +58,16 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
         public async Task<TUnitSettings> ProvideAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)
         {
+            // this empties the coverage output folder, so a run that does not produce coverage
+            // can never present the previous run's report
             _ = await tUnitCoverageProject.CoverageProject.PrepareForCoverageAsync(cancellationToken, false);
             string coberturaPath = GetCoberturaPath(tUnitCoverageProject);
             CommandLineParseResult commandLineParseResult = tUnitCoverageProject.CommandLineParseResult;
 
             // todo commandLineParseResult.HasError
             string configurationPathArgument = null;
+            string userOutputPath = null;
+            string userOutputFormat = null;
             var additionalArgsStringBuilder = new StringBuilder();
             string ignoreExitCodeArg = null;
             int? minimumExpectedTests = null;
@@ -63,8 +76,13 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 switch (option.Name)
                 {
                     case "coverage":
+                        // nothing to fill in - the user has already asked for coverage
+                        break;
+                    case "coverage-output":
+                        userOutputPath = ResolveUserOutputPath(tUnitCoverageProject, Unquote(option.Arguments.FirstOrDefault()));
+                        break;
                     case "coverage-output-format":
-                    case "coverage-output": // for now will use own
+                        userOutputFormat = await ProvideOutputFormatAsync(Unquote(option.Arguments.FirstOrDefault()));
                         break;
                     case "coverage-settings":
                     case "settings":
@@ -95,12 +113,20 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             AddToAdditionalArgs(GetMinimumExpectedTestsPart(minimumExpectedTests));
             AddToAdditionalArgs(GetIgnoreExitCodePart(ignoreExitCodeArg));
 
-            string configurationPath = await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
-            return new TUnitSettings(tUnitCoverageProject.ExePath, configurationPath, coberturaPath, additionalArgsStringBuilder.ToString());
+            (string configurationPath, bool userSuppliedConfiguration) =
+                await GetConfigurationPathAsync(tUnitCoverageProject, configurationPathArgument, cancellationToken);
+            return new TUnitSettings(
+                tUnitCoverageProject.ExePath,
+                configurationPath,
+                userSuppliedConfiguration,
+                coberturaPath,
+                userOutputPath,
+                userOutputFormat,
+                additionalArgsStringBuilder.ToString());
 
             bool ConfigurationPathArgExists(string pathArg)
             {
-                pathArg = pathArg.Replace("\"", string.Empty).Replace("'", string.Empty);
+                pathArg = Unquote(pathArg);
                 return _fileUtil.Exists(pathArg);
             }
 
@@ -113,6 +139,49 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
                 _ = additionalArgsStringBuilder.Append($" {part}");
             }
+        }
+
+        private static string Unquote(string arg)
+            => arg?.Replace("\"", string.Empty).Replace("'", string.Empty);
+
+        /*
+            Microsoft.Testing.Platform resolves a --coverage-output that is not rooted relative to
+            --results-directory, which defaults to TestResults in the test application directory.
+        */
+        private static string ResolveUserOutputPath(ITUnitCoverageProject tUnitCoverageProject, string userOutputPath)
+        {
+            if (string.IsNullOrWhiteSpace(userOutputPath))
+            {
+                return null;
+            }
+
+            return Path.IsPathRooted(userOutputPath)
+                ? userOutputPath
+                : Path.Combine(
+                    tUnitCoverageProject.CoverageProject.ProjectOutputFolder,
+                    DefaultTestResultsFolderName,
+                    userOutputPath);
+        }
+
+        /*
+            Microsoft.Testing.Platform supports coverage, xml and cobertura.  ReportGenerator can read
+            cobertura and the dynamic code coverage xml but not the binary coverage format.
+        */
+        private async Task<string> ProvideOutputFormatAsync(string userOutputFormat)
+        {
+            if (string.IsNullOrWhiteSpace(userOutputFormat))
+            {
+                return null;
+            }
+
+            if (s_reportGeneratorReadableFormats.Contains(userOutputFormat))
+            {
+                return userOutputFormat.ToLowerInvariant();
+            }
+
+            await _logger.LogAsync(
+                $"Coverage output format '{userOutputFormat}' cannot be read by ReportGenerator.  Using {TUnitSettings.DefaultOutputFormat}.");
+            return null;
         }
 
         private string GetMinimumExpectedTestsPart(int? minimumExpectedTestsArg)
@@ -162,7 +231,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             }
         }
 
-        private async Task<string> GetConfigurationPathAsync(
+        private async Task<(string Path, bool UserSupplied)> GetConfigurationPathAsync(
             ITUnitCoverageProject tUnitCoverageProject,
             string configurationPathArgument,
             CancellationToken cancellationToken)
@@ -171,14 +240,14 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             {
                 if (tUnitCoverageProject.HasCoverageExtension)
                 {
-                    return configurationPathArgument;
+                    return (configurationPathArgument, true);
                 }
 
                 System.Xml.Linq.XElement configurationOrRunSettingsElement = _xmlUtils.Load(configurationPathArgument);
                 string name = configurationOrRunSettingsElement.Name.LocalName;
                 if (name == "Configuration")
                 {
-                    return configurationPathArgument;
+                    return (configurationPathArgument, true);
                 }
 
                 if (name == "RunSettings")
@@ -186,12 +255,12 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                     System.Xml.Linq.XElement configurationElement = _runSettingsToConfiguration.ConvertToConfiguration(configurationOrRunSettingsElement);
                     if (configurationElement != null)
                     {
-                        return WriteConfiguration(tUnitCoverageProject, _xmlUtils.Serialize(configurationElement));
+                        return (WriteConfiguration(tUnitCoverageProject, _xmlUtils.Serialize(configurationElement)), true);
                     }
                 }
             }
 
-            return await WriteFCCConfigurationAsync(tUnitCoverageProject, cancellationToken);
+            return (await WriteFCCConfigurationAsync(tUnitCoverageProject, cancellationToken), false);
         }
 
         private async Task<string> WriteFCCConfigurationAsync(ITUnitCoverageProject tUnitCoverageProject, CancellationToken cancellationToken)

@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMoq;
@@ -122,8 +123,9 @@ namespace Test
         public void SetUp()
         {
             mocker = new AutoMoqer();
-            var mockCoverageCollectableFromTestExplorer = mocker.GetMock<ICoverageCollectableFromTestExplorer>();
-            mockCoverageCollectableFromTestExplorer.Setup(coverageCollectableFromTestExplorer => coverageCollectableFromTestExplorer.IsCollectableAsync()).ReturnsAsync(true);
+            mocker.GetMock<ITUnitCoverage>()
+                .Setup(tUnitCoverage => tUnitCoverage.PrepareForTestRunAsync())
+                .ReturnsAsync(Array.Empty<string>());
             testContainerDiscoverer = mocker.Create<TestContainerDiscoverer>();
             testContainerDiscoverer.RunAsync = (taskProvider) =>
             {
@@ -204,7 +206,7 @@ namespace Test
             var mockMsCodeCoverageRunSettingsService = mocker.GetMock<IMsCodeCoverageRunSettingsService>();
             mockMsCodeCoverageRunSettingsService.Setup(
                 msCodeCoverageRunSettingsService =>
-                msCodeCoverageRunSettingsService.IsCollectingAsync(It.IsAny<ITestOperation>())
+                msCodeCoverageRunSettingsService.IsCollectingAsync(It.IsAny<ITestOperation>(), It.IsAny<IReadOnlyCollection<string>>())
             ).ReturnsAsync(status);
 
             SetUpOptions(new RunOptions { Enabled = true});
@@ -246,7 +248,7 @@ namespace Test
             mocker.GetMock<ITestOperationFactory>().Setup(f => f.Create(operation)).Returns(testOperation);
 
             var mockMsCodeCoverageRunSettingsService = mocker.GetMock<IMsCodeCoverageRunSettingsService>();
-            mockMsCodeCoverageRunSettingsService.Setup(s => s.IsCollectingAsync(It.IsAny<ITestOperation>())).ReturnsAsync(MsCodeCoverageCollectionStatus.Collecting);
+            mockMsCodeCoverageRunSettingsService.Setup(s => s.IsCollectingAsync(It.IsAny<ITestOperation>(), It.IsAny<IReadOnlyCollection<string>>())).ReturnsAsync(MsCodeCoverageCollectionStatus.Collecting);
 
             SetUpOptions(new RunOptions { Enabled = true, RunWhenTestsFail = runWhenTestsFail, RunWhenTestsExceed = runWhenTestsExceed });
             RaiseTestExecutionStarting(operation);
@@ -314,7 +316,7 @@ namespace Test
             var mockMsCodeCoverageRunSettingsService = mocker.GetMock<IMsCodeCoverageRunSettingsService>();
             mockMsCodeCoverageRunSettingsService.Setup(
                 msCodeCoverageRunSettingsService =>
-                msCodeCoverageRunSettingsService.IsCollectingAsync(It.IsAny<ITestOperation>())
+                msCodeCoverageRunSettingsService.IsCollectingAsync(It.IsAny<ITestOperation>(), It.IsAny<IReadOnlyCollection<string>>())
             ).ReturnsAsync(MsCodeCoverageCollectionStatus.Collecting);
 
             SetUpOptions(new RunOptions { Enabled = true, RunWhenTestsFail = false });
@@ -366,16 +368,64 @@ namespace Test
 
     }
 
-    internal class TestContainerDiscovery_Not_Collectable_Tests
+    /*
+        A solution can mix classic VSTest projects with Microsoft.Testing.Platform projects.  Both
+        collectors run and their coverage is combined into a single report, so that every project in
+        the run is covered.
+    */
+    internal class TestContainerDiscovery_Mixed_Solution_Tests
     {
-        [Test]
-        public void Should_Not_When_Not_Collectable()
-        {
-            var mocker = new AutoMoqer();
-            var mockOperationState = mocker.GetMock<IOperationState>();
-            var mockCoverageCollectableFromTestExplorer = mocker.GetMock<ICoverageCollectableFromTestExplorer>();
-            mockCoverageCollectableFromTestExplorer.Setup(coverageCollectableFromTestExplorer => coverageCollectableFromTestExplorer.IsCollectableAsync()).ReturnsAsync(false);
+        private const string TestingPlatformProjectFilePath = @"C:\Solution\MtpTests\MtpTests.csproj";
 
+        private AutoMoqer mocker;
+        private ICoverageProject vsTestCoverageProject;
+        private ICoverageProject testingPlatformCoverageProject;
+
+        [SetUp]
+        public void SetUp()
+        {
+            mocker = new AutoMoqer();
+            vsTestCoverageProject = new Mock<ICoverageProject>().Object;
+            testingPlatformCoverageProject = new Mock<ICoverageProject>().Object;
+
+            mocker.GetMock<ITestOperationStateInvocationManager>()
+                .Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvokeAsync(It.IsAny<TestOperationStates>())).ReturnsAsync(true);
+            mocker.GetMock<IOptionsProvider<RunOptions>>()
+                .Setup(runOptionsProvider => runOptionsProvider.Get())
+                .Returns(new RunOptions { Enabled = true, RunWhenTestsFail = true, CollectTestingPlatformCoverageAfterTestRun = true });
+
+            var mockTestOperation = new Mock<ITestOperation>();
+            mockTestOperation.Setup(testOperation => testOperation.GetCoverageProjectsAsync()).ReturnsAsync(new List<ICoverageProject>());
+            mocker.GetMock<ITestOperationFactory>()
+                .Setup(testOperationFactory => testOperationFactory.Create(It.IsAny<IOperation>())).Returns(mockTestOperation.Object);
+
+            TestingPlatformProjects(TestingPlatformProjectFilePath);
+            TestingPlatformCoverage("mtp.cobertura.xml");
+            MsCodeCoverage(MsCodeCoverageCollectionStatus.Collecting, "vstest.cobertura.xml");
+        }
+
+        private void TestingPlatformProjects(params string[] projectFilePaths)
+            => mocker.GetMock<ITUnitCoverage>()
+                .Setup(tUnitCoverage => tUnitCoverage.PrepareForTestRunAsync()).ReturnsAsync(projectFilePaths);
+
+        private void TestingPlatformCoverage(params string[] coberturaFiles)
+            => mocker.GetMock<ITUnitCoverage>()
+                .Setup(tUnitCoverage => tUnitCoverage.CollectAfterTestRunAsync())
+                .ReturnsAsync(new CoverageCollectionResult(coberturaFiles, new[] { testingPlatformCoverageProject }));
+
+        private void MsCodeCoverage(MsCodeCoverageCollectionStatus status, params string[] coberturaFiles)
+        {
+            var mockMsCodeCoverage = mocker.GetMock<IMsCodeCoverageRunSettingsService>();
+            mockMsCodeCoverage
+                .Setup(msCodeCoverage => msCodeCoverage.IsCollectingAsync(It.IsAny<ITestOperation>(), It.IsAny<IReadOnlyCollection<string>>()))
+                .ReturnsAsync(status);
+            mockMsCodeCoverage
+                .Setup(msCodeCoverage => msCodeCoverage.CollectAsync(It.IsAny<IOperation>(), It.IsAny<ITestOperation>()))
+                .ReturnsAsync(new CoverageCollectionResult(coberturaFiles, new[] { vsTestCoverageProject }));
+        }
+
+        private void RunTests()
+        {
             var testContainerDiscoverer = mocker.Create<TestContainerDiscoverer>();
             testContainerDiscoverer.RunAsync = (taskProvider) =>
             {
@@ -383,13 +433,110 @@ namespace Test
                 taskProvider().Wait();
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
             };
-            var mockTestOperationStateInvocationManager = mocker.GetMock<ITestOperationStateInvocationManager>();
-            mockTestOperationStateInvocationManager.Setup(testOperationStateInvocationManager => testOperationStateInvocationManager.CanInvokeAsync(It.IsAny<TestOperationStates>())).ReturnsAsync(true);
 
-            OperationStateChangedEventArgs args = new OperationStateChangedEventArgs(TestOperationStates.TestExecutionStarting);
-            mockOperationState.Raise(operationState => operationState.StateChanged += null, args);
+            var mockOperationState = mocker.GetMock<IOperationState>();
+            mockOperationState.Raise(
+                operationState => operationState.StateChanged += null,
+                new OperationStateChangedEventArgs(TestOperationStates.TestExecutionStarting));
+            mockOperationState.Raise(
+                operationState => operationState.StateChanged += null,
+                new OperationStateChangedEventArgs(TestOperationStates.TestExecutionFinished));
+        }
 
-            mocker.Verify<IEventAggregator>(ea => ea.SendMessage(It.IsAny<TestExecutionStartingMessage>(), null), Times.Never());
+        [Test]
+        public void Should_Run_A_Single_Report_With_The_Coverage_From_Both_Collectors()
+        {
+            RunTests();
+
+            mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
+                It.Is<string[]>(coberturaFiles =>
+                    coberturaFiles.Length == 2 &&
+                    coberturaFiles.Contains("vstest.cobertura.xml") &&
+                    coberturaFiles.Contains("mtp.cobertura.xml")),
+                It.Is<List<ICoverageProject>>(coverageProjects =>
+                    coverageProjects.Count == 2 &&
+                    coverageProjects.Contains(vsTestCoverageProject) &&
+                    coverageProjects.Contains(testingPlatformCoverageProject)),
+                null), Times.Once());
+        }
+
+        [Test]
+        public void Should_Keep_Testing_Platform_Projects_Away_From_The_VsTest_Collector()
+        {
+            RunTests();
+
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<IMsCodeCoverageRunSettingsService>(msCodeCoverage => msCodeCoverage.IsCollectingAsync(
+                It.IsAny<ITestOperation>(),
+                It.Is<IReadOnlyCollection<string>>(excluded => excluded.Single() == TestingPlatformProjectFilePath)));
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
+        public void Should_Report_When_Only_The_Testing_Platform_Collected()
+        {
+            MsCodeCoverage(MsCodeCoverageCollectionStatus.NotCollecting);
+
+            RunTests();
+
+            mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
+                It.Is<string[]>(coberturaFiles => coberturaFiles.Single() == "mtp.cobertura.xml"),
+                It.IsAny<List<ICoverageProject>>(),
+                null), Times.Once());
+        }
+
+        [Test]
+        public void Should_Report_When_Only_The_VsTest_Collector_Collected()
+        {
+            TestingPlatformProjects();
+
+            RunTests();
+
+            mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
+                It.Is<string[]>(coberturaFiles => coberturaFiles.Single() == "vstest.cobertura.xml"),
+                It.IsAny<List<ICoverageProject>>(),
+                null), Times.Once());
+        }
+
+        [Test]
+        public void Should_Not_Collect_For_The_Testing_Platform_When_There_Are_No_Such_Projects()
+        {
+            TestingPlatformProjects();
+
+            RunTests();
+
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ITUnitCoverage>(tUnitCoverage => tUnitCoverage.CollectAfterTestRunAsync(), Times.Never());
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
+        public void Should_Not_Prepare_The_Testing_Platform_When_The_Option_Is_Off()
+        {
+            mocker.GetMock<IOptionsProvider<RunOptions>>()
+                .Setup(runOptionsProvider => runOptionsProvider.Get())
+                .Returns(new RunOptions { Enabled = true, RunWhenTestsFail = true, CollectTestingPlatformCoverageAfterTestRun = false });
+
+            RunTests();
+
+#pragma warning disable VSTHRD110 // Observe result of async calls
+            mocker.Verify<ITUnitCoverage>(tUnitCoverage => tUnitCoverage.PrepareForTestRunAsync(), Times.Never());
+            mocker.Verify<ITUnitCoverage>(tUnitCoverage => tUnitCoverage.CollectAfterTestRunAsync(), Times.Never());
+#pragma warning restore VSTHRD110 // Observe result of async calls
+        }
+
+        [Test]
+        public void Should_End_Coverage_When_Neither_Collector_Produced_Anything()
+        {
+            MsCodeCoverage(MsCodeCoverageCollectionStatus.NotCollecting);
+            TestingPlatformCoverage();
+
+            RunTests();
+
+            mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
+                It.IsAny<string[]>(), It.IsAny<List<ICoverageProject>>(), null), Times.Never());
+            mocker.Verify<IEventAggregator>(
+                eventAggregator => eventAggregator.SendMessage(It.IsAny<CoverageEndedMessage>(), null), Times.AtLeastOnce());
         }
     }
 }
