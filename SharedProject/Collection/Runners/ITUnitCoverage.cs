@@ -29,7 +29,8 @@ namespace FineCodeCoverage.Collection.Runners
         Task<IReadOnlyCollection<string>> PrepareForTestRunAsync();
 
         /// <summary>
-        /// Called when the Test Explorer run has finished.  Picks up the coverage the run produced.
+        /// Called when the Test Explorer run has finished. Picks up only coverage produced by that run;
+        /// never re-runs test hosts because the selected-test filter is unavailable.
         /// </summary>
         Task<CoverageCollectionResult> CollectAfterTestRunAsync();
     }

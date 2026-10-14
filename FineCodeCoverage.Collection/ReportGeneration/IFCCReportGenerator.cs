@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace FineCodeCoverage.Collection.ReportGeneration
 {
@@ -7,6 +8,6 @@ namespace FineCodeCoverage.Collection.ReportGeneration
     {
         void SetLogger(VerbosityLevel verbosityLevel, Action<VerbosityLevel, string> logger);
 
-        IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes);
+        IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes, CancellationToken cancellationToken = default);
     }
 }

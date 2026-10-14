@@ -40,7 +40,9 @@ namespace FineCodeCoverage.Collection.ReportGeneration
             {
                 "Report Generator - Output",
             };
-            IReportResult reportResult = _reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" });
+            cancellationToken.ThrowIfCancellationRequested();
+            IReportResult reportResult = _reportGenerator.Generate(coverOutputFiles, reportOutputFolder, new List<string> { "Cobertura", "HtmlSummary" }, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
             await _logger.LogAsync(_logs);
             _dynamicReportResult = DynamicReportResult.FromReportResult(reportResult);
             return new ReportGeneratorResult

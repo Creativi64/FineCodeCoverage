@@ -26,7 +26,7 @@ namespace FineCodeCoverage.Options.Run
 
         #region testing platform category
         [Category(TestingPlatformCategory)]
-        [Description("Specifies whether or not FCC automatically collects coverage for Microsoft.Testing.Platform test projects (e.g. MSTest.Sdk, xUnit v3, NUnit-MTP, TUnit) when tests are run from the Test Explorer. These run on Microsoft.Testing.Platform, which produces no VSTest data-collector coverage, so FCC injects the coverage options into the test run instead.  Default true.")]
+        [Description("Specifies whether or not FCC collects coverage during Microsoft.Testing.Platform Test Explorer runs. Requires Microsoft.Testing.Platform 2.3.0 or later and Microsoft.Testing.Extensions.CodeCoverage. If options cannot be injected, automatic coverage is skipped; tests are never re-run automatically. Use the manual MTP coverage command to run all enabled MTP projects. Default true.")]
         [DisplayName("Collect Testing Platform Coverage After Test Run")]
         public bool CollectTestingPlatformCoverageAfterTestRun { get; set; }
 

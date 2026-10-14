@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Palmmedia.ReportGenerator.Core.Logging;
 using Palmmedia.ReportGenerator.Core.Parser;
 using Palmmedia.ReportGenerator.Core.Parser.Filtering;
@@ -28,8 +29,9 @@ namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
         public PalmmediaReportGenerator(
             IHtmlFilesToFolder htmlFilesToFolder) => _htmlFilesToFolder = htmlFilesToFolder;
 
-        public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
+        public IReportResult Generate(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var defaultFilter = new DefaultFilter(Array.Empty<string>());
             var parser = new CoverageReportParser(1, 1, Enumerable.Empty<string>(), defaultFilter, defaultFilter, defaultFilter);
             var collection = new ReadOnlyCollection<string>(coverageFiles.ToList());
@@ -51,12 +53,15 @@ namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
             // Generator.GenerateReport pulls in Microsoft.Extensions.Configuration.* which conflicts with the
             // copies VS itself has loaded (devenv's AppDomainManager pollutes child AppDomains too) - run it in
             // a separate process instead (FineCodeCoverage.ReportGeneratorTool.exe, shipped in the extension dir).
-            GenerateReportOutOfProcess(coverageFiles, reportDirectory, reportTypes);
+            cancellationToken.ThrowIfCancellationRequested();
+            GenerateReportOutOfProcess(coverageFiles, reportDirectory, reportTypes, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
             _htmlFilesToFolder.Collate(reportDirectory);
+            cancellationToken.ThrowIfCancellationRequested();
             return new PalmmediaReportResult(parserResult);
         }
 
-        private void GenerateReportOutOfProcess(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes)
+        private void GenerateReportOutOfProcess(IEnumerable<string> coverageFiles, string reportDirectory, IEnumerable<string> reportTypes, CancellationToken cancellationToken)
         {
             string extensionDirectory = Path.GetDirectoryName(typeof(PalmmediaReportGenerator).Assembly.Location);
             string exePath = Path.Combine(extensionDirectory, "FineCodeCoverage.ReportGeneratorTool.exe");
@@ -82,7 +87,10 @@ namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
                     {
                         if (e.Data != null)
                         {
-                            _ = allOutput.AppendLine(e.Data);
+                            lock (allOutput)
+                            {
+                                _ = allOutput.AppendLine(e.Data);
+                            }
                         }
 
                         LogToolOutput(e.Data);
@@ -91,13 +99,17 @@ namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
                     {
                         if (e.Data != null)
                         {
-                            _ = allOutput.AppendLine(e.Data);
+                            lock (allOutput)
+                            {
+                                _ = allOutput.AppendLine(e.Data);
+                            }
                         }
                     };
+                    cancellationToken.ThrowIfCancellationRequested();
                     _ = process.Start();
                     process.BeginOutputReadLine();
                     process.BeginErrorReadLine();
-                    process.WaitForExit();
+                    WaitForExit(process, cancellationToken);
                     if (process.ExitCode != 0)
                     {
                         throw new InvalidOperationException($"Report generation failed with exit code {process.ExitCode}.{Environment.NewLine}{allOutput}");
@@ -113,6 +125,38 @@ namespace FineCodeCoverage.Collection.ReportGeneration.PalmmediaImpl
                 catch (IOException)
                 {
                 }
+            }
+        }
+
+        internal static void WaitForExit(Process process, CancellationToken cancellationToken)
+        {
+            try
+            {
+                while (!process.WaitForExit(100))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                // The process has exited; finish draining redirected output before reading its logs.
+                process.WaitForExit();
+            }
+            catch (OperationCanceledException)
+            {
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    // The process can exit between HasExited and Kill.
+                }
+
+                _ = process.WaitForExit(5000);
+                throw;
             }
         }
 

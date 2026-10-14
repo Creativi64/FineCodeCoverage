@@ -47,20 +47,17 @@ namespace FineCodeCoverage.Collection.Runners
         {
             public PreparedProject(
                 ITUnitCoverageProject tUnitCoverageProject,
-                TUnitSettings settings,
                 TestConfigInjectionResult injection)
             {
                 TUnitCoverageProject = tUnitCoverageProject;
-                Settings = settings;
                 Injection = injection;
             }
 
             public ITUnitCoverageProject TUnitCoverageProject { get; }
 
-            public TUnitSettings Settings { get; }
-
             /// <summary>
-            /// Null when the coverage options could not be injected - the test host has to be re-run.
+            /// Null when coverage could not be injected. Automatic collection must not re-run the host
+            /// because the Test Explorer's selected-test filter is not available here.
             /// </summary>
             public TestConfigInjectionResult Injection { get; }
         }
@@ -303,10 +300,10 @@ namespace FineCodeCoverage.Collection.Runners
                 {
                     // a PackageReference cannot be added without a restore, so there is nothing to inject into
                     await _logger.LogAsync(
-                        $"{tUnitCoverageProject.CoverageProject.ProjectName} - no Microsoft.Testing.Extensions.CodeCoverage package reference.  Coverage will be collected by re-running the test host.");
+                        $"{tUnitCoverageProject.CoverageProject.ProjectName} - no Microsoft.Testing.Extensions.CodeCoverage package reference. Add it to enable coverage during the Test Explorer run.");
                 }
 
-                preparedProjects.Add(new PreparedProject(tUnitCoverageProject, tUnitSettings, injection));
+                preparedProjects.Add(new PreparedProject(tUnitCoverageProject, injection));
             }
 
             return preparedProjects;
@@ -352,9 +349,14 @@ namespace FineCodeCoverage.Collection.Runners
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 coverageProjects.Add(preparedProject.TUnitCoverageProject.CoverageProject);
-                string coverageFile = preparedProject.Injection != null
-                    ? await CollectInjectedAsync(preparedProject)
-                    : await CollectByRunningTestHostAsync(preparedProject, cancellationToken);
+                if (preparedProject.Injection == null)
+                {
+                    await _logger.LogAsync(
+                        $"{preparedProject.TUnitCoverageProject.CoverageProject.ProjectName} - skipping automatic coverage because options could not be injected. The Test Explorer selection cannot be preserved by re-running the test host. Use the manual MTP coverage command to run all enabled MTP projects.");
+                    continue;
+                }
+
+                string coverageFile = await CollectInjectedAsync(preparedProject);
                 if (coverageFile != null)
                 {
                     coverageFiles.Add(coverageFile);
@@ -375,23 +377,6 @@ namespace FineCodeCoverage.Collection.Runners
             // a single project not running - e.g. filtered out of the run - must not fail the others
             await _logger.LogAsync(
                 $"{preparedProject.TUnitCoverageProject.CoverageProject.ProjectName} - no coverage at {coverageOutputPath}.  Skipping it - the project may not have taken part in the test run.");
-            return null;
-        }
-
-        private async Task<string> CollectByRunningTestHostAsync(PreparedProject preparedProject, CancellationToken cancellationToken)
-        {
-            bool success = await _tUnitCoverageRunner.RunAsync(
-                preparedProject.Settings,
-                preparedProject.TUnitCoverageProject.HasCoverageExtension,
-                false,
-                cancellationToken);
-            if (success)
-            {
-                return preparedProject.Settings.OutputPath;
-            }
-
-            await _logger.LogAsync(
-                $"{preparedProject.TUnitCoverageProject.CoverageProject.ProjectName} - unsuccessful test host run.  No coverage.");
             return null;
         }
 

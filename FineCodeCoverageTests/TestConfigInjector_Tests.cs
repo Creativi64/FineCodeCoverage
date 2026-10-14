@@ -206,7 +206,7 @@ namespace FineCodeCoverageTests
         /*
             Reading command line options from testconfig.json arrived in Microsoft.Testing.Platform 2.3.0.
             An older platform loads the file and silently ignores the section, which would present as a
-            test run that produced no coverage at all - so fall back to re-running the test host instead.
+            test run that produced no coverage at all - automatic coverage must be skipped instead.
         */
         [TestCase("2.0.2")]
         [TestCase("2.2.3")]

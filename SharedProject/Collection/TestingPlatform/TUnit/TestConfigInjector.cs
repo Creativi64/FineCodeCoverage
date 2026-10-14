@@ -104,7 +104,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 ? "The Microsoft.Testing.Platform version could not be determined"
                 : $"Microsoft.Testing.Platform {testingPlatformVersion} cannot read command line options from testconfig.json";
             await _logger.LogAsync(
-                $"{coverageProject.ProjectName} - {versionDescription} ({s_minimumTestingPlatformVersion} or later is required).  Coverage will be collected by re-running the test host.",
+                $"{coverageProject.ProjectName} - {versionDescription} ({s_minimumTestingPlatformVersion} or later is required). Automatic coverage will be skipped to preserve the Test Explorer selection. Use the manual MTP coverage command to run all enabled MTP projects.",
                 "Reference Microsoft.Testing.Platform 2.3.0 or later to collect coverage as part of the test run itself.");
             return false;
         }
