@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using FineCodeCoverage.Collection.Engine;
 using FineCodeCoverage.Collection.Messages;
 using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Options.Base;
@@ -19,6 +20,7 @@ namespace FineCodeCoverage.Output
     [Export(typeof(ReportViewModel))]
     internal sealed class ReportViewModel : TreeGridViewModelBase<ReportTreeItemBase, IReportColumnManager>,
         IListener<NewReportMessage>,
+        IListener<EmptyCoverageMessage>,
         IListener<CoverageStartingMessage>,
         IListener<CoverageEndedMessage>,
         IListener<ClearReportMessage>,
@@ -30,6 +32,8 @@ namespace FineCodeCoverage.Output
         private readonly IReportViews _reportViews;
         private readonly IIconMeasurementOptions _iconsOptions;
         private bool _coverageRunning;
+        private string _collectionSummary;
+        private string _collectionDetails;
         private ReportTotalRow _reportTotalRow;
         private bool _rootDirectoryNameFromPath;
         private ReportModel _lastReport;
@@ -193,6 +197,27 @@ namespace FineCodeCoverage.Output
             set => Set(ref _coverageRunning, value);
         }
 
+        public string CollectionSummary
+        {
+            get => _collectionSummary;
+            private set => Set(ref _collectionSummary, value);
+        }
+
+        public string CollectionDetails
+        {
+            get => _collectionDetails;
+            private set => Set(ref _collectionDetails, value);
+        }
+
+        public bool HasCollectionSummary => !string.IsNullOrEmpty(CollectionSummary);
+
+        private void SetCollectionStatus(CoverageCollectionResult collection)
+        {
+            CollectionSummary = collection?.Summary;
+            CollectionDetails = collection?.Details;
+            OnPropertyChanged(nameof(HasCollectionSummary));
+        }
+
         private void GenerateReport(IChangeset newChangeset)
             => ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
@@ -285,6 +310,7 @@ namespace FineCodeCoverage.Output
 
         public void Handle(NewReportMessage message)
         {
+            SetCollectionStatus(message.Collection);
             _lastReport = new ReportModel(message);
             _lastReport.DirectoryStructureChanged += LastReport_DirectoryStructureChanged;
             ColumnManagerImpl.ShowRelevantColumns(_lastReport.MetricTypes);
@@ -303,6 +329,7 @@ namespace FineCodeCoverage.Output
 
         public void Handle(ClearReportMessage message)
         {
+            SetCollectionStatus(null);
             _lastReport = null;
             _lastReportStyle = null;
             _totalTreeItem = null;
@@ -313,6 +340,12 @@ namespace FineCodeCoverage.Output
 
                 _items.Clear();
             });
+        }
+
+        public void Handle(EmptyCoverageMessage message)
+        {
+            Handle(new ClearReportMessage());
+            SetCollectionStatus(message.Collection);
         }
 
         public override void Sort(int displayIndex) => ColumnManagerImpl.SortColumns(displayIndex);

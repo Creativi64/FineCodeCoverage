@@ -209,14 +209,13 @@ namespace FineCodeCoverage.Collection.Runners
             if (!combined.HasCoverage)
             {
                 await _logger.LogAsync("No coverage was produced by the test run.");
+                _eventAggregator.SendMessage(new EmptyCoverageMessage(combined));
                 RaiseCoverageEnded();
                 return;
             }
 
             // one report for the whole run, however many collectors contributed to it
-            _fccEngine.RunAndProcessReport(
-                combined.CoberturaFiles.ToArray(),
-                combined.CoverageProjects.ToList());
+            _fccEngine.RunAndProcessReport(combined);
         }
 
         private async Task<bool> CoverageConditionsMetAsync(ITestOperation testOperation)
@@ -244,6 +243,7 @@ namespace FineCodeCoverage.Collection.Runners
 
         private void StopCoverage()
         {
+            _tUnitCoverage.Cancel();
             if (_msCodeCoverageCollectionStatus == MsCodeCoverageCollectionStatus.Collecting)
             {
                 _msCodeCoverageRunSettingsService.StopCoverage();
@@ -256,6 +256,7 @@ namespace FineCodeCoverage.Collection.Runners
 
         private async Task CoverageCancelledAsync(string logMessage, IOperation operation)
         {
+            _tUnitCoverage.Cancel();
             await _logger.LogAsync(logMessage);
             RaiseCoverageEnded();
             _fccEngine.StopCoverage();
@@ -313,6 +314,7 @@ namespace FineCodeCoverage.Collection.Runners
             }
             catch (Exception exception)
             {
+                _tUnitCoverage.Cancel();
                 await _logger.LogAsync("Error processing unit test events", exception.ToString());
             }
         }

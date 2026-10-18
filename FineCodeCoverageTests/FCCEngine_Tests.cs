@@ -13,6 +13,7 @@ using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Logging;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using FineCodeCoverage.VSAbstractions.Threading;
+using FineCodeCoverageTests.TestHelpers;
 using Moq;
 using NUnit.Framework;
 
@@ -88,6 +89,38 @@ namespace Test
         }
 
         #region success path
+
+        [Test]
+        public async Task Should_Only_Dispose_And_Publish_For_The_Owning_Run_Async()
+        {
+            var oldSource = new TrackingCancellationSource();
+            var newSource = new TrackingCancellationSource();
+            var callbacks = new Queue<Func<Task>>();
+            mocker.GetMock<IDisposeAwareTaskRunner>().SetupSequence(runner => runner.CreateLinkedTokenSource())
+                .Returns(oldSource).Returns(newSource);
+            mocker.GetMock<IDisposeAwareTaskRunner>().Setup(runner => runner.RunAsyncFunc(It.IsAny<Func<Task>>()))
+                .Callback<Func<Task>>(callback => callbacks.Enqueue(callback));
+            var delayedReport = new TaskCompletionSource<ReportGeneratorResult>();
+            var result = new ReportGeneratorResult { ReportResult = Mock.Of<IReportResult>() };
+            mocker.GetMock<IReportGeneratorUtil>().SetupSequence(generator => generator.GenerateAsync(
+                It.IsAny<IEnumerable<string>>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns(delayedReport.Task).ReturnsAsync(result);
+
+            RunAndProcessReport(new[] { "old.xml" });
+            Task oldRun = callbacks.Dequeue()();
+            RunAndProcessReport(new[] { "new.xml" });
+            delayedReport.SetResult(result);
+            await oldRun;
+
+            Assert.That(oldSource.Disposed, Is.True);
+            Assert.That(newSource.Disposed, Is.False);
+            mocker.GetMock<IEventAggregator>().Verify(events => events.SendMessage(It.IsAny<NewReportMessage>(), null), Times.Never());
+            mocker.GetMock<IEventAggregator>().Verify(events => events.SendMessage(It.IsAny<CoverageEndedMessage>(), null), Times.Never());
+
+            await callbacks.Dequeue()();
+            Assert.That(newSource.Disposed, Is.True);
+            mocker.GetMock<IEventAggregator>().Verify(events => events.SendMessage(It.IsAny<NewReportMessage>(), null), Times.Once());
+        }
 
         class SuccessState
         {
@@ -209,11 +242,15 @@ namespace Test
         }
 
         [Test]
-        public void Should_Cancel_Running_Coverage_When_StopCoverage()
+        public async Task Should_Cancel_Running_Coverage_When_StopCoverage_Async()
         {
+            Func<Task> pending = null;
+            mocker.GetMock<IDisposeAwareTaskRunner>().Setup(runner => runner.RunAsyncFunc(It.IsAny<Func<Task>>()))
+                .Callback<Func<Task>>(callback => pending = callback);
             RunAndProcessReport(new string[] { });
             fccEngine.StopCoverage();
             mockCancellationTokenSource.Verify(cts => cts.Cancel());
+            await pending();
         }
 
         [Test]
@@ -223,12 +260,45 @@ namespace Test
         }
 
         [Test]
-        public void Should_Cancel_Existing_Run_When_RunAndProcessReport()
+        public async Task Should_Cancel_Existing_Run_When_RunAndProcessReport_Async()
         {
+            var pending = new Queue<Func<Task>>();
+            mocker.GetMock<IDisposeAwareTaskRunner>().Setup(runner => runner.RunAsyncFunc(It.IsAny<Func<Task>>()))
+                .Callback<Func<Task>>(callback => pending.Enqueue(callback));
+            mocker.GetMock<IDisposeAwareTaskRunner>().SetupSequence(runner => runner.CreateLinkedTokenSource())
+                .Returns(mockCancellationTokenSource.Object).Returns(Mock.Of<ICancellationTokenSource>());
             RunAndProcessReport(new string[] { });
             mockCancellationTokenSource.Verify(cts => cts.Cancel(), Times.Never());
             RunAndProcessReport(new string[] { });
             mockCancellationTokenSource.Verify(cts => cts.Cancel(), Times.Once());
+            await pending.Dequeue()();
+            await pending.Dequeue()();
+        }
+
+        [Test]
+        public void Should_Not_Cancel_An_Already_Completed_Run()
+        {
+            RunAndProcessReport(Array.Empty<string>());
+            fccEngine.StopCoverage();
+            mockCancellationTokenSource.Verify(source => source.Cancel(), Times.Never());
+        }
+
+        [Test]
+        public void Should_Allow_A_Report_Listener_To_Cancel_From_Another_Thread()
+        {
+            bool cancelledWithoutBlocking = false;
+            mocker.GetMock<IEventAggregator>().Setup(events => events.SendMessage(It.IsAny<NewReportMessage>(), null))
+                .Callback<NewReportMessage, Action<Action>>((_, __) =>
+                {
+                    // Simulate a listener dispatching to the UI thread while it handles a command.
+#pragma warning disable VSTHRD002 // Bounded wait checks that event delivery does not hold the lifecycle lock.
+                    cancelledWithoutBlocking = Task.Run(() => fccEngine.StopCoverage()).Wait(2000);
+#pragma warning restore VSTHRD002
+                });
+
+            Run_Success();
+            Assert.That(cancelledWithoutBlocking, Is.True);
+            mockCancellationTokenSource.Verify(source => source.Cancel(), Times.Once());
         }
 
         private void VerifyLogsCoverageStatus(string coverageStatus)

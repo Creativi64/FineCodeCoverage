@@ -449,14 +449,13 @@ namespace Test
             RunTests();
 
             mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
-                It.Is<string[]>(coberturaFiles =>
-                    coberturaFiles.Length == 2 &&
-                    coberturaFiles.Contains("vstest.cobertura.xml") &&
-                    coberturaFiles.Contains("mtp.cobertura.xml")),
-                It.Is<List<ICoverageProject>>(coverageProjects =>
-                    coverageProjects.Count == 2 &&
-                    coverageProjects.Contains(vsTestCoverageProject) &&
-                    coverageProjects.Contains(testingPlatformCoverageProject)),
+                It.Is<CoverageCollectionResult>(result =>
+                    result.CoberturaFiles.Count == 2 &&
+                    result.CoberturaFiles.Contains("vstest.cobertura.xml") &&
+                    result.CoberturaFiles.Contains("mtp.cobertura.xml") &&
+                    result.CoverageProjects.Count == 2 &&
+                    result.CoverageProjects.Contains(vsTestCoverageProject) &&
+                    result.CoverageProjects.Contains(testingPlatformCoverageProject)),
                 null), Times.Once());
         }
 
@@ -480,8 +479,7 @@ namespace Test
             RunTests();
 
             mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
-                It.Is<string[]>(coberturaFiles => coberturaFiles.Single() == "mtp.cobertura.xml"),
-                It.IsAny<List<ICoverageProject>>(),
+                It.Is<CoverageCollectionResult>(result => result.CoberturaFiles.Single() == "mtp.cobertura.xml"),
                 null), Times.Once());
         }
 
@@ -493,8 +491,7 @@ namespace Test
             RunTests();
 
             mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
-                It.Is<string[]>(coberturaFiles => coberturaFiles.Single() == "vstest.cobertura.xml"),
-                It.IsAny<List<ICoverageProject>>(),
+                It.Is<CoverageCollectionResult>(result => result.CoberturaFiles.Single() == "vstest.cobertura.xml"),
                 null), Times.Once());
         }
 
@@ -534,7 +531,9 @@ namespace Test
             RunTests();
 
             mocker.Verify<IFCCEngine>(fccEngine => fccEngine.RunAndProcessReport(
-                It.IsAny<string[]>(), It.IsAny<List<ICoverageProject>>(), null), Times.Never());
+                It.IsAny<CoverageCollectionResult>(), null), Times.Never());
+            mocker.Verify<IEventAggregator>(
+                eventAggregator => eventAggregator.SendMessage(It.Is<EmptyCoverageMessage>(message => !message.Collection.HasCoverage), null), Times.Once());
             mocker.Verify<IEventAggregator>(
                 eventAggregator => eventAggregator.SendMessage(It.IsAny<CoverageEndedMessage>(), null), Times.AtLeastOnce());
         }

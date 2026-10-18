@@ -29,6 +29,10 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
         public string CoverageSettingsPath { get; }
 
+        internal string OriginalContents { get; set; }
+
+        internal string InjectedContents { get; set; }
+
         public override string ToString()
             => $"--coverage --coverage-output-format {CoverageOutputFormat} --coverage-output \"{CoverageOutputPath}\" --coverage-settings \"{CoverageSettingsPath}\"";
     }

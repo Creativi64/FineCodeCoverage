@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
 using FineCodeCoverage.Collection.ReportGeneration;
+using FineCodeCoverage.Collection.Engine;
 
 namespace FineCodeCoverage.Collection.Messages
 {
@@ -15,5 +16,7 @@ namespace FineCodeCoverage.Collection.Messages
         public IReportResult Report { get; set; }
 
         public List<ICoverageProject> CoverageProjects { get; }
+
+        public CoverageCollectionResult Collection { get; set; }
     }
 }

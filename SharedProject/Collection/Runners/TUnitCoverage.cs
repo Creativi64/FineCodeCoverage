@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using FineCodeCoverage.Collection.TestingPlatform.TUnit;
 using FineCodeCoverage.Utilities.Events;
 using FineCodeCoverage.Utilities.Logging;
 using FineCodeCoverage.Utilities.Wrappers;
+using FineCodeCoverage.Vs.Events;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using FineCodeCoverage.VSAbstractions.Threading;
 using Task = System.Threading.Tasks.Task;
@@ -19,6 +21,7 @@ using Task = System.Threading.Tasks.Task;
 namespace FineCodeCoverage.Collection.Runners
 {
     [Export(typeof(ITUnitCoverage))]
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "The gate lives with the MEF singleton and never allocates AvailableWaitHandle. Disposing it during shutdown would race asynchronous cleanup.")]
     internal sealed class TUnitCoverage : ITUnitCoverage
     {
         private readonly ITUnitProjectsProvider _tUnitProjectsProvider;
@@ -33,12 +36,34 @@ namespace FineCodeCoverage.Collection.Runners
         private readonly IDisposeAwareTaskRunner _disposeAwareTaskRunner;
         private readonly IEventAggregator _eventAggregator;
         private readonly ILogger _logger;
+        private readonly object _runLock = new object();
+        private readonly SemaphoreSlim _executionGate = new SemaphoreSlim(1, 1);
         private int _coverageRunNumber = 1;
-        private ICancellationTokenSource _cancellationTokenSource;
+        private CoverageRun _activeRun;
         private bool _runnerReady;
         private bool _projectsProviderReady;
         private bool _externalBuildInProgress;
-        private List<PreparedProject> _preparedProjects;
+
+        private sealed class CoverageRun
+        {
+            public CoverageRun(ICancellationTokenSource source)
+            {
+                Source = source;
+                Token = source.Token;
+            }
+
+            public ICancellationTokenSource Source { get; }
+
+            public CancellationToken Token { get; }
+
+            public List<PreparedProject> Projects { get; } = new List<PreparedProject>();
+
+            public bool Busy { get; set; } = true;
+
+            public bool Prepared { get; set; }
+
+            public bool Finished { get; set; }
+        }
 
         /// <summary>
         /// A project that took part in the Test Explorer run, and how its coverage is being collected.
@@ -79,8 +104,10 @@ namespace FineCodeCoverage.Collection.Runners
             IFileUtil fileUtil,
             IDisposeAwareTaskRunner disposeAwareTaskRunner,
             IEventAggregator eventAggregator,
+            IVsShutdown shutdown,
             ILogger logger)
         {
+            shutdown.Shutdown += (_, __) => Cancel();
             buildHelper.ExternalBuildEvent += BuildHelper_ExternalBuildEvent;
             tUnitProjectsProvider.ReadyEvent += TUnitProjectsProvider_ReadyEvent;
             tUnitCoverageRunner.ReadyEvent += TUnitRunner_ReadyEvent;
@@ -125,23 +152,47 @@ namespace FineCodeCoverage.Collection.Runners
 
         public void Cancel()
         {
-            try
+            bool notify;
+            lock (_runLock)
             {
-                if (_cancellationTokenSource?.IsCancellationRequested == false)
-                {
-                    _cancellationTokenSource.Cancel();
-                }
+                notify = CancelCurrentRun();
             }
-            catch (ObjectDisposedException)
+
+            if (!notify)
             {
+                return;
+            }
+
+            OnCollectingChanged(false);
+        }
+
+        // Caller holds _runLock. UI notifications are sent only after releasing it.
+        private bool CancelCurrentRun()
+        {
+            CoverageRun run = _activeRun;
+            if (run == null)
+            {
+                return false;
+            }
+
+            run.Source.Cancel();
+            return !run.Busy && FinishRunCore(run);
+        }
+
+        private CoverageRun BeginRun()
+        {
+            lock (_runLock)
+            {
+                _ = CancelCurrentRun();
+                _activeRun = new CoverageRun(_disposeAwareTaskRunner.CreateLinkedTokenSource());
+                return _activeRun;
             }
         }
 
         public void CollectCoverage()
         {
-            Cancel();
-            _cancellationTokenSource = _disposeAwareTaskRunner.CreateLinkedTokenSource();
-            _disposeAwareTaskRunner.RunAsyncFunc(CollectCoverageAsync);
+            CoverageRun run = BeginRun();
+            _disposeAwareTaskRunner.RunAsyncFunc(() => CollectCoverageAsync(run));
         }
 
         private Task LogCoverageStartingAsync()
@@ -154,18 +205,18 @@ namespace FineCodeCoverage.Collection.Runners
             return tUnitCoverageProjects.Where(tp => tp.CoverageProject.Settings.Enabled).ToList();
         }
 
-        private async Task CollectCoverageAsync()
+        private async Task CollectCoverageAsync(CoverageRun run)
         {
-            CancellationToken cancellationToken = _cancellationTokenSource.Token;
-            await LogCoverageStartingAsync();
-
-            OnCollectingChanged(true); // order important
-            _eventAggregator.SendMessage(new TestExecutionStartingMessage());
-            _eventAggregator.SendMessage(new CoverageStartingMessage());
-
+            await _executionGate.WaitAsync();
+            CancellationToken cancellationToken = run.Token;
             bool raiseCoverageEndedMessage = true;
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+                await LogCoverageStartingAsync();
+                OnCollectingChanged(true); // order important
+                _eventAggregator.SendMessage(new TestExecutionStartingMessage());
+                _eventAggregator.SendMessage(new CoverageStartingMessage());
                 List<ITUnitCoverageProject> tUnitCoverageProjects = await GetEnabledTUnitProjectsAsync(cancellationToken);
                 if (tUnitCoverageProjects.Count != 0)
                 {
@@ -185,14 +236,26 @@ namespace FineCodeCoverage.Collection.Runners
             {
                 await _logger.LogAsync(exc.ToString());
             }
-
-            if (raiseCoverageEndedMessage)
+            finally
             {
-                _eventAggregator.SendMessage(new CoverageEndedMessage());
-            }
+                try
+                {
+                    bool isCurrent;
+                    lock (_runLock)
+                    {
+                        isCurrent = ReferenceEquals(_activeRun, run);
+                    }
 
-            DisposeCancellationTokenSource();
-            OnCollectingChanged(false);
+                    if (raiseCoverageEndedMessage && isCurrent)
+                    {
+                        _eventAggregator.SendMessage(new CoverageEndedMessage());
+                    }
+                }
+                finally
+                {
+                    FinishRunAndReleaseGate(run);
+                }
+            }
         }
 
         private async Task<bool> BuildAndCollectAsync(List<ITUnitCoverageProject> tUnitCoverageProjects, CancellationToken cancellationToken)
@@ -239,7 +302,10 @@ namespace FineCodeCoverage.Collection.Runners
 
             if (runAllProjects)
             {
-                _fccEngine.RunAndProcessReport(coberturaFiles.ToArray(), coverageProjects);
+                cancellationToken.ThrowIfCancellationRequested();
+                List<ProjectCoverageResult> results = coverageProjects.Select(project => new ProjectCoverageResult(
+                    project, ProjectCoverageState.Collected, "Coverage collected by the manual MTP run.")).ToList();
+                _fccEngine.RunAndProcessReport(new CoverageCollectionResult(coberturaFiles, coverageProjects, results));
             }
             else
             {
@@ -251,12 +317,12 @@ namespace FineCodeCoverage.Collection.Runners
 
         public async Task<IReadOnlyCollection<string>> PrepareForTestRunAsync()
         {
-            Cancel();
-            _preparedProjects = null;
-            _cancellationTokenSource = _disposeAwareTaskRunner.CreateLinkedTokenSource();
-            CancellationToken cancellationToken = _cancellationTokenSource.Token;
+            CoverageRun run = BeginRun();
+            await _executionGate.WaitAsync();
+            CancellationToken cancellationToken = run.Token;
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 List<ITUnitCoverageProject> tUnitCoverageProjects = await GetEnabledTUnitProjectsAsync(cancellationToken);
                 if (tUnitCoverageProjects.Count == 0)
                 {
@@ -266,8 +332,10 @@ namespace FineCodeCoverage.Collection.Runners
                 await _coverageToolOutputManager.SetProjectCoverageOutputFolderAsync(
                     tUnitCoverageProjects.ConvertAll(tUnitCoverageProject => tUnitCoverageProject.CoverageProject));
 
-                _preparedProjects = await PrepareProjectsAsync(tUnitCoverageProjects, cancellationToken);
-                return _preparedProjects
+                await PrepareProjectsAsync(tUnitCoverageProjects, run);
+                cancellationToken.ThrowIfCancellationRequested();
+                run.Prepared = true;
+                return run.Projects
                     .ConvertAll(preparedProject => preparedProject.TUnitCoverageProject.CoverageProject.ProjectFilePath);
             }
             catch (OperationCanceledException)
@@ -278,15 +346,36 @@ namespace FineCodeCoverage.Collection.Runners
             {
                 await _logger.LogAsync(exc.ToString());
             }
+            finally
+            {
+                bool finish;
+                lock (_runLock)
+                {
+                    run.Busy = false;
+                    finish = !run.Prepared || run.Token.IsCancellationRequested || !ReferenceEquals(_activeRun, run);
+                }
+
+                try
+                {
+                    if (finish)
+                    {
+                        FinishRun(run);
+                    }
+                }
+                finally
+                {
+                    _ = _executionGate.Release();
+                }
+            }
 
             return Array.Empty<string>();
         }
 
-        private async Task<List<PreparedProject>> PrepareProjectsAsync(
+        private async Task PrepareProjectsAsync(
             List<ITUnitCoverageProject> tUnitCoverageProjects,
-            CancellationToken cancellationToken)
+            CoverageRun run)
         {
-            var preparedProjects = new List<PreparedProject>();
+            CancellationToken cancellationToken = run.Token;
             foreach (ITUnitCoverageProject tUnitCoverageProject in tUnitCoverageProjects)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -303,28 +392,31 @@ namespace FineCodeCoverage.Collection.Runners
                         $"{tUnitCoverageProject.CoverageProject.ProjectName} - no Microsoft.Testing.Extensions.CodeCoverage package reference. Add it to enable coverage during the Test Explorer run.");
                 }
 
-                preparedProjects.Add(new PreparedProject(tUnitCoverageProject, injection));
+                run.Projects.Add(new PreparedProject(tUnitCoverageProject, injection));
             }
-
-            return preparedProjects;
         }
 
         public async Task<CoverageCollectionResult> CollectAfterTestRunAsync()
         {
-            List<PreparedProject> preparedProjects = _preparedProjects;
-            _preparedProjects = null;
-            if (preparedProjects == null || preparedProjects.Count == 0)
+            CoverageRun run;
+            lock (_runLock)
             {
-                // nothing was prepared - preparation found no enabled projects, failed or was cancelled
-                DisposeCancellationTokenSource();
-                return CoverageCollectionResult.Empty;
+                run = _activeRun;
+                if (run?.Prepared != true || run.Busy)
+                {
+                    return CoverageCollectionResult.Empty;
+                }
+
+                run.Busy = true;
             }
 
-            OnCollectingChanged(true);
+            await _executionGate.WaitAsync();
             CoverageCollectionResult result = CoverageCollectionResult.Empty;
             try
             {
-                result = await CollectPreparedAsync(preparedProjects);
+                run.Token.ThrowIfCancellationRequested();
+                OnCollectingChanged(true);
+                result = await CollectPreparedAsync(run.Projects, run.Token);
             }
             catch (OperationCanceledException)
             {
@@ -334,23 +426,29 @@ namespace FineCodeCoverage.Collection.Runners
             {
                 await _logger.LogAsync(exc.ToString());
             }
+            finally
+            {
+                FinishRunAndReleaseGate(run);
+            }
 
-            DisposeCancellationTokenSource();
-            OnCollectingChanged(false);
             return result;
         }
 
-        private async Task<CoverageCollectionResult> CollectPreparedAsync(List<PreparedProject> preparedProjects)
+        private async Task<CoverageCollectionResult> CollectPreparedAsync(List<PreparedProject> preparedProjects, CancellationToken cancellationToken)
         {
-            CancellationToken cancellationToken = _cancellationTokenSource.Token;
             var coverageFiles = new List<string>();
             var coverageProjects = new List<ICoverageProject>();
+            var projectResults = new List<ProjectCoverageResult>();
             foreach (PreparedProject preparedProject in preparedProjects)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 coverageProjects.Add(preparedProject.TUnitCoverageProject.CoverageProject);
                 if (preparedProject.Injection == null)
                 {
+                    string reason = preparedProject.TUnitCoverageProject.HasCoverageExtension
+                        ? "Coverage configuration could not be injected. Check the platform version and testconfig.json in the Output pane."
+                        : "Microsoft.Testing.Extensions.CodeCoverage is missing. Add the package or use manual MTP coverage.";
+                    projectResults.Add(new ProjectCoverageResult(preparedProject.TUnitCoverageProject.CoverageProject, ProjectCoverageState.Skipped, reason));
                     await _logger.LogAsync(
                         $"{preparedProject.TUnitCoverageProject.CoverageProject.ProjectName} - skipping automatic coverage because options could not be injected. The Test Explorer selection cannot be preserved by re-running the test host. Use the manual MTP coverage command to run all enabled MTP projects.");
                     continue;
@@ -361,9 +459,15 @@ namespace FineCodeCoverage.Collection.Runners
                 {
                     coverageFiles.Add(coverageFile);
                 }
+
+                projectResults.Add(new ProjectCoverageResult(
+                    preparedProject.TUnitCoverageProject.CoverageProject,
+                    coverageFile == null ? ProjectCoverageState.Skipped : ProjectCoverageState.Collected,
+                    coverageFile == null ? "No coverage file was produced; the project may not have been selected for this run." : "Coverage collected during the Test Explorer run."));
             }
 
-            return new CoverageCollectionResult(coverageFiles, coverageProjects);
+            cancellationToken.ThrowIfCancellationRequested();
+            return new CoverageCollectionResult(coverageFiles, coverageProjects, projectResults);
         }
 
         private async Task<string> CollectInjectedAsync(PreparedProject preparedProject)
@@ -380,10 +484,58 @@ namespace FineCodeCoverage.Collection.Runners
             return null;
         }
 
-        private void DisposeCancellationTokenSource()
+        private void FinishRun(CoverageRun run)
         {
-            _cancellationTokenSource?.Dispose();
-            _cancellationTokenSource = null;
+            bool notify;
+            lock (_runLock)
+            {
+                notify = FinishRunCore(run);
+            }
+
+            if (!notify)
+            {
+                return;
+            }
+
+            OnCollectingChanged(false);
+        }
+
+        private bool FinishRunCore(CoverageRun run)
+        {
+            if (run.Finished)
+            {
+                return false;
+            }
+
+            run.Finished = true;
+            foreach (PreparedProject project in run.Projects)
+            {
+                if (project.Injection != null)
+                {
+                    _testConfigInjector.Restore(project.Injection);
+                }
+            }
+
+            run.Source.Dispose();
+            bool isCurrent = ReferenceEquals(_activeRun, run);
+            if (isCurrent)
+            {
+                _activeRun = null;
+            }
+
+            return isCurrent;
+        }
+
+        private void FinishRunAndReleaseGate(CoverageRun run)
+        {
+            try
+            {
+                FinishRun(run);
+            }
+            finally
+            {
+                _ = _executionGate.Release();
+            }
         }
     }
 }

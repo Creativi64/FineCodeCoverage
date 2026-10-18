@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Collection.CoverageProjectManagement;
@@ -24,6 +25,8 @@ namespace FineCodeCoverage.Collection.Engine
             public string CoberturaFile { get; set; }
 
             public List<ICoverageProject> CoverageProjects { get; internal set; }
+
+            public CoverageCollectionResult Collection { get; set; }
         }
 
         internal int InitializeWait { get; set; } = 5000;
@@ -37,6 +40,8 @@ namespace FineCodeCoverage.Collection.Engine
         private readonly IDisposeAwareTaskRunner _disposeAwareTaskRunner;
         private readonly IThreadHelper _threadHelper;
         private ICancellationTokenSource _cancellationTokenSource;
+        private readonly object _runLock = new object();
+        private readonly SemaphoreSlim _reportGate = new SemaphoreSlim(1, 1);
 
         [ImportingConstructor]
         public FCCEngine(
@@ -60,23 +65,20 @@ namespace FineCodeCoverage.Collection.Engine
 
         public void StopCoverage()
         {
-            if (_cancellationTokenSource == null)
-                return;
-
-            try
+            lock (_runLock)
             {
-                _cancellationTokenSource.Cancel();
-            }
-            catch (ObjectDisposedException)
-            {
+                _cancellationTokenSource?.Cancel();
             }
         }
 
-        private void Reset()
+        private ICancellationTokenSource Reset()
         {
-            StopCoverage();
-
-            _cancellationTokenSource = _disposeAwareTaskRunner.CreateLinkedTokenSource();
+            lock (_runLock)
+            {
+                StopCoverage();
+                _cancellationTokenSource = _disposeAwareTaskRunner.CreateLinkedTokenSource();
+                return _cancellationTokenSource;
+            }
         }
 
         private async Task<ReportResult> RunAndProcessReportAsync(
@@ -110,32 +112,45 @@ namespace FineCodeCoverage.Collection.Engine
         }
 
         public void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null)
+            => RunAndProcessReport(new CoverageCollectionResult(coberturaFiles, coverageProjects), cleanUp);
+
+        public void RunAndProcessReport(CoverageCollectionResult collection, Action cleanUp = null)
             => RunCancellableCoverageTask(
                 async (vsShutdownLinkedCancellationToken) =>
                 {
                     var reportResult = new ReportResult();
 
-                    if (coberturaFiles.Length != 0)
-                        reportResult = await RunAndProcessReportAsync(coberturaFiles, coverageProjects, vsShutdownLinkedCancellationToken);
+                    if (collection.HasCoverage)
+                        reportResult = await RunAndProcessReportAsync(collection.CoberturaFiles.ToArray(), collection.CoverageProjects.ToList(), vsShutdownLinkedCancellationToken);
 
+                    reportResult.Collection = collection;
                     return reportResult;
                 },
                 cleanUp);
 
         private async Task DoWorkAsync(
             Func<CancellationToken, Task<ReportResult>> reportResultProvider,
-            CancellationToken vsShutdownLinkedCancellationToken)
+            ICancellationTokenSource source)
         {
+            CancellationToken vsShutdownLinkedCancellationToken = source.Token;
             try
             {
+                vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
                 ReportResult result = await reportResultProvider(vsShutdownLinkedCancellationToken);
                 await LogCoverageStatusAsync("Done");
-                _eventAggregator.SendMessage(new CoverageEndedMessage());
-
-                if (result.Report == null)
+                vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
+                if (!IsCurrentRun(source))
                     return;
 
-                _eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects));
+                // Listeners may synchronously switch to the UI thread, where a new run can start.
+                // Never hold the lifecycle lock while notifying them.
+                _eventAggregator.SendMessage(new CoverageEndedMessage());
+                vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
+                if (result.Report == null || !IsCurrentRun(source))
+                    return;
+
+                _eventAggregator.SendMessage(new NewReportMessage(result.Report, result.CoverageProjects) { Collection = result.Collection });
+                vsShutdownLinkedCancellationToken.ThrowIfCancellationRequested();
                 RaiseReportFiles(result);
             }
             catch (OperationCanceledException)
@@ -143,7 +158,7 @@ namespace FineCodeCoverage.Collection.Engine
                 if (!_disposeAwareTaskRunner.IsVsShutdown)
                 {
                     await LogCoverageStatusAsync("Cancelled");
-                    _eventAggregator.SendMessage(new CoverageEndedMessage());
+                    EndCurrentRun(source);
                 }
             }
             catch (Exception ex)
@@ -151,6 +166,22 @@ namespace FineCodeCoverage.Collection.Engine
                 await _logger.LogAsync(
                     StatusMarkerProvider.Get("Error"),
                     ex.ToString());
+                EndCurrentRun(source);
+            }
+        }
+
+        private bool IsCurrentRun(ICancellationTokenSource source)
+        {
+            lock (_runLock)
+            {
+                return ReferenceEquals(_cancellationTokenSource, source);
+            }
+        }
+
+        private void EndCurrentRun(ICancellationTokenSource source)
+        {
+            if (IsCurrentRun(source))
+            {
                 _eventAggregator.SendMessage(new CoverageEndedMessage());
             }
         }
@@ -158,14 +189,35 @@ namespace FineCodeCoverage.Collection.Engine
         private void RunCancellableCoverageTask(
             Func<CancellationToken, Task<ReportResult>> reportResultProvider, Action cleanUp)
         {
-            Reset();
-            CancellationToken vsShutdownLinkedCancellationToken = _cancellationTokenSource.Token;
+            ICancellationTokenSource source = Reset();
             _disposeAwareTaskRunner.RunAsyncFunc(async () =>
             {
-                await _threadHelper.AwaitTaskSchedulerDefaultAsync();
-                await DoWorkAsync(reportResultProvider, vsShutdownLinkedCancellationToken);
-                cleanUp?.Invoke();
-                _cancellationTokenSource.Dispose();
+                await _reportGate.WaitAsync();
+                try
+                {
+                    await _threadHelper.AwaitTaskSchedulerDefaultAsync();
+                    await DoWorkAsync(reportResultProvider, source);
+                }
+                finally
+                {
+                    try
+                    {
+                        cleanUp?.Invoke();
+                    }
+                    finally
+                    {
+                        lock (_runLock)
+                        {
+                            if (ReferenceEquals(_cancellationTokenSource, source))
+                            {
+                                _cancellationTokenSource = null;
+                            }
+                        }
+
+                        source.Dispose();
+                        _ = _reportGate.Release();
+                    }
+                }
             });
         }
     }

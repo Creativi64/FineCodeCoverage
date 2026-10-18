@@ -102,6 +102,74 @@ namespace FineCodeCoverageTests
             });
         }
 
+        private void UseInMemoryConfig(string contents)
+        {
+            writtenTestConfig = contents;
+            mockFileUtil.Setup(files => files.Exists(ExpectedTestConfigPath)).Returns(() => writtenTestConfig != null);
+            mockFileUtil.Setup(files => files.ReadAllText(ExpectedTestConfigPath)).Returns(() => writtenTestConfig);
+            mockFileUtil.Setup(files => files.DeleteFile(ExpectedTestConfigPath)).Callback(() => writtenTestConfig = null);
+        }
+
+        [Test]
+        public async Task Should_Not_Replace_A_Non_Object_Options_Section_Async()
+        {
+            const string original = "{\"commandLineOptions\":\"invalid\"}";
+            UseInMemoryConfig(original);
+            Assert.That(await InjectAsync(), Is.Null);
+            Assert.That(writtenTestConfig, Is.EqualTo(original));
+        }
+
+        [TestCase(null)]
+        [TestCase("{\n  \"commandLineOptions\": { \"coverage\": false }, \"custom\": 42\n}")]
+        public async Task Should_Restore_The_Original_Config_Exactly_Async(string original)
+        {
+            UseInMemoryConfig(original);
+            TestConfigInjectionResult injection = await InjectAsync();
+            testConfigInjector.Restore(injection);
+            Assert.That(writtenTestConfig, Is.EqualTo(original));
+        }
+
+        [Test]
+        public async Task Should_Preserve_Concurrent_Edits_When_Restoring_Async()
+        {
+            UseInMemoryConfig("{\"commandLineOptions\":{\"coverage\":false}}");
+            TestConfigInjectionResult injection = await InjectAsync();
+            JObject edited = JObject.Parse(writtenTestConfig);
+            edited["custom"] = "added during run";
+            edited["commandLineOptions"]["coverage-output"] = "new-user-path.xml";
+            writtenTestConfig = edited.ToString();
+
+            testConfigInjector.Restore(injection);
+
+            JObject restored = JObject.Parse(writtenTestConfig);
+            Assert.That(restored["custom"].Value<string>(), Is.EqualTo("added during run"));
+            Assert.That(restored["commandLineOptions"]["coverage-output"].Value<string>(), Is.EqualTo("new-user-path.xml"));
+            Assert.That(restored["commandLineOptions"]["coverage"].Value<bool>(), Is.False);
+            Assert.That(restored["commandLineOptions"]["coverage-settings"], Is.Null);
+        }
+
+        [Test]
+        public async Task Should_Not_Overwrite_A_Config_Replaced_By_A_Build_Async()
+        {
+            UseInMemoryConfig(null);
+            TestConfigInjectionResult injection = await InjectAsync();
+            writtenTestConfig = "{\"rebuilt\":true}";
+            testConfigInjector.Restore(injection);
+            Assert.That(writtenTestConfig, Is.EqualTo("{\"rebuilt\":true}"));
+        }
+
+        [Test]
+        public void Should_Restore_Config_If_Injection_Fails_After_Writing()
+        {
+            UseInMemoryConfig("{}");
+            var logger = new Mock<ILogger>();
+            logger.Setup(log => log.LogAsync(It.IsAny<string>(), It.IsAny<string>())).ThrowsAsync(new InvalidOperationException("logging failed"));
+            testConfigInjector = new TestConfigInjector(mockFileUtil.Object, mockTestingPlatformVersionProvider.Object, logger.Object);
+
+            Assert.ThrowsAsync<InvalidOperationException>(() => InjectAsync());
+            Assert.That(writtenTestConfig, Is.EqualTo("{}"));
+        }
+
         [Test]
         public async Task Should_Keep_Unrelated_Sections_Of_An_Existing_TestConfig_Async()
         {

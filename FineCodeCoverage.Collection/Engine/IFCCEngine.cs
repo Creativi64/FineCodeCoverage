@@ -10,5 +10,7 @@ namespace FineCodeCoverage.Collection.Engine
         void StopCoverage();
 
         void RunAndProcessReport(string[] coberturaFiles, List<ICoverageProject> coverageProjects, Action cleanUp = null);
+
+        void RunAndProcessReport(CoverageCollectionResult collection, Action cleanUp = null);
     }
 }

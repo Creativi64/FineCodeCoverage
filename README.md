@@ -44,6 +44,10 @@ To collect coverage during the original Test Explorer run, the test project need
 Before execution, FCC adds coverage options to the test host's `.testconfig.json` in the build output directory.
 It preserves unrelated configuration and existing coverage output/settings choices, while enabling coverage.
 FCC then reads the coverage files produced by the original run. A project that produces no coverage file is skipped.
+After collection, cancellation, preparation failure, or normal Visual Studio shutdown, FCC restores its injected options.
+If the file was otherwise unchanged, its original contents are restored exactly (or FCC's newly created file is removed).
+If a user or build edited it during the run, FCC removes only its own unchanged injected values and preserves those later edits.
+An abrupt process termination cannot perform this cleanup; rebuilding the test project refreshes its output configuration.
 
 **Automatic collection never reruns MTP test hosts.** If injection is unavailable, such as with an older platform,
 a missing coverage extension or unreadable configuration, FCC skips automatic coverage for that project and explains why in the Output pane.
@@ -64,10 +68,15 @@ Its default is false.
 ### Mixed solutions and cancellation
 
 FCC combines available VSTest and MTP coverage into one report. A skipped MTP project does not prevent reporting coverage from other projects.
-Inspect the Output pane when the report does not contain all expected projects.
+The report has an expandable collection status showing how many test projects produced coverage and why others were skipped.
+MTP counts include enabled projects considered for collection; a project outside the Test Explorer selection can appear as skipped.
+VSTest attachments do not identify each contributing test project, so those projects are explicitly shown as unverified rather than assumed covered.
+When no coverage is produced, the previous report tree is cleared and the status explains what was missing.
 
 Cancelling report generation terminates its external generator process and removes its temporary response file.
 Cancellation is also checked before and after the in-process parsing and report collation steps.
+Each collection/report run owns its cancellation source. A superseded run cannot dispose the next run's source,
+and report generation is serialized to prevent simultaneous writes to the report directory.
 
 ## Report and editor
 
@@ -173,6 +182,8 @@ Use Visual Studio 2026 with the Visual Studio extension development tools and .N
 Open `FineCodeCoverage.slnx`, restore packages and build.
 The extension and report tool target .NET Framework 4.7.2; the test project targets .NET Framework 4.8.
 The build references `Microsoft.VisualStudio.TestWindow.Interfaces.dll` from the installed Visual Studio using `VsInstallRoot`.
+Runtime Roslyn packages are aligned at 4.14.0 in `Directory.Packages.props` to satisfy the exact dependencies of
+`Microsoft.CodeAnalysis.EditorFeatures.Text`. Upgrade these packages together; analyzer versions are independent.
 
 Run `FineCodeCoverageTests` through Test Explorer.
 The VSIX is produced under `FineCodeCoverage2022/bin/<Configuration>/`; the project directory retains its historical name.

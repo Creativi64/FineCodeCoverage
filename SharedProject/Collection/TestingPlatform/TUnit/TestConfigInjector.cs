@@ -57,13 +57,26 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
             string testConfigPath = GetTestConfigPath(coverageProject);
 
-            JObject testConfig = await LoadAsync(testConfigPath, coverageProject.ProjectName);
-            if (testConfig == null)
+            string originalContents;
+            JObject testConfig;
+            try
             {
+                originalContents = _fileUtil.Exists(testConfigPath) ? _fileUtil.ReadAllText(testConfigPath) : null;
+                testConfig = originalContents == null ? new JObject() : JObject.Parse(originalContents);
+            }
+            catch (Exception exception)
+            {
+                await _logger.LogAsync($"{coverageProject.ProjectName} - unable to read {testConfigPath}. Not injecting coverage options.", exception.Message);
                 return null;
             }
 
             var commandLineOptions = testConfig[CommandLineOptionsSectionName] as JObject;
+            if (commandLineOptions == null && testConfig[CommandLineOptionsSectionName] != null)
+            {
+                await _logger.LogAsync($"{coverageProject.ProjectName} - commandLineOptions must be a JSON object. Not injecting coverage options.");
+                return null;
+            }
+
             if (commandLineOptions == null)
             {
                 commandLineOptions = new JObject();
@@ -85,10 +98,23 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             cancellationToken.ThrowIfCancellationRequested();
             DeleteStaleCoverageOutput(outputPath);
 
-            _fileUtil.WriteAllText(testConfigPath, testConfig.ToString(Formatting.Indented));
+            var result = new TestConfigInjectionResult(testConfigPath, outputPath, outputFormat, settingsPath)
+            {
+                OriginalContents = originalContents,
+                InjectedContents = testConfig.ToString(Formatting.Indented),
+            };
+            try
+            {
+                _fileUtil.WriteAllText(testConfigPath, result.InjectedContents);
+                await _logger.LogAsync($"{coverageProject.ProjectName} - coverage injected into {testConfigPath}", result.ToString());
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            catch
+            {
+                Restore(result);
+                throw;
+            }
 
-            var result = new TestConfigInjectionResult(testConfigPath, outputPath, outputFormat, settingsPath);
-            await _logger.LogAsync($"{coverageProject.ProjectName} - coverage injected into {testConfigPath}", result.ToString());
             return result;
         }
 
@@ -114,24 +140,83 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 coverageProject.ProjectOutputFolder,
                 Path.GetFileNameWithoutExtension(coverageProject.TestDllFile) + TestConfigFileSuffix);
 
-        private async Task<JObject> LoadAsync(string testConfigPath, string projectName)
+        public void Restore(TestConfigInjectionResult injection)
         {
-            if (!_fileUtil.Exists(testConfigPath))
+            if (injection?.InjectedContents == null)
             {
-                return new JObject();
+                return;
             }
 
             try
             {
-                return JObject.Parse(_fileUtil.ReadAllText(testConfigPath));
+                if (!_fileUtil.Exists(injection.TestConfigPath))
+                {
+                    return;
+                }
+
+                string currentContents = _fileUtil.ReadAllText(injection.TestConfigPath);
+                if (currentContents == injection.InjectedContents)
+                {
+                    if (injection.OriginalContents == null)
+                    {
+                        _fileUtil.DeleteFile(injection.TestConfigPath);
+                    }
+                    else
+                    {
+                        _fileUtil.WriteAllText(injection.TestConfigPath, injection.OriginalContents);
+                    }
+
+                    return;
+                }
+
+                // A user or build changed the file during execution. Undo only values still equal to
+                // what this run injected, leaving any subsequent edits intact.
+                JObject current = JObject.Parse(currentContents);
+                JObject original = injection.OriginalContents == null ? new JObject() : JObject.Parse(injection.OriginalContents);
+                JObject injected = JObject.Parse(injection.InjectedContents);
+                var currentOptions = current[CommandLineOptionsSectionName] as JObject;
+                var injectedOptions = (JObject)injected[CommandLineOptionsSectionName];
+                var originalOptions = original[CommandLineOptionsSectionName] as JObject;
+                if (currentOptions == null)
+                {
+                    return;
+                }
+
+                bool changed = false;
+                foreach (string option in new[] { CoverageOptionName, CoverageOutputOptionName, CoverageOutputFormatOptionName, CoverageSettingsOptionName })
+                {
+                    JToken previous = originalOptions?[option];
+                    if (JToken.DeepEquals(currentOptions[option], injectedOptions[option])
+                        && !JToken.DeepEquals(previous, injectedOptions[option]))
+                    {
+                        if (previous == null)
+                        {
+                            _ = currentOptions.Remove(option);
+                        }
+                        else
+                        {
+                            currentOptions[option] = previous.DeepClone();
+                        }
+
+                        changed = true;
+                    }
+                }
+
+                if (!changed)
+                {
+                    return;
+                }
+
+                if (!currentOptions.HasValues && original[CommandLineOptionsSectionName] == null)
+                {
+                    _ = current.Remove(CommandLineOptionsSectionName);
+                }
+
+                _fileUtil.WriteAllText(injection.TestConfigPath, current.ToString(Formatting.Indented));
             }
             catch (Exception exception)
             {
-                // never overwrite a file that could not be understood
-                await _logger.LogAsync(
-                    $"{projectName} - unable to read {testConfigPath}.  Not injecting coverage options.",
-                    exception.Message);
-                return null;
+                _logger.LogFileAndForget($"Unable to restore {injection.TestConfigPath}. {exception.Message}");
             }
         }
 

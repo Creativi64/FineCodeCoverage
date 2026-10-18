@@ -15,6 +15,8 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
     /// </remarks>
     internal interface ITestConfigInjector
     {
+        void Restore(TestConfigInjectionResult injection);
+
         Task<TestConfigInjectionResult> InjectAsync(
             ITUnitCoverageProject tUnitCoverageProject,
             TUnitSettings tUnitSettings,

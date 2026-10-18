@@ -11,6 +11,9 @@
   -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- EditorFeatures.Text requires an exact Roslyn version. Keep all runtime Roslyn packages
+         aligned with its published dependency contract; analyzers have independent versions. -->
+    <RoslynRuntimeVersion>4.14.0</RoslynRuntimeVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Extension / shared runtime -->
@@ -31,10 +34,10 @@
     <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <!-- Roslyn / code analysis -->
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="4.14.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.3.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="$(RoslynRuntimeVersion)" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="$(RoslynRuntimeVersion)" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="$(RoslynRuntimeVersion)" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="$(RoslynRuntimeVersion)" />
     <!-- Visual Studio SDK -->
     <PackageVersion Include="Microsoft.VisualStudio.ProjectSystem" Version="17.9.380" />
     <PackageVersion Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" />

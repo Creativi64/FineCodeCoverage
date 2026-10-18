@@ -19,9 +19,11 @@
     <Grid.RowDefinitions>
       <RowDefinition
         Height="auto" />
+      <RowDefinition Height="auto" />
       <RowDefinition />
     </Grid.RowDefinitions>
     <Grid.Resources>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
       <vsPlatformUI:VisibleIfEqualValueConverter
         x:Key="VisibleIfEqualValueConverter"
         VisibilityIfNotEqual="Hidden" />
@@ -110,8 +112,19 @@
         </Style>
       </ProgressBar.Style>
     </ProgressBar>
-    <treeGrid:TreeGridControl
+    <Expander
       Grid.Row="1"
+      Margin="6,4"
+      Foreground="{DynamicResource {x:Static vsPlatformUI:EnvironmentColors.ToolWindowTextBrushKey}}"
+      Header="{Binding CollectionSummary}"
+      Visibility="{Binding HasCollectionSummary, Converter={StaticResource BooleanToVisibilityConverter}}"
+      AutomationProperties.Name="Coverage collection details">
+      <ScrollViewer MaxHeight="160" VerticalScrollBarVisibility="Auto">
+        <TextBlock Margin="18,4,4,4" Text="{Binding CollectionDetails}" TextWrapping="Wrap" />
+      </ScrollViewer>
+    </Expander>
+    <treeGrid:TreeGridControl
+      Grid.Row="2"
       HeaderBackground="{Binding BackgroundBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
       HeaderBackgroundIsMouseOver="{Binding BackgroundIsMouseOverBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
       HeaderBackgroundIsPressed="{Binding BackgroundIsPressedBrushKey, Source={x:Static fccOutput:ReportHeaderBrushesViewModelProvider.Instance}, Converter={StaticResource ResourceKey=ThemeResourceKeyConverter}}"
