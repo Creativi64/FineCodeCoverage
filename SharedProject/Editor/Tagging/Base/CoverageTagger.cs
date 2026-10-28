@@ -140,7 +140,8 @@ namespace FineCodeCoverage.Editor.Tagging.Base
             HandleOwnChange(message);
         }
 
-        private bool IsOwnChange(CoverageChangedMessage message) => message.FilePath == _textInfo.FilePath;
+        private bool IsOwnChange(CoverageChangedMessage message)
+            => string.Equals(message.FilePath, _textInfo.FilePath, StringComparison.OrdinalIgnoreCase);
 
         private void HandleOwnChange(CoverageChangedMessage message) => RaiseTagsChangedLinesOrAll(message.ChangedLineNumbers);
 

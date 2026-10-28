@@ -40,9 +40,10 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
             autoMoqer.Verify<IEventAggregator>(eventAggregator => eventAggregator.RemoveListener(coverageTagger));
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Should_Raise_Tags_Changed_For_CurrentSnapshot_Range_When_CoverageChangedMessage_Applies_No_Line_Numbers(bool appliesTo)
+        [TestCase(true, "filepath")]
+        [TestCase(true, "FILEPATH")]
+        [TestCase(false, "otherfile")]
+        public void Should_Raise_Tags_Changed_For_CurrentSnapshot_Range_When_CoverageChangedMessage_Applies_No_Line_Numbers(bool appliesTo, string messageFilePath)
         {
             var autoMoqer = new AutoMoqer();
             var mockTextInfo = autoMoqer.GetMock<ITextInfo>();
@@ -57,10 +58,11 @@ namespace FineCodeCoverageTests.Editor.Tagging.Base
             {
                 snapshotSpan = args.Span;
             };
-            coverageTagger.Handle(new CoverageChangedMessage(appliesTo ? "filepath" : "otherfile", null));
+            coverageTagger.Handle(new CoverageChangedMessage(messageFilePath, null));
 
             if (appliesTo)
             {
+                Assert.That(snapshotSpan.HasValue, Is.True);
                 Assert.Multiple(() =>
                 {
                     Assert.That(snapshotSpan.Value.Snapshot, Is.SameAs(mockTextSnapshot.Object));

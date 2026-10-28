@@ -4,12 +4,14 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using FineCodeCoverage.Initialization;
 using FineCodeCoverage.Initialization.ToolZip;
 using FineCodeCoverage.VSAbstractions.OutputWindow;
 using FineCodeCoverage.VSAbstractions.Threading;
+using Microsoft.Win32.SafeHandles;
 
 namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 {
@@ -89,6 +91,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
             // could have FCC option - hide-test-output or just allow them to supply their own
             await _logger.LogAsync("Executing Microsoft.Testing.Platform test host", path, "Arguments", args);
+            using (var processJob = new ProcessJob())
             using (var process = new Process())
             {
                 process.StartInfo = new ProcessStartInfo
@@ -106,10 +109,23 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 process.ErrorDataReceived += Process_ErrorDataReceived;
                 cancellationToken.ThrowIfCancellationRequested();
                 _ = process.Start();
+                try
+                {
+                    processJob.Attach(process);
+                }
+                catch
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                    }
+
+                    throw;
+                }
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                _ = await _threadHelper.WaitForForProcessExitAsync(process, cancellationToken);
+                await WaitForExitAsync(process, cancellationToken);
                 _ = process.WaitForExit(1000); // Ensures all output is handled
 
                 /*
@@ -123,6 +139,115 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 await _logger.LogAsync("-----------");
                 return process.ExitCode == SuccessExitCode;
             }
+        }
+
+        internal async Task WaitForExitAsync(Process process, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _ = await _threadHelper.WaitForForProcessExitAsync(process, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                // The VS threading helper cancels only its wait, leaving the test host running.
+                // This process belongs to this collection run, so terminate it before disposal.
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    // The host may exit between HasExited and Kill.
+                }
+
+                _ = process.WaitForExit(5000);
+                throw;
+            }
+        }
+
+        // MTP coverage can spawn an instrumented child host. Killing only the controller
+        // leaves that child alive. A private Windows job owns this run's process tree.
+        internal sealed class ProcessJob : IDisposable
+        {
+            private readonly SafeFileHandle _handle;
+
+            public ProcessJob()
+            {
+                _handle = CreateJobObject(IntPtr.Zero, null);
+                if (_handle.IsInvalid)
+                {
+                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+                }
+
+                var limits = new ExtendedLimitInformation();
+                limits.BasicLimitInformation.LimitFlags = 0x2000; // JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+                if (!SetInformationJobObject(_handle, 9, ref limits, (uint)Marshal.SizeOf(limits)))
+                {
+                    int error = Marshal.GetLastWin32Error();
+                    _handle.Dispose();
+                    throw new System.ComponentModel.Win32Exception(error);
+                }
+            }
+
+            public void Attach(Process process)
+            {
+                if (!AssignProcessToJobObject(_handle, process.Handle))
+                {
+                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+                }
+            }
+
+            public void Dispose() => _handle.Dispose();
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct BasicLimitInformation
+            {
+                public long PerProcessUserTimeLimit;
+                public long PerJobUserTimeLimit;
+                public uint LimitFlags;
+                public UIntPtr MinimumWorkingSetSize;
+                public UIntPtr MaximumWorkingSetSize;
+                public uint ActiveProcessLimit;
+                public UIntPtr Affinity;
+                public uint PriorityClass;
+                public uint SchedulingClass;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct IoCounters
+            {
+                public ulong ReadOperationCount;
+                public ulong WriteOperationCount;
+                public ulong OtherOperationCount;
+                public ulong ReadTransferCount;
+                public ulong WriteTransferCount;
+                public ulong OtherTransferCount;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct ExtendedLimitInformation
+            {
+                public BasicLimitInformation BasicLimitInformation;
+                public IoCounters IoInfo;
+                public UIntPtr ProcessMemoryLimit;
+                public UIntPtr JobMemoryLimit;
+                public UIntPtr PeakProcessMemoryUsed;
+                public UIntPtr PeakJobMemoryUsed;
+            }
+
+            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            private static extern SafeFileHandle CreateJobObject(IntPtr attributes, string name);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool SetInformationJobObject(SafeFileHandle job, int informationClass, ref ExtendedLimitInformation information, uint length);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool AssignProcessToJobObject(SafeFileHandle job, IntPtr process);
         }
 
         private async Task LogNonSuccessExitCodeAsync(int exitCode)

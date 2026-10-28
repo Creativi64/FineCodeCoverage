@@ -17,7 +17,7 @@ namespace FineCodeCoverage.Vs.Commands.FCCCommands
         [ImportingConstructor]
         public CancelCollectTUnitCommand(ITUnitCoverage tUnitCoverage) => _tUnitCoverage = tUnitCoverage;
 
-        protected override void Execute(object sender, EventArgs e) => _tUnitCoverage.CollectCoverage();
+        protected override void Execute(object sender, EventArgs e) => _tUnitCoverage.Cancel();
 
         public void SetVisible(bool isVisible) => Command.Visible = isVisible;
     }

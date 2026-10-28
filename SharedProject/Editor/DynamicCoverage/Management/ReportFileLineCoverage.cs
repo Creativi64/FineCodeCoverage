@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FineCodeCoverage.Collection.ReportGeneration;
 using FineCodeCoverage.Editor.DynamicCoverage.Utilities;
@@ -8,7 +9,7 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 {
     internal sealed class ReportFileLineCoverage : IFileLineCoverage
     {
-        private readonly Dictionary<string, FileLines> _fileLinesLookup = new Dictionary<string, FileLines>();
+        private readonly Dictionary<string, FileLines> _fileLinesLookup = new Dictionary<string, FileLines>(StringComparer.OrdinalIgnoreCase);
         private readonly IReadOnlyList<IAssembly> _assemblies;
         private readonly IDateTimeService _dateTimeService;
         private Dictionary<string, List<ICodeElement>> _fileLookup;
@@ -30,7 +31,8 @@ namespace FineCodeCoverage.Editor.DynamicCoverage.Management
 
         public static Dictionary<string, List<ICodeElement>> GetCodeElementLookup(IReadOnlyList<IAssembly> assemblies)
             => assemblies.SelectMany(assembly => assembly.Classes.SelectMany(c => c.FileCodeElements))
-                .GroupBy(kvp => kvp.Key).ToDictionary(g => g.Key, g => g.SelectMany(kvp => kvp.Value).ToList());
+                .GroupBy(kvp => kvp.Key, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(g => g.Key, g => g.SelectMany(kvp => kvp.Value).ToList(), StringComparer.OrdinalIgnoreCase);
 
         private Dictionary<string, List<ICodeElement>> FileLookup
             => _fileLookup ?? (_fileLookup = GetCodeElementLookup(_assemblies));
