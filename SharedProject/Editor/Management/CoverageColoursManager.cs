@@ -1,58 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Media;
 using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Initialization;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
+using static FineCodeCoverage.Editor.Management.CoverageEditorFormatDefinitions;
 
 namespace FineCodeCoverage.Editor.Management
 {
     [Export(typeof(IInitializable))]
     internal sealed class CoverageColoursManager : IInitializable
     {
-        private const string PartiallyCoveredEditorFormatDefinitionName = "Coverage Partially Touched Area FCC";
-        private const string NotCoveredEditorFormatDefinitionName = "Coverage Not Touched Area FCC";
-        private const string CoveredEditorFormatDefinitionName = "Coverage Touched Area FCC";
-        private const string NewLinesEditorFormatDefinitionName = "Coverage New Lines Area FCC";
-        private const string DirtyEditorFormatDefinitionName = "Coverage Dirty Area FCC";
-        private const string NotIncludedEditorFormatDefinitionName = "Coverage Not Included Area FCC";
-
         private readonly ICoverageClassificationColourService _coverageClassificationColourService;
         private readonly IFontAndColorsInfosProvider _fontAndColorsInfosProvider;
         private readonly IEditorFormatMapTextSpecificListener _editorFormatMapTextSpecificListener;
         private readonly ITextFormattingRunPropertiesFactory _textFormattingRunPropertiesFactory;
-
-        [Export]
-        [Name(NotIncludedEditorFormatDefinitionName)]
-        [UserVisible(true)]
-        public EditorFormatDefinition NotIncludedEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Colors.LightPink);
-
-        [Export]
-        [Name(NewLinesEditorFormatDefinitionName)]
-        [UserVisible(true)]
-        public EditorFormatDefinition NewLinesEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Colors.Yellow);
-
-        [Export]
-        [Name(DirtyEditorFormatDefinitionName)]
-        [UserVisible(true)]
-        public EditorFormatDefinition DirtyEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.White, Colors.Brown);
-
-        [Export]
-        [Name(CoveredEditorFormatDefinitionName)]
-        [UserVisible(true)]
-        public EditorFormatDefinition CoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Color.FromRgb(16, 135, 24));
-
-        [Export]
-        [Name(NotCoveredEditorFormatDefinitionName)]
-        [UserVisible(true)]
-        public EditorFormatDefinition NotCoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.White, Colors.Red);
-
-        [Export]
-        [Name(PartiallyCoveredEditorFormatDefinitionName)]
-        [UserVisible(true)]
-        public EditorFormatDefinition PartiallyCoveredEditorFormatDefinition { get; } = new ColoursClassificationFormatDefinition(Colors.Black, Color.FromRgb(255, 165, 0));
 
         [ImportingConstructor]
         public CoverageColoursManager(

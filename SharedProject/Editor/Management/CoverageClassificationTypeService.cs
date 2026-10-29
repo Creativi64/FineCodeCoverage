@@ -23,16 +23,6 @@ namespace FineCodeCoverage.Editor.Management
         public const string FCCDirtyClassificationTypeName = "FCCDirty";
         public const string FCCNewLineClassificationTypeName = "FCCNewLine";
         public const string FCCNotIncludedClassificationTypeName = "FCCNotIncluded";
-        private readonly Dictionary<DynamicCoverageType, string> _editorFormatNames = new Dictionary<DynamicCoverageType, string>
-        {
-            { DynamicCoverageType.Partial, FCCPartiallyCoveredClassificationTypeName },
-            { DynamicCoverageType.NotCovered, FCCNotCoveredClassificationTypeName },
-            { DynamicCoverageType.Covered, FCCCoveredClassificationTypeName },
-            { DynamicCoverageType.Dirty, FCCDirtyClassificationTypeName },
-            { DynamicCoverageType.NewLine, FCCNewLineClassificationTypeName },
-            { DynamicCoverageType.NotIncluded, FCCNotIncludedClassificationTypeName },
-        };
-
         private readonly IClassificationFormatMap _classificationFormatMap;
         private readonly ReadOnlyDictionary<DynamicCoverageType, IClassificationType> _classificationTypes;
         private readonly IClassificationType _highestPriorityClassificationType;
@@ -108,7 +98,8 @@ namespace FineCodeCoverage.Editor.Management
             }
         }
 
-        public string GetEditorFormatDefinitionName(DynamicCoverageType coverageType) => _editorFormatNames[coverageType];
+        public string GetEditorFormatDefinitionName(DynamicCoverageType coverageType)
+            => _classificationFormatMap.GetEditorFormatMapKey(_classificationTypes[coverageType]);
 
         public IClassificationType GetClassificationType(DynamicCoverageType coverageType) => _classificationTypes[coverageType];
 

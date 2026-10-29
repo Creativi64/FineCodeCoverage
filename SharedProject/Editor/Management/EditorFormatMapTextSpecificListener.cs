@@ -20,8 +20,7 @@ namespace FineCodeCoverage.Editor.Management
 
         private void EditorFormatMap_FormatMappingChanged(object sender, FormatItemsEventArgs e)
         {
-            var watchedItems = e.ChangedItems.Where(changedItem => _keys.Contains(changedItem)).ToList();
-            if (!_listening || watchedItems.Count == 0)
+            if (!_listening || !e.ChangedItems.Any(changedItem => _keys.Contains(changedItem)))
             {
                 return;
             }
@@ -39,8 +38,14 @@ namespace FineCodeCoverage.Editor.Management
         public void PauseListeningWhenExecuting(Action action)
         {
             _listening = false;
-            action();
-            _listening = true;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                _listening = true;
+            }
         }
     }
 }

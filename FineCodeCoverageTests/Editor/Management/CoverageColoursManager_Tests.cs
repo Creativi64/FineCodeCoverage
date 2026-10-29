@@ -12,6 +12,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
 
@@ -21,7 +22,7 @@ namespace FineCodeCoverageTests.Editor.Management
     {
         private IEnumerable<PropertyInfo> GetEditorFormatDefinitionProperties()
         {
-            return typeof(CoverageColoursManager).GetProperties().Where(p => p.PropertyType == typeof(EditorFormatDefinition));
+            return typeof(CoverageEditorFormatDefinitions).GetProperties().Where(p => p.PropertyType == typeof(EditorFormatDefinition));
         }
 
         private IEnumerable<string> GetEditorFormatDefinitionNames()
@@ -38,9 +39,7 @@ namespace FineCodeCoverageTests.Editor.Management
         [Test]
         public void Should_Export_6_UserVisible_ClassificationFormatDefinitions()
         {
-            var autoMoqer = new AutoMoqer();
-
-            var coverageColoursManager = autoMoqer.Create<CoverageColoursManager>();
+            var definitions = new CoverageEditorFormatDefinitions();
 
             var editorFormatDefinitionProperties = GetEditorFormatDefinitionProperties().ToList();
            
@@ -49,9 +48,32 @@ namespace FineCodeCoverageTests.Editor.Management
             {
                 Assert.That(p.GetAttribute<ExportAttribute>(), Is.Not.Null);
                 Assert.That(p.GetAttribute<NameAttribute>(), Is.Not.Null);
+                Assert.That(p.GetAttribute<ClassificationTypeAttribute>(), Is.Not.Null);
                 Assert.That(p.GetAttribute<UserVisibleAttribute>().UserVisible, Is.True);
-                Assert.That(p.GetValue(coverageColoursManager), Is.InstanceOf<ClassificationFormatDefinition>());
+                var definition = (EditorFormatDefinition)p.GetValue(definitions);
+                Assert.That(definition, Is.InstanceOf<ClassificationFormatDefinition>());
+                Assert.That(definition.DisplayName, Is.EqualTo(p.GetAttribute<NameAttribute>().Name));
+                Assert.That(definition.ForegroundCustomizable, Is.True);
+                Assert.That(definition.BackgroundCustomizable, Is.True);
             });
+        }
+
+        [Test]
+        public void Should_Compose_Editor_Format_Definitions_Without_Editor_Services()
+        {
+            using (var catalog = new TypeCatalog(typeof(CoverageEditorFormatDefinitions)))
+            using (var container = new CompositionContainer(catalog))
+            {
+                var exports = container.GetExports<EditorFormatDefinition, IDictionary<string, object>>().ToList();
+
+                Assert.That(exports.Count, Is.EqualTo(6));
+                foreach (var export in exports)
+                {
+                    Assert.That(export.Metadata["UserVisible"], Is.EqualTo(true));
+                    Assert.That(export.Value.DisplayName, Is.EqualTo(export.Metadata["Name"]));
+                    Assert.That(export.Value.CreateResourceDictionary().Count, Is.GreaterThanOrEqualTo(2));
+                }
+            }
         }
 
         [Test]

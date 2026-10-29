@@ -95,6 +95,10 @@ Useful editor options include:
 
 Configure colors under **Tools > Options > Environment > Fonts and Colors > Text Editor**.
 FCC supplies Covered/Touched, Partially Touched, Not Touched, Dirty, New Lines and Not Included display items.
+Search for `Coverage` or `FCC` in the Text Editor display items (including the redesigned Visual Studio settings).
+If Visual Studio cannot read a coverage item from Fonts and Colors, FCC uses its registered editor format and logs the failed lookup in the FCC output pane.
+If that format also lacks colors, FCC uses built-in defaults: covered green, uncovered red, and partially covered yellow.
+Dirty lines remain brown, new lines yellow, and not-included code light pink. Available custom colors are preserved.
 Dirty and new-line coloring must be enabled in the options.
 
 Use **Tools > Toggle Indicators** to toggle editor coloring, or **FCC Clear UI** to clear displayed coverage.

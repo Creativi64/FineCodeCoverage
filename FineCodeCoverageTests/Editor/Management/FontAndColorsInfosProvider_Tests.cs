@@ -3,18 +3,75 @@ using FineCodeCoverage.Editor.DynamicCoverage;
 using FineCodeCoverage.Editor.DynamicCoverage.Common;
 using FineCodeCoverage.Editor.Management;
 using FineCodeCoverage.Utilities.Events;
+using FineCodeCoverage.VSAbstractions.OutputWindow;
 using FineCodeCoverage.VSAbstractions.Threading;
 using FineCodeCoverageTests.TestHelpers;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.TextManager.Interop;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 
 namespace FineCodeCoverageTests.Editor.Management
 {
     internal class FontAndColorsInfosProvider_Tests
     {
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Should_Provide_All_Six_Editor_Colors_When_Font_Storage_Is_Unavailable(bool categoryUnavailable)
+        {
+            var names = new CoverageFontAndColorsCategoryItemNames(false);
+            var storage = new Mock<IVsFontAndColorStorage>();
+#pragma warning disable VSTHRD010 // Invoke single-threaded types on Main thread
+            storage.Setup(s => s.OpenCategory(ref It.Ref<Guid>.IsAny, It.IsAny<uint>()))
+                .Returns(categoryUnavailable ? VSConstants.E_FAIL : VSConstants.S_OK);
+            storage.Setup(s => s.GetItem(It.IsAny<string>(), It.IsAny<ColorableItemInfo[]>())).Returns(VSConstants.E_FAIL);
+#pragma warning restore VSTHRD010 // Invoke single-threaded types on Main thread
+            var serviceProvider = new Mock<IServiceProvider>();
+            serviceProvider.Setup(s => s.GetService(typeof(IVsFontAndColorStorage))).Returns(storage.Object);
+            var formatMap = new Mock<IEditorFormatMap>();
+            var expected = new[]
+            {
+                ("Covered", DynamicCoverageType.Covered, Colors.Green),
+                ("NotCovered", DynamicCoverageType.NotCovered, Colors.Red),
+                ("PartiallyCovered", DynamicCoverageType.Partial, Colors.Orange),
+                ("Dirty", DynamicCoverageType.Dirty, Colors.Brown),
+                ("NewLines", DynamicCoverageType.NewLine, Colors.Yellow),
+                ("NotIncluded", DynamicCoverageType.NotIncluded, Colors.LightPink)
+            };
+            foreach (var (name, _, color) in expected)
+            {
+                formatMap.Setup(map => map.GetProperties(name)).Returns(new ResourceDictionary
+                {
+                    [EditorFormatDefinition.ForegroundColorId] = Colors.Black,
+                    [EditorFormatDefinition.BackgroundColorId] = color
+                });
+            }
+
+            var formatMapService = new Mock<IEditorFormatMapService>();
+            formatMapService.Setup(s => s.GetEditorFormatMap("text")).Returns(formatMap.Object);
+            var threadHelper = new TestThreadHelper();
+            var helper = new FontsAndColorsHelper(serviceProvider.Object, threadHelper, formatMapService.Object, Mock.Of<ILogger>());
+            var provider = new FontAndColorsInfosProvider(Mock.Of<IEventAggregator>(), helper, threadHelper)
+            {
+                CoverageFontAndColorsCategoryItemNames = names
+            };
+
+            var infos = provider.GetFontAndColorsInfos();
+            var colors = provider.GetCoverageColours();
+
+            Assert.That(infos.Count, Is.EqualTo(6));
+            foreach (var (_, coverageType, color) in expected)
+            {
+                Assert.That(infos[coverageType].ItemCoverageColours.Background, Is.EqualTo(color));
+                Assert.That(colors.GetColour(coverageType).Background, Is.EqualTo(color));
+            }
+        }
 
         class CoverageFontAndColorsCategoryItemNames : ICoverageFontAndColorsCategoryItemNames
         {

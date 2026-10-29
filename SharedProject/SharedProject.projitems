@@ -193,6 +193,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageColours.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageColoursChangedMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageColoursManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageEditorFormatDefinitions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageFontAndColorsCategoryItemNamesManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\CoverageTypeColour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\Management\DelayedMainThreadInvocation.cs" />

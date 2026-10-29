@@ -53,7 +53,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;VS2022</DefineConstants>
   </PropertyGroup>
 
   <!-- Sources / VSCT that live outside the project cone and so are not auto-globbed. -->

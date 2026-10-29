@@ -100,12 +100,20 @@ namespace FineCodeCoverageTests.Editor.Management
                 classificationFormatMapService => classificationFormatMapService.GetClassificationFormatMap("text")
             ).Returns(mockClassificationFormatMap.Object);
 
+            var editorFormats = typeof(CoverageEditorFormatDefinitions).GetProperties()
+                .ToDictionary(p => p.GetCustomAttribute<ClassificationTypeAttribute>().ClassificationTypeNames,
+                    p => p.GetCustomAttribute<NameAttribute>().Name);
+            mockClassificationFormatMap.Setup(map => map.GetEditorFormatMapKey(It.IsAny<IClassificationType>()))
+                .Returns((IClassificationType classificationType) => editorFormats[
+                    classificationTypeRegistryService.ClassificationTypes.Single(pair => pair.Value == classificationType).Key]);
+
             var coverageClassificationTypeService = autoMoqer.Create<CoverageClassificationTypeService>();
             foreach (var coverageType in Enum.GetValues(typeof(DynamicCoverageType)).Cast<DynamicCoverageType>())
             {
                 var editorFormatDefinition = coverageClassificationTypeService.GetEditorFormatDefinitionName(coverageType);
-                var classificationType = classificationTypeRegistryService.ClassificationTypes[editorFormatDefinition];
-                Assert.That(classificationType, Is.SameAs(coverageClassificationTypeService.GetClassificationType(coverageType)));
+                var classificationType = coverageClassificationTypeService.GetClassificationType(coverageType);
+                var classificationName = classificationTypeRegistryService.ClassificationTypes.Single(pair => pair.Value == classificationType).Key;
+                Assert.That(editorFormatDefinition, Is.EqualTo(editorFormats[classificationName]));
                 var mockCoverageTypeColour = new Mock<ICoverageTypeColour>();
                 mockCoverageTypeColour.SetupGet(coverageTypeColour => coverageTypeColour.CoverageType).Returns(coverageType);
                 coverageClassificationTypeService.SetCoverageColours(new List<ICoverageTypeColour>() { mockCoverageTypeColour.Object });

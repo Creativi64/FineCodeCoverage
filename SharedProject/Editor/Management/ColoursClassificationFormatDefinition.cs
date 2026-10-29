@@ -5,10 +5,13 @@ namespace FineCodeCoverage.Editor.Management
 {
     internal sealed class ColoursClassificationFormatDefinition : ClassificationFormatDefinition
     {
-        public ColoursClassificationFormatDefinition(Color foregroundColor, Color backgroundColor)
+        public ColoursClassificationFormatDefinition(string displayName, Color foregroundColor, Color backgroundColor)
         {
+            DisplayName = displayName;
             ForegroundColor = foregroundColor;
             BackgroundColor = backgroundColor;
+            ForegroundCustomizable = true;
+            BackgroundCustomizable = true;
         }
     }
 }
