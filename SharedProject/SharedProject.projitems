@@ -59,6 +59,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collection\TestingPlatform\TestingPlatformCompatibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoverageUI\ViewSelection\BranchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vs\OutputWindow\IFCCOutputWindowPaneWritableCreator.cs" />

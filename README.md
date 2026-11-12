@@ -35,11 +35,23 @@ You can supply your own runsettings or customize FCC's generated settings.
 
 MTP detection supports projects using MSTest, NUnit, xUnit and TUnit.
 
-Automatic collection is controlled by `CollectTestingPlatformCoverageAfterTestRun` (enabled by default).
-To collect coverage during the original Test Explorer run, the test project needs:
+Native MTP automatic collection is controlled by `CollectTestingPlatformCoverageAfterTestRun` (enabled by default).
+To collect coverage during the original native MTP Test Explorer run, the test project needs:
 
 - Microsoft.Testing.Platform 2.3.0 or later.
 - The `Microsoft.Testing.Extensions.CodeCoverage` package.
+
+For older versions such as MTP 1.9.1, FCC automatically selects **VSTest compatibility per project**
+when its restored packages include `Microsoft.NET.Test.Sdk` and a supported adapter
+(`MSTest.TestAdapter`, `NUnit3TestAdapter`, or `xunit.runner.visualstudio`). Transitive references are detected,
+including adapters supplied by a shared test-infrastructure package. No package upgrade or project-file edit is required.
+Modern MTP projects stay native, so repositories using different MTP versions do not need a global compatibility override.
+TUnit cannot use this fallback; projects without a known compatible adapter remain native.
+
+Compatibility is selected when Visual Studio loads the project, using its resolved `project.assets.json`.
+Restore packages first, then reload the test projects or restart Visual Studio after installing this extension or changing test packages.
+The FCC Output pane logs **selecting VSTest compatibility** when the execution-path override is applied.
+VSTest compatibility uses the original Test Explorer selection and FCC's normal VSTest collector; it does not rerun tests.
 
 Before execution, FCC adds coverage options to the test host's `.testconfig.json` in the build output directory.
 It preserves unrelated configuration and existing coverage output/settings choices, while enabling coverage.
@@ -49,8 +61,9 @@ If the file was otherwise unchanged, its original contents are restored exactly 
 If a user or build edited it during the run, FCC removes only its own unchanged injected values and preserves those later edits.
 An abrupt process termination cannot perform this cleanup; rebuilding the test project refreshes its output configuration.
 
-**Automatic collection never reruns MTP test hosts.** If injection is unavailable, such as with an older platform,
-a missing coverage extension or unreadable configuration, FCC skips automatic coverage for that project and explains why in the Output pane.
+**Automatic collection never reruns MTP test hosts.** If a project remains native and injection is unavailable,
+such as with an older platform, a missing coverage extension or unreadable configuration, FCC skips automatic coverage
+for that project and explains why in the Output pane.
 This preserves the Test Explorer selection: FCC cannot reconstruct its selected-test filter for a separate host invocation.
 
 The manual MTP coverage command on the FCC tool window builds and runs **all enabled MTP projects**.
@@ -62,8 +75,10 @@ can supply additional host arguments and coverage output/settings choices.
 Manual runs use these additional arguments. Automatic collection uses the coverage choices during configuration injection;
 Test Explorer remains responsible for selecting and executing tests.
 
-`DisableTestingPlatformServer` is an optional compatibility setting for projects that can run through VSTest instead.
-Its default is false.
+`DisableTestingPlatformServer=true` explicitly forces compatible projects through VSTest, including newer MTP versions.
+Its default is false, which allows the version-based per-project selection described above.
+Disabling `CollectTestingPlatformCoverageAfterTestRun` also disables automatic legacy compatibility;
+the explicit `DisableTestingPlatformServer` override remains independent. Reload projects after changing either setting.
 
 ### Mixed solutions and cancellation
 

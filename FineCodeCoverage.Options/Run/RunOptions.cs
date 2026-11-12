@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using FineCodeCoverage.Options.Base;
 
 namespace FineCodeCoverage.Options.Run
 {
@@ -26,12 +25,12 @@ namespace FineCodeCoverage.Options.Run
 
         #region testing platform category
         [Category(TestingPlatformCategory)]
-        [Description("Specifies whether or not FCC collects coverage during Microsoft.Testing.Platform Test Explorer runs. Requires Microsoft.Testing.Platform 2.3.0 or later and Microsoft.Testing.Extensions.CodeCoverage. If options cannot be injected, automatic coverage is skipped; tests are never re-run automatically. Use the manual MTP coverage command to run all enabled MTP projects. Default true.")]
+        [Description("Specifies whether FCC collects coverage during Microsoft.Testing.Platform Test Explorer runs. Native injection requires MTP 2.3.0 or later and Microsoft.Testing.Extensions.CodeCoverage. Older projects with a supported VSTest adapter and Microsoft.NET.Test.Sdk automatically use VSTest compatibility, based on their restored packages. Tests are never re-run automatically. Restore and reload projects after changing test packages or this setting. Default true.")]
         [DisplayName("Collect Testing Platform Coverage After Test Run")]
         public bool CollectTestingPlatformCoverageAfterTestRun { get; set; }
 
         [Category(TestingPlatformCategory)]
-        [Description("Specify true to stop Microsoft.Testing.Platform test projects running natively in the Test Explorer, forcing them back to VSTest.  This is the escape hatch for when coverage cannot be injected into the native run.  Default false.")]
+        [Description("Specify true to force VSTest-compatible Microsoft.Testing.Platform projects through VSTest, including newer MTP versions. False allows per-project automatic compatibility for older MTP versions while keeping newer projects native. Requires the framework's VSTest adapter; not supported for TUnit. Reload projects after changing this setting. Default false.")]
         [DisplayName("Disable Testing Platform Server")]
         public bool DisableTestingPlatformServer { get; set; }
         #endregion

@@ -27,7 +27,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             against 2.0.2, which has neither JsonCommandLineOptionEntry nor the AggregatedConfiguration
             members that enumerate the section.
         */
-        private static readonly Version s_minimumTestingPlatformVersion = new Version(2, 3, 0);
+        private static readonly Version s_minimumTestingPlatformVersion = TestingPlatformCompatibility.MinimumNativeCoverageVersion;
 
         private readonly IFileUtil _fileUtil;
         private readonly ITestingPlatformVersionProvider _testingPlatformVersionProvider;
@@ -131,7 +131,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 : $"Microsoft.Testing.Platform {testingPlatformVersion} cannot read command line options from testconfig.json";
             await _logger.LogAsync(
                 $"{coverageProject.ProjectName} - {versionDescription} ({s_minimumTestingPlatformVersion} or later is required). Automatic coverage will be skipped to preserve the Test Explorer selection. Use the manual MTP coverage command to run all enabled MTP projects.",
-                "Reference Microsoft.Testing.Platform 2.3.0 or later to collect coverage as part of the test run itself.");
+                "Older MTP projects with a supported VSTest adapter and Microsoft.NET.Test.Sdk are automatically routed through VSTest based on their restored packages. This project is still routed natively: restore its packages and reload the project, or enable FCC's DisableTestingPlatformServer override and reload. Look for 'selecting VSTest compatibility' in the FCC output. TUnit cannot use this fallback. Native injection requires MTP 2.3.0 or later.");
             return false;
         }
 

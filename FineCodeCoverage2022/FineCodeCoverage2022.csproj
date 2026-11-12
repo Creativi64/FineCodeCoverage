@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
@@ -56,14 +56,16 @@
     <DefineConstants>TRACE;VS2022</DefineConstants>
   </PropertyGroup>
 
-  <!-- Sources / VSCT that live outside the project cone and so are not auto-globbed. -->
   <ItemGroup>
     <Compile Include="..\Shared Files\FCCPackage.cs">
-      <Link>FCCPackage.cs</Link>
-      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>FCCPackage.vsct</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <!-- Sources / VSCT that live outside the project cone and so are not auto-globbed. -->
+  <ItemGroup>
     <VSCTCompile Include="..\Shared Files\FCCPackage.vsct">
       <Link>FCCPackage.vsct</Link>
       <Generator>VsctGenerator</Generator>

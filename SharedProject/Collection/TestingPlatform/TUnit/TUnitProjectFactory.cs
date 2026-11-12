@@ -22,6 +22,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             private const string FCCTestingPlatformCommandLineArgumentsPropertyName = "FCCTestingPlatformCommandLineArguments";
             private const string TestingPlatformCommandLineArgumentsPropertyName = "TestingPlatformCommandLineArguments";
             private const string IsTestingPlatformApplicationPropertyName = "IsTestingPlatformApplication";
+            private const string DisableTestingPlatformServerCapabilityPropertyName = "DisableTestingPlatformServerCapability";
             private readonly ITUnitInstalledPackagesService _tUnitInstalledPackagesService;
             private readonly ICommandLineParser _commandLineParser;
             private readonly IProjectProperties _commonProperties;
@@ -30,6 +31,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
             private IImmutableDictionary<string, IImmutableDictionary<string, string>> _packageReferenceItems;
             private Microsoft.Build.Execution.ProjectInstance _projectInstance;
             private bool _requiresUpdate = true;
+            private bool _hasTUnit;
             private bool _disposedValue;
 
             private static readonly string[] s_packageReferenceRuleNames = new string[] { "PackageReference" };
@@ -95,19 +97,12 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 return hasTestingPlatformCommandLineArgumentsPropertyName ? false : null;
             }
 
-            private async Task<string> GetCommandLineArgumentsPropertyValueAsync(string propertyName)
+            private async Task<string> GetPropertyValueAsync(string propertyName)
             {
                 Microsoft.Build.Execution.ProjectInstance projectInstance = _projectInstance;
                 return projectInstance != null
                     ? projectInstance.GetProperty(propertyName)?.EvaluatedValue
                     : await _commonProperties.GetEvaluatedPropertyValueAsync(propertyName);
-            }
-
-            private async Task<bool> IsTestingPlatformApplicationAsync()
-            {
-                // absence evaluates to empty string; MTP SDKs set this to "true"
-                string value = await _commonProperties.GetEvaluatedPropertyValueAsync(IsTestingPlatformApplicationPropertyName);
-                return string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
             }
 
             private async Task ParseTestingPlatformCommandLineArgumentsAsync()
@@ -120,7 +115,7 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                 else
                 {
                     string propertyName = useFCCTestingPlatformCommandLineArgumentsPropertyName.Value ? FCCTestingPlatformCommandLineArgumentsPropertyName : TestingPlatformCommandLineArgumentsPropertyName;
-                    string testingPlatformCommandLineArguments = await GetCommandLineArgumentsPropertyValueAsync(propertyName);
+                    string testingPlatformCommandLineArguments = await GetPropertyValueAsync(propertyName);
 
                     CommandLineParseResult = _commandLineParser.Parse(testingPlatformCommandLineArguments);
                 }
@@ -193,15 +188,17 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
                     }
 
                     HasCoverageExtension = installedPackagesResult.HasCoverageExtension;
-
-                    // IsTUnit now means "is a Microsoft.Testing.Platform test project we can collect coverage for".
-                    // Package detection misses SDK-style MTP projects (e.g. MSTest.Sdk references the platform
-                    // transitively, not as a PackageReference), so the reliable signal is the IsTestingPlatformApplication
-                    // MSBuild property, which every MTP SDK (TUnit, MSTest.Sdk, xUnit v3, NUnit-MTP) sets to true.
-                    IsTUnit = installedPackagesResult.HasTUnit || await IsTestingPlatformApplicationAsync();
+                    _hasTUnit = installedPackagesResult.HasTUnit;
 
                     _requiresUpdate = false;
                 }
+
+                // Re-evaluate routing even without package changes: compatibility mode changes the
+                // server capability, not the IsTestingPlatformApplication property or packages.
+                IsTUnit = IsNativeTestingPlatformProject(
+                    _hasTUnit,
+                    await GetPropertyValueAsync(IsTestingPlatformApplicationPropertyName),
+                    await GetPropertyValueAsync(DisableTestingPlatformServerCapabilityPropertyName));
 
                 if (!IsTUnit)
                 {
@@ -246,5 +243,12 @@ namespace FineCodeCoverage.Collection.TestingPlatform.TUnit
 
         public ITUnitProject Create(IVsHierarchy hierarchy, ConfiguredProject configuredProject)
             => new TUnitProject(_tUnitInstalledPackagesService, _commandLineParser, configuredProject, hierarchy);
+
+        internal static bool IsNativeTestingPlatformProject(
+            bool hasTUnit,
+            string isTestingPlatformApplication,
+            string disableTestingPlatformServerCapability)
+            => !string.Equals(disableTestingPlatformServerCapability, "true", StringComparison.OrdinalIgnoreCase) &&
+                (hasTUnit || string.Equals(isTestingPlatformApplication, "true", StringComparison.OrdinalIgnoreCase));
     }
 }
